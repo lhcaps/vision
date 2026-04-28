@@ -47,13 +47,13 @@ Completed scope includes shared annotation contracts, Nest annotation CRUD with 
 
 Post-phase UI polish is also complete for the current workbench shell: navigation rail, threshold control, dataset version builder, media asset table, annotation canvas framing, and mobile pipeline layout were audited across desktop, tablet, and mobile.
 
-## Phase 5, Pipeline Builder - Next / Partial
+## Phase 5, Pipeline Builder - Done
 
 - React Flow builder.
 - Pipeline schema persistence.
 - Graph validation and inspector.
 
-Current code has a seeded React Flow UI, mobile-friendly graph layout, and shared validation helpers. Persistence and backend validation remain planned.
+Completed scope includes typed pipeline create/update/validate/list contracts, structured backend graph validation, Prisma and memory fallback persistence paths, API audit logging for persisted mutations, and an upgraded React Flow workbench with API sync, save/validate actions, selected-node parameter controls, validation issue highlighting, and mobile-friendly layout.
 
 ## Phase 6, Inference Orchestrator — Partial
 

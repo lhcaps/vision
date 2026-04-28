@@ -19,6 +19,7 @@ async function bootstrap() {
     .addTag("media")
     .addTag("datasets")
     .addTag("annotations")
+    .addTag("pipelines")
     .addTag("inference")
     .build();
 

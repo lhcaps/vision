@@ -24,7 +24,18 @@ const validPipeline: PipelineDefinition = {
 
 describe("pipeline validation", () => {
   it("accepts the canonical V1 detector pipeline", () => {
-    expect(validatePipelineDefinition(validPipeline)).toEqual({ ok: true, errors: [] });
+    expect(validatePipelineDefinition(validPipeline)).toMatchObject({
+      ok: true,
+      errors: [],
+      summary: {
+        nodeCount: 5,
+        edgeCount: 4,
+        detectorNodeCount: 1,
+        inputNodeId: "input",
+        outputNodeId: "output",
+        executionOrder: ["input", "resize", "detector", "nms", "output"],
+      },
+    });
   });
 
   it("requires detector model configuration", () => {
@@ -49,5 +60,55 @@ describe("pipeline validation", () => {
     expect(validatePipelineDefinition(definition).errors).toContain(
       "Pipeline graph cannot contain cycles.",
     );
+  });
+
+  it("reports disconnected nodes with structured issue metadata", () => {
+    const definition: PipelineDefinition = {
+      ...validPipeline,
+      nodes: [
+        ...validPipeline.nodes,
+        { id: "unused_resize", type: "resize", params: { width: 640 } },
+      ],
+    };
+    const validation = validatePipelineDefinition(definition);
+
+    expect(validation.ok).toBe(false);
+    expect(validation.issues).toContainEqual({
+      code: "node_missing_inbound",
+      severity: "error",
+      message: "Node unused_resize needs an inbound edge.",
+      nodeId: "unused_resize",
+    });
+    expect(validation.errors).toContain("Node unused_resize is not reachable from the input node.");
+  });
+
+  it("rejects duplicate node ids", () => {
+    const definition: PipelineDefinition = {
+      ...validPipeline,
+      nodes: [
+        { id: "input", type: "input", params: {} },
+        { id: "input", type: "resize", params: { width: 960 } },
+        { id: "output", type: "output", params: {} },
+      ],
+      edges: [{ id: "e1", source: "input", target: "output" }],
+    };
+
+    expect(validatePipelineDefinition(definition).errors).toContain(
+      "Node id input is used more than once.",
+    );
+  });
+
+  it("returns structured schema issues for malformed definitions", () => {
+    const validation = validatePipelineDefinition({
+      version: 1,
+      nodes: [],
+      edges: [],
+    });
+
+    expect(validation.ok).toBe(false);
+    expect(validation.issues[0]).toMatchObject({
+      code: "schema_invalid",
+      severity: "error",
+    });
   });
 });

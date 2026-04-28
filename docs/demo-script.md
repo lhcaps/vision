@@ -14,10 +14,14 @@
 12. Select a label, nudge or edit the selected box, then save queued changes.
 13. Confirm coordinates remain image-space values in the inspector.
 14. Open the visual pipeline graph: Input -> Resize -> Detector -> NMS -> Output.
-15. On mobile, confirm the pipeline graph switches to a legible vertical layout.
-16. Start the simulated inference run.
-17. Watch job progress and worker logs.
-18. Inspect prediction overlay and confidence threshold scaffold.
-19. Review evaluation metric placeholders.
-20. Scrub the timeline replay placeholder.
-21. Export targets in a later phase: YOLO and COCO.
+15. Confirm the Pipeline tab reports API or local fallback status.
+16. Select the detector node, adjust confidence, and validate the graph.
+17. Clear the detector model to see backend validation block saving, then bind the ONNX model again.
+18. Save the pipeline and confirm the persisted state message.
+19. On mobile, confirm the pipeline graph switches to a legible vertical layout.
+20. Start the simulated inference run.
+21. Watch job progress and worker logs.
+22. Inspect prediction overlay and confidence threshold scaffold.
+23. Review evaluation metric placeholders.
+24. Scrub the timeline replay placeholder.
+25. Export targets in a later phase: YOLO and COCO.

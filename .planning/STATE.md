@@ -1,6 +1,6 @@
 # State
 
-Current phase: Phase 5, Pipeline Builder.
+Current phase: Phase 6, Inference Orchestrator.
 
 Last updated: 2026-04-29.
 
@@ -18,6 +18,7 @@ Last updated: 2026-04-29.
 - Refined the workbench shell and detail components: calmer navigation rail, custom threshold slider, responsive media asset table, polished dataset version controls, custom asset selection controls, and mobile-friendly pipeline layout.
 - Stabilized Phase 3 dataset API runtime injection with explicit Nest `@Inject(...)` annotations after dev logs showed `DatasetsController.datasetsService` could be undefined.
 - Pushed the current codebase to `https://github.com/lhcaps/Vision.git` on `main`.
+- Implemented Phase 5 pipeline builder: typed pipeline contracts, structured graph validation, API persistence through Prisma/memory paths, mutation audit logging, API sync/save/validate web client, and a polished React Flow inspector with node parameter controls and validation highlighting.
 
 ## Verification Evidence
 
@@ -30,7 +31,9 @@ Last updated: 2026-04-29.
 - Playwright desktop/mobile smoke passed for the Versions workbench; screenshots are in `tmp/phase3-versions-desktop.png` and `tmp/phase3-versions-mobile.png`.
 - Phase 4 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, and web production build.
 - Root `pnpm verify` passed after Phase 4: typecheck, tests, and production build.
+- Phase 5 focused checks passed: contracts tests/build, API tests/typecheck, web typecheck, root `pnpm verify`, API pipeline endpoint smoke on port 3105, and Playwright Pipeline tab smoke on port 5175.
 - Playwright annotation smoke passed on port 5174: desktop created a new BBox from 3 to 4 rendered boxes, save queue accepted it, and mobile had no horizontal overflow. Screenshots are in `tmp/phase4-annotation-desktop.png` and `tmp/phase4-annotation-mobile.png`.
+- Playwright pipeline smoke passed on port 5175: backend validation passed, detector model clearing surfaced a backend blocker, model rebinding saved the pipeline, and desktop/mobile had no horizontal overflow. Screenshots are in `tmp/phase5-pipeline-desktop.png` and `tmp/phase5-pipeline-mobile.png`.
 - UI audit screenshot sweep passed on port 5174 for Overview, Media, Versions, Annotate, Pipeline, and Jobs at 1920px, 900px, and 390px widths. No page-level horizontal overflow remained.
 - Post-audit targeted screenshots passed for responsive Media and Pipeline mobile polish: `tmp/ui-audit-polished-mobile-media.png` and `tmp/ui-audit-polished-mobile-pipeline-final.png`.
 - Docker Compose config validated.
@@ -39,11 +42,10 @@ Last updated: 2026-04-29.
 
 ## Active Goals
 
-- Plan and execute Phase 5: Pipeline Builder.
-- Persist pipeline definitions through the API.
-- Add API-side graph validation and inspector feedback.
+- Plan and execute Phase 6: Inference Orchestrator.
+- Connect persisted pipelines and locked dataset versions to queued inference job creation.
+- Replace simulated job progress with explicit async state transitions and worker-visible progress.
 
 ## Known Partial Areas
 
-- Pipeline UI exists through React Flow, but persistence and API-side validation are not implemented yet.
 - Job UI shows simulated progress; BullMQ worker execution and streaming progress are not implemented yet.

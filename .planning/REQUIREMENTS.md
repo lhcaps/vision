@@ -12,6 +12,7 @@
 - Real media upload path with MIME validation, SHA-256 checksum dedupe, deterministic MinIO object keys, Prisma metadata rows, audit rows, and queued processing jobs.
 - Dataset versioning APIs with mutable dataset identity, draft version creation, asset assignment, split summaries, and immutable lock behavior.
 - Annotation APIs with workspace loading, BBox create/update/delete, label classes, image-coordinate geometry, project-scoped validation, and mutation audit logs.
+- Pipeline APIs with typed create/update/list/validate contracts, Prisma persistence, memory fallback, project-scoped access, graph validation, and mutation audit logs.
 - Responsive product UI that avoids page-level horizontal overflow across Overview, Media, Versions, Annotate, Pipeline, and Jobs.
 
 ## Quality Gates
@@ -29,13 +30,14 @@
 - Media and dataset tables must collapse or restyle on narrow screens instead of exposing raw native horizontal scroll as the primary experience.
 - Pipeline graph must remain legible on mobile through a responsive layout, not just a fully zoomed-out desktop canvas.
 - Pipeline graph validation checks input/output count, cycles, node connectivity, and detector model configuration.
+- Pipeline persistence must reject invalid graphs before storing definitions.
+- Pipeline inspector feedback must identify graph blockers with node or edge context where available.
 - Job state transitions are explicit.
 - Reduced-motion users do not get decorative movement.
 - Build/typecheck/test commands exist from the repo root.
 
 ## Deferred
 
-- Pipeline persistence and API-side validation.
 - Real BullMQ worker execution.
 - ONNX model execution.
 - Prediction overlay and evaluation metrics.
