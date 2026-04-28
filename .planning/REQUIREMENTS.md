@@ -11,6 +11,8 @@
 - Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation.
 - Real media upload path with MIME validation, SHA-256 checksum dedupe, deterministic MinIO object keys, Prisma metadata rows, audit rows, and queued processing jobs.
 - Dataset versioning APIs with mutable dataset identity, draft version creation, asset assignment, split summaries, and immutable lock behavior.
+- Annotation APIs with workspace loading, BBox create/update/delete, label classes, image-coordinate geometry, project-scoped validation, and mutation audit logs.
+- Responsive product UI that avoids page-level horizontal overflow across Overview, Media, Versions, Annotate, Pipeline, and Jobs.
 
 ## Quality Gates
 
@@ -22,6 +24,10 @@
 - Locked dataset versions reject asset assignment.
 - Assets cannot be assigned twice to the same dataset version.
 - Dataset split summaries must be computed from stored version asset rows.
+- BBox annotations must be stored in image coordinates, clamped to the selected asset bounds, and rejected when they have no positive image overlap.
+- Annotation UI must expose queued, saving, saved, and failed save states.
+- Media and dataset tables must collapse or restyle on narrow screens instead of exposing raw native horizontal scroll as the primary experience.
+- Pipeline graph must remain legible on mobile through a responsive layout, not just a fully zoomed-out desktop canvas.
 - Pipeline graph validation checks input/output count, cycles, node connectivity, and detector model configuration.
 - Job state transitions are explicit.
 - Reduced-motion users do not get decorative movement.
@@ -29,7 +35,6 @@
 
 ## Deferred
 
-- Annotation CRUD and save queue.
 - Pipeline persistence and API-side validation.
 - Real BullMQ worker execution.
 - ONNX model execution.

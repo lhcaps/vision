@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: 2026-04-28
+Status date: 2026-04-29
 
 Legend:
 
@@ -38,18 +38,22 @@ Completed scope includes real multipart upload, MIME validation, deterministic S
 
 Completed scope includes shared dataset contracts, Nest dataset endpoints, Prisma and memory fallback service paths, duplicate assignment protection, locked-version mutation rejection, computed split summaries, and an upgraded Versions workbench.
 
-## Phase 4, Annotation Engine - Next
+## Phase 4, Annotation Engine - Done
 
 - Bounding-box CRUD in image coordinates.
 - Annotation canvas, label selector, keyboard actions, save queue.
 
-## Phase 5, Pipeline Builder — Partial
+Completed scope includes shared annotation contracts, Nest annotation CRUD with Prisma and memory fallback paths, project-scoped ownership checks, mutation audit rows, image-coordinate BBox validation/clamping, and a polished React annotation workbench with visible save queue states.
+
+Post-phase UI polish is also complete for the current workbench shell: navigation rail, threshold control, dataset version builder, media asset table, annotation canvas framing, and mobile pipeline layout were audited across desktop, tablet, and mobile.
+
+## Phase 5, Pipeline Builder - Next / Partial
 
 - React Flow builder.
 - Pipeline schema persistence.
 - Graph validation and inspector.
 
-Current code has a seeded React Flow UI and shared validation helpers. Persistence and backend validation remain planned.
+Current code has a seeded React Flow UI, mobile-friendly graph layout, and shared validation helpers. Persistence and backend validation remain planned.
 
 ## Phase 6, Inference Orchestrator — Partial
 

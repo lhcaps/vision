@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { AnnotationsModule } from "./annotations/annotations.module";
 import { DatasetsModule } from "./datasets/datasets.module";
 import { HealthModule } from "./health/health.module";
 import { InferenceModule } from "./inference/inference.module";
@@ -13,6 +14,7 @@ import { ProjectsModule } from "./projects/projects.module";
     ProjectsModule,
     MediaModule,
     DatasetsModule,
+    AnnotationsModule,
     InferenceModule,
   ],
 })

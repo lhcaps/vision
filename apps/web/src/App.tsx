@@ -16,9 +16,10 @@ import {
 } from "@phosphor-icons/react";
 import { Background, Controls, Edge, MarkerType, Node, Position, ReactFlow } from "@xyflow/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { Dispatch, SetStateAction } from "react";
+import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type {
+  AnnotationSummary,
   DatasetSplit,
   DatasetSummary,
   DatasetVersionSummary,
@@ -33,6 +34,10 @@ import {
 } from "@visionflow/contracts";
 import { motionTokens } from "@visionflow/motion";
 import { demoSnapshot, logs, pipelineValidation } from "./data/demo";
+import {
+  AnnotationEnginePanel,
+  createSeedAnnotationSummaries,
+} from "./features/annotations/AnnotationEngine";
 import {
   assignDatasetVersionAssets,
   createDataset,
@@ -93,6 +98,9 @@ export function App() {
   const [section, setSection] = useState<SectionId>("overview");
   const [threshold, setThreshold] = useState(62);
   const [selectedAnnotation, setSelectedAnnotation] = useState("ann_02");
+  const [annotationRows, setAnnotationRows] = useState<AnnotationSummary[]>(() =>
+    createSeedAnnotationSummaries(),
+  );
   const [mediaUploads, setMediaUploads] = useState<MediaUploadRow[]>([]);
   const [job, setJob] = useState<JobUiState>({
     status: demoSnapshot.job.status,
@@ -153,11 +161,14 @@ export function App() {
                   )}
                   {section === "datasets" && <DatasetPanel mediaRows={visibleMediaRows} />}
                   {section === "annotate" && (
-                    <AnnotationPanel
-                      selectedAnnotation={selectedAnnotation}
-                      setSelectedAnnotation={setSelectedAnnotation}
+                    <AnnotationEnginePanel
+                      annotations={annotationRows}
+                      setAnnotations={setAnnotationRows}
+                      selectedAnnotationId={selectedAnnotation}
+                      onSelectAnnotation={setSelectedAnnotation}
                       threshold={threshold}
                       setThreshold={setThreshold}
+                      mediaRows={visibleMediaRows}
                     />
                   )}
                   {section === "pipeline" && <PipelinePanel />}
@@ -169,6 +180,7 @@ export function App() {
             </section>
             <InspectorPanel
               active={section}
+              annotations={annotationRows}
               selectedAnnotation={selectedAnnotation}
               threshold={threshold}
               setThreshold={setThreshold}
@@ -189,11 +201,11 @@ function NavRail({
   onSelect: (section: SectionId) => void;
 }) {
   return (
-    <aside className="nav-rail border-r border-white/10 bg-graphite-950/95 px-3 py-4">
-      <div className="mb-6 flex h-10 items-center justify-center rounded-md border border-signal-300/30 bg-signal-300/10 text-signal-300">
+    <aside className="nav-rail border-r border-white/10 px-2.5 py-3">
+      <div className="nav-logo mb-5 flex h-10 w-10 items-center justify-center rounded-md border text-signal-300">
         <BoundingBox size={21} weight="duotone" />
       </div>
-      <nav className="flex flex-col gap-2" aria-label="VisionFlow workbench">
+      <nav className="flex flex-col gap-1.5" aria-label="VisionFlow workbench">
         {sections.map((item) => {
           const Icon = item.icon;
           const selected = item.id === active;
@@ -207,20 +219,23 @@ function NavRail({
               aria-pressed={selected}
               onClick={() => onSelect(item.id)}
               className={[
-                "group relative flex h-11 items-center justify-center rounded-md border text-sm transition active:translate-y-px",
+                "nav-button group relative flex h-10 w-10 items-center justify-center rounded-md border text-sm transition active:translate-y-px",
                 selected
-                  ? "border-signal-300/50 bg-signal-300/12 text-signal-300"
-                  : "border-transparent text-neutral-500 hover:border-white/10 hover:bg-white/[0.04] hover:text-neutral-200",
+                  ? "nav-button-active border-transparent text-signal-300"
+                  : "border-transparent text-neutral-500 hover:text-neutral-200",
               ].join(" ")}
             >
               {selected && (
-                <motion.span
-                  layoutId="nav-active"
-                  className="absolute inset-0 rounded-md border border-signal-300/30"
-                  transition={motionTokens.springFast}
-                />
+                <>
+                  <motion.span
+                    layoutId="nav-active"
+                    className="nav-active-surface absolute inset-0 rounded-md"
+                    transition={motionTokens.springFast}
+                  />
+                  <span className="nav-active-rail" />
+                </>
               )}
-              <Icon size={21} weight={selected ? "duotone" : "regular"} />
+              <Icon className="relative z-10" size={21} weight={selected ? "duotone" : "regular"} />
             </button>
           );
         })}
@@ -426,7 +441,7 @@ function MediaPanel({
   };
 
   return (
-    <Panel className="overflow-hidden">
+    <Panel className="media-panel overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
         <div>
           <h2 className="text-sm font-semibold text-neutral-100">Media ingestion</h2>
@@ -518,8 +533,8 @@ function MediaPanel({
           </div>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[760px] border-collapse text-sm">
+      <div className="media-assets-scroll">
+        <table className="media-assets-table w-full border-collapse text-sm">
           <thead className="bg-white/[0.025] text-left font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
             <tr>
               <th className="px-4 py-3 font-medium">Asset</th>
@@ -535,21 +550,20 @@ function MediaPanel({
               <tr key={asset.id} className="text-neutral-300">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-12 rounded border border-white/10 bg-[linear-gradient(135deg,rgba(106,217,161,0.16),rgba(92,200,255,0.08))]" />
-                    <div>
+                    <div className="media-asset-thumb" />
+                    <div className="min-w-0">
                       <p className="font-medium text-neutral-100">{asset.name}</p>
-                      <p className="font-mono text-xs text-neutral-500">{asset.id}</p>
+                      <p className="media-asset-meta font-mono text-xs text-neutral-500">
+                        <span>{asset.id}</span>
+                        <span className="media-asset-shape-inline">{formatMediaShape(asset)}</span>
+                      </p>
                       {asset.error ? (
                         <p className="mt-1 max-w-[34ch] text-xs text-red-300">{asset.error}</p>
                       ) : null}
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3 font-mono text-xs">
-                  {asset.width && asset.height
-                    ? `${asset.width} x ${asset.height}`
-                    : formatBytes(asset.sizeBytes)}
-                </td>
+                <td className="px-4 py-3 font-mono text-xs">{formatMediaShape(asset)}</td>
                 <td className="px-4 py-3">
                   <SplitPill split={asset.split} />
                 </td>
@@ -719,14 +733,14 @@ function UploadStateMetric({
 function MediaStatusPill({ status }: { status: MediaUploadRow["status"] }) {
   const tone =
     status === "indexed"
-      ? "border-signal-300/35 bg-signal-300/10 text-signal-300"
+      ? "media-status-pill-signal"
       : status === "uploading" || status === "hashing" || status === "queued"
-        ? "border-scan-300/35 bg-scan-300/10 text-scan-300"
+        ? "media-status-pill-scan"
         : status === "duplicate"
-          ? "border-amber-300/35 bg-amber-300/10 text-amber-300"
-          : "border-red-300/35 bg-red-300/10 text-red-300";
+          ? "media-status-pill-amber"
+          : "media-status-pill-red";
 
-  return <span className={`rounded-md border px-2 py-1 font-mono text-xs ${tone}`}>{status}</span>;
+  return <span className={`media-status-pill ${tone}`}>{status}</span>;
 }
 
 function UploadProgress({ row }: { row: MediaUploadRow }) {
@@ -764,6 +778,12 @@ function formatBytes(value: number): string {
   }
 
   return `${(value / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function formatMediaShape(asset: MediaUploadRow): string {
+  return asset.width && asset.height
+    ? `${asset.width} x ${asset.height}`
+    : formatBytes(asset.sizeBytes);
 }
 
 function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
@@ -1019,10 +1039,8 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                   type="button"
                   onClick={() => setSelectedVersionId(version.id)}
                   className={[
-                    "relative w-full rounded-md border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px",
-                    selected
-                      ? "border-signal-300/45 bg-signal-300/10"
-                      : "border-white/10 bg-white/[0.03] hover:bg-white/[0.05]",
+                    "version-card relative w-full rounded-md border p-3 text-left transition focus-visible:outline-none active:translate-y-px",
+                    selected ? "version-card-selected" : "",
                   ].join(" ")}
                   initial={shouldReduceMotion ? false : { opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -1053,7 +1071,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
         </div>
       </Panel>
 
-      <Panel className="overflow-hidden">
+      <Panel className="version-builder-panel overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Version builder</h2>
@@ -1070,7 +1088,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
               aria-label="Create draft"
               onClick={handleCreateDraft}
               disabled={actionState.busy}
-              className="inline-flex items-center gap-2 rounded-md border border-white/10 px-3 py-2 text-sm text-neutral-200 transition hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px"
+              className="version-header-action version-header-action-muted"
             >
               <GitBranch size={16} />
               New draft
@@ -1081,7 +1099,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
               aria-label="Lock version"
               onClick={handleLockVersion}
               disabled={!canLock}
-              className="inline-flex items-center gap-2 rounded-md border border-signal-300/40 bg-signal-300/10 px-3 py-2 text-sm font-medium text-signal-300 transition hover:bg-signal-300/15 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px"
+              className="version-header-action version-header-action-lock"
             >
               <CheckCircle size={16} weight="duotone" />
               Lock version
@@ -1111,46 +1129,67 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
           </p>
         )}
 
-        <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_230px]">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[520px] border-collapse text-sm">
+        <div className="version-builder-grid">
+          <div className="version-assets-scroll">
+            <table className="version-assets-table w-full border-collapse text-sm">
               <thead className="bg-white/[0.025] text-left font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Use</th>
+                  <th className="version-select-cell px-4 py-3 font-medium">
+                    <span className="sr-only">Select</span>
+                  </th>
                   <th className="px-4 py-3 font-medium">Asset</th>
                   <th className="px-4 py-3 font-medium">Current split</th>
                   <th className="px-4 py-3 font-medium">State</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
-                {mediaRows.slice(0, 6).map((asset) => (
-                  <tr key={asset.id} className="text-neutral-300">
-                    <td className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        aria-label={`Select ${asset.name}`}
-                        checked={selectedAssetIds.includes(asset.id)}
-                        onChange={() => toggleAsset(asset.id)}
-                        className="h-4 w-4 rounded border-white/20 bg-graphite-950 accent-[oklch(80%_0.13_152)]"
-                      />
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-neutral-100">{asset.name}</p>
-                      <p className="font-mono text-xs text-neutral-500">{asset.id}</p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <SplitPill split={asset.split} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <MediaStatusPill status={asset.status} />
-                    </td>
-                  </tr>
-                ))}
+                {mediaRows.slice(0, 6).map((asset) => {
+                  const selectedAsset = selectedAssetIds.includes(asset.id);
+
+                  return (
+                    <tr
+                      key={asset.id}
+                      className={[
+                        "version-asset-row text-neutral-300",
+                        selectedAsset ? "version-asset-row-selected" : "",
+                      ].join(" ")}
+                    >
+                      <td className="version-select-cell px-4 py-3">
+                        <label className="asset-select-control">
+                          <input
+                            type="checkbox"
+                            aria-label={`Select ${asset.name}`}
+                            checked={selectedAsset}
+                            onChange={() => toggleAsset(asset.id)}
+                            className="sr-only"
+                          />
+                          <span
+                            className={[
+                              "asset-select-box",
+                              selectedAsset ? "asset-select-box-selected" : "",
+                            ].join(" ")}
+                            aria-hidden="true"
+                          />
+                        </label>
+                      </td>
+                      <td className="px-4 py-3">
+                        <p className="font-medium text-neutral-100">{asset.name}</p>
+                        <p className="font-mono text-xs text-neutral-500">{asset.id}</p>
+                      </td>
+                      <td className="px-4 py-3">
+                        <SplitPill split={asset.split} />
+                      </td>
+                      <td className="px-4 py-3">
+                        <MediaStatusPill status={asset.status} />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
 
-          <div className="border-t border-white/10 p-4 lg:border-l lg:border-t-0">
+          <div className="version-builder-actions border-t border-white/10 p-4">
             <h3 className="text-sm font-semibold text-neutral-100">Assign split</h3>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {datasetSplits.map((split) => (
@@ -1160,10 +1199,8 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                   aria-pressed={targetSplit === split}
                   onClick={() => setTargetSplit(split)}
                   className={[
-                    "rounded-md border px-3 py-2 font-mono text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px",
-                    targetSplit === split
-                      ? "border-signal-300/45 bg-signal-300/10 text-signal-300"
-                      : "border-white/10 text-neutral-400 hover:bg-white/[0.05]",
+                    "version-split-option",
+                    targetSplit === split ? "version-split-option-selected" : "",
                   ].join(" ")}
                 >
                   {split}
@@ -1189,10 +1226,10 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                 <motion.p
                   key={actionState.message ?? actionState.error}
                   className={[
-                    "mt-3 rounded-md border px-3 py-2 text-xs",
+                    "version-action-message",
                     actionState.error
-                      ? "border-red-300/30 bg-red-300/10 text-red-300"
-                      : "border-signal-300/30 bg-signal-300/10 text-signal-300",
+                      ? "version-action-message-error"
+                      : "version-action-message-ok",
                   ].join(" ")}
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1255,12 +1292,12 @@ function DatasetSourceNotice({
 function DatasetStatusPill({ status }: { status: DatasetVersionSummary["status"] }) {
   const tone =
     status === "LOCKED"
-      ? "border-signal-300/35 bg-signal-300/10 text-signal-300"
+      ? "dataset-version-pill-locked"
       : status === "DRAFT"
-        ? "border-amber-300/35 bg-amber-300/10 text-amber-300"
-        : "border-white/10 bg-white/[0.035] text-neutral-400";
+        ? "dataset-version-pill-draft"
+        : "dataset-version-pill-neutral";
 
-  return <span className={`rounded-md border px-2 py-1 font-mono text-xs ${tone}`}>{status}</span>;
+  return <span className={`dataset-version-pill ${tone}`}>{status}</span>;
 }
 
 function DatasetMetric({
@@ -1539,15 +1576,25 @@ function AnnotationPanel({
 }
 
 function PipelinePanel() {
+  const compactPipeline = useCompactPipelineLayout();
   const nodes = useMemo<Node[]>(
-    () => [
-      node("input", "Input", "MediaAsset stream", 0, 90, "signal"),
-      node("resize", "Resize", "960px width", 210, 40, "neutral"),
-      node("detector", "Detector", "model_onnx_parking", 430, 90, "scan"),
-      node("nms", "NMS", "IoU 0.45", 660, 40, "neutral"),
-      node("output", "Output", "Predictions", 875, 90, "signal"),
-    ],
-    [],
+    () =>
+      compactPipeline
+        ? [
+            node("input", "Input", "MediaAsset stream", 0, 0, "signal", "vertical"),
+            node("resize", "Resize", "960px width", 0, 120, "neutral", "vertical"),
+            node("detector", "Detector", "model_onnx_parking", 0, 240, "scan", "vertical"),
+            node("nms", "NMS", "IoU 0.45", 0, 360, "neutral", "vertical"),
+            node("output", "Output", "Predictions", 0, 480, "signal", "vertical"),
+          ]
+        : [
+            node("input", "Input", "MediaAsset stream", 0, 90, "signal"),
+            node("resize", "Resize", "960px width", 210, 40, "neutral"),
+            node("detector", "Detector", "model_onnx_parking", 430, 90, "scan"),
+            node("nms", "NMS", "IoU 0.45", 660, 40, "neutral"),
+            node("output", "Output", "Predictions", 875, 90, "signal"),
+          ],
+    [compactPipeline],
   );
 
   const edges = useMemo<Edge[]>(
@@ -1571,9 +1618,12 @@ function PipelinePanel() {
         </div>
         <div className="h-[560px] bg-graphite-950">
           <ReactFlow
+            key={compactPipeline ? "pipeline-compact" : "pipeline-wide"}
             nodes={nodes}
             edges={edges}
             fitView
+            fitViewOptions={{ padding: compactPipeline ? 0.12 : 0.2 }}
+            minZoom={0.2}
             proOptions={{ hideAttribution: true }}
             nodesDraggable={false}
             nodesConnectable={false}
@@ -1611,6 +1661,22 @@ function PipelinePanel() {
       </Panel>
     </div>
   );
+}
+
+function useCompactPipelineLayout(): boolean {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const update = () => setCompact(media.matches);
+
+    update();
+    media.addEventListener("change", update);
+
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return compact;
 }
 
 function JobsPanel({
@@ -1678,18 +1744,20 @@ function JobsPanel({
 
 function InspectorPanel({
   active,
+  annotations,
   selectedAnnotation,
   threshold,
   setThreshold,
   job,
 }: {
   active: SectionId;
+  annotations: AnnotationSummary[];
   selectedAnnotation: string;
   threshold: number;
   setThreshold: (value: number) => void;
   job: JobUiState;
 }) {
-  const annotation = demoSnapshot.annotations.find((item) => item.id === selectedAnnotation);
+  const annotation = annotations.find((item) => item.id === selectedAnnotation);
 
   return (
     <aside className="space-y-4">
@@ -1704,6 +1772,7 @@ function InspectorPanel({
           <InfoRow label="Project" value={demoSnapshot.project.name} />
           <InfoRow label="Dataset" value={demoSnapshot.project.datasetVersion} />
           <InfoRow label="Assets" value={String(demoSnapshot.project.assetCount)} />
+          <InfoRow label="Boxes" value={String(annotations.length)} />
           <InfoRow label="Job" value={`${job.status} ${job.progress}%`} />
         </div>
       </Panel>
@@ -1723,8 +1792,11 @@ function InspectorPanel({
         )}
       </Panel>
       <Panel>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Threshold</h2>
+          <span className="rounded-md border border-signal-300/30 bg-signal-300/10 px-2 py-1 font-mono text-xs text-signal-300">
+            {(threshold / 100).toFixed(2)}
+          </span>
         </div>
         <div className="p-4">
           <input
@@ -1734,13 +1806,23 @@ function InspectorPanel({
             max="95"
             value={threshold}
             onChange={(event) => setThreshold(Number(event.target.value))}
-            className="w-full accent-[oklch(80%_0.13_152)]"
+            style={thresholdRangeStyle(threshold)}
+            className="threshold-range"
           />
-          <p className="mt-2 font-mono text-xs text-neutral-500">{(threshold / 100).toFixed(2)}</p>
+          <div className="mt-2 flex items-center justify-between font-mono text-[11px] text-neutral-500">
+            <span>0.40</span>
+            <span>0.95</span>
+          </div>
         </div>
       </Panel>
     </aside>
   );
+}
+
+function thresholdRangeStyle(value: number): CSSProperties {
+  return {
+    "--threshold-progress": `${Math.max(0, Math.min(100, ((value - 40) / 55) * 100))}%`,
+  } as CSSProperties;
 }
 
 function VisionPreview({
@@ -1868,11 +1950,7 @@ function StateRow({
 }
 
 function SplitPill({ split }: { split: string }) {
-  return (
-    <span className="rounded-md border border-white/10 bg-white/[0.035] px-2 py-1 font-mono text-xs text-neutral-300">
-      {split}
-    </span>
-  );
+  return <span className="split-pill">{split}</span>;
 }
 
 function DiffMetric({ label, value, tone }: { label: string; value: string; tone: string }) {
@@ -1940,6 +2018,7 @@ function node(
   x: number,
   y: number,
   tone: "signal" | "scan" | "neutral",
+  orientation: "horizontal" | "vertical" = "horizontal",
 ): Node {
   const color =
     tone === "signal" ? "#6ad9a1" : tone === "scan" ? "#5cc8ff" : "rgba(255,255,255,0.48)";
@@ -1947,8 +2026,8 @@ function node(
   return {
     id,
     position: { x, y },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
+    sourcePosition: orientation === "vertical" ? Position.Bottom : Position.Right,
+    targetPosition: orientation === "vertical" ? Position.Top : Position.Left,
     data: {
       label: (
         <div className="min-w-[150px] rounded-md border border-white/10 bg-graphite-900 px-3 py-2 shadow-panel">

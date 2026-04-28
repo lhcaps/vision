@@ -27,7 +27,10 @@ Queue payloads carry IDs. Large media and artifacts live in object storage.
 
 - Phase 0 and Phase 1 are complete: the monorepo, web shell, API skeleton, CV worker, shared contracts, Prisma schema, and Docker infrastructure are in place.
 - Phase 2 is complete for the ingestion slice: uploaded media is validated, hashed, stored in MinIO, deduped by project checksum, written to Prisma metadata tables, audited, and paired with a queued media processing job.
-- Later product surfaces are intentionally scaffolded: dataset versioning, annotation, pipeline persistence, BullMQ orchestration, prediction overlay, and evaluation still need their dedicated phases.
+- Phase 3 is complete for dataset versioning: mutable dataset identities produce immutable version candidates, assets are assigned with split summaries, and locked versions reject mutation.
+- Phase 4 is complete for annotation: BBox annotations have shared contracts, project-scoped API CRUD, memory fallback, mutation audit logs, and a React workbench with image-coordinate drawing, labels, keyboard actions, and save queue states.
+- The current web shell has passed a cross-screen UI polish audit across Overview, Media, Versions, Annotate, Pipeline, and Jobs. Responsive fixes now keep media tables, dataset controls, and the pipeline graph legible without page-level horizontal overflow.
+- Later product surfaces are intentionally scaffolded: pipeline persistence, BullMQ orchestration, prediction overlay, and evaluation still need their dedicated phases.
 
 ## Media Ingestion Path
 
@@ -72,3 +75,23 @@ The API exposes dataset identity separately from immutable versions:
 Draft versions accept asset assignment. Locked versions reject mutation. Split summaries are computed
 from `DatasetVersionAsset` rows in the API response so the UI reads the same truth that later
 annotation, inference, and evaluation workflows will consume.
+
+## Annotation Path
+
+```text
+DatasetVersion
+  -> AnnotationSet
+  -> LabelClass
+  -> Annotation rows with BBox geometryJson in image coordinates
+  -> AuditLog rows for create, update, and delete
+```
+
+The API exposes a workspace endpoint plus focused mutation endpoints:
+
+- `GET /api/projects/:projectId/dataset-versions/:versionId/annotation-workspace`
+- `POST /api/projects/:projectId/annotation-sets/:annotationSetId/annotations`
+- `PATCH /api/projects/:projectId/annotations/:annotationId`
+- `DELETE /api/projects/:projectId/annotations/:annotationId`
+
+The web workbench keeps local edits inspectable through a save queue. Boxes are drawn and edited in
+image coordinates, then clamped to the selected asset bounds before API persistence.
