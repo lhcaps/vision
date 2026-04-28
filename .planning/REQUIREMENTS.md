@@ -10,6 +10,7 @@
 - Docker Compose for PostgreSQL, Redis, and MinIO.
 - Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation.
 - Real media upload path with MIME validation, SHA-256 checksum dedupe, deterministic MinIO object keys, Prisma metadata rows, audit rows, and queued processing jobs.
+- Dataset versioning APIs with mutable dataset identity, draft version creation, asset assignment, split summaries, and immutable lock behavior.
 
 ## Quality Gates
 
@@ -18,6 +19,9 @@
 - Unsupported media types fail before storage work.
 - Upload failure must not create broken metadata rows.
 - Media object keys are deterministic: `projects/{projectId}/originals/{sha256}.{ext}`.
+- Locked dataset versions reject asset assignment.
+- Assets cannot be assigned twice to the same dataset version.
+- Dataset split summaries must be computed from stored version asset rows.
 - Pipeline graph validation checks input/output count, cycles, node connectivity, and detector model configuration.
 - Job state transitions are explicit.
 - Reduced-motion users do not get decorative movement.
@@ -25,7 +29,6 @@
 
 ## Deferred
 
-- Dataset versioning APIs and immutable version rules.
 - Annotation CRUD and save queue.
 - Pipeline persistence and API-side validation.
 - Real BullMQ worker execution.

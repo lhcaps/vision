@@ -1,3 +1,4 @@
+export * from "./datasets";
 export * from "./geometry";
 export * from "./jobs";
 export * from "./media";

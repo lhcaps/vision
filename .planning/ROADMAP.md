@@ -30,13 +30,15 @@ Legend:
 
 Completed scope includes real multipart upload, MIME validation, deterministic SHA-256 object keys, project-scoped dedupe, Prisma metadata rows, audit rows, queued media processing jobs, CV thumbnail/frame job contracts, and web uploader states.
 
-## Phase 3, Dataset Versioning — Next
+## Phase 3, Dataset Versioning - Done
 
 - Immutable version rules.
 - Dataset version assets and split summaries.
 - Version timeline UI.
 
-## Phase 4, Annotation Engine — Planned
+Completed scope includes shared dataset contracts, Nest dataset endpoints, Prisma and memory fallback service paths, duplicate assignment protection, locked-version mutation rejection, computed split summaries, and an upgraded Versions workbench.
+
+## Phase 4, Annotation Engine - Next
 
 - Bounding-box CRUD in image coordinates.
 - Annotation canvas, label selector, keyboard actions, save queue.

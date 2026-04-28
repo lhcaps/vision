@@ -48,3 +48,27 @@ The deterministic original object key is:
 ```text
 projects/{projectId}/originals/{sha256}.{ext}
 ```
+
+## Dataset Versioning Path
+
+```text
+MediaAsset rows
+  -> Dataset mutable identity
+  -> DatasetVersion draft snapshot
+  -> DatasetVersionAsset rows with TRAIN, VALID, TEST, or UNASSIGNED split
+  -> DatasetVersion LOCKED status
+  -> AnnotationSet and InferenceJob consume the locked version
+```
+
+The API exposes dataset identity separately from immutable versions:
+
+- `POST /api/projects/:projectId/datasets`
+- `GET /api/projects/:projectId/datasets`
+- `POST /api/projects/:projectId/datasets/:datasetId/versions`
+- `GET /api/projects/:projectId/datasets/:datasetId/versions`
+- `POST /api/projects/:projectId/dataset-versions/:versionId/assets`
+- `POST /api/projects/:projectId/dataset-versions/:versionId/lock`
+
+Draft versions accept asset assignment. Locked versions reject mutation. Split summaries are computed
+from `DatasetVersionAsset` rows in the API response so the UI reads the same truth that later
+annotation, inference, and evaluation workflows will consume.

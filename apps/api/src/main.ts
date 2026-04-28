@@ -17,6 +17,7 @@ async function bootstrap() {
     .addTag("health")
     .addTag("projects")
     .addTag("media")
+    .addTag("datasets")
     .addTag("inference")
     .build();
 
