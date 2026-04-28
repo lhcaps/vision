@@ -13,6 +13,7 @@ Last updated: 2026-04-28.
 - Implemented Phase 1 foundation: web workbench shell, API health/OpenAPI/demo routes, Prisma domain schema, CV mock endpoint, shared contracts, and root verification scripts.
 - Implemented Phase 2 media ingestion: multipart API upload, MIME validation, SHA-256 checksum dedupe, MinIO original storage, Prisma metadata row, audit row, queued media processing job, CV thumbnail/frame contracts, and web uploader states.
 - Implemented Phase 3 dataset versioning: shared contracts, Prisma/memory-backed dataset API, draft asset assignment, locked-version mutation rejection, computed split summaries, and upgraded Versions workbench UI.
+- Stabilized Phase 3 dataset API runtime injection with explicit Nest `@Inject(...)` annotations after dev logs showed `DatasetsController.datasetsService` could be undefined.
 - Pushed the current codebase to `https://github.com/lhcaps/Vision.git` on `main`.
 
 ## Verification Evidence
@@ -22,6 +23,7 @@ Last updated: 2026-04-28.
 - Phase 3 focused checks passed: contracts tests, API tests, API typecheck, and web typecheck.
 - Dataset API memory fallback tests cover seeded timeline, split summary computation, duplicate assignment rejection, and locked-version rejection.
 - Local API smoke on port 3101 passed for fallback dataset list, draft creation, asset assignment, lock, and post-lock HTTP 409 rejection.
+- Post-hotfix port 3000 smoke passed for dataset list and version list after explicit injection fix.
 - Playwright desktop/mobile smoke passed for the Versions workbench; screenshots are in `tmp/phase3-versions-desktop.png` and `tmp/phase3-versions-mobile.png`.
 - Docker Compose config validated.
 - Local real-ingestion smoke passed with PostgreSQL and MinIO: first image upload created asset/job/audit rows, duplicate upload deduped by checksum, and MinIO object stat succeeded.

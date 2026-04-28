@@ -33,12 +33,18 @@ Implemented the dataset versioning vertical slice: datasets now act as mutable i
 - `python -m pytest apps/cv-worker/tests -q` passed with 4 tests.
 - Local API smoke on port 3101 passed: dataset fallback listed, draft `v5` created, TRAIN assignment counted as 1, lock returned `LOCKED`, and assigning after lock returned HTTP 409.
 - Playwright UI smoke passed on desktop and mobile for the Versions workbench, with screenshots in `tmp/phase3-versions-desktop.png` and `tmp/phase3-versions-mobile.png`.
+- Post-hotfix runtime smoke on port 3000 passed: `GET /api/projects/proj_parking_lot/datasets` returned `Parking Lot Dataset` with 4 versions.
+
+## Post-Completion Hotfix
+
+- Stabilized Nest dependency injection for `DatasetsController` and `DatasetsService` with explicit `@Inject(...)` annotations after dev runtime logs showed `this.datasetsService` could be undefined.
+- Hotfix commit `25a5221 fix: stabilize dataset service injection` was pushed to `origin/main`.
 
 ## Deviations from Plan
 
 - `gsd-sdk` global is currently broken on this machine: it points to missing module `@gsd-build/sdk/dist/cli.js`. The phase was planned and executed inline using the local GSD workflow files and skill adapter.
 - The pytest command in the plan initially failed because `apps/cv-worker/src` was not on `sys.path` when pytest ran from repo root. Added `apps/cv-worker/tests/conftest.py` so the documented root-level command passes.
-- No git commit was created during this Codex turn; changes remain in the working tree for review.
+- Phase implementation commit `c4578b2 feat: implement dataset versioning phase` and hotfix commit `25a5221 fix: stabilize dataset service injection` were pushed to `origin/main`.
 
 ## Next Phase Readiness
 
