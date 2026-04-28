@@ -1,0 +1,32 @@
+{
+  "name": "visionflow-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fullstack computer vision platform for dataset versioning, annotation, visual pipelines, async inference, and evaluation.",
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "dev": "turbo dev --parallel",
+    "dev:web": "pnpm --filter @visionflow/web dev -- --host 0.0.0.0",
+    "dev:api": "pnpm --filter @visionflow/api dev",
+    "dev:cv": "python -m uvicorn main:app --reload --app-dir apps/cv-worker/src --host 0.0.0.0 --port 8000",
+    "build": "turbo build",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "verify": "pnpm typecheck && pnpm test && pnpm build",
+    "db:generate": "prisma generate --schema infra/prisma/schema.prisma",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^22.15.3",
+    "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
+    "turbo": "^2.5.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3"
+  }
+}

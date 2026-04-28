@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@visionflow/contracts": ["../../packages/contracts/src/index.ts"],
+      "@visionflow/motion": ["../../packages/motion/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "tailwind.config.ts"]
+}

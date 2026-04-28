@@ -1,0 +1,344 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  mediaAssets   MediaAsset[]
+  mediaJobs     MediaProcessingJob[]
+  datasets      Dataset[]
+  labelClasses  LabelClass[]
+  models        ModelArtifact[]
+  pipelines     Pipeline[]
+  inferenceJobs InferenceJob[]
+  auditLogs     AuditLog[]
+}
+
+model MediaAsset {
+  id           String    @id @default(cuid())
+  projectId    String
+  type         AssetType
+  storageKey   String
+  thumbnailKey String?
+  width        Int?
+  height       Int?
+  durationMs   Int?
+  frameCount   Int?
+  checksum     String
+  metadataJson Json      @default("{}")
+  createdAt    DateTime  @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  derivatives    AssetDerivative[]
+  processingJobs MediaProcessingJob[]
+  versionLinks   DatasetVersionAsset[]
+  annotations    Annotation[]
+  predictions    Prediction[]
+
+  @@unique([projectId, checksum])
+  @@index([projectId, createdAt])
+}
+
+model AssetDerivative {
+  id         String              @id @default(cuid())
+  assetId    String
+  type       AssetDerivativeType
+  storageKey String
+  width      Int?
+  height     Int?
+  createdAt  DateTime            @default(now())
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId, type])
+}
+
+model MediaProcessingJob {
+  id           String                   @id @default(cuid())
+  projectId    String
+  assetId      String
+  type         MediaProcessingJobType
+  status       MediaProcessingJobStatus @default(QUEUED)
+  targetKey    String?
+  payloadJson  Json                     @default("{}")
+  errorMessage String?
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  project Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  asset   MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, status, createdAt])
+  @@index([assetId, type])
+}
+
+model Dataset {
+  id          String   @id @default(cuid())
+  projectId   String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  project  Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  versions DatasetVersion[]
+
+  @@index([projectId])
+}
+
+model DatasetVersion {
+  id              String               @id @default(cuid())
+  datasetId       String
+  version         Int
+  status          DatasetVersionStatus @default(DRAFT)
+  parentVersionId String?
+  createdAt       DateTime             @default(now())
+
+  dataset Dataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  assets         DatasetVersionAsset[]
+  annotationSets AnnotationSet[]
+  inferenceJobs  InferenceJob[]
+
+  @@unique([datasetId, version])
+}
+
+model DatasetVersionAsset {
+  id               String       @id @default(cuid())
+  datasetVersionId String
+  assetId          String
+  split            DatasetSplit @default(UNASSIGNED)
+  createdAt        DateTime     @default(now())
+
+  datasetVersion DatasetVersion @relation(fields: [datasetVersionId], references: [id], onDelete: Cascade)
+  asset          MediaAsset     @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@unique([datasetVersionId, assetId])
+}
+
+model LabelClass {
+  id        String    @id @default(cuid())
+  projectId String
+  name      String
+  color     String
+  type      LabelType @default(BBOX)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  annotations Annotation[]
+  predictions Prediction[]
+
+  @@unique([projectId, name])
+}
+
+model AnnotationSet {
+  id               String              @id @default(cuid())
+  datasetVersionId String
+  name             String
+  status           AnnotationSetStatus @default(DRAFT)
+  createdAt        DateTime            @default(now())
+
+  datasetVersion DatasetVersion @relation(fields: [datasetVersionId], references: [id], onDelete: Cascade)
+  annotations    Annotation[]
+}
+
+model Annotation {
+  id              String           @id @default(cuid())
+  annotationSetId String
+  assetId         String
+  labelClassId    String
+  type            LabelType
+  geometryJson    Json
+  confidence      Float?
+  source          AnnotationSource @default(MANUAL)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  annotationSet AnnotationSet @relation(fields: [annotationSetId], references: [id], onDelete: Cascade)
+  asset         MediaAsset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  labelClass    LabelClass    @relation(fields: [labelClassId], references: [id], onDelete: Restrict)
+
+  @@index([annotationSetId, assetId])
+}
+
+model ModelArtifact {
+  id          String       @id @default(cuid())
+  projectId   String
+  name        String
+  type        ModelType
+  runtime     ModelRuntime
+  artifactKey String
+  configJson  Json         @default("{}")
+  createdAt   DateTime     @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  inferenceJobs InferenceJob[]
+}
+
+model Pipeline {
+  id             String   @id @default(cuid())
+  projectId      String
+  name           String
+  definitionJson Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  inferenceJobs InferenceJob[]
+
+  @@index([projectId])
+}
+
+model InferenceJob {
+  id               String             @id @default(cuid())
+  projectId        String
+  datasetVersionId String
+  pipelineId       String
+  modelId          String?
+  status           InferenceJobStatus @default(QUEUED)
+  progress         Int                @default(0)
+  startedAt        DateTime?
+  completedAt      DateTime?
+  errorMessage     String?
+  createdAt        DateTime           @default(now())
+
+  project        Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  datasetVersion DatasetVersion @relation(fields: [datasetVersionId], references: [id], onDelete: Restrict)
+  pipeline       Pipeline       @relation(fields: [pipelineId], references: [id], onDelete: Restrict)
+  model          ModelArtifact? @relation(fields: [modelId], references: [id], onDelete: SetNull)
+
+  predictions       Prediction[]
+  evaluationReports EvaluationReport[]
+
+  @@index([projectId, status, createdAt])
+}
+
+model Prediction {
+  id             String  @id @default(cuid())
+  inferenceJobId String
+  assetId        String
+  labelClassId   String?
+  geometryJson   Json
+  confidence     Float
+  metadataJson   Json    @default("{}")
+
+  inferenceJob InferenceJob @relation(fields: [inferenceJobId], references: [id], onDelete: Cascade)
+  asset        MediaAsset   @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  labelClass   LabelClass?  @relation(fields: [labelClassId], references: [id], onDelete: SetNull)
+
+  @@index([inferenceJobId, assetId])
+}
+
+model EvaluationReport {
+  id                  String   @id @default(cuid())
+  inferenceJobId      String
+  metricsJson         Json
+  confusionMatrixJson Json?
+  artifactKey         String?
+  createdAt           DateTime @default(now())
+
+  inferenceJob InferenceJob @relation(fields: [inferenceJobId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  projectId    String
+  actorId      String?
+  action       String
+  targetType   String
+  targetId     String
+  metadataJson Json     @default("{}")
+  createdAt    DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+}
+
+enum AssetType {
+  IMAGE
+  VIDEO
+  FRAME
+}
+
+enum AssetDerivativeType {
+  THUMBNAIL
+  PREVIEW
+  FRAME
+}
+
+enum MediaProcessingJobType {
+  THUMBNAIL
+  EXTRACT_FRAMES
+}
+
+enum MediaProcessingJobStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum DatasetVersionStatus {
+  DRAFT
+  LOCKED
+  ARCHIVED
+}
+
+enum DatasetSplit {
+  TRAIN
+  VALID
+  TEST
+  UNASSIGNED
+}
+
+enum LabelType {
+  BBOX
+  MASK
+  KEYPOINT
+}
+
+enum AnnotationSetStatus {
+  DRAFT
+  REVIEWING
+  APPROVED
+  REJECTED
+}
+
+enum AnnotationSource {
+  MANUAL
+  MODEL
+  IMPORT
+}
+
+enum ModelType {
+  DETECTION
+  CLASSIFICATION
+  SEGMENTATION
+}
+
+enum ModelRuntime {
+  MOCK
+  ONNX
+  ULTRALYTICS
+}
+
+enum InferenceJobStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+}
