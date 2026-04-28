@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
@@ -76,7 +77,7 @@ export class DatasetsService {
   private readonly memoryVersions = new Map<string, MemoryVersion>();
   private readonly memoryVersionAssets: MemoryVersionAsset[] = [];
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async createDataset(projectId: string, dto: CreateDatasetRequest): Promise<DatasetSummary> {
     if (process.env.DATABASE_URL) {

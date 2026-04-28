@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Inject, Param, Post } from "@nestjs/common";
 import { ApiBody, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { z } from "zod";
 import {
@@ -16,7 +16,7 @@ import { DatasetsService } from "./datasets.service";
 @ApiTags("datasets")
 @Controller("projects/:projectId")
 export class DatasetsController {
-  constructor(private readonly datasetsService: DatasetsService) {}
+  constructor(@Inject(DatasetsService) private readonly datasetsService: DatasetsService) {}
 
   @Post("datasets")
   @ApiBody({
