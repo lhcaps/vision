@@ -22,3 +22,29 @@ MediaAsset -> DatasetVersion -> AnnotationSet -> Pipeline -> InferenceJob -> Pre
 ```
 
 Queue payloads carry IDs. Large media and artifacts live in object storage.
+
+## Current Implementation Status
+
+- Phase 0 and Phase 1 are complete: the monorepo, web shell, API skeleton, CV worker, shared contracts, Prisma schema, and Docker infrastructure are in place.
+- Phase 2 is complete for the ingestion slice: uploaded media is validated, hashed, stored in MinIO, deduped by project checksum, written to Prisma metadata tables, audited, and paired with a queued media processing job.
+- Later product surfaces are intentionally scaffolded: dataset versioning, annotation, pipeline persistence, BullMQ orchestration, prediction overlay, and evaluation still need their dedicated phases.
+
+## Media Ingestion Path
+
+```text
+Web uploader
+  -> POST /api/projects/:projectId/media/upload
+  -> MIME validation
+  -> SHA-256 checksum
+  -> project-scoped dedupe
+  -> MinIO original object
+  -> MediaAsset row
+  -> MediaProcessingJob row
+  -> AuditLog row
+```
+
+The deterministic original object key is:
+
+```text
+projects/{projectId}/originals/{sha256}.{ext}
+```
