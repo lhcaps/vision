@@ -2,23 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-  font-family:
-    Geist,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  background: oklch(13.5% 0.008 180);
+@layer base {  :root {
+    color-scheme: dark;
+    font-family:
+      Geist,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    background: oklch(13.5% 0.008 180);
 
-  /* Design system border tints — use these instead of border-white */
-  --border-subtle: oklch(94% 0.006 180 / 0.06);
-  --border-muted: oklch(94% 0.006 180 / 0.10);
-  --border-hover: oklch(94% 0.006 180 / 0.16);
-  --border-strong: oklch(94% 0.006 180 / 0.20);
+    /* Custom design tokens — CSS variables enable Tailwind opacity modifiers (e.g. /40, /10) */
+    --color-signal-300: oklch(80% 0.13 152);
+    --color-signal-400: oklch(70% 0.15 152);
+    --color-amber-300: oklch(82% 0.13 88);
+    --color-amber-400: oklch(76% 0.14 88);
+    --color-scan-300: oklch(79% 0.12 190);
+    --color-scan-400: oklch(70% 0.14 190);
+    --color-red-300: oklch(76% 0.14 25);
+    --color-red-400: oklch(68% 0.15 25);
+    --color-graphite-950: oklch(13.5% 0.008 180);
+    --color-graphite-900: oklch(17% 0.009 180);
+    --color-graphite-850: oklch(20% 0.009 180);
+    --color-graphite-800: oklch(24% 0.01 180);
+    --color-graphite-700: oklch(33% 0.012 180);
+    --color-graphite-300: oklch(94% 0.006 180 / 0.14);
+    --color-graphite-200: oklch(94% 0.006 180 / 0.10);
+    --color-graphite-100: oklch(94% 0.006 180 / 0.07);
+
+    /* Design system border tints */
+    /* (defined inline per-component for precise control) */
+  }
 }
 
 * {
@@ -811,7 +827,7 @@ input {
   top: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, rgba(92, 200, 255, 0.78), transparent);
-  animation: scan 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: scan 2.0s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 /* ─── Keyframes ───────────────────────────────── */
@@ -881,5 +897,397 @@ input {
     bottom: -8px;
     height: 1px;
     width: auto;
+  }
+}
+
+/* ─── Button & Badge Variants ─── */
+/* Pre-built opacity variants — Tailwind /opacity doesn't work with oklch() tĩnh */
+.btn-signal-outline {
+  border: 1px solid oklch(80% 0.13 152 / 0.40);
+  background-color: oklch(80% 0.13 152 / 0.10);
+  color: oklch(80% 0.13 152);
+  border-radius: 6px;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-signal-outline:hover {
+  background-color: oklch(80% 0.13 152 / 0.15);
+}
+.btn-signal-outline:active {
+  transform: translateY(1px);
+}
+.btn-signal-outline:focus-visible {
+  outline: 3px solid oklch(80% 0.13 152);
+  outline-offset: 2px;
+}
+
+.btn-amber-outline {
+  border: 1px solid oklch(82% 0.13 88 / 0.40);
+  background-color: oklch(82% 0.13 88 / 0.10);
+  color: oklch(82% 0.13 88);
+  border-radius: 6px;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-amber-outline:hover {
+  background-color: oklch(82% 0.13 88 / 0.15);
+}
+.btn-amber-outline:active {
+  transform: translateY(1px);
+}
+
+.btn-scan-outline {
+  border: 1px solid oklch(79% 0.12 190 / 0.40);
+  background-color: oklch(79% 0.12 190 / 0.10);
+  color: oklch(79% 0.12 190);
+  border-radius: 6px;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-scan-outline:hover {
+  background-color: oklch(79% 0.12 190 / 0.15);
+}
+.btn-scan-outline:active {
+  transform: translateY(1px);
+}
+
+/* Selected asset row — signal tint */
+.asset-row-selected {
+  border: 1px solid oklch(80% 0.13 152 / 0.45);
+  background-color: oklch(80% 0.13 152 / 0.10);
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-red-outline {
+  border: 1px solid oklch(76% 0.14 25 / 0.40);
+  background-color: oklch(76% 0.14 25 / 0.10);
+  color: oklch(76% 0.14 25);
+  border-radius: 6px;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-red-outline:hover {
+  background-color: oklch(76% 0.14 25 / 0.15);
+}
+.btn-red-outline:active {
+  transform: translateY(1px);
+}
+
+/* ─── Frame Strip ────────────────────────────────────── */
+
+.frame-strip {
+  scrollbar-color: oklch(62% 0.018 180 / 0.42) transparent;
+  scrollbar-width: thin;
+}
+
+.frame-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.frame-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.frame-strip::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: oklch(62% 0.018 180 / 0.42);
+}
+
+.frame-thumb {
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.06);
+}
+
+.frame-thumb:focus-visible {
+  outline: 2px solid oklch(80% 0.13 152 / 0.3);
+  outline-offset: 2px;
+}
+
+/* ─── Diff Visualization ────────────────────────────── */
+
+.diff-box-added {
+  border: 1.5px solid;
+  transition: box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.diff-box-removed {
+  border: 1.5px solid;
+  opacity: 0.85;
+}
+
+.diff-box-changed {
+  border: 1.5px solid;
+  box-shadow: 0 0 0 1px rgba(255, 183, 77, 0.2);
+}
+
+.version-pill-btn:focus-visible {
+  outline: 2px solid oklch(80% 0.13 152 / 0.3);
+  outline-offset: 2px;
+}
+
+/* ─── Pipeline Execution Flow ───────────────────────── */
+
+.pipeline-exec-node {
+  min-width: 56px;
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.06);
+  transition:
+    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-signal-solid {
+  border: 1px solid oklch(80% 0.13 152);
+  background-color: oklch(80% 0.13 152);
+  color: oklch(13.5% 0.008 180);
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-signal-solid:hover {
+  background-color: oklch(70% 0.15 152);
+}
+.btn-signal-solid:active {
+  transform: translateY(1px);
+}
+
+/* Status pills */
+.badge-signal {
+  border: 1px solid oklch(80% 0.13 152 / 0.40);
+  background-color: oklch(80% 0.13 152 / 0.10);
+  color: oklch(80% 0.13 152);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+.badge-amber {
+  border: 1px solid oklch(82% 0.13 88 / 0.40);
+  background-color: oklch(82% 0.13 88 / 0.10);
+  color: oklch(82% 0.13 88);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+.badge-scan {
+  border: 1px solid oklch(79% 0.12 190 / 0.40);
+  background-color: oklch(79% 0.12 190 / 0.10);
+  color: oklch(79% 0.12 190);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+.badge-red {
+  border: 1px solid oklch(76% 0.14 25 / 0.40);
+  background-color: oklch(76% 0.14 25 / 0.10);
+  color: oklch(76% 0.14 25);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* Status pills — signal/amber/scan/red inline badges */
+.pill-signal {
+  border: 1px solid oklch(80% 0.13 152 / 0.40);
+  background-color: oklch(80% 0.13 152 / 0.10);
+  color: oklch(80% 0.13 152);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+.pill-amber {
+  border: 1px solid oklch(82% 0.13 88 / 0.40);
+  background-color: oklch(82% 0.13 88 / 0.10);
+  color: oklch(82% 0.13 88);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+.pill-scan {
+  border: 1px solid oklch(79% 0.12 190 / 0.40);
+  background-color: oklch(79% 0.12 190 / 0.10);
+  color: oklch(79% 0.12 190);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+.pill-red {
+  border: 1px solid oklch(76% 0.14 25 / 0.40);
+  background-color: oklch(76% 0.14 25 / 0.10);
+  color: oklch(76% 0.14 25);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+/* Pill base — no border/bg/text, just shape */
+.pill-base {
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+/* Job stage step variants */
+.step-complete {
+  border: 1px solid oklch(80% 0.13 152 / 0.25);
+  background-color: oklch(80% 0.13 152 / 0.08);
+  color: oklch(80% 0.13 152);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+.step-active {
+  border: 1px solid oklch(79% 0.12 190 / 0.25);
+  background-color: oklch(79% 0.12 190 / 0.08);
+  color: oklch(79% 0.12 190);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+.step-inactive {
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.06);
+  background-color: oklch(94% 0.006 180 / 0.025);
+  color: oklch(55% 0.006 180);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Toolbar icon button — active signal */
+.tool-btn-signal-active {
+  border: 1px solid oklch(80% 0.13 152 / 0.45);
+  background-color: oklch(80% 0.13 152 / 0.10);
+  color: oklch(80% 0.13 152);
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tool-btn-signal-active:hover {
+  background-color: oklch(80% 0.13 152 / 0.15);
+}
+.tool-btn-red-active {
+  border: 1px solid oklch(76% 0.14 25 / 0.30);
+  background-color: oklch(76% 0.14 25 / 0.10);
+  color: oklch(76% 0.14 25);
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tool-btn-red-active:hover {
+  background-color: oklch(76% 0.14 25 / 0.15);
+}
+
+/* ─── Pipeline Execution Flow ─── */
+@keyframes edge-flow {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(92, 200, 255, 0); }
+  50% { box-shadow: 0 0 12px 2px rgba(92, 200, 255, 0.4); }
+}
+
+.flowing-edge {
+  stroke-dasharray: 6 18;
+  animation: edge-flow 0.8s linear infinite;
+}
+
+.running-node {
+  animation: node-pulse 1.2s ease-in-out infinite;
+}
+
+.inner-border-complete {
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.3);
+}
+
+.inner-border-error {
+  box-shadow: inset 0 0 0 1px oklch(76% 0.14 25 / 0.4);
+}
+
+.execution-node-card {
+  width: 72px;
+  height: 52px;
+}
+
+.logs-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.logs-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.logs-scroll::-webkit-scrollbar-thumb {
+  background: oklch(94% 0.006 180 / 0.2);
+  border-radius: 999px;
+}
+
+.execution-status-pill {
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.7rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.execution-status-idle {
+  background: oklch(94% 0.006 180 / 0.04);
+  color: oklch(55% 0.006 180);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.06);
+}
+
+.execution-status-running {
+  background: oklch(78% 0.12 205 / 0.1);
+  color: oklch(78% 0.12 205);
+  box-shadow: inset 0 0 0 1px oklch(78% 0.12 205 / 0.2);
+}
+
+.execution-status-complete {
+  background: oklch(80% 0.13 152 / 0.1);
+  color: oklch(80% 0.13 152);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.2);
+}
+
+.execution-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 6px;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.execution-ctrl-btn:active {
+  transform: translateY(1px);
+}
+
+.execution-ctrl-btn-primary {
+  background: oklch(78% 0.12 205 / 0.12);
+  color: oklch(78% 0.12 205);
+  box-shadow: inset 0 0 0 1px oklch(78% 0.12 205 / 0.2);
+}
+
+.execution-ctrl-btn-primary:hover {
+  background: oklch(78% 0.12 205 / 0.18);
+}
+
+.execution-ctrl-btn-muted {
+  background: oklch(94% 0.006 180 / 0.04);
+  color: oklch(72% 0.006 180);
+}
+
+.execution-ctrl-btn-muted:hover {
+  background: oklch(94% 0.006 180 / 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flowing-edge,
+  .running-node {
+    animation: none;
   }
 }

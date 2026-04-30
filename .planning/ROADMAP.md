@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: 2026-05-01
+Status date: 2026-05-01 (Phase 9 completed)
 
 Legend:
 
@@ -80,11 +80,13 @@ Completed scope includes shared CV worker request/response and evaluation contra
 
 Completed scope includes shared evaluation contracts (`EvaluationReport`, `PerClassMetric`, `PredictionSummary` schemas), `EvaluationService` with dual-path Prisma and memory fallback evaluation (IoU-based metrics computed in-process when no CV worker URL is configured), `CvWorkerClient.evaluate()` method with inline fallback, Nest API routes for `GET /inference-jobs/:jobId/evaluation`, `POST /inference-jobs/evaluate`, and `GET /inference-jobs/:jobId/predictions`, `PredictionOverlayCanvas` component with layered GT/prediction bounding-box rendering, toggle controls, and atmospheric canvas design, `EvaluationMetricsPanel` with color-coded metric blocks, TP/FP/FN count tiles, per-class table with collapsible rows, and `Run evaluation` CTA, and upgraded `JobsPanel` with three-column grid (job detail / overlay canvas / metrics panel) wired to API state.
 
-## Phase 9, Timeline Replay And Motion Polish - Planned
+## Phase 9, Timeline Replay And Motion Polish — Done
 
 - BBox morphs.
 - Dataset diffs.
 - Node execution flow.
+
+Completed scope includes `TimelineReplayPanel` with frame strip, draggable scrubber, spring-physics BBox morph engine using Framer Motion `layoutId`, playback controls with speed selector, GT/Pred overlay toggle, and reduced-motion fallback; `DatasetVersionDiff` with dual version selectors, color-coded diff engine (added/removed/changed), ghost outline + connector lines for changed geometry, summary strip with count badges, and self-contained demo simulation; `PipelineExecutionFlow` with 5-node sequential pipeline graph, pulsing node states, flowing edge particles via SVG `stroke-dashoffset` animation, timing strip, collapsible worker log panel, and auto-loop demo simulation; global CSS audit consolidating all inline `<style>` blocks into `index.css`, unified `inner-border-*` design system, refined `@keyframes scan` timing, and motion token consistency across `packages/motion`.
 
 ## Phase 10, Hardening - Planned
 

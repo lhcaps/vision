@@ -1,11 +1,13 @@
 import {
   ActivityIcon as Activity,
+  ArrowsLeftRightIcon as ArrowsLeftRight,
   BoundingBoxIcon as BoundingBox,
   CheckCircleIcon as CheckCircle,
   DatabaseIcon as Database,
   GitBranchIcon as GitBranch,
   GraphIcon as Graph,
   ImageSquareIcon as ImageSquare,
+  PlayCircleIcon as PlayCircle,
   PlayIcon as Play,
   SlidersHorizontalIcon as SlidersHorizontal,
   StackIcon as Stack,
@@ -63,6 +65,11 @@ import {
   PredictionOverlayCanvas,
 } from "./features/evaluation";
 import {
+  TimelineReplayPanel,
+  DatasetVersionDiff,
+  PipelineExecutionFlow,
+} from "./features/timeline";
+import {
   assignDatasetVersionAssets,
   createDataset,
   createDatasetVersion,
@@ -87,7 +94,7 @@ import {
   runEvaluation,
 } from "./lib/inference";
 
-type SectionId = "overview" | "media" | "datasets" | "annotate" | "pipeline" | "jobs";
+type SectionId = "overview" | "media" | "datasets" | "annotate" | "pipeline" | "jobs" | "timeline" | "diff";
 
 type JobSourceState = "loading" | "api" | "fallback";
 
@@ -134,6 +141,8 @@ const sections: Array<{
   { id: "annotate", label: "Annotate", icon: BoundingBox },
   { id: "pipeline", label: "Pipeline", icon: Graph },
   { id: "jobs", label: "Jobs", icon: Timer },
+  { id: "timeline", label: "Replay", icon: PlayCircle },
+  { id: "diff", label: "Diff", icon: ArrowsLeftRight },
 ];
 
 export function App() {
@@ -376,6 +385,16 @@ export function App() {
                       onRunEvaluation={handleRunEvaluation}
                     />
                   )}
+                  {section === "timeline" && (
+                    <TimelineReplayPanel
+                      mediaAssets={demoSnapshot.media}
+                      groundTruth={annotationRows}
+                      predictions={predictions}
+                    />
+                  )}
+                  {section === "diff" && (
+                    <DatasetVersionDiff />
+                  )}
                 </motion.div>
               </AnimatePresence>
             </section>
@@ -485,32 +504,46 @@ function NavRail({
         <BoundingBox size={21} weight="duotone" />
       </div>
       <nav className="flex flex-col gap-1.5" aria-label="VisionFlow workbench">
-        {sections.map((item) => {
+        {sections.map((item, index) => {
           const Icon = item.icon;
           const selected = item.id === active;
 
           return (
-            <button
+            <motion.div
               key={item.id}
-              type="button"
-              title={item.label}
-              aria-label={item.label}
-              aria-pressed={selected}
-              onClick={() => onSelect(item.id)}
-              className="nav-button group relative flex h-10 w-10 items-center justify-center rounded-md text-sm transition active:translate-y-px"
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                delay: index * 0.03,
+                duration: motionTokens.durationFast,
+                ease: motionTokens.easeScan,
+              }}
             >
-              {selected && (
-                <>
-                  <motion.span
-                    layoutId="nav-active"
-                    className="nav-active-surface absolute inset-0 rounded-md"
-                    transition={motionTokens.springFast}
-                  />
-                  <span className="nav-active-rail" />
-                </>
-              )}
-              <Icon className="relative z-10" size={21} weight={selected ? "duotone" : "regular"} />
-            </button>
+              <button
+                type="button"
+                title={item.label}
+                aria-label={item.label}
+                aria-pressed={selected}
+                onClick={() => onSelect(item.id)}
+                className="nav-button group relative flex h-10 w-10 items-center justify-center rounded-md text-sm transition active:translate-y-px"
+              >
+                {selected && (
+                  <>
+                    <motion.span
+                      layoutId="nav-active"
+                      className="nav-active-surface absolute inset-0 rounded-md"
+                      transition={motionTokens.springFast}
+                    />
+                    <span className="nav-active-rail" />
+                  </>
+                )}
+                <Icon
+                  className="relative z-10"
+                  size={21}
+                  weight={selected ? "duotone" : "regular"}
+                />
+              </button>
+            </motion.div>
           );
         })}
       </nav>
@@ -623,7 +656,7 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
               title="Run inference"
               aria-label="Run inference"
               onClick={onRun}
-              className="inline-flex items-center gap-2 rounded-md border border-signal-300/40 bg-signal-300/10 px-3 py-2 text-sm font-medium text-signal-300 transition hover:bg-signal-300/15 active:translate-y-px"
+              className="btn-signal-outline inline-flex items-center gap-2 px-3 py-2 text-sm font-medium active:translate-y-px"
             >
               <Play size={16} weight="fill" />
               Queue job
@@ -760,7 +793,7 @@ function MediaPanel({
           className={[
             "m-4 flex min-h-44 cursor-pointer flex-col justify-between rounded-md inner-border p-4 transition",
             dragActive
-              ? "border border-signal-300 bg-signal-300/10"
+              ? "border-[oklch(0.8_0.13_152)] bg-[oklch(0.8_0.13_152/0.1)]"
               : "bg-white/[0.025] hover:bg-white/[0.04]",
           ].join(" ")}
           onDragEnter={(event) => {
@@ -779,7 +812,7 @@ function MediaPanel({
           }}
         >
           <span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-md border border-signal-300/30 bg-signal-300/10 text-signal-300">
+            <span className="btn-signal-outline flex h-10 w-10 items-center justify-center rounded-md">
               <UploadSimple size={20} weight="duotone" />
             </span>
             <span className="mt-4 block text-base font-semibold text-neutral-100">
@@ -1532,13 +1565,13 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 function DatasetSourcePill({ state }: { state: DatasetSourceState }) {
   const tone =
     state === "api"
-      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
+      ? "pill-signal"
       : state === "loading"
-        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
-        : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+        ? "pill-scan"
+        : "pill-amber";
 
   return (
-    <span className={`rounded-md border px-2 py-1 font-mono text-xs uppercase ${tone}`}>
+    <span className={`pill-base ${tone}`}>
       {state === "api" ? "api" : state}
     </span>
   );
@@ -2208,13 +2241,13 @@ function PipelinePanel() {
 function PipelineSourcePill({ state }: { state: PipelineSourceState }) {
   const tone =
     state === "api"
-      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
+      ? "pill-signal"
       : state === "loading"
-        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
-        : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+        ? "pill-scan"
+        : "pill-amber";
 
   return (
-    <span className={`rounded-md border px-2 py-1 font-mono text-xs uppercase ${tone}`}>
+    <span className={`pill-base ${tone}`}>
       {state === "api" ? "api" : state}
     </span>
   );
@@ -2530,6 +2563,9 @@ function JobsPanel({
           />
         </div>
       </Panel>
+      <Panel className="overflow-hidden">
+        <PipelineExecutionFlow />
+      </Panel>
     </div>
   );
 }
@@ -2537,13 +2573,13 @@ function JobsPanel({
 function JobSourcePill({ source }: { source: JobSourceState }) {
   const tone =
     source === "api"
-      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
+      ? "pill-signal"
       : source === "loading"
-        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
-        : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+        ? "pill-scan"
+        : "pill-amber";
 
   return (
-    <span className={`rounded-md border px-2 py-1 font-mono text-xs uppercase ${tone}`}>
+    <span className={`pill-base ${tone}`}>
       {source}
     </span>
   );
@@ -2561,12 +2597,11 @@ function JobStageStep({
   return (
     <div
       className={[
-        "rounded-md border px-3 py-2",
         complete
-          ? "border-signal-300/25 bg-signal-300/[0.08] text-signal-300"
+          ? "step-complete"
           : active
-            ? "border-scan-300/25 bg-scan-300/[0.08] text-scan-300"
-            : "inner-border-subtle bg-white/[0.025] text-neutral-500",
+            ? "step-active"
+            : "step-inactive",
       ].join(" ")}
     >
       <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</p>
@@ -2626,7 +2661,7 @@ function InspectorPanel({
       <Panel>
         <div className="flex items-center justify-between gap-3 divider px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Threshold</h2>
-          <span className="rounded-md border border-signal-300/30 bg-signal-300/10 px-2 py-1 font-mono text-xs text-signal-300">
+          <span className="btn-signal-outline px-2 py-1 font-mono text-xs">
             {(threshold / 100).toFixed(2)}
           </span>
         </div>
@@ -2670,9 +2705,9 @@ function VisionPreview({
 
   return (
     <div className="vision-stage relative min-h-[420px] overflow-hidden bg-graphite-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(106,217,161,0.12),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.055),transparent_38%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,rgba(5,13,12,0.94),transparent)]" />
-      <div className="absolute left-[8%] top-[22%] h-[42%] w-[84%] rounded-md inner-border-subtle bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(106,217,161,0.12),transparent_32%)]}" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,13,12,0.88),transparent_30%),linear-gradient(to_bottom,transparent_0%,rgba(5,13,12,0.4)_12%),linear-gradient(to_left,rgba(5,13,12,0.88),transparent_18%),linear-gradient(to_right,rgba(5,13,12,0.88),transparent_18%)]" />
+      <div className="absolute left-[8%] top-[22%] h-[42%] w-[84%]" style={{ boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)" }}>
         <div className="absolute inset-x-0 top-[55%] border-t border-dashed border-graphite-100" />
         <div className="absolute bottom-[18%] left-[7%] h-[12%] w-[86%] rounded-sm bg-white/[0.025]" />
         {demoSnapshot.annotations.map((annotation) => {
@@ -2723,16 +2758,16 @@ function VisionPreview({
 function StatusPill({ status }: { status: InferenceJobStatus }) {
   const tone =
     status === "SUCCEEDED"
-      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
+      ? "pill-signal"
       : status === "RUNNING"
-        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
+        ? "pill-scan"
         : status === "FAILED"
-          ? "border-red-300/40 bg-red-300/10 text-red-300"
-          : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+          ? "pill-red"
+          : "pill-amber";
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-md border px-3 py-2 font-mono text-xs ${tone}`}
+      className={`pill-base inline-flex items-center gap-2 ${tone}`}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current" />
       {status}
@@ -2812,7 +2847,7 @@ function ToolButton({
       className={[
         "inline-flex h-9 w-9 items-center justify-center rounded-md transition active:translate-y-px",
         active
-          ? "bg-signal-300/10 text-signal-300 shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24),inset_0_1px_0_oklch(98%_0.006_180/0.06)]"
+          ? "bg-[oklch(0.8_0.13_152/0.1)] text-[oklch(0.8_0.13_152)] shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24),inset_0_1px_0_oklch(98%_0.006_180/0.06)]"
           : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
       ].join(" ")}
     >

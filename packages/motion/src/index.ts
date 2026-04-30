@@ -1,10 +1,25 @@
 export const motionTokens = {
-  springFast: { type: "spring", stiffness: 420, damping: 32 },
-  springSoft: { type: "spring", stiffness: 260, damping: 26 },
-  easeScan: [0.22, 1, 0.36, 1],
-  durationFast: 0.18,
-  durationBase: 0.32,
-  durationSlow: 0.7,
+  springFast: { type: "spring" as const, stiffness: 420, damping: 32 },
+  springSoft: { type: "spring" as const, stiffness: 220, damping: 26 },
+  springMorph: { type: "spring" as const, stiffness: 280, damping: 28 },
+  springSnap: { type: "spring" as const, stiffness: 400, damping: 36 },
+  springSnappy: { type: "spring" as const, stiffness: 320, damping: 30 },
+  easeOut: [0.22, 1, 0.36, 1] as const,
+  easeInOut: [0.65, 0, 0.35, 1] as const,
+  easeScan: [0.22, 1, 0.36, 1] as const,
+  easeDraw: [0.32, 0.72, 0, 1] as const,
+  durationInstant: 0,
+  durationFast: 0.12,
+  durationBase: 0.2,
+  durationSlow: 0.36,
+  durationMorph: 0.16,
+} as const;
+
+export const pipelineMotion = {
+  nodePulse: { duration: 1.2, ease: "easeInOut" },
+  edgeFlow: { duration: 0.8, ease: "linear" },
+  nodeComplete: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const },
+  nodeError: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
 } as const;
 
 export const stateMotion = {
