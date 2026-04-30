@@ -5,11 +5,11 @@ import {
   CvWorkerEvaluationObject,
   CvWorkerEvaluationResponse,
   EvaluationReport,
+  intersectionOverUnion,
   PerClassMetric,
   PredictionSummary,
   RunEvaluationRequestSchema,
 } from "@visionflow/contracts";
-import { intersectionOverUnion } from "@visionflow/contracts/src/geometry";
 import { PrismaService } from "../prisma/prisma.service";
 import { demoSnapshot } from "../projects/demo-snapshot";
 import { CvWorkerClient } from "./cv-worker.client";
