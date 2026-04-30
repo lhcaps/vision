@@ -113,7 +113,7 @@ Note: v1.0 proves the prototype surface. v1.1 is responsible for proving the pro
 
 ## Goal
 
-Convert VisionFlow Studio from a strong prototype into a production-grade portfolio project with one real, reproducible, end-to-end computer vision workflow.
+Convert VisionFlow Studio from a strong prototype into a production-hardened local-first portfolio project with one real, reproducible, end-to-end computer vision workflow.
 
 ## Target Vertical Slice
 
@@ -153,7 +153,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Make the repository understandable and credible within the first 60 seconds.
 
 **Requirements:**
-- Root README.md with: VisionFlow Studio description, product screenshots or demo GIF, architecture diagram, feature overview, implemented vs planned matrix, local setup, env vars reference, run commands for web/API/CV worker/Redis/MinIO/Postgres, migration commands, test commands, known limitations, security note
+- Root README.md with: VisionFlow Studio description, product screenshots or demo GIF, architecture diagram, feature overview, implemented vs planned matrix, local setup, env vars reference, run commands for web/API/CV worker/Redis/MinIO/Postgres, migration commands, test commands, known limitations, **security note stating this project is for local/private use and must not be exposed publicly without authentication and rate limiting**
 - Architecture diagram showing: Web App → NestJS API → Postgres/Prisma + MinIO + BullMQ/Redis → FastAPI CV Worker → Artifacts + Predictions + Evaluation Reports
 
 **Depends on:** Phase 10
@@ -167,7 +167,7 @@ v1.1 is complete only when the repository has:
 6. Known limitations honestly state that v1.1 is hardening the real production path.
 7. Demo screenshot or GIF is embedded or linked.
 
-## Phase 12, CI/CD Completeness — Planned
+## Phase 12A, CI/CD Completeness — Planned
 
 **Goal:** Make every push prove that the repo still builds, tests, formats, and generates Prisma clients correctly.
 
@@ -187,6 +187,31 @@ v1.1 is complete only when the repository has:
 5. Build failure blocks merge.
 6. CI badge is visible in README.
 
+## Phase 12B, Local Stack & Seed Reliability — Planned
+
+**Goal:** Ensure a fresh clone runs the full stack without manual intervention. README without a working local setup is a portfolio killer.
+
+**Requirements:**
+- `docker compose -f infra/docker-compose.yml`: Postgres, Redis, MinIO — starts with one command.
+- `pnpm dev:full` / `pnpm dev:full:win`: starts Docker infra + generates Prisma client + launches web + API + CV worker.
+- Seed script creates demo project with media, dataset, annotation labels, and pipeline — no manual data entry needed.
+- `.env.example` is complete: all env vars documented with defaults and descriptions.
+- Teardown/reset command: `pnpm kill` stops all Docker containers cleanly.
+- Local stack works on both Unix (bash) and Windows (PowerShell).
+- No external network dependency at boot time (models, weights, datasets downloaded on demand — not at startup).
+
+**Depends on:** Phase 12A
+
+**Success criteria:**
+1. Fresh clone → `pnpm install` → `cp .env.example .env` → `pnpm dev:full` starts everything in < 60 seconds on a standard machine.
+2. Web app is accessible at `http://localhost:5173` after boot.
+3. API is accessible at `http://localhost:3100` after boot.
+4. Swagger docs accessible at `http://localhost:3100/api/docs`.
+5. Demo data loads automatically — no manual setup required.
+6. `pnpm kill` cleanly stops all services.
+7. Stack works on Windows PowerShell without WSL.
+8. README setup section is accurate and matches the actual boot experience.
+
 ## Phase 13, Security & Input Validation Hardening — Planned
 
 **Goal:** Close the basic attack surface of a media upload platform.
@@ -197,7 +222,7 @@ v1.1 is complete only when the repository has:
 - Upload hardening: file size limit, MIME allowlist, magic byte validation, reject corrupted images/videos, never trust original filename, deterministic object keys from SHA-256, project-scoped checksum dedupe, signed URL or controlled asset proxy, no public MinIO bucket requirement.
 - Error responses must be structured and safe. API must not leak internal filesystem paths, stack traces, or storage credentials.
 
-**Depends on:** Phase 11, Phase 12
+**Depends on:** Phase 11, Phase 12A
 
 **Success criteria:**
 1. Unknown fields in request payloads are rejected.
@@ -293,12 +318,23 @@ v1.1 is complete only when the repository has:
 
 **Goal:** Make the CV worker produce real derivative artifacts. Stop returning fake successful media-processing results.
 
+**Architecture rule: API is source of truth for database state.** The FastAPI CV worker reads source objects and writes derivative objects to MinIO, but never writes to the PostgreSQL database. A NestJS BullMQ consumer owns all database transitions.
+
+**Data ownership:**
+- NestJS API: owns job metadata, job state transitions, derivative metadata persistence, audit logs.
+- FastAPI CV worker: reads source object keys from job payload, writes derivative artifacts to MinIO, returns artifact metadata (objectKey, width, height, checksum) to the API consumer.
+
+**Worker contract:**
+- NestJS BullMQ consumer dispatches job to FastAPI worker with `{ jobId, sourceObjectKey, operation }`.
+- FastAPI worker fetches source from MinIO, processes media, writes derivative to MinIO, returns `{ objectKey, width, height, checksum }`.
+- NestJS consumer persists derivative metadata, transitions job state, writes audit log.
+
 **Requirements:**
-- `/cv/create-thumbnail`: Uses Pillow or OpenCV, reads a real source image, produces a real thumbnail image, writes derivative artifact to MinIO.
-- `/cv/extract-frames`: Uses ffmpeg or OpenCV, reads a real source video, produces real frame images, writes frame artifacts to MinIO.
-- Worker receives object keys, not raw blobs. BullMQ payload contains only job ID. API remains source of truth for database state.
-- Worker flow: fetch job by ID → transition QUEUED to RUNNING → fetch source artifact from storage → process media → write derivative artifact to storage → update DB metadata → transition RUNNING to SUCCEEDED.
-- Failure flow: fetch job by ID → transition QUEUED/RUNNING to FAILED → save error details → write audit row → expose failure in UI.
+- `/cv/create-thumbnail`: Uses Pillow or OpenCV, reads a real source image from MinIO, produces a real thumbnail image, writes derivative artifact to MinIO, returns artifact metadata.
+- `/cv/extract-frames`: Uses ffmpeg or OpenCV, reads a real source video from MinIO, produces real frame images, writes frame artifacts to MinIO, returns artifact metadata list.
+- BullMQ payload contains only job ID and source object key — no blob data.
+- Worker flow: NestJS consumer enqueues job → FastAPI reads source → processes → writes derivative → returns metadata → NestJS consumer updates DB → transitions job to SUCCEEDED.
+- Failure flow: NestJS consumer transitions job to FAILED → saves error details → writes audit row → exposes failure in UI.
 
 **Depends on:** Phase 14A, Phase 14B, Phase 15
 
@@ -307,10 +343,12 @@ v1.1 is complete only when the repository has:
 2. Frame extraction endpoint produces real frame images.
 3. Derivative artifacts are persisted to MinIO.
 4. Derivative artifacts are retrievable from the web UI.
-5. Queue payload contains only job ID.
-6. Failed media processing writes structured error details.
-7. Worker never returns SUCCEEDED for mocked media processing.
-8. Integration test proves upload to thumbnail artifact path.
+5. Queue payload contains only job ID and source object key — no blob data.
+6. NestJS consumer owns all DB writes — FastAPI worker has no database access.
+7. FastAPI returns artifact metadata; NestJS persists it.
+8. Failed media processing writes structured error details via NestJS audit log.
+9. Worker never returns SUCCEEDED for mocked media processing.
+10. Integration test proves upload → thumbnail artifact end-to-end with real services.
 
 ## Phase 18, Dataset Locking & Deterministic COCO Export — Planned
 
@@ -353,6 +391,8 @@ v1.1 is complete only when the repository has:
 - No silent fallback from real mode to mock mode.
 - Deterministic mock detector remains available for local development.
 - Predictions persisted with: `inferenceJobId`, `mediaAssetId`, `datasetVersionId`, `pipelineId`, `modelArtifactId`, class label, confidence, bbox coordinates in image space, raw detector metadata where useful.
+- **Model artifact policy:** Model is NOT committed to the repo if > 10MB. Model downloaded via deterministic script from a pinned URL. `ModelArtifact` row stores: name, version, runtime, input shape (H×W), and SHA-256 checksum. On load, checksum is verified before inference. CI uses a small fixture ONNX or mocked ONNX test mode — no internet download required in CI.
+- **Model download script:** `scripts/download-model.sh` / `.ps1` downloads YOLOv8n from `https://github.com/...` (Ultralytics CDN) with pinned version and SHA-256 verification. Script is idempotent and prints the checksum on success.
 
 **Depends on:** Phase 17, Phase 18
 
@@ -364,7 +404,9 @@ v1.1 is complete only when the repository has:
 5. Predictions are traceable to job, model, pipeline, dataset version, and media asset.
 6. ONNX errors are explicit and visible in job logs.
 7. Mock detector remains available only when explicitly selected.
-8. API integration test proves prediction persistence on the database path.
+8. Model artifact has name, version, runtime, input shape, and SHA-256 checksum.
+9. Model loading path is documented and reproducible from a fresh clone.
+10. API integration test proves prediction persistence on the production database path.
 
 ## Phase 20, Evaluation Report End-to-End — Planned
 
@@ -412,14 +454,41 @@ v1.1 is complete only when the repository has:
 6. Existing visual design is preserved.
 7. Frontend tests still pass.
 
-## Phase 22, Production-Path Test Suite — Planned
+## Phase 22A, Test Harness & Fixtures — Planned
+
+**Goal:** Establish a deterministic test infrastructure before building real features. Without a harness, Phase 22 production-path tests become extremely painful.
+
+**Requirements:**
+- `docker compose test-stack.yml`: Postgres, Redis, MinIO seeded with deterministic fixtures — runs independently of dev stack.
+- Deterministic image fixture: a known 640x480 RGB JPEG image committed to the repo (e.g. `fixtures/sample.jpg`, < 100KB). Must produce deterministic SHA-256 and thumbnail across runs.
+- Deterministic video fixture: a known 5-frame MP4 committed to the repo (e.g. `fixtures/sample.mp4`). Must produce deterministic frame count and frame hashes.
+- Seeded MinIO bucket: `fixtures/` directory pre-loaded into the test bucket so tests don't depend on network.
+- Redis test config: isolated Redis database for queue tests.
+- `scripts/test-stack-up.sh` / `.ps1`: one-command test infrastructure boot.
+- `scripts/test-stack-down.sh` / `.ps1`: teardown.
+- `scripts/test-stack-reset.sh` / `.ps1`: reset state between test runs.
+- Pytest fixtures for CV worker: fast unit fixtures (mock ONNX), slow integration fixtures (real YOLOv8n if available).
+- API integration test bootstrap: factory helpers to create project/dataset/media/annotation/pipeline in tests.
+- Test environment variables: `TEST_DATABASE_URL`, `TEST_MINIO_ENDPOINT`, `TEST_REDIS_URL` — no shared state with dev.
+
+**Depends on:** Phase 14A
+
+**Success criteria:**
+1. `docker compose -f infra/test-stack.yml up` starts Postgres, Redis, MinIO with fixtures in < 30s.
+2. `pnpm test:integration` runs against the test stack.
+3. `python -m pytest apps/cv-worker/tests` runs against the test worker.
+4. Deterministic image fixture produces the same SHA-256 and thumbnail output across runs.
+5. Test stack is isolated from dev stack (different ports, different databases).
+6. CI runs test stack provisioning before running production-path tests.
+
+## Phase 22B, Production-Path Test Suite — Planned
 
 **Goal:** Prove the real path, not just memory/demo fallback.
 
 **Requirements:**
 - Add tests for: API integration (Prisma/Postgres path, dataset locking, COCO export, upload validation, prediction persistence, evaluation persistence), storage integration (upload object, read object, persist thumbnail derivative, persist extracted frame derivative, signed URL or controlled proxy behavior), queue integration (enqueue media job, enqueue inference job, worker consumes job, job retry behavior, failed job behavior), CV worker tests (real thumbnail generation, real frame extraction, mock detector deterministic output, ONNX unavailable error, ONNX runtime error, evaluation matching algorithm), contract tests (shared Zod schemas match API expectations, frontend consumes typed API responses).
 
-**Depends on:** Phase 17, Phase 18, Phase 19, Phase 20
+**Depends on:** Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A
 
 **Success criteria:**
 1. Production database path is covered by tests.
@@ -428,7 +497,7 @@ v1.1 is complete only when the repository has:
 4. CV worker real media-processing path is covered by tests.
 5. Evaluation algorithm is covered by deterministic fixtures.
 6. Memory fallback tests remain, but are not the only coverage.
-7. CI runs the production-path test suite.
+7. CI runs the production-path test suite via Phase 22A harness.
 
 ## Phase 23, Full E2E Playwright & Demo Video — Planned
 
@@ -461,7 +530,7 @@ open app → create or select project
 - README embeds or links the demo.
 - README includes final feature matrix and known limitations.
 
-**Depends on:** Phase 22
+**Depends on:** Phase 22B
 
 **Success criteria:**
 1. Full E2E flow passes locally.
@@ -472,6 +541,7 @@ open app → create or select project
 6. Demo GIF or video is embedded in README.
 7. README demonstrates the real vertical slice clearly.
 8. Repository is ready to show as a portfolio project.
+9. Fresh clone → setup → run demo path is documented and verified.
 
 ## v1.1 Completion Definition
 
@@ -520,9 +590,10 @@ v1.1 is complete only when all of the following are true:
 | # | Phase | Blocked By |
 |---|-------|-----------|
 | 11 | Public README & Portfolio First Impression | Phase 10 |
-| 12 | CI/CD Completeness | Phase 10 |
-| 13 | Security & Input Validation Hardening | Phase 11, Phase 12 |
-| 14A | Adapter Boundary Cleanup | Phase 12 |
+| 12A | CI/CD Completeness | Phase 10 |
+| 12B | Local Stack & Seed Reliability | Phase 12A |
+| 13 | Security & Input Validation Hardening | Phase 11, Phase 12A |
+| 14A | Adapter Boundary Cleanup | Phase 12A |
 | 14B | Domain Invariants & State Machines | Phase 14A |
 | 15 | Observability & Health Checks | Phase 14A |
 | 16A | Frontend Split Minimum | Phase 11 |
@@ -531,8 +602,9 @@ v1.1 is complete only when all of the following are true:
 | 19 | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18 |
 | 20 | Evaluation Report End-to-End | Phase 19 |
 | 21 | Frontend Feature Split Completion | Phase 20 |
-| 22 | Production-Path Test Suite | Phase 17, Phase 18, Phase 19, Phase 20 |
-| 23 | Full E2E Playwright & Demo Video | Phase 22 |
+| 22A | Test Harness & Fixtures | Phase 14A |
+| 22B | Production-Path Test Suite | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
+| 23 | Full E2E Playwright & Demo Video | Phase 22B |
 
 ## Brutal Scope Rules
 
@@ -547,6 +619,10 @@ These are hard rules for v1.1:
 - No silent fallback from real mode to mock mode.
 - No fake successful worker status.
 - No public MinIO bucket requirement.
+- No direct database writes from the Python CV worker unless explicitly designed and documented. NestJS API owns all database transitions.
+- No unpinned model artifact in ONNX mode. Every model artifact has a checksum and a reproducible loading path.
+- No hidden external download requirement in CI. ONNX model in CI is either a small fixture or mocked — no internet download at test time.
+- No fresh-clone setup that depends on private local files or network-dependent model downloads at startup.
 - No claim of production readiness until E2E real-service flow passes.
 - v1.1 proves the production path. v1.2 handles the rest.
 

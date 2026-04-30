@@ -2,7 +2,7 @@
 
 ## Current Milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-**Goal:** Convert VisionFlow Studio from a strong prototype into a production-grade portfolio project. Build one real, reproducible, end-to-end CV workflow: upload image → generate real thumbnail → create/lock dataset version → annotate → export deterministic COCO → run real ONNX detector → persist predictions → evaluate → view overlay and metrics. Prove the production path, not the demo path.
+**Goal:** Convert VisionFlow Studio from a strong prototype into a production-hardened local-first portfolio project. Build one real, reproducible, end-to-end CV workflow: upload image → generate real thumbnail → create/lock dataset version → annotate → export deterministic COCO → run real YOLOv8n ONNX detector → persist predictions → evaluate → view overlay and metrics. Prove the production path, not the demo path. Do not claim production-grade platform — this is a local-first prototype for portfolio use.
 
 **Target proof:**
 - One real dataset, one real annotation flow, one real async job, one real worker artifact
@@ -38,11 +38,11 @@ Derived from `Vision Plan.docx` on 2026-04-28.
 
 VisionFlow Studio should be built as vertical slices, not horizontal layers. The core engine is dataset versioning with immutable locked versions, bounding-box annotation storage, pipeline definition, asynchronous inference orchestration with BullMQ, real media processing workers, real ONNX detector, prediction persistence with full traceability, evaluation, COCO export, and audit logs.
 
-v1.0 proved the prototype surface. v1.1 proves the production path — real services, real artifacts, real persistence, real evaluation, and reproducible exports.
+v1.0 proved the prototype surface. v1.1 proves the production path — real services, real artifacts, real persistence, real evaluation, deterministic COCO export, and reproducible exports. The architecture is production-hardened at the local-first level: typed contracts, clean adapter boundaries, explicit state machines, observability, and no silent fallback.
 
 ## v1.1 Product Slice
 
-upload image → generate real thumbnail artifact → create dataset version → add asset → draw bounding-box annotation → lock dataset version → export deterministic COCO → run real detector job → persist predictions → evaluate against ground truth → view overlay and metrics → prove the full flow with Playwright E2E.
+upload image → generate real thumbnail artifact → create dataset version → add asset → draw bounding-box annotation → lock dataset version → export deterministic COCO → run real detector job (YOLOv8n ONNX) → persist predictions → evaluate against ground truth → view overlay and metrics → prove the full flow with Playwright E2E.
 
 ## Stack
 
