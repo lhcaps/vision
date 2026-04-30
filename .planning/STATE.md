@@ -1,8 +1,8 @@
 # State
 
-Current phase: Phase 6, Inference Orchestrator.
+Current phase: Phase 7, CV Worker.
 
-Last updated: 2026-04-29.
+Last updated: 2026-05-01.
 
 ## Completed
 
@@ -19,6 +19,8 @@ Last updated: 2026-04-29.
 - Stabilized Phase 3 dataset API runtime injection with explicit Nest `@Inject(...)` annotations after dev logs showed `DatasetsController.datasetsService` could be undefined.
 - Pushed the current codebase to `https://github.com/lhcaps/Vision.git` on `main`.
 - Implemented Phase 5 pipeline builder: typed pipeline contracts, structured graph validation, API persistence through Prisma/memory paths, mutation audit logging, API sync/save/validate web client, and a polished React Flow inspector with node parameter controls and validation highlighting.
+- Implemented Phase 6 inference orchestrator: typed job creation and stream contracts, locked dataset and valid pipeline validation, BullMQ queue wiring with memory fallback, explicit async worker transitions, SSE job progress, API job list/detail/create routes, and a Jobs workbench that follows backend truth.
+- Completed final Phase 6 review and fixed terminal snapshot stream handling so fast-completing jobs still replay worker history and completion logs in the browser.
 
 ## Verification Evidence
 
@@ -39,13 +41,15 @@ Last updated: 2026-04-29.
 - Docker Compose config validated.
 - Local real-ingestion smoke passed with PostgreSQL and MinIO: first image upload created asset/job/audit rows, duplicate upload deduped by checksum, and MinIO object stat succeeded.
 - Browser screenshot pass covered Media tab desktop/mobile and unsupported MIME UI state.
+- Phase 6 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, API SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
 
 ## Active Goals
 
-- Plan and execute Phase 6: Inference Orchestrator.
-- Connect persisted pipelines and locked dataset versions to queued inference job creation.
-- Replace simulated job progress with explicit async state transitions and worker-visible progress.
+- Plan and execute Phase 7: CV Worker.
+- Connect orchestrated inference jobs to the CV worker detector runtime.
+- Prepare prediction persistence for overlay and evaluation phases.
 
 ## Known Partial Areas
 
-- Job UI shows simulated progress; BullMQ worker execution and streaming progress are not implemented yet.
+- BullMQ live smoke still needs a Redis-backed environment; local verification used the intentional memory worker fallback.
+- Prediction row persistence remains deferred to Phase 8.

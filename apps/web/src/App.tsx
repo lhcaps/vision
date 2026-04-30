@@ -31,6 +31,8 @@ import type {
   DatasetSplit,
   DatasetSummary,
   DatasetVersionSummary,
+  InferenceJobEvent,
+  InferenceJobSummary,
   InferenceJobStatus,
   MediaUploadStatus,
   PipelineDefinition,
@@ -42,6 +44,8 @@ import type {
 } from "@visionflow/contracts";
 import {
   createEmptySplitSummary,
+  InferenceJobEventSchema,
+  isTerminalJobStatus,
   summarizeDatasetSplits,
   validatePipelineDefinition,
   validateMediaMime,
@@ -67,13 +71,21 @@ import {
   updateProjectPipeline,
   validateProjectPipeline,
 } from "./lib/pipelines";
+import {
+  createInferenceJob,
+  listInferenceJobs,
+  mergeJobEvent,
+  openInferenceJobEvents,
+} from "./lib/inference";
 
 type SectionId = "overview" | "media" | "datasets" | "annotate" | "pipeline" | "jobs";
 
-type JobUiState = {
-  status: InferenceJobStatus;
-  progress: number;
-  logCursor: number;
+type JobSourceState = "loading" | "api" | "fallback";
+
+type JobUiState = InferenceJobSummary & {
+  logs: string[];
+  source: JobSourceState;
+  error: string | null;
 };
 
 type MediaUploadRow = {
@@ -123,40 +135,134 @@ export function App() {
     createSeedAnnotationSummaries(),
   );
   const [mediaUploads, setMediaUploads] = useState<MediaUploadRow[]>([]);
-  const [job, setJob] = useState<JobUiState>({
-    status: demoSnapshot.job.status,
-    progress: demoSnapshot.job.progress,
-    logCursor: 2,
-  });
+  const [job, setJob] = useState<JobUiState>(() =>
+    toJobUiState(seededJobSummary(), "fallback", logs.slice(0, 2)),
+  );
   const visibleMediaRows = useMemo(() => [...mediaUploads, ...seededMediaRows()], [mediaUploads]);
 
   useEffect(() => {
-    if (job.status !== "RUNNING") {
+    let cancelled = false;
+
+    setJob((current) => ({
+      ...current,
+      source: "loading",
+      error: null,
+      logs: ["Syncing inference jobs from API."],
+    }));
+
+    void listInferenceJobs(demoSnapshot.project.id)
+      .then((response) => {
+        if (cancelled) {
+          return;
+        }
+
+        const latest = response.jobs[0];
+
+        setJob(
+          latest
+            ? toJobUiState(latest, "api", ["API returned the latest inference job snapshot."])
+            : toJobUiState(seededJobSummary(), "api", ["No inference jobs queued yet."]),
+        );
+      })
+      .catch((error: unknown) => {
+        if (cancelled) {
+          return;
+        }
+
+        setJob((current) => ({
+          ...current,
+          source: "fallback",
+          error: formatUiError(error),
+          logs: ["API unavailable. Job controls will not fake progress."],
+        }));
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (job.source !== "api" || isTerminalJobStatus(job.status)) {
       return;
     }
 
-    const interval = window.setInterval(() => {
-      setJob((current) => {
-        const progress = Math.min(current.progress + 7, 100);
+    const source = openInferenceJobEvents(demoSnapshot.project.id, job.id);
 
-        return {
-          status: progress >= 100 ? "SUCCEEDED" : "RUNNING",
-          progress,
-          logCursor: Math.min(logs.length, current.logCursor + 1),
-        };
-      });
-    }, 560);
+    source.onmessage = (event) => {
+      const parsed = parseJobEvent(event.data);
 
-    return () => window.clearInterval(interval);
-  }, [job.status]);
+      if (!parsed || parsed.jobId !== job.id) {
+        return;
+      }
 
-  const startJob = () => {
+      setJob((current) =>
+        current.id === parsed.jobId
+          ? {
+              ...mergeJobEvent(current, parsed),
+              source: current.source,
+              error: parsed.type === "error" ? parsed.message : null,
+              logs: [...current.logs, parsed.message].slice(-8),
+            }
+          : current,
+      );
+
+      if (parsed.type === "complete" || parsed.type === "error") {
+        source.close();
+      }
+    };
+
+    source.onerror = () => {
+      setJob((current) =>
+        current.id === job.id
+          ? {
+              ...current,
+              error: "Progress stream disconnected. Refresh the job list to resync.",
+              logs: [...current.logs, "Progress stream disconnected."].slice(-8),
+            }
+          : current,
+      );
+      source.close();
+    };
+
+    return () => source.close();
+  }, [job.id, job.source, job.status]);
+
+  const startJob = async () => {
     setSection("jobs");
-    setJob({
-      status: "RUNNING",
-      progress: 24,
-      logCursor: 2,
-    });
+    setJob((current) => ({
+      ...current,
+      status: "QUEUED",
+      progress: 0,
+      source: current.source === "fallback" ? "loading" : current.source,
+      error: null,
+      logs: ["Resolving locked dataset version and persisted pipeline."],
+    }));
+
+    try {
+      const target = await resolveInferenceRunTarget(demoSnapshot.project.id);
+      const response = await createInferenceJob(demoSnapshot.project.id, {
+        datasetVersionId: target.datasetVersionId,
+        pipelineId: target.pipelineId,
+        modelId: null,
+      });
+
+      setJob(
+        toJobUiState(response.job, "api", [
+          "Queue accepted inference payload with IDs only.",
+          `Dataset ${target.datasetVersionLabel} and pipeline ${target.pipelineName} selected.`,
+        ]),
+      );
+    } catch (error) {
+      setJob((current) => ({
+        ...current,
+        status: "FAILED",
+        progress: 100,
+        source: "fallback",
+        error: formatUiError(error),
+        logs: [...current.logs, `Run failed: ${formatUiError(error)}`].slice(-8),
+      }));
+    }
   };
 
   return (
@@ -212,6 +318,84 @@ export function App() {
       </div>
     </div>
   );
+}
+
+async function resolveInferenceRunTarget(projectId: string): Promise<{
+  datasetVersionId: string;
+  datasetVersionLabel: string;
+  pipelineId: string;
+  pipelineName: string;
+}> {
+  const [datasetResponse, pipelineResponse] = await Promise.all([
+    listProjectDatasets(projectId),
+    listProjectPipelines(projectId),
+  ]);
+  const pipeline = pipelineResponse.pipelines.find((item) => item.validation.ok);
+
+  if (!pipeline) {
+    throw new Error("No valid persisted pipeline is available for inference.");
+  }
+
+  for (const dataset of datasetResponse.datasets) {
+    const versions = await listDatasetVersions(projectId, dataset.id);
+    const locked = versions.versions.find(
+      (version) => version.status === "LOCKED" && version.assetCount > 0,
+    );
+
+    if (locked) {
+      return {
+        datasetVersionId: locked.id,
+        datasetVersionLabel: `${dataset.name} ${locked.label}`,
+        pipelineId: pipeline.id,
+        pipelineName: pipeline.name,
+      };
+    }
+  }
+
+  throw new Error("No locked dataset version with assets is available for inference.");
+}
+
+function seededJobSummary(): InferenceJobSummary {
+  return {
+    id: demoSnapshot.job.id,
+    projectId: demoSnapshot.project.id,
+    datasetVersionId: "dataset_proj_parking_lot_parking_v3",
+    pipelineId: "pipeline_proj_parking_lot_parking_detector",
+    modelId: null,
+    status: demoSnapshot.job.status,
+    progress: demoSnapshot.job.progress,
+    createdAt: "2026-04-28T13:35:40.000Z",
+    startedAt: demoSnapshot.job.startedAt ?? null,
+    completedAt: null,
+    errorMessage: null,
+  };
+}
+
+function toJobUiState(
+  summary: InferenceJobSummary,
+  source: JobSourceState,
+  jobLogs: string[],
+): JobUiState {
+  return {
+    ...summary,
+    source,
+    error: summary.errorMessage,
+    logs: jobLogs,
+  };
+}
+
+function parseJobEvent(value: string): InferenceJobEvent | null {
+  try {
+    const parsed = InferenceJobEventSchema.safeParse(JSON.parse(value));
+
+    return parsed.success ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+function formatUiError(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
 function NavRail({
@@ -295,7 +479,8 @@ function ShellHeader({
             title="Run inference"
             aria-label="Run inference"
             onClick={onRun}
-            className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px"
+            disabled={job.source === "loading" || job.status === "RUNNING"}
+            className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Play size={16} weight="fill" />
             Run
@@ -312,7 +497,14 @@ function ReadinessStrip({ job }: { job: JobUiState }) {
     { label: "Schema", value: "Prisma domain mapped", icon: Database, tone: "text-scan-300" },
     {
       label: "Queue",
-      value: job.status === "RUNNING" ? "Worker active" : "Redis standby",
+      value:
+        job.source === "api"
+          ? job.status === "RUNNING"
+            ? "Worker active"
+            : "Redis stream ready"
+          : job.source === "loading"
+            ? "Syncing jobs"
+            : "API fallback",
       icon: Stack,
       tone: "text-amber-300",
     },
@@ -2158,26 +2350,30 @@ function JobsPanel({
   onRun: () => void;
 }) {
   return (
-    <div className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+    <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <Panel>
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
-          <div>
+          <div className="min-w-0">
             <h2 className="text-sm font-semibold text-neutral-100">Inference job</h2>
-            <p className="mt-1 font-mono text-xs text-neutral-500">{demoSnapshot.job.id}</p>
+            <p className="mt-1 truncate font-mono text-xs text-neutral-500">{job.id}</p>
           </div>
-          <button
-            type="button"
-            title="Run inference"
-            aria-label="Run inference"
-            onClick={onRun}
-            className="inline-flex items-center gap-2 rounded-md border border-signal-300/40 bg-signal-300/10 px-3 py-2 text-sm font-medium text-signal-300 transition hover:bg-signal-300/15 active:translate-y-px"
-          >
-            <Play size={16} weight="fill" />
-            Run
-          </button>
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            <JobSourcePill source={job.source} />
+            <button
+              type="button"
+              title="Run inference"
+              aria-label="Run inference"
+              onClick={onRun}
+              disabled={job.source === "loading" || job.status === "RUNNING"}
+              className="version-header-action version-header-action-lock"
+            >
+              <Play size={16} weight="fill" />
+              Run
+            </button>
+          </div>
         </div>
         <div className="p-4">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between gap-3">
             <StatusPill status={job.status} />
             <span className="font-mono text-sm text-neutral-300">{job.progress}%</span>
           </div>
@@ -2189,12 +2385,34 @@ function JobsPanel({
               transition={motionTokens.springSoft}
             />
           </div>
+          {job.error && (
+            <p className="version-action-message version-action-message-error mt-4">{job.error}</p>
+          )}
           <div className="mt-5 rounded-md border border-white/10 bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
-            {logs.slice(0, job.logCursor).map((line) => (
-              <p key={line} className="py-1">
-                {line}
-              </p>
-            ))}
+            {job.logs.length > 0 ? (
+              job.logs.map((line, index) => (
+                <motion.p
+                  key={`${line}-${index}`}
+                  className="py-1"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: motionTokens.durationFast }}
+                >
+                  {line}
+                </motion.p>
+              ))
+            ) : (
+              <p className="py-1 text-neutral-500">No worker logs yet.</p>
+            )}
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            <JobStageStep label="Queued" active={job.progress >= 0} complete={job.progress > 8} />
+            <JobStageStep label="Worker" active={job.progress >= 8} complete={job.progress >= 84} />
+            <JobStageStep
+              label="Complete"
+              active={job.progress === 100}
+              complete={job.status === "SUCCEEDED"}
+            />
           </div>
         </div>
       </Panel>
@@ -2207,6 +2425,46 @@ function JobsPanel({
         </div>
         <VisionPreview selectedAnnotation="ann_02" running={job.status === "RUNNING"} />
       </Panel>
+    </div>
+  );
+}
+
+function JobSourcePill({ source }: { source: JobSourceState }) {
+  const tone =
+    source === "api"
+      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
+      : source === "loading"
+        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
+        : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+
+  return (
+    <span className={`rounded-md border px-2 py-1 font-mono text-xs uppercase ${tone}`}>
+      {source}
+    </span>
+  );
+}
+
+function JobStageStep({
+  label,
+  active,
+  complete,
+}: {
+  label: string;
+  active: boolean;
+  complete: boolean;
+}) {
+  return (
+    <div
+      className={[
+        "rounded-md border px-3 py-2",
+        complete
+          ? "border-signal-300/25 bg-signal-300/[0.08] text-signal-300"
+          : active
+            ? "border-scan-300/25 bg-scan-300/[0.08] text-scan-300"
+            : "border-white/10 bg-white/[0.025] text-neutral-500",
+      ].join(" ")}
+    >
+      <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</p>
     </div>
   );
 }
@@ -2380,7 +2638,7 @@ function StatusPill({ status }: { status: InferenceJobStatus }) {
 function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`rounded-md border border-white/10 bg-graphite-900/75 shadow-panel ${className}`}
+      className={`min-w-0 rounded-md border border-white/10 bg-graphite-900/75 shadow-panel ${className}`}
     >
       {children}
     </div>

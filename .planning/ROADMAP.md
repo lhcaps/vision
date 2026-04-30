@@ -55,15 +55,15 @@ Post-phase UI polish is also complete for the current workbench shell: navigatio
 
 Completed scope includes typed pipeline create/update/validate/list contracts, structured backend graph validation, Prisma and memory fallback persistence paths, API audit logging for persisted mutations, and an upgraded React Flow workbench with API sync, save/validate actions, selected-node parameter controls, validation issue highlighting, and mobile-friendly layout.
 
-## Phase 6, Inference Orchestrator — Partial
+## Phase 6, Inference Orchestrator - Done
 
 - BullMQ queue.
 - Worker state machine.
 - SSE or WebSocket progress.
 
-Current code has a preview endpoint and simulated web progress. BullMQ, Redis worker execution, and streaming progress remain planned.
+Completed scope includes typed job creation contracts, locked dataset and persisted pipeline validation, BullMQ queue wiring, memory worker fallback, explicit job state transitions, SSE snapshot/log/progress/complete events, API job list/detail/create routes, and a Jobs workbench that follows backend progress without client-side simulation.
 
-## Phase 7, CV Worker — Partial
+## Phase 7, CV Worker - Partial
 
 - Mock detector stable response.
 - ONNX detector path.
@@ -71,18 +71,18 @@ Current code has a preview endpoint and simulated web progress. BullMQ, Redis wo
 
 Current code has FastAPI health, mock pipeline, thumbnail, and frame extraction contracts. ONNX and evaluation remain planned.
 
-## Phase 8, Prediction Overlay And Evaluation — Planned
+## Phase 8, Prediction Overlay And Evaluation - Planned
 
 - Job detail.
 - Ground-truth comparison.
 - IoU metrics, precision, recall, F1.
 
-## Phase 9, Timeline Replay And Motion Polish — Planned
+## Phase 9, Timeline Replay And Motion Polish - Planned
 
 - BBox morphs.
 - Dataset diffs.
 - Node execution flow.
 
-## Phase 10, Hardening — Planned
+## Phase 10, Hardening - Planned
 
 - Tests, CI, README, one-command boot, demo script.

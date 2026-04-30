@@ -5,5 +5,6 @@ import { DatasetsService } from "./datasets.service";
 @Module({
   controllers: [DatasetsController],
   providers: [DatasetsService],
+  exports: [DatasetsService],
 })
 export class DatasetsModule {}
