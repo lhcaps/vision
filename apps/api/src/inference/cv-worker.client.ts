@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { createHash } from "node:crypto";
 import {
+  CvWorkerEvaluationPayload,
+  CvWorkerEvaluationRequestSchema,
+  CvWorkerEvaluationResponse,
   CvWorkerRunPipelinePayload,
   CvWorkerRunPipelineRequest,
   CvWorkerRunPipelineRequestSchema,
@@ -15,7 +18,7 @@ export class CvWorkerClient {
     const baseUrl = process.env.CV_WORKER_URL?.replace(/\/+$/, "");
 
     if (!baseUrl || baseUrl === "mock") {
-      return this.runFallback(payload);
+      return this.runPipelineFallback(payload);
     }
 
     const controller = new AbortController();
@@ -52,7 +55,49 @@ export class CvWorkerClient {
     }
   }
 
-  private runFallback(payload: CvWorkerRunPipelinePayload): CvWorkerRunPipelineResponse {
+  async evaluate(request: CvWorkerEvaluationPayload): Promise<CvWorkerEvaluationResponse> {
+    const payload = CvWorkerEvaluationRequestSchema.parse(request);
+    const baseUrl = process.env.CV_WORKER_URL?.replace(/\/+$/, "");
+
+    if (!baseUrl || baseUrl === "mock") {
+      return this.evaluateFallback(payload);
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(
+      () => controller.abort(),
+      Number(process.env.CV_WORKER_TIMEOUT_MS ?? "3500"),
+    );
+
+    try {
+      const response = await fetch(`${baseUrl}/cv/evaluate-detections`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `CV worker evaluate failed with HTTP ${response.status}: ${await readWorkerError(
+            response,
+          )}`,
+        );
+      }
+
+      return (await response.json()) as CvWorkerEvaluationResponse;
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        throw new Error("CV worker evaluate timed out.");
+      }
+
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  private runPipelineFallback(payload: CvWorkerRunPipelinePayload): CvWorkerRunPipelineResponse {
     if (payload.detectorMode === "onnx") {
       throw new Error("ONNX detector mode requires a configured CV_WORKER_URL.");
     }
@@ -74,6 +119,55 @@ export class CvWorkerClient {
       predictions,
       warnings: ["CV_WORKER_URL not configured; used API in-process mock worker fallback."],
     });
+  }
+
+  private evaluateFallback(payload: CvWorkerEvaluationPayload): CvWorkerEvaluationResponse {
+    const IO_U_THRESHOLD = payload.iouThreshold ?? 0.5;
+    const matchedGt = new Set<number>();
+    const matchedPred = new Set<number>();
+    const matches: CvWorkerEvaluationResponse["matches"] = [];
+
+    for (let pi = 0; pi < payload.predictions.length; pi++) {
+      const pred = payload.predictions[pi];
+
+      for (let gi = 0; gi < payload.groundTruth.length; gi++) {
+        if (matchedGt.has(gi)) continue;
+
+        const gt = payload.groundTruth[gi];
+
+        if (pred.assetId !== gt.assetId) continue;
+
+        const iou = boxIntersectionOverUnion(pred.geometry, gt.geometry);
+
+        if (iou >= IO_U_THRESHOLD) {
+          matchedGt.add(gi);
+          matchedPred.add(pi);
+          matches.push({ predictionIndex: pi, groundTruthIndex: gi, assetId: pred.assetId, iou });
+          break;
+        }
+      }
+    }
+
+    const truePositives = matches.length;
+    const falsePositives = payload.predictions.length - truePositives;
+    const falseNegatives = payload.groundTruth.length - truePositives;
+    const precision = payload.predictions.length > 0 ? truePositives / payload.predictions.length : 0;
+    const recall = payload.groundTruth.length > 0 ? truePositives / payload.groundTruth.length : 0;
+    const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+    const meanIou = matches.length > 0 ? matches.reduce((sum, m) => sum + m.iou, 0) / matches.length : 0;
+
+    return {
+      jobId: payload.jobId ?? null,
+      iouThreshold: IO_U_THRESHOLD,
+      truePositive: truePositives,
+      falsePositive: falsePositives,
+      falseNegative: falseNegatives,
+      precision,
+      recall,
+      f1,
+      meanIou,
+      matches,
+    };
   }
 }
 
@@ -105,6 +199,22 @@ function mockPrediction(
       storageKey: asset.storageKey,
     },
   };
+}
+
+function boxIntersectionOverUnion(
+  a: { x: number; y: number; width: number; height: number },
+  b: { x: number; y: number; width: number; height: number },
+): number {
+  const left = Math.max(a.x, b.x);
+  const top = Math.max(a.y, b.y);
+  const right = Math.min(a.x + a.width, b.x + b.width);
+  const bottom = Math.min(a.y + a.height, b.y + b.height);
+  const intersection = Math.max(0, right - left) * Math.max(0, bottom - top);
+  const areaA = Math.max(0, a.width) * Math.max(0, a.height);
+  const areaB = Math.max(0, b.width) * Math.max(0, b.height);
+  const union = areaA + areaB - intersection;
+
+  return union === 0 ? 0 : intersection / union;
 }
 
 async function readWorkerError(response: Response): Promise<string> {

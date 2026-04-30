@@ -22,6 +22,7 @@ Last updated: 2026-05-01.
 - Implemented Phase 6 inference orchestrator: typed job creation and stream contracts, locked dataset and valid pipeline validation, BullMQ queue wiring with memory fallback, explicit async worker transitions, SSE job progress, API job list/detail/create routes, and a Jobs workbench that follows backend truth.
 - Completed final Phase 6 review and fixed terminal snapshot stream handling so fast-completing jobs still replay worker history and completion logs in the browser.
 - Implemented Phase 7 CV worker integration: shared CV worker contracts, FastAPI capability metadata, deterministic thresholded mock detections, explicit ONNX unavailable/runtime/model failures without silent fallback, IoU evaluation metrics, API dispatch from inference jobs to the worker, prediction persistence on the Prisma path, and Jobs logs with worker mode/count evidence.
+- Implemented Phase 8 prediction overlay and evaluation: evaluation contracts, evaluation service with Prisma and memory fallback paths, CvWorkerClient.evaluate() method, API routes for GET/PRED evaluation and job predictions, PredictionOverlayCanvas component with GT/prediction toggle layers, EvaluationMetricsPanel with color-coded metric blocks and per-class breakdown, upgraded JobsPanel with real overlay and metrics integration, and full App.tsx state wiring.
 
 ## Verification Evidence
 
@@ -44,12 +45,11 @@ Last updated: 2026-05-01.
 - Browser screenshot pass covered Media tab desktop/mobile and unsupported MIME UI state.
 - Phase 6 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, API SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
 - Phase 7 focused checks passed: contracts tests, CV worker pytest suite, API tests, API typecheck, web typecheck, API + CV worker SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
+- Phase 8 focused checks passed: 28 contracts tests, 23 API tests, all 4 package typechecks, root `pnpm verify` with production build.
 
 ## Active Goals
 
-- Plan Phase 8: Prediction Overlay And Evaluation.
-- Add job detail views that present worker predictions over media.
-- Surface ground-truth comparison and evaluation results in the workbench.
+- Plan Phase 9: Timeline Replay and Motion Polish.
 
 ## Known Partial Areas
 

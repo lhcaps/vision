@@ -31,6 +31,7 @@ import type {
   DatasetSplit,
   DatasetSummary,
   DatasetVersionSummary,
+  EvaluationReport,
   InferenceJobEvent,
   InferenceJobSummary,
   InferenceJobStatus,
@@ -40,6 +41,7 @@ import type {
   PipelineSummary,
   PipelineValidationIssue,
   PipelineValidationResult,
+  PredictionSummary,
   SplitSummary,
 } from "@visionflow/contracts";
 import {
@@ -57,6 +59,10 @@ import {
   createSeedAnnotationSummaries,
 } from "./features/annotations/AnnotationEngine";
 import {
+  EvaluationMetricsPanel,
+  PredictionOverlayCanvas,
+} from "./features/evaluation";
+import {
   assignDatasetVersionAssets,
   createDataset,
   createDatasetVersion,
@@ -73,9 +79,12 @@ import {
 } from "./lib/pipelines";
 import {
   createInferenceJob,
+  getEvaluationReport,
+  getJobPredictions,
   listInferenceJobs,
   mergeJobEvent,
   openInferenceJobEvents,
+  runEvaluation,
 } from "./lib/inference";
 
 type SectionId = "overview" | "media" | "datasets" | "annotate" | "pipeline" | "jobs";
@@ -138,6 +147,10 @@ export function App() {
   const [job, setJob] = useState<JobUiState>(() =>
     toJobUiState(seededJobSummary(), "fallback", logs.slice(0, 2)),
   );
+  const [evaluationReport, setEvaluationReport] = useState<EvaluationReport | null>(null);
+  const [isEvaluating, setIsEvaluating] = useState(false);
+  const [evaluationError, setEvaluationError] = useState<string | null>(null);
+  const [predictions, setPredictions] = useState<PredictionSummary[]>([]);
   const visibleMediaRows = useMemo(() => [...mediaUploads, ...seededMediaRows()], [mediaUploads]);
 
   useEffect(() => {
@@ -228,6 +241,57 @@ export function App() {
     return () => source.close();
   }, [job.id, job.source, job.status]);
 
+  // Fetch evaluation report and predictions when a completed job is available
+  useEffect(() => {
+    if (job.status !== "SUCCEEDED" || !job.id) {
+      return;
+    }
+
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const [existingReport, predData] = await Promise.all([
+          getEvaluationReport(job.id),
+          getJobPredictions(job.id),
+        ]);
+
+        if (cancelled) return;
+
+        if (existingReport) {
+          setEvaluationReport(existingReport);
+        }
+
+        setPredictions(predData.predictions);
+      } catch {
+        // Evaluation or predictions not available yet - normal before first run
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [job.id, job.status]);
+
+  const handleRunEvaluation = async () => {
+    if (!job.id || isEvaluating) return;
+
+    setIsEvaluating(true);
+    setEvaluationError(null);
+
+    try {
+      const report = await runEvaluation(job.id);
+      setEvaluationReport(report);
+
+      const predData = await getJobPredictions(job.id);
+      setPredictions(predData.predictions);
+    } catch (err) {
+      setEvaluationError(err instanceof Error ? err.message : "Evaluation failed.");
+    } finally {
+      setIsEvaluating(false);
+    }
+  };
+
   const startJob = async () => {
     setSection("jobs");
     setJob((current) => ({
@@ -300,7 +364,17 @@ export function App() {
                   )}
                   {section === "pipeline" && <PipelinePanel />}
                   {section === "jobs" && (
-                    <JobsPanel job={job} threshold={threshold} onRun={startJob} />
+                    <JobsPanel
+                      job={job}
+                      threshold={threshold}
+                      onRun={startJob}
+                      evaluationReport={evaluationReport}
+                      isEvaluating={isEvaluating}
+                      evaluationError={evaluationError}
+                      predictions={predictions}
+                      groundTruth={annotationRows}
+                      onRunEvaluation={handleRunEvaluation}
+                    />
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -2339,10 +2413,22 @@ function JobsPanel({
   job,
   threshold,
   onRun,
+  evaluationReport,
+  isEvaluating,
+  evaluationError,
+  predictions,
+  groundTruth,
+  onRunEvaluation,
 }: {
   job: JobUiState;
   threshold: number;
   onRun: () => void;
+  evaluationReport: EvaluationReport | null;
+  isEvaluating: boolean;
+  evaluationError: string | null;
+  predictions: PredictionSummary[];
+  groundTruth: AnnotationSummary[];
+  onRunEvaluation: () => void;
 }) {
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
@@ -2418,7 +2504,31 @@ function JobsPanel({
             Ground truth and mock detector boxes at threshold {(threshold / 100).toFixed(2)}.
           </p>
         </div>
-        <VisionPreview selectedAnnotation="ann_02" running={job.status === "RUNNING"} />
+        <PredictionOverlayCanvas
+          groundTruth={groundTruth}
+          predictions={predictions}
+          isLoading={job.status === "RUNNING"}
+          error={null}
+        />
+      </Panel>
+      <Panel className="overflow-hidden">
+        <div className="border-b border-white/[0.06] px-4 py-3">
+          <h2 className="text-sm font-semibold text-neutral-100">Evaluation</h2>
+          <p className="mt-1 font-mono text-xs text-neutral-500">
+            {evaluationReport
+              ? `Precision ${evaluationReport.precision.toFixed(3)} / Recall ${evaluationReport.recall.toFixed(3)}`
+              : "No evaluation run yet"}
+          </p>
+        </div>
+        <div className="p-4">
+          <EvaluationMetricsPanel
+            report={evaluationReport}
+            isLoading={false}
+            error={evaluationError}
+            onRunEvaluation={onRunEvaluation}
+            isEvaluating={isEvaluating}
+          />
+        </div>
       </Panel>
     </div>
   );

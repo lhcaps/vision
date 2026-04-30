@@ -1,6 +1,7 @@
 export * from "./annotations";
 export * from "./cv-worker";
 export * from "./datasets";
+export * from "./evaluation";
 export * from "./geometry";
 export * from "./jobs";
 export * from "./media";

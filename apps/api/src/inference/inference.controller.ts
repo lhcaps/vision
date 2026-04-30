@@ -14,18 +14,26 @@ import { z } from "zod";
 import {
   CreateInferenceJobRequestSchema,
   CreateInferenceJobResponseSchema,
+  EvaluationReportListResponseSchema,
+  EvaluationReportSchema,
+  EvaluationRunResponseSchema,
   InferenceJobListResponseSchema,
   InferenceJobPreviewSchema,
   InferenceJobSummarySchema,
+  PredictionListResponseSchema,
   validatePipelineDefinition,
 } from "@visionflow/contracts";
 import { demoSnapshot } from "../projects/demo-snapshot";
+import { EvaluationService } from "./evaluation.service";
 import { InferenceService } from "./inference.service";
 
 @ApiTags("inference")
 @Controller("projects/:projectId/inference-jobs")
 export class InferenceController {
-  constructor(@Inject(InferenceService) private readonly inferenceService: InferenceService) {}
+  constructor(
+    @Inject(InferenceService) private readonly inferenceService: InferenceService,
+    @Inject(EvaluationService) private readonly evaluationService: EvaluationService,
+  ) {}
 
   @Get()
   @ApiOkResponse({
@@ -112,6 +120,43 @@ export class InferenceController {
         progress: 0,
       },
     };
+  }
+
+  @Get(":jobId/evaluation")
+  @ApiOkResponse({
+    description: "Get the most recent evaluation report for an inference job.",
+  })
+  async getEvaluation(@Param("jobId") jobId: string) {
+    const report = await this.evaluationService.getEvaluationReport(jobId);
+
+    return EvaluationRunResponseSchema.parse({ report });
+  }
+
+  @Post("evaluate")
+  @ApiBody({
+    schema: {
+      example: {
+        jobId: "job_2026_04_28_2036",
+      },
+    },
+  })
+  @ApiOkResponse({
+    description: "Run evaluation for an inference job and return the evaluation report.",
+  })
+  async runEvaluation(@Body() body: unknown) {
+    const report = await this.evaluationService.runEvaluation(body);
+
+    return EvaluationRunResponseSchema.parse({ report });
+  }
+
+  @Get(":jobId/predictions")
+  @ApiOkResponse({
+    description: "Get all prediction rows for an inference job.",
+  })
+  async getPredictions(@Param("jobId") jobId: string) {
+    const predictions = await this.evaluationService.getPredictionsForJob(jobId);
+
+    return PredictionListResponseSchema.parse({ predictions });
   }
 }
 

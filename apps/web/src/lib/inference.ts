@@ -1,9 +1,12 @@
 import type {
   CreateInferenceJobRequest,
   CreateInferenceJobResponse,
+  EvaluationReport,
+  EvaluationRunResponse,
   InferenceJobEvent,
   InferenceJobListResponse,
   InferenceJobSummary,
+  PredictionListResponse,
 } from "@visionflow/contracts";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:3000";
@@ -20,6 +23,32 @@ export async function createInferenceJob(
     method: "POST",
     body: JSON.stringify(body),
   });
+}
+
+export async function getEvaluationReport(jobId: string): Promise<EvaluationReport | null> {
+  const data = await apiJson<EvaluationRunResponse>(
+    `/api/projects/proj_parking_lot/inference-jobs/${jobId}/evaluation`,
+  );
+
+  return data.report ?? null;
+}
+
+export async function runEvaluation(jobId: string): Promise<EvaluationReport> {
+  const data = await apiJson<EvaluationRunResponse>(
+    `/api/projects/proj_parking_lot/inference-jobs/evaluate`,
+    {
+      method: "POST",
+      body: JSON.stringify({ jobId }),
+    },
+  );
+
+  return data.report;
+}
+
+export async function getJobPredictions(jobId: string): Promise<PredictionListResponse> {
+  return apiJson<PredictionListResponse>(
+    `/api/projects/proj_parking_lot/inference-jobs/${jobId}/predictions`,
+  );
 }
 
 export function openInferenceJobEvents(projectId: string, jobId: string): EventSource {
