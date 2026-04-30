@@ -8,6 +8,7 @@ Date: 2026-05-01
 ### Wave 1 — Backend
 
 **Contracts** (`packages/contracts/src/evaluation.ts`):
+
 - `PerClassMetricSchema` — per-class precision/recall/F1/TP/FP/FN/count
 - `EvaluationReportSummarySchema` — top-level IoU metrics (without per-class breakdown)
 - `EvaluationReportSchema` — full report with `perClassMetrics[]`
@@ -15,26 +16,31 @@ Date: 2026-05-01
 - `EvaluationReportListResponseSchema`, `EvaluationRunResponseSchema`, `PredictionListResponseSchema`, `RunEvaluationRequestSchema`
 
 **EvaluationService** (`apps/api/src/inference/evaluation.service.ts`):
+
 - `getEvaluationReport(jobId)` — reads cached report from Prisma or memory cache
 - `runEvaluation(dto)` — computes IoU-based metrics (in-process fallback when CV_WORKER_URL absent), persists to Prisma
 - `getPredictionsForJob(jobId)` — returns prediction rows with label/color metadata
 - Dual-path architecture: Prisma when DATABASE_URL is set, memory fallback otherwise
 
 **CvWorkerClient.evaluate()** (`apps/api/src/inference/cv-worker.client.ts`):
+
 - HTTP POST to `CV_WORKER_URL/cv/evaluate-detections` when configured
 - Inline IoU fallback when no CV worker is available
 
 **API Routes** (`apps/api/src/inference/inference.controller.ts`):
+
 - `GET /projects/:projectId/inference-jobs/:jobId/evaluation` — returns latest report
 - `POST /projects/:projectId/inference-jobs/evaluate` — runs evaluation, returns full report
 - `GET /projects/:projectId/inference-jobs/:jobId/predictions` — returns prediction rows
 
 **Module Wiring** (`apps/api/src/inference/inference.module.ts`):
+
 - `EvaluationService` added to providers, injected into `InferenceController`
 
 ### Wave 2 — Frontend
 
 **PredictionOverlayCanvas** (`apps/web/src/features/evaluation/PredictionOverlayCanvas.tsx`):
+
 - Layered canvas with radial gradient base, atmospheric bottom fade, atmospheric grid overlay
 - GT boxes: dashed border, green tint fill, label tag
 - Prediction boxes: solid border, amber tint fill, confidence tag
@@ -44,6 +50,7 @@ Date: 2026-05-01
 - Loading skeleton, empty, error states
 
 **EvaluationMetricsPanel** (`apps/web/src/features/evaluation/EvaluationMetricsPanel.tsx`):
+
 - Three primary metric cards (Precision / Recall / F1) with color-coded values
 - Mean IoU card, TP/FP/FN count tiles with signal/amber/red color coding
 - Evaluated-at and asset-count meta block
@@ -53,6 +60,7 @@ Date: 2026-05-01
 - Retry button on error
 
 **JobsPanel upgrade** (`apps/web/src/App.tsx`):
+
 - Three-column grid: Job detail (left) / Prediction overlay canvas (center) / Evaluation metrics (right)
 - App state for evaluationReport, isEvaluating, evaluationError, predictions
 - Effect to fetch evaluation and predictions when job reaches SUCCEEDED

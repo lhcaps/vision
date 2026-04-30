@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {  :root {
+@layer base {
+  :root {
     color-scheme: dark;
     font-family:
       Geist,
@@ -10,7 +11,7 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      "Segoe UI",
+      'Segoe UI',
       sans-serif;
     background: oklch(13.5% 0.008 180);
 
@@ -29,7 +30,7 @@
     --color-graphite-800: oklch(24% 0.01 180);
     --color-graphite-700: oklch(33% 0.012 180);
     --color-graphite-300: oklch(94% 0.006 180 / 0.14);
-    --color-graphite-200: oklch(94% 0.006 180 / 0.10);
+    --color-graphite-200: oklch(94% 0.006 180 / 0.1);
     --color-graphite-100: oklch(94% 0.006 180 / 0.07);
 
     /* Design system border tints */
@@ -63,7 +64,7 @@ input {
 /* ─── Inner Border (replaces border-white/10) ─────── */
 /* Premium inner-glow border — zero visible white, pure graphite tint */
 .inner-border {
-  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.10);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.1);
 }
 
 .inner-border-subtle {
@@ -95,7 +96,9 @@ input {
 .nav-logo {
   flex: 0 0 auto;
   background: oklch(80% 0.13 152 / 0.07);
-  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.22), inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
+  box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.22),
+    inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
 }
 
 .nav-button {
@@ -106,7 +109,7 @@ input {
 }
 
 .nav-button::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: 6px;
@@ -131,7 +134,9 @@ input {
 /* Active nav item — tint + inner glow, NO border */
 .nav-active-surface {
   background: oklch(80% 0.13 152 / 0.12);
-  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.2), inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
+  box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.2),
+    inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
 }
 
 /* ─── Threshold Slider ─────────────────────────── */
@@ -233,7 +238,8 @@ input {
 
 .media-assets-scroll::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3)) content-box;
+  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3))
+    content-box;
 }
 
 .media-assets-table {
@@ -378,7 +384,9 @@ input {
 
 .version-card-selected {
   background: oklch(80% 0.13 152 / 0.07);
-  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.22), inset 0 1px 0 oklch(98% 0.006 180 / 0.05);
+  box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.22),
+    inset 0 1px 0 oklch(98% 0.006 180 / 0.05);
 }
 
 /* Version header actions — tint-based, NO borders */
@@ -449,11 +457,13 @@ input {
 
 .version-assets-scroll::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3)) content-box;
+  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3))
+    content-box;
 }
 
 .version-assets-scroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, oklch(80% 0.13 152 / 0.65), oklch(76% 0.05 180 / 0.5)) content-box;
+  background: linear-gradient(90deg, oklch(80% 0.13 152 / 0.65), oklch(76% 0.05 180 / 0.5))
+    content-box;
 }
 
 .version-assets-table {
@@ -466,8 +476,7 @@ input {
 }
 
 .version-asset-row {
-  transition:
-    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .version-asset-row:hover {
@@ -508,7 +517,7 @@ input {
 }
 
 .asset-select-box::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 4px;
   top: 1px;
@@ -576,7 +585,7 @@ input {
   align-items: center;
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   font-size: 0.75rem;
   line-height: 1rem;
   box-shadow: inset 0 0 0 1px color-mix(in oklch, currentColor 24%, transparent);
@@ -621,7 +630,7 @@ input {
   padding: 0.5rem 0.75rem;
   background: oklch(94% 0.006 180 / 0.02);
   color: oklch(72% 0.006 180);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   font-size: 0.75rem;
   line-height: 1rem;
   transition:
@@ -683,7 +692,7 @@ input {
 /* ─── Vision Stage ─────────────────────────────── */
 
 .vision-stage::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -707,7 +716,7 @@ input {
 /* ─── Annotation Canvas ────────────────────────── */
 
 .annotation-canvas::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -827,7 +836,7 @@ input {
   top: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, rgba(92, 200, 255, 0.78), transparent);
-  animation: scan 2.0s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: scan 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 /* ─── Keyframes ───────────────────────────────── */
@@ -903,8 +912,8 @@ input {
 /* ─── Button & Badge Variants ─── */
 /* Pre-built opacity variants — Tailwind /opacity doesn't work with oklch() tĩnh */
 .btn-signal-outline {
-  border: 1px solid oklch(80% 0.13 152 / 0.40);
-  background-color: oklch(80% 0.13 152 / 0.10);
+  border: 1px solid oklch(80% 0.13 152 / 0.4);
+  background-color: oklch(80% 0.13 152 / 0.1);
   color: oklch(80% 0.13 152);
   border-radius: 6px;
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -921,8 +930,8 @@ input {
 }
 
 .btn-amber-outline {
-  border: 1px solid oklch(82% 0.13 88 / 0.40);
-  background-color: oklch(82% 0.13 88 / 0.10);
+  border: 1px solid oklch(82% 0.13 88 / 0.4);
+  background-color: oklch(82% 0.13 88 / 0.1);
   color: oklch(82% 0.13 88);
   border-radius: 6px;
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -935,8 +944,8 @@ input {
 }
 
 .btn-scan-outline {
-  border: 1px solid oklch(79% 0.12 190 / 0.40);
-  background-color: oklch(79% 0.12 190 / 0.10);
+  border: 1px solid oklch(79% 0.12 190 / 0.4);
+  background-color: oklch(79% 0.12 190 / 0.1);
   color: oklch(79% 0.12 190);
   border-radius: 6px;
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -951,13 +960,13 @@ input {
 /* Selected asset row — signal tint */
 .asset-row-selected {
   border: 1px solid oklch(80% 0.13 152 / 0.45);
-  background-color: oklch(80% 0.13 152 / 0.10);
+  background-color: oklch(80% 0.13 152 / 0.1);
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-red-outline {
-  border: 1px solid oklch(76% 0.14 25 / 0.40);
-  background-color: oklch(76% 0.14 25 / 0.10);
+  border: 1px solid oklch(76% 0.14 25 / 0.4);
+  background-color: oklch(76% 0.14 25 / 0.1);
   color: oklch(76% 0.14 25);
   border-radius: 6px;
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -1047,32 +1056,32 @@ input {
 
 /* Status pills */
 .badge-signal {
-  border: 1px solid oklch(80% 0.13 152 / 0.40);
-  background-color: oklch(80% 0.13 152 / 0.10);
+  border: 1px solid oklch(80% 0.13 152 / 0.4);
+  background-color: oklch(80% 0.13 152 / 0.1);
   color: oklch(80% 0.13 152);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
 }
 .badge-amber {
-  border: 1px solid oklch(82% 0.13 88 / 0.40);
-  background-color: oklch(82% 0.13 88 / 0.10);
+  border: 1px solid oklch(82% 0.13 88 / 0.4);
+  background-color: oklch(82% 0.13 88 / 0.1);
   color: oklch(82% 0.13 88);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
 }
 .badge-scan {
-  border: 1px solid oklch(79% 0.12 190 / 0.40);
-  background-color: oklch(79% 0.12 190 / 0.10);
+  border: 1px solid oklch(79% 0.12 190 / 0.4);
+  background-color: oklch(79% 0.12 190 / 0.1);
   color: oklch(79% 0.12 190);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
 }
 .badge-red {
-  border: 1px solid oklch(76% 0.14 25 / 0.40);
-  background-color: oklch(76% 0.14 25 / 0.10);
+  border: 1px solid oklch(76% 0.14 25 / 0.4);
+  background-color: oklch(76% 0.14 25 / 0.1);
   color: oklch(76% 0.14 25);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1081,8 +1090,8 @@ input {
 
 /* Status pills — signal/amber/scan/red inline badges */
 .pill-signal {
-  border: 1px solid oklch(80% 0.13 152 / 0.40);
-  background-color: oklch(80% 0.13 152 / 0.10);
+  border: 1px solid oklch(80% 0.13 152 / 0.4);
+  background-color: oklch(80% 0.13 152 / 0.1);
   color: oklch(80% 0.13 152);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1092,8 +1101,8 @@ input {
   text-transform: uppercase;
 }
 .pill-amber {
-  border: 1px solid oklch(82% 0.13 88 / 0.40);
-  background-color: oklch(82% 0.13 88 / 0.10);
+  border: 1px solid oklch(82% 0.13 88 / 0.4);
+  background-color: oklch(82% 0.13 88 / 0.1);
   color: oklch(82% 0.13 88);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1103,8 +1112,8 @@ input {
   text-transform: uppercase;
 }
 .pill-scan {
-  border: 1px solid oklch(79% 0.12 190 / 0.40);
-  background-color: oklch(79% 0.12 190 / 0.10);
+  border: 1px solid oklch(79% 0.12 190 / 0.4);
+  background-color: oklch(79% 0.12 190 / 0.1);
   color: oklch(79% 0.12 190);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1114,8 +1123,8 @@ input {
   text-transform: uppercase;
 }
 .pill-red {
-  border: 1px solid oklch(76% 0.14 25 / 0.40);
-  background-color: oklch(76% 0.14 25 / 0.10);
+  border: 1px solid oklch(76% 0.14 25 / 0.4);
+  background-color: oklch(76% 0.14 25 / 0.1);
   color: oklch(76% 0.14 25);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1161,7 +1170,7 @@ input {
 /* Toolbar icon button — active signal */
 .tool-btn-signal-active {
   border: 1px solid oklch(80% 0.13 152 / 0.45);
-  background-color: oklch(80% 0.13 152 / 0.10);
+  background-color: oklch(80% 0.13 152 / 0.1);
   color: oklch(80% 0.13 152);
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1169,8 +1178,8 @@ input {
   background-color: oklch(80% 0.13 152 / 0.15);
 }
 .tool-btn-red-active {
-  border: 1px solid oklch(76% 0.14 25 / 0.30);
-  background-color: oklch(76% 0.14 25 / 0.10);
+  border: 1px solid oklch(76% 0.14 25 / 0.3);
+  background-color: oklch(76% 0.14 25 / 0.1);
   color: oklch(76% 0.14 25);
   transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1180,13 +1189,22 @@ input {
 
 /* ─── Pipeline Execution Flow ─── */
 @keyframes edge-flow {
-  from { stroke-dashoffset: 24; }
-  to { stroke-dashoffset: 0; }
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes node-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(92, 200, 255, 0); }
-  50% { box-shadow: 0 0 12px 2px rgba(92, 200, 255, 0.4); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(92, 200, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(92, 200, 255, 0.4);
+  }
 }
 
 .flowing-edge {

@@ -4,56 +4,56 @@ import type {
   CreateAnnotationRequest,
   DeleteAnnotationResponse,
   UpdateAnnotationRequest,
-} from "@visionflow/contracts";
+} from '@visionflow/contracts';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:3000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:3000';
 
 export async function loadAnnotationWorkspace(
   projectId: string,
   datasetVersionId: string,
-  assetId?: string,
+  assetId?: string
 ): Promise<AnnotationWorkspaceResponse> {
-  const query = assetId ? `?assetId=${encodeURIComponent(assetId)}` : "";
+  const query = assetId ? `?assetId=${encodeURIComponent(assetId)}` : '';
 
   return apiJson<AnnotationWorkspaceResponse>(
-    `/api/projects/${projectId}/dataset-versions/${datasetVersionId}/annotation-workspace${query}`,
+    `/api/projects/${projectId}/dataset-versions/${datasetVersionId}/annotation-workspace${query}`
   );
 }
 
 export async function createAnnotation(
   projectId: string,
   annotationSetId: string,
-  body: CreateAnnotationRequest,
+  body: CreateAnnotationRequest
 ): Promise<AnnotationSummary> {
   return apiJson<AnnotationSummary>(
     `/api/projects/${projectId}/annotation-sets/${annotationSetId}/annotations`,
     {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(body),
-    },
+    }
   );
 }
 
 export async function updateAnnotation(
   projectId: string,
   annotationId: string,
-  body: UpdateAnnotationRequest,
+  body: UpdateAnnotationRequest
 ): Promise<AnnotationSummary> {
   return apiJson<AnnotationSummary>(`/api/projects/${projectId}/annotations/${annotationId}`, {
-    method: "PATCH",
+    method: 'PATCH',
     body: JSON.stringify(body),
   });
 }
 
 export async function deleteAnnotation(
   projectId: string,
-  annotationId: string,
+  annotationId: string
 ): Promise<DeleteAnnotationResponse> {
   return apiJson<DeleteAnnotationResponse>(
     `/api/projects/${projectId}/annotations/${annotationId}`,
     {
-      method: "DELETE",
-    },
+      method: 'DELETE',
+    }
   );
 }
 
@@ -61,7 +61,7 @@ async function apiJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       ...init?.headers,
     },
   });
@@ -81,15 +81,15 @@ async function readApiError(response: Response): Promise<string> {
       detail?: string;
     };
 
-    if (typeof body.message === "string") {
+    if (typeof body.message === 'string') {
       return body.message;
     }
 
     if (Array.isArray(body.message)) {
-      return body.message.join(", ");
+      return body.message.join(', ');
     }
 
-    if (typeof body.message === "object" && body.message?.message) {
+    if (typeof body.message === 'object' && body.message?.message) {
       return body.message.detail
         ? `${body.message.message}: ${body.message.detail}`
         : body.message.message;

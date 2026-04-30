@@ -21,9 +21,9 @@ files_modified:
   - docs/architecture/overview.md
   - docs/demo-script.md
 requirements:
-  - "Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation."
-  - "Prisma schema covering project, media assets, dataset versions, annotation sets, annotations, model artifacts, pipelines, inference jobs, predictions, evaluation reports, and audit logs."
-  - "Shared contracts for bounding boxes, pipeline validation, inference job states, and media ingestion responses."
+  - 'Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation.'
+  - 'Prisma schema covering project, media assets, dataset versions, annotation sets, annotations, model artifacts, pipelines, inference jobs, predictions, evaluation reports, and audit logs.'
+  - 'Shared contracts for bounding boxes, pipeline validation, inference job states, and media ingestion responses.'
 ---
 
 # Phase 4 Plan: Annotation Engine

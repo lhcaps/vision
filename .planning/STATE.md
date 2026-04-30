@@ -1,6 +1,6 @@
 # State
 
-Current phase: Phase 8, Prediction Overlay And Evaluation.
+Current phase: Phase 10, Hardening.
 
 Last updated: 2026-05-01.
 
@@ -23,6 +23,8 @@ Last updated: 2026-05-01.
 - Completed final Phase 6 review and fixed terminal snapshot stream handling so fast-completing jobs still replay worker history and completion logs in the browser.
 - Implemented Phase 7 CV worker integration: shared CV worker contracts, FastAPI capability metadata, deterministic thresholded mock detections, explicit ONNX unavailable/runtime/model failures without silent fallback, IoU evaluation metrics, API dispatch from inference jobs to the worker, prediction persistence on the Prisma path, and Jobs logs with worker mode/count evidence.
 - Implemented Phase 8 prediction overlay and evaluation: evaluation contracts, evaluation service with Prisma and memory fallback paths, CvWorkerClient.evaluate() method, API routes for GET/PRED evaluation and job predictions, PredictionOverlayCanvas component with GT/prediction toggle layers, EvaluationMetricsPanel with color-coded metric blocks and per-class breakdown, upgraded JobsPanel with real overlay and metrics integration, and full App.tsx state wiring.
+- Implemented Phase 9 timeline replay and motion polish: `TimelineReplayPanel` with BBox morph engine, `DatasetVersionDiff` with IoU-based diff computation, `PipelineExecutionFlow` with particle edge animations, and global CSS consolidation.
+- Implemented Phase 10 hardening: unified Vitest workspace with 118 tests across 4 packages, GitHub Actions CI + E2E workflows, ESLint + Prettier with root config, project README, one-command boot scripts (Unix + PowerShell), demo data validator, and Playwright E2E test scaffolding.
 
 ## Verification Evidence
 
@@ -46,12 +48,15 @@ Last updated: 2026-05-01.
 - Phase 6 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, API SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
 - Phase 7 focused checks passed: contracts tests, CV worker pytest suite, API tests, API typecheck, web typecheck, API + CV worker SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
 - Phase 8 focused checks passed: 28 contracts tests, 23 API tests, all 4 package typechecks, root `pnpm verify` with production build.
+- Phase 10 focused checks passed: 118 tests across 4 packages, all 4 package typechecks, production build, ESLint lint, Prettier format check, GitHub Actions CI and E2E workflows created.
 
 ## Active Goals
 
-- Plan Phase 9: Timeline Replay and Motion Polish.
+- Push Phase 10 to GitHub.
 
 ## Known Partial Areas
 
 - BullMQ live smoke still needs a Redis-backed environment; local verification used the intentional memory worker fallback.
 - ONNX inference execution remains gated until a model artifact and postprocess configuration are supplied; Phase 7 intentionally fails loudly instead of falling back to mock.
+- Playwright E2E tests require `pnpm exec playwright install chromium` to run locally; CI workflow handles installation.
+

@@ -15,7 +15,7 @@ import {
   TimerIcon as Timer,
   UploadSimpleIcon as UploadSimple,
   WarningCircleIcon as WarningCircle,
-} from "@phosphor-icons/react";
+} from '@phosphor-icons/react';
 import {
   Background,
   Controls,
@@ -24,10 +24,10 @@ import {
   Node as FlowNode,
   Position,
   ReactFlow,
-} from "@xyflow/react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { CSSProperties, Dispatch, SetStateAction } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+} from '@xyflow/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import type { CSSProperties, Dispatch, SetStateAction } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AnnotationSummary,
   DatasetSplit,
@@ -45,7 +45,7 @@ import type {
   PipelineValidationResult,
   PredictionSummary,
   SplitSummary,
-} from "@visionflow/contracts";
+} from '@visionflow/contracts';
 import {
   createEmptySplitSummary,
   InferenceJobEventSchema,
@@ -53,22 +53,19 @@ import {
   summarizeDatasetSplits,
   validatePipelineDefinition,
   validateMediaMime,
-} from "@visionflow/contracts";
-import { motionTokens } from "@visionflow/motion";
-import { demoSnapshot, logs, pipelineValidation } from "./data/demo";
+} from '@visionflow/contracts';
+import { motionTokens } from '@visionflow/motion';
+import { demoSnapshot, logs, pipelineValidation } from './data/demo';
 import {
   AnnotationEnginePanel,
   createSeedAnnotationSummaries,
-} from "./features/annotations/AnnotationEngine";
-import {
-  EvaluationMetricsPanel,
-  PredictionOverlayCanvas,
-} from "./features/evaluation";
+} from './features/annotations/AnnotationEngine';
+import { EvaluationMetricsPanel, PredictionOverlayCanvas } from './features/evaluation';
 import {
   TimelineReplayPanel,
   DatasetVersionDiff,
   PipelineExecutionFlow,
-} from "./features/timeline";
+} from './features/timeline';
 import {
   assignDatasetVersionAssets,
   createDataset,
@@ -76,14 +73,14 @@ import {
   listDatasetVersions,
   listProjectDatasets,
   lockDatasetVersion,
-} from "./lib/datasets";
-import { checksumFile, uploadMediaFile } from "./lib/media-upload";
+} from './lib/datasets';
+import { checksumFile, uploadMediaFile } from './lib/media-upload';
 import {
   createProjectPipeline,
   listProjectPipelines,
   updateProjectPipeline,
   validateProjectPipeline,
-} from "./lib/pipelines";
+} from './lib/pipelines';
 import {
   createInferenceJob,
   getEvaluationReport,
@@ -92,11 +89,19 @@ import {
   mergeJobEvent,
   openInferenceJobEvents,
   runEvaluation,
-} from "./lib/inference";
+} from './lib/inference';
 
-type SectionId = "overview" | "media" | "datasets" | "annotate" | "pipeline" | "jobs" | "timeline" | "diff";
+type SectionId =
+  | 'overview'
+  | 'media'
+  | 'datasets'
+  | 'annotate'
+  | 'pipeline'
+  | 'jobs'
+  | 'timeline'
+  | 'diff';
 
-type JobSourceState = "loading" | "api" | "fallback";
+type JobSourceState = 'loading' | 'api' | 'fallback';
 
 type JobUiState = InferenceJobSummary & {
   logs: string[];
@@ -107,10 +112,10 @@ type JobUiState = InferenceJobSummary & {
 type MediaUploadRow = {
   id: string;
   name: string;
-  type: "IMAGE" | "VIDEO" | "FRAME";
+  type: 'IMAGE' | 'VIDEO' | 'FRAME';
   checksum: string;
   split: string;
-  status: MediaUploadStatus | "hashing" | "uploading";
+  status: MediaUploadStatus | 'hashing' | 'uploading';
   progress: number;
   sizeBytes: number;
   width: number | null;
@@ -119,7 +124,7 @@ type MediaUploadRow = {
   processingJob?: string;
 };
 
-type DatasetSourceState = "loading" | "api" | "fallback";
+type DatasetSourceState = 'loading' | 'api' | 'fallback';
 type PipelineSourceState = DatasetSourceState;
 
 type DatasetActionState = {
@@ -128,33 +133,33 @@ type DatasetActionState = {
   error: string | null;
 };
 
-const datasetSplits: DatasetSplit[] = ["TRAIN", "VALID", "TEST", "UNASSIGNED"];
+const datasetSplits: DatasetSplit[] = ['TRAIN', 'VALID', 'TEST', 'UNASSIGNED'];
 
 const sections: Array<{
   id: SectionId;
   label: string;
   icon: typeof Activity;
 }> = [
-  { id: "overview", label: "Command", icon: Activity },
-  { id: "media", label: "Media", icon: ImageSquare },
-  { id: "datasets", label: "Versions", icon: GitBranch },
-  { id: "annotate", label: "Annotate", icon: BoundingBox },
-  { id: "pipeline", label: "Pipeline", icon: Graph },
-  { id: "jobs", label: "Jobs", icon: Timer },
-  { id: "timeline", label: "Replay", icon: PlayCircle },
-  { id: "diff", label: "Diff", icon: ArrowsLeftRight },
+  { id: 'overview', label: 'Command', icon: Activity },
+  { id: 'media', label: 'Media', icon: ImageSquare },
+  { id: 'datasets', label: 'Versions', icon: GitBranch },
+  { id: 'annotate', label: 'Annotate', icon: BoundingBox },
+  { id: 'pipeline', label: 'Pipeline', icon: Graph },
+  { id: 'jobs', label: 'Jobs', icon: Timer },
+  { id: 'timeline', label: 'Replay', icon: PlayCircle },
+  { id: 'diff', label: 'Diff', icon: ArrowsLeftRight },
 ];
 
 export function App() {
-  const [section, setSection] = useState<SectionId>("overview");
+  const [section, setSection] = useState<SectionId>('overview');
   const [threshold, setThreshold] = useState(62);
-  const [selectedAnnotation, setSelectedAnnotation] = useState("ann_02");
+  const [selectedAnnotation, setSelectedAnnotation] = useState('ann_02');
   const [annotationRows, setAnnotationRows] = useState<AnnotationSummary[]>(() =>
-    createSeedAnnotationSummaries(),
+    createSeedAnnotationSummaries()
   );
   const [mediaUploads, setMediaUploads] = useState<MediaUploadRow[]>([]);
   const [job, setJob] = useState<JobUiState>(() =>
-    toJobUiState(seededJobSummary(), "fallback", logs.slice(0, 2)),
+    toJobUiState(seededJobSummary(), 'fallback', logs.slice(0, 2))
   );
   const [evaluationReport, setEvaluationReport] = useState<EvaluationReport | null>(null);
   const [isEvaluating, setIsEvaluating] = useState(false);
@@ -167,9 +172,9 @@ export function App() {
 
     setJob((current) => ({
       ...current,
-      source: "loading",
+      source: 'loading',
       error: null,
-      logs: ["Syncing inference jobs from API."],
+      logs: ['Syncing inference jobs from API.'],
     }));
 
     void listInferenceJobs(demoSnapshot.project.id)
@@ -182,8 +187,8 @@ export function App() {
 
         setJob(
           latest
-            ? toJobUiState(latest, "api", ["API returned the latest inference job snapshot."])
-            : toJobUiState(seededJobSummary(), "api", ["No inference jobs queued yet."]),
+            ? toJobUiState(latest, 'api', ['API returned the latest inference job snapshot.'])
+            : toJobUiState(seededJobSummary(), 'api', ['No inference jobs queued yet.'])
         );
       })
       .catch((error: unknown) => {
@@ -193,9 +198,9 @@ export function App() {
 
         setJob((current) => ({
           ...current,
-          source: "fallback",
+          source: 'fallback',
           error: formatUiError(error),
-          logs: ["API unavailable. Job controls will not fake progress."],
+          logs: ['API unavailable. Job controls will not fake progress.'],
         }));
       });
 
@@ -205,7 +210,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (job.source !== "api" || isTerminalJobStatus(job.status)) {
+    if (job.source !== 'api' || isTerminalJobStatus(job.status)) {
       return;
     }
 
@@ -223,13 +228,13 @@ export function App() {
           ? {
               ...mergeJobEvent(current, parsed),
               source: current.source,
-              error: parsed.type === "error" ? parsed.message : null,
+              error: parsed.type === 'error' ? parsed.message : null,
               logs: [...current.logs, parsed.message].slice(-8),
             }
-          : current,
+          : current
       );
 
-      if (parsed.type === "complete" || parsed.type === "error") {
+      if (parsed.type === 'complete' || parsed.type === 'error') {
         source.close();
       }
     };
@@ -239,10 +244,10 @@ export function App() {
         current.id === job.id
           ? {
               ...current,
-              error: "Progress stream disconnected. Refresh the job list to resync.",
-              logs: [...current.logs, "Progress stream disconnected."].slice(-8),
+              error: 'Progress stream disconnected. Refresh the job list to resync.',
+              logs: [...current.logs, 'Progress stream disconnected.'].slice(-8),
             }
-          : current,
+          : current
       );
       source.close();
     };
@@ -252,7 +257,7 @@ export function App() {
 
   // Fetch evaluation report and predictions when a completed job is available
   useEffect(() => {
-    if (job.status !== "SUCCEEDED" || !job.id) {
+    if (job.status !== 'SUCCEEDED' || !job.id) {
       return;
     }
 
@@ -295,21 +300,21 @@ export function App() {
       const predData = await getJobPredictions(job.id);
       setPredictions(predData.predictions);
     } catch (err) {
-      setEvaluationError(err instanceof Error ? err.message : "Evaluation failed.");
+      setEvaluationError(err instanceof Error ? err.message : 'Evaluation failed.');
     } finally {
       setIsEvaluating(false);
     }
   };
 
   const startJob = async () => {
-    setSection("jobs");
+    setSection('jobs');
     setJob((current) => ({
       ...current,
-      status: "QUEUED",
+      status: 'QUEUED',
       progress: 0,
-      source: current.source === "fallback" ? "loading" : current.source,
+      source: current.source === 'fallback' ? 'loading' : current.source,
       error: null,
-      logs: ["Resolving locked dataset version and persisted pipeline."],
+      logs: ['Resolving locked dataset version and persisted pipeline.'],
     }));
 
     try {
@@ -321,17 +326,17 @@ export function App() {
       });
 
       setJob(
-        toJobUiState(response.job, "api", [
-          "Queue accepted inference payload with IDs only.",
+        toJobUiState(response.job, 'api', [
+          'Queue accepted inference payload with IDs only.',
           `Dataset ${target.datasetVersionLabel} and pipeline ${target.pipelineName} selected.`,
-        ]),
+        ])
       );
     } catch (error) {
       setJob((current) => ({
         ...current,
-        status: "FAILED",
+        status: 'FAILED',
         progress: 100,
-        source: "fallback",
+        source: 'fallback',
         error: formatUiError(error),
         logs: [...current.logs, `Run failed: ${formatUiError(error)}`].slice(-8),
       }));
@@ -355,12 +360,12 @@ export function App() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: motionTokens.durationBase, ease: motionTokens.easeScan }}
                 >
-                  {section === "overview" && <OverviewPanel onRun={startJob} />}
-                  {section === "media" && (
+                  {section === 'overview' && <OverviewPanel onRun={startJob} />}
+                  {section === 'media' && (
                     <MediaPanel uploads={mediaUploads} setUploads={setMediaUploads} />
                   )}
-                  {section === "datasets" && <DatasetPanel mediaRows={visibleMediaRows} />}
-                  {section === "annotate" && (
+                  {section === 'datasets' && <DatasetPanel mediaRows={visibleMediaRows} />}
+                  {section === 'annotate' && (
                     <AnnotationEnginePanel
                       annotations={annotationRows}
                       setAnnotations={setAnnotationRows}
@@ -371,8 +376,8 @@ export function App() {
                       mediaRows={visibleMediaRows}
                     />
                   )}
-                  {section === "pipeline" && <PipelinePanel />}
-                  {section === "jobs" && (
+                  {section === 'pipeline' && <PipelinePanel />}
+                  {section === 'jobs' && (
                     <JobsPanel
                       job={job}
                       threshold={threshold}
@@ -385,16 +390,14 @@ export function App() {
                       onRunEvaluation={handleRunEvaluation}
                     />
                   )}
-                  {section === "timeline" && (
+                  {section === 'timeline' && (
                     <TimelineReplayPanel
                       mediaAssets={demoSnapshot.media}
                       groundTruth={annotationRows}
                       predictions={predictions}
                     />
                   )}
-                  {section === "diff" && (
-                    <DatasetVersionDiff />
-                  )}
+                  {section === 'diff' && <DatasetVersionDiff />}
                 </motion.div>
               </AnimatePresence>
             </section>
@@ -426,13 +429,13 @@ async function resolveInferenceRunTarget(projectId: string): Promise<{
   const pipeline = pipelineResponse.pipelines.find((item) => item.validation.ok);
 
   if (!pipeline) {
-    throw new Error("No valid persisted pipeline is available for inference.");
+    throw new Error('No valid persisted pipeline is available for inference.');
   }
 
   for (const dataset of datasetResponse.datasets) {
     const versions = await listDatasetVersions(projectId, dataset.id);
     const locked = versions.versions.find(
-      (version) => version.status === "LOCKED" && version.assetCount > 0,
+      (version) => version.status === 'LOCKED' && version.assetCount > 0
     );
 
     if (locked) {
@@ -445,19 +448,19 @@ async function resolveInferenceRunTarget(projectId: string): Promise<{
     }
   }
 
-  throw new Error("No locked dataset version with assets is available for inference.");
+  throw new Error('No locked dataset version with assets is available for inference.');
 }
 
 function seededJobSummary(): InferenceJobSummary {
   return {
     id: demoSnapshot.job.id,
     projectId: demoSnapshot.project.id,
-    datasetVersionId: "dataset_proj_parking_lot_parking_v3",
-    pipelineId: "pipeline_proj_parking_lot_parking_detector",
+    datasetVersionId: 'dataset_proj_parking_lot_parking_v3',
+    pipelineId: 'pipeline_proj_parking_lot_parking_detector',
     modelId: null,
     status: demoSnapshot.job.status,
     progress: demoSnapshot.job.progress,
-    createdAt: "2026-04-28T13:35:40.000Z",
+    createdAt: '2026-04-28T13:35:40.000Z',
     startedAt: demoSnapshot.job.startedAt ?? null,
     completedAt: null,
     errorMessage: null,
@@ -467,7 +470,7 @@ function seededJobSummary(): InferenceJobSummary {
 function toJobUiState(
   summary: InferenceJobSummary,
   source: JobSourceState,
-  jobLogs: string[],
+  jobLogs: string[]
 ): JobUiState {
   return {
     ...summary,
@@ -540,7 +543,7 @@ function NavRail({
                 <Icon
                   className="relative z-10"
                   size={21}
-                  weight={selected ? "duotone" : "regular"}
+                  weight={selected ? 'duotone' : 'regular'}
                 />
               </button>
             </motion.div>
@@ -573,7 +576,7 @@ function ShellHeader({
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <StatusPill status={job.status} />
-          <span className="rounded-md inner-border-subtle bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
+          <span className="inner-border-subtle rounded-md bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
             threshold {(threshold / 100).toFixed(2)}
           </span>
           <button
@@ -581,7 +584,7 @@ function ShellHeader({
             title="Run inference"
             aria-label="Run inference"
             onClick={onRun}
-            disabled={job.source === "loading" || job.status === "RUNNING"}
+            disabled={job.source === 'loading' || job.status === 'RUNNING'}
             className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Play size={16} weight="fill" />
@@ -595,22 +598,22 @@ function ShellHeader({
 
 function ReadinessStrip({ job }: { job: JobUiState }) {
   const items = [
-    { label: "API", value: "OpenAPI ready", icon: CheckCircle, tone: "text-signal-300" },
-    { label: "Schema", value: "Prisma domain mapped", icon: Database, tone: "text-scan-300" },
+    { label: 'API', value: 'OpenAPI ready', icon: CheckCircle, tone: 'text-signal-300' },
+    { label: 'Schema', value: 'Prisma domain mapped', icon: Database, tone: 'text-scan-300' },
     {
-      label: "Queue",
+      label: 'Queue',
       value:
-        job.source === "api"
-          ? job.status === "RUNNING"
-            ? "Worker active"
-            : "Redis stream ready"
-          : job.source === "loading"
-            ? "Syncing jobs"
-            : "API fallback",
+        job.source === 'api'
+          ? job.status === 'RUNNING'
+            ? 'Worker active'
+            : 'Redis stream ready'
+          : job.source === 'loading'
+            ? 'Syncing jobs'
+            : 'API fallback',
       icon: Stack,
-      tone: "text-amber-300",
+      tone: 'text-amber-300',
     },
-    { label: "CV", value: "Mock detector mounted", icon: Activity, tone: "text-neutral-300" },
+    { label: 'CV', value: 'Mock detector mounted', icon: Activity, tone: 'text-neutral-300' },
   ];
 
   return (
@@ -621,7 +624,7 @@ function ReadinessStrip({ job }: { job: JobUiState }) {
         return (
           <div
             key={item.label}
-            className="rounded-md inner-border-subtle bg-white/[0.035] px-3 py-2"
+            className="inner-border-subtle rounded-md bg-white/[0.035] px-3 py-2"
           >
             <div className="flex items-center gap-2">
               <Icon className={item.tone} size={16} weight="duotone" />
@@ -671,19 +674,19 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
             <h3 className="text-sm font-semibold text-neutral-100">Vertical slice</h3>
             <div className="mt-4 space-y-3">
               {[
-                ["Upload", "20 assets indexed, checksum dedupe pending"],
-                ["Version", "Dataset v1.3 locked with train/valid/test splits"],
-                ["Annotate", "3 visible boxes, image-coordinate storage"],
+                ['Upload', '20 assets indexed, checksum dedupe pending'],
+                ['Version', 'Dataset v1.3 locked with train/valid/test splits'],
+                ['Annotate', '3 visible boxes, image-coordinate storage'],
                 [
-                  "Pipeline",
-                  pipelineValidation.ok ? "Graph passes V1 validation" : "Graph needs review",
+                  'Pipeline',
+                  pipelineValidation.ok ? 'Graph passes V1 validation' : 'Graph needs review',
                 ],
-                ["Inference", "Mock detector path ready for async orchestration"],
-                ["Evaluate", "Precision, recall, F1 surface seeded"],
+                ['Inference', 'Mock detector path ready for async orchestration'],
+                ['Evaluate', 'Precision, recall, F1 surface seeded'],
               ].map(([label, value], index) => (
                 <motion.div
                   key={label}
-                  className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3 rounded-md inner-border-subtle bg-white/[0.03] p-3"
+                  className="inner-border-subtle grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3 rounded-md bg-white/[0.03] p-3"
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.035, duration: 0.2 }}
@@ -742,10 +745,10 @@ function MediaPanel({
   const [dragActive, setDragActive] = useState(false);
   const allRows = useMemo(() => [...uploads, ...seededMediaRows()], [uploads]);
   const queuedCount = uploads.filter(
-    (row) => row.status === "uploading" || row.status === "hashing",
+    (row) => row.status === 'uploading' || row.status === 'hashing'
   ).length;
-  const failedCount = uploads.filter((row) => row.status === "failed").length;
-  const duplicateCount = uploads.filter((row) => row.status === "duplicate").length;
+  const failedCount = uploads.filter((row) => row.status === 'failed').length;
+  const duplicateCount = uploads.filter((row) => row.status === 'duplicate').length;
 
   const handleFiles = async (fileList: FileList | File[]) => {
     const files = [...fileList];
@@ -757,7 +760,7 @@ function MediaPanel({
 
   return (
     <Panel className="media-panel overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
+      <div className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3">
         <div>
           <h2 className="text-sm font-semibold text-neutral-100">Media ingestion</h2>
           <p className="mt-1 text-sm text-neutral-500">
@@ -774,7 +777,7 @@ function MediaPanel({
             if (event.currentTarget.files) {
               void handleFiles(event.currentTarget.files);
             }
-            event.currentTarget.value = "";
+            event.currentTarget.value = '';
           }}
         />
         <button
@@ -788,14 +791,14 @@ function MediaPanel({
           Upload
         </button>
       </div>
-      <div className="grid gap-0 divider lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="divider grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
         <label
           className={[
-            "m-4 flex min-h-44 cursor-pointer flex-col justify-between rounded-md inner-border p-4 transition",
+            'inner-border m-4 flex min-h-44 cursor-pointer flex-col justify-between rounded-md p-4 transition',
             dragActive
-              ? "border-[oklch(0.8_0.13_152)] bg-[oklch(0.8_0.13_152/0.1)]"
-              : "bg-white/[0.025] hover:bg-white/[0.04]",
-          ].join(" ")}
+              ? 'border-[oklch(0.8_0.13_152)] bg-[oklch(0.8_0.13_152/0.1)]'
+              : 'bg-white/[0.025] hover:bg-white/[0.04]',
+          ].join(' ')}
           onDragEnter={(event) => {
             event.preventDefault();
             setDragActive(true);
@@ -835,7 +838,7 @@ function MediaPanel({
               if (event.currentTarget.files) {
                 void handleFiles(event.currentTarget.files);
               }
-              event.currentTarget.value = "";
+              event.currentTarget.value = '';
             }}
           />
         </label>
@@ -901,7 +904,7 @@ function MediaPanel({
 async function ingestFile(
   file: File,
   existingRows: MediaUploadRow[],
-  setUploads: Dispatch<SetStateAction<MediaUploadRow[]>>,
+  setUploads: Dispatch<SetStateAction<MediaUploadRow[]>>
 ) {
   const rowId = `local_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 
@@ -912,15 +915,15 @@ async function ingestFile(
       {
         id: rowId,
         name: file.name,
-        type: file.type.startsWith("video/") ? "VIDEO" : "IMAGE",
-        checksum: "invalid-mime",
-        split: "UNASSIGNED",
-        status: "failed",
+        type: file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE',
+        checksum: 'invalid-mime',
+        split: 'UNASSIGNED',
+        status: 'failed',
         progress: 0,
         sizeBytes: file.size,
         width: null,
         height: null,
-        error: `Unsupported MIME type: ${file.type || "unknown"}`,
+        error: `Unsupported MIME type: ${file.type || 'unknown'}`,
       },
       ...current,
     ]);
@@ -931,10 +934,10 @@ async function ingestFile(
     {
       id: rowId,
       name: file.name,
-      type: file.type.startsWith("video/") ? "VIDEO" : "IMAGE",
-      checksum: "hashing",
-      split: "UNASSIGNED",
-      status: "hashing",
+      type: file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE',
+      checksum: 'hashing',
+      split: 'UNASSIGNED',
+      status: 'hashing',
       progress: 10,
       sizeBytes: file.size,
       width: null,
@@ -953,20 +956,20 @@ async function ingestFile(
           ? {
               ...row,
               checksum,
-              status: "duplicate",
+              status: 'duplicate',
               progress: 100,
-              error: "Checksum already exists in this project.",
+              error: 'Checksum already exists in this project.',
             }
-          : row,
-      ),
+          : row
+      )
     );
     return;
   }
 
   setUploads((current) =>
     current.map((row) =>
-      row.id === rowId ? { ...row, checksum, status: "uploading", progress: 42 } : row,
-    ),
+      row.id === rowId ? { ...row, checksum, status: 'uploading', progress: 42 } : row
+    )
   );
 
   try {
@@ -981,15 +984,15 @@ async function ingestFile(
               name: response.asset.name,
               type: response.asset.type,
               checksum: response.asset.checksum,
-              status: response.deduplicated ? "duplicate" : response.asset.status,
+              status: response.deduplicated ? 'duplicate' : response.asset.status,
               progress: 100,
               sizeBytes: response.asset.sizeBytes,
               width: response.asset.width,
               height: response.asset.height,
               processingJob: response.processingJob?.type ?? undefined,
             }
-          : row,
-      ),
+          : row
+      )
     );
   } catch (error) {
     setUploads((current) =>
@@ -997,12 +1000,12 @@ async function ingestFile(
         row.id === rowId
           ? {
               ...row,
-              status: "failed",
+              status: 'failed',
               progress: 100,
               error: error instanceof Error ? error.message : String(error),
             }
-          : row,
-      ),
+          : row
+      )
     );
   }
 }
@@ -1015,11 +1018,11 @@ function seededMediaRows(): MediaUploadRow[] {
     checksum: asset.checksum,
     split: asset.split,
     status: asset.status,
-    progress: asset.status === "queued" ? 64 : 100,
+    progress: asset.status === 'queued' ? 64 : 100,
     sizeBytes: asset.sizeBytes ?? 1_486_400,
     width: asset.width,
     height: asset.height,
-    processingJob: asset.status === "queued" ? "THUMBNAIL" : "complete",
+    processingJob: asset.status === 'queued' ? 'THUMBNAIL' : 'complete',
   }));
 }
 
@@ -1030,13 +1033,13 @@ function UploadStateMetric({
 }: {
   label: string;
   value: number;
-  tone: "signal" | "scan" | "amber";
+  tone: 'signal' | 'scan' | 'amber';
 }) {
   const toneClass =
-    tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
+    tone === 'signal' ? 'text-signal-300' : tone === 'scan' ? 'text-scan-300' : 'text-amber-300';
 
   return (
-    <div className="flex items-center justify-between rounded-md inner-border-subtle bg-white/[0.03] px-3 py-2">
+    <div className="inner-border-subtle flex items-center justify-between rounded-md bg-white/[0.03] px-3 py-2">
       <span className="font-mono text-xs uppercase tracking-[0.12em] text-neutral-500">
         {label}
       </span>
@@ -1045,15 +1048,15 @@ function UploadStateMetric({
   );
 }
 
-function MediaStatusPill({ status }: { status: MediaUploadRow["status"] }) {
+function MediaStatusPill({ status }: { status: MediaUploadRow['status'] }) {
   const tone =
-    status === "indexed"
-      ? "media-status-pill-signal"
-      : status === "uploading" || status === "hashing" || status === "queued"
-        ? "media-status-pill-scan"
-        : status === "duplicate"
-          ? "media-status-pill-amber"
-          : "media-status-pill-red";
+    status === 'indexed'
+      ? 'media-status-pill-signal'
+      : status === 'uploading' || status === 'hashing' || status === 'queued'
+        ? 'media-status-pill-scan'
+        : status === 'duplicate'
+          ? 'media-status-pill-amber'
+          : 'media-status-pill-red';
 
   return <span className={`media-status-pill ${tone}`}>{status}</span>;
 }
@@ -1064,20 +1067,20 @@ function UploadProgress({ row }: { row: MediaUploadRow }) {
       <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
         <motion.div
           className={[
-            "h-full",
-            row.status === "failed"
-              ? "bg-red-300"
-              : row.status === "duplicate"
-                ? "bg-amber-300"
-                : "bg-signal-300",
-          ].join(" ")}
+            'h-full',
+            row.status === 'failed'
+              ? 'bg-red-300'
+              : row.status === 'duplicate'
+                ? 'bg-amber-300'
+                : 'bg-signal-300',
+          ].join(' ')}
           initial={false}
           animate={{ width: `${row.progress}%` }}
           transition={motionTokens.springSoft}
         />
       </div>
       <p className="mt-2 font-mono text-[11px] text-neutral-500">
-        {row.processingJob ?? (row.status === "indexed" ? "audit logged" : row.status)}
+        {row.processingJob ?? (row.status === 'indexed' ? 'audit logged' : row.status)}
       </p>
     </div>
   );
@@ -1107,21 +1110,21 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
   const fallbackDatasetId = createFallbackDatasetId(projectId);
   const fallbackDatasets = useMemo(
     () => createFallbackDatasets(projectId, fallbackDatasetId, mediaRows),
-    [fallbackDatasetId, mediaRows, projectId],
+    [fallbackDatasetId, mediaRows, projectId]
   );
   const fallbackVersions = useMemo(
     () => createFallbackVersions(fallbackDatasetId, mediaRows),
-    [fallbackDatasetId, mediaRows],
+    [fallbackDatasetId, mediaRows]
   );
-  const [sourceState, setSourceState] = useState<DatasetSourceState>("loading");
+  const [sourceState, setSourceState] = useState<DatasetSourceState>('loading');
   const [datasets, setDatasets] = useState<DatasetSummary[]>(fallbackDatasets);
   const [versions, setVersions] = useState<DatasetVersionSummary[]>(fallbackVersions);
   const [selectedDatasetId, setSelectedDatasetId] = useState(fallbackDatasetId);
-  const [selectedVersionId, setSelectedVersionId] = useState(fallbackVersions[0]?.id ?? "");
+  const [selectedVersionId, setSelectedVersionId] = useState(fallbackVersions[0]?.id ?? '');
   const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>(
-    mediaRows.slice(0, 2).map((row) => row.id),
+    mediaRows.slice(0, 2).map((row) => row.id)
   );
-  const [targetSplit, setTargetSplit] = useState<DatasetSplit>("TRAIN");
+  const [targetSplit, setTargetSplit] = useState<DatasetSplit>('TRAIN');
   const [localAssignments, setLocalAssignments] = useState<Record<string, string[]>>({});
   const [actionState, setActionState] = useState<DatasetActionState>({
     busy: false,
@@ -1133,7 +1136,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
     let cancelled = false;
 
     async function loadDatasets() {
-      setSourceState("loading");
+      setSourceState('loading');
 
       try {
         const datasetResponse = await listProjectDatasets(projectId);
@@ -1143,7 +1146,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
         }
 
         if (datasetResponse.datasets.length === 0) {
-          setSourceState("fallback");
+          setSourceState('fallback');
           setDatasets(fallbackDatasets);
           setVersions(fallbackVersions);
           return;
@@ -1159,23 +1162,23 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
         setDatasets(datasetResponse.datasets);
         setSelectedDatasetId(dataset.id);
         setVersions(versionResponse.versions);
-        setSelectedVersionId(versionResponse.versions[0]?.id ?? "");
-        setSourceState("api");
-        setActionState({ busy: false, message: "Dataset API synchronized.", error: null });
+        setSelectedVersionId(versionResponse.versions[0]?.id ?? '');
+        setSourceState('api');
+        setActionState({ busy: false, message: 'Dataset API synchronized.', error: null });
       } catch (error) {
         if (cancelled) {
           return;
         }
 
-        setSourceState("fallback");
+        setSourceState('fallback');
         setDatasets(fallbackDatasets);
         setSelectedDatasetId(fallbackDatasetId);
         setVersions(fallbackVersions);
-        setSelectedVersionId(fallbackVersions[0]?.id ?? "");
+        setSelectedVersionId(fallbackVersions[0]?.id ?? '');
         setActionState({
           busy: false,
           message: null,
-          error: error instanceof Error ? error.message : "Dataset API unavailable.",
+          error: error instanceof Error ? error.message : 'Dataset API unavailable.',
         });
       }
     }
@@ -1191,29 +1194,29 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 
   const sortedVersions = useMemo(
     () => [...versions].sort((a, b) => b.version - a.version),
-    [versions],
+    [versions]
   );
   const selectedDataset =
     datasets.find((dataset) => dataset.id === selectedDatasetId) ?? datasets[0];
   const selectedVersion =
     sortedVersions.find((version) => version.id === selectedVersionId) ?? sortedVersions[0];
   const draftVersion =
-    selectedVersion?.status === "DRAFT"
+    selectedVersion?.status === 'DRAFT'
       ? selectedVersion
-      : sortedVersions.find((version) => version.status === "DRAFT");
+      : sortedVersions.find((version) => version.status === 'DRAFT');
   const selectedAssetRows = mediaRows.filter((row) => selectedAssetIds.includes(row.id));
   const canAssign = Boolean(draftVersion) && selectedAssetRows.length > 0 && !actionState.busy;
-  const canLock = selectedVersion?.status === "DRAFT" && !actionState.busy;
+  const canLock = selectedVersion?.status === 'DRAFT' && !actionState.busy;
 
   const replaceVersion = (version: DatasetVersionSummary) => {
     setVersions((current) => {
       const next = [version, ...current.filter((item) => item.id !== version.id)].sort(
-        (a, b) => b.version - a.version,
+        (a, b) => b.version - a.version
       );
       setDatasets((datasetState) =>
         datasetState.map((dataset) =>
-          dataset.id === version.datasetId ? recalculateDatasetCounts(dataset, next) : dataset,
-        ),
+          dataset.id === version.datasetId ? recalculateDatasetCounts(dataset, next) : dataset
+        )
       );
       return next;
     });
@@ -1226,22 +1229,22 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
     try {
       let dataset = selectedDataset;
 
-      if (!dataset && sourceState === "api") {
+      if (!dataset && sourceState === 'api') {
         dataset = await createDataset(projectId, {
-          name: "Parking Lot Dataset",
-          description: "Curated parking lot frames for detector evaluation.",
+          name: 'Parking Lot Dataset',
+          description: 'Curated parking lot frames for detector evaluation.',
         });
         setDatasets([dataset]);
         setSelectedDatasetId(dataset.id);
       }
 
       if (!dataset) {
-        throw new Error("No dataset target available.");
+        throw new Error('No dataset target available.');
       }
 
       const parentVersionId = sortedVersions[0]?.id ?? null;
       const version =
-        sourceState === "api"
+        sourceState === 'api'
           ? await createDatasetVersion(projectId, dataset.id, { parentVersionId })
           : createLocalDraftVersion(dataset.id, sortedVersions);
 
@@ -1251,7 +1254,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
       setActionState({
         busy: false,
         message: null,
-        error: error instanceof Error ? error.message : "Draft creation failed.",
+        error: error instanceof Error ? error.message : 'Draft creation failed.',
       });
     }
   };
@@ -1269,11 +1272,11 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
         split: targetSplit,
       }));
       const version =
-        sourceState === "api"
+        sourceState === 'api'
           ? await assignDatasetVersionAssets(projectId, draftVersion.id, { assets })
           : assignLocalAssets(draftVersion, assets, localAssignments[draftVersion.id] ?? []);
 
-      if (sourceState !== "api") {
+      if (sourceState !== 'api') {
         setLocalAssignments((current) => ({
           ...current,
           [draftVersion.id]: [
@@ -1286,14 +1289,14 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
       replaceVersion(version);
       setActionState({
         busy: false,
-        message: `${assets.length} asset${assets.length === 1 ? "" : "s"} assigned to ${version.label}.`,
+        message: `${assets.length} asset${assets.length === 1 ? '' : 's'} assigned to ${version.label}.`,
         error: null,
       });
     } catch (error) {
       setActionState({
         busy: false,
         message: null,
-        error: error instanceof Error ? error.message : "Asset assignment failed.",
+        error: error instanceof Error ? error.message : 'Asset assignment failed.',
       });
     }
   };
@@ -1307,9 +1310,9 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 
     try {
       const version =
-        sourceState === "api"
+        sourceState === 'api'
           ? (await lockDatasetVersion(projectId, selectedVersion.id)).version
-          : { ...selectedVersion, status: "LOCKED" as const };
+          : { ...selectedVersion, status: 'LOCKED' as const };
 
       replaceVersion(version);
       setActionState({ busy: false, message: `${version.label} locked.`, error: null });
@@ -1317,25 +1320,25 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
       setActionState({
         busy: false,
         message: null,
-        error: error instanceof Error ? error.message : "Version lock failed.",
+        error: error instanceof Error ? error.message : 'Version lock failed.',
       });
     }
   };
 
   const toggleAsset = (assetId: string) => {
     setSelectedAssetIds((current) =>
-      current.includes(assetId) ? current.filter((id) => id !== assetId) : [...current, assetId],
+      current.includes(assetId) ? current.filter((id) => id !== assetId) : [...current, assetId]
     );
   };
 
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,0.86fr)_minmax(380px,1.14fr)]">
       <Panel className="overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Dataset timeline</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
-              {selectedDataset?.name ?? "No dataset"} / {sortedVersions.length} versions
+              {selectedDataset?.name ?? 'No dataset'} / {sortedVersions.length} versions
             </p>
           </div>
           <DatasetSourcePill state={sourceState} />
@@ -1354,18 +1357,18 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                   type="button"
                   onClick={() => setSelectedVersionId(version.id)}
                   className={[
-                    "version-card relative w-full rounded-md p-3 text-left transition focus-visible:outline-none active:translate-y-px",
-                    selected ? "version-card-selected" : "",
-                  ].join(" ")}
+                    'version-card relative w-full rounded-md p-3 text-left transition focus-visible:outline-none active:translate-y-px',
+                    selected ? 'version-card-selected' : '',
+                  ].join(' ')}
                   initial={shouldReduceMotion ? false : { opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.025, duration: motionTokens.durationFast }}
                 >
                   <span
                     className={[
-                      "absolute -left-[18px] top-4 h-3 w-3 rounded-full border bg-graphite-950",
-                      version.status === "DRAFT" ? "border-amber-300" : "border-signal-300",
-                    ].join(" ")}
+                      'absolute -left-[18px] top-4 h-3 w-3 rounded-full border bg-graphite-950',
+                      version.status === 'DRAFT' ? 'border-amber-300' : 'border-signal-300',
+                    ].join(' ')}
                   />
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-mono text-sm font-semibold text-neutral-100">
@@ -1374,7 +1377,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                     <DatasetStatusPill status={version.status} />
                   </div>
                   <p className="mt-2 font-mono text-xs text-neutral-500">
-                    {version.assetCount} assets / parent {version.parentVersionId ?? "none"}
+                    {version.assetCount} assets / parent {version.parentVersionId ?? 'none'}
                   </p>
                   <div className="mt-3">
                     <SplitSummaryBars summary={version.splitSummary} compact />
@@ -1387,13 +1390,13 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
       </Panel>
 
       <Panel className="version-builder-panel overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Version builder</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
               {selectedVersion
                 ? `${selectedVersion.label} / ${selectedVersion.status}`
-                : "No version"}
+                : 'No version'}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -1424,7 +1427,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 
         {selectedVersion ? (
           <>
-            <div className="grid gap-3 divider p-4 md:grid-cols-4">
+            <div className="divider grid gap-3 p-4 md:grid-cols-4">
               <DatasetMetric label="assets" value={selectedVersion.assetCount} tone="signal" />
               <DatasetMetric
                 label="train"
@@ -1439,9 +1442,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
             </div>
           </>
         ) : (
-          <p className="divider p-4 text-sm text-neutral-500">
-            No dataset version available.
-          </p>
+          <p className="divider p-4 text-sm text-neutral-500">No dataset version available.</p>
         )}
 
         <div className="version-builder-grid">
@@ -1465,9 +1466,9 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                     <tr
                       key={asset.id}
                       className={[
-                        "version-asset-row text-neutral-300",
-                        selectedAsset ? "version-asset-row-selected" : "",
-                      ].join(" ")}
+                        'version-asset-row text-neutral-300',
+                        selectedAsset ? 'version-asset-row-selected' : '',
+                      ].join(' ')}
                     >
                       <td className="version-select-cell px-4 py-3">
                         <label className="asset-select-control">
@@ -1480,9 +1481,9 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                           />
                           <span
                             className={[
-                              "asset-select-box",
-                              selectedAsset ? "asset-select-box-selected" : "",
-                            ].join(" ")}
+                              'asset-select-box',
+                              selectedAsset ? 'asset-select-box-selected' : '',
+                            ].join(' ')}
                             aria-hidden="true"
                           />
                         </label>
@@ -1514,9 +1515,9 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                   aria-pressed={targetSplit === split}
                   onClick={() => setTargetSplit(split)}
                   className={[
-                    "version-split-option",
-                    targetSplit === split ? "version-split-option-selected" : "",
-                  ].join(" ")}
+                    'version-split-option',
+                    targetSplit === split ? 'version-split-option-selected' : '',
+                  ].join(' ')}
                 >
                   {split}
                 </button>
@@ -1528,24 +1529,24 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
               aria-label="Assign to draft"
               onClick={handleAssignAssets}
               disabled={!canAssign}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45"
             >
               <Stack size={16} weight="duotone" />
               Assign to draft
             </button>
             <p className="mt-3 font-mono text-xs text-neutral-500">
-              Target {draftVersion?.label ?? "none"} / {selectedAssetRows.length} selected
+              Target {draftVersion?.label ?? 'none'} / {selectedAssetRows.length} selected
             </p>
             <AnimatePresence mode="popLayout">
               {actionState.message || actionState.error ? (
                 <motion.p
                   key={actionState.message ?? actionState.error}
                   className={[
-                    "version-action-message",
+                    'version-action-message',
                     actionState.error
-                      ? "version-action-message-error"
-                      : "version-action-message-ok",
-                  ].join(" ")}
+                      ? 'version-action-message-error'
+                      : 'version-action-message-ok',
+                  ].join(' ')}
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
@@ -1563,18 +1564,9 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 }
 
 function DatasetSourcePill({ state }: { state: DatasetSourceState }) {
-  const tone =
-    state === "api"
-      ? "pill-signal"
-      : state === "loading"
-        ? "pill-scan"
-        : "pill-amber";
+  const tone = state === 'api' ? 'pill-signal' : state === 'loading' ? 'pill-scan' : 'pill-amber';
 
-  return (
-    <span className={`pill-base ${tone}`}>
-      {state === "api" ? "api" : state}
-    </span>
-  );
+  return <span className={`pill-base ${tone}`}>{state === 'api' ? 'api' : state}</span>;
 }
 
 function DatasetSourceNotice({
@@ -1584,17 +1576,17 @@ function DatasetSourceNotice({
   state: DatasetSourceState;
   error: string | null;
 }) {
-  const Icon = state === "api" ? CheckCircle : state === "loading" ? Activity : WarningCircle;
+  const Icon = state === 'api' ? CheckCircle : state === 'loading' ? Activity : WarningCircle;
   const tone =
-    state === "api" ? "text-signal-300" : state === "loading" ? "text-scan-300" : "text-amber-300";
+    state === 'api' ? 'text-signal-300' : state === 'loading' ? 'text-scan-300' : 'text-amber-300';
   const text =
-    state === "api"
-      ? "API-backed dataset versions"
-      : state === "loading"
-        ? "Syncing dataset versions"
+    state === 'api'
+      ? 'API-backed dataset versions'
+      : state === 'loading'
+        ? 'Syncing dataset versions'
         : error
           ? `Local demo fallback: ${error}`
-          : "Local demo fallback";
+          : 'Local demo fallback';
 
   return (
     <div className="flex items-start gap-2">
@@ -1604,13 +1596,13 @@ function DatasetSourceNotice({
   );
 }
 
-function DatasetStatusPill({ status }: { status: DatasetVersionSummary["status"] }) {
+function DatasetStatusPill({ status }: { status: DatasetVersionSummary['status'] }) {
   const tone =
-    status === "LOCKED"
-      ? "dataset-version-pill-locked"
-      : status === "DRAFT"
-        ? "dataset-version-pill-draft"
-        : "dataset-version-pill-neutral";
+    status === 'LOCKED'
+      ? 'dataset-version-pill-locked'
+      : status === 'DRAFT'
+        ? 'dataset-version-pill-draft'
+        : 'dataset-version-pill-neutral';
 
   return <span className={`dataset-version-pill ${tone}`}>{status}</span>;
 }
@@ -1622,13 +1614,13 @@ function DatasetMetric({
 }: {
   label: string;
   value: number;
-  tone: "signal" | "scan" | "amber";
+  tone: 'signal' | 'scan' | 'amber';
 }) {
   const toneClass =
-    tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
+    tone === 'signal' ? 'text-signal-300' : tone === 'scan' ? 'text-scan-300' : 'text-amber-300';
 
   return (
-    <div className="rounded-md inner-border-subtle bg-white/[0.03] p-3">
+    <div className="inner-border-subtle rounded-md bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-2 font-mono text-2xl font-semibold ${toneClass}`}>{value}</p>
     </div>
@@ -1644,13 +1636,13 @@ function SplitSummaryBars({
 }) {
   const total = Math.max(
     1,
-    datasetSplits.reduce((sum, split) => sum + summary[split], 0),
+    datasetSplits.reduce((sum, split) => sum + summary[split], 0)
   );
   const segments: Array<{ split: DatasetSplit; className: string; label: string }> = [
-    { split: "TRAIN", className: "bg-signal-300", label: "train" },
-    { split: "VALID", className: "bg-scan-300", label: "valid" },
-    { split: "TEST", className: "bg-amber-300", label: "test" },
-    { split: "UNASSIGNED", className: "bg-neutral-500", label: "open" },
+    { split: 'TRAIN', className: 'bg-signal-300', label: 'train' },
+    { split: 'VALID', className: 'bg-scan-300', label: 'valid' },
+    { split: 'TEST', className: 'bg-amber-300', label: 'test' },
+    { split: 'UNASSIGNED', className: 'bg-neutral-500', label: 'open' },
   ];
 
   return (
@@ -1685,13 +1677,13 @@ function SplitSummaryBars({
 }
 
 function createFallbackDatasetId(projectId: string): string {
-  return `dataset_${projectId.replace(/[^a-zA-Z0-9]+/g, "_")}_parking`;
+  return `dataset_${projectId.replace(/[^a-zA-Z0-9]+/g, '_')}_parking`;
 }
 
 function createFallbackDatasets(
   projectId: string,
   datasetId: string,
-  mediaRows: MediaUploadRow[],
+  mediaRows: MediaUploadRow[]
 ): DatasetSummary[] {
   const versions = createFallbackVersions(datasetId, mediaRows);
 
@@ -1700,42 +1692,42 @@ function createFallbackDatasets(
       {
         id: datasetId,
         projectId,
-        name: "Parking Lot Dataset",
-        description: "Curated media grouped into immutable detector evaluation snapshots.",
+        name: 'Parking Lot Dataset',
+        description: 'Curated media grouped into immutable detector evaluation snapshots.',
         versionCount: versions.length,
         draftVersionCount: 1,
         lockedVersionCount: 3,
         assetCount: mediaRows.length,
-        createdAt: "2026-04-28T12:00:00.000Z",
+        createdAt: '2026-04-28T12:00:00.000Z',
       },
-      versions,
+      versions
     ),
   ];
 }
 
 function createFallbackVersions(
   datasetId: string,
-  mediaRows: MediaUploadRow[],
+  mediaRows: MediaUploadRow[]
 ): DatasetVersionSummary[] {
-  const indexableRows = mediaRows.filter((row) => row.status !== "failed");
+  const indexableRows = mediaRows.filter((row) => row.status !== 'failed');
   const v1Rows = indexableRows.slice(0, 1);
   const v2Rows = indexableRows.slice(0, 2);
   const v3Rows = indexableRows.slice(0, 3);
 
   return [
-    createVersionSummary(datasetId, 4, "DRAFT", `${datasetId}_v3`, []),
-    createVersionSummary(datasetId, 3, "LOCKED", `${datasetId}_v2`, v3Rows),
-    createVersionSummary(datasetId, 2, "LOCKED", `${datasetId}_v1`, v2Rows),
-    createVersionSummary(datasetId, 1, "LOCKED", null, v1Rows),
+    createVersionSummary(datasetId, 4, 'DRAFT', `${datasetId}_v3`, []),
+    createVersionSummary(datasetId, 3, 'LOCKED', `${datasetId}_v2`, v3Rows),
+    createVersionSummary(datasetId, 2, 'LOCKED', `${datasetId}_v1`, v2Rows),
+    createVersionSummary(datasetId, 1, 'LOCKED', null, v1Rows),
   ];
 }
 
 function createVersionSummary(
   datasetId: string,
   version: number,
-  status: DatasetVersionSummary["status"],
+  status: DatasetVersionSummary['status'],
   parentVersionId: string | null,
-  rows: MediaUploadRow[],
+  rows: MediaUploadRow[]
 ): DatasetVersionSummary {
   return {
     id: `${datasetId}_v${version}`,
@@ -1755,7 +1747,7 @@ function createVersionSummary(
 
 function createLocalDraftVersion(
   datasetId: string,
-  versions: DatasetVersionSummary[],
+  versions: DatasetVersionSummary[]
 ): DatasetVersionSummary {
   const latest = versions.reduce((max, version) => Math.max(max, version.version), 0);
 
@@ -1764,7 +1756,7 @@ function createLocalDraftVersion(
     datasetId,
     version: latest + 1,
     label: `v${latest + 1}`,
-    status: "DRAFT",
+    status: 'DRAFT',
     parentVersionId: versions[0]?.id ?? null,
     assetCount: 0,
     splitSummary: createEmptySplitSummary(),
@@ -1775,14 +1767,14 @@ function createLocalDraftVersion(
 function assignLocalAssets(
   version: DatasetVersionSummary,
   assets: Array<{ assetId: string; split: DatasetSplit }>,
-  existingAssetIds: string[],
+  existingAssetIds: string[]
 ): DatasetVersionSummary {
-  if (version.status !== "DRAFT") {
-    throw new Error("Version is locked and cannot be modified.");
+  if (version.status !== 'DRAFT') {
+    throw new Error('Version is locked and cannot be modified.');
   }
 
   if (assets.some((asset) => existingAssetIds.includes(asset.assetId))) {
-    throw new Error("Assets cannot be assigned twice to the same version.");
+    throw new Error('Assets cannot be assigned twice to the same version.');
   }
 
   const splitSummary = { ...version.splitSummary };
@@ -1800,21 +1792,21 @@ function assignLocalAssets(
 
 function recalculateDatasetCounts(
   dataset: DatasetSummary,
-  versions: DatasetVersionSummary[],
+  versions: DatasetVersionSummary[]
 ): DatasetSummary {
   const ownVersions = versions.filter((version) => version.datasetId === dataset.id);
 
   return {
     ...dataset,
     versionCount: ownVersions.length,
-    draftVersionCount: ownVersions.filter((version) => version.status === "DRAFT").length,
-    lockedVersionCount: ownVersions.filter((version) => version.status === "LOCKED").length,
+    draftVersionCount: ownVersions.filter((version) => version.status === 'DRAFT').length,
+    lockedVersionCount: ownVersions.filter((version) => version.status === 'LOCKED').length,
     assetCount: ownVersions.reduce((max, version) => Math.max(max, version.assetCount), 0),
   };
 }
 
 function normalizeDatasetSplit(split: string): DatasetSplit {
-  return datasetSplits.includes(split as DatasetSplit) ? (split as DatasetSplit) : "UNASSIGNED";
+  return datasetSplits.includes(split as DatasetSplit) ? (split as DatasetSplit) : 'UNASSIGNED';
 }
 
 function AnnotationPanel({
@@ -1831,7 +1823,7 @@ function AnnotationPanel({
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
       <Panel className="overflow-hidden">
-        <div className="flex items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex items-center justify-between gap-3 px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Annotation workbench</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -1894,13 +1886,13 @@ function PipelinePanel() {
   const projectId = demoSnapshot.project.id;
   const shouldReduceMotion = useReducedMotion();
   const compactPipeline = useCompactPipelineLayout();
-  const [sourceState, setSourceState] = useState<PipelineSourceState>("loading");
+  const [sourceState, setSourceState] = useState<PipelineSourceState>('loading');
   const [pipeline, setPipeline] = useState<PipelineSummary | null>(null);
   const [definition, setDefinition] = useState<PipelineDefinition>(demoSnapshot.pipeline);
   const [validation, setValidation] = useState<PipelineValidationResult>(() =>
-    validatePipelineDefinition(demoSnapshot.pipeline),
+    validatePipelineDefinition(demoSnapshot.pipeline)
   );
-  const [selectedNodeId, setSelectedNodeId] = useState("detector");
+  const [selectedNodeId, setSelectedNodeId] = useState('detector');
   const [actionState, setActionState] = useState<DatasetActionState>({
     busy: false,
     message: null,
@@ -1911,7 +1903,7 @@ function PipelinePanel() {
     let cancelled = false;
 
     async function loadPipelines() {
-      setSourceState("loading");
+      setSourceState('loading');
 
       try {
         const response = await listProjectPipelines(projectId);
@@ -1923,10 +1915,10 @@ function PipelinePanel() {
         const persistedPipeline = response.pipelines[0] ?? null;
 
         if (!persistedPipeline) {
-          setSourceState("api");
+          setSourceState('api');
           setActionState({
             busy: false,
-            message: "API ready for first persisted graph.",
+            message: 'API ready for first persisted graph.',
             error: null,
           });
           return;
@@ -1935,10 +1927,10 @@ function PipelinePanel() {
         setPipeline(persistedPipeline);
         setDefinition(persistedPipeline.definition);
         setValidation(persistedPipeline.validation);
-        setSourceState("api");
+        setSourceState('api');
         setActionState({
           busy: false,
-          message: "Pipeline API synchronized.",
+          message: 'Pipeline API synchronized.',
           error: null,
         });
       } catch (error) {
@@ -1946,14 +1938,14 @@ function PipelinePanel() {
           return;
         }
 
-        setSourceState("fallback");
+        setSourceState('fallback');
         setPipeline(null);
         setDefinition(demoSnapshot.pipeline);
         setValidation(validatePipelineDefinition(demoSnapshot.pipeline));
         setActionState({
           busy: false,
           message: null,
-          error: error instanceof Error ? error.message : "Pipeline API unavailable.",
+          error: error instanceof Error ? error.message : 'Pipeline API unavailable.',
         });
       }
     }
@@ -1977,9 +1969,9 @@ function PipelinePanel() {
         pipelineNode(item, index, compactPipeline, {
           selected: item.id === selectedNode?.id,
           hasIssue: validation.issues.some((issue) => issue.nodeId === item.id),
-        }),
+        })
       ),
-    [compactPipeline, definition.nodes, selectedNode?.id, validation.issues],
+    [compactPipeline, definition.nodes, selectedNode?.id, validation.issues]
   );
 
   const edges = useMemo<FlowEdge[]>(
@@ -1990,19 +1982,19 @@ function PipelinePanel() {
           item.source,
           item.target,
           isDetectorPath(item, definition),
-          validation.issues.some((issue) => issue.edgeId === item.id),
-        ),
+          validation.issues.some((issue) => issue.edgeId === item.id)
+        )
       ),
-    [definition, validation.issues],
+    [definition, validation.issues]
   );
-  const canSave = validation.ok && !actionState.busy && sourceState !== "loading";
+  const canSave = validation.ok && !actionState.busy && sourceState !== 'loading';
 
   const updateNode = (nodeId: string, updater: (node: PipelineNode) => PipelineNode) => {
     setDefinition((current) => ({
       ...current,
       nodes: current.nodes.map((item) => (item.id === nodeId ? updater(item) : item)),
     }));
-    setActionState({ busy: false, message: "Graph draft changed.", error: null });
+    setActionState({ busy: false, message: 'Graph draft changed.', error: null });
   };
 
   const handleValidateGraph = async () => {
@@ -2010,7 +2002,7 @@ function PipelinePanel() {
 
     try {
       const nextValidation =
-        sourceState === "api"
+        sourceState === 'api'
           ? (await validateProjectPipeline(projectId, { definition })).validation
           : validatePipelineDefinition(definition);
 
@@ -2018,9 +2010,9 @@ function PipelinePanel() {
       setActionState({
         busy: false,
         message: nextValidation.ok
-          ? "Backend validation passed."
+          ? 'Backend validation passed.'
           : `${nextValidation.errors.length} graph blocker${
-              nextValidation.errors.length === 1 ? "" : "s"
+              nextValidation.errors.length === 1 ? '' : 's'
             } found.`,
         error: null,
       });
@@ -2028,7 +2020,7 @@ function PipelinePanel() {
       setActionState({
         busy: false,
         message: null,
-        error: error instanceof Error ? error.message : "Pipeline validation failed.",
+        error: error instanceof Error ? error.message : 'Pipeline validation failed.',
       });
     }
   };
@@ -2038,7 +2030,7 @@ function PipelinePanel() {
 
     try {
       const nextValidation =
-        sourceState === "api"
+        sourceState === 'api'
           ? (await validateProjectPipeline(projectId, { definition })).validation
           : validatePipelineDefinition(definition);
 
@@ -2048,34 +2040,34 @@ function PipelinePanel() {
         setActionState({
           busy: false,
           message: null,
-          error: "Resolve graph blockers before saving.",
+          error: 'Resolve graph blockers before saving.',
         });
         return;
       }
 
-      if (sourceState === "api") {
+      if (sourceState === 'api') {
         const saved = pipeline
           ? await updateProjectPipeline(projectId, pipeline.id, {
               name: pipeline.name,
               definition,
             })
           : await createProjectPipeline(projectId, {
-              name: "Parking detector pipeline",
+              name: 'Parking detector pipeline',
               definition,
             });
 
         setPipeline(saved);
         setDefinition(saved.definition);
         setValidation(saved.validation);
-        setActionState({ busy: false, message: "Pipeline persisted.", error: null });
+        setActionState({ busy: false, message: 'Pipeline persisted.', error: null });
         return;
       }
 
       const now = new Date().toISOString();
       setPipeline({
-        id: pipeline?.id ?? "pipeline_local_parking_detector",
+        id: pipeline?.id ?? 'pipeline_local_parking_detector',
         projectId,
-        name: pipeline?.name ?? "Parking detector pipeline",
+        name: pipeline?.name ?? 'Parking detector pipeline',
         definition,
         validation: nextValidation,
         createdAt: pipeline?.createdAt ?? now,
@@ -2083,14 +2075,14 @@ function PipelinePanel() {
       });
       setActionState({
         busy: false,
-        message: "Local graph saved in fallback state.",
+        message: 'Local graph saved in fallback state.',
         error: null,
       });
     } catch (error) {
       setActionState({
         busy: false,
         message: null,
-        error: error instanceof Error ? error.message : "Pipeline save failed.",
+        error: error instanceof Error ? error.message : 'Pipeline save failed.',
       });
     }
   };
@@ -2098,11 +2090,11 @@ function PipelinePanel() {
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_320px]">
       <Panel className="pipeline-panel overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Visual pipeline</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
-              {pipeline?.name ?? "Parking detector pipeline"} / {validation.summary.nodeCount} nodes
+              {pipeline?.name ?? 'Parking detector pipeline'} / {validation.summary.nodeCount} nodes
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -2112,7 +2104,7 @@ function PipelinePanel() {
               title="Validate graph"
               aria-label="Validate graph"
               onClick={handleValidateGraph}
-              disabled={actionState.busy || sourceState === "loading"}
+              disabled={actionState.busy || sourceState === 'loading'}
               className="version-header-action version-header-action-muted"
             >
               <CheckCircle size={16} />
@@ -2136,7 +2128,7 @@ function PipelinePanel() {
         </div>
         <div className="pipeline-canvas h-[560px] bg-graphite-950">
           <ReactFlow
-            key={compactPipeline ? "pipeline-compact" : "pipeline-wide"}
+            key={compactPipeline ? 'pipeline-compact' : 'pipeline-wide'}
             nodes={nodes}
             edges={edges}
             onNodeClick={(_, item) => setSelectedNodeId(item.id)}
@@ -2157,10 +2149,10 @@ function PipelinePanel() {
         <div className="divider px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Graph checks</h2>
           <p className="mt-1 font-mono text-xs text-neutral-500">
-            {validation.ok ? "valid" : "blocked"} / {validation.summary.edgeCount} edges
+            {validation.ok ? 'valid' : 'blocked'} / {validation.summary.edgeCount} edges
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-2 divider p-4">
+        <div className="divider grid grid-cols-3 gap-2 p-4">
           <PipelineMetric label="nodes" value={validation.summary.nodeCount} tone="signal" />
           <PipelineMetric label="edges" value={validation.summary.edgeCount} tone="scan" />
           <PipelineMetric
@@ -2172,11 +2164,11 @@ function PipelinePanel() {
         <div className="divide-y divide-graphite-200">
           {validation.issues.length === 0
             ? [
-                "Exactly one input",
-                "Exactly one output",
-                "No cycles",
-                "Detector model bound",
-                "All nodes connected",
+                'Exactly one input',
+                'Exactly one output',
+                'No cycles',
+                'Detector model bound',
+                'All nodes connected',
               ].map((label) => (
                 <StateRow key={label} label={label} value="pass" tone="signal" icon={CheckCircle} />
               ))
@@ -2191,27 +2183,27 @@ function PipelinePanel() {
             onResizeWidthChange={(width) =>
               selectedNode &&
               updateNode(selectedNode.id, (node) =>
-                node.type === "resize" ? { ...node, params: { ...node.params, width } } : node,
+                node.type === 'resize' ? { ...node, params: { ...node.params, width } } : node
               )
             }
             onDetectorThresholdChange={(threshold) =>
               selectedNode &&
               updateNode(selectedNode.id, (node) =>
-                node.type === "yolo_onnx"
+                node.type === 'yolo_onnx'
                   ? { ...node, params: { ...node.params, threshold } }
-                  : node,
+                  : node
               )
             }
             onDetectorModelChange={(modelId) =>
               selectedNode &&
               updateNode(selectedNode.id, (node) =>
-                node.type === "yolo_onnx" ? { ...node, params: { ...node.params, modelId } } : node,
+                node.type === 'yolo_onnx' ? { ...node, params: { ...node.params, modelId } } : node
               )
             }
             onNmsThresholdChange={(iouThreshold) =>
               selectedNode &&
               updateNode(selectedNode.id, (node) =>
-                node.type === "nms" ? { ...node, params: { ...node.params, iouThreshold } } : node,
+                node.type === 'nms' ? { ...node, params: { ...node.params, iouThreshold } } : node
               )
             }
           />
@@ -2221,9 +2213,9 @@ function PipelinePanel() {
             <motion.p
               key={actionState.message ?? actionState.error}
               className={[
-                "version-action-message mx-4 mb-4",
-                actionState.error ? "version-action-message-error" : "version-action-message-ok",
-              ].join(" ")}
+                'version-action-message mx-4 mb-4',
+                actionState.error ? 'version-action-message-error' : 'version-action-message-ok',
+              ].join(' ')}
               initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
@@ -2239,18 +2231,9 @@ function PipelinePanel() {
 }
 
 function PipelineSourcePill({ state }: { state: PipelineSourceState }) {
-  const tone =
-    state === "api"
-      ? "pill-signal"
-      : state === "loading"
-        ? "pill-scan"
-        : "pill-amber";
+  const tone = state === 'api' ? 'pill-signal' : state === 'loading' ? 'pill-scan' : 'pill-amber';
 
-  return (
-    <span className={`pill-base ${tone}`}>
-      {state === "api" ? "api" : state}
-    </span>
-  );
+  return <span className={`pill-base ${tone}`}>{state === 'api' ? 'api' : state}</span>;
 }
 
 function PipelineSourceNotice({
@@ -2260,17 +2243,17 @@ function PipelineSourceNotice({
   state: PipelineSourceState;
   error: string | null;
 }) {
-  const Icon = state === "api" ? CheckCircle : state === "loading" ? Activity : WarningCircle;
+  const Icon = state === 'api' ? CheckCircle : state === 'loading' ? Activity : WarningCircle;
   const tone =
-    state === "api" ? "text-signal-300" : state === "loading" ? "text-scan-300" : "text-amber-300";
+    state === 'api' ? 'text-signal-300' : state === 'loading' ? 'text-scan-300' : 'text-amber-300';
   const text =
-    state === "api"
-      ? "API-backed pipeline definitions"
-      : state === "loading"
-        ? "Syncing pipeline definitions"
+    state === 'api'
+      ? 'API-backed pipeline definitions'
+      : state === 'loading'
+        ? 'Syncing pipeline definitions'
         : error
           ? `Local demo fallback: ${error}`
-          : "Local demo fallback";
+          : 'Local demo fallback';
 
   return (
     <div className="flex items-start gap-2">
@@ -2287,13 +2270,13 @@ function PipelineMetric({
 }: {
   label: string;
   value: number;
-  tone: "signal" | "scan" | "amber";
+  tone: 'signal' | 'scan' | 'amber';
 }) {
   const toneClass =
-    tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
+    tone === 'signal' ? 'text-signal-300' : tone === 'scan' ? 'text-scan-300' : 'text-amber-300';
 
   return (
-    <div className="rounded-md inner-border-subtle bg-white/[0.03] p-3">
+    <div className="inner-border-subtle rounded-md bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-2 font-mono text-xl font-semibold ${toneClass}`}>{value}</p>
     </div>
@@ -2303,10 +2286,10 @@ function PipelineMetric({
 function PipelineIssueRow({ issue }: { issue: PipelineValidationIssue }) {
   return (
     <StateRow
-      label={issue.severity === "error" ? "Blocker" : "Warning"}
+      label={issue.severity === 'error' ? 'Blocker' : 'Warning'}
       value={issue.message}
-      tone={issue.severity === "error" ? "amber" : "neutral"}
-      icon={issue.severity === "error" ? WarningCircle : Activity}
+      tone={issue.severity === 'error' ? 'amber' : 'neutral'}
+      icon={issue.severity === 'error' ? WarningCircle : Activity}
     />
   );
 }
@@ -2337,12 +2320,12 @@ function PipelineNodeInspector({
           <h3 className="text-sm font-semibold text-neutral-100">{nodeLabel(node)}</h3>
           <p className="mt-1 font-mono text-xs text-neutral-500">{node.id}</p>
         </div>
-        <span className="rounded-md inner-border-subtle bg-white/[0.035] px-2 py-1 font-mono text-xs uppercase text-neutral-400">
+        <span className="inner-border-subtle rounded-md bg-white/[0.035] px-2 py-1 font-mono text-xs uppercase text-neutral-400">
           {node.type}
         </span>
       </div>
 
-      {node.type === "resize" && (
+      {node.type === 'resize' && (
         <div className="mt-4 grid grid-cols-3 gap-2">
           {[640, 960, 1280].map((width) => (
             <button
@@ -2351,9 +2334,9 @@ function PipelineNodeInspector({
               aria-pressed={node.params.width === width}
               onClick={() => onResizeWidthChange(width)}
               className={[
-                "version-split-option",
-                node.params.width === width ? "version-split-option-selected" : "",
-              ].join(" ")}
+                'version-split-option',
+                node.params.width === width ? 'version-split-option-selected' : '',
+              ].join(' ')}
             >
               {width}
             </button>
@@ -2361,7 +2344,7 @@ function PipelineNodeInspector({
         </div>
       )}
 
-      {node.type === "yolo_onnx" && (
+      {node.type === 'yolo_onnx' && (
         <div className="mt-4 space-y-4">
           <div>
             <div className="mb-2 flex items-center justify-between gap-3">
@@ -2383,16 +2366,16 @@ function PipelineNodeInspector({
           </div>
           <button
             type="button"
-            onClick={() => onDetectorModelChange(node.params.modelId ? null : "model_onnx_parking")}
+            onClick={() => onDetectorModelChange(node.params.modelId ? null : 'model_onnx_parking')}
             className="version-header-action version-header-action-muted w-full justify-center"
           >
             <Database size={16} />
-            {node.params.modelId ? "Clear model" : "Bind ONNX model"}
+            {node.params.modelId ? 'Clear model' : 'Bind ONNX model'}
           </button>
         </div>
       )}
 
-      {node.type === "nms" && (
+      {node.type === 'nms' && (
         <div className="mt-4">
           <div className="mb-2 flex items-center justify-between gap-3">
             <span className="text-sm font-medium text-neutral-200">IoU threshold</span>
@@ -2413,12 +2396,12 @@ function PipelineNodeInspector({
         </div>
       )}
 
-      {node.type === "input" || node.type === "output" || node.type === "hsv_filter" ? (
+      {node.type === 'input' || node.type === 'output' || node.type === 'hsv_filter' ? (
         <p className="mt-4 text-sm leading-6 text-neutral-500">{nodeCaption(node)}</p>
       ) : null}
 
       {shouldReduceMotion && (
-        <p className="mt-4 rounded-md inner-border-subtle bg-white/[0.025] px-3 py-2 text-sm text-neutral-500">
+        <p className="inner-border-subtle mt-4 rounded-md bg-white/[0.025] px-3 py-2 text-sm text-neutral-500">
           Reduced motion is active.
         </p>
       )}
@@ -2430,13 +2413,13 @@ function useCompactPipelineLayout(): boolean {
   const [compact, setCompact] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 640px)");
+    const media = window.matchMedia('(max-width: 640px)');
     const update = () => setCompact(media.matches);
 
     update();
-    media.addEventListener("change", update);
+    media.addEventListener('change', update);
 
-    return () => media.removeEventListener("change", update);
+    return () => media.removeEventListener('change', update);
   }, []);
 
   return compact;
@@ -2466,7 +2449,7 @@ function JobsPanel({
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <Panel>
-        <div className="flex items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0">
             <h2 className="text-sm font-semibold text-neutral-100">Inference job</h2>
             <p className="mt-1 truncate font-mono text-xs text-neutral-500">{job.id}</p>
@@ -2478,7 +2461,7 @@ function JobsPanel({
               title="Run inference"
               aria-label="Run inference"
               onClick={onRun}
-              disabled={job.source === "loading" || job.status === "RUNNING"}
+              disabled={job.source === 'loading' || job.status === 'RUNNING'}
               className="version-header-action version-header-action-lock"
             >
               <Play size={16} weight="fill" />
@@ -2502,7 +2485,7 @@ function JobsPanel({
           {job.error && (
             <p className="version-action-message version-action-message-error mt-4">{job.error}</p>
           )}
-          <div className="mt-5 rounded-md inner-border-subtle bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
+          <div className="inner-border-subtle mt-5 rounded-md bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
             {job.logs.length > 0 ? (
               job.logs.map((line, index) => (
                 <motion.p
@@ -2525,7 +2508,7 @@ function JobsPanel({
             <JobStageStep
               label="Complete"
               active={job.progress === 100}
-              complete={job.status === "SUCCEEDED"}
+              complete={job.status === 'SUCCEEDED'}
             />
           </div>
         </div>
@@ -2540,7 +2523,7 @@ function JobsPanel({
         <PredictionOverlayCanvas
           groundTruth={groundTruth}
           predictions={predictions}
-          isLoading={job.status === "RUNNING"}
+          isLoading={job.status === 'RUNNING'}
           error={null}
         />
       </Panel>
@@ -2550,7 +2533,7 @@ function JobsPanel({
           <p className="mt-1 font-mono text-xs text-neutral-500">
             {evaluationReport
               ? `Precision ${evaluationReport.precision.toFixed(3)} / Recall ${evaluationReport.recall.toFixed(3)}`
-              : "No evaluation run yet"}
+              : 'No evaluation run yet'}
           </p>
         </div>
         <div className="p-4">
@@ -2571,18 +2554,9 @@ function JobsPanel({
 }
 
 function JobSourcePill({ source }: { source: JobSourceState }) {
-  const tone =
-    source === "api"
-      ? "pill-signal"
-      : source === "loading"
-        ? "pill-scan"
-        : "pill-amber";
+  const tone = source === 'api' ? 'pill-signal' : source === 'loading' ? 'pill-scan' : 'pill-amber';
 
-  return (
-    <span className={`pill-base ${tone}`}>
-      {source}
-    </span>
-  );
+  return <span className={`pill-base ${tone}`}>{source}</span>;
 }
 
 function JobStageStep({
@@ -2596,13 +2570,7 @@ function JobStageStep({
 }) {
   return (
     <div
-      className={[
-        complete
-          ? "step-complete"
-          : active
-            ? "step-active"
-            : "step-inactive",
-      ].join(" ")}
+      className={[complete ? 'step-complete' : active ? 'step-active' : 'step-inactive'].join(' ')}
     >
       <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</p>
     </div>
@@ -2659,7 +2627,7 @@ function InspectorPanel({
         )}
       </Panel>
       <Panel>
-        <div className="flex items-center justify-between gap-3 divider px-4 py-3">
+        <div className="divider flex items-center justify-between gap-3 px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Threshold</h2>
           <span className="btn-signal-outline px-2 py-1 font-mono text-xs">
             {(threshold / 100).toFixed(2)}
@@ -2688,12 +2656,12 @@ function InspectorPanel({
 
 function thresholdRangeStyle(value: number, min = 40, max = 95): CSSProperties {
   return {
-    "--threshold-progress": `${Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100))}%`,
+    '--threshold-progress': `${Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100))}%`,
   } as CSSProperties;
 }
 
 function VisionPreview({
-  selectedAnnotation = "ann_02",
+  selectedAnnotation = 'ann_02',
   onSelectAnnotation,
   running = false,
 }: {
@@ -2705,9 +2673,12 @@ function VisionPreview({
 
   return (
     <div className="vision-stage relative min-h-[420px] overflow-hidden bg-graphite-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(106,217,161,0.12),transparent_32%)]}" />
+      <div className="bg-[radial-gradient(circle_at_28%_22%,rgba(106,217,161,0.12),transparent_32%)]} absolute inset-0" />
       <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,13,12,0.88),transparent_30%),linear-gradient(to_bottom,transparent_0%,rgba(5,13,12,0.4)_12%),linear-gradient(to_left,rgba(5,13,12,0.88),transparent_18%),linear-gradient(to_right,rgba(5,13,12,0.88),transparent_18%)]" />
-      <div className="absolute left-[8%] top-[22%] h-[42%] w-[84%]" style={{ boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)" }}>
+      <div
+        className="absolute left-[8%] top-[22%] h-[42%] w-[84%]"
+        style={{ boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4)' }}
+      >
         <div className="absolute inset-x-0 top-[55%] border-t border-dashed border-graphite-100" />
         <div className="absolute bottom-[18%] left-[7%] h-[12%] w-[86%] rounded-sm bg-white/[0.025]" />
         {demoSnapshot.annotations.map((annotation) => {
@@ -2728,9 +2699,9 @@ function VisionPreview({
               aria-label={annotation.label}
               onClick={() => onSelectAnnotation?.(annotation.id)}
               className={[
-                "bbox absolute rounded-sm border-2 text-left outline-none transition focus-visible:ring-2 focus-visible:ring-signal-300",
-                selected ? "bbox-selected" : "",
-              ].join(" ")}
+                'bbox absolute rounded-sm border-2 text-left outline-none transition focus-visible:ring-2 focus-visible:ring-signal-300',
+                selected ? 'bbox-selected' : '',
+              ].join(' ')}
               style={style}
               initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: selected ? 1.02 : 1 }}
@@ -2747,7 +2718,7 @@ function VisionPreview({
         })}
         {(running || !shouldReduceMotion) && <div className="scanline" />}
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 rounded-md inner-border-subtle bg-graphite-950/80 px-3 py-2 backdrop-blur">
+      <div className="inner-border-subtle bg-graphite-950/80 absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 rounded-md px-3 py-2 backdrop-blur">
         <span className="font-mono text-xs text-neutral-400">asset_frame_1482 / 1920 x 1080</span>
         <span className="font-mono text-xs text-signal-300">image-coordinate mode</span>
       </div>
@@ -2757,28 +2728,26 @@ function VisionPreview({
 
 function StatusPill({ status }: { status: InferenceJobStatus }) {
   const tone =
-    status === "SUCCEEDED"
-      ? "pill-signal"
-      : status === "RUNNING"
-        ? "pill-scan"
-        : status === "FAILED"
-          ? "pill-red"
-          : "pill-amber";
+    status === 'SUCCEEDED'
+      ? 'pill-signal'
+      : status === 'RUNNING'
+        ? 'pill-scan'
+        : status === 'FAILED'
+          ? 'pill-red'
+          : 'pill-amber';
 
   return (
-    <span
-      className={`pill-base inline-flex items-center gap-2 ${tone}`}
-    >
+    <span className={`pill-base inline-flex items-center gap-2 ${tone}`}>
       <span className="h-1.5 w-1.5 rounded-full bg-current" />
       {status}
     </span>
   );
 }
 
-function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Panel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`min-w-0 rounded-md bg-graphite-900/75 shadow-panel inner-border-subtle ${className}`}
+      className={`bg-graphite-900/75 inner-border-subtle min-w-0 rounded-md shadow-panel ${className}`}
     >
       {children}
     </div>
@@ -2793,17 +2762,17 @@ function StateRow({
 }: {
   label: string;
   value: string;
-  tone: "signal" | "scan" | "amber" | "neutral";
+  tone: 'signal' | 'scan' | 'amber' | 'neutral';
   icon: typeof Activity;
 }) {
   const toneClass =
-    tone === "signal"
-      ? "text-signal-300"
-      : tone === "scan"
-        ? "text-scan-300"
-        : tone === "amber"
-          ? "text-amber-300"
-          : "text-neutral-400";
+    tone === 'signal'
+      ? 'text-signal-300'
+      : tone === 'scan'
+        ? 'text-scan-300'
+        : tone === 'amber'
+          ? 'text-amber-300'
+          : 'text-neutral-400';
 
   return (
     <div className="flex items-start gap-3 px-4 py-3">
@@ -2822,7 +2791,7 @@ function SplitPill({ split }: { split: string }) {
 
 function DiffMetric({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
-    <div className="rounded-md inner-border-subtle bg-white/[0.03] p-3">
+    <div className="inner-border-subtle rounded-md bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-3 font-mono text-3xl font-semibold ${tone}`}>{value}</p>
     </div>
@@ -2845,11 +2814,11 @@ function ToolButton({
       aria-label={label}
       aria-pressed={active}
       className={[
-        "inline-flex h-9 w-9 items-center justify-center rounded-md transition active:translate-y-px",
+        'inline-flex h-9 w-9 items-center justify-center rounded-md transition active:translate-y-px',
         active
-          ? "bg-[oklch(0.8_0.13_152/0.1)] text-[oklch(0.8_0.13_152)] shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24),inset_0_1px_0_oklch(98%_0.006_180/0.06)]"
-          : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
-      ].join(" ")}
+          ? 'bg-[oklch(0.8_0.13_152/0.1)] text-[oklch(0.8_0.13_152)] shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24),inset_0_1px_0_oklch(98%_0.006_180/0.06)]'
+          : 'text-neutral-500 hover:bg-white/[0.05] hover:text-neutral-200',
+      ].join(' ')}
     >
       <Icon size={17} />
     </button>
@@ -2882,33 +2851,33 @@ function pipelineNode(
   item: PipelineNode,
   index: number,
   compact: boolean,
-  state: { selected: boolean; hasIssue: boolean },
+  state: { selected: boolean; hasIssue: boolean }
 ): FlowNode {
   const position = compact ? { x: 0, y: index * 124 } : { x: index * 220, y: index % 2 ? 36 : 92 };
-  const orientation = compact ? "vertical" : "horizontal";
+  const orientation = compact ? 'vertical' : 'horizontal';
   const tone = pipelineNodeTone(item, state.hasIssue);
   const color =
-    tone === "signal"
-      ? "oklch(80% 0.13 152)"
-      : tone === "scan"
-        ? "oklch(78% 0.12 205)"
-        : tone === "amber"
-          ? "oklch(82% 0.13 88)"
-          : "oklch(72% 0.006 180)";
+    tone === 'signal'
+      ? 'oklch(80% 0.13 152)'
+      : tone === 'scan'
+        ? 'oklch(78% 0.12 205)'
+        : tone === 'amber'
+          ? 'oklch(82% 0.13 88)'
+          : 'oklch(72% 0.006 180)';
 
   return {
     id: item.id,
     position,
-    sourcePosition: orientation === "vertical" ? Position.Bottom : Position.Right,
-    targetPosition: orientation === "vertical" ? Position.Top : Position.Left,
+    sourcePosition: orientation === 'vertical' ? Position.Bottom : Position.Right,
+    targetPosition: orientation === 'vertical' ? Position.Top : Position.Left,
     data: {
       label: (
         <div
           className={[
-            "pipeline-node-card min-w-[156px] rounded-md bg-graphite-900 px-3 py-2",
-            state.selected ? "pipeline-node-card-selected" : "",
-            state.hasIssue ? "pipeline-node-card-issue" : "",
-          ].join(" ")}
+            'pipeline-node-card min-w-[156px] rounded-md bg-graphite-900 px-3 py-2',
+            state.selected ? 'pipeline-node-card-selected' : '',
+            state.hasIssue ? 'pipeline-node-card-issue' : '',
+          ].join(' ')}
         >
           <p className="text-sm font-semibold text-neutral-100">{nodeLabel(item)}</p>
           <p className="mt-1 font-mono text-[11px] text-neutral-500">{nodeCaption(item)}</p>
@@ -2917,10 +2886,10 @@ function pipelineNode(
       ),
     },
     style: {
-      background: "transparent",
-      border: "none",
+      background: 'transparent',
+      border: 'none',
       padding: 0,
-      color: "inherit",
+      color: 'inherit',
     },
   };
 }
@@ -2930,13 +2899,13 @@ function pipelineEdge(
   source: string,
   target: string,
   animated = false,
-  hasIssue = false,
+  hasIssue = false
 ): FlowEdge {
   const stroke = hasIssue
-    ? "oklch(82% 0.13 88)"
+    ? 'oklch(82% 0.13 88)'
     : animated
-      ? "oklch(78% 0.12 205)"
-      : "oklch(72% 0.006 180 / 0.52)";
+      ? 'oklch(78% 0.12 205)'
+      : 'oklch(72% 0.006 180 / 0.52)';
 
   return {
     id,
@@ -2956,63 +2925,63 @@ function pipelineEdge(
 
 function pipelineNodeTone(
   node: PipelineNode,
-  hasIssue: boolean,
-): "signal" | "scan" | "neutral" | "amber" {
+  hasIssue: boolean
+): 'signal' | 'scan' | 'neutral' | 'amber' {
   if (hasIssue) {
-    return "amber";
+    return 'amber';
   }
 
-  if (node.type === "input" || node.type === "output") {
-    return "signal";
+  if (node.type === 'input' || node.type === 'output') {
+    return 'signal';
   }
 
-  if (node.type === "yolo_onnx") {
-    return "scan";
+  if (node.type === 'yolo_onnx') {
+    return 'scan';
   }
 
-  return "neutral";
+  return 'neutral';
 }
 
 function nodeLabel(node: PipelineNode): string {
-  const labels: Record<PipelineNode["type"], string> = {
-    input: "Input",
-    resize: "Resize",
-    hsv_filter: "HSV filter",
-    yolo_onnx: "Detector",
-    nms: "NMS",
-    output: "Output",
+  const labels: Record<PipelineNode['type'], string> = {
+    input: 'Input',
+    resize: 'Resize',
+    hsv_filter: 'HSV filter',
+    yolo_onnx: 'Detector',
+    nms: 'NMS',
+    output: 'Output',
   };
 
   return labels[node.type];
 }
 
 function nodeCaption(node: PipelineNode): string {
-  if (node.type === "resize") {
+  if (node.type === 'resize') {
     return `${node.params.width}px width`;
   }
 
-  if (node.type === "hsv_filter") {
+  if (node.type === 'hsv_filter') {
     return `H ${node.params.hMin}-${node.params.hMax}`;
   }
 
-  if (node.type === "yolo_onnx") {
-    return node.params.modelId ?? "model unbound";
+  if (node.type === 'yolo_onnx') {
+    return node.params.modelId ?? 'model unbound';
   }
 
-  if (node.type === "nms") {
+  if (node.type === 'nms') {
     return `IoU ${node.params.iouThreshold.toFixed(2)}`;
   }
 
-  if (node.type === "input") {
-    return "MediaAsset stream";
+  if (node.type === 'input') {
+    return 'MediaAsset stream';
   }
 
-  return "Predictions";
+  return 'Predictions';
 }
 
 function isDetectorPath(edge: { source: string; target: string }, definition: PipelineDefinition) {
   const source = definition.nodes.find((node) => node.id === edge.source);
   const target = definition.nodes.find((node) => node.id === edge.target);
 
-  return source?.type === "yolo_onnx" || target?.type === "yolo_onnx";
+  return source?.type === 'yolo_onnx' || target?.type === 'yolo_onnx';
 }

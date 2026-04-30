@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const BBoxGeometrySchema = z.object({
   x: z.number().finite().nonnegative(),
@@ -37,7 +37,7 @@ export function screenToImage(box: BBoxGeometry, viewport: Viewport): BBoxGeomet
 export function clampBBox(
   box: BBoxGeometry,
   imageWidth: number,
-  imageHeight: number,
+  imageHeight: number
 ): BBoxGeometry {
   const x = Math.max(0, Math.min(box.x, imageWidth));
   const y = Math.max(0, Math.min(box.y, imageHeight));

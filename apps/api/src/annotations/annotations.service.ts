@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import {
   AnnotationAssetSummary,
   AnnotationLabelSummary,
@@ -12,20 +12,20 @@ import {
   UpdateAnnotationRequest,
   bboxArea,
   clampBBox,
-} from "@visionflow/contracts";
-import { PrismaService } from "../prisma/prisma.service";
-import { demoSnapshot } from "../projects/demo-snapshot";
+} from '@visionflow/contracts';
+import { PrismaService } from '../prisma/prisma.service';
+import { demoSnapshot } from '../projects/demo-snapshot';
 
 type MemoryAnnotationSet = AnnotationSetSummary & { projectId: string };
 
-const DEFAULT_ANNOTATION_SET_NAME = "Manual QA Set";
+const DEFAULT_ANNOTATION_SET_NAME = 'Manual QA Set';
 const DEFAULT_IMAGE_WIDTH = 1920;
 const DEFAULT_IMAGE_HEIGHT = 1080;
 const defaultLabels = [
-  { name: "car", color: "#6ad9a1" },
-  { name: "van", color: "#5cc8ff" },
-  { name: "truck", color: "#f5b85d" },
-  { name: "person", color: "#f07178" },
+  { name: 'car', color: '#6ad9a1' },
+  { name: 'van', color: '#5cc8ff' },
+  { name: 'truck', color: '#f5b85d' },
+  { name: 'person', color: '#f07178' },
 ] as const;
 
 @Injectable()
@@ -39,7 +39,7 @@ export class AnnotationsService {
   async loadWorkspace(
     projectId: string,
     datasetVersionId: string,
-    assetId?: string,
+    assetId?: string
   ): Promise<AnnotationWorkspaceResponse> {
     if (process.env.DATABASE_URL) {
       return this.loadPrismaWorkspace(projectId, datasetVersionId, assetId);
@@ -53,7 +53,7 @@ export class AnnotationsService {
     const asset = assets.find((item) => item.id === assetId) ?? assets[0] ?? null;
     const annotations = [...this.memoryAnnotations.values()].filter(
       (annotation) =>
-        annotation.annotationSetId === annotationSet.id && annotation.assetId === asset?.id,
+        annotation.annotationSetId === annotationSet.id && annotation.assetId === asset?.id
     );
 
     return {
@@ -69,7 +69,7 @@ export class AnnotationsService {
   async createAnnotation(
     projectId: string,
     annotationSetId: string,
-    dto: CreateAnnotationRequest,
+    dto: CreateAnnotationRequest
   ): Promise<AnnotationSummary> {
     if (process.env.DATABASE_URL) {
       return this.createPrismaAnnotation(projectId, annotationSetId, dto);
@@ -86,9 +86,9 @@ export class AnnotationsService {
       labelClassId: label.id,
       label: label.name,
       color: label.color,
-      type: "BBOX",
+      type: 'BBOX',
       geometry: normalizeGeometry(dto.geometry, asset.width, asset.height),
-      source: "MANUAL",
+      source: 'MANUAL',
       confidence: null,
       createdAt: now,
       updatedAt: now,
@@ -102,7 +102,7 @@ export class AnnotationsService {
   async updateAnnotation(
     projectId: string,
     annotationId: string,
-    dto: UpdateAnnotationRequest,
+    dto: UpdateAnnotationRequest
   ): Promise<AnnotationSummary> {
     if (process.env.DATABASE_URL) {
       return this.updatePrismaAnnotation(projectId, annotationId, dto);
@@ -144,7 +144,7 @@ export class AnnotationsService {
   private async loadPrismaWorkspace(
     projectId: string,
     datasetVersionId: string,
-    assetId?: string,
+    assetId?: string
   ): Promise<AnnotationWorkspaceResponse> {
     const version = await this.prisma.datasetVersion.findFirst({
       where: {
@@ -154,7 +154,7 @@ export class AnnotationsService {
       include: {
         assets: {
           include: { asset: true },
-          orderBy: { createdAt: "asc" },
+          orderBy: { createdAt: 'asc' },
         },
         annotationSets: {
           where: { name: DEFAULT_ANNOTATION_SET_NAME },
@@ -164,7 +164,7 @@ export class AnnotationsService {
     });
 
     if (!version) {
-      throw new NotFoundException("Dataset version not found for this project.");
+      throw new NotFoundException('Dataset version not found for this project.');
     }
 
     const labels = await this.ensureDefaultLabels(projectId);
@@ -190,10 +190,10 @@ export class AnnotationsService {
           where: {
             annotationSetId: annotationSet.id,
             assetId: selectedAsset.id,
-            type: "BBOX",
+            type: 'BBOX',
           },
           include: annotationInclude,
-          orderBy: { updatedAt: "desc" },
+          orderBy: { updatedAt: 'desc' },
         })
       : [];
 
@@ -210,7 +210,7 @@ export class AnnotationsService {
   private async createPrismaAnnotation(
     projectId: string,
     annotationSetId: string,
-    dto: CreateAnnotationRequest,
+    dto: CreateAnnotationRequest
   ): Promise<AnnotationSummary> {
     const annotationSet = await this.assertPrismaAnnotationSet(projectId, annotationSetId);
     const asset = await this.assertPrismaAsset(projectId, dto.assetId);
@@ -221,14 +221,14 @@ export class AnnotationsService {
         annotationSetId: annotationSet.id,
         assetId: asset.id,
         labelClassId: label.id,
-        type: "BBOX",
+        type: 'BBOX',
         geometryJson: normalizeGeometry(dto.geometry, width, height),
-        source: "MANUAL",
+        source: 'MANUAL',
       },
       include: annotationInclude,
     });
 
-    await this.writeAudit(projectId, "ANNOTATION_CREATED", "Annotation", annotation.id, {
+    await this.writeAudit(projectId, 'ANNOTATION_CREATED', 'Annotation', annotation.id, {
       annotationSetId,
       assetId: asset.id,
       labelClassId: label.id,
@@ -240,7 +240,7 @@ export class AnnotationsService {
   private async updatePrismaAnnotation(
     projectId: string,
     annotationId: string,
-    dto: UpdateAnnotationRequest,
+    dto: UpdateAnnotationRequest
   ): Promise<AnnotationSummary> {
     const existing = await this.prisma.annotation.findFirst({
       where: {
@@ -258,7 +258,7 @@ export class AnnotationsService {
     });
 
     if (!existing) {
-      throw new NotFoundException("Annotation not found for this project.");
+      throw new NotFoundException('Annotation not found for this project.');
     }
 
     const label = dto.labelClassId
@@ -274,7 +274,7 @@ export class AnnotationsService {
       include: annotationInclude,
     });
 
-    await this.writeAudit(projectId, "ANNOTATION_UPDATED", "Annotation", annotation.id, {
+    await this.writeAudit(projectId, 'ANNOTATION_UPDATED', 'Annotation', annotation.id, {
       labelClassId: label.id,
       geometryUpdated: Boolean(dto.geometry),
     });
@@ -302,11 +302,11 @@ export class AnnotationsService {
     });
 
     if (!existing) {
-      throw new NotFoundException("Annotation not found for this project.");
+      throw new NotFoundException('Annotation not found for this project.');
     }
 
     await this.prisma.annotation.delete({ where: { id: annotationId } });
-    await this.writeAudit(projectId, "ANNOTATION_DELETED", "Annotation", annotationId, {});
+    await this.writeAudit(projectId, 'ANNOTATION_DELETED', 'Annotation', annotationId, {});
   }
 
   private async ensureDefaultLabels(projectId: string): Promise<AnnotationLabelSummary[]> {
@@ -332,18 +332,18 @@ export class AnnotationsService {
           projectId,
           name: label.name,
           color: label.color,
-          type: "BBOX",
+          type: 'BBOX',
         },
         update: {
           color: label.color,
-          type: "BBOX",
+          type: 'BBOX',
         },
       });
     }
 
     const labels = await this.prisma.labelClass.findMany({
-      where: { projectId, type: "BBOX" },
-      orderBy: { name: "asc" },
+      where: { projectId, type: 'BBOX' },
+      orderBy: { name: 'asc' },
     });
 
     return labels.map((label) => ({
@@ -366,7 +366,7 @@ export class AnnotationsService {
     });
 
     if (!annotationSet) {
-      throw new NotFoundException("Annotation set not found for this project.");
+      throw new NotFoundException('Annotation set not found for this project.');
     }
 
     return annotationSet;
@@ -381,7 +381,7 @@ export class AnnotationsService {
     });
 
     if (!asset) {
-      throw new NotFoundException("Media asset not found for this project.");
+      throw new NotFoundException('Media asset not found for this project.');
     }
 
     return asset;
@@ -392,12 +392,12 @@ export class AnnotationsService {
       where: {
         id: labelClassId,
         projectId,
-        type: "BBOX",
+        type: 'BBOX',
       },
     });
 
     if (!label) {
-      throw new NotFoundException("BBox label not found for this project.");
+      throw new NotFoundException('BBox label not found for this project.');
     }
 
     return label;
@@ -408,7 +408,7 @@ export class AnnotationsService {
     action: string,
     targetType: string,
     targetId: string,
-    metadataJson: Prisma.InputJsonObject,
+    metadataJson: Prisma.InputJsonObject
   ): Promise<void> {
     await this.prisma.auditLog.create({
       data: {
@@ -431,7 +431,7 @@ export class AnnotationsService {
           projectId,
           name: label.name,
           color: label.color,
-          type: "BBOX",
+          type: 'BBOX',
         });
       }
     }
@@ -439,18 +439,18 @@ export class AnnotationsService {
     const setId = createMemorySetId(datasetVersionId);
 
     if (!this.memorySets.has(setId)) {
-      const now = new Date("2026-04-28T12:50:00.000Z").toISOString();
+      const now = new Date('2026-04-28T12:50:00.000Z').toISOString();
       this.memorySets.set(setId, {
         id: setId,
         projectId,
         datasetVersionId,
         name: DEFAULT_ANNOTATION_SET_NAME,
-        status: "DRAFT",
+        status: 'DRAFT',
         createdAt: now,
       });
 
       const labelByName = new Map(
-        this.memoryLabelsForProject(projectId).map((label) => [label.name, label]),
+        this.memoryLabelsForProject(projectId).map((label) => [label.name, label])
       );
 
       demoSnapshot.annotations.forEach((annotation, index) => {
@@ -464,7 +464,7 @@ export class AnnotationsService {
           labelClassId: label.id,
           label: label.name,
           color: label.color,
-          type: "BBOX",
+          type: 'BBOX',
           geometry: annotation.geometry,
           source: annotation.source,
           confidence: annotation.confidence ?? null,
@@ -483,7 +483,7 @@ export class AnnotationsService {
     const set = this.memorySets.get(annotationSetId);
 
     if (!set || set.projectId !== projectId) {
-      throw new NotFoundException("Annotation set not found for this project.");
+      throw new NotFoundException('Annotation set not found for this project.');
     }
 
     return set;
@@ -494,7 +494,7 @@ export class AnnotationsService {
     const set = annotation ? this.memorySets.get(annotation.annotationSetId) : null;
 
     if (!annotation || !set || set.projectId !== projectId) {
-      throw new NotFoundException("Annotation not found for this project.");
+      throw new NotFoundException('Annotation not found for this project.');
     }
 
     return annotation;
@@ -504,7 +504,7 @@ export class AnnotationsService {
     const asset = this.memoryAssets(projectId).find((item) => item.id === assetId);
 
     if (!asset) {
-      throw new NotFoundException("Media asset not found for this project.");
+      throw new NotFoundException('Media asset not found for this project.');
     }
 
     return asset;
@@ -513,8 +513,8 @@ export class AnnotationsService {
   private assertMemoryLabel(projectId: string, labelClassId: string): AnnotationLabelSummary {
     const label = this.memoryLabels.get(labelClassId);
 
-    if (!label || label.projectId !== projectId || label.type !== "BBOX") {
-      throw new NotFoundException("BBox label not found for this project.");
+    if (!label || label.projectId !== projectId || label.type !== 'BBOX') {
+      throw new NotFoundException('BBox label not found for this project.');
     }
 
     return label;
@@ -522,7 +522,7 @@ export class AnnotationsService {
 
   private memoryLabelsForProject(projectId: string): AnnotationLabelSummary[] {
     return [...this.memoryLabels.values()]
-      .filter((label) => label.projectId === projectId && label.type === "BBOX")
+      .filter((label) => label.projectId === projectId && label.type === 'BBOX')
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -561,12 +561,12 @@ const annotationInclude = {
 function normalizeGeometry(
   geometry: BBoxGeometry,
   imageWidth: number,
-  imageHeight: number,
+  imageHeight: number
 ): BBoxGeometry {
   const normalized = clampBBox(BBoxGeometrySchema.parse(geometry), imageWidth, imageHeight);
 
   if (bboxArea(normalized) <= 0) {
-    throw new BadRequestException("BBox must overlap the image with positive area.");
+    throw new BadRequestException('BBox must overlap the image with positive area.');
   }
 
   return normalized;
@@ -576,7 +576,7 @@ function toAnnotationSetSummary(row: {
   id: string;
   datasetVersionId: string;
   name: string;
-  status: "DRAFT" | "REVIEWING" | "APPROVED" | "REJECTED";
+  status: 'DRAFT' | 'REVIEWING' | 'APPROVED' | 'REJECTED';
   createdAt: Date;
 }): AnnotationSetSummary {
   return {
@@ -593,10 +593,10 @@ function toAnnotationSummary(row: {
   annotationSetId: string;
   assetId: string;
   labelClassId: string;
-  type: "BBOX" | "MASK" | "KEYPOINT";
+  type: 'BBOX' | 'MASK' | 'KEYPOINT';
   geometryJson: unknown;
   confidence: number | null;
-  source: "MANUAL" | "MODEL" | "IMPORT";
+  source: 'MANUAL' | 'MODEL' | 'IMPORT';
   createdAt: Date;
   updatedAt: Date;
   labelClass: {
@@ -611,7 +611,7 @@ function toAnnotationSummary(row: {
     labelClassId: row.labelClassId,
     label: row.labelClass.name,
     color: row.labelClass.color,
-    type: "BBOX",
+    type: 'BBOX',
     geometry: BBoxGeometrySchema.parse(row.geometryJson),
     source: row.source,
     confidence: row.confidence,
@@ -622,7 +622,7 @@ function toAnnotationSummary(row: {
 
 function toAssetSummary(row: {
   id: string;
-  type: "IMAGE" | "VIDEO" | "FRAME";
+  type: 'IMAGE' | 'VIDEO' | 'FRAME';
   width: number | null;
   height: number | null;
   checksum: string;
@@ -630,8 +630,8 @@ function toAssetSummary(row: {
 }): AnnotationAssetSummary {
   const metadata = row.metadataJson as {
     originalName?: string;
-    status?: AnnotationAssetSummary["status"];
-    split?: AnnotationAssetSummary["split"];
+    status?: AnnotationAssetSummary['status'];
+    split?: AnnotationAssetSummary['split'];
   };
   const dimensions = dimensionsFor(row);
 
@@ -641,8 +641,8 @@ function toAssetSummary(row: {
     type: row.type,
     width: dimensions.width,
     height: dimensions.height,
-    split: metadata.split ?? "UNASSIGNED",
-    status: metadata.status ?? "indexed",
+    split: metadata.split ?? 'UNASSIGNED',
+    status: metadata.status ?? 'indexed',
   };
 }
 
@@ -658,5 +658,5 @@ function createMemorySetId(datasetVersionId: string): string {
 }
 
 function sanitizeId(value: string): string {
-  return value.replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "item";
+  return value.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'item';
 }

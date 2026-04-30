@@ -1,23 +1,23 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const nodeBase = z.object({
   id: z.string().min(1),
 });
 
-export const PipelineNodeSchema = z.discriminatedUnion("type", [
+export const PipelineNodeSchema = z.discriminatedUnion('type', [
   nodeBase.extend({
-    type: z.literal("input"),
+    type: z.literal('input'),
     params: z.object({}),
   }),
   nodeBase.extend({
-    type: z.literal("resize"),
+    type: z.literal('resize'),
     params: z.object({
       width: z.number().int().positive(),
       height: z.number().int().positive().optional(),
     }),
   }),
   nodeBase.extend({
-    type: z.literal("hsv_filter"),
+    type: z.literal('hsv_filter'),
     params: z.object({
       hMin: z.number().min(0).max(360),
       hMax: z.number().min(0).max(360),
@@ -26,20 +26,20 @@ export const PipelineNodeSchema = z.discriminatedUnion("type", [
     }),
   }),
   nodeBase.extend({
-    type: z.literal("yolo_onnx"),
+    type: z.literal('yolo_onnx'),
     params: z.object({
       modelId: z.string().min(1).nullable(),
       threshold: z.number().min(0).max(1),
     }),
   }),
   nodeBase.extend({
-    type: z.literal("nms"),
+    type: z.literal('nms'),
     params: z.object({
       iouThreshold: z.number().min(0).max(1),
     }),
   }),
   nodeBase.extend({
-    type: z.literal("output"),
+    type: z.literal('output'),
     params: z.object({}),
   }),
 ]);
@@ -58,7 +58,7 @@ export const PipelineDefinitionSchema = z.object({
 
 export const PipelineValidationIssueSchema = z.object({
   code: z.string(),
-  severity: z.enum(["error", "warning"]),
+  severity: z.enum(['error', 'warning']),
   message: z.string(),
   nodeId: z.string().optional(),
   edgeId: z.string().optional(),
@@ -92,7 +92,7 @@ export const UpdatePipelineRequestSchema = z
     definition: PipelineDefinitionSchema.optional(),
   })
   .refine((value) => value.name !== undefined || value.definition !== undefined, {
-    message: "At least one pipeline field must be provided.",
+    message: 'At least one pipeline field must be provided.',
   });
 
 export const ValidatePipelineRequestSchema = z.object({
@@ -137,11 +137,11 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
   if (!parsed.success) {
     parsed.error.issues.forEach((issue) =>
       addIssue(issues, {
-        code: "schema_invalid",
-        severity: "error",
+        code: 'schema_invalid',
+        severity: 'error',
         message:
-          issue.path.length > 0 ? `${issue.path.join(".")}: ${issue.message}` : issue.message,
-      }),
+          issue.path.length > 0 ? `${issue.path.join('.')}: ${issue.message}` : issue.message,
+      })
     );
 
     return buildValidationResult(emptySummary(), issues);
@@ -151,48 +151,48 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
   const nodeIds = new Set(value.nodes.map((node) => node.id));
   const duplicateNodeIds = findDuplicates(value.nodes.map((node) => node.id));
   const duplicateEdgeIds = findDuplicates(value.edges.map((edge) => edge.id));
-  const inputNodes = value.nodes.filter((node) => node.type === "input");
-  const outputNodes = value.nodes.filter((node) => node.type === "output");
+  const inputNodes = value.nodes.filter((node) => node.type === 'input');
+  const outputNodes = value.nodes.filter((node) => node.type === 'output');
 
   duplicateNodeIds.forEach((nodeId) =>
     addIssue(issues, {
-      code: "duplicate_node_id",
-      severity: "error",
+      code: 'duplicate_node_id',
+      severity: 'error',
       message: `Node id ${nodeId} is used more than once.`,
       nodeId,
-    }),
+    })
   );
 
   duplicateEdgeIds.forEach((edgeId) =>
     addIssue(issues, {
-      code: "duplicate_edge_id",
-      severity: "error",
+      code: 'duplicate_edge_id',
+      severity: 'error',
       message: `Edge id ${edgeId} is used more than once.`,
       edgeId,
-    }),
+    })
   );
 
   if (inputNodes.length !== 1) {
     addIssue(issues, {
-      code: "input_count",
-      severity: "error",
-      message: "Pipeline must have exactly one input node.",
+      code: 'input_count',
+      severity: 'error',
+      message: 'Pipeline must have exactly one input node.',
     });
   }
 
   if (outputNodes.length !== 1) {
     addIssue(issues, {
-      code: "output_count",
-      severity: "error",
-      message: "Pipeline must have exactly one output node.",
+      code: 'output_count',
+      severity: 'error',
+      message: 'Pipeline must have exactly one output node.',
     });
   }
 
   for (const edge of value.edges) {
     if (!nodeIds.has(edge.source)) {
       addIssue(issues, {
-        code: "edge_missing_source",
-        severity: "error",
+        code: 'edge_missing_source',
+        severity: 'error',
         message: `Edge ${edge.id} references missing source node ${edge.source}.`,
         edgeId: edge.id,
       });
@@ -200,8 +200,8 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
 
     if (!nodeIds.has(edge.target)) {
       addIssue(issues, {
-        code: "edge_missing_target",
-        severity: "error",
+        code: 'edge_missing_target',
+        severity: 'error',
         message: `Edge ${edge.id} references missing target node ${edge.target}.`,
         edgeId: edge.id,
       });
@@ -222,55 +222,55 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
   }
 
   for (const node of value.nodes) {
-    if (node.type === "input" && (inbound.get(node.id) ?? 0) > 0) {
+    if (node.type === 'input' && (inbound.get(node.id) ?? 0) > 0) {
       addIssue(issues, {
-        code: "input_has_inbound",
-        severity: "error",
+        code: 'input_has_inbound',
+        severity: 'error',
         message: `Input node ${node.id} cannot have inbound edges.`,
         nodeId: node.id,
       });
     }
 
-    if (node.type === "output" && (outbound.get(node.id) ?? 0) > 0) {
+    if (node.type === 'output' && (outbound.get(node.id) ?? 0) > 0) {
       addIssue(issues, {
-        code: "output_has_outbound",
-        severity: "error",
+        code: 'output_has_outbound',
+        severity: 'error',
         message: `Output node ${node.id} cannot have outbound edges.`,
         nodeId: node.id,
       });
     }
 
-    if (node.type !== "input" && (inbound.get(node.id) ?? 0) === 0) {
+    if (node.type !== 'input' && (inbound.get(node.id) ?? 0) === 0) {
       addIssue(issues, {
-        code: "node_missing_inbound",
-        severity: "error",
+        code: 'node_missing_inbound',
+        severity: 'error',
         message: `Node ${node.id} needs an inbound edge.`,
         nodeId: node.id,
       });
     }
 
-    if (node.type !== "output" && (outbound.get(node.id) ?? 0) === 0) {
+    if (node.type !== 'output' && (outbound.get(node.id) ?? 0) === 0) {
       addIssue(issues, {
-        code: "node_missing_outbound",
-        severity: "error",
+        code: 'node_missing_outbound',
+        severity: 'error',
         message: `Node ${node.id} needs an outbound edge.`,
         nodeId: node.id,
       });
     }
 
-    if (node.type === "yolo_onnx" && !node.params.modelId) {
+    if (node.type === 'yolo_onnx' && !node.params.modelId) {
       addIssue(issues, {
-        code: "detector_missing_model",
-        severity: "error",
+        code: 'detector_missing_model',
+        severity: 'error',
         message: `Detector node ${node.id} requires a modelId.`,
         nodeId: node.id,
       });
     }
 
-    if (node.type === "hsv_filter" && node.params.hMin > node.params.hMax) {
+    if (node.type === 'hsv_filter' && node.params.hMin > node.params.hMax) {
       addIssue(issues, {
-        code: "hsv_range_invalid",
-        severity: "error",
+        code: 'hsv_range_invalid',
+        severity: 'error',
         message: `HSV node ${node.id} must keep hMin less than or equal to hMax.`,
         nodeId: node.id,
       });
@@ -288,8 +288,8 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
     for (const node of value.nodes) {
       if (!reachable.has(node.id)) {
         addIssue(issues, {
-          code: "node_unreachable_from_input",
-          severity: "error",
+          code: 'node_unreachable_from_input',
+          severity: 'error',
           message: `Node ${node.id} is not reachable from the input node.`,
           nodeId: node.id,
         });
@@ -303,8 +303,8 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
     for (const node of value.nodes) {
       if (!reachesOutput.has(node.id)) {
         addIssue(issues, {
-          code: "node_cannot_reach_output",
-          severity: "error",
+          code: 'node_cannot_reach_output',
+          severity: 'error',
           message: `Node ${node.id} does not lead to the output node.`,
           nodeId: node.id,
         });
@@ -314,16 +314,16 @@ export function validatePipelineDefinition(definition: unknown): PipelineValidat
 
   if (hasCycle(value.nodes, value.edges)) {
     addIssue(issues, {
-      code: "cycle_detected",
-      severity: "error",
-      message: "Pipeline graph cannot contain cycles.",
+      code: 'cycle_detected',
+      severity: 'error',
+      message: 'Pipeline graph cannot contain cycles.',
     });
   }
 
   const summary: PipelineValidationSummary = {
     nodeCount: value.nodes.length,
     edgeCount: value.edges.length,
-    detectorNodeCount: value.nodes.filter((node) => node.type === "yolo_onnx").length,
+    detectorNodeCount: value.nodes.filter((node) => node.type === 'yolo_onnx').length,
     inputNodeId: inputNode?.id ?? null,
     outputNodeId: outputNode?.id ?? null,
     executionOrder: topologicalOrder(value.nodes, value.edges),
@@ -464,11 +464,11 @@ function addIssue(issues: PipelineValidationIssue[], issue: PipelineValidationIs
 
 function buildValidationResult(
   summary: PipelineValidationSummary,
-  issues: PipelineValidationIssue[],
+  issues: PipelineValidationIssue[]
 ): PipelineValidationResult {
-  const errors = issues.filter((issue) => issue.severity === "error").map((issue) => issue.message);
+  const errors = issues.filter((issue) => issue.severity === 'error').map((issue) => issue.message);
   const warnings = issues
-    .filter((issue) => issue.severity === "warning")
+    .filter((issue) => issue.severity === 'warning')
     .map((issue) => issue.message);
 
   return {

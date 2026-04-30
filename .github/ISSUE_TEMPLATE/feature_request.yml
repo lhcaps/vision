@@ -1,0 +1,30 @@
+name: Feature Request
+description: Suggest a new feature or enhancement
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new feature? We'd love to hear it! Fill out the form below.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      placeholder: Describe the problem or use case this feature would address
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      placeholder: Describe your proposed solution or implementation
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      placeholder: Any alternative solutions you've considered
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      placeholder: Any other context, mockups, or references

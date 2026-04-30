@@ -1,2 +1,2 @@
-export { EvaluationMetricsPanel } from "./EvaluationMetricsPanel";
-export { PredictionOverlayCanvas } from "./PredictionOverlayCanvas";
+export { EvaluationMetricsPanel } from './EvaluationMetricsPanel';
+export { PredictionOverlayCanvas } from './PredictionOverlayCanvas';

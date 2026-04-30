@@ -7,9 +7,9 @@ import type {
   DatasetVersionListResponse,
   DatasetVersionSummary,
   LockDatasetVersionResponse,
-} from "@visionflow/contracts";
+} from '@visionflow/contracts';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:3000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:3000';
 
 export async function listProjectDatasets(projectId: string): Promise<DatasetListResponse> {
   return apiJson<DatasetListResponse>(`/api/projects/${projectId}/datasets`);
@@ -17,60 +17,60 @@ export async function listProjectDatasets(projectId: string): Promise<DatasetLis
 
 export async function createDataset(
   projectId: string,
-  body: CreateDatasetRequest,
+  body: CreateDatasetRequest
 ): Promise<DatasetSummary> {
   return apiJson<DatasetSummary>(`/api/projects/${projectId}/datasets`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(body),
   });
 }
 
 export async function listDatasetVersions(
   projectId: string,
-  datasetId: string,
+  datasetId: string
 ): Promise<DatasetVersionListResponse> {
   return apiJson<DatasetVersionListResponse>(
-    `/api/projects/${projectId}/datasets/${datasetId}/versions`,
+    `/api/projects/${projectId}/datasets/${datasetId}/versions`
   );
 }
 
 export async function createDatasetVersion(
   projectId: string,
   datasetId: string,
-  body: CreateDatasetVersionRequest,
+  body: CreateDatasetVersionRequest
 ): Promise<DatasetVersionSummary> {
   return apiJson<DatasetVersionSummary>(
     `/api/projects/${projectId}/datasets/${datasetId}/versions`,
     {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(body),
-    },
+    }
   );
 }
 
 export async function assignDatasetVersionAssets(
   projectId: string,
   versionId: string,
-  body: AssignDatasetVersionAssetsRequest,
+  body: AssignDatasetVersionAssetsRequest
 ): Promise<DatasetVersionSummary> {
   return apiJson<DatasetVersionSummary>(
     `/api/projects/${projectId}/dataset-versions/${versionId}/assets`,
     {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(body),
-    },
+    }
   );
 }
 
 export async function lockDatasetVersion(
   projectId: string,
-  versionId: string,
+  versionId: string
 ): Promise<LockDatasetVersionResponse> {
   return apiJson<LockDatasetVersionResponse>(
     `/api/projects/${projectId}/dataset-versions/${versionId}/lock`,
     {
-      method: "POST",
-    },
+      method: 'POST',
+    }
   );
 }
 
@@ -78,7 +78,7 @@ async function apiJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       ...init?.headers,
     },
   });
@@ -98,15 +98,15 @@ async function readApiError(response: Response): Promise<string> {
       detail?: string;
     };
 
-    if (typeof body.message === "string") {
+    if (typeof body.message === 'string') {
       return body.message;
     }
 
     if (Array.isArray(body.message)) {
-      return body.message.join(", ");
+      return body.message.join(', ');
     }
 
-    if (typeof body.message === "object" && body.message?.message) {
+    if (typeof body.message === 'object' && body.message?.message) {
       return body.message.detail
         ? `${body.message.message}: ${body.message.detail}`
         : body.message.message;

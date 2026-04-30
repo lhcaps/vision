@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: 2026-05-01 (Phase 9 completed)
+Status date: 2026-05-01 (Phase 10 completed)
 
 Legend:
 
@@ -88,6 +88,8 @@ Completed scope includes shared evaluation contracts (`EvaluationReport`, `PerCl
 
 Completed scope includes `TimelineReplayPanel` with frame strip, draggable scrubber, spring-physics BBox morph engine using Framer Motion `layoutId`, playback controls with speed selector, GT/Pred overlay toggle, and reduced-motion fallback; `DatasetVersionDiff` with dual version selectors, color-coded diff engine (added/removed/changed), ghost outline + connector lines for changed geometry, summary strip with count badges, and self-contained demo simulation; `PipelineExecutionFlow` with 5-node sequential pipeline graph, pulsing node states, flowing edge particles via SVG `stroke-dashoffset` animation, timing strip, collapsible worker log panel, and auto-loop demo simulation; global CSS audit consolidating all inline `<style>` blocks into `index.css`, unified `inner-border-*` design system, refined `@keyframes scan` timing, and motion token consistency across `packages/motion`.
 
-## Phase 10, Hardening - Planned
+## Phase 10, Hardening - Done
 
 - Tests, CI, README, one-command boot, demo script.
+
+Completed scope includes unified Vitest workspace with per-package configs (`vitest.workspace.ts`), 118 tests across 4 packages (api, web, contracts, motion), GitHub Actions CI workflow (lint, typecheck, test, build) and E2E workflow, ESLint 9 flat config with TypeScript/React/Tailwind rules, Prettier with Tailwind plugin, `.editorconfig`, project README with quick start and feature overview, one-command boot scripts for Unix and Windows PowerShell, demo data validator script, and Playwright E2E test scaffolding (navigation, pipeline, annotation specs).

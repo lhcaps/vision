@@ -1,11 +1,11 @@
 ---
-name: "Phase 10 Hardening"
+name: 'Phase 10 Hardening'
 phase: 10
 phase_slug: hardening
-padded_phase: "10"
+padded_phase: '10'
 status: planned
 date: 2026-05-01
-goal: "Tests, CI, README, one-command boot, demo script."
+goal: 'Tests, CI, README, one-command boot, demo script.'
 ---
 
 # Phase 10: Hardening — Context
@@ -38,21 +38,25 @@ Phase 10 delivers production-hardening deliverables that Phase 1-9 did not: auto
 ### Test Coverage Scope
 
 **API (`apps/api/`)**:
+
 - Service-level tests for `MediaService`, `ProjectsService`, `AnnotationService` (currently only memory-fallback tests exist for some)
 - API smoke tests for every endpoint using `supertest` + a NestJS `TestingModule` — test HTTP status codes, response shapes, validation rejection
 - Prisma schema migration test: `prisma db push --dry-run` in CI
 
 **Web (`apps/web/`)**:
+
 - Unit tests for `lib/` API functions (mock `fetch`)
 - Unit tests for `EvaluationMetricsPanel` metric tone logic
 - Unit tests for `DatasetVersionDiff` diff engine
 - Integration tests for App navigation between all 8 sections
 
 **Packages (`packages/`)**:
+
 - Contracts: add tests for `evaluation.ts` and `project-snapshot.ts` schemas (currently uncovered)
 - Motion: add tests for motion token exports
 
 **CV Worker (`apps/cv-worker/`)**:
+
 - Existing 9 pytest tests cover critical paths — no additions needed
 - Add `pytest.ini` for explicit config
 
@@ -81,6 +85,7 @@ Phase 10 delivers production-hardening deliverables that Phase 1-9 did not: auto
 ### One-Command Boot
 
 `pnpm dev:full` starts:
+
 1. `docker compose -f infra/docker-compose.yml up -d` (infra)
 2. `pnpm db:generate` (Prisma client)
 3. `pnpm turbo dev` (all TypeScript apps in parallel)
@@ -100,19 +105,23 @@ Phase 10 delivers production-hardening deliverables that Phase 1-9 did not: auto
 **Downstream agents MUST read these before planning or implementing.**
 
 ### Project Context
+
 - `.planning/PROJECT.md` — VisionFlow Studio product context and constraints
 - `.planning/STATE.md` — Current project state and verification evidence
 - `.planning/ROADMAP.md` — Phase 10 goal and phase history
 - `.planning/REQUIREMENTS.md` — All V1 requirements
 
 ### Phase 9 Artifacts (recent prior phase)
+
 - `.planning/phases/phase-9-timeline-replay-motion/VERIFICATION.md` — Phase 9 acceptance criteria
 - `.planning/phases/phase-9-timeline-replay-motion/UI-REVIEW.md` — Phase 9 design review findings
 
 ### Design System
+
 - `DESIGN.md` — Color tokens, typography, motion, layout, selection policy
 
 ### Frontend
+
 - `apps/web/package.json` — Dependencies and scripts
 - `apps/web/src/App.tsx` — App structure and section definitions
 - `apps/web/src/lib/` — API function files (what needs tests)
@@ -120,20 +129,24 @@ Phase 10 delivers production-hardening deliverables that Phase 1-9 did not: auto
 - `apps/web/src/features/timeline/DatasetVersionDiff.tsx` — Diff engine
 
 ### Backend
+
 - `apps/api/package.json` — NestJS scripts and deps
 - `apps/api/src/` — All service and controller files
 - `apps/api/src/inference/inference.service.ts` — Most complex service
 - `infra/prisma/schema.prisma` — Domain schema
 
 ### Shared Packages
+
 - `packages/contracts/src/` — All Zod schema files
 - `packages/motion/src/index.ts` — Motion token exports
 
 ### CV Worker
+
 - `apps/cv-worker/src/main.py` — FastAPI app
 - `apps/cv-worker/tests/test_worker.py` — Existing pytest tests
 
 ### Infrastructure
+
 - `infra/docker-compose.yml` — PostgreSQL + Redis + MinIO
 - `.env.example` — All environment variables
 
@@ -147,14 +160,12 @@ Phase 10 delivers production-hardening deliverables that Phase 1-9 did not: auto
 
 ```typescript
 // vitest.workspace.ts at project root
-import { defineWorkspace } from 'vitest/config'
-export default defineWorkspace([
-  'packages/*/vitest.config.ts',
-  'apps/*/vitest.config.ts',
-])
+import { defineWorkspace } from 'vitest/config';
+export default defineWorkspace(['packages/*/vitest.config.ts', 'apps/*/vitest.config.ts']);
 ```
 
 Each package needs its own `vitest.config.ts` since `turbo test` runs per-package. Config should include:
+
 - Environment: `jsdom` for web, `node` for api and packages
 - Coverage: v8 provider, threshold 60% for statements/branches
 - Aliases matching Vite aliases from root `tsconfig.base.json`
@@ -167,6 +178,7 @@ Runs-on: `ubuntu-latest`
 Node: 20.x (via setup-node)
 
 Steps:
+
 1. Checkout + pnpm setup
 2. `pnpm install --frozen-lockfile`
 3. `pnpm turbo typecheck`
@@ -177,6 +189,7 @@ Steps:
 ### Playwright E2E Tests
 
 Create `apps/web/e2e/` with smoke tests:
+
 - `navigation.spec.ts` — Navigate all 8 sections, no console errors
 - `annotation.spec.ts` — Draw a BBox on the annotate section
 - `pipeline.spec.ts` — Add and validate a pipeline
@@ -184,6 +197,7 @@ Create `apps/web/e2e/` with smoke tests:
 ### ESLint Config
 
 Use `eslint.config.js` (flat config) with:
+
 - `@typescript-eslint/recommended-type-checked`
 - `react` plugin
 - `react-hooks`
@@ -235,5 +249,5 @@ From `apps/api/src/lib/read-only-routes.ts` — all read-only routes exist alrea
 
 ---
 
-*Phase: 10-hardening*
-*Context gathered: 2026-05-01 via codebase exploration*
+_Phase: 10-hardening_
+_Context gathered: 2026-05-01 via codebase exploration_

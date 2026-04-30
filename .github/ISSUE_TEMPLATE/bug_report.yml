@@ -1,0 +1,48 @@
+name: Bug Report
+description: Report something that is not working as expected
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the form below to help us understand and reproduce the issue.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      placeholder: A clear and concise description of the bug
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      placeholder: What you expected to happen
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      placeholder: What actually happened
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        - OS: [e.g. macOS 14.4]
+        - Browser: [e.g. Chrome 124]
+        - App version: [e.g. 0.1.0]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      placeholder: Paste any relevant console or server logs here

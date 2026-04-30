@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 import {
   AcceptedMediaMime,
   classifyMediaType,
@@ -7,7 +7,7 @@ import {
   MediaAssetType,
   MediaProcessingJobType,
   validateMediaMime,
-} from "@visionflow/contracts";
+} from '@visionflow/contracts';
 
 export type MediaIngestionInput = {
   projectId: string;
@@ -30,7 +30,7 @@ export type MediaIngestionPlan = {
 
 export function buildMediaIngestionPlan(input: MediaIngestionInput): MediaIngestionPlan {
   const mimeType = validateMediaMime(input.mimeType);
-  const checksum = createHash("sha256").update(input.buffer).digest("hex");
+  const checksum = createHash('sha256').update(input.buffer).digest('hex');
   const mediaType = classifyMediaType(mimeType);
 
   return {
@@ -41,14 +41,14 @@ export function buildMediaIngestionPlan(input: MediaIngestionInput): MediaIngest
     checksum,
     storageKey: createMediaObjectKey(input.projectId, checksum, mimeType),
     sizeBytes: input.sizeBytes,
-    processingJobType: mediaType === "IMAGE" ? "THUMBNAIL" : "EXTRACT_FRAMES",
+    processingJobType: mediaType === 'IMAGE' ? 'THUMBNAIL' : 'EXTRACT_FRAMES',
   };
 }
 
 export function buildProcessingTargetKey(
   projectId: string,
   assetId: string,
-  type: MediaProcessingJobType,
+  type: MediaProcessingJobType
 ): string {
   return createDerivativeObjectKey(projectId, assetId, type);
 }

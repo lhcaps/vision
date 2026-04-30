@@ -1,10 +1,10 @@
-import { z } from "zod";
-import { BBoxGeometrySchema } from "./geometry";
-import { DatasetSplitSchema, MediaAssetTypeSchema, MediaUploadStatusSchema } from "./media";
+import { z } from 'zod';
+import { BBoxGeometrySchema } from './geometry';
+import { DatasetSplitSchema, MediaAssetTypeSchema, MediaUploadStatusSchema } from './media';
 
-export const LabelTypeSchema = z.enum(["BBOX", "MASK", "KEYPOINT"]);
-export const AnnotationSourceSchema = z.enum(["MANUAL", "MODEL", "IMPORT"]);
-export const AnnotationSetStatusSchema = z.enum(["DRAFT", "REVIEWING", "APPROVED", "REJECTED"]);
+export const LabelTypeSchema = z.enum(['BBOX', 'MASK', 'KEYPOINT']);
+export const AnnotationSourceSchema = z.enum(['MANUAL', 'MODEL', 'IMPORT']);
+export const AnnotationSetStatusSchema = z.enum(['DRAFT', 'REVIEWING', 'APPROVED', 'REJECTED']);
 
 export const AnnotationLabelSummarySchema = z.object({
   id: z.string().min(1),
@@ -29,7 +29,7 @@ export const AnnotationSummarySchema = z.object({
   labelClassId: z.string().min(1),
   label: z.string().min(1),
   color: z.string().min(1),
-  type: z.literal("BBOX"),
+  type: z.literal('BBOX'),
   geometry: BBoxGeometrySchema,
   source: AnnotationSourceSchema,
   confidence: z.number().min(0).max(1).nullable(),
@@ -68,31 +68,31 @@ export const UpdateAnnotationRequestSchema = z
     geometry: BBoxGeometrySchema.optional(),
   })
   .refine((body) => body.labelClassId !== undefined || body.geometry !== undefined, {
-    message: "Update annotation request must include labelClassId or geometry.",
+    message: 'Update annotation request must include labelClassId or geometry.',
   });
 
 export const DeleteAnnotationResponseSchema = z.object({
   deletedId: z.string().min(1),
 });
 
-export const AnnotationSaveOperationSchema = z.discriminatedUnion("kind", [
+export const AnnotationSaveOperationSchema = z.discriminatedUnion('kind', [
   z.object({
-    kind: z.literal("create"),
+    kind: z.literal('create'),
     clientId: z.string().min(1),
     body: CreateAnnotationRequestSchema,
   }),
   z.object({
-    kind: z.literal("update"),
+    kind: z.literal('update'),
     annotationId: z.string().min(1),
     body: UpdateAnnotationRequestSchema,
   }),
   z.object({
-    kind: z.literal("delete"),
+    kind: z.literal('delete'),
     annotationId: z.string().min(1),
   }),
 ]);
 
-export const AnnotationSaveStatusSchema = z.enum(["queued", "saving", "saved", "failed"]);
+export const AnnotationSaveStatusSchema = z.enum(['queued', 'saving', 'saved', 'failed']);
 
 export const AnnotationSaveQueueItemSchema = z.object({
   id: z.string().min(1),

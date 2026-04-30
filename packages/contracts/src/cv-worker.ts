@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { BBoxGeometrySchema } from "./geometry";
-import { PipelineDefinitionSchema } from "./pipeline";
+import { z } from 'zod';
+import { BBoxGeometrySchema } from './geometry';
+import { PipelineDefinitionSchema } from './pipeline';
 
-export const CvWorkerDetectorModeSchema = z.enum(["mock", "onnx"]);
+export const CvWorkerDetectorModeSchema = z.enum(['mock', 'onnx']);
 
 export const CvWorkerAssetInputSchema = z.object({
   assetId: z.string().min(1),
@@ -22,7 +22,7 @@ export const CvWorkerPredictionSchema = z.object({
 export const CvWorkerRunPipelineRequestSchema = z.object({
   jobId: z.string().min(1),
   pipeline: PipelineDefinitionSchema,
-  detectorMode: CvWorkerDetectorModeSchema.default("mock"),
+  detectorMode: CvWorkerDetectorModeSchema.default('mock'),
   modelArtifactKey: z.string().min(1).nullable().optional(),
   confidenceThreshold: z.number().min(0).max(1).optional(),
   assets: z.array(CvWorkerAssetInputSchema).min(1),
@@ -30,7 +30,7 @@ export const CvWorkerRunPipelineRequestSchema = z.object({
 
 export const CvWorkerRunPipelineResponseSchema = z.object({
   jobId: z.string().min(1),
-  mode: z.enum(["mock_detector", "onnx_detector"]),
+  mode: z.enum(['mock_detector', 'onnx_detector']),
   workerVersion: z.string().min(1),
   assetCount: z.number().int().nonnegative(),
   predictionCount: z.number().int().nonnegative(),

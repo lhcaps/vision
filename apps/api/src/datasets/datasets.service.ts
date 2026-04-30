@@ -4,8 +4,8 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-} from "@nestjs/common";
-import { Prisma } from "@prisma/client";
+} from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import {
   AssignDatasetVersionAssetsRequest,
   CreateDatasetRequest,
@@ -16,9 +16,9 @@ import {
   DatasetVersionSummary,
   assertDraftDatasetVersion,
   summarizeDatasetSplits,
-} from "@visionflow/contracts";
-import { PrismaService } from "../prisma/prisma.service";
-import { demoSnapshot } from "../projects/demo-snapshot";
+} from '@visionflow/contracts';
+import { PrismaService } from '../prisma/prisma.service';
+import { demoSnapshot } from '../projects/demo-snapshot';
 
 type VersionAssetRow = {
   assetId?: string;
@@ -92,7 +92,7 @@ export class DatasetsService {
         include: datasetInclude,
       });
 
-      await this.writeAudit(projectId, "DATASET_CREATED", "Dataset", dataset.id, {
+      await this.writeAudit(projectId, 'DATASET_CREATED', 'Dataset', dataset.id, {
         name: dataset.name,
       });
 
@@ -118,7 +118,7 @@ export class DatasetsService {
       const datasets = await this.prisma.dataset.findMany({
         where: { projectId },
         include: datasetInclude,
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: 'desc' },
       });
 
       return datasets.map((dataset) => toDatasetSummary(dataset));
@@ -135,7 +135,7 @@ export class DatasetsService {
   async createVersion(
     projectId: string,
     datasetId: string,
-    dto: CreateDatasetVersionRequest,
+    dto: CreateDatasetVersionRequest
   ): Promise<DatasetVersionSummary> {
     if (process.env.DATABASE_URL) {
       await this.assertDatasetForProject(projectId, datasetId);
@@ -158,7 +158,7 @@ export class DatasetsService {
         include: versionInclude,
       });
 
-      await this.writeAudit(projectId, "DATASET_VERSION_CREATED", "DatasetVersion", version.id, {
+      await this.writeAudit(projectId, 'DATASET_VERSION_CREATED', 'DatasetVersion', version.id, {
         datasetId,
         version: nextVersion,
         parentVersionId: dto.parentVersionId ?? null,
@@ -179,7 +179,7 @@ export class DatasetsService {
       id: `dataset_version_${sanitizeId(datasetId)}_${versions.length + 1}`,
       datasetId,
       version: versions.length + 1,
-      status: "DRAFT",
+      status: 'DRAFT',
       parentVersionId: dto.parentVersionId ?? null,
       createdAt: new Date().toISOString(),
     };
@@ -196,7 +196,7 @@ export class DatasetsService {
       const versions = await this.prisma.datasetVersion.findMany({
         where: { datasetId },
         include: versionInclude,
-        orderBy: { version: "desc" },
+        orderBy: { version: 'desc' },
       });
 
       return versions.map((version) => toVersionSummary(version));
@@ -225,7 +225,7 @@ export class DatasetsService {
       });
 
       if (!version) {
-        throw new NotFoundException("Dataset version not found for this project.");
+        throw new NotFoundException('Dataset version not found for this project.');
       }
 
       return version.assets.map((asset) => asset.assetId);
@@ -240,7 +240,7 @@ export class DatasetsService {
   async assignAssets(
     projectId: string,
     versionId: string,
-    dto: AssignDatasetVersionAssetsRequest,
+    dto: AssignDatasetVersionAssetsRequest
   ): Promise<DatasetVersionSummary> {
     this.assertNoDuplicateRequestAssets(dto);
 
@@ -255,7 +255,7 @@ export class DatasetsService {
         });
 
         if (!version) {
-          throw new NotFoundException("Dataset version not found for this project.");
+          throw new NotFoundException('Dataset version not found for this project.');
         }
 
         this.assertDraft(version.status);
@@ -270,7 +270,7 @@ export class DatasetsService {
         });
 
         if (assets.length !== assetIds.length) {
-          throw new BadRequestException("One or more assets do not belong to this project.");
+          throw new BadRequestException('One or more assets do not belong to this project.');
         }
 
         const existing = await tx.datasetVersionAsset.findMany({
@@ -282,7 +282,7 @@ export class DatasetsService {
         });
 
         if (existing.length > 0) {
-          throw new ConflictException("Assets cannot be assigned twice to the same version.");
+          throw new ConflictException('Assets cannot be assigned twice to the same version.');
         }
 
         await tx.datasetVersionAsset.createMany({
@@ -296,8 +296,8 @@ export class DatasetsService {
         await tx.auditLog.create({
           data: {
             projectId,
-            action: "DATASET_VERSION_ASSETS_ASSIGNED",
-            targetType: "DatasetVersion",
+            action: 'DATASET_VERSION_ASSETS_ASSIGNED',
+            targetType: 'DatasetVersion',
             targetId: versionId,
             metadataJson: {
               assetCount: dto.assets.length,
@@ -322,11 +322,11 @@ export class DatasetsService {
     const existingAssetIds = new Set(
       this.memoryVersionAssets
         .filter((asset) => asset.datasetVersionId === versionId)
-        .map((asset) => asset.assetId),
+        .map((asset) => asset.assetId)
     );
 
     if (dto.assets.some((asset) => existingAssetIds.has(asset.assetId))) {
-      throw new ConflictException("Assets cannot be assigned twice to the same version.");
+      throw new ConflictException('Assets cannot be assigned twice to the same version.');
     }
 
     const now = new Date().toISOString();
@@ -336,7 +336,7 @@ export class DatasetsService {
         assetId: asset.assetId,
         split: asset.split,
         createdAt: now,
-      })),
+      }))
     );
 
     return this.toMemoryVersionSummary(version);
@@ -354,10 +354,10 @@ export class DatasetsService {
         });
 
         if (!version) {
-          throw new NotFoundException("Dataset version not found for this project.");
+          throw new NotFoundException('Dataset version not found for this project.');
         }
 
-        if (version.status === "LOCKED") {
+        if (version.status === 'LOCKED') {
           return toVersionSummary(version);
         }
 
@@ -365,15 +365,15 @@ export class DatasetsService {
 
         const locked = await tx.datasetVersion.update({
           where: { id: versionId },
-          data: { status: "LOCKED" },
+          data: { status: 'LOCKED' },
           include: versionInclude,
         });
 
         await tx.auditLog.create({
           data: {
             projectId,
-            action: "DATASET_VERSION_LOCKED",
-            targetType: "DatasetVersion",
+            action: 'DATASET_VERSION_LOCKED',
+            targetType: 'DatasetVersion',
             targetId: versionId,
             metadataJson: {
               assetCount: locked.assets.length,
@@ -389,12 +389,12 @@ export class DatasetsService {
     this.ensureMemorySeed(projectId);
     const version = this.assertMemoryVersion(projectId, versionId);
 
-    if (version.status === "LOCKED") {
+    if (version.status === 'LOCKED') {
       return this.toMemoryVersionSummary(version);
     }
 
     this.assertDraft(version.status);
-    version.status = "LOCKED";
+    version.status = 'LOCKED';
 
     return this.toMemoryVersionSummary(version);
   }
@@ -416,7 +416,7 @@ export class DatasetsService {
     action: string,
     targetType: string,
     targetId: string,
-    metadataJson: Prisma.InputJsonObject,
+    metadataJson: Prisma.InputJsonObject
   ): Promise<void> {
     await this.prisma.auditLog.create({
       data: {
@@ -439,14 +439,14 @@ export class DatasetsService {
     });
 
     if (!dataset) {
-      throw new NotFoundException("Dataset not found for this project.");
+      throw new NotFoundException('Dataset not found for this project.');
     }
   }
 
   private async assertVersionForDataset(
     projectId: string,
     datasetId: string,
-    versionId: string,
+    versionId: string
   ): Promise<void> {
     const version = await this.prisma.datasetVersion.findFirst({
       where: {
@@ -458,7 +458,7 @@ export class DatasetsService {
     });
 
     if (!version) {
-      throw new NotFoundException("Parent dataset version not found for this project.");
+      throw new NotFoundException('Parent dataset version not found for this project.');
     }
   }
 
@@ -466,7 +466,7 @@ export class DatasetsService {
     try {
       assertDraftDatasetVersion(status);
     } catch {
-      throw new ConflictException("Version is locked and cannot be modified.");
+      throw new ConflictException('Version is locked and cannot be modified.');
     }
   }
 
@@ -475,26 +475,26 @@ export class DatasetsService {
     const uniqueIds = new Set(assetIds);
 
     if (uniqueIds.size !== assetIds.length) {
-      throw new ConflictException("Request contains duplicate asset assignments.");
+      throw new ConflictException('Request contains duplicate asset assignments.');
     }
   }
 
   private ensureMemorySeed(projectId: string): void {
     const hasProjectDataset = [...this.memoryDatasets.values()].some(
-      (dataset) => dataset.projectId === projectId,
+      (dataset) => dataset.projectId === projectId
     );
 
     if (hasProjectDataset) {
       return;
     }
 
-    const now = new Date("2026-04-28T12:00:00.000Z").toISOString();
+    const now = new Date('2026-04-28T12:00:00.000Z').toISOString();
     const datasetId = `dataset_${sanitizeId(projectId)}_parking`;
     const dataset: MemoryDataset = {
       id: datasetId,
       projectId,
-      name: projectId === demoSnapshot.project.id ? "Parking Lot Dataset" : "Demo Dataset",
-      description: "Curated media grouped into immutable detector evaluation snapshots.",
+      name: projectId === demoSnapshot.project.id ? 'Parking Lot Dataset' : 'Demo Dataset',
+      description: 'Curated media grouped into immutable detector evaluation snapshots.',
       createdAt: now,
     };
     const versions: MemoryVersion[] = [
@@ -502,33 +502,33 @@ export class DatasetsService {
         id: `${datasetId}_v1`,
         datasetId,
         version: 1,
-        status: "LOCKED",
+        status: 'LOCKED',
         parentVersionId: null,
-        createdAt: "2026-04-28T12:05:00.000Z",
+        createdAt: '2026-04-28T12:05:00.000Z',
       },
       {
         id: `${datasetId}_v2`,
         datasetId,
         version: 2,
-        status: "LOCKED",
+        status: 'LOCKED',
         parentVersionId: `${datasetId}_v1`,
-        createdAt: "2026-04-28T12:16:00.000Z",
+        createdAt: '2026-04-28T12:16:00.000Z',
       },
       {
         id: `${datasetId}_v3`,
         datasetId,
         version: 3,
-        status: "LOCKED",
+        status: 'LOCKED',
         parentVersionId: `${datasetId}_v2`,
-        createdAt: "2026-04-28T12:28:00.000Z",
+        createdAt: '2026-04-28T12:28:00.000Z',
       },
       {
         id: `${datasetId}_v4`,
         datasetId,
         version: 4,
-        status: "DRAFT",
+        status: 'DRAFT',
         parentVersionId: `${datasetId}_v3`,
-        createdAt: "2026-04-28T12:42:00.000Z",
+        createdAt: '2026-04-28T12:42:00.000Z',
       },
     ];
 
@@ -554,7 +554,7 @@ export class DatasetsService {
         assetId: asset.id,
         split: asset.split,
         createdAt: versions[2].createdAt,
-      })),
+      }))
     );
   }
 
@@ -562,7 +562,7 @@ export class DatasetsService {
     const dataset = this.memoryDatasets.get(datasetId);
 
     if (!dataset || dataset.projectId !== projectId) {
-      throw new NotFoundException("Dataset not found for this project.");
+      throw new NotFoundException('Dataset not found for this project.');
     }
 
     return dataset;
@@ -573,7 +573,7 @@ export class DatasetsService {
     const dataset = version ? this.memoryDatasets.get(version.datasetId) : null;
 
     if (!version || !dataset || dataset.projectId !== projectId) {
-      throw new NotFoundException("Dataset version not found for this project.");
+      throw new NotFoundException('Dataset version not found for this project.');
     }
 
     return version;
@@ -592,7 +592,7 @@ export class DatasetsService {
     const assetIds = new Set(
       this.memoryVersionAssets
         .filter((asset) => versions.some((version) => version.id === asset.datasetVersionId))
-        .map((asset) => asset.assetId),
+        .map((asset) => asset.assetId)
     );
 
     return {
@@ -601,8 +601,8 @@ export class DatasetsService {
       name: dataset.name,
       description: dataset.description,
       versionCount: versions.length,
-      draftVersionCount: versions.filter((version) => version.status === "DRAFT").length,
-      lockedVersionCount: versions.filter((version) => version.status === "LOCKED").length,
+      draftVersionCount: versions.filter((version) => version.status === 'DRAFT').length,
+      lockedVersionCount: versions.filter((version) => version.status === 'LOCKED').length,
       assetCount: assetIds.size,
       createdAt: dataset.createdAt,
     };
@@ -663,8 +663,8 @@ function toDatasetSummary(row: DatasetRow): DatasetSummary {
     name: row.name,
     description: row.description,
     versionCount: row.versions.length,
-    draftVersionCount: row.versions.filter((version) => version.status === "DRAFT").length,
-    lockedVersionCount: row.versions.filter((version) => version.status === "LOCKED").length,
+    draftVersionCount: row.versions.filter((version) => version.status === 'DRAFT').length,
+    lockedVersionCount: row.versions.filter((version) => version.status === 'LOCKED').length,
     assetCount: assetIds.size,
     createdAt: row.createdAt.toISOString(),
   };
@@ -685,5 +685,5 @@ function toVersionSummary(row: DatasetVersionRow): DatasetVersionSummary {
 }
 
 function sanitizeId(value: string): string {
-  return value.replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "project";
+  return value.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'project';
 }

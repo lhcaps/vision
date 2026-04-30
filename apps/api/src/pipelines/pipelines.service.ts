@@ -1,5 +1,5 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import {
   CreatePipelineRequest,
   PipelineDefinition,
@@ -8,9 +8,9 @@ import {
   PipelineValidationResult,
   UpdatePipelineRequest,
   validatePipelineDefinition,
-} from "@visionflow/contracts";
-import { PrismaService } from "../prisma/prisma.service";
-import { demoSnapshot } from "../projects/demo-snapshot";
+} from '@visionflow/contracts';
+import { PrismaService } from '../prisma/prisma.service';
+import { demoSnapshot } from '../projects/demo-snapshot';
 
 type PipelineRow = {
   id: string;
@@ -40,7 +40,7 @@ export class PipelinesService {
     if (process.env.DATABASE_URL) {
       const pipelines = await this.prisma.pipeline.findMany({
         where: { projectId },
-        orderBy: { updatedAt: "desc" },
+        orderBy: { updatedAt: 'desc' },
       });
 
       return pipelines.map((pipeline) => toPipelineSummary(pipeline));
@@ -69,7 +69,7 @@ export class PipelinesService {
         },
       });
 
-      await this.writeAudit(projectId, "PIPELINE_CREATED", "Pipeline", pipeline.id, {
+      await this.writeAudit(projectId, 'PIPELINE_CREATED', 'Pipeline', pipeline.id, {
         name: pipeline.name,
         nodeCount: validation.summary.nodeCount,
         edgeCount: validation.summary.edgeCount,
@@ -96,7 +96,7 @@ export class PipelinesService {
   async updatePipeline(
     projectId: string,
     pipelineId: string,
-    dto: UpdatePipelineRequest,
+    dto: UpdatePipelineRequest
   ): Promise<PipelineSummary> {
     if (process.env.DATABASE_URL) {
       const existing = await this.prisma.pipeline.findFirst({
@@ -107,7 +107,7 @@ export class PipelinesService {
       });
 
       if (!existing) {
-        throw new NotFoundException("Pipeline not found for this project.");
+        throw new NotFoundException('Pipeline not found for this project.');
       }
 
       const definition = dto.definition ?? PipelineDefinitionSchema.parse(existing.definitionJson);
@@ -122,7 +122,7 @@ export class PipelinesService {
         },
       });
 
-      await this.writeAudit(projectId, "PIPELINE_UPDATED", "Pipeline", pipeline.id, {
+      await this.writeAudit(projectId, 'PIPELINE_UPDATED', 'Pipeline', pipeline.id, {
         name: pipeline.name,
         nodeCount: validation.summary.nodeCount,
         edgeCount: validation.summary.edgeCount,
@@ -136,7 +136,7 @@ export class PipelinesService {
     const existing = this.memoryPipelines.get(pipelineId);
 
     if (!existing || existing.projectId !== projectId) {
-      throw new NotFoundException("Pipeline not found for this project.");
+      throw new NotFoundException('Pipeline not found for this project.');
     }
 
     const definition = dto.definition ?? existing.definition;
@@ -162,7 +162,7 @@ export class PipelinesService {
   private assertValid(validation: PipelineValidationResult): void {
     if (!validation.ok) {
       throw new BadRequestException({
-        message: "Invalid pipeline graph.",
+        message: 'Invalid pipeline graph.',
         issues: validation.issues,
       });
     }
@@ -170,18 +170,18 @@ export class PipelinesService {
 
   private ensureMemorySeed(projectId: string): void {
     const hasProjectPipeline = [...this.memoryPipelines.values()].some(
-      (pipeline) => pipeline.projectId === projectId,
+      (pipeline) => pipeline.projectId === projectId
     );
 
     if (hasProjectPipeline) {
       return;
     }
 
-    const now = new Date("2026-04-29T09:00:00.000Z").toISOString();
+    const now = new Date('2026-04-29T09:00:00.000Z').toISOString();
     const pipeline: MemoryPipeline = {
       id: `pipeline_${sanitizeId(projectId)}_parking_detector`,
       projectId,
-      name: "Parking detector pipeline",
+      name: 'Parking detector pipeline',
       definition: demoSnapshot.pipeline,
       createdAt: now,
       updatedAt: now,
@@ -207,7 +207,7 @@ export class PipelinesService {
     action: string,
     targetType: string,
     targetId: string,
-    metadataJson: Prisma.InputJsonObject,
+    metadataJson: Prisma.InputJsonObject
   ): Promise<void> {
     await this.prisma.auditLog.create({
       data: {
@@ -248,5 +248,5 @@ function toMemoryPipelineSummary(row: MemoryPipeline): PipelineSummary {
 }
 
 function sanitizeId(value: string): string {
-  return value.replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "project";
+  return value.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'project';
 }

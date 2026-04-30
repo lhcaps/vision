@@ -24,34 +24,34 @@ requirements:
 user_setup: []
 must_haves:
   truths:
-    - "A dataset is mutable identity while dataset versions are immutable snapshots."
-    - "Draft dataset versions accept asset assignment with TRAIN, VALID, TEST, or UNASSIGNED splits."
-    - "Locked dataset versions reject further asset assignment."
-    - "The same asset cannot be assigned twice to the same dataset version."
-    - "Split summaries are computed from version asset rows, not hardcoded UI constants."
-    - "When DATABASE_URL is absent, the API still exposes a useful demo dataset versioning fallback."
+    - 'A dataset is mutable identity while dataset versions are immutable snapshots.'
+    - 'Draft dataset versions accept asset assignment with TRAIN, VALID, TEST, or UNASSIGNED splits.'
+    - 'Locked dataset versions reject further asset assignment.'
+    - 'The same asset cannot be assigned twice to the same dataset version.'
+    - 'Split summaries are computed from version asset rows, not hardcoded UI constants.'
+    - 'When DATABASE_URL is absent, the API still exposes a useful demo dataset versioning fallback.'
   artifacts:
-    - path: "packages/contracts/src/datasets.ts"
-      provides: "Shared dataset DTO schemas, split summaries, and immutable rule helpers"
+    - path: 'packages/contracts/src/datasets.ts'
+      provides: 'Shared dataset DTO schemas, split summaries, and immutable rule helpers'
       min_lines: 80
-      contains: "DatasetVersionSummarySchema"
-    - path: "apps/api/src/datasets/datasets.service.ts"
-      provides: "Prisma-backed and memory-backed dataset versioning workflow"
+      contains: 'DatasetVersionSummarySchema'
+    - path: 'apps/api/src/datasets/datasets.service.ts'
+      provides: 'Prisma-backed and memory-backed dataset versioning workflow'
       min_lines: 160
-      contains: "assignAssets"
-    - path: "apps/web/src/App.tsx"
-      provides: "Version timeline UI with draft, split summary, assignment, and lock actions"
+      contains: 'assignAssets'
+    - path: 'apps/web/src/App.tsx'
+      provides: 'Version timeline UI with draft, split summary, assignment, and lock actions'
       min_lines: 1000
-      contains: "DatasetPanel"
+      contains: 'DatasetPanel'
   key_links:
-    - from: "apps/api/src/datasets/datasets.controller.ts"
-      to: "packages/contracts/src/datasets.ts"
-      via: "Zod request and response schemas"
-      pattern: "DatasetVersionSummarySchema"
-    - from: "apps/web/src/lib/datasets.ts"
-      to: "/api/projects/:projectId/datasets"
-      via: "fetch client"
-      pattern: "dataset-versions"
+    - from: 'apps/api/src/datasets/datasets.controller.ts'
+      to: 'packages/contracts/src/datasets.ts'
+      via: 'Zod request and response schemas'
+      pattern: 'DatasetVersionSummarySchema'
+    - from: 'apps/web/src/lib/datasets.ts'
+      to: '/api/projects/:projectId/datasets'
+      via: 'fetch client'
+      pattern: 'dataset-versions'
 ---
 
 # Phase 3 Plan, Dataset Versioning

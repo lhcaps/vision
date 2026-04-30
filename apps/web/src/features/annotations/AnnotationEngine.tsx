@@ -11,10 +11,10 @@ import {
   StackIcon as Stack,
   TrashIcon as Trash,
   WarningCircleIcon as WarningCircle,
-} from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { CSSProperties, Dispatch, PointerEvent, SetStateAction } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+} from '@phosphor-icons/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import type { CSSProperties, Dispatch, PointerEvent, SetStateAction } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AnnotationAssetSummary,
   AnnotationLabelSummary,
@@ -23,26 +23,26 @@ import type {
   AnnotationSummary,
   AnnotationWorkspaceResponse,
   BBoxGeometry,
-} from "@visionflow/contracts";
-import { bboxArea, clampBBox } from "@visionflow/contracts";
-import { motionTokens } from "@visionflow/motion";
-import { demoSnapshot } from "../../data/demo";
+} from '@visionflow/contracts';
+import { bboxArea, clampBBox } from '@visionflow/contracts';
+import { motionTokens } from '@visionflow/motion';
+import { demoSnapshot } from '../../data/demo';
 import {
   createAnnotation,
   deleteAnnotation,
   loadAnnotationWorkspace,
   updateAnnotation,
-} from "../../lib/annotations";
+} from '../../lib/annotations';
 
-export const DEFAULT_ANNOTATION_VERSION_ID = "dataset_proj_parking_lot_parking_v3";
+export const DEFAULT_ANNOTATION_VERSION_ID = 'dataset_proj_parking_lot_parking_v3';
 
-type SourceState = "loading" | "api" | "fallback";
-type ToolMode = "select" | "draw";
+type SourceState = 'loading' | 'api' | 'fallback';
+type ToolMode = 'select' | 'draw';
 
 export type AnnotationMediaRow = {
   id: string;
   name: string;
-  type: "IMAGE" | "VIDEO" | "FRAME";
+  type: 'IMAGE' | 'VIDEO' | 'FRAME';
   width: number | null;
   height: number | null;
   split: string;
@@ -84,7 +84,7 @@ export function createSeedAnnotationSummaries(): AnnotationSummary[] {
       labelClassId: label.id,
       label: label.name,
       color: label.color,
-      type: "BBOX",
+      type: 'BBOX',
       geometry: annotation.geometry,
       source: annotation.source,
       confidence: annotation.confidence ?? null,
@@ -107,52 +107,52 @@ export function AnnotationEnginePanel({
   const shouldReduceMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement | null>(null);
   const annotationsRef = useRef(annotations);
-  const [sourceState, setSourceState] = useState<SourceState>("loading");
+  const [sourceState, setSourceState] = useState<SourceState>('loading');
   const [workspace, setWorkspace] = useState<AnnotationWorkspaceResponse>(() =>
-    createFallbackWorkspace(projectId, DEFAULT_ANNOTATION_VERSION_ID, annotations),
+    createFallbackWorkspace(projectId, DEFAULT_ANNOTATION_VERSION_ID, annotations)
   );
-  const [selectedAssetId, setSelectedAssetId] = useState("asset_frame_1482");
-  const [activeLabelId, setActiveLabelId] = useState("");
-  const [toolMode, setToolMode] = useState<ToolMode>("draw");
+  const [selectedAssetId, setSelectedAssetId] = useState('asset_frame_1482');
+  const [activeLabelId, setActiveLabelId] = useState('');
+  const [toolMode, setToolMode] = useState<ToolMode>('draw');
   const [drawing, setDrawing] = useState<DrawingState | null>(null);
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
 
   const imageRows = useMemo(
-    () => mediaRows.filter((row) => row.type === "IMAGE" || row.type === "FRAME"),
-    [mediaRows],
+    () => mediaRows.filter((row) => row.type === 'IMAGE' || row.type === 'FRAME'),
+    [mediaRows]
   );
   const selectedAsset = normalizeAsset(
     (workspace.asset?.id === selectedAssetId ? workspace.asset : null) ??
       imageRows.find((row) => row.id === selectedAssetId) ??
       workspace.asset ??
-      createFallbackAsset(selectedAssetId),
+      createFallbackAsset(selectedAssetId)
   );
   const visibleAnnotations = useMemo(
     () => annotations.filter((annotation) => annotation.assetId === selectedAsset.id),
-    [annotations, selectedAsset.id],
+    [annotations, selectedAsset.id]
   );
   const selectedAnnotation = visibleAnnotations.find(
-    (annotation) => annotation.id === selectedAnnotationId,
+    (annotation) => annotation.id === selectedAnnotationId
   );
   const activeLabel =
     workspace.labels.find((label) => label.id === activeLabelId) ?? workspace.labels[0];
-  const queuedCount = queue.filter((item) => item.status === "queued").length;
-  const failedCount = queue.filter((item) => item.status === "failed").length;
-  const savingCount = queue.filter((item) => item.status === "saving").length;
+  const queuedCount = queue.filter((item) => item.status === 'queued').length;
+  const failedCount = queue.filter((item) => item.status === 'failed').length;
+  const savingCount = queue.filter((item) => item.status === 'saving').length;
 
   useEffect(() => {
     annotationsRef.current = annotations;
   }, [annotations]);
 
   const refreshWorkspace = useCallback(async () => {
-    setSourceState("loading");
+    setSourceState('loading');
 
     try {
       const response = await loadAnnotationWorkspace(
         projectId,
         DEFAULT_ANNOTATION_VERSION_ID,
-        selectedAssetId,
+        selectedAssetId
       );
 
       setWorkspace(response);
@@ -160,18 +160,18 @@ export function AnnotationEnginePanel({
         const untouched = current.filter((annotation) => annotation.assetId !== selectedAssetId);
         return [...untouched, ...response.annotations];
       });
-      setActiveLabelId((current) => current || response.labels[0]?.id || "");
-      setSourceState("api");
+      setActiveLabelId((current) => current || response.labels[0]?.id || '');
+      setSourceState('api');
     } catch {
       const fallback = createFallbackWorkspace(
         projectId,
         DEFAULT_ANNOTATION_VERSION_ID,
         annotationsRef.current,
-        selectedAssetId,
+        selectedAssetId
       );
       setWorkspace(fallback);
-      setActiveLabelId((current) => current || fallback.labels[0]?.id || "");
-      setSourceState("fallback");
+      setActiveLabelId((current) => current || fallback.labels[0]?.id || '');
+      setSourceState('fallback');
     }
   }, [projectId, selectedAssetId, setAnnotations]);
 
@@ -190,32 +190,32 @@ export function AnnotationEnginePanel({
   const enqueue = useCallback((operation: AnnotationSaveOperation, label: string) => {
     setQueue((current) => {
       const id =
-        operation.kind === "create"
+        operation.kind === 'create'
           ? operation.clientId
-          : operation.kind === "update"
+          : operation.kind === 'update'
             ? operation.annotationId
             : operation.annotationId;
       const withoutSuperseded = current.filter((item) => {
-        if (operation.kind === "create") {
+        if (operation.kind === 'create') {
           return item.id !== id;
         }
 
-        if (operation.kind === "update") {
+        if (operation.kind === 'update') {
           return !(
-            item.operation.kind === "update" &&
+            item.operation.kind === 'update' &&
             item.operation.annotationId === operation.annotationId
           );
         }
 
         if (
-          item.operation.kind === "create" &&
+          item.operation.kind === 'create' &&
           item.operation.clientId === operation.annotationId
         ) {
           return false;
         }
 
         return !(
-          item.operation.kind === "update" && item.operation.annotationId === operation.annotationId
+          item.operation.kind === 'update' && item.operation.annotationId === operation.annotationId
         );
       });
 
@@ -225,7 +225,7 @@ export function AnnotationEnginePanel({
           id,
           operation,
           label,
-          status: "queued",
+          status: 'queued',
           queuedAt: new Date().toISOString(),
         },
       ];
@@ -248,9 +248,9 @@ export function AnnotationEnginePanel({
         labelClassId: activeLabel.id,
         label: activeLabel.name,
         color: activeLabel.color,
-        type: "BBOX",
+        type: 'BBOX',
         geometry: normalized,
-        source: "MANUAL",
+        source: 'MANUAL',
         confidence: null,
         createdAt: now,
         updatedAt: now,
@@ -260,7 +260,7 @@ export function AnnotationEnginePanel({
       onSelectAnnotation(annotation.id);
       enqueue(
         {
-          kind: "create",
+          kind: 'create',
           clientId,
           body: {
             assetId: selectedAsset.id,
@@ -268,7 +268,7 @@ export function AnnotationEnginePanel({
             geometry: normalized,
           },
         },
-        `Create ${activeLabel.name}`,
+        `Create ${activeLabel.name}`
       );
     },
     [
@@ -278,13 +278,13 @@ export function AnnotationEnginePanel({
       selectedAsset,
       setAnnotations,
       workspace.annotationSet,
-    ],
+    ]
   );
 
   const patchAnnotation = useCallback(
     (
       annotationId: string,
-      patch: Partial<Pick<AnnotationSummary, "geometry" | "labelClassId">>,
+      patch: Partial<Pick<AnnotationSummary, 'geometry' | 'labelClassId'>>
     ) => {
       const label = patch.labelClassId
         ? workspace.labels.find((item) => item.id === patch.labelClassId)
@@ -305,8 +305,8 @@ export function AnnotationEnginePanel({
                   : {}),
                 updatedAt: new Date().toISOString(),
               }
-            : annotation,
-        ),
+            : annotation
+        )
       );
 
       const target = annotations.find((annotation) => annotation.id === annotationId);
@@ -315,13 +315,13 @@ export function AnnotationEnginePanel({
         return;
       }
 
-      if (annotationId.startsWith("ann_client_")) {
+      if (annotationId.startsWith('ann_client_')) {
         const nextGeometry = patch.geometry ?? target.geometry;
         const nextLabelId = patch.labelClassId ?? target.labelClassId;
 
         enqueue(
           {
-            kind: "create",
+            kind: 'create',
             clientId: annotationId,
             body: {
               assetId: target.assetId,
@@ -329,24 +329,24 @@ export function AnnotationEnginePanel({
               geometry: nextGeometry,
             },
           },
-          `Create ${label?.name ?? target.label}`,
+          `Create ${label?.name ?? target.label}`
         );
         return;
       }
 
       enqueue(
         {
-          kind: "update",
+          kind: 'update',
           annotationId,
           body: {
             ...(patch.geometry ? { geometry: patch.geometry } : {}),
             ...(patch.labelClassId ? { labelClassId: patch.labelClassId } : {}),
           },
         },
-        `Update ${label?.name ?? target.label}`,
+        `Update ${label?.name ?? target.label}`
       );
     },
-    [annotations, enqueue, setAnnotations, workspace.labels],
+    [annotations, enqueue, setAnnotations, workspace.labels]
   );
 
   const deleteSelected = useCallback(() => {
@@ -355,72 +355,70 @@ export function AnnotationEnginePanel({
     }
 
     setAnnotations((current) =>
-      current.filter((annotation) => annotation.id !== selectedAnnotation.id),
+      current.filter((annotation) => annotation.id !== selectedAnnotation.id)
     );
 
-    if (selectedAnnotation.id.startsWith("ann_client_")) {
+    if (selectedAnnotation.id.startsWith('ann_client_')) {
       setQueue((current) =>
         current.filter(
           (item) =>
-            !(
-              item.operation.kind === "create" && item.operation.clientId === selectedAnnotation.id
-            ),
-        ),
+            !(item.operation.kind === 'create' && item.operation.clientId === selectedAnnotation.id)
+        )
       );
     } else {
       enqueue(
         {
-          kind: "delete",
+          kind: 'delete',
           annotationId: selectedAnnotation.id,
         },
-        `Delete ${selectedAnnotation.label}`,
+        `Delete ${selectedAnnotation.label}`
       );
     }
 
     const next = visibleAnnotations.find((annotation) => annotation.id !== selectedAnnotation.id);
-    onSelectAnnotation(next?.id ?? "");
+    onSelectAnnotation(next?.id ?? '');
   }, [enqueue, onSelectAnnotation, selectedAnnotation, setAnnotations, visibleAnnotations]);
 
   const flushQueue = useCallback(async () => {
-    const runnable = queue.filter((item) => item.status === "queued" || item.status === "failed");
+    const runnable = queue.filter((item) => item.status === 'queued' || item.status === 'failed');
 
     for (const item of runnable) {
       setQueue((current) =>
         current.map((queued) =>
-          queued.id === item.id ? { ...queued, status: "saving", error: undefined } : queued,
-        ),
+          queued.id === item.id ? { ...queued, status: 'saving', error: undefined } : queued
+        )
       );
 
       try {
-        if (sourceState === "api") {
+        if (sourceState === 'api') {
           const operation = item.operation;
 
-          if (operation.kind === "create") {
+          if (operation.kind === 'create') {
             const created = await createAnnotation(
               projectId,
               workspace.annotationSet.id,
-              operation.body,
+              operation.body
             );
 
             setAnnotations((current) =>
               current.map((annotation) =>
-                annotation.id === operation.clientId ? created : annotation,
-              ),
+                annotation.id === operation.clientId ? created : annotation
+              )
             );
             if (selectedAnnotationId === operation.clientId) {
               onSelectAnnotation(created.id);
             }
-          } else if (operation.kind === "update") {
+          } else if (operation.kind === 'update') {
             const updated = await updateAnnotation(
               projectId,
               operation.annotationId,
-              operation.body,
+              operation.body
             );
 
             setAnnotations((current) =>
               current.map((annotation) =>
-                annotation.id === operation.annotationId ? updated : annotation,
-              ),
+                annotation.id === operation.annotationId ? updated : annotation
+              )
             );
           } else {
             await deleteAnnotation(projectId, operation.annotationId);
@@ -428,9 +426,7 @@ export function AnnotationEnginePanel({
         }
 
         setQueue((current) =>
-          current.map((queued) =>
-            queued.id === item.id ? { ...queued, status: "saved" } : queued,
-          ),
+          current.map((queued) => (queued.id === item.id ? { ...queued, status: 'saved' } : queued))
         );
         setLastSavedAt(new Date().toISOString());
       } catch (error) {
@@ -439,11 +435,11 @@ export function AnnotationEnginePanel({
             queued.id === item.id
               ? {
                   ...queued,
-                  status: "failed",
+                  status: 'failed',
                   error: error instanceof Error ? error.message : String(error),
                 }
-              : queued,
-          ),
+              : queued
+          )
         );
       }
     }
@@ -471,11 +467,11 @@ export function AnnotationEnginePanel({
             y: selectedAnnotation.geometry.y + dy,
           },
           selectedAsset.width,
-          selectedAsset.height,
+          selectedAsset.height
         ),
       });
     },
-    [patchAnnotation, selectedAnnotation, selectedAsset.height, selectedAsset.width],
+    [patchAnnotation, selectedAnnotation, selectedAsset.height, selectedAsset.width]
   );
 
   useEffect(() => {
@@ -483,28 +479,28 @@ export function AnnotationEnginePanel({
       const target = event.target as HTMLElement | null;
 
       if (
-        target?.tagName === "INPUT" ||
-        target?.tagName === "SELECT" ||
-        target?.tagName === "TEXTAREA"
+        target?.tagName === 'INPUT' ||
+        target?.tagName === 'SELECT' ||
+        target?.tagName === 'TEXTAREA'
       ) {
         return;
       }
 
-      if (event.key === "n" || event.key === "N") {
-        setToolMode("draw");
-      } else if (event.key === "v" || event.key === "V") {
-        setToolMode("select");
-      } else if (event.key === "s" || event.key === "S") {
+      if (event.key === 'n' || event.key === 'N') {
+        setToolMode('draw');
+      } else if (event.key === 'v' || event.key === 'V') {
+        setToolMode('select');
+      } else if (event.key === 's' || event.key === 'S') {
         event.preventDefault();
         void flushQueue();
-      } else if (event.key === "Delete" || event.key === "Backspace") {
+      } else if (event.key === 'Delete' || event.key === 'Backspace') {
         event.preventDefault();
         deleteSelected();
-      } else if (event.key.startsWith("Arrow")) {
+      } else if (event.key.startsWith('Arrow')) {
         event.preventDefault();
         const amount = event.shiftKey ? 12 : 3;
-        const dx = event.key === "ArrowLeft" ? -amount : event.key === "ArrowRight" ? amount : 0;
-        const dy = event.key === "ArrowUp" ? -amount : event.key === "ArrowDown" ? amount : 0;
+        const dx = event.key === 'ArrowLeft' ? -amount : event.key === 'ArrowRight' ? amount : 0;
+        const dy = event.key === 'ArrowUp' ? -amount : event.key === 'ArrowDown' ? amount : 0;
         nudgeSelected(dx, dy);
       } else if (/^[1-9]$/.test(event.key)) {
         const label = workspace.labels[Number(event.key) - 1];
@@ -518,9 +514,9 @@ export function AnnotationEnginePanel({
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     deleteSelected,
     flushQueue,
@@ -531,7 +527,7 @@ export function AnnotationEnginePanel({
   ]);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (toolMode !== "draw" || !stageRef.current) {
+    if (toolMode !== 'draw' || !stageRef.current) {
       return;
     }
 
@@ -539,7 +535,7 @@ export function AnnotationEnginePanel({
       event,
       stageRef.current,
       selectedAsset.width,
-      selectedAsset.height,
+      selectedAsset.height
     );
 
     setDrawing({ start: point, current: point });
@@ -557,7 +553,7 @@ export function AnnotationEnginePanel({
         event,
         stageRef.current,
         selectedAsset.width,
-        selectedAsset.height,
+        selectedAsset.height
       ),
     });
   };
@@ -581,8 +577,8 @@ export function AnnotationEnginePanel({
   return (
     <div className="grid gap-4">
       <section className="space-y-4">
-        <div className="overflow-hidden rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
-          <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
+        <div className="inner-border-subtle bg-graphite-900/75 overflow-hidden rounded-md shadow-panel">
+          <div className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3">
             <div>
               <h2 className="text-sm font-semibold text-neutral-100">Annotation engine</h2>
               <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -594,14 +590,14 @@ export function AnnotationEnginePanel({
               <IconButton
                 label="Select"
                 icon={Crosshair}
-                active={toolMode === "select"}
-                onClick={() => setToolMode("select")}
+                active={toolMode === 'select'}
+                onClick={() => setToolMode('select')}
               />
               <IconButton
                 label="Draw bbox"
                 icon={BoundingBox}
-                active={toolMode === "draw"}
-                onClick={() => setToolMode("draw")}
+                active={toolMode === 'draw'}
+                onClick={() => setToolMode('draw')}
               />
               <IconButton
                 label="Refresh"
@@ -621,7 +617,7 @@ export function AnnotationEnginePanel({
                 aria-label="Save queued changes"
                 onClick={() => void flushQueue()}
                 disabled={queuedCount === 0 && failedCount === 0}
-                className="inline-flex h-9 items-center gap-2 rounded-md bg-signal-300 px-3 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px"
+                className="inline-flex h-9 items-center gap-2 rounded-md bg-signal-300 px-3 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45"
               >
                 <FloppyDisk size={16} weight="duotone" />
                 Save
@@ -634,14 +630,14 @@ export function AnnotationEnginePanel({
               <div
                 ref={stageRef}
                 className={[
-                  "annotation-canvas relative aspect-video overflow-hidden rounded-md inner-border-subtle bg-graphite-950 sm:min-h-[360px]",
-                  toolMode === "draw" ? "cursor-crosshair" : "cursor-default",
-                ].join(" ")}
+                  'annotation-canvas inner-border-subtle relative aspect-video overflow-hidden rounded-md bg-graphite-950 sm:min-h-[360px]',
+                  toolMode === 'draw' ? 'cursor-crosshair' : 'cursor-default',
+                ].join(' ')}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
               >
-                <div className="annotation-road absolute inset-[12%_7%_16%] rounded-sm inner-border-subtle" />
+                <div className="annotation-road inner-border-subtle absolute inset-[12%_7%_16%] rounded-sm" />
                 <div className="absolute inset-x-[9%] top-[52%] border-t border-dashed border-graphite-100" />
                 <div className="absolute bottom-[19%] left-[11%] h-[10%] w-[78%] rounded-sm bg-white/[0.03]" />
                 <AnimatePresence>
@@ -659,12 +655,12 @@ export function AnnotationEnginePanel({
                 </AnimatePresence>
                 {draftBox && (
                   <div
-                    className="annotation-draft absolute rounded-sm border border-dashed border-scan-300 bg-scan-300/10"
+                    className="annotation-draft absolute rounded-sm"
                     style={boxStyle(draftBox, selectedAsset.width, selectedAsset.height)}
                   />
                 )}
                 {savingCount > 0 && !shouldReduceMotion && <div className="scanline" />}
-                <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 rounded-md inner-border-subtle bg-graphite-950/84 px-3 py-2 backdrop-blur">
+                <div className="inner-border-subtle bg-graphite-950/84 absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 rounded-md px-3 py-2 backdrop-blur">
                   <span className="font-mono text-xs text-neutral-400">
                     {workspace.annotationSet.name} / {visibleAnnotations.length} boxes
                   </span>
@@ -685,11 +681,9 @@ export function AnnotationEnginePanel({
                     type="button"
                     onClick={() => setSelectedAssetId(row.id)}
                     className={[
-                      "rounded-md border px-3 py-2 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px",
-                      selectedAssetId === row.id
-                        ? "border-signal-300/45 bg-signal-300/10"
-                        : "bg-white/[0.025] hover:bg-white/[0.05]",
-                    ].join(" ")}
+                      'asset-row-selected rounded-md border px-3 py-2 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px',
+                      selectedAssetId === row.id ? '' : 'bg-white/[0.025] hover:bg-white/[0.05]',
+                    ].join(' ')}
                   >
                     <span className="block truncate text-sm font-medium text-neutral-100">
                       {row.name}
@@ -709,13 +703,13 @@ export function AnnotationEnginePanel({
             title="Coverage"
             icon={ListChecks}
             metrics={[
-              ["boxes", visibleAnnotations.length],
-              ["manual", visibleAnnotations.filter((item) => item.source === "MANUAL").length],
-              ["model", visibleAnnotations.filter((item) => item.source === "MODEL").length],
-              ["queued", queuedCount + failedCount],
+              ['boxes', visibleAnnotations.length],
+              ['manual', visibleAnnotations.filter((item) => item.source === 'MANUAL').length],
+              ['model', visibleAnnotations.filter((item) => item.source === 'MODEL').length],
+              ['queued', queuedCount + failedCount],
             ]}
           />
-          <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+          <div className="inner-border-subtle bg-graphite-900/75 rounded-md shadow-panel">
             <div className="divider px-4 py-3">
               <h3 className="text-sm font-semibold text-neutral-100">Save queue</h3>
             </div>
@@ -734,8 +728,8 @@ export function AnnotationEnginePanel({
       </section>
 
       <aside className="space-y-4">
-        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
-          <div className="flex items-center justify-between gap-3 divider px-4 py-3">
+        <div className="inner-border-subtle bg-graphite-900/75 rounded-md shadow-panel">
+          <div className="divider flex items-center justify-between gap-3 px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Labels</h3>
             <span className="font-mono text-xs text-neutral-500">{workspace.labels.length}</span>
           </div>
@@ -753,9 +747,11 @@ export function AnnotationEnginePanel({
                   }
                 }}
                 className={[
-                  "flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px",
-                  activeLabelId === label.id ? "bg-signal-300/10" : "hover:bg-white/[0.04]",
-                ].join(" ")}
+                  'flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px',
+                  activeLabelId === label.id
+                    ? 'bg-[oklch(0.8_0.13_152/0.1)]'
+                    : 'hover:bg-white/[0.04]',
+                ].join(' ')}
               >
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-medium text-neutral-100">
@@ -769,7 +765,7 @@ export function AnnotationEnginePanel({
           </div>
         </div>
 
-        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+        <div className="inner-border-subtle bg-graphite-900/75 rounded-md shadow-panel">
           <div className="divider px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Selected box</h3>
           </div>
@@ -783,7 +779,7 @@ export function AnnotationEnginePanel({
                     geometry: normalizeCanvasBox(
                       { ...selectedAnnotation.geometry, x: value },
                       selectedAsset.width,
-                      selectedAsset.height,
+                      selectedAsset.height
                     ),
                   })
                 }
@@ -796,7 +792,7 @@ export function AnnotationEnginePanel({
                     geometry: normalizeCanvasBox(
                       { ...selectedAnnotation.geometry, y: value },
                       selectedAsset.width,
-                      selectedAsset.height,
+                      selectedAsset.height
                     ),
                   })
                 }
@@ -809,7 +805,7 @@ export function AnnotationEnginePanel({
                     geometry: normalizeCanvasBox(
                       { ...selectedAnnotation.geometry, width: value },
                       selectedAsset.width,
-                      selectedAsset.height,
+                      selectedAsset.height
                     ),
                   })
                 }
@@ -822,7 +818,7 @@ export function AnnotationEnginePanel({
                     geometry: normalizeCanvasBox(
                       { ...selectedAnnotation.geometry, height: value },
                       selectedAsset.width,
-                      selectedAsset.height,
+                      selectedAsset.height
                     ),
                   })
                 }
@@ -833,10 +829,10 @@ export function AnnotationEnginePanel({
           )}
         </div>
 
-        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
-          <div className="flex items-center justify-between gap-3 divider px-4 py-3">
+        <div className="inner-border-subtle bg-graphite-900/75 rounded-md shadow-panel">
+          <div className="divider flex items-center justify-between gap-3 px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Threshold</h3>
-            <span className="rounded-md border border-signal-300/30 bg-signal-300/10 px-2 py-1 font-mono text-xs text-signal-300">
+            <span className="btn-signal-outline px-2 py-1 font-mono text-xs">
               {(threshold / 100).toFixed(2)}
             </span>
           </div>
@@ -859,7 +855,7 @@ export function AnnotationEnginePanel({
         </div>
 
         {lastSavedAt && (
-          <p className="rounded-md border border-signal-300/30 bg-signal-300/10 px-3 py-2 font-mono text-xs text-signal-300">
+          <p className="btn-signal-outline px-3 py-2 font-mono text-xs">
             saved {new Date(lastSavedAt).toLocaleTimeString()}
           </p>
         )}
@@ -894,9 +890,9 @@ function AnnotationBox({
       }}
       onPointerDown={(event) => event.stopPropagation()}
       className={[
-        "annotation-box absolute rounded-sm border-2 text-left outline-none transition focus-visible:ring-2 focus-visible:ring-signal-300",
-        selected ? "annotation-box-selected" : "",
-      ].join(" ")}
+        'annotation-box absolute rounded-sm border-2 text-left outline-none transition focus-visible:ring-2 focus-visible:ring-signal-300',
+        selected ? 'annotation-box-selected' : '',
+      ].join(' ')}
       style={{
         ...boxStyle(annotation.geometry, imageWidth, imageHeight),
         borderColor: annotation.color,
@@ -925,18 +921,9 @@ function AnnotationBox({
 }
 
 function SourcePill({ state }: { state: SourceState }) {
-  const tone =
-    state === "api"
-      ? "border-signal-300/40 bg-signal-300/10 text-signal-300"
-      : state === "loading"
-        ? "border-scan-300/40 bg-scan-300/10 text-scan-300"
-        : "border-amber-300/40 bg-amber-300/10 text-amber-300";
+  const tone = state === 'api' ? 'pill-signal' : state === 'loading' ? 'pill-scan' : 'pill-amber';
 
-  return (
-    <span className={`rounded-md border px-2 py-1 font-mono text-xs uppercase ${tone}`}>
-      {state === "api" ? "api" : state}
-    </span>
-  );
+  return <span className={`pill-base ${tone}`}>{state === 'api' ? 'api' : state}</span>;
 }
 
 function IconButton({
@@ -963,13 +950,13 @@ function IconButton({
       disabled={disabled}
       onClick={onClick}
       className={[
-        "inline-flex h-9 w-9 items-center justify-center rounded-md border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px",
+        'inline-flex h-9 w-9 items-center justify-center rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45',
         active
-          ? "border-signal-300/45 bg-signal-300/10 text-signal-300"
+          ? 'tool-btn-signal-active'
           : danger
-            ? "border-red-300/30 text-red-300 hover:bg-red-300/10"
-            : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
-      ].join(" ")}
+            ? 'tool-btn-red-active'
+            : 'text-neutral-500 hover:bg-white/[0.05] hover:text-neutral-200',
+      ].join(' ')}
     >
       <Icon size={17} />
     </button>
@@ -986,14 +973,14 @@ function MetricPanel({
   metrics: Array<[string, number]>;
 }) {
   return (
-    <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
-      <div className="flex items-center gap-2 divider px-4 py-3">
+    <div className="inner-border-subtle bg-graphite-900/75 rounded-md shadow-panel">
+      <div className="divider flex items-center gap-2 px-4 py-3">
         <Icon className="text-signal-300" size={17} weight="duotone" />
         <h3 className="text-sm font-semibold text-neutral-100">{title}</h3>
       </div>
       <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-4 xl:grid-cols-2">
         {metrics.map(([label, value]) => (
-          <div key={label} className="rounded-md inner-border-subtle bg-white/[0.03] p-3">
+          <div key={label} className="inner-border-subtle rounded-md bg-white/[0.03] p-3">
             <p className="font-mono text-[11px] uppercase text-neutral-500">{label}</p>
             <p className="mt-2 font-mono text-2xl font-semibold text-signal-300">{value}</p>
           </div>
@@ -1005,21 +992,21 @@ function MetricPanel({
 
 function QueueRow({ item }: { item: QueueItem }) {
   const Icon =
-    item.status === "saved"
+    item.status === 'saved'
       ? CheckCircle
-      : item.status === "failed"
+      : item.status === 'failed'
         ? WarningCircle
-        : item.status === "saving"
+        : item.status === 'saving'
           ? CloudArrowUp
           : Stack;
   const tone =
-    item.status === "saved"
-      ? "text-signal-300"
-      : item.status === "failed"
-        ? "text-red-300"
-        : item.status === "saving"
-          ? "text-scan-300"
-          : "text-amber-300";
+    item.status === 'saved'
+      ? 'text-signal-300'
+      : item.status === 'failed'
+        ? 'text-red-300'
+        : item.status === 'saving'
+          ? 'text-scan-300'
+          : 'text-amber-300';
 
   return (
     <div className="flex items-start gap-3 px-4 py-3">
@@ -1062,7 +1049,7 @@ function GeometryInput({
         min="0"
         value={Math.round(value)}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="min-w-0 rounded-md bg-graphite-950 px-3 py-2 font-mono text-sm text-neutral-100 outline-none transition focus:ring-2 focus:ring-signal-300/40 focus:ring-offset-1 focus:ring-offset-graphite-950"
+        className="focus:ring-signal-300/40 min-w-0 rounded-md bg-graphite-950 px-3 py-2 font-mono text-sm text-neutral-100 outline-none transition focus:ring-2 focus:ring-offset-1 focus:ring-offset-graphite-950"
       />
     </label>
   );
@@ -1072,7 +1059,7 @@ function createFallbackWorkspace(
   projectId: string,
   datasetVersionId: string,
   annotations: AnnotationSummary[],
-  assetId = "asset_frame_1482",
+  assetId = 'asset_frame_1482'
 ): AnnotationWorkspaceResponse {
   const asset = createFallbackAsset(assetId);
   const labels = seedLabels(projectId);
@@ -1089,31 +1076,31 @@ function createFallbackWorkspace(
 
 function createFallbackAnnotationSet(datasetVersionId: string) {
   return {
-    id: `annset_${datasetVersionId.replace(/[^a-zA-Z0-9]+/g, "_")}_manual`,
+    id: `annset_${datasetVersionId.replace(/[^a-zA-Z0-9]+/g, '_')}_manual`,
     datasetVersionId,
-    name: "Manual QA Set",
-    status: "DRAFT" as const,
-    createdAt: "2026-04-28T12:50:00.000Z",
+    name: 'Manual QA Set',
+    status: 'DRAFT' as const,
+    createdAt: '2026-04-28T12:50:00.000Z',
   };
 }
 
 function seedLabels(projectId: string): AnnotationLabelSummary[] {
   return [
-    { name: "car", color: "#6ad9a1" },
-    { name: "van", color: "#5cc8ff" },
-    { name: "truck", color: "#f5b85d" },
-    { name: "person", color: "#f07178" },
+    { name: 'car', color: '#6ad9a1' },
+    { name: 'van', color: '#5cc8ff' },
+    { name: 'truck', color: '#f5b85d' },
+    { name: 'person', color: '#f07178' },
   ].map((label) => ({
     id: `label_${projectId}_${label.name}`,
     projectId,
     name: label.name,
     color: label.color,
-    type: "BBOX",
+    type: 'BBOX',
   }));
 }
 
 function normalizeAsset(
-  asset: AnnotationAssetSummary | AnnotationMediaRow,
+  asset: AnnotationAssetSummary | AnnotationMediaRow
 ): AnnotationAssetSummary {
   return {
     id: asset.id,
@@ -1140,26 +1127,26 @@ function createFallbackAsset(assetId: string): AnnotationAssetSummary {
   };
 }
 
-function normalizeSplit(split: string): AnnotationAssetSummary["split"] {
-  return split === "TRAIN" || split === "VALID" || split === "TEST" || split === "UNASSIGNED"
+function normalizeSplit(split: string): AnnotationAssetSummary['split'] {
+  return split === 'TRAIN' || split === 'VALID' || split === 'TEST' || split === 'UNASSIGNED'
     ? split
-    : "UNASSIGNED";
+    : 'UNASSIGNED';
 }
 
-function normalizeStatus(status: string): AnnotationAssetSummary["status"] {
-  return status === "indexed" ||
-    status === "queued" ||
-    status === "failed" ||
-    status === "duplicate"
+function normalizeStatus(status: string): AnnotationAssetSummary['status'] {
+  return status === 'indexed' ||
+    status === 'queued' ||
+    status === 'failed' ||
+    status === 'duplicate'
     ? status
-    : "indexed";
+    : 'indexed';
 }
 
 function pointerToImagePoint(
   event: PointerEvent,
   element: HTMLElement,
   imageWidth: number,
-  imageHeight: number,
+  imageHeight: number
 ) {
   const rect = element.getBoundingClientRect();
   const x = ((event.clientX - rect.left) / rect.width) * imageWidth;
@@ -1186,7 +1173,7 @@ function boxFromDrawing(drawing: DrawingState): BBoxGeometry {
 function normalizeCanvasBox(
   box: BBoxGeometry,
   imageWidth: number,
-  imageHeight: number,
+  imageHeight: number
 ): BBoxGeometry {
   const clamped = clampBBox(box, imageWidth, imageHeight);
   const width = Math.max(1, Math.round(Math.min(clamped.width, imageWidth)));
@@ -1202,7 +1189,7 @@ function normalizeCanvasBox(
 
 function thresholdRangeStyle(value: number): CSSProperties {
   return {
-    "--threshold-progress": `${Math.max(0, Math.min(100, ((value - 40) / 55) * 100))}%`,
+    '--threshold-progress': `${Math.max(0, Math.min(100, ((value - 40) / 55) * 100))}%`,
   } as CSSProperties;
 }
 

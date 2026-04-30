@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { DatasetSplitSchema } from "./media";
+import { z } from 'zod';
+import { DatasetSplitSchema } from './media';
 
-export const DatasetVersionStatusSchema = z.enum(["DRAFT", "LOCKED", "ARCHIVED"]);
+export const DatasetVersionStatusSchema = z.enum(['DRAFT', 'LOCKED', 'ARCHIVED']);
 
 export const SplitSummarySchema = z.object({
   TRAIN: z.number().int().nonnegative(),
@@ -96,7 +96,7 @@ export function summarizeDatasetSplits(rows: Array<{ split: DatasetSplit }>): Sp
 }
 
 export function assertDraftDatasetVersion(status: DatasetVersionStatus): void {
-  if (status !== "DRAFT") {
+  if (status !== 'DRAFT') {
     throw new Error(`Dataset version is immutable once ${status.toLowerCase()}.`);
   }
 }

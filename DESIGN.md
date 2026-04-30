@@ -33,19 +33,23 @@ Avoid:
 **No white/light borders for selection.** The primary interaction signal is background tint + inner glow + subtle scale, never white outlines.
 
 Selection states (nav item, icon button, list item, table row):
+
 - Background shifts to tinted surface (e.g. `bg-signal-300/10`)
 - Inner glow via inset box-shadow (e.g. `shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24)]`)
 - Subtle scale for tactile feedback (`scale-[0.99]` on press)
 - No border color change — borders stay transparent or match the neutral surface
 
 Hover states:
+
 - Background tint shift (e.g. `bg-white/[0.04]` to `bg-white/[0.07]`)
 - No border brightening
 
 Focus states:
+
 - Ring via `focus-visible:ring-2 focus-visible:ring-signal-300` — no border tricks
 
 Dividers between sections:
+
 - `border-white/5` or `border-white/[0.06]` — barely visible, structural only
 - Never use `border-white/10` or brighter for decorative dividers
 

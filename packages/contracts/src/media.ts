@@ -1,17 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const MediaAssetTypeSchema = z.enum(["IMAGE", "VIDEO", "FRAME"]);
-export const DatasetSplitSchema = z.enum(["TRAIN", "VALID", "TEST", "UNASSIGNED"]);
-export const MediaUploadStatusSchema = z.enum(["indexed", "queued", "failed", "duplicate"]);
-export const MediaProcessingJobTypeSchema = z.enum(["THUMBNAIL", "EXTRACT_FRAMES"]);
-export const MediaProcessingJobStatusSchema = z.enum(["QUEUED", "RUNNING", "SUCCEEDED", "FAILED"]);
+export const MediaAssetTypeSchema = z.enum(['IMAGE', 'VIDEO', 'FRAME']);
+export const DatasetSplitSchema = z.enum(['TRAIN', 'VALID', 'TEST', 'UNASSIGNED']);
+export const MediaUploadStatusSchema = z.enum(['indexed', 'queued', 'failed', 'duplicate']);
+export const MediaProcessingJobTypeSchema = z.enum(['THUMBNAIL', 'EXTRACT_FRAMES']);
+export const MediaProcessingJobStatusSchema = z.enum(['QUEUED', 'RUNNING', 'SUCCEEDED', 'FAILED']);
 
 export const AcceptedMediaMimeSchema = z.enum([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "video/mp4",
-  "video/quicktime",
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'video/mp4',
+  'video/quicktime',
 ]);
 
 export const MediaAssetSummarySchema = z.object({
@@ -57,15 +57,15 @@ export type MediaProcessingJobSummary = z.infer<typeof MediaProcessingJobSummary
 export type MediaUploadResponse = z.infer<typeof MediaUploadResponseSchema>;
 
 const extensionByMime: Record<AcceptedMediaMime, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "video/mp4": "mp4",
-  "video/quicktime": "mov",
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'video/mp4': 'mp4',
+  'video/quicktime': 'mov',
 };
 
 export function classifyMediaType(mimeType: AcceptedMediaMime): MediaAssetType {
-  return mimeType.startsWith("image/") ? "IMAGE" : "VIDEO";
+  return mimeType.startsWith('image/') ? 'IMAGE' : 'VIDEO';
 }
 
 export function getMediaExtension(mimeType: AcceptedMediaMime): string {
@@ -79,7 +79,7 @@ export function validateMediaMime(mimeType: string): AcceptedMediaMime {
 export function createMediaObjectKey(
   projectId: string,
   checksum: string,
-  mimeType: AcceptedMediaMime,
+  mimeType: AcceptedMediaMime
 ): string {
   return `projects/${projectId}/originals/${checksum}.${getMediaExtension(mimeType)}`;
 }
@@ -87,9 +87,9 @@ export function createMediaObjectKey(
 export function createDerivativeObjectKey(
   projectId: string,
   assetId: string,
-  type: MediaProcessingJobType,
+  type: MediaProcessingJobType
 ): string {
-  const suffix = type === "THUMBNAIL" ? "thumb.webp" : "frames.json";
+  const suffix = type === 'THUMBNAIL' ? 'thumb.webp' : 'frames.json';
 
   return `projects/${projectId}/derivatives/${assetId}/${suffix}`;
 }

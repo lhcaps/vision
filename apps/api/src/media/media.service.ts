@@ -3,16 +3,16 @@ import {
   Injectable,
   InternalServerErrorException,
   ServiceUnavailableException,
-} from "@nestjs/common";
+} from '@nestjs/common';
 import {
   MediaAssetSummary,
   MediaProcessingJobSummary,
   MediaUploadResponse,
-} from "@visionflow/contracts";
-import { PrismaService } from "../prisma/prisma.service";
-import { demoSnapshot } from "../projects/demo-snapshot";
-import { buildMediaIngestionPlan, buildProcessingTargetKey } from "./media-ingestion";
-import { MediaStorageService } from "./media-storage.service";
+} from '@visionflow/contracts';
+import { PrismaService } from '../prisma/prisma.service';
+import { demoSnapshot } from '../projects/demo-snapshot';
+import { buildMediaIngestionPlan, buildProcessingTargetKey } from './media-ingestion';
+import { MediaStorageService } from './media-storage.service';
 
 type UploadedFile = {
   originalname: string;
@@ -31,7 +31,7 @@ export class MediaService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly storage: MediaStorageService,
+    private readonly storage: MediaStorageService
   ) {}
 
   async upload(projectId: string, file: UploadedFile | undefined): Promise<MediaUploadResponse> {
@@ -50,14 +50,14 @@ export class MediaService {
         buffer: file.buffer,
       });
     } catch {
-      throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || "unknown"}.`);
+      throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || 'unknown'}.`);
     }
 
     const existing = await this.findExistingAsset(projectId, plan.checksum);
 
     if (existing) {
       return {
-        asset: { ...existing, status: "duplicate" },
+        asset: { ...existing, status: 'duplicate' },
         processingJob: null,
         deduplicated: true,
       };
@@ -76,7 +76,7 @@ export class MediaService {
     if (process.env.DATABASE_URL) {
       const rows = await this.prisma.mediaAsset.findMany({
         where: { projectId },
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: 'desc' },
       });
 
       return rows.map((row) => toMediaSummary(row));
@@ -87,7 +87,7 @@ export class MediaService {
       projectId,
       name: asset.name,
       type: asset.type,
-      mimeType: "image/jpeg" as const,
+      mimeType: 'image/jpeg' as const,
       storageKey: `projects/${projectId}/originals/${asset.id}.jpg`,
       thumbnailKey: asset.thumbnailKey ?? null,
       width: asset.width,
@@ -105,7 +105,7 @@ export class MediaService {
 
   private async findExistingAsset(
     projectId: string,
-    checksum: string,
+    checksum: string
   ): Promise<MediaAssetSummary | null> {
     if (process.env.DATABASE_URL) {
       const row = await this.prisma.mediaAsset.findUnique({
@@ -150,7 +150,7 @@ export class MediaService {
           projectId: plan.projectId,
           assetId: asset.id,
           type: plan.processingJobType,
-          status: "QUEUED",
+          status: 'QUEUED',
           targetKey,
           payloadJson: {
             storageKey: plan.storageKey,
@@ -162,8 +162,8 @@ export class MediaService {
       await this.prisma.auditLog.create({
         data: {
           projectId: plan.projectId,
-          action: "MEDIA_ASSET_UPLOADED",
-          targetType: "MediaAsset",
+          action: 'MEDIA_ASSET_UPLOADED',
+          targetType: 'MediaAsset',
           targetId: asset.id,
           metadataJson: {
             checksum: plan.checksum,
@@ -184,7 +184,7 @@ export class MediaService {
       }
 
       throw new InternalServerErrorException({
-        message: "Media metadata could not be written.",
+        message: 'Media metadata could not be written.',
         detail: error instanceof Error ? error.message : String(error),
       });
     }
@@ -207,14 +207,14 @@ export class MediaService {
       frameCount: null,
       checksum: plan.checksum,
       sizeBytes: plan.sizeBytes,
-      status: "indexed",
+      status: 'indexed',
       createdAt: now,
     };
     const processingJob: MemoryJob = {
       id: `media_job_${plan.checksum.slice(0, 12)}`,
       assetId,
       type: plan.processingJobType,
-      status: "QUEUED",
+      status: 'QUEUED',
       targetKey: buildProcessingTargetKey(plan.projectId, assetId, plan.processingJobType),
       createdAt: now,
     };
@@ -233,7 +233,7 @@ export class MediaService {
 function toMediaSummary(row: {
   id: string;
   projectId: string;
-  type: "IMAGE" | "VIDEO" | "FRAME";
+  type: 'IMAGE' | 'VIDEO' | 'FRAME';
   storageKey: string;
   thumbnailKey: string | null;
   width: number | null;
@@ -246,7 +246,7 @@ function toMediaSummary(row: {
 }): MediaAssetSummary {
   const metadata = row.metadataJson as {
     originalName?: string;
-    mimeType?: MediaAssetSummary["mimeType"];
+    mimeType?: MediaAssetSummary['mimeType'];
     sizeBytes?: number;
   };
 
@@ -255,7 +255,7 @@ function toMediaSummary(row: {
     projectId: row.projectId,
     name: metadata.originalName ?? row.id,
     type: row.type,
-    mimeType: metadata.mimeType ?? "image/jpeg",
+    mimeType: metadata.mimeType ?? 'image/jpeg',
     storageKey: row.storageKey,
     thumbnailKey: row.thumbnailKey,
     width: row.width,
@@ -264,7 +264,7 @@ function toMediaSummary(row: {
     frameCount: row.frameCount,
     checksum: row.checksum,
     sizeBytes: metadata.sizeBytes ?? 0,
-    status: "indexed",
+    status: 'indexed',
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -272,8 +272,8 @@ function toMediaSummary(row: {
 function toProcessingJobSummary(row: {
   id: string;
   assetId: string;
-  type: "THUMBNAIL" | "EXTRACT_FRAMES";
-  status: "QUEUED" | "RUNNING" | "SUCCEEDED" | "FAILED";
+  type: 'THUMBNAIL' | 'EXTRACT_FRAMES';
+  status: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED';
   targetKey: string | null;
   createdAt: Date;
 }): MediaProcessingJobSummary {

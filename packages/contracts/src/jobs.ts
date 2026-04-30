@@ -1,31 +1,31 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const InferenceJobStatusSchema = z.enum([
-  "QUEUED",
-  "RUNNING",
-  "SUCCEEDED",
-  "FAILED",
-  "CANCELLED",
+  'QUEUED',
+  'RUNNING',
+  'SUCCEEDED',
+  'FAILED',
+  'CANCELLED',
 ]);
 
 export type InferenceJobStatus = z.infer<typeof InferenceJobStatusSchema>;
 
 export const InferenceWorkerStageSchema = z.enum([
-  "queued",
-  "validated",
-  "dataset_resolved",
-  "cv_worker_dispatched",
-  "pipeline_dispatched",
-  "predictions_persisted",
-  "completed",
-  "failed",
+  'queued',
+  'validated',
+  'dataset_resolved',
+  'cv_worker_dispatched',
+  'pipeline_dispatched',
+  'predictions_persisted',
+  'completed',
+  'failed',
 ]);
 
 export type InferenceWorkerStage = z.infer<typeof InferenceWorkerStageSchema>;
 
 const validTransitions: Record<InferenceJobStatus, InferenceJobStatus[]> = {
-  QUEUED: ["RUNNING", "CANCELLED", "FAILED"],
-  RUNNING: ["SUCCEEDED", "FAILED", "CANCELLED"],
+  QUEUED: ['RUNNING', 'CANCELLED', 'FAILED'],
+  RUNNING: ['SUCCEEDED', 'FAILED', 'CANCELLED'],
   SUCCEEDED: [],
   FAILED: [],
   CANCELLED: [],
@@ -42,7 +42,7 @@ export function assertJobTransition(from: InferenceJobStatus, to: InferenceJobSt
 }
 
 export function isTerminalJobStatus(status: InferenceJobStatus): boolean {
-  return status === "SUCCEEDED" || status === "FAILED" || status === "CANCELLED";
+  return status === 'SUCCEEDED' || status === 'FAILED' || status === 'CANCELLED';
 }
 
 export function assertJobProgress(progress: number): void {
@@ -83,7 +83,7 @@ export const InferenceJobSummarySchema = z.object({
 export const InferenceJobEventSchema = z.object({
   id: z.string(),
   jobId: z.string(),
-  type: z.enum(["snapshot", "progress", "log", "complete", "error"]),
+  type: z.enum(['snapshot', 'progress', 'log', 'complete', 'error']),
   status: InferenceJobStatusSchema,
   progress: z.number().int().min(0).max(100),
   stage: InferenceWorkerStageSchema,

@@ -17,6 +17,7 @@ Product UI. Design serves repeated technical workflows — the CV engineer needs
 ## Color Strategy (Phase 9 Additions)
 
 Restrained technical palette with diff-specific colors:
+
 - Added: `oklch(80% 0.13 152)` (signal green)
 - Removed: `oklch(76% 0.14 25)` (red)
 - Changed: `oklch(82% 0.13 88)` (amber)
@@ -30,6 +31,7 @@ No new color additions. Reuse existing tokens.
 ### Layout
 
 Two-row layout:
+
 - Top row (flex-1): Canvas with morphing BBoxes
 - Middle row (auto): Playback controls + scrubber
 - Bottom row (auto): Frame strip (horizontal scroll)
@@ -37,6 +39,7 @@ Two-row layout:
 ### Canvas Area
 
 Reuse the atmospheric canvas design from PredictionOverlayCanvas:
+
 - Radial gradient base (green accent)
 - Atmospheric edge fade
 - Frame indicator badge (top-left)
@@ -47,6 +50,7 @@ Reuse the atmospheric canvas design from PredictionOverlayCanvas:
 Background: `bg-graphite-950/84 backdrop-blur`, top border `border-white/[0.06]`
 
 Controls (left to right):
+
 1. **Step backward** — icon button, `ChevronLeft`
 2. **Play/Pause** — icon button (large, centered), `Play` / `Pause`
 3. **Step forward** — icon button, `ChevronRight`
@@ -78,6 +82,7 @@ All icon buttons use the established inner-glow pattern (NO border).
 ### Layout
 
 Three-row layout:
+
 - Top: Version selectors + summary strip
 - Middle: Canvas with diff overlay
 - Bottom: Asset-level diff list
@@ -85,6 +90,7 @@ Three-row layout:
 ### Version Selectors
 
 Two dropdown-style controls side by side:
+
 - Left: "Compare" version (source)
 - Right: "Against" version (target)
 - Format: `[Version pill] ↔ [Version pill]`
@@ -93,6 +99,7 @@ Two dropdown-style controls side by side:
 ### Summary Strip
 
 Horizontal row of count badges:
+
 - `+N added` — green badge
 - `-N removed` — red badge
 - `~N changed` — amber badge
@@ -102,6 +109,7 @@ Badge style: small rounded pills, no border, colored background tint matching th
 ### Diff Canvas
 
 Same atmospheric canvas as PredictionOverlayCanvas but with diff coloring:
+
 - Added boxes: dashed green border, green tint fill
 - Removed boxes: solid red border, red tint fill, label with strikethrough
 - Changed boxes: solid amber border, amber tint fill + ghost outline at old position
@@ -110,6 +118,7 @@ Same atmospheric canvas as PredictionOverlayCanvas but with diff coloring:
 ### Ghost Outline (Changed Boxes)
 
 For each changed box, render:
+
 1. Ghost outline at old position: dashed border, `opacity: 0.35`, no fill
 2. New position: solid border + fill as normal
 3. Connector line between old and new center points: dashed line, `opacity: 0.5`
@@ -119,6 +128,7 @@ For each changed box, render:
 ### Layout
 
 Single compact row:
+
 - Mini pipeline graph (center, ~60% width)
 - Timing strip below nodes
 - Log snippet panel (collapsible, below graph)
@@ -126,17 +136,20 @@ Single compact row:
 ### Mini Pipeline Graph
 
 Simplified visual (not full React Flow):
+
 - Horizontal row of 5 node cards
 - Node cards: 64x48px, `inner-border-subtle`, monospace label
 - Edge arrows between nodes: thin SVG lines
 
 Node states:
+
 - `idle`: `bg-graphite-900/50`, `text-neutral-500`
 - `running`: `bg-scan-300/10`, pulsing cyan border, `text-scan-300`
 - `complete`: `bg-signal-300/10`, signal green border, `text-signal-300`
 - `error`: `bg-red-300/10`, red border, `text-red-300`
 
 Edge flow animation:
+
 - Active edge: dashed line with animated `stroke-dashoffset`
 - Color: scan cyan
 - Speed: 0.8s linear loop
@@ -144,12 +157,14 @@ Edge flow animation:
 ### Timing Strip
 
 Below each node card:
+
 - Monospace ms value: `12ms`
 - Separator: thin horizontal line
 
 ### Log Snippet Panel
 
 Collapsible drawer below the graph:
+
 - Trigger: "Worker logs" toggle button
 - Content: monospace log lines with timestamps
 - Max height: 160px with scroll
@@ -181,8 +196,13 @@ const scrubSpring = { stiffness: 400, damping: 36 };
 
 ```css
 @keyframes node-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(92, 200, 255, 0); }
-  50% { box-shadow: 0 0 12px 2px rgba(92, 200, 255, 0.4); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(92, 200, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(92, 200, 255, 0.4);
+  }
 }
 .running-node {
   animation: node-pulse 1.2s ease-in-out infinite;
@@ -193,8 +213,12 @@ const scrubSpring = { stiffness: 400, damping: 36 };
 
 ```css
 @keyframes edge-flow {
-  from { stroke-dashoffset: 24; }
-  to { stroke-dashoffset: 0; }
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 .flowing-edge {
   stroke-dasharray: 6 18;
@@ -205,6 +229,7 @@ const scrubSpring = { stiffness: 400, damping: 36 };
 ### Button Press Feedback
 
 All interactive buttons:
+
 ```css
 button:active {
   transform: translateY(1px);
@@ -221,48 +246,58 @@ const staggerDelay = 0.03; // seconds between items
 ## Component Inventory
 
 ### TimelineReplayPanel
+
 - Props: mediaAssets, annotations, groundTruth, predictions, onFrameChange
 - States: loading, populated, empty (no multi-frame data)
 - Sections: canvas, scrubber, playback controls, frame strip
 
 ### FrameStrip
+
 - Props: frames[], activeIndex, onSelect
 - Horizontal scroll with momentum
 - Active frame highlighted
 - Thumbnail hover scale effect
 
 ### PlaybackControls
+
 - Props: isPlaying, speed, currentFrame, totalFrames, onPlay, onPause, onStep, onSpeedChange
 - Play/pause toggle, step buttons, speed selector, frame counter
 
 ### Scrubber
+
 - Props: currentFrame, totalFrames, onScrub
 - Draggable thumb with spring snapping
 - Frame tick marks
 
 ### DatasetVersionDiff
+
 - Props: versions[], annotations
 - States: no-selection, comparing, no-differences, with-differences
 - Sections: version selectors, summary strip, diff canvas, asset list
 
 ### DiffBadge
+
 - Props: type ('added'|'removed'|'changed'), count
 - Colored pill matching diff type
 
 ### GhostOutline
+
 - Props: oldGeometry, newGeometry, imageWidth, imageHeight, color
 - Renders ghost border + connector line
 
 ### PipelineExecutionFlow
+
 - Props: definition, executionState, logs
 - States: idle, running, complete
 - Sections: mini graph, timing strip, log panel
 
 ### ExecutionNode
+
 - Props: node, state, elapsedMs
 - Idle/running/complete/error visual states
 
 ### FlowingEdge
+
 - Props: from, to, active
 - Animated dashed line when active
 

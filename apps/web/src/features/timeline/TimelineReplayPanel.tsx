@@ -3,16 +3,16 @@ import {
   PlayIcon as Play,
   SkipBackIcon as SkipBack,
   SkipForwardIcon as SkipForward,
-} from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { AnnotationSummary, PredictionSummary } from "@visionflow/contracts";
-import { motionTokens } from "@visionflow/motion";
+} from '@phosphor-icons/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { AnnotationSummary, PredictionSummary } from '@visionflow/contracts';
+import { motionTokens } from '@visionflow/motion';
 
 const IMAGE_WIDTH = 1920;
 const IMAGE_HEIGHT = 1080;
 
-type OverlayMode = "gt" | "pred" | "both";
+type OverlayMode = 'gt' | 'pred' | 'both';
 
 type BBoxData = {
   id: string;
@@ -40,16 +40,16 @@ function useFrameSequence(groundTruth: AnnotationSummary[]) {
   return useMemo<FrameData[]>(() => {
     if (groundTruth.length === 0) {
       return [
-        { id: "frame_1482", name: "north-gate-frame-1482.jpg", yOffset: 0 },
-        { id: "frame_1506", name: "north-gate-frame-1506.jpg", yOffset: 12 },
-        { id: "frame_1519", name: "north-gate-frame-1519.jpg", yOffset: 24 },
+        { id: 'frame_1482', name: 'north-gate-frame-1482.jpg', yOffset: 0 },
+        { id: 'frame_1506', name: 'north-gate-frame-1506.jpg', yOffset: 12 },
+        { id: 'frame_1519', name: 'north-gate-frame-1519.jpg', yOffset: 24 },
       ];
     }
 
     return [
-      { id: "frame_1482", name: "north-gate-frame-1482.jpg", yOffset: 0 },
-      { id: "frame_1506", name: "north-gate-frame-1506.jpg", yOffset: 12 },
-      { id: "frame_1519", name: "north-gate-frame-1519.jpg", yOffset: 24 },
+      { id: 'frame_1482', name: 'north-gate-frame-1482.jpg', yOffset: 0 },
+      { id: 'frame_1506', name: 'north-gate-frame-1506.jpg', yOffset: 12 },
+      { id: 'frame_1519', name: 'north-gate-frame-1519.jpg', yOffset: 24 },
     ];
   }, [groundTruth]);
 }
@@ -57,7 +57,7 @@ function useFrameSequence(groundTruth: AnnotationSummary[]) {
 function buildBBoxesForFrame(
   groundTruth: AnnotationSummary[],
   predictions: PredictionSummary[],
-  frame: FrameData,
+  frame: FrameData
 ): BBoxData[] {
   const boxes: BBoxData[] = [];
 
@@ -65,7 +65,7 @@ function buildBBoxesForFrame(
     boxes.push({
       id: gt.id,
       label: gt.label,
-      color: gt.color ?? "#6ad9a1",
+      color: gt.color ?? '#6ad9a1',
       confidence: gt.confidence,
       isGroundTruth: true,
       geometry: {
@@ -81,7 +81,7 @@ function buildBBoxesForFrame(
     boxes.push({
       id: pred.id,
       label: pred.label,
-      color: pred.color ?? "#ffb74d",
+      color: pred.color ?? '#ffb74d',
       confidence: pred.confidence,
       isGroundTruth: false,
       geometry: {
@@ -122,14 +122,14 @@ export function TimelineReplayPanel({
   const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
-  const [overlayMode, setOverlayMode] = useState<OverlayMode>("both");
+  const [overlayMode, setOverlayMode] = useState<OverlayMode>('both');
   const [isDragging, setIsDragging] = useState(false);
   const [scrubPosition, setScrubPosition] = useState(0);
 
   const currentFrame = frames[currentFrameIndex];
   const currentBoxes = useMemo(
     () => buildBBoxesForFrame(groundTruth, predictions, currentFrame),
-    [groundTruth, predictions, currentFrame],
+    [groundTruth, predictions, currentFrame]
   );
 
   const frameIds = useMemo(() => frames.map((f) => f.id), [frames]);
@@ -167,25 +167,22 @@ export function TimelineReplayPanel({
     if (stripRef.current) {
       const thumbEl = stripRef.current.querySelector(`[data-frame-index="${currentFrameIndex}"]`);
       if (thumbEl) {
-        thumbEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        thumbEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
     }
   }, [currentFrameIndex]);
 
-  const handleScrubStart = useCallback(
-    (clientX: number) => {
-      setIsDragging(true);
-      updateScrubPosition(clientX);
-    },
-    [],
-  );
+  const handleScrubStart = useCallback((clientX: number) => {
+    setIsDragging(true);
+    updateScrubPosition(clientX);
+  }, []);
 
   const handleScrubMove = useCallback(
     (clientX: number) => {
       if (!isDragging) return;
       updateScrubPosition(clientX);
     },
-    [isDragging],
+    [isDragging]
   );
 
   const handleScrubEnd = useCallback(() => {
@@ -205,7 +202,7 @@ export function TimelineReplayPanel({
       const nearestIndex = Math.round(rawPosition * (totalFrames - 1));
       setCurrentFrameIndex(nearestIndex);
     },
-    [totalFrames],
+    [totalFrames]
   );
 
   const handleStepBackward = useCallback(() => {
@@ -220,12 +217,9 @@ export function TimelineReplayPanel({
     setIsPlaying((prev) => !prev);
   }, []);
 
-  const handleThumbnailClick = useCallback(
-    (index: number) => {
-      setCurrentFrameIndex(index);
-    },
-    [],
-  );
+  const handleThumbnailClick = useCallback((index: number) => {
+    setCurrentFrameIndex(index);
+  }, []);
 
   const handlePointerUp = useCallback(() => {
     handleScrubEnd();
@@ -236,11 +230,11 @@ export function TimelineReplayPanel({
     if (isDragging) {
       const onMove = (e: PointerEvent) => handleScrubMove(e.clientX);
       const onUp = () => handleScrubEnd();
-      window.addEventListener("pointermove", onMove);
-      window.addEventListener("pointerup", onUp);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
       return () => {
-        window.removeEventListener("pointermove", onMove);
-        window.removeEventListener("pointerup", onUp);
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
       };
     }
   }, [isDragging, handleScrubMove, handleScrubEnd]);
@@ -256,31 +250,31 @@ export function TimelineReplayPanel({
         return;
       }
 
-      if (e.key === "ArrowLeft") {
+      if (e.key === 'ArrowLeft') {
         e.preventDefault();
         handleStepBackward();
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         handleStepForward();
-      } else if (e.key === " ") {
+      } else if (e.key === ' ') {
         e.preventDefault();
         handleTogglePlay();
       }
     };
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [handleStepBackward, handleStepForward, handleTogglePlay]);
 
-  const showGT = overlayMode === "gt" || overlayMode === "both";
-  const showPred = overlayMode === "pred" || overlayMode === "both";
+  const showGT = overlayMode === 'gt' || overlayMode === 'both';
+  const showPred = overlayMode === 'pred' || overlayMode === 'both';
   const visibleBoxes = currentBoxes.filter((box) => (box.isGroundTruth ? showGT : showPred));
 
   const speeds: Array<0.5 | 1 | 2> = [0.5, 1, 2];
 
   return (
     <div
-      className="flex flex-col gap-0 overflow-hidden rounded-md inner-border-subtle bg-graphite-900/75"
+      className="inner-border-subtle bg-graphite-900/75 flex flex-col gap-0 overflow-hidden rounded-md"
       style={{ minHeight: 520 }}
     >
       {/* Header */}
@@ -303,7 +297,7 @@ export function TimelineReplayPanel({
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 28% 22%,rgba(106,217,161,0.07),transparent 32%)",
+              'radial-gradient(circle at 28% 22%,rgba(106,217,161,0.07),transparent 32%)',
           }}
         />
 
@@ -312,34 +306,37 @@ export function TimelineReplayPanel({
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top,rgba(5,13,12,0.88),transparent 30%),linear-gradient(to bottom,transparent 0%,rgba(5,13,12,0.4) 12%),linear-gradient(to left,rgba(5,13,12,0.88),transparent 18%),linear-gradient(to right,rgba(5,13,12,0.88),transparent 18%)",
+              'linear-gradient(to top,rgba(5,13,12,0.88),transparent 30%),linear-gradient(to bottom,transparent 0%,rgba(5,13,12,0.4) 12%),linear-gradient(to left,rgba(5,13,12,0.88),transparent 18%),linear-gradient(to right,rgba(5,13,12,0.88),transparent 18%)',
           }}
         />
 
         {/* Frame */}
         <div
           className="absolute left-[8%] top-[10%] h-[80%] w-[84%]"
-          style={{ boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)" }}
+          style={{ boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4)' }}
         >
           {/* Grid overlay */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
+                'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
               maskImage:
-                "linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)",
+                'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
               WebkitMaskImage:
-                "linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)",
+                'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
             }}
           />
 
           {/* Road element */}
-          <div className="absolute left-[11%] top-[52%] h-[28%] w-[78%] rounded-sm" style={{
-            background: "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
-            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)",
-          }} />
+          <div
+            className="absolute left-[11%] top-[52%] h-[28%] w-[78%] rounded-sm"
+            style={{
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))',
+              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05)',
+            }}
+          />
 
           {/* BBox Morph Layer */}
           <AnimatePresence mode="popLayout">
@@ -362,8 +359,8 @@ export function TimelineReplayPanel({
         <div
           className="absolute left-4 top-3 rounded-md px-2.5 py-1.5 font-mono text-[11px] text-neutral-500"
           style={{
-            background: "rgba(14,18,17,0.72)",
-            backdropFilter: "blur(8px)",
+            background: 'rgba(14,18,17,0.72)',
+            backdropFilter: 'blur(8px)',
           }}
         >
           {currentFrame.name}
@@ -374,8 +371,8 @@ export function TimelineReplayPanel({
           <div
             className="absolute right-4 top-3 rounded-md px-2.5 py-1.5 font-mono text-[11px] text-signal-300"
             style={{
-              background: "rgba(14,18,17,0.72)",
-              backdropFilter: "blur(8px)",
+              background: 'rgba(14,18,17,0.72)',
+              backdropFilter: 'blur(8px)',
             }}
           >
             +{currentFrame.yOffset}px
@@ -387,8 +384,8 @@ export function TimelineReplayPanel({
       <div
         className="divider flex flex-wrap items-center justify-between gap-3 px-4 py-3"
         style={{
-          background: "rgba(14,18,17,0.84)",
-          backdropFilter: "blur(12px)",
+          background: 'rgba(14,18,17,0.84)',
+          backdropFilter: 'blur(12px)',
         }}
       >
         {/* Left: step controls + play */}
@@ -409,23 +406,26 @@ export function TimelineReplayPanel({
         </div>
 
         {/* Center: speed selector */}
-        <div className="flex items-center gap-1 rounded-md px-1 py-1" style={{
-          background: "rgba(255,255,255,0.06)",
-          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.04)",
-        }}>
+        <div
+          className="flex items-center gap-1 rounded-md px-1 py-1"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
+          }}
+        >
           {speeds.map((speed) => (
             <button
               key={speed}
               type="button"
               aria-pressed={playbackSpeed === speed}
               onClick={() => setPlaybackSpeed(speed)}
-            className={[
-              "inline-flex h-7 min-w-[44px] items-center justify-center rounded px-2 font-mono text-[11px] font-medium transition-colors duration-160 active:scale-[0.97]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
-              playbackSpeed === speed
-                ? "bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
-                : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.04]",
-            ].join(" ")}
+              className={[
+                'duration-160 inline-flex h-7 min-w-[44px] items-center justify-center rounded px-2 font-mono text-[11px] font-medium transition-colors active:scale-[0.97]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
+                playbackSpeed === speed
+                  ? 'bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]'
+                  : 'text-neutral-500 hover:bg-white/[0.04] hover:text-neutral-200',
+              ].join(' ')}
             >
               {speed}x
             </button>
@@ -433,29 +433,32 @@ export function TimelineReplayPanel({
         </div>
 
         {/* Right: overlay mode toggle */}
-        <div className="flex items-center gap-1 rounded-md px-1 py-1" style={{
-          background: "rgba(255,255,255,0.06)",
-          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.04)",
-        }}>
-          {(["gt", "pred", "both"] as const).map((mode) => (
+        <div
+          className="flex items-center gap-1 rounded-md px-1 py-1"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
+          }}
+        >
+          {(['gt', 'pred', 'both'] as const).map((mode) => (
             <button
               key={mode}
               type="button"
               aria-pressed={overlayMode === mode}
               onClick={() => setOverlayMode(mode)}
-            className={[
-              "inline-flex h-7 min-w-[44px] items-center justify-center rounded px-2 font-mono text-[11px] font-medium uppercase tracking-wider transition-colors duration-160 active:scale-[0.97]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
-              overlayMode === mode
-                  ? mode === "gt"
-                    ? "bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
-                    : mode === "pred"
-                      ? "bg-[rgba(255,183,77,0.10)] text-amber-300 shadow-[inset_0_0_0_1px_rgba(255,183,77,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
-                      : "bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
-                  : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.04]",
-              ].join(" ")}
+              className={[
+                'duration-160 inline-flex h-7 min-w-[44px] items-center justify-center rounded px-2 font-mono text-[11px] font-medium uppercase tracking-wider transition-colors active:scale-[0.97]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
+                overlayMode === mode
+                  ? mode === 'gt'
+                    ? 'bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]'
+                    : mode === 'pred'
+                      ? 'bg-[rgba(255,183,77,0.10)] text-amber-300 shadow-[inset_0_0_0_1px_rgba(255,183,77,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]'
+                      : 'bg-[rgba(106,217,161,0.10)] text-signal-300 shadow-[inset_0_0_0_1px_rgba(106,217,161,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]'
+                  : 'text-neutral-500 hover:bg-white/[0.04] hover:text-neutral-200',
+              ].join(' ')}
             >
-              {mode === "gt" ? "GT" : mode === "pred" ? "PRED" : "BOTH"}
+              {mode === 'gt' ? 'GT' : mode === 'pred' ? 'PRED' : 'BOTH'}
             </button>
           ))}
         </div>
@@ -473,14 +476,14 @@ export function TimelineReplayPanel({
         >
           {/* Track */}
           <div
-            className="absolute top-1/2 left-0 right-0 h-1.5 -translate-y-1/2 rounded-full"
-            style={{ background: "rgba(255,255,255,0.10)" }}
+            className="absolute left-0 right-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.10)' }}
           />
 
           {/* Fill */}
           <motion.div
-            className="absolute top-1/2 left-0 h-1.5 -translate-y-1/2 rounded-full"
-            style={{ background: "oklch(80% 0.13 152)" }}
+            className="absolute left-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full"
+            style={{ background: 'oklch(80% 0.13 152)' }}
             animate={{ width: `${scrubPosition * 100}%` }}
             transition={isDragging ? { duration: 0 } : MORPH_SPRING}
           />
@@ -492,7 +495,8 @@ export function TimelineReplayPanel({
               className="absolute top-1/2 h-2.5 w-px -translate-y-1/2"
               style={{
                 left: `${(index / Math.max(totalFrames - 1, 1)) * 100}%`,
-                background: index === currentFrameIndex ? "oklch(80% 0.13 152)" : "rgba(255,255,255,0.15)",
+                background:
+                  index === currentFrameIndex ? 'oklch(80% 0.13 152)' : 'rgba(255,255,255,0.15)',
               }}
             />
           ))}
@@ -502,8 +506,8 @@ export function TimelineReplayPanel({
             className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full"
             style={{
               left: `${scrubPosition * 100}%`,
-              background: "oklch(80% 0.13 152)",
-              boxShadow: "0 0 0 3px rgba(106,217,161,0.14), 0 0 12px 2px rgba(106,217,161,0.35)",
+              background: 'oklch(80% 0.13 152)',
+              boxShadow: '0 0 0 3px rgba(106,217,161,0.14), 0 0 12px 2px rgba(106,217,161,0.35)',
             }}
             animate={{
               scale: isDragging ? 1.2 : 1,
@@ -523,8 +527,8 @@ export function TimelineReplayPanel({
         ref={stripRef}
         className="flex gap-2 overflow-x-auto px-4 py-3"
         style={{
-          scrollbarColor: "oklch(62% 0.018 180 / 0.42) transparent",
-          scrollbarWidth: "thin",
+          scrollbarColor: 'oklch(62% 0.018 180 / 0.42) transparent',
+          scrollbarWidth: 'thin',
           maxHeight: 96,
         }}
       >
@@ -539,19 +543,17 @@ export function TimelineReplayPanel({
               type="button"
               onClick={() => handleThumbnailClick(index)}
               className={[
-                "group relative shrink-0 cursor-pointer rounded-md transition-transform duration-160 active:scale-[0.97]",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
+                'duration-160 group relative shrink-0 cursor-pointer rounded-md transition-transform active:scale-[0.97]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
                 isActive
-                  ? "scale-[1.02] shadow-[inset_0_0_0_1.5px_rgba(106,217,161,0.45),0_0_12px_rgba(106,217,161,0.2)]"
-                  : "hover:scale-[1.04] hover:brightness-110",
-              ].join(" ")}
+                  ? 'scale-[1.02] shadow-[inset_0_0_0_1.5px_rgba(106,217,161,0.45),0_0_12px_rgba(106,217,161,0.2)]'
+                  : 'hover:scale-[1.04] hover:brightness-110',
+              ].join(' ')}
               style={{
                 width: THUMBNAIL_WIDTH,
                 height: THUMBNAIL_HEIGHT,
                 background: getThumbnailGradient(index),
-                boxShadow: isActive
-                  ? undefined
-                  : "inset 0 0 0 1px rgba(255,255,255,0.08)",
+                boxShadow: isActive ? undefined : 'inset 0 0 0 1px rgba(255,255,255,0.08)',
               }}
             >
               {/* Mini BBox indicators */}
@@ -576,7 +578,7 @@ export function TimelineReplayPanel({
                       fill="none"
                       stroke={box.color}
                       strokeWidth={0.8}
-                      strokeDasharray={box.isGroundTruth ? "2 1" : undefined}
+                      strokeDasharray={box.isGroundTruth ? '2 1' : undefined}
                       opacity={isActive ? 1 : 0.6}
                     />
                   );
@@ -586,10 +588,10 @@ export function TimelineReplayPanel({
               {/* Frame number badge */}
               <span
                 className={[
-                  "absolute bottom-0 left-0 right-0 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider",
-                  isActive ? "text-signal-300" : "text-neutral-400",
-                ].join(" ")}
-                style={{ textAlign: "center" }}
+                  'absolute bottom-0 left-0 right-0 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider',
+                  isActive ? 'text-signal-300' : 'text-neutral-400',
+                ].join(' ')}
+                style={{ textAlign: 'center' }}
               >
                 {index + 1}
               </span>
@@ -619,9 +621,7 @@ function MorphingBBox({
   const width = (box.geometry.width / imageWidth) * 100;
   const height = (box.geometry.height / imageHeight) * 100;
 
-  const borderStyle = box.isGroundTruth
-    ? `1.5px dashed ${box.color}`
-    : `1.5px solid ${box.color}`;
+  const borderStyle = box.isGroundTruth ? `1.5px dashed ${box.color}` : `1.5px solid ${box.color}`;
 
   return (
     <motion.div
@@ -632,9 +632,7 @@ function MorphingBBox({
         top: `${top}%`,
         width: `${width}%`,
         height: `${height}%`,
-        backgroundColor: box.isGroundTruth
-          ? `${box.color}20`
-          : `${box.color}20`,
+        backgroundColor: box.isGroundTruth ? `${box.color}20` : `${box.color}20`,
         border: borderStyle,
       }}
       initial={reducedMotion ? false : { opacity: 0, scale: 0.94 }}
@@ -654,7 +652,7 @@ function MorphingBBox({
         className="absolute -top-6 left-0 max-w-full truncate rounded-sm px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em]"
         style={{
           backgroundColor: box.color,
-          color: "#050d0c",
+          color: '#050d0c',
         }}
       >
         {box.label}
@@ -670,21 +668,23 @@ function PlayPauseButton({ isPlaying, onClick }: { isPlaying: boolean; onClick: 
   return (
     <motion.button
       type="button"
-      title={isPlaying ? "Pause" : "Play"}
-      aria-label={isPlaying ? "Pause" : "Play"}
+      title={isPlaying ? 'Pause' : 'Play'}
+      aria-label={isPlaying ? 'Pause' : 'Play'}
       onClick={onClick}
       className={[
-        "relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-160",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
-        "shadow-[inset_0_0_0_1px_rgba(106,217,161,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]",
-      ].join(" ")}
+        'duration-160 relative flex h-10 w-10 items-center justify-center rounded-md transition-all',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
+        'shadow-[inset_0_0_0_1px_rgba(106,217,161,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]',
+      ].join(' ')}
       style={{
-        background: isPlaying
-          ? "rgba(106,217,161,0.15)"
-          : "rgba(106,217,161,0.12)",
+        background: isPlaying ? 'rgba(106,217,161,0.15)' : 'rgba(106,217,161,0.12)',
       }}
       whileTap={{ scale: 0.94 }}
-      animate={isPlaying ? { boxShadow: "0 0 0 3px rgba(106,217,161,0.18), 0 0 14px rgba(106,217,161,0.25)" } : {}}
+      animate={
+        isPlaying
+          ? { boxShadow: '0 0 0 3px rgba(106,217,161,0.18), 0 0 14px rgba(106,217,161,0.25)' }
+          : {}
+      }
       transition={{ duration: 0.18 }}
     >
       {isPlaying ? (
@@ -715,13 +715,13 @@ function ControlButton({
       onClick={onClick}
       disabled={disabled}
       className={[
-        "inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors duration-160 active:scale-[0.97]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
-        "disabled:cursor-not-allowed disabled:opacity-40",
+        'duration-160 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors active:scale-[0.97]',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
+        'disabled:cursor-not-allowed disabled:opacity-40',
         disabled
-          ? "text-neutral-600"
-          : "text-neutral-400 hover:text-neutral-100 hover:bg-white/[0.05]",
-      ].join(" ")}
+          ? 'text-neutral-600'
+          : 'text-neutral-400 hover:bg-white/[0.05] hover:text-neutral-100',
+      ].join(' ')}
     >
       <Icon size={17} />
     </button>

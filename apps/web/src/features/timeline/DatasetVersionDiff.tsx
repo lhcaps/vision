@@ -3,12 +3,12 @@ import {
   MinusIcon as Minus,
   ArrowsLeftRightIcon as ArrowsLeftRight,
   CheckCircleIcon as CheckCircle,
-} from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
-import { useMemo, useState } from "react";
-import type { AnnotationSummary } from "@visionflow/contracts";
-import { demoSnapshot } from "../../data/demo";
-import { motionTokens } from "@visionflow/motion";
+} from '@phosphor-icons/react';
+import { motion, useReducedMotion } from 'motion/react';
+import { useMemo, useState } from 'react';
+import type { AnnotationSummary } from '@visionflow/contracts';
+import { demoSnapshot } from '../../data/demo';
+import { motionTokens } from '@visionflow/motion';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -16,12 +16,12 @@ type DatasetVersionDiffProps = {
   className?: string;
 };
 
-type DiffType = "added" | "removed" | "changed";
+type DiffType = 'added' | 'removed' | 'changed';
 
 interface VersionOption {
   id: string;
   label: string;
-  status: "DRAFT" | "LOCKED";
+  status: 'DRAFT' | 'LOCKED';
   annotationCount: number;
 }
 
@@ -46,21 +46,21 @@ interface AssetDiffEntry {
 
 const DEMO_VERSIONS: VersionOption[] = [
   {
-    id: "v3",
-    label: "v3",
-    status: "DRAFT",
+    id: 'v3',
+    label: 'v3',
+    status: 'DRAFT',
     annotationCount: 3,
   },
   {
-    id: "v2",
-    label: "v2",
-    status: "LOCKED",
+    id: 'v2',
+    label: 'v2',
+    status: 'LOCKED',
     annotationCount: 2,
   },
   {
-    id: "v1",
-    label: "v1",
-    status: "LOCKED",
+    id: 'v1',
+    label: 'v1',
+    status: 'LOCKED',
     annotationCount: 1,
   },
 ];
@@ -68,96 +68,96 @@ const DEMO_VERSIONS: VersionOption[] = [
 // v3 (DRAFT): all 3 annotations from demo.ts (ann_01, ann_02, ann_03)
 const V3_ANNOTATIONS: AnnotationSummary[] = [
   {
-    id: "ann_01",
-    annotationSetId: "annset_v3",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_car",
-    label: "car",
-    color: "#6ad9a1",
-    type: "BBOX",
+    id: 'ann_01',
+    annotationSetId: 'annset_v3',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_car',
+    label: 'car',
+    color: '#6ad9a1',
+    type: 'BBOX',
     geometry: { x: 318, y: 284, width: 344, height: 188 },
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:52:00.000Z",
-    updatedAt: "2026-04-28T12:52:00.000Z",
+    createdAt: '2026-04-28T12:52:00.000Z',
+    updatedAt: '2026-04-28T12:52:00.000Z',
   },
   {
-    id: "ann_02",
-    annotationSetId: "annset_v3",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_van",
-    label: "van",
-    color: "#5cc8ff",
-    type: "BBOX",
+    id: 'ann_02',
+    annotationSetId: 'annset_v3',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_van',
+    label: 'van',
+    color: '#5cc8ff',
+    type: 'BBOX',
     geometry: { x: 1014, y: 352, width: 278, height: 162 },
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:53:00.000Z",
-    updatedAt: "2026-04-28T12:53:00.000Z",
+    createdAt: '2026-04-28T12:53:00.000Z',
+    updatedAt: '2026-04-28T12:53:00.000Z',
   },
   {
-    id: "ann_03",
-    annotationSetId: "annset_v3",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_truck",
-    label: "truck",
-    color: "#f5b85d",
-    type: "BBOX",
+    id: 'ann_03',
+    annotationSetId: 'annset_v3',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_truck',
+    label: 'truck',
+    color: '#f5b85d',
+    type: 'BBOX',
     geometry: { x: 1396, y: 298, width: 260, height: 216 },
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:54:00.000Z",
-    updatedAt: "2026-04-28T12:54:00.000Z",
+    createdAt: '2026-04-28T12:54:00.000Z',
+    updatedAt: '2026-04-28T12:54:00.000Z',
   },
 ];
 
 // v2 (LOCKED): 2 annotations — ann_01 at different position, no ann_02, no ann_03
 const V2_ANNOTATIONS: AnnotationSummary[] = [
   {
-    id: "ann_01",
-    annotationSetId: "annset_v2",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_car",
-    label: "car",
-    color: "#6ad9a1",
-    type: "BBOX",
+    id: 'ann_01',
+    annotationSetId: 'annset_v2',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_car',
+    label: 'car',
+    color: '#6ad9a1',
+    type: 'BBOX',
     geometry: { x: 308, y: 274, width: 354, height: 198 }, // Slightly different position
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:45:00.000Z",
-    updatedAt: "2026-04-28T12:45:00.000Z",
+    createdAt: '2026-04-28T12:45:00.000Z',
+    updatedAt: '2026-04-28T12:45:00.000Z',
   },
   {
-    id: "ann_02",
-    annotationSetId: "annset_v2",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_van",
-    label: "van",
-    color: "#5cc8ff",
-    type: "BBOX",
+    id: 'ann_02',
+    annotationSetId: 'annset_v2',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_van',
+    label: 'van',
+    color: '#5cc8ff',
+    type: 'BBOX',
     geometry: { x: 1024, y: 342, width: 268, height: 172 }, // Different geometry
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:46:00.000Z",
-    updatedAt: "2026-04-28T12:46:00.000Z",
+    createdAt: '2026-04-28T12:46:00.000Z',
+    updatedAt: '2026-04-28T12:46:00.000Z',
   },
 ];
 
 // v1 (LOCKED): 1 annotation (ann_01 only)
 const V1_ANNOTATIONS: AnnotationSummary[] = [
   {
-    id: "ann_01",
-    annotationSetId: "annset_v1",
-    assetId: "asset_frame_1482",
-    labelClassId: "label_proj_parking_lot_car",
-    label: "car",
-    color: "#6ad9a1",
-    type: "BBOX",
+    id: 'ann_01',
+    annotationSetId: 'annset_v1',
+    assetId: 'asset_frame_1482',
+    labelClassId: 'label_proj_parking_lot_car',
+    label: 'car',
+    color: '#6ad9a1',
+    type: 'BBOX',
     geometry: { x: 320, y: 290, width: 340, height: 180 },
-    source: "MANUAL",
+    source: 'MANUAL',
     confidence: null,
-    createdAt: "2026-04-28T12:40:00.000Z",
-    updatedAt: "2026-04-28T12:40:00.000Z",
+    createdAt: '2026-04-28T12:40:00.000Z',
+    updatedAt: '2026-04-28T12:40:00.000Z',
   },
 ];
 
@@ -171,7 +171,7 @@ const VERSION_ANNOTATIONS: Record<string, AnnotationSummary[]> = {
 
 function computeIoU(
   a: { x: number; y: number; width: number; height: number },
-  b: { x: number; y: number; width: number; height: number },
+  b: { x: number; y: number; width: number; height: number }
 ): number {
   const x1 = Math.max(a.x, b.x);
   const y1 = Math.max(a.y, b.y);
@@ -196,17 +196,21 @@ const IOU_THRESHOLD = 0.3;
 
 function computeDiff(
   versionA: AnnotationSummary[],
-  versionB: AnnotationSummary[],
-): { diffBoxes: DiffBox[]; added: number; removed: number; changed: number; assetDiffs: AssetDiffEntry[] } {
+  versionB: AnnotationSummary[]
+): {
+  diffBoxes: DiffBox[];
+  added: number;
+  removed: number;
+  changed: number;
+  assetDiffs: AssetDiffEntry[];
+} {
   const diffBoxes: DiffBox[] = [];
   const matchedB = new Set<string>();
 
   // Find changed and removed
   for (const annA of versionA) {
     const matchB = versionB.find(
-      (b) =>
-        b.labelClassId === annA.labelClassId &&
-        b.assetId === annA.assetId,
+      (b) => b.labelClassId === annA.labelClassId && b.assetId === annA.assetId
     );
 
     if (!matchB) {
@@ -218,7 +222,7 @@ function computeDiff(
         color: annA.color,
         labelClassId: annA.labelClassId,
         assetId: annA.assetId,
-        diffType: "removed",
+        diffType: 'removed',
       });
     } else {
       matchedB.add(matchB.id);
@@ -233,7 +237,7 @@ function computeDiff(
           color: annA.color,
           labelClassId: annA.labelClassId,
           assetId: annA.assetId,
-          diffType: "changed",
+          diffType: 'changed',
           oldGeometry: annA.geometry,
         });
       }
@@ -251,22 +255,21 @@ function computeDiff(
         color: annB.color,
         labelClassId: annB.labelClassId,
         assetId: annB.assetId,
-        diffType: "added",
+        diffType: 'added',
       });
     }
   }
 
-  const added = diffBoxes.filter((b) => b.diffType === "added").length;
-  const removed = diffBoxes.filter((b) => b.diffType === "removed").length;
-  const changed = diffBoxes.filter((b) => b.diffType === "changed").length;
+  const added = diffBoxes.filter((b) => b.diffType === 'added').length;
+  const removed = diffBoxes.filter((b) => b.diffType === 'removed').length;
+  const changed = diffBoxes.filter((b) => b.diffType === 'changed').length;
 
   // Build asset-level diff
   const assetMap = new Map<string, AssetDiffEntry>();
 
   for (const box of diffBoxes) {
     const existing = assetMap.get(box.assetId);
-    const assetName =
-      demoSnapshot.media.find((m) => m.id === box.assetId)?.name ?? box.assetId;
+    const assetName = demoSnapshot.media.find((m) => m.id === box.assetId)?.name ?? box.assetId;
 
     if (existing) {
       if (!existing.diffTypes.includes(box.diffType)) {
@@ -294,23 +297,23 @@ function DiffBadge({ type, count }: { type: DiffType; count: number }) {
   const config = {
     added: {
       label: `+${count} added`,
-      bg: "bg-[oklch(0.8_0.13_152/0.10)]",
-      text: "text-[oklch(0.8_0.13_152)]",
-      border: "border-[oklch(0.8_0.13_152/0.20)]",
+      bg: 'bg-[oklch(0.8_0.13_152/0.10)]',
+      text: 'text-[oklch(0.8_0.13_152)]',
+      border: 'border-[oklch(0.8_0.13_152/0.20)]',
       icon: Plus,
     },
     removed: {
       label: `-${count} removed`,
-      bg: "bg-[oklch(0.76_0.14_25/0.10)]",
-      text: "text-[oklch(0.76_0.14_25)]",
-      border: "border-[oklch(0.76_0.14_25/0.20)]",
+      bg: 'bg-[oklch(0.76_0.14_25/0.10)]',
+      text: 'text-[oklch(0.76_0.14_25)]',
+      border: 'border-[oklch(0.76_0.14_25/0.20)]',
       icon: Minus,
     },
     changed: {
       label: `~${count} changed`,
-      bg: "bg-[oklch(0.82_0.13_88/0.10)]",
-      text: "text-[oklch(0.82_0.13_88)]",
-      border: "border-[oklch(0.82_0.13_88/0.20)]",
+      bg: 'bg-[oklch(0.82_0.13_88/0.10)]',
+      text: 'text-[oklch(0.82_0.13_88)]',
+      border: 'border-[oklch(0.82_0.13_88/0.20)]',
       icon: ArrowsLeftRight,
     },
   };
@@ -320,11 +323,11 @@ function DiffBadge({ type, count }: { type: DiffType; count: number }) {
   return (
     <motion.span
       className={[
-        "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs",
+        'inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs',
         bg,
         text,
         border,
-      ].join(" ")}
+      ].join(' ')}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={motionTokens.springSoft}
@@ -351,24 +354,24 @@ function VersionPill({
       type="button"
       onClick={onClick}
       className={[
-        "inline-flex items-center gap-2 rounded-md px-3 py-2 font-mono text-xs transition-colors duration-160",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
-        "active:scale-[0.97]",
+        'duration-160 inline-flex items-center gap-2 rounded-md px-3 py-2 font-mono text-xs transition-colors',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
+        'active:scale-[0.97]',
         isActive
-          ? version.status === "DRAFT"
-            ? "bg-[oklch(0.82_0.13_88/0.12)] text-[oklch(0.82_0.13_88)] shadow-[inset_0_0_0_1px_oklch(0.82_0.13_88/0.28),inset_0_1px_0_oklch(0.98_0.006_180/0.06)]"
-            : "bg-[oklch(0.8_0.13_152/0.12)] text-[oklch(0.8_0.13_152)] shadow-[inset_0_0_0_1px_oklch(0.8_0.13_152/0.28),inset_0_1px_0_oklch(0.98_0.006_180/0.06)]"
-          : "inner-border-subtle bg-white/[0.04] text-neutral-300 hover:bg-white/[0.07]",
-      ].join(" ")}
+          ? version.status === 'DRAFT'
+            ? 'bg-[oklch(0.82_0.13_88/0.12)] text-[oklch(0.82_0.13_88)] shadow-[inset_0_0_0_1px_oklch(0.82_0.13_88/0.28),inset_0_1px_0_oklch(0.98_0.006_180/0.06)]'
+            : 'bg-[oklch(0.8_0.13_152/0.12)] text-[oklch(0.8_0.13_152)] shadow-[inset_0_0_0_1px_oklch(0.8_0.13_152/0.28),inset_0_1px_0_oklch(0.98_0.006_180/0.06)]'
+          : 'inner-border-subtle bg-white/[0.04] text-neutral-300 hover:bg-white/[0.07]',
+      ].join(' ')}
     >
       <span>{version.label}</span>
       <span
         className={[
-          "rounded-sm px-1 py-0.5 text-[10px] uppercase tracking-wider",
-          version.status === "DRAFT"
-            ? "bg-[oklch(0.82_0.13_88/0.15)] text-[oklch(0.82_0.13_88)]"
-            : "bg-white/[0.08] text-neutral-400",
-        ].join(" ")}
+          'rounded-sm px-1 py-0.5 text-[10px] uppercase tracking-wider',
+          version.status === 'DRAFT'
+            ? 'bg-[oklch(0.82_0.13_88/0.15)] text-[oklch(0.82_0.13_88)]'
+            : 'bg-white/[0.08] text-neutral-400',
+        ].join(' ')}
       >
         {version.status}
       </span>
@@ -395,7 +398,7 @@ function GhostOutline({
     width: `${(geometry.width / imageWidth) * 100}%`,
     height: `${(geometry.height / imageHeight) * 100}%`,
     border: `1.5px dashed ${color}`,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     opacity: 0.35,
   };
 
@@ -425,7 +428,7 @@ function ConnectorLine({
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
-      style={{ overflow: "visible" }}
+      style={{ overflow: 'visible' }}
     >
       <line
         x1={`${x1}%`}
@@ -463,22 +466,22 @@ function DiffBoxOverlay({
 
   const config = {
     added: {
-      border: "1.5px solid oklch(80% 0.13 152)",
-      background: "rgba(106,217,161,0.15)",
-      labelBg: "oklch(80% 0.13 152)",
-      textDecoration: "none",
+      border: '1.5px solid oklch(80% 0.13 152)',
+      background: 'rgba(106,217,161,0.15)',
+      labelBg: 'oklch(80% 0.13 152)',
+      textDecoration: 'none',
     },
     removed: {
-      border: "1.5px solid oklch(76% 0.14 25)",
-      background: "rgba(239,68,68,0.15)",
-      labelBg: "oklch(76% 0.14 25)",
-      textDecoration: "line-through",
+      border: '1.5px solid oklch(76% 0.14 25)',
+      background: 'rgba(239,68,68,0.15)',
+      labelBg: 'oklch(76% 0.14 25)',
+      textDecoration: 'line-through',
     },
     changed: {
-      border: "1.5px solid oklch(82% 0.13 88)",
-      background: "rgba(255,183,77,0.15)",
-      labelBg: "oklch(82% 0.13 88)",
-      textDecoration: "none",
+      border: '1.5px solid oklch(82% 0.13 88)',
+      background: 'rgba(255,183,77,0.15)',
+      labelBg: 'oklch(82% 0.13 88)',
+      textDecoration: 'none',
     },
   };
 
@@ -493,22 +496,18 @@ function DiffBoxOverlay({
         border,
         backgroundColor: background,
       }}
-      initial={
-        reducedMotion
-          ? { opacity: 0 }
-          : { opacity: 0, scale: 0.94 }
-      }
+      initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={
         reducedMotion
           ? { duration: 0 }
-          : box.diffType === "changed"
+          : box.diffType === 'changed'
             ? { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
             : motionTokens.springSoft
       }
     >
       {/* Ghost outline for changed boxes */}
-      {box.diffType === "changed" && box.oldGeometry && (
+      {box.diffType === 'changed' && box.oldGeometry && (
         <>
           <GhostOutline
             geometry={box.oldGeometry}
@@ -554,7 +553,7 @@ function DiffCanvas({
   imageHeight?: number;
 }) {
   const shouldReduceMotion = useReducedMotion();
-  const canvasAssetId = assetId ?? "asset_frame_1482";
+  const canvasAssetId = assetId ?? 'asset_frame_1482';
   const canvasImageWidth = imageWidth ?? 1920;
   const canvasImageHeight = imageHeight ?? 1080;
 
@@ -562,16 +561,13 @@ function DiffCanvas({
   const reducedMotion = Boolean(shouldReduceMotion);
 
   return (
-    <div
-      className="relative overflow-hidden bg-graphite-950"
-      style={{ minHeight: 420 }}
-    >
+    <div className="relative overflow-hidden bg-graphite-950" style={{ minHeight: 420 }}>
       {/* Radial gradient base — green accent */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 28% 22%,rgba(106,217,161,0.07),transparent 32%)",
+            'radial-gradient(circle at 28% 22%,rgba(106,217,161,0.07),transparent 32%)',
         }}
       />
 
@@ -580,7 +576,7 @@ function DiffCanvas({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(to top,rgba(5,13,12,0.88),transparent 30%),linear-gradient(to bottom,transparent 0%,rgba(5,13,12,0.4) 12%),linear-gradient(to left,rgba(5,13,12,0.88),transparent 18%),linear-gradient(to right,rgba(5,13,12,0.88),transparent 18%)",
+            'linear-gradient(to top,rgba(5,13,12,0.88),transparent 30%),linear-gradient(to bottom,transparent 0%,rgba(5,13,12,0.4) 12%),linear-gradient(to left,rgba(5,13,12,0.88),transparent 18%),linear-gradient(to right,rgba(5,13,12,0.88),transparent 18%)',
         }}
       />
 
@@ -588,7 +584,7 @@ function DiffCanvas({
       <div
         className="absolute left-[8%] top-[14%] h-[72%] w-[84%]"
         style={{
-          boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)",
+          boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4)',
         }}
       >
         {/* Grid overlay */}
@@ -596,12 +592,12 @@ function DiffCanvas({
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+              'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
             maskImage:
-              "linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)",
+              'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
             WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)",
+              'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
           }}
         />
 
@@ -626,8 +622,8 @@ function DiffCanvas({
       <div
         className="absolute left-4 top-3 rounded-md px-2.5 py-1.5 font-mono text-[11px] text-neutral-500"
         style={{
-          background: "rgba(14,18,17,0.72)",
-          backdropFilter: "blur(8px)",
+          background: 'rgba(14,18,17,0.72)',
+          backdropFilter: 'blur(8px)',
         }}
       >
         {canvasAssetId} / {canvasImageWidth} x {canvasImageHeight}
@@ -637,35 +633,35 @@ function DiffCanvas({
       <div
         className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-end gap-3 rounded-md px-3 py-2"
         style={{
-          background: "rgba(14,18,17,0.84)",
-          backdropFilter: "blur(12px)",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          background: 'rgba(14,18,17,0.84)',
+          backdropFilter: 'blur(12px)',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
         }}
       >
         <span className="flex items-center gap-1.5">
           <span
             className="h-2.5 w-2.5 rounded-sm"
-            style={{ border: "1.5px solid oklch(80% 0.13 152)" }}
+            style={{ border: '1.5px solid oklch(80% 0.13 152)' }}
           />
-          <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
             Added
           </span>
         </span>
         <span className="flex items-center gap-1.5">
           <span
             className="h-2.5 w-2.5 rounded-sm"
-            style={{ border: "1.5px solid oklch(76% 0.14 25)" }}
+            style={{ border: '1.5px solid oklch(76% 0.14 25)' }}
           />
-          <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
             Removed
           </span>
         </span>
         <span className="flex items-center gap-1.5">
           <span
             className="h-2.5 w-2.5 rounded-sm"
-            style={{ border: "1.5px solid oklch(82% 0.13 88)" }}
+            style={{ border: '1.5px solid oklch(82% 0.13 88)' }}
           />
-          <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
             Changed
           </span>
         </span>
@@ -676,28 +672,22 @@ function DiffCanvas({
 
 // ─── Asset Diff Row Component ────────────────────────────────────────────────
 
-function AssetDiffRow({
-  asset,
-  index,
-}: {
-  asset: AssetDiffEntry;
-  index: number;
-}) {
+function AssetDiffRow({ asset, index }: { asset: AssetDiffEntry; index: number }) {
   const typeConfig = {
     added: {
-      bg: "bg-[oklch(0.8_0.13_152/0.10)]",
-      text: "text-[oklch(0.8_0.13_152)]",
-      border: "border-[oklch(0.8_0.13_152/0.25)]",
+      bg: 'bg-[oklch(0.8_0.13_152/0.10)]',
+      text: 'text-[oklch(0.8_0.13_152)]',
+      border: 'border-[oklch(0.8_0.13_152/0.25)]',
     },
     removed: {
-      bg: "bg-[oklch(0.76_0.14_25/0.10)]",
-      text: "text-[oklch(0.76_0.14_25)]",
-      border: "border-[oklch(0.76_0.14_25/0.25)]",
+      bg: 'bg-[oklch(0.76_0.14_25/0.10)]',
+      text: 'text-[oklch(0.76_0.14_25)]',
+      border: 'border-[oklch(0.76_0.14_25/0.25)]',
     },
     changed: {
-      bg: "bg-[oklch(0.82_0.13_88/0.10)]",
-      text: "text-[oklch(0.82_0.13_88)]",
-      border: "border-[oklch(0.82_0.13_88/0.25)]",
+      bg: 'bg-[oklch(0.82_0.13_88/0.10)]',
+      text: 'text-[oklch(0.82_0.13_88)]',
+      border: 'border-[oklch(0.82_0.13_88/0.25)]',
     },
   };
 
@@ -714,13 +704,11 @@ function AssetDiffRow({
           className="h-10 w-14 rounded-md"
           style={{
             background:
-              "linear-gradient(135deg, rgba(106,217,161,0.08), rgba(92,200,255,0.05)), rgba(255,255,255,0.02)",
+              'linear-gradient(135deg, rgba(106,217,161,0.08), rgba(92,200,255,0.05)), rgba(255,255,255,0.02)',
           }}
         />
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-neutral-100">
-            {asset.assetName}
-          </p>
+          <p className="truncate text-sm font-medium text-neutral-100">{asset.assetName}</p>
           <p className="font-mono text-[11px] text-neutral-500">{asset.assetId}</p>
         </div>
       </div>
@@ -732,11 +720,11 @@ function AssetDiffRow({
             <span
               key={type}
               className={[
-                "rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider",
+                'rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider',
                 bg,
                 text,
                 border,
-              ].join(" ")}
+              ].join(' ')}
             >
               {type}
             </span>
@@ -749,10 +737,10 @@ function AssetDiffRow({
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
-export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) {
+export function DatasetVersionDiff({ className = '' }: DatasetVersionDiffProps) {
   const shouldReduceMotion = useReducedMotion();
-  const [compareVersionId, setCompareVersionId] = useState("v3");
-  const [againstVersionId, setAgainstVersionId] = useState("v2");
+  const [compareVersionId, setCompareVersionId] = useState('v3');
+  const [againstVersionId, setAgainstVersionId] = useState('v2');
 
   const compareVersion = DEMO_VERSIONS.find((v) => v.id === compareVersionId) ?? DEMO_VERSIONS[0];
   const againstVersion = DEMO_VERSIONS.find((v) => v.id === againstVersionId) ?? DEMO_VERSIONS[1];
@@ -766,7 +754,7 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
   const hasDifferences = added > 0 || removed > 0 || changed > 0;
 
   return (
-    <div className={["min-w-0", className].join(" ")}>
+    <div className={['min-w-0', className].join(' ')}>
       {/* Header */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -778,8 +766,8 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
         <div
           className="flex items-center gap-2 rounded-md px-3 py-2"
           style={{
-            background: "rgba(106,217,161,0.06)",
-            boxShadow: "inset 0 0 0 1px rgba(106,217,161,0.14)",
+            background: 'rgba(106,217,161,0.06)',
+            boxShadow: 'inset 0 0 0 1px rgba(106,217,161,0.14)',
           }}
         >
           <ArrowsLeftRight size={16} className="text-[oklch(80%_0.13_152)]" weight="duotone" />
@@ -791,11 +779,11 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
         {/* Main diff panel */}
-        <div className="overflow-hidden rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+        <div className="inner-border-subtle bg-graphite-900/75 overflow-hidden rounded-md shadow-panel">
           {/* Version selector bar */}
           <div
             className="flex flex-wrap items-center justify-between gap-4 px-4 py-3"
-            style={{ borderBottom: "1px solid oklch(94% 0.006 180 / 0.08)" }}
+            style={{ borderBottom: '1px solid oklch(94% 0.006 180 / 0.08)' }}
           >
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
@@ -815,7 +803,7 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
 
             <div
               className="flex items-center gap-2 text-neutral-400"
-              style={{ color: "oklch(72% 0.006 180)" }}
+              style={{ color: 'oklch(72% 0.006 180)' }}
             >
               <span className="font-mono text-xs">vs</span>
             </div>
@@ -840,7 +828,7 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
           {/* Summary strip */}
           <div
             className="flex flex-wrap items-center gap-3 px-4 py-3"
-            style={{ borderBottom: "1px solid oklch(94% 0.006 180 / 0.06)" }}
+            style={{ borderBottom: '1px solid oklch(94% 0.006 180 / 0.06)' }}
           >
             {shouldReduceMotion ? (
               <>
@@ -889,18 +877,22 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
               <div
                 className="flex min-h-[420px] flex-col items-center justify-center gap-3 rounded-md"
                 style={{
-                  background: "rgba(106,217,161,0.04)",
-                  boxShadow: "inset 0 0 0 1px rgba(106,217,161,0.10)",
+                  background: 'rgba(106,217,161,0.04)',
+                  boxShadow: 'inset 0 0 0 1px rgba(106,217,161,0.10)',
                 }}
               >
                 <div
                   className="flex h-12 w-12 items-center justify-center rounded-full"
                   style={{
-                    background: "rgba(106,217,161,0.10)",
-                    boxShadow: "inset 0 0 0 1px rgba(106,217,161,0.18)",
+                    background: 'rgba(106,217,161,0.10)',
+                    boxShadow: 'inset 0 0 0 1px rgba(106,217,161,0.18)',
                   }}
                 >
-                  <ArrowsLeftRight size={22} className="text-[oklch(80%_0.13_152)]" weight="duotone" />
+                  <ArrowsLeftRight
+                    size={22}
+                    className="text-[oklch(80%_0.13_152)]"
+                    weight="duotone"
+                  />
                 </div>
                 <p className="text-sm font-medium text-neutral-100">No differences found</p>
                 <p className="font-mono text-xs text-neutral-500">
@@ -912,21 +904,18 @@ export function DatasetVersionDiff({ className = "" }: DatasetVersionDiffProps) 
         </div>
 
         {/* Asset diff list panel */}
-        <div className="overflow-hidden rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+        <div className="inner-border-subtle bg-graphite-900/75 overflow-hidden rounded-md shadow-panel">
           <div
             className="px-4 py-3"
-            style={{ borderBottom: "1px solid oklch(94% 0.006 180 / 0.08)" }}
+            style={{ borderBottom: '1px solid oklch(94% 0.006 180 / 0.08)' }}
           >
             <h3 className="text-sm font-semibold text-neutral-100">Asset diffs</h3>
             <p className="mt-1 font-mono text-xs text-neutral-500">
-              {assetDiffs.length} asset{assetDiffs.length === 1 ? "" : "s"} with changes
+              {assetDiffs.length} asset{assetDiffs.length === 1 ? '' : 's'} with changes
             </p>
           </div>
 
-          <div
-            className="divide-y"
-            style={{ borderTop: "1px solid oklch(94% 0.006 180 / 0.06)" }}
-          >
+          <div className="divide-y" style={{ borderTop: '1px solid oklch(94% 0.006 180 / 0.06)' }}>
             {assetDiffs.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-2 px-4 py-8">
                 <CheckCircle size={24} className="text-[oklch(80%_0.13_152)]" weight="duotone" />

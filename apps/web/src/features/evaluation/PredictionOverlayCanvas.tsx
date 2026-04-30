@@ -1,13 +1,17 @@
-import { CrosshairIcon as Crosshair, EyeIcon as Eye, LightningIcon as Lightning } from "@phosphor-icons/react";
-import { useReducer, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import type { AnnotationSummary, PredictionSummary } from "@visionflow/contracts";
+import {
+  CrosshairIcon as Crosshair,
+  EyeIcon as Eye,
+  LightningIcon as Lightning,
+} from '@phosphor-icons/react';
+import { useReducer, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import type { AnnotationSummary, PredictionSummary } from '@visionflow/contracts';
 
-const GT_COLOR = "#6ad9a1";
-const PRED_COLOR = "#ffb74d";
-const IO_U_COLOR = "#6ad9a1";
+const GT_COLOR = '#6ad9a1';
+const PRED_COLOR = '#ffb74d';
+const IO_U_COLOR = '#6ad9a1';
 
-type OverlayMode = "gt" | "pred" | "both";
+type OverlayMode = 'gt' | 'pred' | 'both';
 
 interface BBoxOverlayProps {
   id: string;
@@ -49,22 +53,26 @@ function BBoxOverlay({
     <motion.button
       key={id}
       type="button"
-      title={`${label}${confidence != null ? ` (${(confidence * 100).toFixed(0)}%)` : ""}`}
-      aria-label={`${isGroundTruth ? "GT" : "Pred"} ${label}`}
+      title={`${label}${confidence != null ? ` (${(confidence * 100).toFixed(0)}%)` : ''}`}
+      aria-label={`${isGroundTruth ? 'GT' : 'Pred'} ${label}`}
       onClick={() => onSelect?.(id)}
       className={[
-        "absolute rounded-sm text-left outline-none transition-colors duration-100",
-        "focus-visible:ring-2 focus-visible:ring-signal-300",
+        'absolute rounded-sm text-left outline-none transition-colors duration-100',
+        'focus-visible:ring-2 focus-visible:ring-signal-300',
         isSelected
-          ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18),0_0_0_2px_rgba(106,217,161,0.32),0_18px_32px_-24px_rgba(106,217,161,0.55)]"
-          : "",
-      ].join(" ")}
+          ? 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18),0_0_0_2px_rgba(106,217,161,0.32),0_18px_32px_-24px_rgba(106,217,161,0.55)]'
+          : '',
+      ].join(' ')}
       style={{
         ...style,
-        backgroundColor: iouFill ? "rgba(106,217,161,0.35)" : isGroundTruth ? "rgba(106,217,161,0.12)" : "rgba(255,183,77,0.12)",
+        backgroundColor: iouFill
+          ? 'rgba(106,217,161,0.35)'
+          : isGroundTruth
+            ? 'rgba(106,217,161,0.12)'
+            : 'rgba(255,183,77,0.12)',
         border: isGroundTruth
-          ? "1.5px dashed rgba(106,217,161,0.85)"
-          : "1.5px solid rgba(255,183,77,0.85)",
+          ? '1.5px dashed rgba(106,217,161,0.85)'
+          : '1.5px solid rgba(255,183,77,0.85)',
         borderColor: color,
       }}
       initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.94 }}
@@ -73,9 +81,9 @@ function BBoxOverlay({
     >
       <span
         className={[
-          "absolute -top-6 left-0 rounded-sm px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em]",
-          "leading-none",
-        ].join(" ")}
+          'absolute -top-6 left-0 rounded-sm px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em]',
+          'leading-none',
+        ].join(' ')}
         style={{ backgroundColor: color }}
       >
         {label}
@@ -110,9 +118,9 @@ function CanvasControlsBar({
     <div
       className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 rounded-md px-3 py-2"
       style={{
-        background: "rgba(14,18,17,0.84)",
-        backdropFilter: "blur(12px)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        background: 'rgba(14,18,17,0.84)',
+        backdropFilter: 'blur(12px)',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       <div className="flex flex-wrap items-center gap-1.5">
@@ -123,12 +131,12 @@ function CanvasControlsBar({
           aria-pressed={showGT}
           onClick={onToggleGT}
           className={[
-            "inline-flex h-8 w-8 items-center justify-center rounded-md transition-all duration-160 active:translate-y-px",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
+            'duration-160 inline-flex h-8 w-8 items-center justify-center rounded-md transition-all active:translate-y-px',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
             showGT
-              ? "bg-[rgba(106,217,161,0.12)] text-[#6ad9a1] shadow-[inset_0_0_0_1px_rgba(106,217,161,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]"
-              : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
-          ].join(" ")}
+              ? 'bg-[rgba(106,217,161,0.12)] text-[#6ad9a1] shadow-[inset_0_0_0_1px_rgba(106,217,161,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]'
+              : 'text-neutral-500 hover:bg-white/[0.05] hover:text-neutral-200',
+          ].join(' ')}
         >
           <Eye size={15} />
         </button>
@@ -140,12 +148,12 @@ function CanvasControlsBar({
           aria-pressed={showPred}
           onClick={onTogglePred}
           className={[
-            "inline-flex h-8 w-8 items-center justify-center rounded-md transition-all duration-160 active:translate-y-px",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
+            'duration-160 inline-flex h-8 w-8 items-center justify-center rounded-md transition-all active:translate-y-px',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
             showPred
-              ? "bg-[rgba(255,183,77,0.12)] text-[#ffb74d] shadow-[inset_0_0_0_1px_rgba(255,183,77,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]"
-              : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
-          ].join(" ")}
+              ? 'bg-[rgba(255,183,77,0.12)] text-[#ffb74d] shadow-[inset_0_0_0_1px_rgba(255,183,77,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]'
+              : 'text-neutral-500 hover:bg-white/[0.05] hover:text-neutral-200',
+          ].join(' ')}
         >
           <Crosshair size={15} />
         </button>
@@ -157,12 +165,12 @@ function CanvasControlsBar({
           aria-pressed={showIoU}
           onClick={onToggleIoU}
           className={[
-            "inline-flex h-8 w-8 items-center justify-center rounded-md transition-all duration-160 active:translate-y-px",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300",
+            'duration-160 inline-flex h-8 w-8 items-center justify-center rounded-md transition-all active:translate-y-px',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-300',
             showIoU
-              ? "bg-[rgba(92,200,255,0.12)] text-[#5cc8ff] shadow-[inset_0_0_0_1px_rgba(92,200,255,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]"
-              : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
-          ].join(" ")}
+              ? 'bg-[rgba(92,200,255,0.12)] text-[#5cc8ff] shadow-[inset_0_0_0_1px_rgba(92,200,255,0.22),inset_0_1px_0_rgba(255,255,255,0.06)]'
+              : 'text-neutral-500 hover:bg-white/[0.05] hover:text-neutral-200',
+          ].join(' ')}
         >
           <Lightning size={15} />
         </button>
@@ -176,16 +184,20 @@ function CanvasControlsBar({
         <span className="flex items-center gap-1.5">
           <span
             className="h-2.5 w-2.5 rounded-sm"
-            style={{ border: "1.5px dashed rgba(106,217,161,0.85)" }}
+            style={{ border: '1.5px dashed rgba(106,217,161,0.85)' }}
           />
-          <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">GT</span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+            GT
+          </span>
         </span>
         <span className="flex items-center gap-1.5">
           <span
             className="h-2.5 w-2.5 rounded-sm"
-            style={{ border: "1.5px solid rgba(255,183,77,0.85)" }}
+            style={{ border: '1.5px solid rgba(255,183,77,0.85)' }}
           />
-          <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">Pred</span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+            Pred
+          </span>
         </span>
       </div>
     </div>
@@ -193,10 +205,10 @@ function CanvasControlsBar({
 }
 
 type CanvasState =
-  | { status: "loading" }
-  | { status: "empty"; message: string }
-  | { status: "error"; message: string }
-  | { status: "populated" };
+  | { status: 'loading' }
+  | { status: 'empty'; message: string }
+  | { status: 'error'; message: string }
+  | { status: 'populated' };
 
 interface PredictionOverlayCanvasProps {
   assetId?: string;
@@ -211,15 +223,15 @@ interface PredictionOverlayCanvasProps {
 }
 
 export function PredictionOverlayCanvas({
-  assetId = "asset_frame_1482",
-  assetName = "asset_frame_1482",
+  assetId = 'asset_frame_1482',
+  assetName = 'asset_frame_1482',
   imageWidth = 1920,
   imageHeight = 1080,
   groundTruth,
   predictions,
   isLoading,
   error,
-  className = "",
+  className = '',
 }: PredictionOverlayCanvasProps) {
   const shouldReduceMotion = useReducedMotion();
   const [selectedBoxId, setSelectedBoxId] = useState<string | undefined>(undefined);
@@ -230,12 +242,12 @@ export function PredictionOverlayCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const canvasState: CanvasState = isLoading
-    ? { status: "loading" }
+    ? { status: 'loading' }
     : error
-      ? { status: "error", message: error }
+      ? { status: 'error', message: error }
       : groundTruth.length === 0 && predictions.length === 0
-        ? { status: "empty", message: "No predictions or ground truth for this asset." }
-        : { status: "populated" };
+        ? { status: 'empty', message: 'No predictions or ground truth for this asset.' }
+        : { status: 'populated' };
 
   const handleToggleGT = () => setShowGT((v) => !v);
   const handleTogglePred = () => setShowPred((v) => !v);
@@ -263,48 +275,56 @@ export function PredictionOverlayCanvas({
   return (
     <div
       ref={containerRef}
-      className={["relative overflow-hidden bg-graphite-950", className].join(" ")}
+      className={['relative overflow-hidden bg-graphite-950', className].join(' ')}
       style={{ minHeight: 420 }}
       onMouseLeave={() => setHoveredCoords(null)}
     >
-      {/* Radial gradient base */}
+      {/* Radial gradient base — green accent only */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 28% 22%,rgba(106,217,161,0.10),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)",
+            'radial-gradient(circle at 28% 22%,rgba(106,217,161,0.07),transparent 32%)',
         }}
       />
 
-      {/* Atmospheric bottom fade */}
+      {/* Atmospheric edge fade — all 4 sides, full coverage */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
-        style={{ background: "linear-gradient(to top,rgba(5,13,12,0.88),transparent)" }}
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to top,rgba(5,13,12,0.88),transparent 30%),linear-gradient(to bottom,transparent 0%,rgba(5,13,12,0.4) 12%),linear-gradient(to left,rgba(5,13,12,0.88),transparent 18%),linear-gradient(to right,rgba(5,13,12,0.88),transparent 18%)',
+        }}
       />
 
-      {/* Frame */}
+      {/* Frame — no border, uses only atmospheric fade for edge definition */}
       <div
         className="absolute left-[8%] top-[14%] h-[72%] w-[84%]"
-        style={{ borderTop: "1px dashed rgba(255,255,255,0.05)" }}
+        style={{
+          boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4)',
+        }}
       >
-        {/* Grid overlay */}
+        {/* Grid overlay — fade all 4 edges */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-            maskImage: "linear-gradient(to bottom, transparent, black 12%, black 80%, transparent)",
+              'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+            maskImage:
+              'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
+            WebkitMaskImage:
+              'linear-gradient(to bottom, transparent 8%, black 16%, black 84%, transparent 92%),linear-gradient(to right, transparent 4%, black 8%, black 92%, transparent 96%)',
           }}
         />
 
         {/* Loading state */}
-        {canvasState.status === "loading" && (
+        {canvasState.status === 'loading' && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex flex-col items-center gap-3">
               <div
                 className="h-8 w-8 animate-pulse rounded-md"
-                style={{ background: "rgba(106,217,161,0.15)" }}
+                style={{ background: 'rgba(106,217,161,0.15)' }}
               />
               <span className="font-mono text-xs text-neutral-500">Loading overlay...</span>
             </div>
@@ -312,13 +332,13 @@ export function PredictionOverlayCanvas({
         )}
 
         {/* Error state */}
-        {canvasState.status === "error" && (
+        {canvasState.status === 'error' && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div
               className="flex flex-col items-center gap-3 rounded-md p-4 text-center"
               style={{
-                background: "rgba(239,68,68,0.08)",
-                boxShadow: "inset 0 0 0 1px rgba(239,68,68,0.18)",
+                background: 'rgba(239,68,68,0.08)',
+                boxShadow: 'inset 0 0 0 1px rgba(239,68,68,0.18)',
               }}
             >
               <p className="font-mono text-sm text-red-300">{canvasState.message}</p>
@@ -327,14 +347,14 @@ export function PredictionOverlayCanvas({
         )}
 
         {/* Empty state */}
-        {canvasState.status === "empty" && (
+        {canvasState.status === 'empty' && (
           <div className="absolute inset-0 flex items-center justify-center">
             <p className="font-mono text-sm text-neutral-500">{canvasState.message}</p>
           </div>
         )}
 
         {/* Populated state */}
-        {canvasState.status === "populated" && (
+        {canvasState.status === 'populated' && (
           <>
             {/* Ground-truth layer */}
             {showGT &&
@@ -376,7 +396,7 @@ export function PredictionOverlayCanvas({
         )}
 
         {/* Scanline animation */}
-        {canvasState.status === "populated" && !shouldReduceMotion && (
+        {canvasState.status === 'populated' && !shouldReduceMotion && (
           <div className="scanline pointer-events-none" />
         )}
       </div>
@@ -396,8 +416,8 @@ export function PredictionOverlayCanvas({
       <div
         className="absolute left-4 top-3 rounded-md px-2.5 py-1.5 font-mono text-[11px] text-neutral-500"
         style={{
-          background: "rgba(14,18,17,0.72)",
-          backdropFilter: "blur(8px)",
+          background: 'rgba(14,18,17,0.72)',
+          backdropFilter: 'blur(8px)',
         }}
       >
         {assetName} / {imageWidth} x {imageHeight}

@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { createHash } from "node:crypto";
-import { Prisma } from "@prisma/client";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { createHash } from 'node:crypto';
+import { Prisma } from '@prisma/client';
 import {
   CvWorkerEvaluationObject,
   CvWorkerEvaluationResponse,
@@ -9,16 +9,16 @@ import {
   PerClassMetric,
   PredictionSummary,
   RunEvaluationRequestSchema,
-} from "@visionflow/contracts";
-import { PrismaService } from "../prisma/prisma.service";
-import { demoSnapshot } from "../projects/demo-snapshot";
-import { CvWorkerClient } from "./cv-worker.client";
+} from '@visionflow/contracts';
+import { PrismaService } from '../prisma/prisma.service';
+import { demoSnapshot } from '../projects/demo-snapshot';
+import { CvWorkerClient } from './cv-worker.client';
 
 @Injectable()
 export class EvaluationService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly cvWorkerClient: CvWorkerClient,
+    private readonly cvWorkerClient: CvWorkerClient
   ) {}
 
   async getEvaluationReport(jobId: string): Promise<EvaluationReport | null> {
@@ -28,7 +28,7 @@ export class EvaluationService {
 
     const row = await this.prisma.evaluationReport.findFirst({
       where: { inferenceJobId: jobId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
 
     if (!row) return null;
@@ -47,7 +47,7 @@ export class EvaluationService {
     const job = await this.prisma.inferenceJob.findUnique({ where: { id: jobId } });
 
     if (!job) {
-      throw new NotFoundException("Inference job not found.");
+      throw new NotFoundException('Inference job not found.');
     }
 
     const [predictionRows, versionAssetLinks] = await Promise.all([
@@ -61,7 +61,7 @@ export class EvaluationService {
           asset: {
             include: {
               annotations: {
-                where: { source: "MANUAL" },
+                where: { source: 'MANUAL' },
                 include: { labelClass: true },
               },
             },
@@ -126,7 +126,7 @@ export class EvaluationService {
     const job = await this.prisma.inferenceJob.findUnique({ where: { id: jobId } });
 
     if (!job) {
-      throw new NotFoundException("Inference job not found.");
+      throw new NotFoundException('Inference job not found.');
     }
 
     const rows = await this.prisma.prediction.findMany({
@@ -138,9 +138,9 @@ export class EvaluationService {
       id: row.id,
       assetId: row.assetId,
       labelClassId: row.labelClassId,
-      label: row.labelClass?.name ?? "unknown",
-      color: row.labelClass?.color ?? "#94a3b8",
-      geometry: row.geometryJson as PredictionSummary["geometry"],
+      label: row.labelClass?.name ?? 'unknown',
+      color: row.labelClass?.color ?? '#94a3b8',
+      geometry: row.geometryJson as PredictionSummary['geometry'],
       confidence: row.confidence,
     }));
   }
@@ -149,7 +149,7 @@ export class EvaluationService {
     const gtByAsset = new Map<string, (typeof demoSnapshot.annotations)[number][]>();
 
     for (const ann of demoSnapshot.annotations) {
-      if (ann.source !== "MANUAL") continue;
+      if (ann.source !== 'MANUAL') continue;
 
       if (!gtByAsset.has(ann.assetId)) {
         gtByAsset.set(ann.assetId, []);
@@ -205,11 +205,11 @@ export class EvaluationService {
   private computeIoU(
     jobId: string,
     predictions: CvWorkerEvaluationObject[],
-    groundTruth: CvWorkerEvaluationObject[],
+    groundTruth: CvWorkerEvaluationObject[]
   ): CvWorkerEvaluationResponse {
     const IO_U_THRESHOLD = 0.5;
     const matchedGt = new Set<number>();
-    const matches: CvWorkerEvaluationResponse["matches"] = [];
+    const matches: CvWorkerEvaluationResponse['matches'] = [];
 
     for (let pi = 0; pi < predictions.length; pi++) {
       const pred = predictions[pi];
@@ -237,7 +237,8 @@ export class EvaluationService {
     const precision = predictions.length > 0 ? tp / predictions.length : 0;
     const recall = groundTruth.length > 0 ? tp / groundTruth.length : 0;
     const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
-    const meanIou = matches.length > 0 ? matches.reduce((s, m) => s + m.iou, 0) / matches.length : 0;
+    const meanIou =
+      matches.length > 0 ? matches.reduce((s, m) => s + m.iou, 0) / matches.length : 0;
 
     return {
       jobId,
@@ -254,12 +255,12 @@ export class EvaluationService {
   }
 
   private buildReport(jobId: string, cvResult: CvWorkerEvaluationResponse): EvaluationReport {
-    const reportId = `eval_${Date.now()}_${jobId.replace(/[^a-z0-9]/gi, "")}`;
+    const reportId = `eval_${Date.now()}_${jobId.replace(/[^a-z0-9]/gi, '')}`;
 
     const classMap = new Map<string, PerClassMetric>();
 
     for (const match of cvResult.matches) {
-      const label = "vehicle";
+      const label = 'vehicle';
 
       if (!classMap.has(label)) {
         classMap.set(label, {
@@ -285,9 +286,9 @@ export class EvaluationService {
 
     const totalGt = cvResult.truePositive + cvResult.falseNegative;
 
-    if (!classMap.has("vehicle") && cvResult.falsePositive > 0) {
-      classMap.set("vehicle", {
-        label: "vehicle",
+    if (!classMap.has('vehicle') && cvResult.falsePositive > 0) {
+      classMap.set('vehicle', {
+        label: 'vehicle',
         precision: 0,
         recall: cvResult.truePositive > 0 ? cvResult.truePositive / totalGt : 0,
         f1: 0,
@@ -323,7 +324,7 @@ export class EvaluationService {
 
     if (cached) return [];
 
-    const targetAsset = demoSnapshot.media.find((m) => m.id === "asset_frame_1482");
+    const targetAsset = demoSnapshot.media.find((m) => m.id === 'asset_frame_1482');
 
     if (!targetAsset) return [];
 
@@ -334,8 +335,8 @@ export class EvaluationService {
         id: `pred_${targetAsset.id}_0`,
         assetId: targetAsset.id,
         labelClassId: null,
-        label: "mock",
-        color: "#ffb74d",
+        label: 'mock',
+        color: '#ffb74d',
         geometry: {
           x: Math.max(0, digest.readUInt16BE(0) % (targetAsset.width - 200)),
           y: Math.max(0, digest.readUInt16BE(2) % (targetAsset.height - 200)),
@@ -351,5 +352,5 @@ export class EvaluationService {
 const memoryEvalCache = new Map<string, EvaluationReport>();
 
 function sha256(input: string): Buffer {
-  return createHash("sha256").update(input).digest();
+  return createHash('sha256').update(input).digest();
 }

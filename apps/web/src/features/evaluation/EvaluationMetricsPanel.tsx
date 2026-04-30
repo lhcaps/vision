@@ -1,7 +1,11 @@
-import { CaretDownIcon as ChevronDown, PlayIcon as Play, ArrowCounterClockwiseIcon as RotateCcw } from "@phosphor-icons/react";
-import { useReducer } from "react";
-import { motion } from "motion/react";
-import type { EvaluationReport, PerClassMetric } from "@visionflow/contracts";
+import {
+  CaretDownIcon as ChevronDown,
+  PlayIcon as Play,
+  ArrowCounterClockwiseIcon as RotateCcw,
+} from '@phosphor-icons/react';
+import { useReducer } from 'react';
+import { motion } from 'motion/react';
+import type { EvaluationReport, PerClassMetric } from '@visionflow/contracts';
 
 interface EvaluationMetricsPanelProps {
   report: EvaluationReport | null;
@@ -12,24 +16,24 @@ interface EvaluationMetricsPanelProps {
   className?: string;
 }
 
-type MetricTone = "signal" | "amber" | "red";
+type MetricTone = 'signal' | 'amber' | 'red';
 
 function metricTone(value: number): MetricTone {
-  if (value >= 0.8) return "signal";
-  if (value >= 0.5) return "amber";
-  return "red";
+  if (value >= 0.8) return 'signal';
+  if (value >= 0.5) return 'amber';
+  return 'red';
 }
 
 function metricColorClass(tone: MetricTone): string {
-  if (tone === "signal") return "text-signal-300";
-  if (tone === "amber") return "text-amber-300";
-  return "text-red-300";
+  if (tone === 'signal') return 'text-signal-300';
+  if (tone === 'amber') return 'text-amber-300';
+  return 'text-red-300';
 }
 
 function MetricCard({
   label,
   value,
-  unit = "",
+  unit = '',
   precision = 3,
 }: {
   label: string;
@@ -40,17 +44,11 @@ function MetricCard({
   const tone = metricTone(value);
 
   return (
-    <div
-      className="rounded-md p-3"
-      style={{ background: "oklch(94% 0.006 180 / 0.03)" }}
-    >
-      <p
-        className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500"
-        style={{}}
-      >
+    <div className="rounded-md p-3" style={{ background: 'oklch(94% 0.006 180 / 0.03)' }}>
+      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500" style={{}}>
         {label}
       </p>
-      <p className={["mt-2 font-mono text-2xl font-semibold", metricColorClass(tone)].join(" ")}>
+      <p className={['mt-2 font-mono text-2xl font-semibold', metricColorClass(tone)].join(' ')}>
         {value.toFixed(precision)}
         {unit && <span className="ml-0.5 text-sm opacity-60">{unit}</span>}
       </p>
@@ -65,27 +63,21 @@ function CountTile({
 }: {
   label: string;
   value: number;
-  tone: "signal" | "amber" | "red";
+  tone: 'signal' | 'amber' | 'red';
 }) {
   const colorClass =
-    tone === "signal"
-      ? "text-signal-300"
-      : tone === "amber"
-        ? "text-amber-300"
-        : "text-red-300";
+    tone === 'signal' ? 'text-signal-300' : tone === 'amber' ? 'text-amber-300' : 'text-red-300';
 
   const bgClass =
-    tone === "signal"
-      ? "bg-[rgba(106,217,161,0.08)]"
-      : tone === "amber"
-        ? "bg-[rgba(255,183,77,0.08)]"
-        : "bg-[rgba(239,68,68,0.08)]";
+    tone === 'signal'
+      ? 'bg-[rgba(106,217,161,0.08)]'
+      : tone === 'amber'
+        ? 'bg-[rgba(255,183,77,0.08)]'
+        : 'bg-[rgba(239,68,68,0.08)]';
 
   return (
-    <div
-      className={["flex flex-col items-center gap-1 rounded-md p-2.5", bgClass].join(" ")}
-    >
-      <p className={["font-mono text-lg font-semibold tabular-nums", colorClass].join(" ")}>
+    <div className={['flex flex-col items-center gap-1 rounded-md p-2.5', bgClass].join(' ')}>
+      <p className={['font-mono text-lg font-semibold tabular-nums', colorClass].join(' ')}>
         {value}
       </p>
       <p className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">{label}</p>
@@ -95,14 +87,14 @@ function CountTile({
 
 function SkeletonCard({ lines = 1 }: { lines?: number }) {
   return (
-    <div className="space-y-2 rounded-md p-3" style={{ background: "oklch(94% 0.006 180 / 0.03)" }}>
+    <div className="space-y-2 rounded-md p-3" style={{ background: 'oklch(94% 0.006 180 / 0.03)' }}>
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
           className="h-3 animate-pulse rounded-sm"
           style={{
-            width: i === 0 ? "60%" : i === lines - 1 ? "40%" : "80%",
-            background: "oklch(94% 0.006 180 / 0.06)",
+            width: i === 0 ? '60%' : i === lines - 1 ? '40%' : '80%',
+            background: 'oklch(94% 0.006 180 / 0.06)',
           }}
         />
       ))}
@@ -128,7 +120,7 @@ function PerClassTable({
         onClick={onToggle}
         className="flex w-full items-center justify-between px-4 py-3 text-left transition hover:bg-white/[0.03] active:bg-white/[0.05]"
       >
-        <span className="font-mono text-xs text-neutral-400 uppercase tracking-wider">
+        <span className="font-mono text-xs uppercase tracking-wider text-neutral-400">
           Per-class breakdown
         </span>
         <div className="flex items-center gap-1.5">
@@ -136,25 +128,22 @@ function PerClassTable({
           <ChevronDown
             size={14}
             className={[
-              "text-neutral-500 transition-transform duration-200",
-              expanded ? "rotate-180" : "",
-            ].join(" ")}
+              'text-neutral-500 transition-transform duration-200',
+              expanded ? 'rotate-180' : '',
+            ].join(' ')}
           />
         </div>
       </button>
 
       {expanded && (
-        <div className="border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+        <div className="border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
           <table className="w-full">
             <thead>
-              <tr
-                className="border-b"
-                style={{ borderColor: "rgba(255,255,255,0.04)" }}
-              >
+              <tr className="border-b" style={{ borderColor: 'rgba(255,255,255,0.04)' }}>
                 <th className="px-4 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                   Class
                 </th>
-                {["P", "R", "F1", "n"].map((h) => (
+                {['P', 'R', 'F1', 'n'].map((h) => (
                   <th
                     key={h}
                     className="px-2 py-2 text-right font-mono text-[10px] uppercase tracking-wider text-neutral-500"
@@ -174,21 +163,36 @@ function PerClassTable({
                   <tr
                     key={m.label}
                     className="border-b transition-colors duration-100 hover:bg-white/[0.025]"
-                    style={{ borderColor: "rgba(255,255,255,0.04)" }}
+                    style={{ borderColor: 'rgba(255,255,255,0.04)' }}
                   >
                     <td className="px-4 py-2.5">
                       <span className="font-mono text-xs text-neutral-200">{m.label}</span>
                     </td>
-                    <td className={["px-2 py-2.5 text-right font-mono text-xs tabular-nums", metricColorClass(pTone)].join(" ")}>
+                    <td
+                      className={[
+                        'px-2 py-2.5 text-right font-mono text-xs tabular-nums',
+                        metricColorClass(pTone),
+                      ].join(' ')}
+                    >
                       {m.precision.toFixed(2)}
                     </td>
-                    <td className={["px-2 py-2.5 text-right font-mono text-xs tabular-nums", metricColorClass(rTone)].join(" ")}>
+                    <td
+                      className={[
+                        'px-2 py-2.5 text-right font-mono text-xs tabular-nums',
+                        metricColorClass(rTone),
+                      ].join(' ')}
+                    >
                       {m.recall.toFixed(2)}
                     </td>
-                    <td className={["px-2 py-2.5 text-right font-mono text-xs tabular-nums", metricColorClass(f1Tone)].join(" ")}>
+                    <td
+                      className={[
+                        'px-2 py-2.5 text-right font-mono text-xs tabular-nums',
+                        metricColorClass(f1Tone),
+                      ].join(' ')}
+                    >
                       {m.f1.toFixed(2)}
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono text-xs text-neutral-500 tabular-nums">
+                    <td className="px-4 py-2.5 text-right font-mono text-xs tabular-nums text-neutral-500">
                       {m.count}
                     </td>
                   </tr>
@@ -208,13 +212,13 @@ export function EvaluationMetricsPanel({
   error,
   onRunEvaluation,
   isEvaluating,
-  className = "",
+  className = '',
 }: EvaluationMetricsPanelProps) {
   const [perClassExpanded, togglePerClass] = useReducer((v) => !v, false);
 
   if (isEvaluating || isLoading) {
     return (
-      <div className={["space-y-3", className].join(" ")}>
+      <div className={['space-y-3', className].join(' ')}>
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
@@ -233,8 +237,8 @@ export function EvaluationMetricsPanel({
         <div
           className="rounded-md p-4"
           style={{
-            background: "rgba(239,68,68,0.07)",
-            boxShadow: "inset 0 0 0 1px rgba(239,68,68,0.18)",
+            background: 'rgba(239,68,68,0.07)',
+            boxShadow: 'inset 0 0 0 1px rgba(239,68,68,0.18)',
           }}
         >
           <p className="font-mono text-sm text-red-300">{error}</p>
@@ -242,11 +246,11 @@ export function EvaluationMetricsPanel({
         <button
           type="button"
           onClick={onRunEvaluation}
-          className="flex w-full items-center justify-center gap-2 rounded-md px-4 py-3 font-medium transition-all duration-160 active:translate-y-px"
+          className="duration-160 flex w-full items-center justify-center gap-2 rounded-md px-4 py-3 font-medium transition-all active:translate-y-px"
           style={{
-            background: "oklch(94% 0.006 180 / 0.04)",
-            color: "oklch(72% 0.006 180)",
-            boxShadow: "inset 0 0 0 1px oklch(94% 0.006 180 / 0.1)",
+            background: 'oklch(94% 0.006 180 / 0.04)',
+            color: 'oklch(72% 0.006 180)',
+            boxShadow: 'inset 0 0 0 1px oklch(94% 0.006 180 / 0.1)',
           }}
         >
           <RotateCcw size={15} />
@@ -260,9 +264,7 @@ export function EvaluationMetricsPanel({
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
         <div className="flex flex-col items-center gap-2">
-          <p className="font-mono text-sm text-neutral-400">
-            No evaluation data available.
-          </p>
+          <p className="font-mono text-sm text-neutral-400">No evaluation data available.</p>
           <p className="font-mono text-xs text-neutral-600">
             Run evaluation to see precision, recall, and F1 metrics.
           </p>
@@ -270,11 +272,11 @@ export function EvaluationMetricsPanel({
         <button
           type="button"
           onClick={onRunEvaluation}
-          className="flex items-center gap-2 rounded-md px-5 py-2.5 font-semibold transition-all duration-160 active:translate-y-px"
+          className="duration-160 flex items-center gap-2 rounded-md px-5 py-2.5 font-semibold transition-all active:translate-y-px"
           style={{
-            background: "oklch(80% 0.13 152)",
-            color: "oklch(13.5% 0.008 180)",
-            boxShadow: "0 0 0 1px rgba(106,217,161,0.2),0 12px 24px -12px rgba(106,217,161,0.5)",
+            background: 'oklch(80% 0.13 152)',
+            color: 'oklch(13.5% 0.008 180)',
+            boxShadow: '0 0 0 1px rgba(106,217,161,0.2),0 12px 24px -12px rgba(106,217,161,0.5)',
           }}
         >
           <Play size={15} weight="fill" />
@@ -290,7 +292,7 @@ export function EvaluationMetricsPanel({
   const totalCount = tpCount + fpCount + fnCount;
 
   return (
-    <div className={["space-y-3", className].join(" ")}>
+    <div className={['space-y-3', className].join(' ')}>
       {/* Primary metrics */}
       <div className="grid grid-cols-3 gap-2">
         <MetricCard label="Precision" value={report.precision} precision={3} />
@@ -309,7 +311,7 @@ export function EvaluationMetricsPanel({
       </div>
 
       {/* Evaluated at */}
-      <div className="rounded-md px-3 py-2" style={{ background: "oklch(94% 0.006 180 / 0.025)" }}>
+      <div className="rounded-md px-3 py-2" style={{ background: 'oklch(94% 0.006 180 / 0.025)' }}>
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
             Evaluated

@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { BBoxGeometrySchema } from "./geometry";
-import { InferenceJobStatusSchema } from "./jobs";
-import { MediaAssetTypeSchema, MediaUploadStatusSchema } from "./media";
-import { PipelineDefinitionSchema } from "./pipeline";
+import { z } from 'zod';
+import { BBoxGeometrySchema } from './geometry';
+import { InferenceJobStatusSchema } from './jobs';
+import { MediaAssetTypeSchema, MediaUploadStatusSchema } from './media';
+import { PipelineDefinitionSchema } from './pipeline';
 
 export const ProjectSnapshotSchema = z.object({
   project: z.object({
@@ -21,9 +21,9 @@ export const ProjectSnapshotSchema = z.object({
       checksum: z.string(),
       sizeBytes: z.number().int().nonnegative().optional(),
       thumbnailKey: z.string().nullable().optional(),
-      split: z.enum(["TRAIN", "VALID", "TEST", "UNASSIGNED"]),
+      split: z.enum(['TRAIN', 'VALID', 'TEST', 'UNASSIGNED']),
       status: MediaUploadStatusSchema,
-    }),
+    })
   ),
   annotations: z.array(
     z.object({
@@ -32,9 +32,9 @@ export const ProjectSnapshotSchema = z.object({
       label: z.string(),
       color: z.string(),
       geometry: BBoxGeometrySchema,
-      source: z.enum(["MANUAL", "MODEL", "IMPORT"]),
+      source: z.enum(['MANUAL', 'MODEL', 'IMPORT']),
       confidence: z.number().min(0).max(1).optional(),
-    }),
+    })
   ),
   pipeline: PipelineDefinitionSchema,
   job: z.object({

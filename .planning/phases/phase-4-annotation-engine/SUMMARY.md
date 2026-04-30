@@ -36,11 +36,11 @@ key-decisions:
   - The UI keeps save operations inspectable through a queue rather than hiding local edits behind optimistic success.
   - Post-phase UI polish standardized active states, table controls, threshold sliders, and responsive canvas behavior so the workbench feels like a coherent product UI.
 requirements-completed:
-  - "Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation."
-  - "Prisma schema covering project, media assets, dataset versions, annotation sets, annotations, model artifacts, pipelines, inference jobs, predictions, evaluation reports, and audit logs."
-  - "Shared contracts for bounding boxes, pipeline validation, inference job states, and media ingestion responses."
-duration: "1 session"
-completed: "2026-04-28"
+  - 'Web UI with visible states for media, dataset versioning, annotation, pipeline execution, jobs, and evaluation.'
+  - 'Prisma schema covering project, media assets, dataset versions, annotation sets, annotations, model artifacts, pipelines, inference jobs, predictions, evaluation reports, and audit logs.'
+  - 'Shared contracts for bounding boxes, pipeline validation, inference job states, and media ingestion responses.'
+duration: '1 session'
+completed: '2026-04-28'
 ---
 
 # Phase 4 Plan 1: Annotation Engine Summary

@@ -34,4 +34,3 @@ None.
 - API smoke on port 3109: passed, created an inference job, consumed SSE, and confirmed `SUCCEEDED` at `100`.
 - Playwright browser smoke on web 5176: passed for desktop and 390px mobile, completion log visible, no horizontal overflow.
 - `pnpm verify`: passed.
-

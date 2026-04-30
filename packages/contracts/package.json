@@ -16,12 +16,14 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.2",
+    "vite-tsconfig-paths": "^6.1.1"
   }
 }
