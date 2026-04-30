@@ -2,7 +2,7 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 11 (Not started)
+Current phase: Phase 11 (Planned — README & Portfolio First Impression)
 
 Last updated: 2026-05-01.
 

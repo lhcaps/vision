@@ -104,8 +104,6 @@ Target: One real dataset, one real annotation flow, one real async job, one real
 
 ## Phase 11, README & Portfolio First Impression — Planned
 
-**Goal:** Eliminate the portfolio killer — a repository with no README. Deliver a professional entry point that communicates vision, architecture, setup, and capabilities at a glance.
-
 **Requirements:**
 - README.md at repo root with: VisionFlow Studio description, demo GIF or screenshots, architecture diagram, features implemented vs planned, local setup, env vars reference, run commands (web/api/cv-worker), run migrations, run tests, known limitations
 - Architecture diagram showing Web App → NestJS API → Postgres/Prisma + MinIO + BullMQ/Redis → FastAPI CV Worker → Artifacts/Predictions/Evaluation Reports
