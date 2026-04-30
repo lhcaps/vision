@@ -2,19 +2,14 @@
 
 ## Current Milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-**Goal:** Convert the prototype into a production-hardened CV dataset workbench. Build one real end-to-end vertical slice: upload media → annotate → run detector job → view prediction/evaluation → export COCO. Fix structural issues that prevent the repo from being a portfolio-ready piece.
+**Goal:** Convert VisionFlow Studio from a strong prototype into a production-grade portfolio project. Build one real, reproducible, end-to-end CV workflow: upload image → generate real thumbnail → create/lock dataset version → annotate → export deterministic COCO → run real ONNX detector → persist predictions → evaluate → view overlay and metrics. Prove the production path, not the demo path.
 
-**Target features:**
-- README with architecture diagram, demo assets, setup guide
-- Complete CI/CD pipeline
-- Security & validation hardening (ValidationPipe, CORS, upload hardening)
-- Repository abstraction (no memory/production mixing in service logic)
-- Real media processing (thumbnail, frame extraction)
-- Real ONNX detector pipeline with prediction persistence
-- Feature-split frontend (no file > 400 lines)
-- Immutable dataset version lock
-- Complete evaluation report (precision, recall, F1, IoU)
-- E2E Playwright test + demo video
+**Target proof:**
+- One real dataset, one real annotation flow, one real async job, one real worker artifact
+- One real prediction persistence, one real evaluation report, one deterministic COCO export
+- One clean README, one working local setup, one real-service Playwright E2E, one demo video
+
+**13 phases (11–23):** README → CI/CD → Security → Adapter Boundary → Domain Invariants → Observability → Frontend Split Minimum → Real Media Processing → Dataset Locking & COCO Export → Real ONNX Detector → Evaluation E2E → Frontend Split Completion → Production Tests → E2E & Demo Video
 
 ## Evolution
 
@@ -41,27 +36,28 @@ Derived from `Vision Plan.docx` on 2026-04-28.
 
 ## Thesis
 
-VisionFlow Studio should be built as vertical slices, not horizontal layers. The core V1 engine is dataset versioning, annotation storage, pipeline definition, asynchronous inference orchestration, prediction persistence, evaluation, audit logs, and export.
+VisionFlow Studio should be built as vertical slices, not horizontal layers. The core engine is dataset versioning with immutable locked versions, bounding-box annotation storage, pipeline definition, asynchronous inference orchestration with BullMQ, real media processing workers, real ONNX detector, prediction persistence with full traceability, evaluation, COCO export, and audit logs.
 
-v1.1 adds production hardening: repository abstraction to eliminate mixed memory/production paths, real media processing workers, complete ONNX inference pipeline, feature-split frontend, immutable dataset versions, and end-to-end evaluation with reproducible exports.
+v1.0 proved the prototype surface. v1.1 proves the production path — real services, real artifacts, real persistence, real evaluation, and reproducible exports.
 
-## V1.1 Product Slice
+## v1.1 Product Slice
 
-Upload media → create dataset version → annotate bounding boxes → lock version → run detector job → view prediction/evaluation → export COCO. One real flow, built to production quality.
+upload image → generate real thumbnail artifact → create dataset version → add asset → draw bounding-box annotation → lock dataset version → export deterministic COCO → run real detector job → persist predictions → evaluate against ground truth → view overlay and metrics → prove the full flow with Playwright E2E.
 
 ## Stack
 
 - Monorepo: pnpm + turbo.
 - Web: React, Vite, TypeScript, Tailwind, Motion, React Flow.
 - API: NestJS, Prisma, PostgreSQL, Redis, BullMQ, MinIO, OpenAPI.
-- CV worker: Python FastAPI, Pillow/OpenCV/ffmpeg for real media processing, ONNX Runtime for inference.
+- CV worker: Python FastAPI, Pillow/OpenCV/ffmpeg for real media processing, YOLOv8n ONNX Runtime for inference.
 - Shared contracts: Zod and TypeScript types.
-- Repository adapters: Prisma + MinIO for production; in-memory + local filesystem for demo.
+- Repository adapters: Prisma + MinIO + BullMQ for production; in-memory + local filesystem for demo.
 
 ## Constraints
 
-- Build the real workbench first, not a landing page first.
+- v1.1 proves the real production path. Demo mode is retained for local dev without infra, but production mode requires real services.
 - v1.1 stores bounding boxes in image coordinates.
-- v1.1 supports real media processing (Pillow/ffmpeg) and ONNX detector.
+- v1.1 supports real media processing (Pillow/ffmpeg) and real ONNX detector (YOLOv8n ONNX).
 - v1.1 does not train models.
 - v1.1 does not include billing, enterprise RBAC, segmentation masks, keypoints, or real-time collaboration.
+- No silent fallback from real mode to mock mode — ONNX and media processing must fail loudly without fallback.

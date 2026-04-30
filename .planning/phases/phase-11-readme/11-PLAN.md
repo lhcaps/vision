@@ -6,7 +6,7 @@ padded_phase: '11'
 status: planned
 date: 2026-05-01
 goal: 'Eliminate the portfolio killer — a repository with no professional README. Deliver a polished entry point that communicates vision, architecture, setup, and capabilities at a glance.'
-requirements_addressed: ['PORT-01', 'PORT-02', 'PORT-03']
+requirements_addressed: ['PORT-01', 'PORT-02', 'PORT-03', 'PORT-04', 'PORT-05', 'PORT-06']
 ---
 
 # Phase 11 Plan — README & Portfolio First Impression
