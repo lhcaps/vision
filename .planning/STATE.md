@@ -1,10 +1,41 @@
 # State
 
-Current phase: Phase 10, Hardening.
+Current milestone: v1.1 — Production Hardening & Real Vertical Slice
+
+Current phase: Phase 11 (Not started)
 
 Last updated: 2026-05-01.
 
-## Completed
+## Current Position
+
+Phase: Phase 11 — README & Portfolio First Impression
+Plan: Not planned yet
+Status: Ready to plan
+
+## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 11 added: README & Portfolio First Impression
+- Phase 12 added: CI/CD Completeness
+- Phase 13 added: Security & Validation Hardening
+- Phase 14 added: Repository Abstraction
+- Phase 15 added: Real Media Processing
+- Phase 16 added: Real Detector & Prediction Persistence
+- Phase 17 added: Frontend Feature Split
+- Phase 18 added: Dataset Version Lock & Immutable Behavior
+- Phase 19 added: Evaluation Report End-to-End
+- Phase 20 added: E2E Playwright & Demo Video
+
+### Key Decisions
+
+- v1.0 (phases 0-10) archived as complete milestone. v1.1 (phases 11-20) is new active milestone.
+- Phases are numbered 11-20 to continue from v1.0.
+- Architecture target: Web App → NestJS API → Postgres/Prisma + MinIO + BullMQ/Redis → FastAPI CV Worker → Artifacts/Predictions/Evaluation Reports
+- Repository adapter pattern: select Prisma/Minio vs Memory/Local at module bootstrap, never inside service logic.
+- Real vertical slice focus: upload → annotate → run job → evaluate → export. No new features outside this slice.
+
+### Prior Milestone Accomplishments (v1.0)
 
 - Read `Vision Plan.docx` and derived the VisionFlow Studio vertical-slice plan.
 - Installed local GSD/Codex artifacts for this repo.
@@ -16,47 +47,40 @@ Last updated: 2026-05-01.
 - Implemented Phase 4 annotation engine: shared annotation contracts, API workspace/CRUD endpoints, Prisma and memory fallback service paths, image-coordinate BBox clamping, mutation audit logs, and annotation workbench UI with label selector, keyboard actions, and save queue.
 - Completed a cross-screen UI polish audit after Phase 4, covering Overview, Media, Versions, Annotate, Pipeline, and Jobs across desktop, tablet, and mobile.
 - Refined the workbench shell and detail components: calmer navigation rail, custom threshold slider, responsive media asset table, polished dataset version controls, custom asset selection controls, and mobile-friendly pipeline layout.
-- Stabilized Phase 3 dataset API runtime injection with explicit Nest `@Inject(...)` annotations after dev logs showed `DatasetsController.datasetsService` could be undefined.
+- Stabilized Phase 3 dataset API runtime injection with explicit Nest `@Inject(...)` annotations.
 - Pushed the current codebase to `https://github.com/lhcaps/Vision.git` on `main`.
 - Implemented Phase 5 pipeline builder: typed pipeline contracts, structured graph validation, API persistence through Prisma/memory paths, mutation audit logging, API sync/save/validate web client, and a polished React Flow inspector with node parameter controls and validation highlighting.
 - Implemented Phase 6 inference orchestrator: typed job creation and stream contracts, locked dataset and valid pipeline validation, BullMQ queue wiring with memory fallback, explicit async worker transitions, SSE job progress, API job list/detail/create routes, and a Jobs workbench that follows backend truth.
-- Completed final Phase 6 review and fixed terminal snapshot stream handling so fast-completing jobs still replay worker history and completion logs in the browser.
 - Implemented Phase 7 CV worker integration: shared CV worker contracts, FastAPI capability metadata, deterministic thresholded mock detections, explicit ONNX unavailable/runtime/model failures without silent fallback, IoU evaluation metrics, API dispatch from inference jobs to the worker, prediction persistence on the Prisma path, and Jobs logs with worker mode/count evidence.
 - Implemented Phase 8 prediction overlay and evaluation: evaluation contracts, evaluation service with Prisma and memory fallback paths, CvWorkerClient.evaluate() method, API routes for GET/PRED evaluation and job predictions, PredictionOverlayCanvas component with GT/prediction toggle layers, EvaluationMetricsPanel with color-coded metric blocks and per-class breakdown, upgraded JobsPanel with real overlay and metrics integration, and full App.tsx state wiring.
 - Implemented Phase 9 timeline replay and motion polish: `TimelineReplayPanel` with BBox morph engine, `DatasetVersionDiff` with IoU-based diff computation, `PipelineExecutionFlow` with particle edge animations, and global CSS consolidation.
 - Implemented Phase 10 hardening: unified Vitest workspace with 118 tests across 4 packages, GitHub Actions CI + E2E workflows, ESLint + Prettier with root config, project README, one-command boot scripts (Unix + PowerShell), demo data validator, and Playwright E2E test scaffolding.
 
-## Verification Evidence
+### Prior Verification Evidence (v1.0)
 
 - `pnpm verify` passed: typecheck, tests, and production build.
 - `python -m pytest apps/cv-worker/tests -q` passed with 4 tests.
-- Phase 3 focused checks passed: contracts tests, API tests, API typecheck, and web typecheck.
-- Dataset API memory fallback tests cover seeded timeline, split summary computation, duplicate assignment rejection, and locked-version rejection.
 - Local API smoke on port 3101 passed for fallback dataset list, draft creation, asset assignment, lock, and post-lock HTTP 409 rejection.
-- Post-hotfix port 3000 smoke passed for dataset list and version list after explicit injection fix.
-- Playwright desktop/mobile smoke passed for the Versions workbench; screenshots are in `tmp/phase3-versions-desktop.png` and `tmp/phase3-versions-mobile.png`.
-- Phase 4 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, and web production build.
-- Root `pnpm verify` passed after Phase 4: typecheck, tests, and production build.
-- Phase 5 focused checks passed: contracts tests/build, API tests/typecheck, web typecheck, root `pnpm verify`, API pipeline endpoint smoke on port 3105, and Playwright Pipeline tab smoke on port 5175.
-- Playwright annotation smoke passed on port 5174: desktop created a new BBox from 3 to 4 rendered boxes, save queue accepted it, and mobile had no horizontal overflow. Screenshots are in `tmp/phase4-annotation-desktop.png` and `tmp/phase4-annotation-mobile.png`.
-- Playwright pipeline smoke passed on port 5175: backend validation passed, detector model clearing surfaced a backend blocker, model rebinding saved the pipeline, and desktop/mobile had no horizontal overflow. Screenshots are in `tmp/phase5-pipeline-desktop.png` and `tmp/phase5-pipeline-mobile.png`.
-- UI audit screenshot sweep passed on port 5174 for Overview, Media, Versions, Annotate, Pipeline, and Jobs at 1920px, 900px, and 390px widths. No page-level horizontal overflow remained.
-- Post-audit targeted screenshots passed for responsive Media and Pipeline mobile polish: `tmp/ui-audit-polished-mobile-media.png` and `tmp/ui-audit-polished-mobile-pipeline-final.png`.
+- Playwright desktop/mobile smoke passed for Versions, Annotate, Pipeline, Jobs, Media tabs.
 - Docker Compose config validated.
-- Local real-ingestion smoke passed with PostgreSQL and MinIO: first image upload created asset/job/audit rows, duplicate upload deduped by checksum, and MinIO object stat succeeded.
-- Browser screenshot pass covered Media tab desktop/mobile and unsupported MIME UI state.
-- Phase 6 focused checks passed: contracts tests, API tests, API typecheck, web typecheck, API SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
-- Phase 7 focused checks passed: contracts tests, CV worker pytest suite, API tests, API typecheck, web typecheck, API + CV worker SSE smoke, Playwright Jobs desktop/mobile smoke, and root `pnpm verify`.
-- Phase 8 focused checks passed: 28 contracts tests, 23 API tests, all 4 package typechecks, root `pnpm verify` with production build.
-- Phase 10 focused checks passed: 118 tests across 4 packages, all 4 package typechecks, production build, ESLint lint, Prettier format check, GitHub Actions CI and E2E workflows created.
+- Local real-ingestion smoke passed with PostgreSQL and MinIO.
+- Phase 6/7/8/10 focused checks passed.
+- 118 tests across 4 packages, all 4 package typechecks, production build.
 
 ## Active Goals
 
-- Push Phase 10 to GitHub.
+- Plan and execute Phase 11: README & Portfolio First Impression.
+- Push Phase 11 to GitHub.
 
-## Known Partial Areas
+## Known Partial Areas (v1.1 Focus)
 
-- BullMQ live smoke still needs a Redis-backed environment; local verification used the intentional memory worker fallback.
-- ONNX inference execution remains gated until a model artifact and postprocess configuration are supplied; Phase 7 intentionally fails loudly instead of falling back to mock.
-- Playwright E2E tests require `pnpm exec playwright install chromium` to run locally; CI workflow handles installation.
+- Repository lacks root README with architecture diagram and demo assets.
+- Core services contain memory fallback logic mixed with production paths (to be fixed in Phase 14).
+- CV worker produces mock artifacts rather than real thumbnail/frame extraction (Phase 15).
+- ONNX inference execution requires model artifact supply (Phase 16).
+- Frontend App.tsx is a single large file (Phase 17).
+- No upload hardening beyond MIME validation (Phase 13).
+- No signed URL or controlled asset serving layer (Phase 13).
+- No real production-path test matrix (Phase 12).
+- COCO/YOLO export deferred to Phase 18-20.
 
