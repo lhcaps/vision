@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: 2026-04-29
+Status date: 2026-05-01
 
 Legend:
 
@@ -63,19 +63,20 @@ Completed scope includes typed pipeline create/update/validate/list contracts, s
 
 Completed scope includes typed job creation contracts, locked dataset and persisted pipeline validation, BullMQ queue wiring, memory worker fallback, explicit job state transitions, SSE snapshot/log/progress/complete events, API job list/detail/create routes, and a Jobs workbench that follows backend progress without client-side simulation.
 
-## Phase 7, CV Worker - Partial
+## Phase 7, CV Worker - Done
 
-- Mock detector stable response.
-- ONNX detector path.
+- Typed CV worker contracts.
+- Deterministic mock detector dispatch.
+- Explicit ONNX capability guard.
 - Evaluation endpoint.
 
-Current code has FastAPI health, mock pipeline, thumbnail, and frame extraction contracts. ONNX and evaluation remain planned.
+Completed scope includes shared CV worker request/response and evaluation contracts, FastAPI worker capability metadata, deterministic threshold-filtered mock detections, explicit ONNX unavailable/runtime/model errors without silent fallback, IoU-based evaluation metrics, Nest inference worker dispatch to the CV worker, Prisma prediction persistence when the database path is active, and Jobs logs that expose detector mode plus persisted prediction counts.
 
 ## Phase 8, Prediction Overlay And Evaluation - Planned
 
 - Job detail.
 - Ground-truth comparison.
-- IoU metrics, precision, recall, F1.
+- Prediction overlay and per-job metric presentation.
 
 ## Phase 9, Timeline Replay And Motion Polish - Planned
 

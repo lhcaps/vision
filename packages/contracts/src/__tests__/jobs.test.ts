@@ -46,10 +46,10 @@ describe("inference job state machine", () => {
         type: "progress",
         status: "RUNNING",
         progress: 48,
-        stage: "pipeline_dispatched",
+        stage: "cv_worker_dispatched",
         message: "Worker dispatched validated pipeline.",
         createdAt: "2026-04-29T00:00:00.000Z",
       }),
-    ).toMatchObject({ stage: "pipeline_dispatched" });
+    ).toMatchObject({ stage: "cv_worker_dispatched" });
   });
 });

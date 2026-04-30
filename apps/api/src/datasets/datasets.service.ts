@@ -210,6 +210,33 @@ export class DatasetsService {
       .map((version) => this.toMemoryVersionSummary(version));
   }
 
+  async listVersionAssetIds(projectId: string, versionId: string): Promise<string[]> {
+    if (process.env.DATABASE_URL) {
+      const version = await this.prisma.datasetVersion.findFirst({
+        where: {
+          id: versionId,
+          dataset: { projectId },
+        },
+        include: {
+          assets: {
+            select: { assetId: true },
+          },
+        },
+      });
+
+      if (!version) {
+        throw new NotFoundException("Dataset version not found for this project.");
+      }
+
+      return version.assets.map((asset) => asset.assetId);
+    }
+
+    this.ensureMemorySeed(projectId);
+    this.assertMemoryVersion(projectId, versionId);
+
+    return this.memoryAssetsForVersion(versionId).map((asset) => asset.assetId);
+  }
+
   async assignAssets(
     projectId: string,
     versionId: string,

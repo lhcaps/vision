@@ -1,26 +1,51 @@
 import { ConflictException, NotFoundException } from "@nestjs/common";
-import { beforeEach, describe, expect, it } from "vitest";
+import type { CvWorkerRunPipelinePayload } from "@visionflow/contracts";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { firstValueFrom, take } from "rxjs";
 import { DatasetsService } from "../datasets/datasets.service";
+import { MediaService } from "../media/media.service";
 import { PipelinesService } from "../pipelines/pipelines.service";
 import { PrismaService } from "../prisma/prisma.service";
+import { CvWorkerClient } from "./cv-worker.client";
 import { InferenceService } from "./inference.service";
 
 describe("InferenceService memory fallback", () => {
   let service: InferenceService;
+  let cvWorkerClient: Pick<CvWorkerClient, "runPipeline">;
 
   beforeEach(() => {
     delete process.env.DATABASE_URL;
     delete process.env.REDIS_HOST;
     delete process.env.REDIS_URL;
+    delete process.env.CV_WORKER_URL;
+    delete process.env.CV_WORKER_DETECTOR_MODE;
     process.env.INFERENCE_QUEUE_MODE = "memory";
     process.env.INFERENCE_WORKER_STEP_MS = "0";
 
     const prisma = {} as PrismaService;
+    cvWorkerClient = {
+      runPipeline: vi.fn(async (request: CvWorkerRunPipelinePayload) => ({
+        jobId: request.jobId,
+        mode: "mock_detector" as const,
+        workerVersion: "test-worker",
+        assetCount: request.assets.length,
+        predictionCount: request.assets.length,
+        predictions: request.assets.map((asset) => ({
+          assetId: asset.assetId,
+          labelClassId: null,
+          geometry: { x: 8, y: 12, width: 64, height: 48 },
+          confidence: 0.82,
+          metadata: { runtime: "test_worker", storageKey: asset.storageKey },
+        })),
+        warnings: [],
+      })),
+    };
     service = new InferenceService(
       prisma,
       new DatasetsService(prisma),
+      new MediaService(prisma, {} as never),
       new PipelinesService(prisma),
+      cvWorkerClient as CvWorkerClient,
     );
   });
 
@@ -52,6 +77,19 @@ describe("InferenceService memory fallback", () => {
       startedAt: expect.any(String),
       completedAt: expect.any(String),
     });
+    expect(cvWorkerClient.runPipeline).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detectorMode: "mock",
+        confidenceThreshold: 0.62,
+        assets: expect.arrayContaining([
+          expect.objectContaining({
+            assetId: "asset_frame_1482",
+            width: 1920,
+            height: 1080,
+          }),
+        ]),
+      }),
+    );
   });
 
   it("streams a job snapshot before live events", async () => {
@@ -65,6 +103,26 @@ describe("InferenceService memory fallback", () => {
     expect(event).toMatchObject({
       jobId: job.id,
       type: "snapshot",
+    });
+  });
+
+  it("marks jobs failed when the CV worker rejects dispatch", async () => {
+    vi.mocked(cvWorkerClient.runPipeline).mockRejectedValueOnce(new Error("CV worker offline"));
+
+    const created = await service.createJob("proj_parking_lot", {
+      datasetVersionId: "dataset_proj_parking_lot_parking_v3",
+      pipelineId: "pipeline_proj_parking_lot_parking_detector",
+      modelId: null,
+    });
+
+    await service.drainMemoryJobsForTest();
+
+    const failed = await service.getJob("proj_parking_lot", created.id);
+
+    expect(failed).toMatchObject({
+      status: "FAILED",
+      progress: 100,
+      errorMessage: "CV worker offline",
     });
   });
 

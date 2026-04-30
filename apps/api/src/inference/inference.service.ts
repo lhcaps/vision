@@ -13,6 +13,9 @@ import { Queue, Worker, type ConnectionOptions } from "bullmq";
 import { Observable, Subject } from "rxjs";
 import {
   CreateInferenceJobRequest,
+  CvWorkerAssetInput,
+  CvWorkerRunPipelinePayload,
+  CvWorkerRunPipelineResponse,
   InferenceJobEvent,
   InferenceJobEventSchema,
   InferenceJobStatus,
@@ -23,9 +26,11 @@ import {
   isTerminalJobStatus,
 } from "@visionflow/contracts";
 import { DatasetsService } from "../datasets/datasets.service";
+import { MediaService } from "../media/media.service";
 import { PipelinesService } from "../pipelines/pipelines.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { demoSnapshot } from "../projects/demo-snapshot";
+import { CvWorkerClient } from "./cv-worker.client";
 
 type InferenceQueuePayload = {
   projectId: string;
@@ -62,7 +67,9 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   constructor(
     @Inject(PrismaService) private readonly prisma: PrismaService,
     @Inject(DatasetsService) private readonly datasetsService: DatasetsService,
+    @Inject(MediaService) private readonly mediaService: MediaService,
     @Inject(PipelinesService) private readonly pipelinesService: PipelinesService,
+    @Inject(CvWorkerClient) private readonly cvWorkerClient: CvWorkerClient,
   ) {}
 
   onModuleInit(): void {
@@ -364,20 +371,43 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         message: "Worker claimed job and validated the state transition.",
       });
 
+      const workerPayload = await this.resolveCvWorkerPayload(payload);
+
       await this.runStep(payload, {
         progress: 28,
         stage: "dataset_resolved",
-        message: "Locked dataset version resolved and asset IDs loaded.",
+        message: `Locked dataset version resolved with ${workerPayload.assets.length} image assets.`,
       });
       await this.runStep(payload, {
-        progress: 56,
-        stage: "pipeline_dispatched",
-        message: "Validated pipeline graph dispatched to the worker runtime.",
+        progress: 46,
+        stage: "cv_worker_dispatched",
+        message: `Dispatching ${workerPayload.detectorMode} detector request to the CV worker.`,
       });
+
+      const workerResponse = await this.cvWorkerClient.runPipeline(workerPayload);
+
+      await this.patchJob(payload, {
+        progress: 72,
+        stage: "cv_worker_dispatched",
+        type: "log",
+        message: `CV worker ${workerResponse.mode} completed ${workerResponse.predictionCount} predictions.`,
+      });
+
+      for (const warning of workerResponse.warnings) {
+        await this.patchJob(payload, {
+          progress: 72,
+          stage: "cv_worker_dispatched",
+          type: "log",
+          message: warning,
+        });
+      }
+
+      const persistedCount = await this.persistPredictions(payload, workerResponse);
+
       await this.runStep(payload, {
-        progress: 84,
+        progress: 88,
         stage: "predictions_persisted",
-        message: "Mock predictions staged for persistence in the next phase.",
+        message: `${persistedCount} worker predictions persisted for overlay and evaluation.`,
       });
       await this.runStep(payload, {
         status: "SUCCEEDED",
@@ -389,6 +419,127 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       await this.failJob(payload, error);
     }
+  }
+
+  private async resolveCvWorkerPayload(
+    payload: InferenceQueuePayload,
+  ): Promise<CvWorkerRunPipelinePayload> {
+    const job = await this.getJob(payload.projectId, payload.jobId);
+    const pipeline = (await this.pipelinesService.listPipelines(payload.projectId)).find(
+      (item) => item.id === job.pipelineId,
+    );
+
+    if (!pipeline) {
+      throw new Error("Inference job pipeline could not be resolved for worker dispatch.");
+    }
+
+    const assetIds = await this.datasetsService.listVersionAssetIds(
+      payload.projectId,
+      job.datasetVersionId,
+    );
+    const assets = await this.resolveWorkerAssets(payload.projectId, assetIds);
+    const detectorNode = pipeline.definition.nodes.find((node) => node.type === "yolo_onnx");
+    const detectorMode = process.env.CV_WORKER_DETECTOR_MODE === "onnx" ? "onnx" : "mock";
+    const detectorModelId = detectorNode?.type === "yolo_onnx" ? detectorNode.params.modelId : null;
+
+    return {
+      jobId: job.id,
+      pipeline: pipeline.definition,
+      detectorMode,
+      modelArtifactKey: await this.resolveModelArtifactKey(
+        payload.projectId,
+        job.modelId ?? detectorModelId,
+      ),
+      confidenceThreshold:
+        detectorNode?.type === "yolo_onnx" ? detectorNode.params.threshold : undefined,
+      assets,
+    };
+  }
+
+  private async resolveWorkerAssets(
+    projectId: string,
+    assetIds: string[],
+  ): Promise<CvWorkerAssetInput[]> {
+    const mediaRows = await this.mediaService.list(projectId);
+    const mediaById = new Map(mediaRows.map((asset) => [asset.id, asset]));
+    const workerAssets = assetIds.map((assetId) => {
+      const asset = mediaById.get(assetId);
+
+      if (!asset) {
+        throw new Error(`Dataset version references missing media asset ${assetId}.`);
+      }
+
+      if (!asset.width || !asset.height) {
+        throw new Error(`Media asset ${assetId} needs indexed image dimensions before inference.`);
+      }
+
+      return {
+        assetId: asset.id,
+        storageKey: asset.storageKey,
+        width: asset.width,
+        height: asset.height,
+      };
+    });
+
+    if (workerAssets.length === 0) {
+      throw new Error("CV worker dispatch requires at least one dataset asset.");
+    }
+
+    return workerAssets;
+  }
+
+  private async resolveModelArtifactKey(
+    projectId: string,
+    modelId: string | null,
+  ): Promise<string | null> {
+    if (!modelId) {
+      return null;
+    }
+
+    if (!process.env.DATABASE_URL) {
+      return modelId;
+    }
+
+    const model = await this.prisma.modelArtifact.findFirst({
+      where: { id: modelId, projectId },
+      select: { artifactKey: true },
+    });
+
+    return model?.artifactKey ?? modelId;
+  }
+
+  private async persistPredictions(
+    payload: InferenceQueuePayload,
+    workerResponse: CvWorkerRunPipelineResponse,
+  ): Promise<number> {
+    if (!process.env.DATABASE_URL) {
+      return workerResponse.predictionCount;
+    }
+
+    await this.prisma.prediction.deleteMany({
+      where: { inferenceJobId: payload.jobId },
+    });
+
+    if (workerResponse.predictions.length === 0) {
+      return 0;
+    }
+
+    await this.prisma.prediction.createMany({
+      data: workerResponse.predictions.map((prediction) => ({
+        inferenceJobId: payload.jobId,
+        assetId: prediction.assetId,
+        labelClassId: prediction.labelClassId,
+        geometryJson: prediction.geometry as Prisma.InputJsonObject,
+        confidence: prediction.confidence,
+        metadataJson: {
+          ...prediction.metadata,
+          workerMode: workerResponse.mode,
+          workerVersion: workerResponse.workerVersion,
+        } as Prisma.InputJsonObject,
+      })),
+    });
+
+    return workerResponse.predictionCount;
   }
 
   private async runStep(payload: InferenceQueuePayload, patch: JobPatch): Promise<void> {

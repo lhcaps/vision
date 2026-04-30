@@ -14,6 +14,7 @@ export const InferenceWorkerStageSchema = z.enum([
   "queued",
   "validated",
   "dataset_resolved",
+  "cv_worker_dispatched",
   "pipeline_dispatched",
   "predictions_persisted",
   "completed",
