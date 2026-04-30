@@ -13,6 +13,12 @@
     "Segoe UI",
     sans-serif;
   background: oklch(13.5% 0.008 180);
+
+  /* Design system border tints — use these instead of border-white */
+  --border-subtle: oklch(94% 0.006 180 / 0.06);
+  --border-muted: oklch(94% 0.006 180 / 0.10);
+  --border-hover: oklch(94% 0.006 180 / 0.16);
+  --border-strong: oklch(94% 0.006 180 / 0.20);
 }
 
 * {
