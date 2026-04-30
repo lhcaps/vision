@@ -581,8 +581,8 @@ export function AnnotationEnginePanel({
   return (
     <div className="grid gap-4">
       <section className="space-y-4">
-        <div className="overflow-hidden rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-graphite-200 px-4 py-3">
+        <div className="overflow-hidden rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+          <div className="flex flex-wrap items-center justify-between gap-3 divider px-4 py-3">
             <div>
               <h2 className="text-sm font-semibold text-neutral-100">Annotation engine</h2>
               <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -634,15 +634,15 @@ export function AnnotationEnginePanel({
               <div
                 ref={stageRef}
                 className={[
-                  "annotation-canvas relative aspect-video overflow-hidden rounded-md border border-graphite-200 bg-graphite-950 sm:min-h-[360px]",
+                  "annotation-canvas relative aspect-video overflow-hidden rounded-md inner-border-subtle bg-graphite-950 sm:min-h-[360px]",
                   toolMode === "draw" ? "cursor-crosshair" : "cursor-default",
                 ].join(" ")}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
               >
-                <div className="annotation-road absolute inset-[12%_7%_16%] rounded-sm border border-graphite-200" />
-                <div className="absolute inset-x-[9%] top-[52%] border-t border-dashed border-graphite-200" />
+                <div className="annotation-road absolute inset-[12%_7%_16%] rounded-sm inner-border-subtle" />
+                <div className="absolute inset-x-[9%] top-[52%] border-t border-dashed border-graphite-100" />
                 <div className="absolute bottom-[19%] left-[11%] h-[10%] w-[78%] rounded-sm bg-white/[0.03]" />
                 <AnimatePresence>
                   {visibleAnnotations.map((annotation) => (
@@ -664,7 +664,7 @@ export function AnnotationEnginePanel({
                   />
                 )}
                 {savingCount > 0 && !shouldReduceMotion && <div className="scanline" />}
-                <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-graphite-200 bg-graphite-950/84 px-3 py-2 backdrop-blur">
+                <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 rounded-md inner-border-subtle bg-graphite-950/84 px-3 py-2 backdrop-blur">
                   <span className="font-mono text-xs text-neutral-400">
                     {workspace.annotationSet.name} / {visibleAnnotations.length} boxes
                   </span>
@@ -673,7 +673,7 @@ export function AnnotationEnginePanel({
               </div>
             </div>
 
-            <div className="border-t border-graphite-200 p-4">
+            <div className="divider-top p-4">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-neutral-100">Active asset</h3>
                 <span className="font-mono text-xs text-neutral-500">{imageRows.length}</span>
@@ -715,8 +715,8 @@ export function AnnotationEnginePanel({
               ["queued", queuedCount + failedCount],
             ]}
           />
-          <div className="rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-            <div className="border-b border-graphite-200 px-4 py-3">
+          <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+            <div className="divider px-4 py-3">
               <h3 className="text-sm font-semibold text-neutral-100">Save queue</h3>
             </div>
             <div className="divide-y divide-graphite-200">
@@ -734,8 +734,8 @@ export function AnnotationEnginePanel({
       </section>
 
       <aside className="space-y-4">
-        <div className="rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-          <div className="flex items-center justify-between gap-3 border-b border-graphite-200 px-4 py-3">
+        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+          <div className="flex items-center justify-between gap-3 divider px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Labels</h3>
             <span className="font-mono text-xs text-neutral-500">{workspace.labels.length}</span>
           </div>
@@ -769,8 +769,8 @@ export function AnnotationEnginePanel({
           </div>
         </div>
 
-        <div className="rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-          <div className="border-b border-graphite-200 px-4 py-3">
+        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+          <div className="divider px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Selected box</h3>
           </div>
           {selectedAnnotation ? (
@@ -833,8 +833,8 @@ export function AnnotationEnginePanel({
           )}
         </div>
 
-        <div className="rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-          <div className="flex items-center justify-between gap-3 border-b border-graphite-200 px-4 py-3">
+        <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+          <div className="flex items-center justify-between gap-3 divider px-4 py-3">
             <h3 className="text-sm font-semibold text-neutral-100">Threshold</h3>
             <span className="rounded-md border border-signal-300/30 bg-signal-300/10 px-2 py-1 font-mono text-xs text-signal-300">
               {(threshold / 100).toFixed(2)}
@@ -986,14 +986,14 @@ function MetricPanel({
   metrics: Array<[string, number]>;
 }) {
   return (
-    <div className="rounded-md border border-graphite-200 bg-graphite-900/75 shadow-panel">
-      <div className="flex items-center gap-2 border-b border-graphite-200 px-4 py-3">
+    <div className="rounded-md inner-border-subtle bg-graphite-900/75 shadow-panel">
+      <div className="flex items-center gap-2 divider px-4 py-3">
         <Icon className="text-signal-300" size={17} weight="duotone" />
         <h3 className="text-sm font-semibold text-neutral-100">{title}</h3>
       </div>
       <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-4 xl:grid-cols-2">
         {metrics.map(([label, value]) => (
-          <div key={label} className="rounded-md border border-graphite-200 bg-white/[0.03] p-3">
+          <div key={label} className="rounded-md inner-border-subtle bg-white/[0.03] p-3">
             <p className="font-mono text-[11px] uppercase text-neutral-500">{label}</p>
             <p className="mt-2 font-mono text-2xl font-semibold text-signal-300">{value}</p>
           </div>

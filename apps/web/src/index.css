@@ -44,6 +44,29 @@ input {
   grid-template-columns: 64px minmax(0, 1fr);
 }
 
+/* ─── Inner Border (replaces border-white/10) ─────── */
+/* Premium inner-glow border — zero visible white, pure graphite tint */
+.inner-border {
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.10);
+}
+
+.inner-border-subtle {
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.06);
+}
+
+/* Structural divider — replaces border-b border-graphite-200 */
+.divider {
+  border-bottom: 1px solid oklch(94% 0.006 180 / 0.08);
+}
+
+.divider-top {
+  border-top: 1px solid oklch(94% 0.006 180 / 0.08);
+}
+
+.divider-right {
+  border-right: 1px solid oklch(94% 0.006 180 / 0.08);
+}
+
 /* ─── Navigation Rail ─────────────────────────────── */
 
 .nav-rail {
@@ -636,7 +659,7 @@ input {
     grid-template-columns: minmax(0, 1fr) 230px;
   }
   .version-builder-actions {
-    border-left: 1px solid oklch(94% 0.006 180 / 0.06);
+    border-left: 1px solid oklch(94% 0.006 180 / 0.08);
     border-top: none;
   }
 }
