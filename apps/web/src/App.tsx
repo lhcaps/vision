@@ -406,8 +406,8 @@ function NavRail({
   onSelect: (section: SectionId) => void;
 }) {
   return (
-    <aside className="nav-rail border-r border-white/10 px-2.5 py-3">
-      <div className="nav-logo mb-5 flex h-10 w-10 items-center justify-center rounded-md border text-signal-300">
+    <aside className="nav-rail border-r border-white/[0.06] px-2.5 py-3">
+      <div className="nav-logo mb-5 flex h-10 w-10 items-center justify-center rounded-md text-signal-300">
         <BoundingBox size={21} weight="duotone" />
       </div>
       <nav className="flex flex-col gap-1.5" aria-label="VisionFlow workbench">
@@ -423,12 +423,7 @@ function NavRail({
               aria-label={item.label}
               aria-pressed={selected}
               onClick={() => onSelect(item.id)}
-              className={[
-                "nav-button group relative flex h-10 w-10 items-center justify-center rounded-md border text-sm transition active:translate-y-px",
-                selected
-                  ? "nav-button-active border-transparent text-signal-300"
-                  : "border-transparent text-neutral-500 hover:text-neutral-200",
-              ].join(" ")}
+              className="nav-button group relative flex h-10 w-10 items-center justify-center rounded-md text-sm transition active:translate-y-px"
             >
               {selected && (
                 <>
@@ -459,7 +454,7 @@ function ShellHeader({
   onRun: () => void;
 }) {
   return (
-    <header className="border-b border-white/10 bg-graphite-950/85 backdrop-blur">
+    <header className="border-b border-white/[0.06] bg-graphite-950/85 backdrop-blur">
       <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">
@@ -471,7 +466,7 @@ function ShellHeader({
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <StatusPill status={job.status} />
-          <span className="rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
+          <span className="rounded-md border border-white/[0.06] bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
             threshold {(threshold / 100).toFixed(2)}
           </span>
           <button
@@ -519,7 +514,7 @@ function ReadinessStrip({ job }: { job: JobUiState }) {
         return (
           <div
             key={item.label}
-            className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-2"
+            className="rounded-md border border-white/[0.06] bg-white/[0.035] px-3 py-2"
           >
             <div className="flex items-center gap-2">
               <Icon className={item.tone} size={16} weight="duotone" />
@@ -539,7 +534,7 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
       <Panel className="overflow-hidden">
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
@@ -562,7 +557,7 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
           </div>
         </div>
         <div className="grid min-h-[480px] gap-0 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="border-b border-white/10 p-4 lg:border-b-0 lg:border-r">
+          <div className="border-b border-white/[0.06] p-4 lg:border-b-0 lg:border-r">
             <VisionPreview />
           </div>
           <div className="p-4">
@@ -581,7 +576,7 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
               ].map(([label, value], index) => (
                 <motion.div
                   key={label}
-                  className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3 rounded-md border border-white/10 bg-white/[0.03] p-3"
+                  className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3 rounded-md border border-white/[0.06] bg-white/[0.03] p-3"
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.035, duration: 0.2 }}
@@ -595,7 +590,7 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
         </div>
       </Panel>
       <Panel>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">System states</h2>
         </div>
         <div className="divide-y divide-white/10">
@@ -655,7 +650,7 @@ function MediaPanel({
 
   return (
     <Panel className="media-panel overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
         <div>
           <h2 className="text-sm font-semibold text-neutral-100">Media ingestion</h2>
           <p className="mt-1 text-sm text-neutral-500">
@@ -680,13 +675,13 @@ function MediaPanel({
           title="Upload media"
           aria-label="Upload media"
           onClick={() => inputRef.current?.click()}
-          className="inline-flex items-center gap-2 rounded-md border border-white/10 px-3 py-2 text-sm text-neutral-200 transition hover:bg-white/[0.05] active:translate-y-px"
+          className="version-header-action version-header-action-muted inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm text-neutral-200 hover:bg-white/[0.07] active:translate-y-px"
         >
           <UploadSimple size={16} />
           Upload
         </button>
       </div>
-      <div className="grid gap-0 border-b border-white/10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="grid gap-0 border-b border-white/[0.06] lg:grid-cols-[minmax(0,1fr)_320px]">
         <label
           className={[
             "m-4 flex min-h-44 cursor-pointer flex-col justify-between rounded-md border border-dashed p-4 transition",
@@ -737,7 +732,7 @@ function MediaPanel({
             }}
           />
         </label>
-        <div className="border-t border-white/10 p-4 lg:border-l lg:border-t-0">
+        <div className="border-t border-white/[0.06] p-4 lg:border-l lg:border-t-0">
           <h3 className="text-sm font-semibold text-neutral-100">Upload state</h3>
           <div className="mt-4 grid gap-2">
             <UploadStateMetric label="new queue" value={queuedCount} tone="scan" />
@@ -934,7 +929,7 @@ function UploadStateMetric({
     tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
 
   return (
-    <div className="flex items-center justify-between rounded-md border border-white/10 bg-white/[0.03] px-3 py-2">
+    <div className="flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.03] px-3 py-2">
       <span className="font-mono text-xs uppercase tracking-[0.12em] text-neutral-500">
         {label}
       </span>
@@ -1229,7 +1224,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,0.86fr)_minmax(380px,1.14fr)]">
       <Panel className="overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Dataset timeline</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -1238,7 +1233,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
           </div>
           <DatasetSourcePill state={sourceState} />
         </div>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <DatasetSourceNotice state={sourceState} error={actionState.error} />
         </div>
         <div className="p-4">
@@ -1252,7 +1247,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
                   type="button"
                   onClick={() => setSelectedVersionId(version.id)}
                   className={[
-                    "version-card relative w-full rounded-md border p-3 text-left transition focus-visible:outline-none active:translate-y-px",
+                    "version-card relative w-full rounded-md p-3 text-left transition focus-visible:outline-none active:translate-y-px",
                     selected ? "version-card-selected" : "",
                   ].join(" ")}
                   initial={shouldReduceMotion ? false : { opacity: 0, x: 8 }}
@@ -1285,7 +1280,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
       </Panel>
 
       <Panel className="version-builder-panel overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Version builder</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -1322,7 +1317,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
 
         {selectedVersion ? (
           <>
-            <div className="grid gap-3 border-b border-white/10 p-4 md:grid-cols-4">
+            <div className="grid gap-3 border-b border-white/[0.06] p-4 md:grid-cols-4">
               <DatasetMetric label="assets" value={selectedVersion.assetCount} tone="signal" />
               <DatasetMetric
                 label="train"
@@ -1332,12 +1327,12 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
               <DatasetMetric label="valid" value={selectedVersion.splitSummary.VALID} tone="scan" />
               <DatasetMetric label="test" value={selectedVersion.splitSummary.TEST} tone="amber" />
             </div>
-            <div className="border-b border-white/10 p-4">
+            <div className="border-b border-white/[0.06] p-4">
               <SplitSummaryBars summary={selectedVersion.splitSummary} />
             </div>
           </>
         ) : (
-          <p className="border-b border-white/10 p-4 text-sm text-neutral-500">
+          <p className="border-b border-white/[0.06] p-4 text-sm text-neutral-500">
             No dataset version available.
           </p>
         )}
@@ -1402,7 +1397,7 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
             </table>
           </div>
 
-          <div className="version-builder-actions border-t border-white/10 p-4">
+          <div className="version-builder-actions border-t border-white/[0.06] p-4">
             <h3 className="text-sm font-semibold text-neutral-100">Assign split</h3>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {datasetSplits.map((split) => (
@@ -1526,7 +1521,7 @@ function DatasetMetric({
     tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
 
   return (
-    <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+    <div className="rounded-md border border-white/[0.06] bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-2 font-mono text-2xl font-semibold ${toneClass}`}>{value}</p>
     </div>
@@ -1729,7 +1724,7 @@ function AnnotationPanel({
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
       <Panel className="overflow-hidden">
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Annotation workbench</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -1747,7 +1742,7 @@ function AnnotationPanel({
         />
       </Panel>
       <Panel>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Labels</h2>
         </div>
         <div className="divide-y divide-white/10">
@@ -1768,7 +1763,7 @@ function AnnotationPanel({
             </button>
           ))}
         </div>
-        <div className="border-t border-white/10 p-4">
+        <div className="border-t border-white/[0.06] p-4">
           <label className="block text-sm font-medium text-neutral-200" htmlFor="threshold">
             Confidence threshold
           </label>
@@ -1996,7 +1991,7 @@ function PipelinePanel() {
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_320px]">
       <Panel className="pipeline-panel overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <div>
             <h2 className="text-sm font-semibold text-neutral-100">Visual pipeline</h2>
             <p className="mt-1 font-mono text-xs text-neutral-500">
@@ -2029,7 +2024,7 @@ function PipelinePanel() {
             </button>
           </div>
         </div>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <PipelineSourceNotice state={sourceState} error={actionState.error} />
         </div>
         <div className="pipeline-canvas h-[560px] bg-graphite-950">
@@ -2052,13 +2047,13 @@ function PipelinePanel() {
       </Panel>
 
       <Panel className="pipeline-inspector overflow-hidden">
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Graph checks</h2>
           <p className="mt-1 font-mono text-xs text-neutral-500">
             {validation.ok ? "valid" : "blocked"} / {validation.summary.edgeCount} edges
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-2 border-b border-white/10 p-4">
+        <div className="grid grid-cols-3 gap-2 border-b border-white/[0.06] p-4">
           <PipelineMetric label="nodes" value={validation.summary.nodeCount} tone="signal" />
           <PipelineMetric label="edges" value={validation.summary.edgeCount} tone="scan" />
           <PipelineMetric
@@ -2082,7 +2077,7 @@ function PipelinePanel() {
                 <PipelineIssueRow key={issue.message} issue={issue} />
               ))}
         </div>
-        <div className="border-t border-white/10">
+        <div className="border-t border-white/[0.06]">
           <PipelineNodeInspector
             node={selectedNode}
             shouldReduceMotion={Boolean(shouldReduceMotion)}
@@ -2191,7 +2186,7 @@ function PipelineMetric({
     tone === "signal" ? "text-signal-300" : tone === "scan" ? "text-scan-300" : "text-amber-300";
 
   return (
-    <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+    <div className="rounded-md border border-white/[0.06] bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-2 font-mono text-xl font-semibold ${toneClass}`}>{value}</p>
     </div>
@@ -2235,7 +2230,7 @@ function PipelineNodeInspector({
           <h3 className="text-sm font-semibold text-neutral-100">{nodeLabel(node)}</h3>
           <p className="mt-1 font-mono text-xs text-neutral-500">{node.id}</p>
         </div>
-        <span className="rounded-md border border-white/10 bg-white/[0.035] px-2 py-1 font-mono text-xs uppercase text-neutral-400">
+        <span className="rounded-md border border-white/[0.06] bg-white/[0.035] px-2 py-1 font-mono text-xs uppercase text-neutral-400">
           {node.type}
         </span>
       </div>
@@ -2316,7 +2311,7 @@ function PipelineNodeInspector({
       ) : null}
 
       {shouldReduceMotion && (
-        <p className="mt-4 rounded-md border border-white/10 bg-white/[0.025] px-3 py-2 text-sm text-neutral-500">
+        <p className="mt-4 rounded-md border border-white/[0.06] bg-white/[0.025] px-3 py-2 text-sm text-neutral-500">
           Reduced motion is active.
         </p>
       )}
@@ -2352,7 +2347,7 @@ function JobsPanel({
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <Panel>
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <div className="min-w-0">
             <h2 className="text-sm font-semibold text-neutral-100">Inference job</h2>
             <p className="mt-1 truncate font-mono text-xs text-neutral-500">{job.id}</p>
@@ -2388,7 +2383,7 @@ function JobsPanel({
           {job.error && (
             <p className="version-action-message version-action-message-error mt-4">{job.error}</p>
           )}
-          <div className="mt-5 rounded-md border border-white/10 bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
+          <div className="mt-5 rounded-md border border-white/[0.06] bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
             {job.logs.length > 0 ? (
               job.logs.map((line, index) => (
                 <motion.p
@@ -2417,7 +2412,7 @@ function JobsPanel({
         </div>
       </Panel>
       <Panel className="overflow-hidden">
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Prediction overlay</h2>
           <p className="mt-1 text-sm text-neutral-500">
             Ground truth and mock detector boxes at threshold {(threshold / 100).toFixed(2)}.
@@ -2461,7 +2456,7 @@ function JobStageStep({
           ? "border-signal-300/25 bg-signal-300/[0.08] text-signal-300"
           : active
             ? "border-scan-300/25 bg-scan-300/[0.08] text-scan-300"
-            : "border-white/10 bg-white/[0.025] text-neutral-500",
+            : "border-white/[0.06] bg-white/[0.025] text-neutral-500",
       ].join(" ")}
     >
       <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</p>
@@ -2489,7 +2484,7 @@ function InspectorPanel({
   return (
     <aside className="space-y-4">
       <Panel>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Inspector</h2>
           <p className="mt-1 font-mono text-xs uppercase tracking-[0.14em] text-neutral-500">
             {active}
@@ -2504,7 +2499,7 @@ function InspectorPanel({
         </div>
       </Panel>
       <Panel>
-        <div className="border-b border-white/10 px-4 py-3">
+        <div className="border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Coordinate contract</h2>
         </div>
         {annotation ? (
@@ -2519,7 +2514,7 @@ function InspectorPanel({
         )}
       </Panel>
       <Panel>
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Threshold</h2>
           <span className="rounded-md border border-signal-300/30 bg-signal-300/10 px-2 py-1 font-mono text-xs text-signal-300">
             {(threshold / 100).toFixed(2)}
@@ -2567,8 +2562,8 @@ function VisionPreview({
     <div className="vision-stage relative min-h-[420px] overflow-hidden bg-graphite-950">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(106,217,161,0.12),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.055),transparent_38%)]" />
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,rgba(5,13,12,0.94),transparent)]" />
-      <div className="absolute left-[8%] top-[22%] h-[42%] w-[84%] rounded-md border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]">
-        <div className="absolute inset-x-0 top-[55%] border-t border-dashed border-white/10" />
+      <div className="absolute left-[8%] top-[22%] h-[42%] w-[84%] rounded-md border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]">
+        <div className="absolute inset-x-0 top-[55%] border-t border-dashed border-white/[0.06]" />
         <div className="absolute bottom-[18%] left-[7%] h-[12%] w-[86%] rounded-sm bg-white/[0.025]" />
         {demoSnapshot.annotations.map((annotation) => {
           const selected = annotation.id === selectedAnnotation;
@@ -2607,7 +2602,7 @@ function VisionPreview({
         })}
         {(running || !shouldReduceMotion) && <div className="scanline" />}
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 rounded-md border border-white/10 bg-graphite-950/80 px-3 py-2 backdrop-blur">
+      <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 rounded-md border border-white/[0.06] bg-graphite-950/80 px-3 py-2 backdrop-blur">
         <span className="font-mono text-xs text-neutral-400">asset_frame_1482 / 1920 x 1080</span>
         <span className="font-mono text-xs text-signal-300">image-coordinate mode</span>
       </div>
@@ -2638,7 +2633,7 @@ function StatusPill({ status }: { status: InferenceJobStatus }) {
 function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`min-w-0 rounded-md border border-white/10 bg-graphite-900/75 shadow-panel ${className}`}
+      className={`min-w-0 rounded-md border border-white/[0.06] bg-graphite-900/75 shadow-panel ${className}`}
     >
       {children}
     </div>
@@ -2682,7 +2677,7 @@ function SplitPill({ split }: { split: string }) {
 
 function DiffMetric({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
-    <div className="rounded-md border border-white/10 bg-white/[0.03] p-3">
+    <div className="rounded-md border border-white/[0.06] bg-white/[0.03] p-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">{label}</p>
       <p className={`mt-3 font-mono text-3xl font-semibold ${tone}`}>{value}</p>
     </div>
@@ -2705,10 +2700,10 @@ function ToolButton({
       aria-label={label}
       aria-pressed={active}
       className={[
-        "inline-flex h-9 w-9 items-center justify-center rounded-md border transition active:translate-y-px",
+        "inline-flex h-9 w-9 items-center justify-center rounded-md transition active:translate-y-px",
         active
-          ? "border-signal-300/45 bg-signal-300/10 text-signal-300"
-          : "border-white/10 text-neutral-400 hover:bg-white/[0.05]",
+          ? "bg-signal-300/10 text-signal-300 shadow-[inset_0_0_0_1px_oklch(80%_0.13_152/0.24),inset_0_1px_0_oklch(98%_0.006_180/0.06)]"
+          : "text-neutral-500 hover:text-neutral-200 hover:bg-white/[0.05]",
       ].join(" ")}
     >
       <Icon size={17} />
@@ -2729,7 +2724,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 function MetricLine({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2">
+    <div className="flex items-center justify-between gap-3 rounded-md bg-white/[0.03] px-3 py-2">
       <span className="font-mono text-xs uppercase tracking-[0.12em] text-neutral-500">
         {label}
       </span>
@@ -2765,7 +2760,7 @@ function pipelineNode(
       label: (
         <div
           className={[
-            "pipeline-node-card min-w-[156px] rounded-md border bg-graphite-900 px-3 py-2 shadow-panel",
+            "pipeline-node-card min-w-[156px] rounded-md bg-graphite-900 px-3 py-2",
             state.selected ? "pipeline-node-card-selected" : "",
             state.hasIssue ? "pipeline-node-card-issue" : "",
           ].join(" ")}

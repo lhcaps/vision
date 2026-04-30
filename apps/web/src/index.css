@@ -31,10 +31,14 @@ input {
   font: inherit;
 }
 
+/* ─── Layout ──────────────────────────────────────── */
+
 .app-grid {
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
 }
+
+/* ─── Navigation Rail ─────────────────────────────── */
 
 .nav-rail {
   position: sticky;
@@ -45,14 +49,15 @@ input {
 
 .nav-logo {
   flex: 0 0 auto;
-  border-color: oklch(80% 0.13 152 / 0.22);
   background: oklch(80% 0.13 152 / 0.07);
-  box-shadow: inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.22), inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
 }
 
 .nav-button {
   isolation: isolate;
   overflow: visible;
+  background: transparent;
+  border: none;
 }
 
 .nav-button::after {
@@ -61,46 +66,35 @@ input {
   inset: 0;
   border-radius: 6px;
   pointer-events: none;
+  opacity: 0;
+  transform: scale(0.94);
   transition:
     opacity 160ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
-  transform: scale(0.94);
-  opacity: 0;
+  background: oklch(98% 0.006 180 / 0.04);
 }
 
 .nav-button:hover::after {
   opacity: 1;
   transform: scale(1);
-  background: oklch(98% 0.006 180 / 0.045);
-  box-shadow: inset 0 0 0 1px oklch(98% 0.006 180 / 0.06);
 }
 
 .nav-button-active:hover::after {
   opacity: 0;
 }
 
+/* Active nav item — tint + inner glow, NO border */
 .nav-active-surface {
-  background: linear-gradient(180deg, oklch(80% 0.13 152 / 0.14), oklch(80% 0.13 152 / 0.045));
-  box-shadow:
-    inset 0 0 0 1px oklch(80% 0.13 152 / 0.16),
-    inset 0 1px 0 oklch(98% 0.006 180 / 0.055);
+  background: oklch(80% 0.13 152 / 0.12);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.2), inset 0 1px 0 oklch(98% 0.006 180 / 0.06);
 }
 
-.nav-active-rail {
-  position: absolute;
-  left: -10px;
-  top: 10px;
-  bottom: 10px;
-  z-index: 1;
-  width: 1px;
-  border-radius: 999px;
-  background: oklch(80% 0.13 152);
-}
+/* ─── Threshold Slider ─────────────────────────── */
 
 .threshold-range {
   --threshold-progress: 40%;
   --threshold-fill: oklch(80% 0.13 152);
-  --threshold-track: rgba(255, 255, 255, 0.12);
+  --threshold-track: rgba(255, 255, 255, 0.1);
   width: 100%;
   height: 28px;
   cursor: pointer;
@@ -115,7 +109,6 @@ input {
 
 .threshold-range::-webkit-slider-runnable-track {
   height: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   background:
     linear-gradient(
@@ -123,8 +116,8 @@ input {
       var(--threshold-fill) 0 var(--threshold-progress),
       var(--threshold-track) var(--threshold-progress) 100%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .threshold-range::-webkit-slider-thumb {
@@ -137,8 +130,8 @@ input {
   -webkit-appearance: none;
   background: var(--threshold-fill);
   box-shadow:
-    0 0 0 3px rgba(106, 217, 161, 0.16),
-    0 10px 18px -10px rgba(106, 217, 161, 0.9);
+    0 0 0 3px rgba(106, 217, 161, 0.14),
+    0 10px 18px -10px rgba(106, 217, 161, 0.85);
   transition:
     transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 140ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -148,13 +141,12 @@ input {
 .threshold-range:focus-visible::-webkit-slider-thumb {
   transform: scale(1.08);
   box-shadow:
-    0 0 0 5px rgba(106, 217, 161, 0.16),
-    0 12px 20px -10px rgba(106, 217, 161, 0.95);
+    0 0 0 5px rgba(106, 217, 161, 0.14),
+    0 12px 20px -10px rgba(106, 217, 161, 0.9);
 }
 
 .threshold-range::-moz-range-track {
   height: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   background: var(--threshold-track);
 }
@@ -173,6 +165,8 @@ input {
   background: var(--threshold-fill);
 }
 
+/* ─── Media Assets Table ───────────────────────── */
+
 .media-panel {
   container-type: inline-size;
 }
@@ -185,7 +179,7 @@ input {
 }
 
 .media-assets-scroll::-webkit-scrollbar {
-  height: 7px;
+  height: 6px;
 }
 
 .media-assets-scroll::-webkit-scrollbar-track {
@@ -193,11 +187,8 @@ input {
 }
 
 .media-assets-scroll::-webkit-scrollbar-thumb {
-  border: 2px solid transparent;
   border-radius: 999px;
-  background:
-    linear-gradient(90deg, oklch(78% 0.08 152 / 0.45), oklch(70% 0.02 180 / 0.34)) content-box,
-    transparent;
+  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3)) content-box;
 }
 
 .media-assets-table {
@@ -217,31 +208,27 @@ input {
   background: oklch(94% 0.006 180 / 0.025);
 }
 
+/* Table column widths */
 .media-assets-table th:nth-child(1),
 .media-assets-table td:nth-child(1) {
   width: 290px;
 }
-
 .media-assets-table th:nth-child(2),
 .media-assets-table td:nth-child(2) {
   width: 110px;
 }
-
 .media-assets-table th:nth-child(3),
 .media-assets-table td:nth-child(3) {
   width: 82px;
 }
-
 .media-assets-table th:nth-child(4),
 .media-assets-table td:nth-child(4) {
   width: 130px;
 }
-
 .media-assets-table th:nth-child(5),
 .media-assets-table td:nth-child(5) {
   width: 105px;
 }
-
 .media-assets-table th:nth-child(6),
 .media-assets-table td:nth-child(6) {
   width: 160px;
@@ -251,10 +238,9 @@ input {
   flex: 0 0 auto;
   width: 48px;
   height: 36px;
-  border: 1px solid oklch(94% 0.006 180 / 0.1);
   border-radius: 6px;
   background:
-    linear-gradient(135deg, oklch(80% 0.13 152 / 0.16), oklch(78% 0.12 205 / 0.08)),
+    linear-gradient(135deg, oklch(80% 0.13 152 / 0.14), oklch(78% 0.12 205 / 0.07)),
     oklch(94% 0.006 180 / 0.025);
 }
 
@@ -269,53 +255,49 @@ input {
   color: oklch(72% 0.006 180);
 }
 
-@container (max-width: 760px) {
+@media (max-width: 760px) {
   .media-assets-table th:nth-child(4),
   .media-assets-table td:nth-child(4),
   .media-assets-table th:nth-child(6),
   .media-assets-table td:nth-child(6) {
     display: none;
   }
-
   .media-assets-table {
     min-width: 100%;
   }
 }
 
-@container (max-width: 520px) {
+@media (max-width: 520px) {
   .media-assets-table th:nth-child(2),
   .media-assets-table td:nth-child(2) {
     display: none;
   }
-
   .media-assets-table th:nth-child(1),
   .media-assets-table td:nth-child(1) {
     width: auto;
     padding-right: 0.75rem;
   }
-
   .media-assets-table th:nth-child(3),
   .media-assets-table td:nth-child(3) {
     width: 78px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
-
   .media-assets-table th:nth-child(5),
   .media-assets-table td:nth-child(5) {
     width: 94px;
     padding-left: 0.5rem;
   }
-
   .media-asset-thumb {
     width: 38px;
     height: 34px;
   }
-
   .media-asset-shape-inline {
     display: inline;
   }
 }
+
+/* ─── Dataset Version Builder ──────────────────── */
 
 .version-builder-panel {
   container-type: inline-size;
@@ -330,38 +312,41 @@ input {
   min-width: 0;
 }
 
+/* Version card — structural border, selected uses tint + inner glow */
 .version-card {
-  border-color: oklch(94% 0.006 180 / 0.1);
   background: oklch(94% 0.006 180 / 0.028);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.08);
+  transition:
+    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .version-card:hover {
-  border-color: oklch(94% 0.006 180 / 0.16);
   background: oklch(94% 0.006 180 / 0.045);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.14);
 }
 
 .version-card:focus-visible {
-  box-shadow: 0 0 0 2px oklch(80% 0.13 152 / 0.22);
+  outline: 2px solid oklch(80% 0.13 152 / 0.3);
+  outline-offset: 2px;
 }
 
 .version-card-selected {
-  border-color: oklch(80% 0.13 152 / 0.24);
-  background: linear-gradient(180deg, oklch(80% 0.13 152 / 0.075), oklch(94% 0.006 180 / 0.024));
-  box-shadow: inset 0 1px 0 oklch(98% 0.006 180 / 0.035);
+  background: oklch(80% 0.13 152 / 0.07);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.22), inset 0 1px 0 oklch(98% 0.006 180 / 0.05);
 }
 
+/* Version header actions — tint-based, NO borders */
 .version-header-action {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid transparent;
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   transition:
     background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
     color 160ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -371,29 +356,28 @@ input {
 }
 
 .version-header-action:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px oklch(80% 0.13 152 / 0.22);
+  outline: 2px solid oklch(80% 0.13 152 / 0.3);
+  outline-offset: 2px;
 }
 
 .version-header-action:disabled {
   cursor: not-allowed;
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
 .version-header-action-muted {
-  border-color: oklch(94% 0.006 180 / 0.1);
-  color: oklch(82% 0.006 180);
   background: oklch(94% 0.006 180 / 0.025);
+  color: oklch(82% 0.006 180);
 }
 
 .version-header-action-muted:hover:not(:disabled) {
-  background: oklch(94% 0.006 180 / 0.055);
+  background: oklch(94% 0.006 180 / 0.05);
 }
 
 .version-header-action-lock {
   color: oklch(80% 0.13 152);
-  background: oklch(80% 0.13 152 / 0.095);
-  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.18);
+  background: oklch(80% 0.13 152 / 0.09);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.16);
   font-weight: 600;
 }
 
@@ -402,6 +386,7 @@ input {
   box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.24);
 }
 
+/* Version assets table */
 .version-assets-scroll {
   min-width: 0;
   overflow-x: auto;
@@ -410,7 +395,7 @@ input {
 }
 
 .version-assets-scroll::-webkit-scrollbar {
-  height: 7px;
+  height: 6px;
 }
 
 .version-assets-scroll::-webkit-scrollbar-track {
@@ -418,17 +403,12 @@ input {
 }
 
 .version-assets-scroll::-webkit-scrollbar-thumb {
-  border: 2px solid transparent;
   border-radius: 999px;
-  background:
-    linear-gradient(90deg, oklch(78% 0.08 152 / 0.45), oklch(70% 0.02 180 / 0.34)) content-box,
-    transparent;
+  background: linear-gradient(90deg, oklch(78% 0.08 152 / 0.4), oklch(70% 0.02 180 / 0.3)) content-box;
 }
 
 .version-assets-scroll::-webkit-scrollbar-thumb:hover {
-  background:
-    linear-gradient(90deg, oklch(80% 0.13 152 / 0.72), oklch(76% 0.05 180 / 0.58)) content-box,
-    transparent;
+  background: linear-gradient(90deg, oklch(80% 0.13 152 / 0.65), oklch(76% 0.05 180 / 0.5)) content-box;
 }
 
 .version-assets-table {
@@ -442,8 +422,7 @@ input {
 
 .version-asset-row {
   transition:
-    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
-    color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .version-asset-row:hover {
@@ -458,13 +437,16 @@ input {
   width: 48px;
 }
 
+/* Asset select box — explicit checkbox control, keeps structural border */
 .asset-select-control {
   display: inline-flex;
   cursor: pointer;
 }
 
 .asset-select-control:focus-within .asset-select-box {
-  box-shadow: 0 0 0 3px oklch(80% 0.13 152 / 0.16);
+  box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.2),
+    0 0 0 3px oklch(80% 0.13 152 / 0.12);
 }
 
 .asset-select-box {
@@ -472,13 +454,12 @@ input {
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 1px solid oklch(94% 0.006 180 / 0.16);
   border-radius: 4px;
   background: oklch(13.5% 0.008 180 / 0.9);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.14);
   transition:
-    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    background-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 140ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .asset-select-box::after {
@@ -498,9 +479,10 @@ input {
 }
 
 .asset-select-box-selected {
-  border-color: transparent;
   background: oklch(80% 0.13 152);
-  box-shadow: 0 0 0 1px oklch(80% 0.13 152 / 0.24);
+  box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.3),
+    0 0 0 1px oklch(80% 0.13 152 / 0.18);
 }
 
 .asset-select-box-selected::after {
@@ -513,20 +495,34 @@ input {
   width: 48px;
   padding-right: 10px;
 }
-
 .version-assets-table th:nth-child(3),
 .version-assets-table td:nth-child(3) {
   width: 126px;
 }
-
 .version-assets-table th:nth-child(4),
 .version-assets-table td:nth-child(4) {
   width: 104px;
 }
-
 .version-assets-table td:nth-child(2) p {
   overflow-wrap: anywhere;
 }
+
+@media (max-width: 520px) {
+  .version-assets-table th:nth-child(4),
+  .version-assets-table td:nth-child(4) {
+    display: none;
+  }
+  .version-assets-table th:nth-child(1),
+  .version-assets-table td:nth-child(1) {
+    width: 50px;
+  }
+  .version-assets-table th:nth-child(3),
+  .version-assets-table td:nth-child(3) {
+    width: 112px;
+  }
+}
+
+/* ─── Status Pills & Badges ────────────────────── */
 
 .dataset-version-pill,
 .media-status-pill,
@@ -538,12 +534,7 @@ input {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: 0.75rem;
   line-height: 1rem;
-  box-shadow: inset 0 0 0 1px currentColor;
-}
-
-.dataset-version-pill,
-.media-status-pill {
-  box-shadow: inset 0 0 0 1px color-mix(in oklch, currentColor 28%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, currentColor 24%, transparent);
 }
 
 .dataset-version-pill-locked,
@@ -555,7 +546,7 @@ input {
 .dataset-version-pill-draft,
 .media-status-pill-amber {
   color: oklch(82% 0.13 88);
-  background: oklch(82% 0.13 88 / 0.075);
+  background: oklch(82% 0.13 88 / 0.07);
 }
 
 .dataset-version-pill-neutral {
@@ -570,7 +561,7 @@ input {
 
 .media-status-pill-red {
   color: oklch(76% 0.14 25);
-  background: oklch(76% 0.14 25 / 0.075);
+  background: oklch(76% 0.14 25 / 0.07);
 }
 
 .split-pill {
@@ -579,18 +570,17 @@ input {
   box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.1);
 }
 
+/* Version split option — tint-based, NO structural border */
 .version-split-option {
-  border: 1px solid oklch(94% 0.006 180 / 0.1);
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
-  color: oklch(72% 0.006 180);
   background: oklch(94% 0.006 180 / 0.02);
+  color: oklch(72% 0.006 180);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: 0.75rem;
   line-height: 1rem;
   transition:
     background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
     color 160ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -600,21 +590,21 @@ input {
 }
 
 .version-split-option:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px oklch(80% 0.13 152 / 0.2);
+  outline: 2px solid oklch(80% 0.13 152 / 0.25);
+  outline-offset: 1px;
 }
 
 .version-split-option:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
 .version-split-option-selected {
-  border-color: transparent;
   color: oklch(80% 0.13 152);
-  background: oklch(80% 0.13 152 / 0.105);
+  background: oklch(80% 0.13 152 / 0.1);
   box-shadow: inset 0 0 0 1px oklch(80% 0.13 152 / 0.2);
 }
 
+/* Action messages */
 .version-action-message {
   margin-top: 0.75rem;
   border-radius: 6px;
@@ -635,33 +625,17 @@ input {
   box-shadow: inset 0 0 0 1px oklch(76% 0.14 25 / 0.2);
 }
 
-@container (min-width: 780px) {
+@media (min-width: 780px) {
   .version-builder-grid {
     grid-template-columns: minmax(0, 1fr) 230px;
   }
-
   .version-builder-actions {
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 0;
+    border-left: 1px solid oklch(94% 0.006 180 / 0.06);
+    border-top: none;
   }
 }
 
-@container (max-width: 520px) {
-  .version-assets-table th:nth-child(4),
-  .version-assets-table td:nth-child(4) {
-    display: none;
-  }
-
-  .version-assets-table th:nth-child(1),
-  .version-assets-table td:nth-child(1) {
-    width: 50px;
-  }
-
-  .version-assets-table th:nth-child(3),
-  .version-assets-table td:nth-child(3) {
-    width: 112px;
-  }
-}
+/* ─── Vision Stage ─────────────────────────────── */
 
 .vision-stage::before {
   content: "";
@@ -669,22 +643,23 @@ input {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 42px 42px;
   mask-image: linear-gradient(to bottom, transparent, black 18%, black 76%, transparent);
 }
 
 .bbox {
-  background: rgba(8, 18, 17, 0.28);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: rgba(8, 18, 17, 0.24);
 }
 
 .bbox-selected {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 0 0 1px rgba(106, 217, 161, 0.25);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 0 2px rgba(106, 217, 161, 0.22);
 }
+
+/* ─── Annotation Canvas ────────────────────────── */
 
 .annotation-canvas::before {
   content: "";
@@ -692,8 +667,8 @@ input {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.036) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.036) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: linear-gradient(to bottom, transparent, black 14%, black 82%, transparent);
 }
@@ -704,44 +679,40 @@ input {
 
 .annotation-road {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
-    linear-gradient(90deg, rgba(106, 217, 161, 0.06), transparent 36%, rgba(92, 200, 255, 0.045));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+    linear-gradient(90deg, rgba(106, 217, 161, 0.05), transparent 36%, rgba(92, 200, 255, 0.04));
 }
 
+/* Annotation box — structural border, selected uses inner glow */
 .annotation-box {
-  background: rgba(8, 18, 17, 0.26);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: rgba(8, 18, 17, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
+/* Selected: inner glow + outer glow, NO border color change */
 .annotation-box-selected {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 0 0 1px rgba(106, 217, 161, 0.32),
-    0 18px 32px -24px rgba(106, 217, 161, 0.55);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 0 1px rgba(106, 217, 161, 0.28),
+    0 18px 32px -24px rgba(106, 217, 161, 0.5);
 }
 
 .annotation-handle {
   position: absolute;
   height: 8px;
   width: 8px;
-  border: 1px solid rgba(5, 13, 12, 0.92);
   border-radius: 2px;
   background: oklch(80% 0.13 152);
+  box-shadow:
+    0 0 0 1px oklch(13.5% 0.008 180),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 .annotation-draft {
-  box-shadow: inset 0 0 0 1px rgba(92, 200, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(92, 200, 255, 0.16);
 }
 
-.scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(92, 200, 255, 0.82), transparent);
-  animation: scan 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
+/* ─── Pipeline ────────────────────────────────── */
 
 .react-flow__node {
   border-radius: 6px;
@@ -754,53 +725,67 @@ input {
 
 .pipeline-canvas {
   background:
-    linear-gradient(180deg, oklch(94% 0.006 180 / 0.028), transparent 32%), oklch(10.5% 0.007 180);
+    linear-gradient(180deg, oklch(94% 0.006 180 / 0.025), transparent 32%), oklch(10.5% 0.007 180);
 }
 
+/* Pipeline node card — structural border, selected uses inner glow */
 .pipeline-node-card {
-  border-color: oklch(94% 0.006 180 / 0.1);
   background: oklch(16% 0.008 180 / 0.96);
   box-shadow:
-    inset 0 1px 0 oklch(98% 0.006 180 / 0.045),
+    inset 0 0 0 1px oklch(94% 0.006 180 / 0.1),
     0 18px 34px -28px oklch(5% 0.006 180 / 0.78);
   transition:
-    border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pipeline-node-card-selected {
-  border-color: oklch(80% 0.13 152 / 0.36);
+  background: oklch(16% 0.008 180 / 0.96);
   box-shadow:
+    inset 0 0 0 1px oklch(80% 0.13 152 / 0.3),
     inset 0 1px 0 oklch(98% 0.006 180 / 0.06),
-    0 0 0 1px oklch(80% 0.13 152 / 0.16),
-    0 20px 38px -30px oklch(80% 0.13 152 / 0.54);
+    0 0 0 1px oklch(80% 0.13 152 / 0.14),
+    0 20px 38px -30px oklch(80% 0.13 152 / 0.5);
 }
 
 .pipeline-node-card-issue {
-  border-color: oklch(82% 0.13 88 / 0.42);
+  background: oklch(16% 0.008 180 / 0.96);
   box-shadow:
-    inset 0 1px 0 oklch(98% 0.006 180 / 0.05),
-    0 0 0 1px oklch(82% 0.13 88 / 0.14);
+    inset 0 0 0 1px oklch(82% 0.13 88 / 0.38),
+    inset 0 1px 0 oklch(98% 0.006 180 / 0.04),
+    0 0 0 1px oklch(82% 0.13 88 / 0.12);
 }
 
 .react-flow__handle {
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.18);
   background: oklch(80% 0.13 152);
 }
 
 .react-flow__controls {
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   background: rgba(18, 25, 24, 0.88);
+  box-shadow: inset 0 0 0 1px oklch(94% 0.006 180 / 0.1);
 }
 
 .react-flow__controls-button {
-  border-color: rgba(255, 255, 255, 0.08);
   background: rgba(18, 25, 24, 0.88);
   color: oklch(92% 0.006 180);
 }
+
+/* ─── Scanline Animation ───────────────────────── */
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(92, 200, 255, 0.78), transparent);
+  animation: scan 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* ─── Keyframes ───────────────────────────────── */
 
 @keyframes scan {
   0% {
@@ -816,6 +801,8 @@ input {
   }
 }
 
+/* ─── Reduced Motion ───────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -825,16 +812,17 @@ input {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-
   .scanline {
     display: none;
   }
 }
 
+/* ─── Mobile Layout ────────────────────────────── */
+
 @media (max-width: 768px) {
   .app-grid {
     grid-template-columns: minmax(0, 1fr);
-    max-width: 100%;
+    max-width: 100vw;
   }
 
   .nav-rail {
