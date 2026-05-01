@@ -17,7 +17,8 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 
 ### Domain Layer (`apps/api/src/domain/`)
 - `errors.ts` — Base `DomainError` class with `code` and `context` properties
-  - `InferenceJobTransitionError` — thrown for invalid job state transitions or progress rewinds
+  - `InferenceJobTransitionError` — thrown for invalid job state transitions
+  - `ProgressRewindError` — thrown for invalid progress rewinds
   - `AnnotationGeometryError` — thrown for invalid annotation geometry
   - `PipelineValidationError` — thrown for invalid pipeline graphs
   - `DatasetVersionLockedError` — thrown when mutating locked dataset versions
@@ -58,13 +59,15 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 
 1. **Domain errors use structured context** — Every error carries a `context` object with relevant metadata for debugging, making it easy to trace error origins.
 
-2. **Single error type for progress rewinds** — Progress rewind errors use `InferenceJobTransitionError` rather than a separate error type, since both transition and progress issues are fundamentally job state violations.
+2. **Separate error types for transitions and progress** — `InferenceJobTransitionError` for state transitions, `ProgressRewindError` for progress issues. Both extend `DomainError` for easy `instanceof` checking.
 
 3. **Repository interfaces are typed with contracts types** — Interfaces use types from `@visionflow/contracts` to ensure compatibility with existing implementations.
 
 4. **App mode detection is explicit** — Mode is detected from `APP_MODE` env var first, then `DATABASE_URL`, providing clear override capability.
 
 5. **State machine transitions exclude FAILED from QUEUED** — Based on existing implementation, QUEUED can only transition to RUNNING or CANCELLED (not FAILED directly).
+
+6. **Progress validation allows equal values** — Progress rewinds only throw when `next < current` (strict decrease), not when equal.
 
 ## Verification
 
@@ -84,4 +87,6 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 fb904aa feat(config): add app mode detection
 95e3354 refactor(inference): use domain state machine
 ab51154 test(domain): add state machine unit tests
+77bfc03 test(domain): fix state machine tests to match implementation
+cfe9090 docs(phase-14): add 14A-01-SUMMARY.md
 ```
