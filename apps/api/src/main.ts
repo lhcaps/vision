@@ -5,12 +5,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: true,
-  });
+  const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
+
+  const webOrigin = process.env.WEB_ORIGIN;
+  if (webOrigin) {
+    const origins = webOrigin.split(',').map((o) => o.trim());
+    app.enableCors({
+      origin: origins,
+      credentials: true,
+    });
+  }
 
   const config = new DocumentBuilder()
     .setTitle('VisionFlow API')
