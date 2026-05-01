@@ -8,7 +8,7 @@ import {
   VALID_MP4_FTYP,
   TRUNCATED_JPEG,
   TRUNCATED_PNG,
-} from '../media/__fixtures__/valid-signatures';
+} from '../../media/__fixtures__/valid-signatures';
 
 describe('validateMagicBytes', () => {
   describe('valid signatures', () => {
