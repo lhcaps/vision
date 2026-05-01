@@ -323,20 +323,22 @@ python -m pytest tests/ -v
 
 ## Environment Variables
 
-| Variable                  | Default                               | Description                      |
-| ------------------------- | ------------------------------------- | -------------------------------- |
-| `DATABASE_URL`            | `postgresql://...@localhost:5432/...` | PostgreSQL connection string     |
-| `REDIS_HOST`              | `localhost`                           | Redis host                       |
-| `REDIS_PORT`              | `6379`                                | Redis port                       |
-| `MINIO_ENDPOINT`          | `localhost`                           | MinIO endpoint                   |
-| `MINIO_PORT`              | `9000`                                | MinIO port                       |
-| `MINIO_ACCESS_KEY`        | `visionflow`                          | MinIO access key                 |
-| `MINIO_SECRET_KEY`        | `visionflow-secret`                   | MinIO secret key                 |
-| `MINIO_BUCKET`            | `visionflow-artifacts`                | MinIO bucket name                |
-| `API_PORT`                | `3000`                                | API server port                  |
-| `CV_WORKER_URL`           | `http://localhost:8000`               | CV Worker URL                    |
-| `CV_WORKER_DETECTOR_MODE` | `mock`                                | Detector mode (`mock` or `onnx`) |
-| `VITE_API_BASE_URL`       | `http://localhost:3000`               | Web → API base URL               |
+| Variable | Default | Description |
+| --- | --- | --- |
+| `DATABASE_URL` | `postgresql://...@localhost:5432/...` | PostgreSQL connection string |
+| `REDIS_HOST` | `localhost` | Redis host |
+| `REDIS_PORT` | `6379` | Redis port |
+| `MINIO_ENDPOINT` | `localhost` | MinIO endpoint |
+| `MINIO_PORT` | `9000` | MinIO port |
+| `MINIO_ACCESS_KEY` | `visionflow` | MinIO access key |
+| `MINIO_SECRET_KEY` | `visionflow-secret` | MinIO secret key |
+| `MINIO_BUCKET` | `visionflow-artifacts` | MinIO bucket name |
+| `API_PORT` | `3000` | API server port |
+| `CV_WORKER_URL` | `http://localhost:8000` | CV Worker URL |
+| `CV_WORKER_DETECTOR_MODE` | `mock` | Detector mode (`mock` or `onnx`) |
+| `VITE_API_BASE_URL` | `http://localhost:3000` | Web → API base URL |
+| `WEB_ORIGIN` | `http://localhost:5173` | Allowed CORS origins (comma-separated) |
+| `SIGNED_URL_EXPIRY_SECONDS` | `3600` | Signed URL expiry (0 = use API proxy) |
 
 ## Project Structure
 
