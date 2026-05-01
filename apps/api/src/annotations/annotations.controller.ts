@@ -19,6 +19,7 @@ import {
   DeleteAnnotationResponseSchema,
   UpdateAnnotationRequestSchema,
 } from '@visionflow/contracts';
+import { validateAnnotationGeometry } from '../validation/annotation-geometry.validator';
 import { AnnotationsService } from './annotations.service';
 
 @ApiTags('annotations')
@@ -70,6 +71,7 @@ export class AnnotationsController {
     @Body() body: unknown
   ) {
     const dto = parseBody(CreateAnnotationRequestSchema, body, 'Invalid annotation create body.');
+    validateAnnotationGeometry(dto.geometry);
 
     return AnnotationSummarySchema.parse(
       await this.annotationsService.createAnnotation(projectId, annotationSetId, dto)
@@ -99,6 +101,9 @@ export class AnnotationsController {
     @Body() body: unknown
   ) {
     const dto = parseBody(UpdateAnnotationRequestSchema, body, 'Invalid annotation update body.');
+    if (dto.geometry) {
+      validateAnnotationGeometry(dto.geometry);
+    }
 
     return AnnotationSummarySchema.parse(
       await this.annotationsService.updateAnnotation(projectId, annotationId, dto)

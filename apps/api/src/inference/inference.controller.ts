@@ -13,7 +13,6 @@ import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { map } from 'rxjs';
 import { z } from 'zod';
 import {
-  CreateInferenceJobRequestSchema,
   CreateInferenceJobResponseSchema,
   EvaluationReportListResponseSchema,
   EvaluationReportSchema,
@@ -25,6 +24,7 @@ import {
   validatePipelineDefinition,
 } from '@visionflow/contracts';
 import { demoSnapshot } from '../projects/demo-snapshot';
+import { validateInferenceJobRequest } from '../validation/inference-job.validator';
 import { EvaluationService } from './evaluation.service';
 import { InferenceService } from './inference.service';
 
@@ -60,7 +60,7 @@ export class InferenceController {
     description: 'Create an inference job and enqueue it for worker execution.',
   })
   async createJob(@Param('projectId') projectId: string, @Body() body: unknown) {
-    const dto = parseBody(CreateInferenceJobRequestSchema, body, 'Invalid inference job body.');
+    const dto = validateInferenceJobRequest(body);
 
     return CreateInferenceJobResponseSchema.parse({
       job: await this.inferenceService.createJob(projectId, dto),
