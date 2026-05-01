@@ -39,17 +39,20 @@ export class MediaService {
       throw new BadRequestException("Missing multipart file field named 'file'.");
     }
 
-    let plan: ReturnType<typeof buildMediaIngestionPlan>;
+    let plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>;
 
     try {
-      plan = buildMediaIngestionPlan({
+      plan = await buildMediaIngestionPlan({
         projectId,
         originalName: file.originalname,
         mimeType: file.mimetype,
         sizeBytes: file.size,
         buffer: file.buffer,
       });
-    } catch {
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('Magic bytes')) {
+        throw new BadRequestException('File content does not match declared file type. The file may be corrupted or misnamed.');
+      }
       throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || 'unknown'}.`);
     }
 
@@ -127,7 +130,7 @@ export class MediaService {
     return this.memoryAssets.get(assetId) ?? null;
   }
 
-  private async createWithPrisma(plan: ReturnType<typeof buildMediaIngestionPlan>) {
+  private async createWithPrisma(plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>) {
     try {
       await this.prisma.project.upsert({
         where: { id: plan.projectId },
@@ -194,12 +197,11 @@ export class MediaService {
 
       throw new InternalServerErrorException({
         message: 'Media metadata could not be written.',
-        detail: error instanceof Error ? error.message : String(error),
       });
     }
   }
 
-  private createInMemory(plan: ReturnType<typeof buildMediaIngestionPlan>): MediaUploadResponse {
+  private createInMemory(plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>): MediaUploadResponse {
     const now = new Date().toISOString();
     const assetId = `asset_${plan.checksum.slice(0, 12)}`;
     const asset: MemoryAsset = {
@@ -256,6 +258,7 @@ function toMediaSummary(row: {
   const metadata = row.metadataJson as {
     originalName?: string;
     mimeType?: MediaAssetSummary['mimeType'];
+
     sizeBytes?: number;
   };
 
