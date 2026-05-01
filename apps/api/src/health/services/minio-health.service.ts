@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { StorageRepository } from '../../repositories/storage.repository';
+import { Inject } from '@nestjs/common';
+import { STORAGE_REPOSITORY } from '../../config/provider-tokens';
 import { DependencyHealthDto } from '../dto/health-response.dto';
 
 @Injectable()
 export class MinioHealthService {
-  constructor(private readonly storage: StorageRepository) {}
+  constructor(@Inject(STORAGE_REPOSITORY) private readonly storage: { listBuckets(): Promise<void> }) {}
 
   async check(timeoutMs = 5000): Promise<DependencyHealthDto> {
     const start = Date.now();

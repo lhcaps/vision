@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaAssetSummary, MediaProcessingJobSummary } from '@visionflow/contracts';
 import { buildProcessingTargetKey } from '../media/media-ingestion';
 import { demoSnapshot } from '../projects/demo-snapshot';
-import { StorageRepository } from './storage.repository';
+import { STORAGE_REPOSITORY } from '../config/provider-tokens';
 
 export interface MediaRepository {
   findByProject(projectId: string): Promise<MediaAssetSummary[]>;
@@ -47,7 +48,7 @@ type Row = {
 export class PrismaMediaRepository implements MediaRepository {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly storage: StorageRepository
+    @Inject(STORAGE_REPOSITORY) private readonly storage: { putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void> }
   ) {}
 
   async findByProject(projectId: string): Promise<MediaAssetSummary[]> {

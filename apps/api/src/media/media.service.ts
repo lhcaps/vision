@@ -12,7 +12,7 @@ import {
 } from '@visionflow/contracts';
 import { buildMediaIngestionPlan } from './media-ingestion';
 import { MediaRepository } from '../repositories/media.repository';
-import { STORAGE_REPOSITORY } from '../config/provider-tokens';
+import { MEDIA_REPOSITORY, STORAGE_REPOSITORY } from '../config/provider-tokens';
 
 type UploadedFile = {
   originalname: string;
@@ -24,7 +24,7 @@ type UploadedFile = {
 @Injectable()
 export class MediaService {
   constructor(
-    private readonly mediaRepo: MediaRepository,
+    @Inject(MEDIA_REPOSITORY) private readonly mediaRepo: MediaRepository,
     @Inject(STORAGE_REPOSITORY) private readonly storage: { putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void> }
   ) {}
 

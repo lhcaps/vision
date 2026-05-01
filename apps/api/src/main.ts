@@ -31,14 +31,15 @@ async function bootstrap() {
   app.useGlobalInterceptors(new RequestIdInterceptor());
 
   const webOrigin = process.env.WEB_ORIGIN;
-  if (webOrigin) {
-    const origins = webOrigin.split(',').map((o) => o.trim());
-    app.enableCors({
-      origin: origins,
-      credentials: true,
-    });
-    logger.info({ allowedOrigins: origins }, 'CORS configured');
-  }
+  const allowedOrigins = webOrigin
+    ? webOrigin.split(',').map((o) => o.trim())
+    : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
+  app.enableCors({
+    origin: allowedOrigins,
+    credentials: true,
+  });
+  logger.info({ allowedOrigins }, 'CORS configured');
 
   const config = new DocumentBuilder()
     .setTitle('VisionFlow API')
