@@ -173,6 +173,27 @@ def test_thumbnail_contract_for_image_media():
     assert body["derivative"]["storageKey"] == "projects/demo/derivatives/asset_1/thumb.webp"
 
 
+def test_health_includes_logging_info():
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert "logging" in data
+    assert data["logging"]["level"] == "INFO"
+    assert data["logging"]["correlationIdPropagation"] is True
+    assert data["logging"]["structuredOutput"] is True
+
+
+def test_correlation_id_propagation():
+    import uuid
+
+    test_correlation_id = str(uuid.uuid4())
+    response = client.get("/health", headers={"x-correlation-id": test_correlation_id})
+    assert response.status_code == 200
+    assert response.headers.get("x-correlation-id") == test_correlation_id
+    data = response.json()
+    assert data.get("correlationId") == test_correlation_id
+
+
 def test_frame_extraction_rejects_image_media():
     response = client.post(
         "/cv/extract-frames",

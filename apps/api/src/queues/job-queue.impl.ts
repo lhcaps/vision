@@ -10,6 +10,8 @@ export class BullMqJobQueue implements JobQueue {
   private worker: Worker<JobQueuePayload> | null = null;
   private processor?: (payload: JobQueuePayload) => Promise<void>;
   private redisConnection: ConnectionOptions | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private redisClient: any = null;
 
   registerProcessor(processor: (payload: JobQueuePayload) => Promise<void>): void {
     this.processor = processor;
@@ -25,6 +27,7 @@ export class BullMqJobQueue implements JobQueue {
         { connection: this.redisConnection }
       );
     }
+    this.redisClient = await (this.queue as any).client;
   }
 
   async stop(): Promise<void> {
@@ -45,6 +48,13 @@ export class BullMqJobQueue implements JobQueue {
 
   setConnection(connection: ConnectionOptions): void {
     this.redisConnection = connection;
+  }
+
+  getRedisClient(): { ping: () => Promise<unknown> } | null {
+    if (this.redisClient) {
+      return this.redisClient;
+    }
+    return null;
   }
 }
 

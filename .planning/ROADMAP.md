@@ -251,28 +251,37 @@ v1.1 is complete only when the repository has:
 5. Dataset version mutations respect version state.
 6. Audit rows exist for lock, annotation mutation, pipeline mutation, job start, job finish, and job failure.
 
-## Phase 15, Observability & Health Checks — Planned
+## Phase 15, Observability & Health Checks — Done
 
 **Goal:** Make every job traceable across API, queue, worker, database, and storage.
 
 **Requirements:**
 
-- Add request ID per API request.
-- Add job correlation ID for inference and media-processing jobs.
-- Structured logs for: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request, worker response, artifact persisted, prediction persisted, evaluation persisted.
-- Health endpoint checks: API process, Postgres, Redis, MinIO, CV worker.
-- Add `/api/health/deep` for full dependency checks.
-- Add `/api/health/live` for lightweight liveness.
+- [x] Add request ID per API request.
+- [x] Add job correlation ID for inference and media-processing jobs.
+- [x] Structured logs for: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request, worker response, artifact persisted, prediction persisted, evaluation persisted.
+- [x] Health endpoint checks: API process, Postgres, Redis, MinIO, CV worker.
+- [x] Add `/api/health/deep` for full dependency checks.
+- [x] Add `/api/health/live` for lightweight liveness.
 
 **Depends on:** Phase 14A
 
 **Success criteria:**
 
-1. A single job can be traced from upload to final evaluation.
-2. Logs include request ID and job ID.
-3. Deep health check fails when DB, Redis, MinIO, or CV worker is unavailable.
-4. Liveness check stays lightweight.
-5. README documents health endpoints.
+1. [x] A single job can be traced from upload to final evaluation.
+2. [x] Logs include request ID and job ID.
+3. [x] Deep health check fails when DB, Redis, MinIO, or CV worker is unavailable.
+4. [x] Liveness check stays lightweight.
+5. [x] README documents health endpoints.
+
+**Artifacts:**
+- `15-CONTEXT.md` — Technical decisions for logging library selection, request ID strategy, job correlation strategy, health check design
+- `15-01-PLAN.md` — Wave 1: Structured logging + Request ID interceptor
+- `15-02-PLAN.md` — Wave 2: Health endpoints
+- `15-03-PLAN.md` — Wave 3: CV Worker observability
+- `15-04-PLAN.md` — Wave 4: README documentation
+- `15-REVIEW.md` — Code review findings (2 critical, 8 warnings, 8 info)
+- `15-EVAL-REVIEW.md` — Evaluation review (7/7 requirements covered)
 
 ## Phase 16A, Frontend Split Minimum — Planned
 

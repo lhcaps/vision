@@ -30,4 +30,8 @@ export class MinioStorageRepository implements StorageRepository {
     const bucket = process.env.MINIO_BUCKET ?? 'vision-media';
     await this.client.removeObject(bucket, key);
   }
+
+  async listBuckets(): Promise<void> {
+    await this.client.listBuckets();
+  }
 }

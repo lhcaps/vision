@@ -4,24 +4,27 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
-  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { createLogger, getCurrentRequestId } from '../logging/structured-logger';
+
+const logger = createLogger('GlobalErrorFilter');
 
 interface ErrorResponse {
   statusCode: number;
   message: string;
   error?: string;
   timestamp: string;
+  requestId?: string;
 }
 
 @Catch()
 export class GlobalErrorFilter implements ExceptionFilter {
-  private readonly logger = new Logger(GlobalErrorFilter.name);
-
   catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+
+    const requestId = getCurrentRequestId();
 
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'An unexpected error occurred.';
@@ -38,7 +41,10 @@ export class GlobalErrorFilter implements ExceptionFilter {
         error = typeof resp.error === 'string' ? resp.error : undefined;
       }
     } else if (exception instanceof Error) {
-      this.logger.error(`Unhandled exception: ${exception.message}`, exception.stack);
+      logger.error(
+        { requestId, stack: exception.stack, name: exception.name },
+        `Unhandled exception: ${exception.message}`,
+      );
       message = 'An unexpected error occurred.';
     }
 
@@ -47,6 +53,7 @@ export class GlobalErrorFilter implements ExceptionFilter {
       message,
       ...(error ? { error } : {}),
       timestamp: new Date().toISOString(),
+      ...(requestId ? { requestId } : {}),
     };
 
     response.status(statusCode).json(errorResponse);

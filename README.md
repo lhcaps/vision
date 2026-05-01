@@ -139,7 +139,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Security hardening         | 🔄 Planned | Phase 13            |
 | Adapter boundary cleanup   | 🔄 Planned | Phase 14A           |
 | Domain invariants          | 🔄 Planned | Phase 14B           |
-| Observability & health     | 🔄 Planned | Phase 15            |
+| Observability & health     | ✅ Done    | Phase 15            |
 | Frontend feature split     | 🔄 Planned | Phase 16A           |
 | Real media processing      | 🔄 Planned | Phase 17            |
 | Dataset lock & COCO export | 🔄 Planned | Phase 18            |
@@ -211,15 +211,99 @@ pnpm db:studio
 | `pnpm seed --api`   | Create demo data via API (requires Docker) |
 | `pnpm kill`         | Stop Docker containers                     |
 
-## Health Checks
+## Health & Observability
+
+VisionFlow provides comprehensive health check endpoints and structured logging for reliable operations and distributed tracing.
+
+### Health Endpoints
+
+VisionFlow API exposes health check endpoints for orchestrating platforms (Kubernetes, Docker Compose, load balancers).
+
+#### Liveness Check
 
 ```bash
-# API health (liveness)
 curl http://localhost:3000/api/health/live
+```
 
-# API health (deep — checks all dependencies)
+Response (always HTTP 200):
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-05-02T00:00:00.000Z",
+  "uptimeSeconds": 3600
+}
+```
+
+Use this for Kubernetes liveness probes and container restarts.
+
+#### Deep Health Check
+
+```bash
 curl http://localhost:3000/api/health/deep
 ```
+
+Response (HTTP 200 when all dependencies healthy, HTTP 503 when any dependency is down):
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-05-02T00:00:00.000Z",
+  "uptimeSeconds": 3600,
+  "version": "0.1.0",
+  "dependencies": {
+    "postgres": { "status": "up", "responseTimeMs": 2 },
+    "redis": { "status": "up", "responseTimeMs": 1 },
+    "minio": { "status": "up", "responseTimeMs": 15 },
+    "cvWorker": { "status": "up", "responseTimeMs": 8, "details": { "version": "0.2.0" } }
+  }
+}
+```
+
+Use this for Kubernetes readiness probes, Docker Compose healthchecks, and load balancer registration.
+
+### Distributed Tracing
+
+All API requests are traced with a unique `x-request-id` header. The API echoes this back in the response:
+
+```bash
+curl -H "x-request-id: my-trace-123" http://localhost:3000/api/health/live
+```
+
+For inference jobs, use `x-correlation-id` to trace through the BullMQ queue to the CV worker:
+
+```bash
+curl -H "x-correlation-id: job-trace-456" \
+     -X POST http://localhost:3000/api/inference/jobs \
+     -H "Content-Type: application/json" \
+     -d '{"datasetVersionId":"...","pipelineId":"..."}'
+```
+
+The CV worker echoes the `x-correlation-id` in its response headers.
+
+### Structured Logging
+
+The API uses [pino](https://getpino.io) for structured JSON logging. In development, logs are pretty-printed. In production, logs are JSON lines for log aggregation systems (Datadog, Loki, ELK, etc.).
+
+**Log Levels:** Controlled by `LOG_LEVEL` environment variable (`debug`, `info`, `warn`, `error`).
+
+**Log Format (production JSON):**
+```json
+{
+  "level": 30,
+  "time": 1717200000000,
+  "pid": 1234,
+  "hostname": "vision-api",
+  "name": "inference-service",
+  "requestId": "550e8400-e29b-41d4-a716-446655440000",
+  "jobId": "job-123",
+  "msg": "Inference job enqueued"
+}
+```
+
+**Reading logs:**
+- Development: Auto-pretty-printed to console with color
+- Production: JSON lines — parse with `pino`, `jq`, or any log aggregator
+
+**CV Worker Logging:** The FastAPI CV worker uses [loguru](https://loguru.readthedocs.io) for structured logging. All endpoints log: request received, processing started, processing completed/failed, and duration in milliseconds. Correlation IDs are propagated through all log entries.
 
 ## Security
 
@@ -339,6 +423,8 @@ python -m pytest tests/ -v
 | `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL                     |
 | `WEB_ORIGIN`                | `http://localhost:5173`               | Allowed CORS origins (comma-separated) |
 | `SIGNED_URL_EXPIRY_SECONDS` | `3600`                                | Signed URL expiry (0 = use API proxy)  |
+| `LOG_LEVEL`                 | `info`                                | Log level: debug, info, warn, error     |
+| `HEALTH_CHECK_TIMEOUT_MS`    | `5000`                                | Timeout for health check dependency probes (ms) |
 
 ## Project Structure
 

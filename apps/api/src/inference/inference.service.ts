@@ -3,11 +3,11 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  Logger,
   NotFoundException,
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { Prisma } from '@prisma/client';
 import { Queue, Worker, type ConnectionOptions } from 'bullmq';
 import { Observable, Subject } from 'rxjs';
@@ -24,6 +24,7 @@ import {
   assertJobProgress,
   isTerminalJobStatus,
 } from '@visionflow/contracts';
+import { createLogger, getCurrentRequestId } from '../common/logging/structured-logger';
 import { assertValidInferenceTransition, assertValidProgress } from '../domain/inference-job-state-machine';
 import { DatasetsService } from '../datasets/datasets.service';
 import { MediaService } from '../media/media.service';
@@ -36,6 +37,7 @@ import { INFERENCE_REPOSITORY } from '../config/provider-tokens';
 type InferenceQueuePayload = {
   projectId: string;
   jobId: string;
+  correlationId: string;
 };
 
 type JobPatch = {
@@ -52,7 +54,7 @@ const DEFAULT_PROJECT_ID = 'proj_parking_lot';
 
 @Injectable()
 export class InferenceService implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(InferenceService.name);
+  private readonly logger = createLogger(InferenceService.name);
   private readonly eventSubjects = new Map<string, Subject<InferenceJobEvent>>();
   private readonly eventHistory = new Map<string, InferenceJobEvent[]>();
   private readonly memoryJobs = new Map<string, InferenceJobSummary>();
@@ -87,15 +89,22 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     );
 
     this.worker.on('failed', (job, error) => {
+      const correlationId = job?.data?.correlationId;
       if (!job) {
-        this.logger.warn(`Inference worker failed before job data was available: ${error.message}`);
+        this.logger.error(
+          { correlationId },
+          `Inference worker failed before job data was available: ${error.message}`,
+        );
         return;
       }
-      this.logger.warn(`Inference worker failed for ${job.data.jobId}: ${error.message}`);
+      this.logger.error(
+        { jobId: job.data.jobId, correlationId: job.data.correlationId },
+        `Inference worker failed for job ${job.data.jobId}: ${error.message}`,
+      );
     });
 
     this.worker.on('error', (error) => {
-      this.logger.warn(`Inference worker error: ${error.message}`);
+      this.logger.error({ stack: error.stack }, `Inference worker error: ${error.message}`);
     });
   }
 
@@ -131,7 +140,8 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       message: 'Queue accepted inference payload with IDs only.',
     });
 
-    await this.enqueueJob({ projectId, jobId: job.id });
+    const correlationId = getCurrentRequestId() ?? uuidv4();
+    await this.enqueueJob({ projectId, jobId: job.id, correlationId });
     return job;
   }
 
@@ -211,6 +221,8 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async enqueueJob(payload: InferenceQueuePayload): Promise<void> {
+    const correlationId = payload.correlationId;
+
     if (this.queue) {
       try {
         await this.queue.add('run-inference', payload, {
@@ -218,15 +230,24 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
           removeOnComplete: 100,
           removeOnFail: 100,
         });
+        this.logger.info(
+          { jobId: payload.jobId, correlationId, pipelineId: payload.projectId },
+          'Inference job enqueued',
+        );
         return;
       } catch (error) {
         this.logger.warn(
-          `BullMQ enqueue failed, falling back to in-process worker: ${formatError(error)}`
+          { jobId: payload.jobId, correlationId, error: formatError(error) },
+          'BullMQ enqueue failed, falling back to in-process worker',
         );
       }
     }
 
     this.memoryQueue.push(payload);
+    this.logger.info(
+      { jobId: payload.jobId, correlationId },
+      'Inference job queued in memory fallback',
+    );
     if (!this.memoryDrain) {
       this.memoryDrain = this.drainMemoryQueue().finally(() => {
         this.memoryDrain = null;
@@ -242,6 +263,11 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processJob(payload: InferenceQueuePayload): Promise<void> {
+    this.logger.info(
+      { jobId: payload.jobId, correlationId: payload.correlationId },
+      'Worker started processing inference job',
+    );
+
     try {
       await this.patchJob(payload, {
         status: 'RUNNING',
@@ -257,6 +283,10 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         stage: 'dataset_resolved',
         message: `Locked dataset version resolved with ${workerPayload.assets.length} image assets.`,
       });
+      this.logger.info(
+        { jobId: payload.jobId, correlationId: payload.correlationId, assetCount: workerPayload.assets.length },
+        'Dataset assets resolved for inference',
+      );
       await this.runStep(payload, {
         progress: 46,
         stage: 'cv_worker_dispatched',
@@ -282,6 +312,11 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       }
 
       const persistedCount = await this.persistPredictions(payload, workerResponse);
+
+      this.logger.info(
+        { jobId: payload.jobId, correlationId: payload.correlationId, predictionCount: persistedCount },
+        'Predictions persisted',
+      );
 
       await this.runStep(payload, {
         progress: 88,
@@ -400,6 +435,11 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async failJob(payload: InferenceQueuePayload, error: unknown): Promise<void> {
+    const errMsg = formatError(error);
+    this.logger.error(
+      { jobId: payload.jobId, correlationId: payload.correlationId, error: errMsg },
+      'Inference job failed',
+    );
     try {
       await this.patchJob(payload, {
         status: 'FAILED',
@@ -410,7 +450,10 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         errorMessage: formatError(error),
       });
     } catch (patchError) {
-      this.logger.warn(`Could not mark inference job failed: ${formatError(patchError)}`);
+      this.logger.warn(
+        { jobId: payload.jobId, correlationId: payload.correlationId, error: formatError(patchError) },
+        'Could not mark inference job as failed',
+      );
     }
   }
 

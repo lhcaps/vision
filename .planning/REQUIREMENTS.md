@@ -59,13 +59,13 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### Observability & Health Checks (P1)
 
-- [ ] **OBS-01**: Request ID added to every API request (UUID or correlation ID)
-- [ ] **OBS-02**: Job correlation ID added to inference and media-processing jobs
-- [ ] **OBS-03**: Structured logs cover: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request/response, artifact persisted, prediction persisted, evaluation persisted
-- [ ] **OBS-04**: `/api/health/deep` checks API process, Postgres, Redis, MinIO, CV worker health
-- [ ] **OBS-05**: `/api/health/live` returns lightweight liveness check
-- [ ] **OBS-06**: Deep health check fails when any dependency is unavailable
-- [ ] **OBS-07**: README documents health endpoint URLs and behavior
+- [x] **OBS-01**: Request ID added to every API request (UUID or correlation ID) — Phase 15
+- [x] **OBS-02**: Job correlation ID added to inference and media-processing jobs — Phase 15
+- [x] **OBS-03**: Structured logs cover: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request/response, artifact persisted, prediction persisted, evaluation persisted — Phase 15
+- [x] **OBS-04**: `/api/health/deep` checks API process, Postgres, Redis, MinIO, CV worker health — Phase 15
+- [x] **OBS-05**: `/api/health/live` returns lightweight liveness check — Phase 15
+- [x] **OBS-06**: Deep health check fails when any dependency is unavailable — Phase 15
+- [x] **OBS-07**: README documents health endpoint URLs and behavior — Phase 15
 
 ### Frontend Split Minimum (P2)
 
@@ -188,7 +188,7 @@ The following are explicitly out of scope for v1.1:
 | SEC-01 through SEC-11   | 13    | Pending |
 | ABS-01 through ABS-10   | 14A   | Pending |
 | DOM-01 through DOM-07   | 14B   | Pending |
-| OBS-01 through OBS-07   | 15    | Pending |
+| OBS-01 through OBS-07   | 15    | Done    |
 | UI-01 through UI-09     | 16A   | Pending |
 | MED-01 through MED-09   | 17    | Pending |
 | LOCK-01 through LOCK-09 | 18    | Pending |
@@ -198,4 +198,4 @@ The following are explicitly out of scope for v1.1:
 | TEST-01 through TEST-13 | 22    | Pending |
 | E2E-01 through E2E-10   | 23    | Pending |
 
-**Total:** 97 requirements | **Covered:** 10 | **Remaining:** 87
+**Total:** 97 requirements | **Covered:** 17 | **Remaining:** 80

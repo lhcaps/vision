@@ -16,4 +16,8 @@ export class LocalStorageRepository implements StorageRepository {
   async delete(key: string): Promise<void> {
     this.storage.delete(key);
   }
+
+  async listBuckets(): Promise<void> {
+    // No-op for local storage
+  }
 }

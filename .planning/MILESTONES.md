@@ -54,7 +54,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12
+**Completed in v1.1:** 11, 12, 15
 
 ### Goal
 
