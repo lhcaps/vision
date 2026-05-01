@@ -118,6 +118,15 @@ export class MediaService {
     return [...this.memoryAssets.values()].find((asset) => asset.checksum === checksum) ?? null;
   }
 
+  async findAsset(projectId: string, assetId: string): Promise<MediaAssetSummary | null> {
+    if (process.env.DATABASE_URL) {
+      const row = await this.prisma.mediaAsset.findUnique({ where: { id: assetId } });
+      if (!row || row.projectId !== projectId) return null;
+      return toMediaSummary(row);
+    }
+    return this.memoryAssets.get(assetId) ?? null;
+  }
+
   private async createWithPrisma(plan: ReturnType<typeof buildMediaIngestionPlan>) {
     try {
       await this.prisma.project.upsert({
