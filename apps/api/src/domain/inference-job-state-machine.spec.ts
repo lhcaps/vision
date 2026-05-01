@@ -4,7 +4,7 @@ import {
   assertValidProgress,
   VALID_INFERENCE_TRANSITIONS,
 } from './inference-job-state-machine';
-import { InferenceJobTransitionError } from './errors';
+import { InferenceJobTransitionError, ProgressRewindError } from './errors';
 
 describe('VALID_INFERENCE_TRANSITIONS', () => {
   it('QUEUED transitions to RUNNING and CANCELLED', () => {
@@ -72,7 +72,7 @@ describe('assertValidInferenceTransition', () => {
     } catch (err) {
       if (err instanceof InferenceJobTransitionError) {
         expect(err.context.validTransitions).toEqual([]);
-        expect(err.message).toContain('Valid transitions from SUCCEEDED: []');
+        expect(err.message).toContain('Valid transitions from SUCCEEDED: [none]');
       } else {
         throw err;
       }
@@ -90,21 +90,21 @@ describe('assertValidProgress', () => {
     expect(() => assertValidProgress(50, 10, 'FAILED')).not.toThrow();
   });
 
-  it('throws InferenceJobTransitionError for progress rewind during RUNNING', () => {
-    expect(() => assertValidProgress(50, 10, 'RUNNING')).toThrow(InferenceJobTransitionError);
+  it('throws ProgressRewindError for progress rewind during RUNNING', () => {
+    expect(() => assertValidProgress(50, 10, 'RUNNING')).toThrow(ProgressRewindError);
   });
 
-  it('throws InferenceJobTransitionError for equal progress during RUNNING', () => {
-    expect(() => assertValidProgress(50, 50, 'RUNNING')).toThrow(InferenceJobTransitionError);
+  it('allows equal progress (no rewind check for equal values)', () => {
+    expect(() => assertValidProgress(50, 50, 'RUNNING')).not.toThrow();
   });
 
   it('includes correct context on progress rewind error', () => {
     try {
       assertValidProgress(50, 10, 'RUNNING');
     } catch (err) {
-      if (err instanceof InferenceJobTransitionError) {
-        expect(err.context).toMatchObject({ current: 50, next: 10 });
-        expect(err.code).toBe('INFERENCE_JOB_TRANSITION_ERROR');
+      if (err instanceof ProgressRewindError) {
+        expect(err.context).toMatchObject({ current: 50, next: 10, status: 'RUNNING' });
+        expect(err.code).toBe('PROGRESS_REWIND_ERROR');
         expect(err.message).toContain('Invalid progress rewind');
       } else {
         throw err;
