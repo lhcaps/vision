@@ -45,15 +45,19 @@ Portfolio README. This is the first thing a recruiter or hiring manager sees. It
 Fix the API port in README.md. The README currently says `pnpm dev:api` starts on port 3000, but the actual port is 3100. Update all occurrences:
 
 In the Quick Start section:
+
 - `pnpm dev:api    # API:  http://localhost:3000` → `pnpm dev:api    # API:  http://localhost:3100`
 
 In the Development Commands table:
+
 - `pnpm dev:api | API only (http://localhost:3000)` → `pnpm dev:api | API only (http://localhost:3100)`
 
 In the Environment Variables table:
+
 - `API_PORT | 3000` → `API_PORT | 3100`
 
 In the full-command example:
+
 - `python -m uvicorn apps.cv-worker.src.main:app --reload --port 8001` (already correct, keep as-is)
 
 </action>
@@ -150,59 +154,60 @@ Add a visual ASCII/text architecture diagram to README.md after the ## Demo sect
 
 ```markdown
 ## Architecture
-
 ```
+
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              VisionFlow Studio                              │
+│ VisionFlow Studio │
 ├─────────────────────────────────────────────────────────────────────────────┤
 
-  Browser (React)
-       │
-       │ HTTP/WebSocket
-       ▼
-  ┌─────────────┐     REST      ┌─────────────────────────────────────────┐
-  │   Web App   │◄────────────►│              NestJS API                 │
-  │  (Vite/5173)│               │  ┌─────────┐  ┌──────────┐  ┌───────┐ │
-  │             │               │  │ Media   │  │ Dataset  │  │Job    │ │
-  │  - Media    │               │  │ Module  │  │ Module   │  │Module │ │
-  │  - Annotate │               │  └────┬────┘  └────┬─────┘  └───┬───┘ │
-  │  - Pipeline │               │       │             │            │     │
-  │  - Jobs     │               │  ┌────▼────────────▼────────────▼───┐  │
-  │  - Timeline │               │  │         Repository Layer          │  │
-  │             │               │  │  ┌────────────┐ ┌────────────┐ │  │
-  └─────────────┘               │  │  │  Prisma    │ │  Memory    │ │  │
-                               │  │  │  (real DB) │ │  (demo)    │ │  │
-                               │  │  └────────────┘ └────────────┘ │  │
-                               │  └──────────────────────────────┬──┘  │
-                               │                                 │       │
-                               │  ┌──────────────┐  ┌──────────▼──┐   │
-                               │  │  BullMQ/Redis │  │   MinIO     │   │
-                               │  │  (job queue)  │  │  (objects)  │   │
-                               │  └───────┬──────┘  └─────────────┘   │
-                               │          │                            │
-                               └──────────┼────────────────────────────┘
-                                          │
-                               ┌──────────▼──────────────────────────┐
-                               │         FastAPI CV Worker           │
-                               │  ┌────────────┐  ┌───────────────┐  │
-                               │  │  Thumbnail │  │ Frame Extract │  │
-                               │  │  (Pillow)  │  │  (OpenCV)    │  │
-                               │  └────────────┘  └───────────────┘  │
-                               │  ┌────────────────────────────────┐   │
-                               │  │   ONNX Runtime (detector)     │   │
-                               │  │   NMS + confidence threshold  │   │
-                               │  └────────────────────────────────┘   │
-                               └───────────────────────────────────────┘
+Browser (React)
+│
+│ HTTP/WebSocket
+▼
+┌─────────────┐ REST ┌─────────────────────────────────────────┐
+│ Web App │◄────────────►│ NestJS API │
+│ (Vite/5173)│ │ ┌─────────┐ ┌──────────┐ ┌───────┐ │
+│ │ │ │ Media │ │ Dataset │ │Job │ │
+│ - Media │ │ │ Module │ │ Module │ │Module │ │
+│ - Annotate │ │ └────┬────┘ └────┬─────┘ └───┬───┘ │
+│ - Pipeline │ │ │ │ │ │
+│ - Jobs │ │ ┌────▼────────────▼────────────▼───┐ │
+│ - Timeline │ │ │ Repository Layer │ │
+│ │ │ │ ┌────────────┐ ┌────────────┐ │ │
+└─────────────┘ │ │ │ Prisma │ │ Memory │ │ │
+│ │ │ (real DB) │ │ (demo) │ │ │
+│ │ └────────────┘ └────────────┘ │ │
+│ └──────────────────────────────┬──┘ │
+│ │ │
+│ ┌──────────────┐ ┌──────────▼──┐ │
+│ │ BullMQ/Redis │ │ MinIO │ │
+│ │ (job queue) │ │ (objects) │ │
+│ └───────┬──────┘ └─────────────┘ │
+│ │ │
+└──────────┼────────────────────────────┘
+│
+┌──────────▼──────────────────────────┐
+│ FastAPI CV Worker │
+│ ┌────────────┐ ┌───────────────┐ │
+│ │ Thumbnail │ │ Frame Extract │ │
+│ │ (Pillow) │ │ (OpenCV) │ │
+│ └────────────┘ └───────────────┘ │
+│ ┌────────────────────────────────┐ │
+│ │ ONNX Runtime (detector) │ │
+│ │ NMS + confidence threshold │ │
+│ └────────────────────────────────┘ │
+└───────────────────────────────────────┘
 
-  ┌───────────────────────────────────────────────────────┐
-  │                    Infrastructure                      │
-  │  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
-  │  │PostgreSQL│  │  Redis   │  │       MinIO       │  │
-  │  │  (state) │  │ (queue) │  │  (originals/      │  │
-  │  │          │  │          │  │   derivatives/    │  │
-  │  │          │  │          │  │   predictions)    │  │
-  │  └──────────┘  └──────────┘  └───────────────────┘  │
-  └───────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│ Infrastructure │
+│ ┌──────────┐ ┌──────────┐ ┌───────────────────┐ │
+│ │PostgreSQL│ │ Redis │ │ MinIO │ │
+│ │ (state) │ │ (queue) │ │ (originals/ │ │
+│ │ │ │ │ │ derivatives/ │ │
+│ │ │ │ │ │ predictions) │ │
+│ └──────────┘ └──────────┘ └───────────────────┘ │
+└───────────────────────────────────────────────────────┘
+
 ```
 
 **Data flow:** Web → API (metadata + job dispatch) → Redis (job queue) → CV Worker (processing) → MinIO (artifacts) → PostgreSQL (predictions + evaluation)
@@ -237,46 +242,46 @@ Add a features comparison table to README.md that clearly separates what exists 
 
 ### Implemented (v1.0 — Phases 0–10)
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Monorepo structure | ✅ Done | pnpm + turbo, 6 packages |
-| Web workbench shell | ✅ Done | React 19, 8 sections, responsive |
-| Media upload | ✅ Done | MinIO, SHA-256 dedupe, MIME validation |
-| Dataset versioning | ✅ Done | Immutable versions, split summaries, lock |
-| BBox annotation | ✅ Done | Image coordinates, keyboard actions, save queue |
-| Pipeline builder | ✅ Done | React Flow, typed validation, persistence |
-| Job orchestration | ✅ Done | BullMQ, SSE progress, state machine |
-| CV worker | ✅ Done | Mock detector, ONNX capability guard |
-| Prediction overlay | ✅ Done | GT vs pred toggle, color-coded |
-| Evaluation metrics | ✅ Done | IoU, precision, recall, F1, per-class |
-| Timeline replay | ✅ Done | BBox morphs, playback controls |
-| Dataset diff | ✅ Done | Added/removed/changed comparison |
-| Pipeline execution flow | ✅ Done | Animated node graph |
-| CI/CD | ✅ Done | GitHub Actions, Vitest, Playwright |
-| Linting & formatting | ✅ Done | ESLint, Prettier |
-| One-command boot | ✅ Done | Unix + PowerShell scripts |
+| Feature                 | Status  | Notes                                           |
+| ----------------------- | ------- | ----------------------------------------------- |
+| Monorepo structure      | ✅ Done | pnpm + turbo, 6 packages                        |
+| Web workbench shell     | ✅ Done | React 19, 8 sections, responsive                |
+| Media upload            | ✅ Done | MinIO, SHA-256 dedupe, MIME validation          |
+| Dataset versioning      | ✅ Done | Immutable versions, split summaries, lock       |
+| BBox annotation         | ✅ Done | Image coordinates, keyboard actions, save queue |
+| Pipeline builder        | ✅ Done | React Flow, typed validation, persistence       |
+| Job orchestration       | ✅ Done | BullMQ, SSE progress, state machine             |
+| CV worker               | ✅ Done | Mock detector, ONNX capability guard            |
+| Prediction overlay      | ✅ Done | GT vs pred toggle, color-coded                  |
+| Evaluation metrics      | ✅ Done | IoU, precision, recall, F1, per-class           |
+| Timeline replay         | ✅ Done | BBox morphs, playback controls                  |
+| Dataset diff            | ✅ Done | Added/removed/changed comparison                |
+| Pipeline execution flow | ✅ Done | Animated node graph                             |
+| CI/CD                   | ✅ Done | GitHub Actions, Vitest, Playwright              |
+| Linting & formatting    | ✅ Done | ESLint, Prettier                                |
+| One-command boot        | ✅ Done | Unix + PowerShell scripts                       |
 
 ### In Progress (v1.1 — Phases 11–20)
 
-| Feature | Status | Target Phase |
-|---------|--------|--------------|
-| Professional README | 🔄 | Phase 11 |
-| Real media processing | 🔄 | Phase 15 |
-| Real ONNX inference | 🔄 | Phase 16 |
-| Feature-split frontend | 🔄 | Phase 17 |
-| Immutable lock enforcement | 🔄 | Phase 18 |
-| COCO export | 🔄 | Phase 20 |
-| E2E test suite | 🔄 | Phase 20 |
+| Feature                    | Status | Target Phase |
+| -------------------------- | ------ | ------------ |
+| Professional README        | 🔄     | Phase 11     |
+| Real media processing      | 🔄     | Phase 15     |
+| Real ONNX inference        | 🔄     | Phase 16     |
+| Feature-split frontend     | 🔄     | Phase 17     |
+| Immutable lock enforcement | 🔄     | Phase 18     |
+| COCO export                | 🔄     | Phase 20     |
+| E2E test suite             | 🔄     | Phase 20     |
 
 ### Not Yet Started
 
-| Feature | Planned For |
-|---------|-------------|
-| Real-time collaboration | Future |
-| Segmentation masks | Future |
-| Model training | Future |
-| Enterprise RBAC | Future |
-| Billing | Future |
+| Feature                 | Planned For |
+| ----------------------- | ----------- |
+| Real-time collaboration | Future      |
+| Segmentation masks      | Future      |
+| Model training          | Future      |
+| Enterprise RBAC         | Future      |
+| Billing                 | Future      |
 ```
 
 </action>
@@ -309,26 +314,31 @@ Add a `## Known Limitations` section to README.md at the end (before ## Contribu
 This is a prototype under active development (v1.1). The following limitations exist:
 
 ### Infrastructure
+
 - **BullMQ requires Redis** — Live queue processing needs a Redis instance. Local development uses an in-memory fallback.
 - **PostgreSQL required for production** — The production data path requires PostgreSQL + Prisma. In-memory fallback is available for demo mode.
 - **MinIO required for storage** — Media storage uses MinIO. Local filesystem fallback is available for demo mode.
 - **Docker required** — The full stack requires Docker to run infrastructure services.
 
 ### CV Worker
+
 - **ONNX model not included** — The detector runs in mock mode by default. Real ONNX inference requires supplying a model artifact.
 - **Real thumbnail/frame extraction** — Being implemented in Phase 15. Currently stubbed.
 
 ### Data & Reproducibility
+
 - **COCO export** — Being implemented in Phase 20.
 - **Immutable dataset version lock** — Being hardened in Phase 18.
 - **Evaluation reproducibility** — Requires locked versions + model artifacts (Phase 18-19).
 
 ### Frontend
+
 - **App.tsx is monolithic** — Being split into feature modules in Phase 17.
 - **No authentication** — This is a single-user workbench. Multi-user auth is out of scope for v1.
 - **No real-time collaboration** — Annotations are single-user. Future versions may add multiplayer.
 
 ### Browser Support
+
 - Tested on Chrome, Firefox, Safari (latest)
 - Reduced-motion users get static fallbacks for animations
 - Responsive design tested at 1920px, 900px, and 390px widths
@@ -360,7 +370,7 @@ For the full roadmap, see [.planning/ROADMAP.md](.planning/ROADMAP.md).
 
 Add a ## Database Migrations section to README.md after the ## Quick Start section:
 
-```markdown
+````markdown
 ## Database Migrations
 
 VisionFlow uses Prisma for database management.
@@ -378,11 +388,13 @@ pnpm db:push
 # Open Prisma Studio to browse data
 pnpm db:studio
 ```
+````
 
 **In CI:** The GitHub Actions pipeline runs `pnpm db:generate` to validate the schema compiles correctly. Migration application happens at deployment time.
 
 **Note:** When starting fresh, `docker compose up -d` initializes the PostgreSQL database. After `pnpm db:generate` completes, `pnpm db:push` syncs the schema.
-```
+
+````
 
 </action>
 
@@ -428,7 +440,7 @@ pnpm test:e2e
 pnpm --filter @visionflow/api test
 pnpm --filter @visionflow/web test
 pnpm --filter @visionflow/contracts test
-```
+````
 
 **Python tests (CV worker):**
 
@@ -438,6 +450,7 @@ python -m pytest tests/ -v
 ```
 
 **Current test coverage:**
+
 - API: 23 tests (domain logic, Prisma + memory fallback paths)
 - Web: API client tests, metric tone logic, diff engine
 - Contracts: Schema validation tests (Zod)
@@ -445,7 +458,8 @@ python -m pytest tests/ -v
 - CV Worker: 4 pytest tests
 
 **E2E tests** (Phase 20): Playwright specs for navigation, pipeline, and annotation flows.
-```
+
+````
 
 </action>
 
@@ -465,9 +479,10 @@ pnpm lint
 pnpm format:check
 pnpm typecheck
 pnpm build
-```
+````
 
 Read README.md and verify:
+
 - Port 3100 for API, 5173 for web, 8001 for CV worker
 - ## Demo section with GIF placeholder
 - ASCII architecture diagram with all 6 components

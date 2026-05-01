@@ -148,17 +148,19 @@ v1.1 is complete only when the repository has:
 - One Playwright E2E test using real services.
 - One demo GIF or video suitable for portfolio review.
 
-## Phase 11, Public README & Portfolio First Impression — Planned
+## Phase 11, Public README & Portfolio First Impression — Done
 
 **Goal:** Make the repository understandable and credible within the first 60 seconds.
 
 **Requirements:**
+
 - Root README.md with: VisionFlow Studio description, product screenshots or demo GIF, architecture diagram, feature overview, implemented vs planned matrix, local setup, env vars reference, run commands for web/API/CV worker/Redis/MinIO/Postgres, migration commands, test commands, known limitations, **security note stating this project is for local/private use and must not be exposed publicly without authentication and rate limiting**
 - Architecture diagram showing: Web App → NestJS API → Postgres/Prisma + MinIO + BullMQ/Redis → FastAPI CV Worker → Artifacts + Predictions + Evaluation Reports
 
 **Depends on:** Phase 10
 
 **Success criteria:**
+
 1. Root README.md exists and renders correctly on GitHub.
 2. README explains what VisionFlow Studio is without requiring code reading.
 3. Architecture diagram shows the complete data flow.
@@ -167,11 +169,16 @@ v1.1 is complete only when the repository has:
 6. Known limitations honestly state that v1.1 is hardening the real production path.
 7. Demo screenshot or GIF is embedded or linked.
 
+**Completed scope:** Root README.md upgraded with Demo section, ASCII architecture diagram, Implementation Status table (14 done / 15 in progress / 5 out of scope), Database Migrations section, Testing section, Known Limitations (5 subsections), Contributing guide updated. docs/demo/README-DEMO.md created with complete demo recording instructions.
+
+**Note:** v1.0 proves the prototype surface. v1.1 is responsible for proving the production path.
+
 ## Phase 12A, CI/CD Completeness — Planned
 
 **Goal:** Make every push prove that the repo still builds, tests, formats, and generates Prisma clients correctly.
 
 **Requirements:**
+
 - GitHub Actions CI runs: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format --check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests`
 - CI must run on push and pull request.
 - CI must fail on type errors, format drift, test failure, or build failure.
@@ -180,6 +187,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 10
 
 **Success criteria:**
+
 1. Every push and PR runs the full CI pipeline.
 2. Prisma client generation is validated in CI.
 3. Python pytest suite runs in CI.
@@ -192,6 +200,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Ensure a fresh clone runs the full stack without manual intervention. README without a working local setup is a portfolio killer.
 
 **Requirements:**
+
 - `docker compose -f infra/docker-compose.yml`: Postgres, Redis, MinIO — starts with one command.
 - `pnpm dev:full` / `pnpm dev:full:win`: starts Docker infra + generates Prisma client + launches web + API + CV worker.
 - Seed script creates demo project with media, dataset, annotation labels, and pipeline — no manual data entry needed.
@@ -203,6 +212,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 12A
 
 **Success criteria:**
+
 1. Fresh clone → `pnpm install` → `cp .env.example .env` → `pnpm dev:full` starts everything in < 60 seconds on a standard machine.
 2. Web app is accessible at `http://localhost:5173` after boot.
 3. API is accessible at `http://localhost:3100` after boot.
@@ -217,6 +227,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Close the basic attack surface of a media upload platform.
 
 **Requirements:**
+
 - Enable global NestJS ValidationPipe: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
 - CORS explicit allowlist from `WEB_ORIGIN`.
 - Upload hardening: file size limit, MIME allowlist, magic byte validation, reject corrupted images/videos, never trust original filename, deterministic object keys from SHA-256, project-scoped checksum dedupe, signed URL or controlled asset proxy, no public MinIO bucket requirement.
@@ -225,6 +236,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 11, Phase 12A
 
 **Success criteria:**
+
 1. Unknown fields in request payloads are rejected.
 2. CORS only allows configured origins.
 3. Oversized uploads return 413 Payload Too Large.
@@ -239,6 +251,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Remove environment branching from business services. Production and demo behavior must be selected at module bootstrap, not inside service logic.
 
 **Requirements:**
+
 - Introduce interfaces: `MediaRepository`, `DatasetRepository`, `AnnotationRepository`, `PipelineRepository`, `InferenceJobRepository`, `PredictionRepository`, `StorageRepository`, `JobQueue`, `AuditLogger`
 - Implementations: `PrismaMediaRepository`, `MemoryMediaRepository`, `MinioStorageRepository`, `LocalStorageRepository`, `BullMqJobQueue`, `NoopJobQueue`, `PrismaAuditLogger`, `MemoryAuditLogger`
 - Rules: No `if (process.env.DATABASE_URL)` inside business service methods. No storage implementation detail inside domain services. No queue implementation detail inside inference orchestration service. Demo mode selects adapters in module setup. Production mode selects Prisma, MinIO, BullMQ, and real audit logger.
@@ -246,6 +259,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 12
 
 **Success criteria:**
+
 1. Business services depend on interfaces, not concrete implementations.
 2. No environment branching exists inside service method bodies.
 3. Memory and Prisma implementations share the same contract.
@@ -258,6 +272,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Make invalid domain states impossible or explicitly rejected.
 
 **Requirements:**
+
 - Validate annotation geometry JSON at API boundary with Zod.
 - Validate pipeline graph JSON at API boundary with Zod.
 - Enforce inference job transitions through a state machine: `QUEUED → RUNNING → SUCCEEDED`, `QUEUED → RUNNING → FAILED`, `QUEUED → CANCELLED`, `RUNNING → CANCELLED`. Reject invalid transitions.
@@ -268,6 +283,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 14A
 
 **Success criteria:**
+
 1. Invalid annotation geometry is rejected before persistence.
 2. Invalid pipeline graph is rejected before persistence.
 3. Invalid job state transitions throw explicit domain errors.
@@ -280,6 +296,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Make every job traceable across API, queue, worker, database, and storage.
 
 **Requirements:**
+
 - Add request ID per API request.
 - Add job correlation ID for inference and media-processing jobs.
 - Structured logs for: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request, worker response, artifact persisted, prediction persisted, evaluation persisted.
@@ -290,6 +307,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 14A
 
 **Success criteria:**
+
 1. A single job can be traced from upload to final evaluation.
 2. Logs include request ID and job ID.
 3. Deep health check fails when DB, Redis, MinIO, or CV worker is unavailable.
@@ -301,12 +319,14 @@ v1.1 is complete only when the repository has:
 **Goal:** Reduce risk before real worker and detector work by extracting high-change areas from the monolithic frontend.
 
 **Requirements:**
-- Create initial frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/*, hooks/, types/), `src/features/media/` (MediaPage, MediaUploader, MediaGrid, media.api.ts, media.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, inference.api.ts, inference.types.ts)
+
+- Create initial frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/\*, hooks/, types/), `src/features/media/` (MediaPage, MediaUploader, MediaGrid, media.api.ts, media.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, inference.api.ts, inference.types.ts)
 - Scope control: This phase only extracts media and inference first. Avoid visual redesign. Preserve existing UX.
 
 **Depends on:** Phase 11
 
 **Success criteria:**
+
 1. App.tsx is reduced significantly.
 2. Media API calls are isolated in features/media.
 3. Inference API calls are isolated in features/inference.
@@ -321,15 +341,18 @@ v1.1 is complete only when the repository has:
 **Architecture rule: API is source of truth for database state.** The FastAPI CV worker reads source objects and writes derivative objects to MinIO, but never writes to the PostgreSQL database. A NestJS BullMQ consumer owns all database transitions.
 
 **Data ownership:**
+
 - NestJS API: owns job metadata, job state transitions, derivative metadata persistence, audit logs.
 - FastAPI CV worker: reads source object keys from job payload, writes derivative artifacts to MinIO, returns artifact metadata (objectKey, width, height, checksum) to the API consumer.
 
 **Worker contract:**
+
 - NestJS BullMQ consumer dispatches job to FastAPI worker with `{ jobId, sourceObjectKey, operation }`.
 - FastAPI worker fetches source from MinIO, processes media, writes derivative to MinIO, returns `{ objectKey, width, height, checksum }`.
 - NestJS consumer persists derivative metadata, transitions job state, writes audit log.
 
 **Requirements:**
+
 - `/cv/create-thumbnail`: Uses Pillow or OpenCV, reads a real source image from MinIO, produces a real thumbnail image, writes derivative artifact to MinIO, returns artifact metadata.
 - `/cv/extract-frames`: Uses ffmpeg or OpenCV, reads a real source video from MinIO, produces real frame images, writes frame artifacts to MinIO, returns artifact metadata list.
 - BullMQ payload contains only job ID and source object key — no blob data.
@@ -339,6 +362,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 14A, Phase 14B, Phase 15
 
 **Success criteria:**
+
 1. Thumbnail endpoint produces a real image artifact.
 2. Frame extraction endpoint produces real frame images.
 3. Derivative artifacts are persisted to MinIO.
@@ -355,6 +379,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Make locked dataset versions reproducible and exportable.
 
 **Requirements:**
+
 - When `DatasetVersion.status = LOCKED`, reject: asset assignment, asset removal, annotation create/update/delete, split mutation. Return 409 Conflict for locked-version mutation attempts.
 - Implement COCO export endpoint: `GET /datasets/:datasetId/versions/:versionId/export/coco`.
 - COCO export includes: images, annotations, categories, dataset metadata, project ID, dataset version ID, export checksum.
@@ -364,6 +389,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 14B
 
 **Success criteria:**
+
 1. Locked version rejects asset assignment with 409.
 2. Locked version rejects annotation create/update/delete with 409.
 3. COCO export works for locked dataset versions.
@@ -378,6 +404,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Run a real detector pipeline and persist predictions with full traceability.
 
 **Detector target:**
+
 - Default model: YOLOv8n ONNX or another pinned lightweight detector.
 - Input shape: 640x640.
 - Preprocess: Load image, resize or letterbox, normalize, convert to model tensor.
@@ -385,6 +412,7 @@ v1.1 is complete only when the repository has:
 - Default thresholds: Confidence 0.25, NMS IoU 0.45.
 
 **Requirements:**
+
 - `/cv/run-pipeline` executes real ONNX Runtime inference.
 - ONNX model path/version is explicit.
 - ONNX unavailable/runtime/model errors are surfaced clearly.
@@ -397,6 +425,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 17, Phase 18
 
 **Success criteria:**
+
 1. ONNX detector runs on at least one real image.
 2. NMS removes overlapping duplicate predictions.
 3. Confidence threshold filters low-confidence predictions.
@@ -413,11 +442,13 @@ v1.1 is complete only when the repository has:
 **Goal:** Compare real predictions against ground-truth annotations and persist reproducible metrics.
 
 **Evaluation algorithm:**
+
 - For each class: sort predictions by confidence descending; match each prediction to an unmatched ground-truth box of the same class; match is valid only when IoU >= threshold; one GT box can match at most one prediction; unmatched predictions count as false positives; unmatched GT boxes count as false negatives.
 - Default thresholds: IoU 0.5, confidence inherited from inference job config.
 - Metrics: Overall precision, recall, F1, mean IoU, per-class precision/recall/F1/TP/FP/FN.
 
 **Requirements:**
+
 - Evaluation runs against: locked dataset version, persisted ground-truth annotations, persisted predictions, specific inference job, specific model artifact.
 - Evaluation report is persisted to DB.
 - Evaluation report is displayed in frontend.
@@ -426,6 +457,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 19
 
 **Success criteria:**
+
 1. Evaluation runs against real annotations and real predictions.
 2. Overall metrics are computed and persisted.
 3. Per-class metrics are computed and persisted.
@@ -440,12 +472,14 @@ v1.1 is complete only when the repository has:
 **Goal:** Finish the frontend architecture cleanup and remove the monolithic app structure.
 
 **Requirements:**
-- Final frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/*, hooks/, types/, utils/), `src/features/media/`, `src/features/datasets/` (DatasetPage, DatasetVersionPanel, SplitAssigner, DatasetLockBanner, CocoExportPanel, datasets.api.ts, datasets.types.ts), `src/features/annotations/` (AnnotationWorkbench, CanvasStage, BoundingBoxLayer, LabelInspector, AnnotationToolbar, annotations.api.ts, annotations.types.ts), `src/features/pipelines/` (PipelineBuilder, PipelineNode, PipelineInspector, PipelineValidationPanel, pipelines.api.ts, pipelines.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, JobLogs, inference.api.ts, inference.types.ts)
+
+- Final frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/\*, hooks/, types/, utils/), `src/features/media/`, `src/features/datasets/` (DatasetPage, DatasetVersionPanel, SplitAssigner, DatasetLockBanner, CocoExportPanel, datasets.api.ts, datasets.types.ts), `src/features/annotations/` (AnnotationWorkbench, CanvasStage, BoundingBoxLayer, LabelInspector, AnnotationToolbar, annotations.api.ts, annotations.types.ts), `src/features/pipelines/` (PipelineBuilder, PipelineNode, PipelineInspector, PipelineValidationPanel, pipelines.api.ts, pipelines.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, JobLogs, inference.api.ts, inference.types.ts)
 - Rules: No UI file over 400 lines. Feature-specific API calls stay inside feature modules. Shared UI components must be generic. No circular imports. No visual regression.
 
 **Depends on:** Phase 20
 
 **Success criteria:**
+
 1. App.tsx is under 400 lines.
 2. Every feature module is independently importable.
 3. Shared UI components are reused across features.
@@ -459,6 +493,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Establish a deterministic test infrastructure before building real features. Without a harness, Phase 22 production-path tests become extremely painful.
 
 **Requirements:**
+
 - `docker compose test-stack.yml`: Postgres, Redis, MinIO seeded with deterministic fixtures — runs independently of dev stack.
 - Deterministic image fixture: a known 640x480 RGB JPEG image committed to the repo (e.g. `fixtures/sample.jpg`, < 100KB). Must produce deterministic SHA-256 and thumbnail across runs.
 - Deterministic video fixture: a known 5-frame MP4 committed to the repo (e.g. `fixtures/sample.mp4`). Must produce deterministic frame count and frame hashes.
@@ -474,6 +509,7 @@ v1.1 is complete only when the repository has:
 **Depends on:** Phase 14A
 
 **Success criteria:**
+
 1. `docker compose -f infra/test-stack.yml up` starts Postgres, Redis, MinIO with fixtures in < 30s.
 2. `pnpm test:integration` runs against the test stack.
 3. `python -m pytest apps/cv-worker/tests` runs against the test worker.
@@ -486,11 +522,13 @@ v1.1 is complete only when the repository has:
 **Goal:** Prove the real path, not just memory/demo fallback.
 
 **Requirements:**
+
 - Add tests for: API integration (Prisma/Postgres path, dataset locking, COCO export, upload validation, prediction persistence, evaluation persistence), storage integration (upload object, read object, persist thumbnail derivative, persist extracted frame derivative, signed URL or controlled proxy behavior), queue integration (enqueue media job, enqueue inference job, worker consumes job, job retry behavior, failed job behavior), CV worker tests (real thumbnail generation, real frame extraction, mock detector deterministic output, ONNX unavailable error, ONNX runtime error, evaluation matching algorithm), contract tests (shared Zod schemas match API expectations, frontend consumes typed API responses).
 
 **Depends on:** Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A
 
 **Success criteria:**
+
 1. Production database path is covered by tests.
 2. Storage path is covered by tests.
 3. Queue path is covered by tests.
@@ -504,6 +542,7 @@ v1.1 is complete only when the repository has:
 **Goal:** Close the loop with a real end-to-end test and portfolio-ready demo.
 
 **E2E flow:**
+
 ```
 open app → create or select project
 → upload image
@@ -523,6 +562,7 @@ open app → create or select project
 ```
 
 **Requirements:**
+
 - Playwright uses real services: Postgres, Redis, MinIO, NestJS API, FastAPI CV worker, web app.
 - Test must not use memory fallback.
 - Test fixtures are deterministic.
@@ -533,6 +573,7 @@ open app → create or select project
 **Depends on:** Phase 22B
 
 **Success criteria:**
+
 1. Full E2E flow passes locally.
 2. Full E2E flow passes in CI or documented CI-compatible workflow.
 3. E2E test uses real database path.
@@ -548,6 +589,7 @@ open app → create or select project
 v1.1 is complete only when all of the following are true:
 
 **Product proof:**
+
 - User can upload a real image.
 - System generates a real thumbnail artifact.
 - User can create a dataset version.
@@ -564,6 +606,7 @@ v1.1 is complete only when all of the following are true:
 - User can inspect precision, recall, F1, IoU, TP, FP, FN.
 
 **Engineering proof:**
+
 - No production service relies on hidden memory fallback.
 - No business service contains environment branching.
 - Queue payloads contain IDs, not blobs.
@@ -577,6 +620,7 @@ v1.1 is complete only when all of the following are true:
 - Full vertical slice is covered by Playwright.
 
 **Portfolio proof:**
+
 - README is clean, honest, and visual.
 - Architecture diagram is clear.
 - Demo video or GIF exists.
@@ -587,24 +631,24 @@ v1.1 is complete only when all of the following are true:
 
 ## Recommended Execution Order
 
-| # | Phase | Blocked By |
-|---|-------|-----------|
-| 11 | Public README & Portfolio First Impression | Phase 10 |
-| 12A | CI/CD Completeness | Phase 10 |
-| 12B | Local Stack & Seed Reliability | Phase 12A |
-| 13 | Security & Input Validation Hardening | Phase 11, Phase 12A |
-| 14A | Adapter Boundary Cleanup | Phase 12A |
-| 14B | Domain Invariants & State Machines | Phase 14A |
-| 15 | Observability & Health Checks | Phase 14A |
-| 16A | Frontend Split Minimum | Phase 11 |
-| 17 | Real Media Processing | Phase 14A, Phase 14B, Phase 15 |
-| 18 | Dataset Locking & Deterministic COCO Export | Phase 14B |
-| 19 | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18 |
-| 20 | Evaluation Report End-to-End | Phase 19 |
-| 21 | Frontend Feature Split Completion | Phase 20 |
-| 22A | Test Harness & Fixtures | Phase 14A |
-| 22B | Production-Path Test Suite | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
-| 23 | Full E2E Playwright & Demo Video | Phase 22B |
+| #   | Phase                                       | Blocked By                                        |
+| --- | ------------------------------------------- | ------------------------------------------------- |
+| 11  | Public README & Portfolio First Impression  | Phase 10                                          |
+| 12A | CI/CD Completeness                          | Phase 10                                          |
+| 12B | Local Stack & Seed Reliability              | Phase 12A                                         |
+| 13  | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
+| 14A | Adapter Boundary Cleanup                    | Phase 12A                                         |
+| 14B | Domain Invariants & State Machines          | Phase 14A                                         |
+| 15  | Observability & Health Checks               | Phase 14A                                         |
+| 16A | Frontend Split Minimum                      | Phase 11                                          |
+| 17  | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                    |
+| 18  | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
+| 19  | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
+| 20  | Evaluation Report End-to-End                | Phase 19                                          |
+| 21  | Frontend Feature Split Completion           | Phase 20                                          |
+| 22A | Test Harness & Fixtures                     | Phase 14A                                         |
+| 22B | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
+| 23  | Full E2E Playwright & Demo Video            | Phase 22B                                         |
 
 ## Brutal Scope Rules
 
