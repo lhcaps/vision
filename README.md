@@ -221,6 +221,69 @@ curl http://localhost:3000/api/health/live
 curl http://localhost:3000/api/health/deep
 ```
 
+## Security
+
+VisionFlow Studio implements the following security controls for API endpoints and media uploads.
+
+### Input Validation
+
+All API requests pass through a global NestJS `ValidationPipe` with `whitelist: true`, `forbidNonWhitelisted: true`, and `transform: true`. Unknown fields in request payloads are rejected with HTTP 400.
+
+### CORS Policy
+
+CORS is configured via the `WEB_ORIGIN` environment variable. If not set, cross-origin requests are blocked. When set, only the specified origins are allowed:
+
+```bash
+# Single origin
+WEB_ORIGIN=http://localhost:5173
+
+# Multiple origins (comma-separated)
+WEB_ORIGIN=http://localhost:5173,https://my-domain.com
+```
+
+### File Upload Restrictions
+
+| Limit | Value |
+| -------|-------|
+| Maximum file size | 250 MB |
+| Accepted types | JPEG, PNG, WebP, MP4, MOV |
+| Validation | MIME type + magic byte verification |
+| Corruption check | Image/video decode validation |
+
+Uploads exceeding the size limit return **HTTP 413 Payload Too Large**. Files whose magic bytes do not match the declared MIME type, or that fail decode validation, return **HTTP 400 Bad Request**.
+
+### Asset Access
+
+Assets are never served via direct MinIO URLs. Access is controlled through one of two mechanisms:
+
+1. **Signed URLs** — When `SIGNED_URL_EXPIRY_SECONDS` is set, the API generates a time-limited MinIO presigned URL and redirects the client. The URL expires after the configured duration (default: 3600 seconds).
+
+2. **API Proxy** — When `SIGNED_URL_EXPIRY_SECONDS` is not set, assets are streamed through the API as a controlled proxy. The API never exposes the MinIO endpoint to the client.
+
+### Error Responses
+
+All API error responses are structured consistently:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Human-readable error description",
+  "error": "Bad Request",
+  "timestamp": "2026-05-01T10:00:00.000Z"
+}
+```
+
+Internal details such as file paths, stack traces, SQL errors, and environment variables are never included in error responses.
+
+### Security Notes
+
+- **Authentication** — Not implemented in v1.x. This is a single-user local workbench.
+- **Rate limiting** — Planned for a future phase.
+- **CSRF protection** — Not applicable (no session-based auth).
+- **Public exposure** — This platform is designed for local/private use. Do not expose the API publicly without adding authentication and rate limiting.
+
+For vulnerability reports, open a GitHub issue.
+
 ## Testing
 
 ```bash
@@ -325,6 +388,10 @@ This is a prototype under active development (v1.1). The following limitations e
 - **App.tsx is monolithic** — Being split into feature modules in Phase 16A.
 - **No authentication** — Single-user workbench. Auth/RBAC is out of scope for v1.
 - **No real-time collaboration** — Annotations are single-user.
+
+### Security
+
+- **No upload hardening beyond MIME validation** — Security hardening (Phase 13) adds ValidationPipe, CORS allowlist, magic byte validation, corrupted media detection, signed URL proxy, and structured error responses.
 
 ### Browser Support
 
