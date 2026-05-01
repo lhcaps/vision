@@ -75,7 +75,9 @@ describe('sanitizeFilename', () => {
 
   it('sanitizes complex attack patterns', () => {
     // Windows path separators become _ first, then .. becomes _ too
+    // C:\..\..\etc\passwd -> C__..__..__etc__passwd -> C____etc_passwd
     expect(sanitizeFilename('C:\\..\\..\\etc\\passwd')).toBe('C______etc_passwd');
+    // ../a/b/../../c -> __a_b__c -> __a_b_____c
     expect(sanitizeFilename('../a/b/../../c')).toBe('__a_b_____c');
   });
 });
