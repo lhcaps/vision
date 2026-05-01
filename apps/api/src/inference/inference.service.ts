@@ -21,10 +21,9 @@ import {
   InferenceJobStatus,
   InferenceJobSummary,
   InferenceWorkerStage,
-  assertJobProgress,
-  assertJobTransition,
   isTerminalJobStatus,
 } from '@visionflow/contracts';
+import { assertValidInferenceTransition, assertValidProgress } from '../domain/inference-job-state-machine';
 import { DatasetsService } from '../datasets/datasets.service';
 import { MediaService } from '../media/media.service';
 import { PipelinesService } from '../pipelines/pipelines.service';
@@ -563,18 +562,13 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async patchJob(payload: InferenceQueuePayload, patch: JobPatch): Promise<void> {
-    assertJobProgress(patch.progress);
     const current = await this.getJob(payload.projectId, payload.jobId);
 
     if (patch.status && patch.status !== current.status) {
-      assertJobTransition(current.status, patch.status);
+      assertValidInferenceTransition(current.status, patch.status);
     }
 
-    if (patch.progress < current.progress && patch.status !== 'FAILED') {
-      throw new Error(
-        `Invalid inference job progress rewind: ${current.progress} -> ${patch.progress}`
-      );
-    }
+    assertValidProgress(current.progress, patch.progress, current.status);
 
     const now = new Date();
     const nextStatus = patch.status ?? current.status;
