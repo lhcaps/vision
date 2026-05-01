@@ -5,6 +5,7 @@
 **Goal:** Convert VisionFlow Studio from a strong prototype into a production-hardened local-first portfolio project. Build one real, reproducible, end-to-end CV workflow: upload image → generate real thumbnail → create/lock dataset version → annotate → export deterministic COCO → run real YOLOv8n ONNX detector → persist predictions → evaluate → view overlay and metrics. Prove the production path, not the demo path. Do not claim production-grade platform — this is a local-first prototype for portfolio use.
 
 **Target proof:**
+
 - One real dataset, one real annotation flow, one real async job, one real worker artifact
 - One real prediction persistence, one real evaluation report, one deterministic COCO export
 - One clean README, one working local setup, one real-service Playwright E2E, one demo video
@@ -16,6 +17,7 @@
 This document evolves at phase transitions and milestone boundaries.
 
 **After each phase transition** (via `$gsd-transition`):
+
 1. Requirements invalidated? → Move to Out of Scope with reason
 2. Requirements validated? → Move to Validated with phase reference
 3. New requirements emerged? → Add to Active
@@ -23,6 +25,7 @@ This document evolves at phase transitions and milestone boundaries.
 5. "What This Is" still accurate? → Update if drifted
 
 **After each milestone** (via `$gsd-complete-milestone`):
+
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?

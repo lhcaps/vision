@@ -1,54 +1,110 @@
 # VisionFlow Studio — Full Stack Boot (Windows)
 $ErrorActionPreference = "Stop"
+
 $ROOT = Split-Path -Parent $PSScriptRoot
+
+function Log-Info($msg) { Write-Host "▶ $msg" }
+function Log-Warn($msg)  { Write-Host "⚠ $msg" -ForegroundColor Yellow }
+function Log-Error($msg){ Write-Host "✗ $msg" -ForegroundColor Red }
+function Log-Ok($msg)    { Write-Host "✓ $msg" -ForegroundColor Green }
 
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 Write-Host " VisionFlow Studio — Full Stack Boot"
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+# Step 0: Validate prerequisites
+Write-Host ""
+Log-Info "Checking prerequisites..."
+
+$dockerCheck = docker info 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Log-Error "Docker is not running. Please start Docker Desktop."
+    exit 1
+}
+Log-Ok "Docker is running"
+
+$pnpmCheck = Get-Command pnpm -ErrorAction SilentlyContinue
+if (-not $pnpmCheck) {
+    Log-Error "pnpm is not installed. Run: npm install -g pnpm"
+    exit 1
+}
+Log-Ok "pnpm is available"
+
 # Step 1: Start infrastructure
 Write-Host ""
-Write-Host "▶ Starting infrastructure (Docker)..."
+Log-Info "Starting infrastructure (Docker)..."
 docker compose -f "$ROOT/infra/docker-compose.yml" up -d
 
-# Wait for postgres
-Write-Host "▶ Waiting for PostgreSQL..."
-$attempts = 0
-while ($attempts -lt 30) {
-    $attempts++
-    try {
-        docker exec vision-postgres-1 pg_isready -U postgres | Out-Null
-        Write-Host "✓ PostgreSQL is ready"
-        break
-    } catch {
+# Step 2: Wait for services
+Write-Host ""
+Log-Info "Waiting for services..."
+
+function Wait-ForService($name, $checkCmd, $maxAttempts = 30) {
+    for ($i = 1; $i -le $maxAttempts; $i++) {
+        $result = Invoke-Expression $checkCmd 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Log-Ok "$name is ready"
+            return $true
+        }
         Start-Sleep -Seconds 1
     }
-    if ($attempts -eq 30) {
-        Write-Host "✗ PostgreSQL failed to start"
-        exit 1
-    }
+    Log-Error "$name failed to start after ${maxAttempts}s"
+    return $false
 }
 
-# Step 2: Generate Prisma client
-Write-Host ""
-Write-Host "▶ Generating Prisma client..."
-Push-Location $ROOT
-pnpm db:generate
-Pop-Location
+$pgReady = Wait-ForService "PostgreSQL" "docker exec visionflow-postgres pg_isready -U visionflow"
+if (-not $pgReady) { exit 1 }
 
-# Step 3: Start apps
+$redisReady = Wait-ForService "Redis" "docker exec visionflow-redis redis-cli ping"
+if (-not $redisReady) { exit 1 }
+
+$minioReady = Wait-ForService "MinIO" "try { Invoke-WebRequest -Uri 'http://localhost:9000/minio/health/live' -Method Head -TimeoutSec 2 } catch { `$false }"
+if (-not $minioReady) { exit 1 }
+
+# Step 3: Generate Prisma client
 Write-Host ""
-Write-Host "▶ Starting all apps..."
+Log-Info "Generating Prisma client..."
+Push-Location $ROOT
+try {
+    pnpm db:generate
+    if ($LASTEXITCODE -ne 0) {
+        Log-Error "Prisma client generation failed"
+        exit 1
+    }
+} finally {
+    Pop-Location
+}
+
+# Step 4: Validate demo data
+Write-Host ""
+Log-Info "Validating demo data..."
+Push-Location $ROOT
+try {
+    pnpm seed 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        Log-Warn "Demo data validation skipped"
+    }
+} catch {
+    Log-Warn "Demo data validation skipped"
+} finally {
+    Pop-Location
+}
+
+# Step 5: Start all apps
+Write-Host ""
+Log-Info "Starting all apps..."
+Write-Host ""
 Write-Host "  Web:     http://localhost:5173"
 Write-Host "  API:     http://localhost:3000"
 Write-Host "  Swagger: http://localhost:3000/api/docs"
+Write-Host "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
 Write-Host ""
 
 # Start web + api in background
-Start-Process powershell -ArgumentList "-NoExit", "cd $ROOT; pnpm dev"
+Start-Process powershell -ArgumentList "-NoExit", "cd '$ROOT'; pnpm dev"
 
 # Start CV worker in background
-Start-Process powershell -ArgumentList "-NoExit", "cd $ROOT; python -m uvicorn apps.cv-worker.src.main:app --reload --port 8001 --host 127.0.0.1"
+Start-Process powershell -ArgumentList "-NoExit", "cd '$ROOT'; python -m uvicorn apps.cv-worker.src.main:app --reload --port 8000 --host 127.0.0.1"
 
 Write-Host ""
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

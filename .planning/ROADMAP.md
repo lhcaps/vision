@@ -1,7 +1,8 @@
 # Roadmap
 
 Status date: 2026-05-01
-Current milestone: v1.0 complete — starting v1.1 Production Hardening & Real Vertical Slice
+Current milestone: v1.1 — Production Hardening & Real Vertical Slice
+Phase 12 complete — next: Phase 13 Security & Input Validation Hardening
 
 ## Legend
 
@@ -173,54 +174,13 @@ v1.1 is complete only when the repository has:
 
 **Note:** v1.0 proves the prototype surface. v1.1 is responsible for proving the production path.
 
-## Phase 12A, CI/CD Completeness — Planned
+## Phase 12A, CI/CD Completeness — Done
 
-**Goal:** Make every push prove that the repo still builds, tests, formats, and generates Prisma clients correctly.
+**Completed scope:** GitHub Actions CI pipeline enhanced with job dependency graph: `lint → [typecheck, format, pytest, test] → build`. Added `pnpm db:generate` step before typecheck to validate Prisma schema. Added dedicated `format` job running `pnpm format:check` with `CI=true` to prevent style drift. Added `pytest` job using `actions/setup-python@v5` with Python 3.11, pip caching, and `pip install -r requirements-dev.txt`. Added `WEB_ORIGIN` env var to test job. CI badge added to README. All 6 success criteria met.
 
-**Requirements:**
+## Phase 12B, Local Stack & Seed Reliability — Done
 
-- GitHub Actions CI runs: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format --check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests`
-- CI must run on push and pull request.
-- CI must fail on type errors, format drift, test failure, or build failure.
-- E2E workflow remains separate until real services are wired.
-
-**Depends on:** Phase 10
-
-**Success criteria:**
-
-1. Every push and PR runs the full CI pipeline.
-2. Prisma client generation is validated in CI.
-3. Python pytest suite runs in CI.
-4. Format check prevents style drift.
-5. Build failure blocks merge.
-6. CI badge is visible in README.
-
-## Phase 12B, Local Stack & Seed Reliability — Planned
-
-**Goal:** Ensure a fresh clone runs the full stack without manual intervention. README without a working local setup is a portfolio killer.
-
-**Requirements:**
-
-- `docker compose -f infra/docker-compose.yml`: Postgres, Redis, MinIO — starts with one command.
-- `pnpm dev:full` / `pnpm dev:full:win`: starts Docker infra + generates Prisma client + launches web + API + CV worker.
-- Seed script creates demo project with media, dataset, annotation labels, and pipeline — no manual data entry needed.
-- `.env.example` is complete: all env vars documented with defaults and descriptions.
-- Teardown/reset command: `pnpm kill` stops all Docker containers cleanly.
-- Local stack works on both Unix (bash) and Windows (PowerShell).
-- No external network dependency at boot time (models, weights, datasets downloaded on demand — not at startup).
-
-**Depends on:** Phase 12A
-
-**Success criteria:**
-
-1. Fresh clone → `pnpm install` → `cp .env.example .env` → `pnpm dev:full` starts everything in < 60 seconds on a standard machine.
-2. Web app is accessible at `http://localhost:5173` after boot.
-3. API is accessible at `http://localhost:3100` after boot.
-4. Swagger docs accessible at `http://localhost:3100/api/docs`.
-5. Demo data loads automatically — no manual setup required.
-6. `pnpm kill` cleanly stops all services.
-7. Stack works on Windows PowerShell without WSL.
-8. README setup section is accurate and matches the actual boot experience.
+**Completed scope:** Docker compose enhanced with MinIO bucket initialization via `minio-init` service (waits for MinIO health, then `mc mb local/visionflow-artifacts --ignore-existing`). MinIO healthcheck fixed from broken `mc ready local` to working `curl -f http://localhost:9000/minio/health/live`. Named Docker network `visionflow-network` for deterministic hostnames. Container names made explicit (`visionflow-postgres`, `visionflow-redis`, `visionflow-minio`) and aligned with boot scripts. Both Unix and Windows boot scripts enhanced with: Docker/pnpm prerequisite checks, PostgreSQL/Redis/MinIO health waits with retry loops, colored output, and trap for cleanup. Seed script enhanced with `--api` mode for creating demo data via API. `.env.example` completed with 8 sections and 16 documented variables.
 
 ## Phase 13, Security & Input Validation Hardening — Planned
 

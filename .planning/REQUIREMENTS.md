@@ -15,10 +15,10 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### CI/CD (P0)
 
-- [ ] **CI-01**: GitHub Actions CI runs on every push and PR: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format --check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests`
-- [ ] **CI-02**: CI must fail on type errors, format drift, test failure, or build failure
-- [ ] **CI-03**: CI badge is visible in README
-- [ ] **CI-04**: E2E workflow remains separate until real services are wired (production-path test suite)
+- [x] **CI-01**: GitHub Actions CI runs on every push and PR: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests` — Phase 12A
+- [x] **CI-02**: CI must fail on type errors, format drift, test failure, or build failure — Phase 12A
+- [x] **CI-03**: CI badge is visible in README — Phase 12A
+- [x] **CI-04**: E2E workflow remains separate until real services are wired (production-path test suite) — Phase 12A
 
 ### Security & Validation (P1)
 
@@ -70,7 +70,7 @@ Status: v1.1 milestone active (phases 11-23)
 ### Frontend Split Minimum (P2)
 
 - [ ] **UI-01**: `src/app/` directory exists with App.tsx, AppShell.tsx, routes.tsx
-- [ ] **UI-02**: `src/shared/` directory exists with api/client.ts, ui/*, hooks/, types/
+- [ ] **UI-02**: `src/shared/` directory exists with api/client.ts, ui/\*, hooks/, types/
 - [ ] **UI-03**: `src/features/media/` has MediaPage, MediaUploader, MediaGrid, media.api.ts, media.types.ts
 - [ ] **UI-04**: `src/features/inference/` has JobList, JobDetail, PredictionOverlay, EvaluationReport, inference.api.ts, inference.types.ts
 - [ ] **UI-05**: Shared API client handles base URL, errors, and typed responses
@@ -181,21 +181,21 @@ The following are explicitly out of scope for v1.1:
 
 ## Traceability
 
-| REQ-ID | Phase | Status |
-|--------|-------|--------|
-| PORT-01 through PORT-06 | 11 | Pending |
-| CI-01 through CI-04 | 12 | Pending |
-| SEC-01 through SEC-11 | 13 | Pending |
-| ABS-01 through ABS-10 | 14A | Pending |
-| DOM-01 through DOM-07 | 14B | Pending |
-| OBS-01 through OBS-07 | 15 | Pending |
-| UI-01 through UI-09 | 16A | Pending |
-| MED-01 through MED-09 | 17 | Pending |
-| LOCK-01 through LOCK-09 | 18 | Pending |
-| DET-01 through DET-08 | 19 | Pending |
-| EVAL-01 through EVAL-09 | 20 | Pending |
-| FSC-01 through FSC-10 | 21 | Pending |
-| TEST-01 through TEST-13 | 22 | Pending |
-| E2E-01 through E2E-10 | 23 | Pending |
+| REQ-ID                  | Phase | Status  |
+| ----------------------- | ----- | ------- |
+| PORT-01 through PORT-06 | 11    | Done    |
+| CI-01 through CI-04     | 12    | Done    |
+| SEC-01 through SEC-11   | 13    | Pending |
+| ABS-01 through ABS-10   | 14A   | Pending |
+| DOM-01 through DOM-07   | 14B   | Pending |
+| OBS-01 through OBS-07   | 15    | Pending |
+| UI-01 through UI-09     | 16A   | Pending |
+| MED-01 through MED-09   | 17    | Pending |
+| LOCK-01 through LOCK-09 | 18    | Pending |
+| DET-01 through DET-08   | 19    | Pending |
+| EVAL-01 through EVAL-09 | 20    | Pending |
+| FSC-01 through FSC-10   | 21    | Pending |
+| TEST-01 through TEST-13 | 22    | Pending |
+| E2E-01 through E2E-10   | 23    | Pending |
 
-**Total:** 97 requirements | **Covered:** 0 | **Remaining:** 97
+**Total:** 97 requirements | **Covered:** 10 | **Remaining:** 87

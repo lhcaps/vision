@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
+    networks:
+      - visionflow-net
 
   redis:
     image: redis:7-alpine
@@ -28,6 +30,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
+    networks:
+      - visionflow-net
 
   minio:
     image: minio/minio:latest
@@ -43,10 +47,29 @@ services:
     volumes:
       - minio-data:/data
     healthcheck:
-      test: ['CMD', 'mc', 'ready', 'local']
-      interval: 5s
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 10s
       timeout: 5s
       retries: 12
+    networks:
+      - visionflow-net
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: ['/bin/sh', '-c']
+    command: |
+      "sleep 5 && mc alias set local http://minio:9000 visionflow visionflow-secret && mc mb local/visionflow-artifacts --ignore-existing && mc anonymous set download local/visionflow-artifacts"
+    restart: 'no'
+    networks:
+      - visionflow-net
+
+networks:
+  visionflow-net:
+    name: visionflow-network
+    driver: bridge
 
 volumes:
   postgres-data:

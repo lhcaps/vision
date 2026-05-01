@@ -1,5 +1,7 @@
 # VisionFlow Studio
 
+[![CI](https://github.com/lhcaps/Vision/actions/workflows/ci.yml/badge.svg)](https://github.com/lhcaps/Vision/actions/workflows/ci.yml)
+
 A fullstack computer vision platform for dataset versioning, annotation, visual pipeline construction, async inference orchestration, and model evaluation.
 
 ## Features
@@ -129,23 +131,23 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 
 ### In Progress (v1.1 — Production Hardening)
 
-| Feature                    | Status         | Target Phase          |
-| -------------------------- | -------------- | --------------------- |
-| Professional README        | 🔄 In Progress | Phase 11 (this phase) |
-| CI completeness            | 🔄 Planned     | Phase 12A             |
-| Local stack & seed         | 🔄 Planned     | Phase 12B             |
-| Security hardening         | 🔄 Planned     | Phase 13              |
-| Adapter boundary cleanup   | 🔄 Planned     | Phase 14A             |
-| Domain invariants          | 🔄 Planned     | Phase 14B             |
-| Observability & health     | 🔄 Planned     | Phase 15              |
-| Frontend feature split     | 🔄 Planned     | Phase 16A             |
-| Real media processing      | 🔄 Planned     | Phase 17              |
-| Dataset lock & COCO export | 🔄 Planned     | Phase 18              |
-| Real ONNX inference        | 🔄 Planned     | Phase 19              |
-| Evaluation E2E             | 🔄 Planned     | Phase 20              |
-| Frontend split completion  | 🔄 Planned     | Phase 21              |
-| Production test suite      | 🔄 Planned     | Phase 22A/B           |
-| Full E2E & demo video      | 🔄 Planned     | Phase 23              |
+| Feature                    | Status     | Target Phase        |
+| -------------------------- | ---------- | ------------------- |
+| Professional README        | ✅ Done    | Phase 11 (complete) |
+| CI completeness            | ✅ Done    | Phase 12A           |
+| Local stack & seed         | ✅ Done    | Phase 12B           |
+| Security hardening         | 🔄 Planned | Phase 13            |
+| Adapter boundary cleanup   | 🔄 Planned | Phase 14A           |
+| Domain invariants          | 🔄 Planned | Phase 14B           |
+| Observability & health     | 🔄 Planned | Phase 15            |
+| Frontend feature split     | 🔄 Planned | Phase 16A           |
+| Real media processing      | 🔄 Planned | Phase 17            |
+| Dataset lock & COCO export | 🔄 Planned | Phase 18            |
+| Real ONNX inference        | 🔄 Planned | Phase 19            |
+| Evaluation E2E             | 🔄 Planned | Phase 20            |
+| Frontend split completion  | 🔄 Planned | Phase 21            |
+| Production test suite      | 🔄 Planned | Phase 22A/B         |
+| Full E2E & demo video      | 🔄 Planned | Phase 23            |
 
 ### Out of Scope
 
@@ -192,21 +194,32 @@ pnpm db:studio
 
 ## Development
 
-| Command             | Description                          |
-| ------------------- | ------------------------------------ |
-| `pnpm dev:full`     | Start Docker + all apps (Unix)       |
-| `pnpm dev:full:win` | Start Docker + all apps (Windows)    |
-| `pnpm dev:web`      | Web only (http://localhost:5173)     |
-| `pnpm dev:api`      | API only (http://localhost:3000)     |
-| `pnpm build`        | Build all packages                   |
-| `pnpm typecheck`    | Type-check all packages              |
-| `pnpm test`         | Run all tests                        |
-| `pnpm verify`       | Type-check + test + build            |
-| `pnpm lint`         | Lint all files                       |
-| `pnpm format`       | Format all files with Prettier       |
-| `pnpm db:generate`  | Regenerate Prisma client             |
-| `pnpm seed`         | Validate demo data and print summary |
-| `pnpm kill`         | Stop Docker containers               |
+| Command             | Description                                |
+| ------------------- | ------------------------------------------ |
+| `pnpm dev:full`     | Start Docker + all apps (Unix)             |
+| `pnpm dev:full:win` | Start Docker + all apps (Windows)          |
+| `pnpm dev:web`      | Web only (http://localhost:5173)           |
+| `pnpm dev:api`      | API only (http://localhost:3000)           |
+| `pnpm build`        | Build all packages                         |
+| `pnpm typecheck`    | Type-check all packages                    |
+| `pnpm test`         | Run all tests                              |
+| `pnpm verify`       | Type-check + test + build                  |
+| `pnpm lint`         | Lint all files                             |
+| `pnpm format`       | Format all files with Prettier             |
+| `pnpm db:generate`  | Regenerate Prisma client                   |
+| `pnpm seed`         | Validate demo data and print summary       |
+| `pnpm seed --api`   | Create demo data via API (requires Docker) |
+| `pnpm kill`         | Stop Docker containers                     |
+
+## Health Checks
+
+```bash
+# API health (liveness)
+curl http://localhost:3000/api/health/live
+
+# API health (deep — checks all dependencies)
+curl http://localhost:3000/api/health/deep
+```
 
 ## Testing
 
