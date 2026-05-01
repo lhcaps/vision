@@ -51,7 +51,9 @@ export class MediaService {
       });
     } catch (err) {
       if (err instanceof Error && err.message.includes('Magic bytes')) {
-        throw new BadRequestException('File content does not match declared file type. The file may be corrupted or misnamed.');
+        throw new BadRequestException(
+          'File content does not match declared file type. The file may be corrupted or misnamed.'
+        );
       }
       throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || 'unknown'}.`);
     }
@@ -201,7 +203,9 @@ export class MediaService {
     }
   }
 
-  private createInMemory(plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>): MediaUploadResponse {
+  private createInMemory(
+    plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>
+  ): MediaUploadResponse {
     const now = new Date().toISOString();
     const assetId = `asset_${plan.checksum.slice(0, 12)}`;
     const asset: MemoryAsset = {

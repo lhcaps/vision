@@ -12,7 +12,10 @@ export function sanitizeFilename(originalName: string, maxLength = 255): string 
     const ext = sanitized.split('.').pop() ?? '';
     const nameWithoutExt = sanitized.slice(0, sanitized.length - ext.length - 1);
     const available = maxLength - ext.length - 1; // -1 for dot
-    sanitized = available > 0 ? `${nameWithoutExt.slice(0, available)}.${ext}` : sanitized.slice(0, maxLength);
+    sanitized =
+      available > 0
+        ? `${nameWithoutExt.slice(0, available)}.${ext}`
+        : sanitized.slice(0, maxLength);
   }
 
   // Ensure not empty

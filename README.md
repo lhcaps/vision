@@ -243,12 +243,12 @@ WEB_ORIGIN=http://localhost:5173,https://my-domain.com
 
 ### File Upload Restrictions
 
-| Limit | Value |
-| -------|-------|
-| Maximum file size | 250 MB |
-| Accepted types | JPEG, PNG, WebP, MP4, MOV |
-| Validation | MIME type + magic byte verification |
-| Corruption check | Image/video decode validation |
+| Limit             | Value                               |
+| ----------------- | ----------------------------------- |
+| Maximum file size | 250 MB                              |
+| Accepted types    | JPEG, PNG, WebP, MP4, MOV           |
+| Validation        | MIME type + magic byte verification |
+| Corruption check  | Image/video decode validation       |
 
 Uploads exceeding the size limit return **HTTP 413 Payload Too Large**. Files whose magic bytes do not match the declared MIME type, or that fail decode validation, return **HTTP 400 Bad Request**.
 
@@ -323,22 +323,22 @@ python -m pytest tests/ -v
 
 ## Environment Variables
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `DATABASE_URL` | `postgresql://...@localhost:5432/...` | PostgreSQL connection string |
-| `REDIS_HOST` | `localhost` | Redis host |
-| `REDIS_PORT` | `6379` | Redis port |
-| `MINIO_ENDPOINT` | `localhost` | MinIO endpoint |
-| `MINIO_PORT` | `9000` | MinIO port |
-| `MINIO_ACCESS_KEY` | `visionflow` | MinIO access key |
-| `MINIO_SECRET_KEY` | `visionflow-secret` | MinIO secret key |
-| `MINIO_BUCKET` | `visionflow-artifacts` | MinIO bucket name |
-| `API_PORT` | `3000` | API server port |
-| `CV_WORKER_URL` | `http://localhost:8000` | CV Worker URL |
-| `CV_WORKER_DETECTOR_MODE` | `mock` | Detector mode (`mock` or `onnx`) |
-| `VITE_API_BASE_URL` | `http://localhost:3000` | Web → API base URL |
-| `WEB_ORIGIN` | `http://localhost:5173` | Allowed CORS origins (comma-separated) |
-| `SIGNED_URL_EXPIRY_SECONDS` | `3600` | Signed URL expiry (0 = use API proxy) |
+| Variable                    | Default                               | Description                            |
+| --------------------------- | ------------------------------------- | -------------------------------------- |
+| `DATABASE_URL`              | `postgresql://...@localhost:5432/...` | PostgreSQL connection string           |
+| `REDIS_HOST`                | `localhost`                           | Redis host                             |
+| `REDIS_PORT`                | `6379`                                | Redis port                             |
+| `MINIO_ENDPOINT`            | `localhost`                           | MinIO endpoint                         |
+| `MINIO_PORT`                | `9000`                                | MinIO port                             |
+| `MINIO_ACCESS_KEY`          | `visionflow`                          | MinIO access key                       |
+| `MINIO_SECRET_KEY`          | `visionflow-secret`                   | MinIO secret key                       |
+| `MINIO_BUCKET`              | `visionflow-artifacts`                | MinIO bucket name                      |
+| `API_PORT`                  | `3000`                                | API server port                        |
+| `CV_WORKER_URL`             | `http://localhost:8000`               | CV Worker URL                          |
+| `CV_WORKER_DETECTOR_MODE`   | `mock`                                | Detector mode (`mock` or `onnx`)       |
+| `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL                     |
+| `WEB_ORIGIN`                | `http://localhost:5173`               | Allowed CORS origins (comma-separated) |
+| `SIGNED_URL_EXPIRY_SECONDS` | `3600`                                | Signed URL expiry (0 = use API proxy)  |
 
 ## Project Structure
 

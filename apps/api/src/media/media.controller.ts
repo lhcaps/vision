@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, UploadedFile, UseInterceptors, Res, Headers } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+  Res,
+  Headers,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -12,7 +21,7 @@ import { SignedUrlService } from '../common/utils/signed-url';
 export class MediaController {
   constructor(
     private readonly mediaService: MediaService,
-    private readonly signedUrlService: SignedUrlService,
+    private readonly signedUrlService: SignedUrlService
   ) {}
 
   @Get()
@@ -64,7 +73,7 @@ export class MediaController {
     @Param('projectId') projectId: string,
     @Param('assetId') assetId: string,
     @Res() res: Response,
-    @Headers('accept') accept: string,
+    @Headers('accept') accept: string
   ) {
     const asset = await this.mediaService.findAsset(projectId, assetId);
     if (!asset) {
@@ -80,7 +89,7 @@ export class MediaController {
     if (signedUrlExpiry > 0) {
       const signedUrl = await this.signedUrlService.generateSignedUrl(
         asset.storageKey,
-        signedUrlExpiry,
+        signedUrlExpiry
       );
       return res.status(302).redirect(signedUrl);
     }
@@ -89,10 +98,7 @@ export class MediaController {
       const { buffer, meta } = await this.signedUrlService.streamFile(asset.storageKey);
       res.setHeader('Content-Type', meta['Content-Type'] ?? 'application/octet-stream');
       res.setHeader('Content-Length', buffer.length);
-      res.setHeader(
-        'Content-Disposition',
-        `inline; filename="${asset.name}"`,
-      );
+      res.setHeader('Content-Disposition', `inline; filename="${asset.name}"`);
       return res.status(200).send(buffer);
     } catch {
       return res.status(502).json({

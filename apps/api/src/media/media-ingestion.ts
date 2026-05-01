@@ -30,7 +30,9 @@ export type MediaIngestionPlan = {
   processingJobType: MediaProcessingJobType;
 };
 
-export async function buildMediaIngestionPlan(input: MediaIngestionInput): Promise<MediaIngestionPlan> {
+export async function buildMediaIngestionPlan(
+  input: MediaIngestionInput
+): Promise<MediaIngestionPlan> {
   const mimeType = validateMediaMime(input.mimeType);
   const checksum = createHash('sha256').update(input.buffer).digest('hex');
   const mediaType = classifyMediaType(mimeType);

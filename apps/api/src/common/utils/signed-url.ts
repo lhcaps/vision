@@ -17,29 +17,31 @@ export class SignedUrlService {
     try {
       return await this.client.presignedGetObject(this.bucket, storageKey, expiresInSeconds);
     } catch (error) {
-      throw new Error(`Failed to generate signed URL: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to generate signed URL: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
-  async streamFile(
-    storageKey: string
-  ): Promise<{ buffer: Buffer; meta: Record<string, string> }> {
+  async streamFile(storageKey: string): Promise<{ buffer: Buffer; meta: Record<string, string> }> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
       const meta: Record<string, string> = {};
 
-      const stream = this.client.getObject(this.bucket, storageKey) as unknown as NodeJS.ReadableStream;
+      const stream = this.client.getObject(
+        this.bucket,
+        storageKey
+      ) as unknown as NodeJS.ReadableStream;
 
       stream.on('data', (chunk: Buffer) => chunks.push(chunk));
-      stream.on('end', () =>
-        resolve({ buffer: Buffer.concat(chunks), meta })
-      );
+      stream.on('end', () => resolve({ buffer: Buffer.concat(chunks), meta }));
       stream.on('error', (err: Error) =>
         reject(new Error(`Failed to stream file: ${err.message}`))
       );
 
       // Get metadata from stat
-      this.client.statObject(this.bucket, storageKey)
+      this.client
+        .statObject(this.bucket, storageKey)
         .then((stat) => {
           if (stat.metaData) {
             Object.assign(meta, stat.metaData);

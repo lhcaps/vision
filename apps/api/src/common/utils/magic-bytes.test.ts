@@ -45,7 +45,7 @@ describe('validateMagicBytes', () => {
       const movBuffer = Buffer.concat([
         Buffer.from([0x00, 0x00, 0x00, 0x14]), // size
         VALID_MP4_FTYP,
-        Buffer.from([0x69, 0x73, 0x6F, 0x6D]), // isom brand
+        Buffer.from([0x69, 0x73, 0x6f, 0x6d]), // isom brand
       ]);
       expect(validateMagicBytes(movBuffer, 'video/quicktime')).toBe(true);
     });
@@ -53,23 +53,17 @@ describe('validateMagicBytes', () => {
 
   describe('signature mismatch', () => {
     it('rejects JPEG signature when declared as image/png', () => {
-      const mismatch = Buffer.concat([
-        VALID_JPEG_BYTES,
-        Buffer.alloc(100),
-      ]);
+      const mismatch = Buffer.concat([VALID_JPEG_BYTES, Buffer.alloc(100)]);
       expect(validateMagicBytes(mismatch, 'image/png')).toBe(false);
     });
 
     it('rejects PNG signature when declared as image/jpeg', () => {
-      const mismatch = Buffer.concat([
-        VALID_PNG_BYTES,
-        Buffer.alloc(100),
-      ]);
+      const mismatch = Buffer.concat([VALID_PNG_BYTES, Buffer.alloc(100)]);
       expect(validateMagicBytes(mismatch, 'image/jpeg')).toBe(false);
     });
 
     it('rejects unknown MIME type', () => {
-      const buffer = Buffer.from([0xFF, 0xD8, 0xFF]);
+      const buffer = Buffer.from([0xff, 0xd8, 0xff]);
       expect(validateMagicBytes(buffer, 'application/pdf')).toBe(false);
     });
 
@@ -119,7 +113,7 @@ describe('validateMagicBytes', () => {
     });
 
     it('returns false for single byte buffer', () => {
-      expect(validateMagicBytes(Buffer.from([0xFF]), 'image/jpeg')).toBe(false);
+      expect(validateMagicBytes(Buffer.from([0xff]), 'image/jpeg')).toBe(false);
     });
 
     it('returns false for buffer with only RIFF (WebP needs WEBP marker)', () => {

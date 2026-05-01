@@ -13,7 +13,6 @@ interface ErrorResponse {
   message: string;
   error?: string;
   timestamp: string;
-  requestId: string;
 }
 
 @Catch()
@@ -23,7 +22,6 @@ export class GlobalErrorFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest();
 
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'An unexpected error occurred.';
@@ -35,7 +33,7 @@ export class GlobalErrorFilter implements ExceptionFilter {
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
       } else if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
-        const resp = exceptionResponse as Record<string, unknown>;
+        const resp = exceptionResponse as { message?: unknown; error?: string };
         message = typeof resp.message === 'string' ? resp.message : String(resp.message ?? message);
         error = typeof resp.error === 'string' ? resp.error : undefined;
       }
@@ -49,7 +47,6 @@ export class GlobalErrorFilter implements ExceptionFilter {
       message,
       ...(error ? { error } : {}),
       timestamp: new Date().toISOString(),
-      requestId: (request as Record<string, unknown>).requestId as string ?? 'unknown',
     };
 
     response.status(statusCode).json(errorResponse);
