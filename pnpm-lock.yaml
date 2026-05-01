@@ -118,6 +118,12 @@ importers:
         specifier: ^3.24.3
         version: 3.25.76
     devDependencies:
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      '@types/node':
+        specifier: ^22.19.17
+        version: 22.19.17
       '@types/sharp':
         specifier: ^0.32.0
         version: 0.32.0

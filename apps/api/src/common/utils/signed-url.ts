@@ -28,17 +28,26 @@ export class SignedUrlService {
       const chunks: Buffer[] = [];
       const meta: Record<string, string> = {};
 
-      const stream = this.client.getObject(this.bucket, storageKey);
-      stream.on('metadata', (objectMeta) => {
-        Object.assign(meta, objectMeta);
-      });
+      const stream = this.client.getObject(this.bucket, storageKey) as unknown as NodeJS.ReadableStream;
+
       stream.on('data', (chunk: Buffer) => chunks.push(chunk));
       stream.on('end', () =>
         resolve({ buffer: Buffer.concat(chunks), meta })
       );
-      stream.on('error', (err) =>
+      stream.on('error', (err: Error) =>
         reject(new Error(`Failed to stream file: ${err.message}`))
       );
+
+      // Get metadata from stat
+      this.client.statObject(this.bucket, storageKey)
+        .then((stat) => {
+          if (stat.metaData) {
+            Object.assign(meta, stat.metaData);
+          }
+        })
+        .catch(() => {
+          // Metadata fetch failed, continue without it
+        });
     });
   }
 }
