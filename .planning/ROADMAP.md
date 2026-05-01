@@ -206,7 +206,7 @@ v1.1 is complete only when the repository has:
 7. Assets are served through signed URLs or controlled API proxy.
 8. Security behavior is documented in README.
 
-## Phase 14A, Adapter Boundary Cleanup — Planned
+## Phase 14A, Adapter Boundary Cleanup — Completed 2026-05-01
 
 **Goal:** Remove environment branching from business services. Production and demo behavior must be selected at module bootstrap, not inside service logic.
 
@@ -227,7 +227,7 @@ v1.1 is complete only when the repository has:
 5. Tests can swap implementations without patching service internals.
 6. Production path can be tested without modifying app code.
 
-## Phase 14B, Domain Invariants & State Machines — Planned
+## Phase 14B, Domain Invariants & State Machines — Completed 2026-05-01
 
 **Goal:** Make invalid domain states impossible or explicitly rejected.
 

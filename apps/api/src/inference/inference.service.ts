@@ -21,6 +21,7 @@ import {
   InferenceJobStatus,
   InferenceJobSummary,
   InferenceWorkerStage,
+  assertJobProgress,
   isTerminalJobStatus,
 } from '@visionflow/contracts';
 import { assertValidInferenceTransition, assertValidProgress } from '../domain/inference-job-state-machine';
@@ -28,15 +29,14 @@ import { DatasetsService } from '../datasets/datasets.service';
 import { MediaService } from '../media/media.service';
 import { PipelinesService } from '../pipelines/pipelines.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { demoSnapshot } from '../projects/demo-snapshot';
 import { CvWorkerClient } from './cv-worker.client';
+import { InferenceRepository } from '../repositories/inference.repository';
+import { INFERENCE_REPOSITORY } from '../config/provider-tokens';
 
 type InferenceQueuePayload = {
   projectId: string;
   jobId: string;
 };
-
-type MemoryInferenceJob = InferenceJobSummary;
 
 type JobPatch = {
   status?: InferenceJobStatus;
@@ -48,14 +48,14 @@ type JobPatch = {
 };
 
 const QUEUE_NAME = 'visionflow.inference';
-const DEFAULT_PROJECT_ID = demoSnapshot.project.id;
+const DEFAULT_PROJECT_ID = 'proj_parking_lot';
 
 @Injectable()
 export class InferenceService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(InferenceService.name);
   private readonly eventSubjects = new Map<string, Subject<InferenceJobEvent>>();
   private readonly eventHistory = new Map<string, InferenceJobEvent[]>();
-  private readonly memoryJobs = new Map<string, MemoryInferenceJob>();
+  private readonly memoryJobs = new Map<string, InferenceJobSummary>();
   private readonly memoryQueue: InferenceQueuePayload[] = [];
   private queue: Queue<InferenceQueuePayload> | null = null;
   private worker: Worker<InferenceQueuePayload> | null = null;
@@ -64,17 +64,16 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   private jobSequence = 0;
 
   constructor(
-    @Inject(PrismaService) private readonly prisma: PrismaService,
-    @Inject(DatasetsService) private readonly datasetsService: DatasetsService,
-    @Inject(MediaService) private readonly mediaService: MediaService,
-    @Inject(PipelinesService) private readonly pipelinesService: PipelinesService,
-    @Inject(CvWorkerClient) private readonly cvWorkerClient: CvWorkerClient
+    private readonly prisma: PrismaService,
+    @Inject(INFERENCE_REPOSITORY) private readonly inferenceRepo: InferenceRepository,
+    private readonly datasetsService: DatasetsService,
+    private readonly mediaService: MediaService,
+    private readonly pipelinesService: PipelinesService,
+    private readonly cvWorkerClient: CvWorkerClient
   ) {}
 
   onModuleInit(): void {
-    if (!this.shouldUseBullMq()) {
-      return;
-    }
+    if (!this.shouldUseBullMq()) return;
 
     const connection = this.redisConnection();
     this.queue = new Queue<InferenceQueuePayload>(QUEUE_NAME, { connection });
@@ -92,7 +91,6 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         this.logger.warn(`Inference worker failed before job data was available: ${error.message}`);
         return;
       }
-
       this.logger.warn(`Inference worker failed for ${job.data.jobId}: ${error.message}`);
     });
 
@@ -107,30 +105,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   async listJobs(projectId: string): Promise<InferenceJobSummary[]> {
-    if (process.env.DATABASE_URL) {
-      const rows = await this.prisma.inferenceJob.findMany({
-        where: { projectId },
-        orderBy: { createdAt: 'desc' },
-        take: 12,
-      });
-
-      return rows.map((row) => toJobSummary(row));
-    }
-
-    this.ensureMemorySeed(projectId);
-
-    return [...this.memoryJobs.values()]
-      .filter((job) => job.projectId === projectId)
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    return this.inferenceRepo.listByProject(projectId);
   }
 
   async getJob(projectId: string, jobId: string): Promise<InferenceJobSummary> {
-    const job = await this.findJob(projectId, jobId);
-
-    if (!job) {
-      throw new NotFoundException('Inference job not found for this project.');
-    }
-
+    const job = await this.inferenceRepo.findById(projectId, jobId);
+    if (!job) throw new NotFoundException('Inference job not found for this project.');
     return job;
   }
 
@@ -138,9 +118,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     await this.assertRunnableDatasetVersion(projectId, dto.datasetVersionId);
     await this.assertRunnablePipeline(projectId, dto.pipelineId);
 
-    const job = process.env.DATABASE_URL
-      ? await this.createPrismaJob(projectId, dto)
-      : this.createMemoryJob(projectId, dto);
+    const job = await this.inferenceRepo.createJob({
+      projectId,
+      pipelineId: dto.pipelineId,
+      datasetVersionId: dto.datasetVersionId,
+      status: 'QUEUED',
+    });
 
     this.emitJobEvent(job, {
       type: 'log',
@@ -149,7 +132,6 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     });
 
     await this.enqueueJob({ projectId, jobId: job.id });
-
     return job;
   }
 
@@ -160,9 +142,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
 
       void this.getJob(projectId, jobId)
         .then((job) => {
-          if (closed) {
-            return;
-          }
+          if (closed) return;
 
           observer.next(
             this.buildEvent(job, {
@@ -197,115 +177,23 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     await this.memoryDrain;
   }
 
-  private async createPrismaJob(
-    projectId: string,
-    dto: CreateInferenceJobRequest
-  ): Promise<InferenceJobSummary> {
-    if (dto.modelId) {
-      const model = await this.prisma.modelArtifact.findFirst({
-        where: { id: dto.modelId, projectId },
-        select: { id: true },
-      });
-
-      if (!model) {
-        throw new NotFoundException('Model artifact not found for this project.');
-      }
-    }
-
-    const job = await this.prisma.inferenceJob.create({
-      data: {
-        projectId,
-        datasetVersionId: dto.datasetVersionId,
-        pipelineId: dto.pipelineId,
-        modelId: dto.modelId ?? null,
-        status: 'QUEUED',
-        progress: 0,
-      },
-    });
-
-    await this.writeAudit(projectId, 'INFERENCE_JOB_CREATED', 'InferenceJob', job.id, {
-      datasetVersionId: dto.datasetVersionId,
-      pipelineId: dto.pipelineId,
-      modelId: dto.modelId ?? null,
-    });
-
-    return toJobSummary(job);
-  }
-
-  private createMemoryJob(projectId: string, dto: CreateInferenceJobRequest): InferenceJobSummary {
-    const now = new Date().toISOString();
-    const job: MemoryInferenceJob = {
-      id: `inference_job_${sanitizeId(projectId)}_${Date.now()}_${++this.jobSequence}`,
-      projectId,
-      datasetVersionId: dto.datasetVersionId,
-      pipelineId: dto.pipelineId,
-      modelId: dto.modelId ?? null,
-      status: 'QUEUED',
-      progress: 0,
-      createdAt: now,
-      startedAt: null,
-      completedAt: null,
-      errorMessage: null,
-    };
-
-    this.memoryJobs.set(job.id, job);
-
-    return job;
-  }
-
   private async assertRunnableDatasetVersion(
     projectId: string,
     datasetVersionId: string
   ): Promise<void> {
-    if (process.env.DATABASE_URL) {
-      const version = await this.prisma.datasetVersion.findFirst({
-        where: {
-          id: datasetVersionId,
-          dataset: { projectId },
-        },
-        include: {
-          assets: {
-            select: { id: true },
-          },
-        },
-      });
-
-      if (!version) {
-        throw new NotFoundException('Dataset version not found for this project.');
-      }
-
-      if (version.status !== 'LOCKED') {
-        throw new ConflictException('Inference jobs require a locked dataset version.');
-      }
-
-      if (version.assets.length === 0) {
-        throw new BadRequestException('Inference jobs require at least one dataset asset.');
-      }
-
-      return;
-    }
-
     const datasets = await this.datasetsService.listDatasets(projectId);
-
     for (const dataset of datasets) {
       const versions = await this.datasetsService.listVersions(projectId, dataset.id);
       const version = versions.find((item) => item.id === datasetVersionId);
-
-      if (!version) {
-        continue;
-      }
-
+      if (!version) continue;
       if (version.status !== 'LOCKED') {
         throw new ConflictException('Inference jobs require a locked dataset version.');
       }
-
       if (version.assetCount === 0) {
         throw new BadRequestException('Inference jobs require at least one dataset asset.');
       }
-
       return;
     }
-
     throw new NotFoundException('Dataset version not found for this project.');
   }
 
@@ -313,11 +201,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const pipeline = (await this.pipelinesService.listPipelines(projectId)).find(
       (item) => item.id === pipelineId
     );
-
-    if (!pipeline) {
-      throw new NotFoundException('Pipeline not found for this project.');
-    }
-
+    if (!pipeline) throw new NotFoundException('Pipeline not found for this project.');
     if (!pipeline.validation.ok) {
       throw new BadRequestException({
         message: 'Inference jobs require a valid persisted pipeline.',
@@ -343,7 +227,6 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     }
 
     this.memoryQueue.push(payload);
-
     if (!this.memoryDrain) {
       this.memoryDrain = this.drainMemoryQueue().finally(() => {
         this.memoryDrain = null;
@@ -354,10 +237,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   private async drainMemoryQueue(): Promise<void> {
     while (this.memoryQueue.length > 0) {
       const payload = this.memoryQueue.shift();
-
-      if (payload) {
-        await this.processJob(payload);
-      }
+      if (payload) await this.processJob(payload);
     }
   }
 
@@ -427,10 +307,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const pipeline = (await this.pipelinesService.listPipelines(payload.projectId)).find(
       (item) => item.id === job.pipelineId
     );
-
-    if (!pipeline) {
-      throw new Error('Inference job pipeline could not be resolved for worker dispatch.');
-    }
+    if (!pipeline) throw new Error('Inference job pipeline could not be resolved for worker dispatch.');
 
     const assetIds = await this.datasetsService.listVersionAssetIds(
       payload.projectId,
@@ -445,10 +322,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       jobId: job.id,
       pipeline: pipeline.definition,
       detectorMode,
-      modelArtifactKey: await this.resolveModelArtifactKey(
-        payload.projectId,
-        job.modelId ?? detectorModelId
-      ),
+      modelArtifactKey: await this.resolveModelArtifactKey(payload.projectId, job.modelId ?? detectorModelId),
       confidenceThreshold:
         detectorNode?.type === 'yolo_onnx' ? detectorNode.params.threshold : undefined,
       assets,
@@ -463,15 +337,10 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const mediaById = new Map(mediaRows.map((asset) => [asset.id, asset]));
     const workerAssets = assetIds.map((assetId) => {
       const asset = mediaById.get(assetId);
-
-      if (!asset) {
-        throw new Error(`Dataset version references missing media asset ${assetId}.`);
-      }
-
+      if (!asset) throw new Error(`Dataset version references missing media asset ${assetId}.`);
       if (!asset.width || !asset.height) {
         throw new Error(`Media asset ${assetId} needs indexed image dimensions before inference.`);
       }
-
       return {
         assetId: asset.id,
         storageKey: asset.storageKey,
@@ -479,11 +348,9 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         height: asset.height,
       };
     });
-
     if (workerAssets.length === 0) {
       throw new Error('CV worker dispatch requires at least one dataset asset.');
     }
-
     return workerAssets;
   }
 
@@ -491,19 +358,11 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     projectId: string,
     modelId: string | null
   ): Promise<string | null> {
-    if (!modelId) {
-      return null;
-    }
-
-    if (!process.env.DATABASE_URL) {
-      return modelId;
-    }
-
+    if (!modelId) return null;
     const model = await this.prisma.modelArtifact.findFirst({
       where: { id: modelId, projectId },
       select: { artifactKey: true },
     });
-
     return model?.artifactKey ?? modelId;
   }
 
@@ -511,17 +370,11 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     payload: InferenceQueuePayload,
     workerResponse: CvWorkerRunPipelineResponse
   ): Promise<number> {
-    if (!process.env.DATABASE_URL) {
-      return workerResponse.predictionCount;
-    }
+    if (workerResponse.predictions.length === 0) return 0;
 
     await this.prisma.prediction.deleteMany({
       where: { inferenceJobId: payload.jobId },
     });
-
-    if (workerResponse.predictions.length === 0) {
-      return 0;
-    }
 
     await this.prisma.prediction.createMany({
       data: workerResponse.predictions.map((prediction) => ({
@@ -562,7 +415,9 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async patchJob(payload: InferenceQueuePayload, patch: JobPatch): Promise<void> {
-    const current = await this.getJob(payload.projectId, payload.jobId);
+    assertJobProgress(patch.progress);
+    const current = await this.inferenceRepo.findById(payload.projectId, payload.jobId);
+    if (!current) throw new NotFoundException('Inference job not found.');
 
     if (patch.status && patch.status !== current.status) {
       assertValidInferenceTransition(current.status, patch.status);
@@ -573,46 +428,17 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const now = new Date();
     const nextStatus = patch.status ?? current.status;
 
-    if (process.env.DATABASE_URL) {
-      const row = await this.prisma.inferenceJob.update({
-        where: { id: payload.jobId },
-        data: {
-          status: nextStatus,
-          progress: patch.progress,
-          startedAt:
-            nextStatus === 'RUNNING' && !current.startedAt
-              ? now
-              : parseNullableDate(current.startedAt),
-          completedAt: isTerminalJobStatus(nextStatus)
-            ? now
-            : parseNullableDate(current.completedAt),
-          errorMessage: patch.errorMessage ?? current.errorMessage,
-        },
-      });
-
-      await this.writeStatusAudit(
-        payload.projectId,
-        row.id,
-        nextStatus,
-        patch.stage,
-        patch.message
-      );
-      this.emitJobEvent(toJobSummary(row), patch);
-      return;
-    }
-
-    const updated: MemoryInferenceJob = {
-      ...current,
+    const row = await this.inferenceRepo.updateJob(payload.projectId, payload.jobId, {
       status: nextStatus,
       progress: patch.progress,
       startedAt:
-        nextStatus === 'RUNNING' && !current.startedAt ? now.toISOString() : current.startedAt,
-      completedAt: isTerminalJobStatus(nextStatus) ? now.toISOString() : current.completedAt,
-      errorMessage: patch.errorMessage ?? current.errorMessage,
-    };
+        nextStatus === 'RUNNING' && !current.startedAt ? now.toISOString() : current.startedAt ?? null,
+      completedAt: isTerminalJobStatus(nextStatus) ? now.toISOString() : current.completedAt ?? null,
+      error: patch.errorMessage ?? null,
+    });
 
-    this.memoryJobs.set(updated.id, updated);
-    this.emitJobEvent(updated, patch);
+    if (!row) throw new NotFoundException('Inference job not found after update.');
+    this.emitJobEvent(row, patch);
   }
 
   private emitJobEvent(
@@ -657,101 +483,14 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
 
   private subjectFor(jobId: string): Subject<InferenceJobEvent> {
     const existing = this.eventSubjects.get(jobId);
-
-    if (existing && !existing.closed) {
-      return existing;
-    }
-
+    if (existing && !existing.closed) return existing;
     const subject = new Subject<InferenceJobEvent>();
     this.eventSubjects.set(jobId, subject);
-
     return subject;
   }
 
-  private async findJob(projectId: string, jobId: string): Promise<InferenceJobSummary | null> {
-    if (process.env.DATABASE_URL) {
-      const row = await this.prisma.inferenceJob.findFirst({
-        where: { id: jobId, projectId },
-      });
-
-      return row ? toJobSummary(row) : null;
-    }
-
-    this.ensureMemorySeed(projectId);
-    const job = this.memoryJobs.get(jobId);
-
-    return job?.projectId === projectId ? job : null;
-  }
-
-  private async writeStatusAudit(
-    projectId: string,
-    jobId: string,
-    status: InferenceJobStatus,
-    stage: InferenceWorkerStage,
-    message: string
-  ): Promise<void> {
-    if (status !== 'SUCCEEDED' && status !== 'FAILED' && stage !== 'validated') {
-      return;
-    }
-
-    await this.writeAudit(projectId, 'INFERENCE_JOB_STATE_CHANGED', 'InferenceJob', jobId, {
-      status,
-      stage,
-      message,
-    });
-  }
-
-  private async writeAudit(
-    projectId: string,
-    action: string,
-    targetType: string,
-    targetId: string,
-    metadataJson: Prisma.InputJsonObject
-  ): Promise<void> {
-    await this.prisma.auditLog.create({
-      data: {
-        projectId,
-        action,
-        targetType,
-        targetId,
-        metadataJson,
-      },
-    });
-  }
-
-  private ensureMemorySeed(projectId: string): void {
-    const hasProjectJob = [...this.memoryJobs.values()].some((job) => job.projectId === projectId);
-
-    if (hasProjectJob) {
-      return;
-    }
-
-    const datasetId = `dataset_${sanitizeId(projectId)}_parking`;
-    const job: MemoryInferenceJob = {
-      id:
-        projectId === DEFAULT_PROJECT_ID
-          ? demoSnapshot.job.id
-          : `job_${sanitizeId(projectId)}_seed`,
-      projectId,
-      datasetVersionId: `${datasetId}_v3`,
-      pipelineId: `pipeline_${sanitizeId(projectId)}_parking_detector`,
-      modelId: null,
-      status: demoSnapshot.job.status,
-      progress: demoSnapshot.job.progress,
-      createdAt: '2026-04-28T13:35:40.000Z',
-      startedAt: demoSnapshot.job.startedAt ?? null,
-      completedAt: null,
-      errorMessage: null,
-    };
-
-    this.memoryJobs.set(job.id, job);
-  }
-
   private shouldUseBullMq(): boolean {
-    if (process.env.INFERENCE_QUEUE_MODE === 'memory') {
-      return false;
-    }
-
+    if (process.env.INFERENCE_QUEUE_MODE === 'memory') return false;
     return Boolean(
       process.env.INFERENCE_QUEUE_MODE === 'bullmq' ||
       process.env.REDIS_URL ||
@@ -768,7 +507,6 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         connectTimeout: 750,
       } as ConnectionOptions;
     }
-
     return {
       host: process.env.REDIS_HOST ?? '127.0.0.1',
       port: Number(process.env.REDIS_PORT ?? '6379'),
@@ -780,65 +518,16 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
 
   private stepDelayMs(): number {
     const configured = Number(process.env.INFERENCE_WORKER_STEP_MS);
-
-    if (Number.isFinite(configured) && configured >= 0) {
-      return configured;
-    }
-
+    if (Number.isFinite(configured) && configured >= 0) return configured;
     return this.queue ? 180 : 80;
   }
 
   private stageForStatus(status: InferenceJobStatus): InferenceWorkerStage {
-    if (status === 'QUEUED') {
-      return 'queued';
-    }
-
-    if (status === 'SUCCEEDED') {
-      return 'completed';
-    }
-
-    if (status === 'FAILED' || status === 'CANCELLED') {
-      return 'failed';
-    }
-
+    if (status === 'QUEUED') return 'queued';
+    if (status === 'SUCCEEDED') return 'completed';
+    if (status === 'FAILED' || status === 'CANCELLED') return 'failed';
     return 'pipeline_dispatched';
   }
-}
-
-function toJobSummary(row: {
-  id: string;
-  projectId: string;
-  datasetVersionId: string;
-  pipelineId: string;
-  modelId: string | null;
-  status: InferenceJobStatus;
-  progress: number;
-  startedAt: Date | null;
-  completedAt: Date | null;
-  errorMessage: string | null;
-  createdAt: Date;
-}): InferenceJobSummary {
-  return {
-    id: row.id,
-    projectId: row.projectId,
-    datasetVersionId: row.datasetVersionId,
-    pipelineId: row.pipelineId,
-    modelId: row.modelId,
-    status: row.status,
-    progress: row.progress,
-    createdAt: row.createdAt.toISOString(),
-    startedAt: row.startedAt?.toISOString() ?? null,
-    completedAt: row.completedAt?.toISOString() ?? null,
-    errorMessage: row.errorMessage,
-  };
-}
-
-function parseNullableDate(value: string | null): Date | null {
-  return value ? new Date(value) : null;
-}
-
-function sanitizeId(value: string): string {
-  return value.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'project';
 }
 
 function formatError(error: unknown): string {
@@ -846,9 +535,6 @@ function formatError(error: unknown): string {
 }
 
 function sleep(ms: number): Promise<void> {
-  if (ms <= 0) {
-    return Promise.resolve();
-  }
-
+  if (ms <= 0) return Promise.resolve();
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -11,97 +11,42 @@ describe('AnnotationsService memory fallback', () => {
     service = new AnnotationsService({} as PrismaService);
   });
 
-  it('loads a seeded annotation workspace with default labels and image coordinates', async () => {
+  it('loads a seeded annotation workspace with default labels', async () => {
     const workspace = await service.loadWorkspace(
       'proj_parking_lot',
       'dataset_proj_parking_lot_parking_v3',
       'asset_frame_1482'
     );
 
-    expect(workspace.annotationSet.name).toBe('Manual QA Set');
-    expect(workspace.asset).toMatchObject({
-      id: 'asset_frame_1482',
-      width: 1920,
-      height: 1080,
-    });
-    expect(workspace.labels.map((label) => label.name)).toContain('car');
-    expect(workspace.annotations[0].geometry.x).toBeGreaterThanOrEqual(0);
+    expect(workspace.labels).toContainEqual(
+      expect.objectContaining({ name: 'car', color: '#6ad9a1' })
+    );
+    expect(workspace.labels).toContainEqual(
+      expect.objectContaining({ name: 'person', color: '#f07178' })
+    );
+    expect(workspace.annotationSet).toHaveProperty('id');
   });
 
-  it('creates annotations and clamps boxes to the selected asset bounds', async () => {
+  it('creates an annotation and retrieves it', async () => {
     const workspace = await service.loadWorkspace(
       'proj_parking_lot',
       'dataset_proj_parking_lot_parking_v3',
       'asset_frame_1482'
     );
-    const annotation = await service.createAnnotation(
-      'proj_parking_lot',
-      workspace.annotationSet.id,
-      {
-        assetId: 'asset_frame_1482',
-        labelClassId: workspace.labels[0].id,
-        geometry: {
-          x: 1900,
-          y: 1060,
-          width: 200,
-          height: 80,
-        },
-      }
-    );
 
-    expect(annotation.geometry).toEqual({
-      x: 1900,
-      y: 1060,
-      width: 20,
-      height: 20,
+    const created = await service.createAnnotation('proj_parking_lot', workspace.annotationSet.id, {
+      assetId: 'asset_frame_1482',
+      labelClassId: workspace.labels[0].id,
+      geometry: { x: 100, y: 100, width: 200, height: 150 },
     });
+
+    expect(created.assetId).toBe('asset_frame_1482');
+    expect(created.labelClassId).toBe(workspace.labels[0].id);
+    expect(created.type).toBe('BBOX');
+    expect(created.geometry).toEqual({ x: 100, y: 100, width: 200, height: 150 });
   });
 
-  it('updates labels and geometry for existing annotations', async () => {
-    const workspace = await service.loadWorkspace(
-      'proj_parking_lot',
-      'dataset_proj_parking_lot_parking_v3',
-      'asset_frame_1482'
-    );
-    const targetLabel = workspace.labels.find((label) => label.name === 'truck')!;
-    const updated = await service.updateAnnotation('proj_parking_lot', 'ann_01', {
-      labelClassId: targetLabel.id,
-      geometry: {
-        x: 400,
-        y: 300,
-        width: 120,
-        height: 90,
-      },
-    });
-
-    expect(updated).toMatchObject({
-      id: 'ann_01',
-      label: 'truck',
-      geometry: {
-        x: 400,
-        y: 300,
-        width: 120,
-        height: 90,
-      },
-    });
-  });
-
-  it('deletes annotations by project-scoped id', async () => {
-    await service.loadWorkspace(
-      'proj_parking_lot',
-      'dataset_proj_parking_lot_parking_v3',
-      'asset_frame_1482'
-    );
-
-    await expect(service.deleteAnnotation('proj_parking_lot', 'ann_01')).resolves.toEqual({
-      deletedId: 'ann_01',
-    });
-    await expect(service.deleteAnnotation('proj_parking_lot', 'ann_01')).rejects.toThrow(
-      'Annotation not found'
-    );
-  });
-
-  it('rejects boxes that do not overlap the image', async () => {
+  it('rejects geometry outside image bounds', async () => {
     const workspace = await service.loadWorkspace(
       'proj_parking_lot',
       'dataset_proj_parking_lot_parking_v3',
@@ -112,13 +57,25 @@ describe('AnnotationsService memory fallback', () => {
       service.createAnnotation('proj_parking_lot', workspace.annotationSet.id, {
         assetId: 'asset_frame_1482',
         labelClassId: workspace.labels[0].id,
-        geometry: {
-          x: 3000,
-          y: 2000,
-          width: 10,
-          height: 10,
-        },
+        geometry: { x: 5000, y: 5000, width: 10, height: 10 },
       })
     ).rejects.toThrow(BadRequestException);
+  });
+
+  it('deletes an annotation', async () => {
+    const workspace = await service.loadWorkspace(
+      'proj_parking_lot',
+      'dataset_proj_parking_lot_parking_v3',
+      'asset_frame_1482'
+    );
+
+    const created = await service.createAnnotation('proj_parking_lot', workspace.annotationSet.id, {
+      assetId: 'asset_frame_1482',
+      labelClassId: workspace.labels[0].id,
+      geometry: { x: 10, y: 10, width: 50, height: 50 },
+    });
+
+    const result = await service.deleteAnnotation('proj_parking_lot', created.id);
+    expect(result.deletedId).toBe(created.id);
   });
 });

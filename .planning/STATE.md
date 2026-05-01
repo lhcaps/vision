@@ -73,8 +73,8 @@ Status: Ready to execute
 - README needs upgrade: demo GIF, architecture diagram, implementation status table, known limitations (Phase 11).
 - CI needs completion: db:generate, format check, python pytest (Phase 12).
 - Security hardening needed: ValidationPipe, CORS, upload hardening, signed URLs (Phase 13).
-- Business services have environment branching inside logic (Phase 14A).
-- No job state machine enforcement, no Zod validation at API boundary (Phase 14B).
+- Business services environment branching removed — adapter pattern implemented (Phase 14A).
+- Job state machine, Zod validation at API boundary implemented (Phase 14B).
 - No observability: no request IDs, no structured logs, no deep health checks (Phase 15).
 - App.tsx is a monolithic file needing feature split (Phase 16A, 21).
 - CV worker produces mock artifacts, not real thumbnail/frame extraction (Phase 17).

@@ -1,107 +1,60 @@
-/**
- * Domain layer error classes for VisionFlow Studio.
- * All domain errors extend the base DomainError class for easy instanceof checking.
- */
-
-export interface DomainErrorContext {
-  readonly [key: string]: unknown;
-}
-
-/**
- * Base class for all domain errors.
- * Provides structured context for debugging and error handling.
- */
-export abstract class DomainError extends Error {
+export class DomainError extends Error {
   public readonly code: string;
-  public readonly context: DomainErrorContext;
+  public readonly context: Record<string, unknown>;
 
-  constructor(message: string, code: string, context: DomainErrorContext = {}) {
+  constructor(
+    message: string,
+    code: string,
+    context: Record<string, unknown> = {}
+  ) {
     super(message);
-    this.name = this.constructor.name;
+    this.name = 'DomainError';
     this.code = code;
     this.context = context;
-    Error.captureStackTrace(this, this.constructor);
-  }
-
-  toJSON(): object {
-    return {
-      name: this.name,
-      code: this.code,
-      message: this.message,
-      context: this.context,
-    };
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-/**
- * Thrown when an inference job state transition is invalid.
- * Job lifecycle: QUEUED → RUNNING → SUCCEEDED/FAILED/CANCELLED
- */
 export class InferenceJobTransitionError extends DomainError {
-  constructor(
-    message: string,
-    context: {
-      from?: string;
-      to?: string;
-      validTransitions?: readonly string[];
-      current?: number;
-      next?: number;
-    } = {}
-  ) {
+  constructor(message: string, context: Record<string, unknown> = {}) {
     super(message, 'INFERENCE_JOB_TRANSITION_ERROR', context);
+    this.name = 'InferenceJobTransitionError';
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-/**
- * Thrown when annotation geometry is invalid.
- * This includes invalid bounding boxes, masks, or keypoints.
- */
 export class AnnotationGeometryError extends DomainError {
-  constructor(
-    message: string,
-    context: {
-      annotationId?: string;
-      assetId?: string;
-      geometryType?: string;
-      validationError?: string;
-    } = {}
-  ) {
+  constructor(message: string, context: Record<string, unknown> = {}) {
     super(message, 'ANNOTATION_GEOMETRY_ERROR', context);
+    this.name = 'AnnotationGeometryError';
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-/**
- * Thrown when a pipeline graph fails validation.
- * Pipeline graphs must be acyclic, have valid node/edge references, etc.
- */
 export class PipelineValidationError extends DomainError {
-  constructor(
-    message: string,
-    context: {
-      pipelineId?: string;
-      validationErrors?: readonly string[];
-      nodeId?: string;
-      edgeId?: string;
-    } = {}
-  ) {
+  constructor(message: string, context: Record<string, unknown> = {}) {
     super(message, 'PIPELINE_VALIDATION_ERROR', context);
+    this.name = 'PipelineValidationError';
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-/**
- * Thrown when attempting to mutate a locked dataset version.
- * Dataset versions become immutable once locked.
- */
 export class DatasetVersionLockedError extends DomainError {
-  constructor(
-    message: string,
-    context: {
-      versionId?: string;
-      datasetId?: string;
-      projectId?: string;
-      currentStatus?: string;
-    } = {}
-  ) {
+  constructor(message: string, context: Record<string, unknown> = {}) {
     super(message, 'DATASET_VERSION_LOCKED_ERROR', context);
+    this.name = 'DatasetVersionLockedError';
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
+export class ProgressRewindError extends DomainError {
+  constructor(current: number, next: number, context: Record<string, unknown> = {}) {
+    super(
+      `Invalid progress rewind: ${current} -> ${next}`,
+      'PROGRESS_REWIND_ERROR',
+      { current, next, ...context }
+    );
+    this.name = 'ProgressRewindError';
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
