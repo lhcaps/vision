@@ -44,12 +44,12 @@ import type {
   PipelineValidationIssue,
   PipelineValidationResult,
   PredictionSummary,
-  SplitSummary,
 } from '@visionflow/contracts';
 import {
   createEmptySplitSummary,
   InferenceJobEventSchema,
   isTerminalJobStatus,
+  SplitSummary,
   summarizeDatasetSplits,
   validatePipelineDefinition,
   validateMediaMime,
@@ -66,6 +66,13 @@ import {
   DatasetVersionDiff,
   PipelineExecutionFlow,
 } from './features/timeline';
+import {
+  AnnotationInspector,
+  DatasetInspector,
+  JobInspector,
+  MediaInspector,
+  PipelineInspector,
+} from './features/inspector';
 import {
   assignDatasetVersionAssets,
   createDataset,
@@ -90,6 +97,21 @@ import {
   openInferenceJobEvents,
   runEvaluation,
 } from './lib/inference';
+import {
+  EmptyState,
+  EvaluationEmptyState,
+  MediaEmptyState,
+  DatasetEmptyState,
+  PredictionsEmptyState,
+} from './shared/ui/EmptyState';
+import { ErrorState, FailedJobErrorState } from './shared/ui/ErrorState';
+import { ActionHint } from './shared/ui/ActionHint';
+import { createInitialRuntimeState } from './shared/state/workbench-runtime';
+import {
+  canRunInference,
+  canRunEvaluation,
+  shouldShowPipelineExecution,
+} from './shared/state/runtime-selectors';
 
 type SectionId =
   | 'overview'
@@ -166,6 +188,12 @@ export function App() {
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
   const [predictions, setPredictions] = useState<PredictionSummary[]>([]);
   const visibleMediaRows = useMemo(() => [...mediaUploads, ...seededMediaRows()], [mediaUploads]);
+
+  // Pipeline selected node — lifted from PipelinePanel so InspectorRouter can access it
+  const [pipelineSelectedNodeId, setPipelineSelectedNodeId] = useState<string>('detector');
+  const [pipelineDefinition, setPipelineDefinition] = useState<PipelineDefinition>(
+    demoSnapshot.pipeline
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -306,6 +334,11 @@ export function App() {
     }
   };
 
+  // Build workbench runtime state from resolved API data
+  const workbenchRuntime = useMemo(() => {
+    return createInitialRuntimeState(demoSnapshot.project.id);
+  }, []);
+
   const startJob = async () => {
     setSection('jobs');
     setJob((current) => ({
@@ -332,23 +365,44 @@ export function App() {
         ])
       );
     } catch (error) {
+      const message = formatUiError(error);
+
       setJob((current) => ({
         ...current,
         status: 'FAILED',
         progress: 100,
         source: 'fallback',
-        error: formatUiError(error),
-        logs: [...current.logs, `Run failed: ${formatUiError(error)}`].slice(-8),
+        error: message,
+        logs: [`Run failed: ${message}`].slice(-8),
       }));
     }
   };
+
+  // Derive runtime state for consistent behavior across panels
+  const runtimeState = useMemo(() => {
+    return createInitialRuntimeState(demoSnapshot.project.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [job.status, job.source]);
+
+  // Resolve eligibility from runtime state
+  const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
+  const evaluationEligibility = useMemo(() => canRunEvaluation(runtimeState), [runtimeState]);
+  const showPipelineExecution = useMemo(
+    () => shouldShowPipelineExecution(runtimeState),
+    [runtimeState]
+  );
 
   return (
     <div className="min-h-[100dvh] bg-graphite-950 text-neutral-100">
       <div className="app-grid min-h-[100dvh]">
         <NavRail active={section} onSelect={setSection} />
         <main className="min-w-0">
-          <ShellHeader job={job} threshold={threshold} onRun={startJob} />
+          <ShellHeader
+            job={job}
+            threshold={threshold}
+            onRun={startJob}
+            inferenceEligibility={inferenceEligibility}
+          />
           <div className="mx-auto grid max-w-[1500px] gap-4 px-4 pb-5 pt-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <section className="min-w-0">
               <ReadinessStrip job={job} />
@@ -360,7 +414,9 @@ export function App() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: motionTokens.durationBase, ease: motionTokens.easeScan }}
                 >
-                  {section === 'overview' && <OverviewPanel onRun={startJob} />}
+                  {section === 'overview' && (
+                    <OverviewPanel onRun={startJob} inferenceEligibility={inferenceEligibility} />
+                  )}
                   {section === 'media' && (
                     <MediaPanel uploads={mediaUploads} setUploads={setMediaUploads} />
                   )}
@@ -388,6 +444,8 @@ export function App() {
                       predictions={predictions}
                       groundTruth={annotationRows}
                       onRunEvaluation={handleRunEvaluation}
+                      evaluationEligibility={evaluationEligibility}
+                      onOpenVersions={() => setSection('datasets')}
                     />
                   )}
                   {section === 'timeline' && (
@@ -401,13 +459,18 @@ export function App() {
                 </motion.div>
               </AnimatePresence>
             </section>
-            <InspectorPanel
+            <InspectorRouter
               active={section}
               annotations={annotationRows}
               selectedAnnotation={selectedAnnotation}
+              setSelectedAnnotation={setSelectedAnnotation}
               threshold={threshold}
               setThreshold={setThreshold}
               job={job}
+              predictions={predictions}
+              pipelineSelectedNodeId={pipelineSelectedNodeId}
+              pipelineDefinition={pipelineDefinition}
+              pipelineValidation={pipelineValidation}
             />
           </div>
         </main>
@@ -495,6 +558,162 @@ function formatUiError(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
+// ─── InspectorRouter ────────────────────────────────────────────────────────
+
+type InspectorRouterProps = {
+  active: SectionId;
+  annotations: AnnotationSummary[];
+  selectedAnnotation: string;
+  setSelectedAnnotation: (id: string) => void;
+  threshold: number;
+  setThreshold: (v: number) => void;
+  job: JobUiState;
+  predictions: PredictionSummary[];
+  pipelineSelectedNodeId: string;
+  pipelineDefinition: PipelineDefinition;
+  pipelineValidation: PipelineValidationResult;
+};
+
+function InspectorRouter({
+  active,
+  annotations,
+  selectedAnnotation,
+  threshold,
+  setThreshold,
+  job,
+  predictions,
+  pipelineSelectedNodeId,
+  pipelineDefinition,
+  pipelineValidation,
+}: InspectorRouterProps) {
+  const selectedAnn = annotations.find((a) => a.id === selectedAnnotation) ?? null;
+
+  if (active === 'media') {
+    return (
+      <MediaInspector
+        data={{
+          selectedAssetId: null,
+          selectedAssetName: null,
+          selectedAssetMime: null,
+          selectedAssetWidth: null,
+          selectedAssetHeight: null,
+          selectedAssetChecksum: null,
+          selectedAssetStorageKey: null,
+          selectedAssetProcessingState: null,
+        }}
+      />
+    );
+  }
+
+  if (active === 'datasets') {
+    return (
+      <DatasetInspector
+        data={{
+          selectedVersionId: null,
+          selectedVersionLabel: null,
+          selectedVersionStatus: null,
+          selectedVersionAssetCount: 0,
+          splitSummary: { train: 0, valid: 0, test: 0, unassigned: 0 },
+          canMutate: true,
+        }}
+      />
+    );
+  }
+
+  if (active === 'annotate') {
+    return (
+      <AnnotationInspector
+        selectedAnnotation={selectedAnn}
+        threshold={threshold}
+        onThresholdChange={setThreshold}
+      />
+    );
+  }
+
+  if (active === 'pipeline') {
+    const selectedNode =
+      pipelineDefinition.nodes.find((n) => n.id === pipelineSelectedNodeId) ??
+      pipelineDefinition.nodes[0] ??
+      null;
+
+    return <PipelineInspector selectedNode={selectedNode} validation={pipelineValidation} />;
+  }
+
+  if (active === 'jobs') {
+    return (
+      <JobInspector
+        job={job}
+        jobError={job.error}
+        jobLogs={job.logs}
+        hasPredictions={predictions.length > 0}
+        hasEvaluationReport={false}
+        canRunInference={job.status !== 'RUNNING' && job.status !== 'QUEUED'}
+        canRunInferenceReason={
+          job.status === 'RUNNING'
+            ? 'Inference already running.'
+            : job.status === 'QUEUED'
+              ? 'Inference already queued.'
+              : null
+        }
+      />
+    );
+  }
+
+  return (
+    <InspectorShell title="Inspector" section={active}>
+      <div className="divide-y divide-graphite-200">
+        <InspectorRow label="Project" value={demoSnapshot.project.name} />
+        <InspectorRow label="Dataset" value={demoSnapshot.project.datasetVersion} />
+        <InspectorRow label="Assets" value={String(demoSnapshot.project.assetCount)} />
+        <InspectorRow label="Boxes" value={String(annotations.length)} />
+        <InspectorRow label="Job" value={`${job.status} ${job.progress}%`} />
+        {job.error ? (
+          <div className="px-4 py-3">
+            <p className="text-xs font-semibold text-red-300">Error</p>
+            <p className="mt-1 text-xs text-red-200/80">{job.error}</p>
+          </div>
+        ) : null}
+      </div>
+    </InspectorShell>
+  );
+}
+
+function InspectorRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-4 py-3 text-sm">
+      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-neutral-500">
+        {label}
+      </span>
+      <span className="truncate text-neutral-200">{value}</span>
+    </div>
+  );
+}
+
+function InspectorShell({
+  title,
+  section,
+  children,
+}: {
+  title: string;
+  section: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className="bg-graphite-900/75 inner-border-subtle min-w-0 rounded-md shadow-panel"
+      style={{ width: 320 }}
+    >
+      <div className="divider px-4 py-3">
+        <h2 className="text-sm font-semibold text-neutral-100">{title}</h2>
+        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
+          {section}
+        </p>
+      </div>
+      {children}
+    </div>
+  );
+}
+
 function NavRail({
   active,
   onSelect,
@@ -559,11 +778,15 @@ function ShellHeader({
   job,
   threshold,
   onRun,
+  inferenceEligibility,
 }: {
   job: JobUiState;
   threshold: number;
   onRun: () => void;
+  inferenceEligibility: { ok: boolean; reason: string | null };
 }) {
+  const isRunDisabled = !inferenceEligibility.ok;
+
   return (
     <header className="divider bg-graphite-950/85 backdrop-blur">
       <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between">
@@ -582,10 +805,16 @@ function ShellHeader({
           </span>
           <button
             type="button"
-            title="Run inference"
+            title={
+              isRunDisabled && inferenceEligibility.reason
+                ? inferenceEligibility.reason
+                : 'Run inference'
+            }
             aria-label="Run inference"
             onClick={onRun}
-            disabled={job.source === 'loading' || job.status === 'RUNNING'}
+            disabled={
+              job.source === 'loading' || job.status === 'RUNNING' || job.status === 'QUEUED'
+            }
             className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Play size={16} weight="fill" />
@@ -593,6 +822,11 @@ function ShellHeader({
           </button>
         </div>
       </div>
+      {isRunDisabled && inferenceEligibility.reason && (
+        <div className="mx-auto max-w-[1500px] px-4 pb-2">
+          <ActionHint label="Run disabled" description={inferenceEligibility.reason} tone="amber" />
+        </div>
+      )}
     </header>
   );
 }
@@ -641,7 +875,15 @@ function ReadinessStrip({ job }: { job: JobUiState }) {
   );
 }
 
-function OverviewPanel({ onRun }: { onRun: () => void }) {
+function OverviewPanel({
+  onRun,
+  inferenceEligibility,
+}: {
+  onRun: () => void;
+  inferenceEligibility: { ok: boolean; reason: string | null };
+}) {
+  const canRun = inferenceEligibility.ok;
+
   return (
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
       <Panel className="overflow-hidden">
@@ -655,16 +897,28 @@ function OverviewPanel({ onRun }: { onRun: () => void }) {
                 {demoSnapshot.project.name}
               </h2>
             </div>
-            <button
-              type="button"
-              title="Run inference"
-              aria-label="Run inference"
-              onClick={onRun}
-              className="btn-signal-outline inline-flex items-center gap-2 px-3 py-2 text-sm font-medium active:translate-y-px"
-            >
-              <Play size={16} weight="fill" />
-              Queue job
-            </button>
+            <div className="flex flex-col items-end gap-1">
+              <button
+                type="button"
+                title={
+                  !canRun && inferenceEligibility.reason
+                    ? inferenceEligibility.reason
+                    : 'Queue inference job'
+                }
+                aria-label="Queue inference job"
+                onClick={onRun}
+                disabled={!canRun}
+                className="btn-signal-outline inline-flex items-center gap-2 px-3 py-2 text-sm font-medium active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Play size={16} weight="fill" />
+                Queue job
+              </button>
+              {!canRun && inferenceEligibility.reason && (
+                <p className="max-w-[28ch] text-right font-mono text-[10px] text-amber-300">
+                  {inferenceEligibility.reason}
+                </p>
+              )}
+            </div>
           </div>
         </div>
         <div className="grid min-h-[480px] gap-0 lg:grid-cols-[0.95fr_1.05fr]">
@@ -2146,87 +2400,23 @@ function PipelinePanel() {
         </div>
       </Panel>
 
-      <Panel className="pipeline-inspector overflow-hidden">
-        <div className="divider px-4 py-3">
-          <h2 className="text-sm font-semibold text-neutral-100">Graph checks</h2>
-          <p className="mt-1 font-mono text-xs text-neutral-500">
-            {validation.ok ? 'valid' : 'blocked'} / {validation.summary.edgeCount} edges
-          </p>
-        </div>
-        <div className="divider grid grid-cols-3 gap-2 p-4">
-          <PipelineMetric label="nodes" value={validation.summary.nodeCount} tone="signal" />
-          <PipelineMetric label="edges" value={validation.summary.edgeCount} tone="scan" />
-          <PipelineMetric
-            label="detectors"
-            value={validation.summary.detectorNodeCount}
-            tone="amber"
-          />
-        </div>
-        <div className="divide-y divide-graphite-200">
-          {validation.issues.length === 0
-            ? [
-                'Exactly one input',
-                'Exactly one output',
-                'No cycles',
-                'Detector model bound',
-                'All nodes connected',
-              ].map((label) => (
-                <StateRow key={label} label={label} value="pass" tone="signal" icon={CheckCircle} />
-              ))
-            : validation.issues.map((issue) => (
-                <PipelineIssueRow key={issue.message} issue={issue} />
-              ))}
-        </div>
-        <div className="divider-top">
-          <PipelineNodeInspector
-            node={selectedNode}
-            shouldReduceMotion={Boolean(shouldReduceMotion)}
-            onResizeWidthChange={(width) =>
-              selectedNode &&
-              updateNode(selectedNode.id, (node) =>
-                node.type === 'resize' ? { ...node, params: { ...node.params, width } } : node
-              )
-            }
-            onDetectorThresholdChange={(threshold) =>
-              selectedNode &&
-              updateNode(selectedNode.id, (node) =>
-                node.type === 'yolo_onnx'
-                  ? { ...node, params: { ...node.params, threshold } }
-                  : node
-              )
-            }
-            onDetectorModelChange={(modelId) =>
-              selectedNode &&
-              updateNode(selectedNode.id, (node) =>
-                node.type === 'yolo_onnx' ? { ...node, params: { ...node.params, modelId } } : node
-              )
-            }
-            onNmsThresholdChange={(iouThreshold) =>
-              selectedNode &&
-              updateNode(selectedNode.id, (node) =>
-                node.type === 'nms' ? { ...node, params: { ...node.params, iouThreshold } } : node
-              )
-            }
-          />
-        </div>
-        <AnimatePresence mode="wait">
-          {actionState.message || actionState.error ? (
-            <motion.p
-              key={actionState.message ?? actionState.error}
-              className={[
-                'version-action-message mx-4 mb-4',
-                actionState.error ? 'version-action-message-error' : 'version-action-message-ok',
-              ].join(' ')}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: motionTokens.durationFast }}
-            >
-              {actionState.error ?? actionState.message}
-            </motion.p>
-          ) : null}
-        </AnimatePresence>
-      </Panel>
+      {/* Contextual PipelineInspector — shows selected node params and graph checks */}
+      <PipelineInspector
+        selectedNode={selectedNode}
+        validation={validation}
+        onValidate={handleValidateGraph}
+        onSave={canSave ? handleSaveGraph : undefined}
+        onClearModel={
+          selectedNode?.type === 'yolo_onnx'
+            ? () =>
+                updateNode(selectedNode.id, (node) =>
+                  node.type === 'yolo_onnx'
+                    ? { ...node, params: { ...node.params, modelId: null } }
+                    : node
+                )
+            : undefined
+        }
+      />
     </div>
   );
 }
@@ -2436,6 +2626,8 @@ function JobsPanel({
   predictions,
   groundTruth,
   onRunEvaluation,
+  evaluationEligibility,
+  onOpenVersions,
 }: {
   job: JobUiState;
   threshold: number;
@@ -2446,7 +2638,13 @@ function JobsPanel({
   predictions: PredictionSummary[];
   groundTruth: AnnotationSummary[];
   onRunEvaluation: () => void;
+  evaluationEligibility: { ok: boolean; reason: string | null };
+  onOpenVersions: () => void;
 }) {
+  const jobFailed = job.status === 'FAILED';
+  const jobRunning = job.status === 'RUNNING';
+  const showPipelineExecution = job.status === 'RUNNING' || job.status === 'SUCCEEDED';
+
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <Panel>
@@ -2459,10 +2657,10 @@ function JobsPanel({
             <JobSourcePill source={job.source} />
             <button
               type="button"
-              title="Run inference"
-              aria-label="Run inference"
+              title={jobFailed && job.error ? job.error : 'Queue inference job'}
+              aria-label="Queue inference job"
               onClick={onRun}
-              disabled={job.source === 'loading' || job.status === 'RUNNING'}
+              disabled={jobRunning || job.status === 'QUEUED'}
               className="version-header-action version-header-action-lock"
             >
               <Play size={16} weight="fill" />
@@ -2483,9 +2681,15 @@ function JobsPanel({
               transition={motionTokens.springSoft}
             />
           </div>
-          {job.error && (
+          {jobFailed && job.error ? (
+            <FailedJobErrorState
+              reason={job.error}
+              onRetry={onRun}
+              onOpenVersions={onOpenVersions}
+            />
+          ) : job.error ? (
             <p className="version-action-message version-action-message-error mt-4">{job.error}</p>
-          )}
+          ) : null}
           <div className="inner-border-subtle mt-5 rounded-md bg-graphite-950 p-3 font-mono text-xs text-neutral-400">
             {job.logs.length > 0 ? (
               job.logs.map((line, index) => (
@@ -2514,20 +2718,26 @@ function JobsPanel({
           </div>
         </div>
       </Panel>
+
       <Panel className="overflow-hidden">
         <div className="divider px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Prediction overlay</h2>
           <p className="mt-1 text-sm text-neutral-500">
-            Ground truth and mock detector boxes at threshold {(threshold / 100).toFixed(2)}.
+            {jobFailed
+              ? 'Overlay hidden — inference failed.'
+              : jobRunning
+                ? 'Running inference...'
+                : `Ground truth and detector boxes at threshold ${(threshold / 100).toFixed(2)}.`}
           </p>
         </div>
         <PredictionOverlayCanvas
-          groundTruth={groundTruth}
-          predictions={predictions}
-          isLoading={job.status === 'RUNNING'}
-          error={null}
+          groundTruth={jobFailed || jobRunning ? [] : groundTruth}
+          predictions={jobFailed || jobRunning ? [] : predictions}
+          isLoading={jobRunning}
+          error={jobFailed ? (job.error ?? 'Inference failed.') : null}
         />
       </Panel>
+
       <Panel className="overflow-hidden">
         <div className="divider px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-100">Evaluation</h2>
@@ -2538,18 +2748,31 @@ function JobsPanel({
           </p>
         </div>
         <div className="p-4">
+          {!evaluationEligibility.ok && evaluationEligibility.reason && (
+            <div className="mb-3">
+              <ActionHint
+                label="Evaluation disabled"
+                description={evaluationEligibility.reason}
+                tone="amber"
+              />
+            </div>
+          )}
           <EvaluationMetricsPanel
             report={evaluationReport}
             isLoading={false}
             error={evaluationError}
-            onRunEvaluation={onRunEvaluation}
+            onRunEvaluation={evaluationEligibility.ok ? onRunEvaluation : () => {}}
             isEvaluating={isEvaluating}
           />
         </div>
       </Panel>
-      <Panel className="overflow-hidden">
-        <PipelineExecutionFlow />
-      </Panel>
+
+      {/* PipelineExecutionFlow: only shown when running or succeeded — NOT when failed */}
+      {showPipelineExecution && (
+        <Panel className="overflow-hidden">
+          <PipelineExecutionFlow />
+        </Panel>
+      )}
     </div>
   );
 }
@@ -2575,83 +2798,6 @@ function JobStageStep({
     >
       <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</p>
     </div>
-  );
-}
-
-function InspectorPanel({
-  active,
-  annotations,
-  selectedAnnotation,
-  threshold,
-  setThreshold,
-  job,
-}: {
-  active: SectionId;
-  annotations: AnnotationSummary[];
-  selectedAnnotation: string;
-  threshold: number;
-  setThreshold: (value: number) => void;
-  job: JobUiState;
-}) {
-  const annotation = annotations.find((item) => item.id === selectedAnnotation);
-
-  return (
-    <aside className="space-y-4">
-      <Panel>
-        <div className="divider px-4 py-3">
-          <h2 className="text-sm font-semibold text-neutral-100">Inspector</h2>
-          <p className="mt-1 font-mono text-xs uppercase tracking-[0.14em] text-neutral-500">
-            {active}
-          </p>
-        </div>
-        <div className="divide-y divide-graphite-200">
-          <InfoRow label="Project" value={demoSnapshot.project.name} />
-          <InfoRow label="Dataset" value={demoSnapshot.project.datasetVersion} />
-          <InfoRow label="Assets" value={String(demoSnapshot.project.assetCount)} />
-          <InfoRow label="Boxes" value={String(annotations.length)} />
-          <InfoRow label="Job" value={`${job.status} ${job.progress}%`} />
-        </div>
-      </Panel>
-      <Panel>
-        <div className="divider px-4 py-3">
-          <h2 className="text-sm font-semibold text-neutral-100">Coordinate contract</h2>
-        </div>
-        {annotation ? (
-          <div className="space-y-3 p-4">
-            <MetricLine label="x" value={annotation.geometry.x} />
-            <MetricLine label="y" value={annotation.geometry.y} />
-            <MetricLine label="width" value={annotation.geometry.width} />
-            <MetricLine label="height" value={annotation.geometry.height} />
-          </div>
-        ) : (
-          <p className="p-4 text-sm text-neutral-500">No annotation selected.</p>
-        )}
-      </Panel>
-      <Panel>
-        <div className="divider flex items-center justify-between gap-3 px-4 py-3">
-          <h2 className="text-sm font-semibold text-neutral-100">Threshold</h2>
-          <span className="btn-signal-outline px-2 py-1 font-mono text-xs">
-            {(threshold / 100).toFixed(2)}
-          </span>
-        </div>
-        <div className="p-4">
-          <input
-            aria-label="Confidence threshold"
-            type="range"
-            min="40"
-            max="95"
-            value={threshold}
-            onChange={(event) => setThreshold(Number(event.target.value))}
-            style={thresholdRangeStyle(threshold)}
-            className="threshold-range"
-          />
-          <div className="mt-2 flex items-center justify-between font-mono text-[11px] text-neutral-500">
-            <span>0.40</span>
-            <span>0.95</span>
-          </div>
-        </div>
-      </Panel>
-    </aside>
   );
 }
 

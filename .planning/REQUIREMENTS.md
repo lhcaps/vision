@@ -67,6 +67,26 @@ Status: v1.1 milestone active (phases 11-23)
 - [x] **OBS-06**: Deep health check fails when any dependency is unavailable — Phase 15
 - [x] **OBS-07**: README documents health endpoint URLs and behavior — Phase 15
 
+### Pre-16 Completion Track (P1)
+
+- [x] **PRE16-01**: Single `WorkbenchRuntimeState` model for frontend runtime truth — Phase 15.5
+- [x] **PRE16-02**: `canRunInference` and `canRunEvaluation` selectors with explicit reason fields — Phase 15.5
+- [x] **PRE16-03**: Job status drives pipeline execution, prediction overlay, evaluation UI — Phase 15.5
+- [x] **PRE16-04**: FAILED job does not show RUNNING pipeline simultaneously — Phase 15.5
+- [x] **PRE16-05**: `NextAction` model with label, description, severity, disabled, disabledReason — Phase 15.6
+- [x] **PRE16-06**: Every disabled primary CTA exposes a reason via ActionHint or DisabledReason — Phase 15.6
+- [x] **PRE16-07**: Failed job state includes recovery path via FailedJobErrorState — Phase 15.6
+- [x] **PRE16-08**: Section-aware inspector router (Overview, Media, Datasets, Annotation, Pipeline, Jobs) — Phase 15.7
+- [x] **PRE16-09**: Shared EmptyState component with evaluation/media/dataset/predictions variants — Phase 15.8
+- [x] **PRE16-10**: Shared ErrorState component with FailedJobErrorState recovery — Phase 15.8
+- [x] **PRE16-11**: Shared DisabledReason and ActionHint components — Phase 15.8
+- [x] **PRE16-12**: Shared RowActions component with row/bulk action support — Phase 15.8
+- [x] **PRE16-13**: Visual system hardening: focus-visible, semantic colors, consistent spacing — Phase 15.9
+- [x] **PRE16-14**: Motion rules: page 120-180ms, selection spring, save 140-180ms — Phase 15.10
+- [x] **PRE16-15**: `isPortfolioSafe` selector for portfolio/demo-safe state detection — Phase 15.10
+- [x] **PRE16-16**: Regression tests for state contradictions (FAILED+RUNNING, no dataset+Run enabled, etc.) — Phase 15.10
+- [x] **PRE16-17**: All gates pass: typecheck, test (63 tests), lint, format — Phase 15.10
+
 ### Frontend Split Minimum (P2)
 
 - [ ] **UI-01**: `src/app/` directory exists with App.tsx, AppShell.tsx, routes.tsx
@@ -189,6 +209,7 @@ The following are explicitly out of scope for v1.1:
 | ABS-01 through ABS-10   | 14A   | Pending |
 | DOM-01 through DOM-07   | 14B   | Pending |
 | OBS-01 through OBS-07   | 15    | Done    |
+| PRE16-01 through PRE16-17 | 15.5-15.10 | Done |
 | UI-01 through UI-09     | 16A   | Pending |
 | MED-01 through MED-09   | 17    | Pending |
 | LOCK-01 through LOCK-09 | 18    | Pending |
@@ -198,4 +219,4 @@ The following are explicitly out of scope for v1.1:
 | TEST-01 through TEST-13 | 22    | Pending |
 | E2E-01 through E2E-10   | 23    | Pending |
 
-**Total:** 97 requirements | **Covered:** 17 | **Remaining:** 80
+**Total:** 149 requirements | **Covered:** 55 | **Remaining:** 94

@@ -54,7 +54,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 15
+**Completed in v1.1:** 11, 12, 12C, 15, 15.5–15.10
 
 ### Goal
 
@@ -66,16 +66,23 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 
 ### Phase Progress
 
-| #   | Name                                        | Goal                                                    | Status  |
-| --- | ------------------------------------------- | ------------------------------------------------------- | ------- |
-| 11  | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs | ✅ Done |
-| 12A | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest     | ✅ Done |
-| 12B | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example        | ✅ Done |
-| 13  | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors     | 🔄 Next |
-| 14A | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations          | Planned |
-| 14B | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs           | Planned |
-| 15  | Observability & Health Checks               | Request IDs, structured logs, /health endpoints         | Planned |
-| 16A | Frontend Split Minimum                      | Feature module extraction (media, inference)            | Planned |
+| #    | Name                                         | Goal                                                    | Status  |
+| ---- | -------------------------------------------- | ------------------------------------------------------- | ------- |
+| 11   | Public README & Portfolio First Impression     | Root README, architecture diagram, demo GIF, setup docs | ✅ Done |
+| 12A  | CI/CD Completeness                             | Full CI pipeline, db:generate, format check, pytest     | ✅ Done |
+| 12B  | Local Stack & Seed Reliability               | Docker compose, boot scripts, seed, .env.example        | ✅ Done |
+| 12C  | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes              | ✅ Done |
+| 13   | Security & Input Validation Hardening          | ValidationPipe, CORS, upload hardening, safe errors     | 🔄 Next |
+| 14A  | Adapter Boundary Cleanup                       | Repository interfaces, adapter implementations          | Planned |
+| 14B  | Domain Invariants & State Machines           | Zod validation, job state machine, audit logs           | Planned |
+| 15   | Observability & Health Checks                 | Request IDs, structured logs, /health endpoints          | ✅ Done |
+| 15.5 | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors            | ✅ Done |
+| 15.6 | Workflow Guidance & Primary Next Action      | NextAction model, disabled reasons, recovery paths      | ✅ Done |
+| 15.7 | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs) | ✅ Done |
+| 15.8 | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions     | ✅ Done |
+| 15.9 | Visual System Hardening                    | Focus-visible, semantic colors, consistent spacing       | ✅ Done |
+| 15.10| Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests | ✅ Done |
+| 16A  | Frontend Split Minimum                       | Feature module extraction (media, inference)            | Planned |
 | 17  | Real Media Processing                       | Pillow thumbnails, ffmpeg frames, BullMQ consumer       | Planned |
 | 18  | Dataset Locking & COCO Export               | Lock enforcement, deterministic COCO export             | Planned |
 | 19  | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                   | Planned |

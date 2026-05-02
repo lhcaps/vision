@@ -1,8 +1,8 @@
 # Roadmap
 
-Status date: 2026-05-01
+Status date: 2026-05-02
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 12 complete — next: Phase 13 Security & Input Validation Hardening
+Phase 15.10 complete — Pre-16 Completion Track done — next: Phase 16A Frontend Split Minimum
 
 ## Legend
 
@@ -282,6 +282,213 @@ v1.1 is complete only when the repository has:
 - `15-04-PLAN.md` — Wave 4: README documentation
 - `15-REVIEW.md` — Code review findings (2 critical, 8 warnings, 8 info)
 - `15-EVAL-REVIEW.md` — Evaluation review (7/7 requirements covered)
+
+## Pre-16 Completion Track
+
+**Goal:** Finish all local reliability, product-truth, UX, visual-system, motion, and regression-test work before starting Phase 16 frontend extraction. Phase 16 is intentionally out of scope for this track.
+
+### Phase 12C, Dev Flow & Local Reliability Closeout — Done
+
+**Goal:** Make the local stack and documented commands reliable before UX polish.
+
+**Requirements:**
+
+- [x] Fix Unix and Windows full-stack boot scripts.
+- [x] Align Postgres container/user/database checks with Docker Compose.
+- [x] Align CV worker port to 8000 everywhere.
+- [x] Add `db:push`, `db:migrate`, and `db:studio` root scripts.
+- [x] Ensure README setup commands match `package.json`.
+- [x] Verify fresh-clone local boot.
+
+**Success criteria:**
+
+1. [x] `pnpm db:generate` passes.
+2. [x] `pnpm db:push` passes.
+3. [x] `pnpm dev:full` starts web, API, CV worker, and Docker infra.
+4. [x] `pnpm dev:full:win` uses the same service names and ports.
+5. [x] API health is reachable at `http://localhost:3000/api/health`.
+6. [x] CV worker health is reachable at `http://localhost:8000/health`.
+
+### Phase 15.5, Runtime Truth & State Consistency — Done
+
+**Goal:** Remove contradictory frontend runtime states.
+
+**Requirements:**
+
+- [x] Add a single workbench runtime state model (`WorkbenchRuntimeState`).
+- [x] Derive run and evaluation eligibility from the runtime state.
+- [x] Job state drives pipeline execution, prediction overlay, and evaluation UI.
+- [x] Failed jobs do not show running pipeline execution.
+- [x] Failed jobs do not show fresh predictions unless clearly marked as cached/demo.
+- [x] Inspector summary does not mix demo fallback state with API state.
+
+**Artifacts:**
+
+- `apps/web/src/shared/state/workbench-runtime.ts` — Single source of truth model
+- `apps/web/src/shared/state/runtime-selectors.ts` — Eligibility selectors
+- `apps/web/src/App.tsx` — Refactored to use runtime state and pass eligibility to panels
+
+**Success criteria:**
+
+1. [x] No screen shows `FAILED` job and `RUNNING` pipeline simultaneously.
+2. [x] No screen claims a locked dataset with assets from demo state while API state says none exists.
+3. [x] Run inference is disabled with a reason when no valid locked dataset exists.
+4. [x] Evaluation is disabled with a reason unless a successful job and predictions exist.
+5. [x] Fallback/mock/degraded state is explicitly labeled.
+
+### Phase 15.6, Workflow Guidance & Primary Next Action — Done
+
+**Goal:** Make every page explain the next correct user action.
+
+**Requirements:**
+
+- [x] Add a `NextAction` model.
+- [x] Each page exposes one primary action.
+- [x] Disabled primary actions explain why via `ActionHint` and `DisabledReason`.
+- [x] Failed job state includes a recovery path via `FailedJobErrorState`.
+
+**Artifacts:**
+
+- `apps/web/src/shared/workflow/next-action.ts` — NextAction type and ActionSectionId
+- `apps/web/src/shared/ui/DisabledReason.tsx` — DisabledReason and ActionDisabledNote
+- `apps/web/src/shared/ui/ActionHint.tsx` — Inline action hints
+- `apps/web/src/shared/ui/ErrorState.tsx` — FailedJobErrorState with recovery path
+
+**Success criteria:**
+
+1. [x] ShellHeader "Run" button is disabled with `ActionHint` explaining why.
+2. [x] Overview "Queue job" button is disabled with inline reason when eligibility fails.
+3. [x] Jobs page shows `FailedJobErrorState` with recovery path when job fails.
+4. [x] Evaluation button in Jobs panel is disabled with `ActionHint` explaining why.
+5. [x] All disabled primary CTAs expose a reason.
+
+### Phase 15.7, Contextual Inspector — Done
+
+**Goal:** Replace the global static inspector with section-aware and selection-aware inspectors.
+
+**Requirements:**
+
+- [x] Implement inspectors for Overview, Media, Datasets, Annotation, Pipeline, Jobs.
+- [x] Inspector content matches active section and selected entity.
+- [x] Remove the old global `InspectorPanel` from pages where it does not apply.
+
+**Artifacts:**
+
+- `apps/web/src/features/inspector/inspector.types.ts` — Inspector data types
+- `apps/web/src/features/inspector/MediaInspector.tsx` — Asset detail inspector
+- `apps/web/src/features/inspector/DatasetInspector.tsx` — Version/split inspector
+- `apps/web/src/features/inspector/AnnotationInspector.tsx` — Box geometry inspector
+- `apps/web/src/features/inspector/PipelineInspector.tsx` — Node params inspector
+- `apps/web/src/features/inspector/JobInspector.tsx` — Job status/log inspector
+- `apps/web/src/features/inspector/index.ts` — Barrel export
+
+**Success criteria:**
+
+1. [x] Media inspector shows selected asset/storage/processing data.
+2. [x] Dataset inspector shows selected version/split/lock/export data.
+3. [x] Annotation inspector shows selected box geometry/label/source/dirty state.
+4. [x] Pipeline inspector shows selected node config/validation/model binding.
+5. [x] Jobs inspector shows job status/log/prediction/evaluation data.
+
+### Phase 15.8, UX States & Table Actions — Done
+
+**Goal:** Make every empty, loading, error, and disabled state actionable.
+
+**Requirements:**
+
+- [x] Add shared EmptyState, ErrorState, DisabledReason, ActionHint, and RowActions components.
+- [x] Every empty state explains what is missing and what to do next.
+- [x] Every recoverable error includes a recovery CTA.
+- [x] Media, dataset, and job surfaces include useful row/bulk actions.
+
+**Artifacts:**
+
+- `apps/web/src/shared/ui/EmptyState.tsx` — Generic and variant-specific empty states
+- `apps/web/src/shared/ui/ErrorState.tsx` — ErrorState and FailedJobErrorState
+- `apps/web/src/shared/ui/DisabledReason.tsx` — DisabledReason and ActionDisabledNote
+- `apps/web/src/shared/ui/ActionHint.tsx` — Inline action hints
+- `apps/web/src/shared/ui/RowActions.tsx` — RowActionDef and RowActions component
+
+**Success criteria:**
+
+1. [x] Evaluation empty state explains that a successful inference job is required.
+2. [x] Media empty state points to upload.
+3. [x] Dataset empty state points to draft/version creation.
+4. [x] Failed job state points to the exact fix path.
+5. [x] Media rows support view/copy/add/retry/delete actions as appropriate.
+6. [x] Dataset assets support bulk selection and split assignment.
+
+### Phase 15.9, Visual System Hardening — Done
+
+**Goal:** Preserve the dark technical identity while making color, spacing, focus states, and density production-grade.
+
+**Requirements:**
+
+- [x] CSS design tokens already established (OKLCH tokens, semantic colors).
+- [x] All interactive controls have focus-visible states.
+- [x] Status colors are semantic and consistent (signal=success, scan=active, amber=warning, red=failed).
+- [x] Table density is consistent across media, datasets, and jobs.
+- [x] Chips and status pills share one visual language.
+- [x] Reduced-motion behavior is handled via `@media (prefers-reduced-motion: reduce)`.
+
+**Artifacts:**
+
+- `apps/web/src/index.css` — Comprehensive design system with OKLCH tokens
+
+**Success criteria:**
+
+1. [x] All interactive controls have focus-visible states.
+2. [x] Status colors are semantic and consistent.
+3. [x] Table density is consistent across media, datasets, and jobs.
+4. [x] Chips and status pills share one visual language.
+5. [x] UI remains polished at mobile, tablet, and desktop widths.
+
+### Phase 15.10, Motion, Portfolio Mode & Regression Tests — Done
+
+**Goal:** Make motion purposeful and protect the polished UX from regression.
+
+**Requirements:**
+
+- [x] Remove unnecessary page/card load animations (kept only purposeful microinteractions).
+- [x] Motion only for meaningful state transitions (page: 120-180ms, selection: spring, save: 140-180ms, graph: 120-160ms).
+- [x] Add `isPortfolioSafe` selector for portfolio/demo-safe state detection.
+- [x] Add regression tests for major state contradiction cases.
+
+**Artifacts:**
+
+- `apps/web/src/shared/state/runtime-selectors.test.ts` — 32 regression tests covering 7 rules
+- `apps/web/src/shared/state/runtime-selectors.ts` — `isPortfolioSafe` selector
+
+**Success criteria:**
+
+1. [x] Failed job does not show running pipeline execution.
+2. [x] Failed job disables evaluation with a reason.
+3. [x] No locked dataset disables Run with a reason.
+4. [x] Media page inspector does not show annotation geometry unless relevant.
+5. [x] Pipeline page inspector shows selected node parameters.
+6. [x] Portfolio screenshot mode avoids contradictory fallback/demo states.
+7. [x] Typecheck, lint, and web tests pass.
+
+### Pre-16 Gate
+
+**Status:** PASSED
+
+All gates confirmed passing:
+
+- [x] `pnpm db:generate` passes.
+- [x] `pnpm db:push` passes.
+- [x] `pnpm --filter @visionflow/api typecheck` passes.
+- [x] `pnpm --filter @visionflow/web typecheck` passes.
+- [x] `pnpm --filter @visionflow/web test` passes (63 tests).
+- [x] `pnpm lint` passes.
+- [x] `pnpm format:check` passes.
+
+**Phase 16 may now begin.**
+
+**Out of scope for Pre-16 track:**
+- Do not split App.tsx into full app/routes/features architecture.
+- Do not perform Phase 16 frontend extraction.
+- Do not implement real media processing, real ONNX, or new ML features.
 
 ## Phase 16A, Frontend Split Minimum — Planned
 
@@ -605,12 +812,19 @@ v1.1 is complete only when all of the following are true:
 | 11  | Public README & Portfolio First Impression  | Phase 10                                          |
 | 12A | CI/CD Completeness                          | Phase 10                                          |
 | 12B | Local Stack & Seed Reliability              | Phase 12A                                         |
+| 12C | Dev Flow & Local Reliability Closeout          | Phase 12A                                         |
 | 13  | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
 | 14A | Adapter Boundary Cleanup                    | Phase 12A                                         |
 | 14B | Domain Invariants & State Machines          | Phase 14A                                         |
 | 15  | Observability & Health Checks               | Phase 14A                                         |
-| 16A | Frontend Split Minimum                      | Phase 11                                          |
-| 17  | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                    |
+| 15.5| Runtime Truth & State Consistency          | Phase 15                                           |
+| 15.6| Workflow Guidance & Primary Next Action   | Phase 15.5                                         |
+| 15.7| Contextual Inspector                      | Phase 15.5                                         |
+| 15.8| UX States & Table Actions                 | Phase 15.6, Phase 15.7                             |
+| 15.9| Visual System Hardening                  | Phase 15.8                                         |
+| 15.10| Motion, Portfolio Mode & Regression Tests | Phase 15.9                                         |
+| 16A | Frontend Split Minimum                    | Phase 15.10                                        |
+| 17  | Real Media Processing                     | Phase 14A, Phase 14B, Phase 15                    |
 | 18  | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
 | 19  | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
 | 20  | Evaluation Report End-to-End                | Phase 19                                          |
