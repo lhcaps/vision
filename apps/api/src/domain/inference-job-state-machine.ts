@@ -2,6 +2,7 @@ import { InferenceJobStatus } from '@visionflow/contracts';
 import { InferenceJobTransitionError, ProgressRewindError } from './errors';
 
 export const VALID_INFERENCE_TRANSITIONS: Record<InferenceJobStatus, InferenceJobStatus[]> = {
+  NONE: [],
   QUEUED: ['RUNNING', 'CANCELLED'],
   RUNNING: ['SUCCEEDED', 'FAILED', 'CANCELLED'],
   SUCCEEDED: [],
@@ -17,7 +18,7 @@ export function assertValidInferenceTransition(
   if (!valid.includes(to)) {
     throw new InferenceJobTransitionError(
       `Invalid inference job transition: ${from} → ${to}. ` +
-      `Valid transitions from ${from}: [${valid.join(', ') || 'none'}]`,
+        `Valid transitions from ${from}: [${valid.join(', ') || 'none'}]`,
       { from, to, validTransitions: valid }
     );
   }

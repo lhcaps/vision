@@ -75,7 +75,21 @@ try {
     Pop-Location
 }
 
-# Step 4: Validate demo data
+# Step 3b: Apply Prisma schema
+Write-Host ""
+Log-Info "Applying Prisma schema..."
+Push-Location $ROOT
+try {
+    pnpm db:push
+    if ($LASTEXITCODE -ne 0) {
+        Log-Error "Prisma db push failed"
+        exit 1
+    }
+} finally {
+    Pop-Location
+}
+
+# Step 5: Validate demo data
 Write-Host ""
 Log-Info "Validating demo data..."
 Push-Location $ROOT
@@ -90,7 +104,7 @@ try {
     Pop-Location
 }
 
-# Step 5: Start all apps
+# Step 6: Start all apps
 Write-Host ""
 Log-Info "Starting all apps..."
 Write-Host ""

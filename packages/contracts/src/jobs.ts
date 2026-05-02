@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const InferenceJobStatusSchema = z.enum([
+  'NONE',
   'QUEUED',
   'RUNNING',
   'SUCCEEDED',
@@ -24,6 +25,7 @@ export const InferenceWorkerStageSchema = z.enum([
 export type InferenceWorkerStage = z.infer<typeof InferenceWorkerStageSchema>;
 
 const validTransitions: Record<InferenceJobStatus, InferenceJobStatus[]> = {
+  NONE: [],
   QUEUED: ['RUNNING', 'CANCELLED', 'FAILED'],
   RUNNING: ['SUCCEEDED', 'FAILED', 'CANCELLED'],
   SUCCEEDED: [],

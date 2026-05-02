@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './config/load-env';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
@@ -17,7 +18,7 @@ async function bootstrap() {
       port: Number(process.env.API_PORT ?? 3000),
       logLevel: process.env.LOG_LEVEL ?? 'info',
     },
-    'Starting VisionFlow API',
+    'Starting VisionFlow API'
   );
 
   const app = await NestFactory.create(AppModule, {
@@ -27,7 +28,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true })
   );
   app.useGlobalFilters(new GlobalErrorFilter());
   app.useGlobalInterceptors(new RequestIdInterceptor());

@@ -81,14 +81,22 @@ if ! pnpm db:generate; then
     exit 1
 fi
 
-# Step 4: Validate demo data
+# Step 3b: Apply Prisma schema
+echo ""
+log_info "Applying Prisma schema..."
+if ! pnpm db:push; then
+    log_error "Prisma db push failed"
+    exit 1
+fi
+
+# Step 5: Validate demo data
 echo ""
 log_info "Validating demo data..."
 if ! pnpm seed 2>/dev/null; then
     log_warn "Demo data validation skipped (Docker required for full validation)"
 fi
 
-# Step 5: Start all apps
+# Step 6: Start all apps
 echo ""
 log_info "Starting all apps..."
 echo ""

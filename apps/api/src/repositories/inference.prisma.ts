@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { InferenceJobStatus } from '@visionflow/contracts';
-import { InferenceRepository, InferenceJobSummary, InferenceProgressUpdate } from './inference.repository';
+import {
+  InferenceRepository,
+  InferenceJobSummary,
+  InferenceProgressUpdate,
+} from './inference.repository';
 
 @Injectable()
 export class PrismaInferenceRepository implements InferenceRepository {
@@ -20,7 +24,7 @@ export class PrismaInferenceRepository implements InferenceRepository {
         pipelineId: data.pipelineId,
         datasetVersionId: data.datasetVersionId,
         modelId: data.modelId ?? null,
-        status: data.status,
+        status: data.status as 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED',
         progress: 0,
       },
     });
@@ -61,7 +65,7 @@ export class PrismaInferenceRepository implements InferenceRepository {
     const row = await this.prisma.inferenceJob.update({
       where: { id: jobId },
       data: {
-        status: data.status,
+        status: data.status as 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED',
         progress: data.progress,
         startedAt: data.startedAt ? new Date(data.startedAt) : existing.startedAt,
         completedAt: data.completedAt ? new Date(data.completedAt) : existing.completedAt,

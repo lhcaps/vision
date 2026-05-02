@@ -47,6 +47,11 @@ jobs:
         env:
           DATABASE_URL: postgresql://visionflow:visionflow@localhost:5432/visionflow?schema=public
 
+      - name: Apply Prisma schema
+        run: pnpm db:push
+        env:
+          DATABASE_URL: postgresql://visionflow:visionflow@localhost:5432/visionflow?schema=public
+
       - name: Build packages
         run: pnpm build
         env:

@@ -299,7 +299,23 @@ export function App() {
         setJob(
           latest
             ? toJobUiState(latest, 'api', ['API returned the latest inference job snapshot.'])
-            : toJobUiState(seededJobSummary(), 'api', ['No inference jobs queued yet.'])
+            : {
+                id: '',
+                projectId: demoSnapshot.project.id,
+                datasetVersionId: '',
+                pipelineId: '',
+                modelId: null,
+                status: 'NONE',
+                progress: 0,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                startedAt: null,
+                completedAt: null,
+                errorMessage: null,
+                source: 'api' as const,
+                logs: ['No inference jobs queued yet.'],
+                error: null,
+              }
         );
       })
       .catch((error: unknown) => {
@@ -321,7 +337,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (job.source !== 'api' || isTerminalJobStatus(job.status)) {
+    if (job.source !== 'api' || !job.id || isTerminalJobStatus(job.status)) {
       return;
     }
 
@@ -420,12 +436,8 @@ export function App() {
   // Derive runtime state from resolved API data — THIS is the single source of truth.
   // Every selector (canRunInference, canRunEvaluation, etc.) consumes this state.
   const runtimeState = useMemo((): WorkbenchRuntimeState => {
-    const hasLockedDataset =
-      job.source === 'api'
-        ? job.datasetVersionId !== undefined
-        : job.source === 'fallback'
-          ? true // fallback = demo mode, treat as having a locked dataset
-          : false;
+    const selectedVersion = datasetVersions.find((v) => v.id === selectedDatasetVersionId) ?? null;
+    const isLocked = selectedVersion?.status === 'LOCKED' && selectedVersion.assetCount > 0;
 
     const apiHealth =
       job.source === 'loading'
@@ -434,16 +446,16 @@ export function App() {
           ? ('connected' as const)
           : ('unavailable' as const);
 
-    const jobStatus = job.status as WorkbenchRuntimeState['latestJobStatus'];
+    const jobStatus = job.id ? (job.status as WorkbenchRuntimeState['latestJobStatus']) : 'NONE';
     const jobError = job.error;
 
     return {
-      mode: job.source === 'api' ? 'api' : job.source === 'fallback' ? 'fallback' : 'loading',
+      mode: job.source === 'loading' ? 'loading' : job.source === 'api' ? 'api' : 'fallback',
       projectId: demoSnapshot.project.id,
-      selectedDatasetVersionId: job.datasetVersionId ?? null,
-      selectedDatasetVersionLabel: null,
-      lockedDatasetWithAssets: hasLockedDataset,
-      latestJobId: job.id,
+      selectedDatasetVersionId: selectedDatasetVersionId,
+      selectedDatasetVersionLabel: selectedVersion?.label ?? null,
+      lockedDatasetWithAssets: isLocked,
+      latestJobId: job.id || null,
       latestJobStatus: jobStatus,
       latestJobError: jobError,
       hasPredictions: predictions.length > 0,
@@ -451,11 +463,11 @@ export function App() {
       health: {
         api: apiHealth,
         database: 'unknown',
-        queue: 'unknown',
+        queue: job.source === 'fallback' ? 'fallback' : 'unknown',
         worker: 'unknown',
       },
     };
-  }, [job, predictions, evaluationReport]);
+  }, [job, predictions, evaluationReport, datasetVersions, selectedDatasetVersionId]);
 
   // Resolve eligibility from runtime state
   const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
@@ -585,6 +597,7 @@ export function App() {
                       groundTruth={annotationRows}
                       onRunEvaluation={handleRunEvaluation}
                       evaluationEligibility={evaluationEligibility}
+                      inferenceEligibility={inferenceEligibility}
                       onOpenVersions={() => setSection('datasets')}
                     />
                   )}
@@ -2722,6 +2735,7 @@ function JobsPanel({
   groundTruth,
   onRunEvaluation,
   evaluationEligibility,
+  inferenceEligibility,
   onOpenVersions,
 }: {
   job: JobUiState;
@@ -2734,11 +2748,13 @@ function JobsPanel({
   groundTruth: AnnotationSummary[];
   onRunEvaluation: () => void;
   evaluationEligibility: { ok: boolean; reason: string | null };
+  inferenceEligibility: { ok: boolean; reason: string | null };
   onOpenVersions: () => void;
 }) {
   const jobFailed = job.status === 'FAILED';
   const jobRunning = job.status === 'RUNNING';
   const showPipelineExecution = job.status === 'RUNNING' || job.status === 'SUCCEEDED';
+  const isRunDisabled = !inferenceEligibility.ok || jobRunning || job.status === 'QUEUED';
 
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
@@ -2752,10 +2768,16 @@ function JobsPanel({
             <JobSourcePill source={job.source} />
             <button
               type="button"
-              title={jobFailed && job.error ? job.error : 'Queue inference job'}
+              title={
+                isRunDisabled && inferenceEligibility.reason
+                  ? inferenceEligibility.reason
+                  : jobFailed && job.error
+                    ? job.error
+                    : 'Queue inference job'
+              }
               aria-label="Queue inference job"
               onClick={onRun}
-              disabled={jobRunning || job.status === 'QUEUED'}
+              disabled={isRunDisabled}
               className="version-header-action version-header-action-lock"
             >
               <Play size={16} weight="fill" />
