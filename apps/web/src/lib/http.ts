@@ -5,8 +5,11 @@ export { API_BASE_URL };
 export async function apiJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
+    cache: 'no-store',
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
       ...init?.headers,
     },
   });

@@ -490,6 +490,36 @@ All gates confirmed passing:
 - Do not perform Phase 16 frontend extraction.
 - Do not implement real media processing, real ONNX, or new ML features.
 
+## Patch 15.10.1, Pre-merge App Wiring Fix — Done
+
+**Goal:** Wire runtime state and contextual inspectors to real App state before Phase 16.
+
+**Requirements:**
+
+- [x] Derive `runtimeState` from `job.status`, `job.source`, `predictions`, `evaluationReport` — not from `createInitialRuntimeState`.
+- [x] Header Run button `disabled` includes `!inferenceEligibility.ok`.
+- [x] `PipelinePanel` selected node synced to `InspectorRouter` via lifted state.
+- [x] `InspectorRouter` extracted to `features/inspector/InspectorRouter.tsx`.
+- [x] `selectedMediaAssetId` and `selectedDatasetVersionId` tracked at App level; real data passed to `MediaInspector` and `DatasetInspector`.
+- [x] Fallback inspector no longer references `demoSnapshot` for project/dataset/asset fields.
+
+**Artifacts:**
+
+- `apps/web/src/features/inspector/InspectorRouter.tsx` — extracted router component
+- `apps/web/src/features/inspector/index.ts` — barrel export updated
+- `apps/web/src/App.tsx` — runtimeState derive, lifted pipeline/dataset/media state, inspector data wiring
+
+**P0: API Cache Fix Patch — Done**
+
+**Goal:** Prevent 304 Not Modified responses from breaking the frontend `fetch` wrapper.
+
+**Requirements:**
+
+- [x] `apps/web/src/lib/http.ts`: `apiJson` now sends `cache: 'no-store'` and `Cache-Control: no-cache`.
+- [x] `apps/api/src/main.ts`: disabled ETag generation and added explicit no-cache middleware for all API responses.
+
+**Gates:** All 4 packages typecheck + lint pass. Web tests: 63/63 pass.
+
 ## Phase 16A, Frontend Split Minimum — Planned
 
 **Goal:** Reduce risk before real worker and detector work by extracting high-change areas from the monolithic frontend.

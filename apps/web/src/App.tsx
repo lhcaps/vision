@@ -55,7 +55,7 @@ import {
   validateMediaMime,
 } from '@visionflow/contracts';
 import { motionTokens } from '@visionflow/motion';
-import { demoSnapshot, logs, pipelineValidation } from './data/demo';
+import { demoSnapshot, logs } from './data/demo';
 import {
   AnnotationEnginePanel,
   createSeedAnnotationSummaries,
@@ -69,6 +69,7 @@ import {
 import {
   AnnotationInspector,
   DatasetInspector,
+  InspectorRouter,
   JobInspector,
   MediaInspector,
   PipelineInspector,
@@ -106,10 +107,11 @@ import {
 } from './shared/ui/EmptyState';
 import { ErrorState, FailedJobErrorState } from './shared/ui/ErrorState';
 import { ActionHint } from './shared/ui/ActionHint';
-import { createInitialRuntimeState } from './shared/state/workbench-runtime';
+import { type WorkbenchRuntimeState } from './shared/state/workbench-runtime';
 import {
   canRunInference,
   canRunEvaluation,
+  canShowPredictionOverlay,
   shouldShowPipelineExecution,
 } from './shared/state/runtime-selectors';
 
@@ -147,7 +149,7 @@ type MediaUploadRow = {
 };
 
 type DatasetSourceState = 'loading' | 'api' | 'fallback';
-type PipelineSourceState = DatasetSourceState;
+type PipelineSourceState = 'loading' | 'api' | 'fallback';
 
 type DatasetActionState = {
   busy: boolean;
@@ -156,6 +158,76 @@ type DatasetActionState = {
 };
 
 const datasetSplits: DatasetSplit[] = ['TRAIN', 'VALID', 'TEST', 'UNASSIGNED'];
+
+// Helpers to derive inspector data from App-level state
+function buildMediaInspectorData(
+  mediaRows: MediaUploadRow[],
+  selectedMediaAssetId: string | null
+): {
+  selectedAssetId: string | null;
+  selectedAssetName: string | null;
+  selectedAssetMime: string | null;
+  selectedAssetWidth: number | null;
+  selectedAssetHeight: number | null;
+  selectedAssetChecksum: string | null;
+  selectedAssetStorageKey: string | null;
+  selectedAssetProcessingState: string | null;
+} {
+  const selected = selectedMediaAssetId
+    ? (mediaRows.find((r) => r.id === selectedMediaAssetId) ?? null)
+    : null;
+
+  return {
+    selectedAssetId: selected?.id ?? null,
+    selectedAssetName: selected?.name ?? null,
+    selectedAssetMime: selected?.type ?? null,
+    selectedAssetWidth: selected?.width ?? null,
+    selectedAssetHeight: selected?.height ?? null,
+    selectedAssetChecksum: selected?.checksum ?? null,
+    selectedAssetStorageKey: null,
+    selectedAssetProcessingState:
+      selected?.status === 'indexed'
+        ? 'processed'
+        : selected?.status === 'failed'
+          ? 'failed'
+          : selected?.status === 'uploading' || selected?.status === 'hashing'
+            ? 'processing'
+            : (selected?.status ?? null),
+  };
+}
+
+function buildDatasetInspectorData(
+  selectedDatasetVersionId: string | null,
+  versions: DatasetVersionSummary[],
+  sourceState: 'loading' | 'api' | 'fallback'
+): {
+  selectedVersionId: string | null;
+  selectedVersionLabel: string | null;
+  selectedVersionStatus: 'DRAFT' | 'LOCKED' | null;
+  selectedVersionAssetCount: number;
+  splitSummary: { train: number; valid: number; test: number; unassigned: number };
+  canMutate: boolean;
+} {
+  const selected = selectedDatasetVersionId
+    ? (versions.find((v) => v.id === selectedDatasetVersionId) ?? null)
+    : null;
+
+  return {
+    selectedVersionId: selected?.id ?? null,
+    selectedVersionLabel: selected?.label ?? null,
+    selectedVersionStatus: selected?.status === 'ARCHIVED' ? null : (selected?.status ?? null),
+    selectedVersionAssetCount: selected?.assetCount ?? 0,
+    splitSummary: selected?.splitSummary
+      ? {
+          train: selected.splitSummary.TRAIN ?? 0,
+          valid: selected.splitSummary.VALID ?? 0,
+          test: selected.splitSummary.TEST ?? 0,
+          unassigned: selected.splitSummary.UNASSIGNED ?? 0,
+        }
+      : { train: 0, valid: 0, test: 0, unassigned: 0 },
+    canMutate: selected?.status === 'DRAFT',
+  };
+}
 
 const sections: Array<{
   id: SectionId;
@@ -189,10 +261,21 @@ export function App() {
   const [predictions, setPredictions] = useState<PredictionSummary[]>([]);
   const visibleMediaRows = useMemo(() => [...mediaUploads, ...seededMediaRows()], [mediaUploads]);
 
+  // Tracked selection state for contextual inspectors
+  const [selectedMediaAssetId, setSelectedMediaAssetId] = useState<string | null>(null);
+  const [selectedDatasetVersionId, setSelectedDatasetVersionId] = useState<string | null>(null);
+  const [datasetVersions, setDatasetVersions] = useState<DatasetVersionSummary[]>([]);
+  const [datasetSourceState, setDatasetSourceState] = useState<'loading' | 'api' | 'fallback'>(
+    'loading'
+  );
+
   // Pipeline selected node — lifted from PipelinePanel so InspectorRouter can access it
   const [pipelineSelectedNodeId, setPipelineSelectedNodeId] = useState<string>('detector');
   const [pipelineDefinition, setPipelineDefinition] = useState<PipelineDefinition>(
     demoSnapshot.pipeline
+  );
+  const [pipelineValidation, setPipelineValidation] = useState<PipelineValidationResult>(
+    validatePipelineDefinition(demoSnapshot.pipeline)
   );
 
   useEffect(() => {
@@ -334,10 +417,53 @@ export function App() {
     }
   };
 
-  // Build workbench runtime state from resolved API data
-  const workbenchRuntime = useMemo(() => {
-    return createInitialRuntimeState(demoSnapshot.project.id);
-  }, []);
+  // Derive runtime state from resolved API data — THIS is the single source of truth.
+  // Every selector (canRunInference, canRunEvaluation, etc.) consumes this state.
+  const runtimeState = useMemo((): WorkbenchRuntimeState => {
+    const hasLockedDataset =
+      job.source === 'api'
+        ? job.datasetVersionId !== undefined
+        : job.source === 'fallback'
+          ? true // fallback = demo mode, treat as having a locked dataset
+          : false;
+
+    const apiHealth =
+      job.source === 'loading'
+        ? ('loading' as const)
+        : job.source === 'api'
+          ? ('connected' as const)
+          : ('unavailable' as const);
+
+    const jobStatus = job.status as WorkbenchRuntimeState['latestJobStatus'];
+    const jobError = job.error;
+
+    return {
+      mode: job.source === 'api' ? 'api' : job.source === 'fallback' ? 'fallback' : 'loading',
+      projectId: demoSnapshot.project.id,
+      selectedDatasetVersionId: job.datasetVersionId ?? null,
+      selectedDatasetVersionLabel: null,
+      lockedDatasetWithAssets: hasLockedDataset,
+      latestJobId: job.id,
+      latestJobStatus: jobStatus,
+      latestJobError: jobError,
+      hasPredictions: predictions.length > 0,
+      hasEvaluationReport: evaluationReport !== null,
+      health: {
+        api: apiHealth,
+        database: 'unknown',
+        queue: 'unknown',
+        worker: 'unknown',
+      },
+    };
+  }, [job, predictions, evaluationReport]);
+
+  // Resolve eligibility from runtime state
+  const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
+  const evaluationEligibility = useMemo(() => canRunEvaluation(runtimeState), [runtimeState]);
+  const showPipelineExecution = useMemo(
+    () => shouldShowPipelineExecution(runtimeState),
+    [runtimeState]
+  );
 
   const startJob = async () => {
     setSection('jobs');
@@ -378,20 +504,6 @@ export function App() {
     }
   };
 
-  // Derive runtime state for consistent behavior across panels
-  const runtimeState = useMemo(() => {
-    return createInitialRuntimeState(demoSnapshot.project.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [job.status, job.source]);
-
-  // Resolve eligibility from runtime state
-  const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
-  const evaluationEligibility = useMemo(() => canRunEvaluation(runtimeState), [runtimeState]);
-  const showPipelineExecution = useMemo(
-    () => shouldShowPipelineExecution(runtimeState),
-    [runtimeState]
-  );
-
   return (
     <div className="min-h-[100dvh] bg-graphite-950 text-neutral-100">
       <div className="app-grid min-h-[100dvh]">
@@ -415,12 +527,31 @@ export function App() {
                   transition={{ duration: motionTokens.durationBase, ease: motionTokens.easeScan }}
                 >
                   {section === 'overview' && (
-                    <OverviewPanel onRun={startJob} inferenceEligibility={inferenceEligibility} />
+                    <OverviewPanel
+                      onRun={startJob}
+                      inferenceEligibility={inferenceEligibility}
+                      pipelineValidation={pipelineValidation}
+                    />
                   )}
                   {section === 'media' && (
-                    <MediaPanel uploads={mediaUploads} setUploads={setMediaUploads} />
+                    <MediaPanel
+                      uploads={mediaUploads}
+                      setUploads={setMediaUploads}
+                      selectedAssetId={selectedMediaAssetId}
+                      onSelectAsset={setSelectedMediaAssetId}
+                    />
                   )}
-                  {section === 'datasets' && <DatasetPanel mediaRows={visibleMediaRows} />}
+                  {section === 'datasets' && (
+                    <DatasetPanel
+                      mediaRows={visibleMediaRows}
+                      selectedVersionId={selectedDatasetVersionId}
+                      onSelectVersion={setSelectedDatasetVersionId}
+                      versions={datasetVersions}
+                      onVersionsChange={setDatasetVersions}
+                      sourceState={datasetSourceState}
+                      onSourceStateChange={setDatasetSourceState}
+                    />
+                  )}
                   {section === 'annotate' && (
                     <AnnotationEnginePanel
                       annotations={annotationRows}
@@ -432,7 +563,16 @@ export function App() {
                       mediaRows={visibleMediaRows}
                     />
                   )}
-                  {section === 'pipeline' && <PipelinePanel />}
+                  {section === 'pipeline' && (
+                    <PipelinePanel
+                      selectedNodeId={pipelineSelectedNodeId}
+                      onSelectNode={setPipelineSelectedNodeId}
+                      definition={pipelineDefinition}
+                      onDefinitionChange={setPipelineDefinition}
+                      validation={pipelineValidation}
+                      onValidationChange={setPipelineValidation}
+                    />
+                  )}
                   {section === 'jobs' && (
                     <JobsPanel
                       job={job}
@@ -471,6 +611,13 @@ export function App() {
               pipelineSelectedNodeId={pipelineSelectedNodeId}
               pipelineDefinition={pipelineDefinition}
               pipelineValidation={pipelineValidation}
+              mediaInspectorData={buildMediaInspectorData(visibleMediaRows, selectedMediaAssetId)}
+              datasetInspectorData={buildDatasetInspectorData(
+                selectedDatasetVersionId,
+                datasetVersions,
+                datasetSourceState
+              )}
+              projectName={demoSnapshot.project.name}
             />
           </div>
         </main>
@@ -556,162 +703,6 @@ function parseJobEvent(value: string): InferenceJobEvent | null {
 
 function formatUiError(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
-}
-
-// ─── InspectorRouter ────────────────────────────────────────────────────────
-
-type InspectorRouterProps = {
-  active: SectionId;
-  annotations: AnnotationSummary[];
-  selectedAnnotation: string;
-  setSelectedAnnotation: (id: string) => void;
-  threshold: number;
-  setThreshold: (v: number) => void;
-  job: JobUiState;
-  predictions: PredictionSummary[];
-  pipelineSelectedNodeId: string;
-  pipelineDefinition: PipelineDefinition;
-  pipelineValidation: PipelineValidationResult;
-};
-
-function InspectorRouter({
-  active,
-  annotations,
-  selectedAnnotation,
-  threshold,
-  setThreshold,
-  job,
-  predictions,
-  pipelineSelectedNodeId,
-  pipelineDefinition,
-  pipelineValidation,
-}: InspectorRouterProps) {
-  const selectedAnn = annotations.find((a) => a.id === selectedAnnotation) ?? null;
-
-  if (active === 'media') {
-    return (
-      <MediaInspector
-        data={{
-          selectedAssetId: null,
-          selectedAssetName: null,
-          selectedAssetMime: null,
-          selectedAssetWidth: null,
-          selectedAssetHeight: null,
-          selectedAssetChecksum: null,
-          selectedAssetStorageKey: null,
-          selectedAssetProcessingState: null,
-        }}
-      />
-    );
-  }
-
-  if (active === 'datasets') {
-    return (
-      <DatasetInspector
-        data={{
-          selectedVersionId: null,
-          selectedVersionLabel: null,
-          selectedVersionStatus: null,
-          selectedVersionAssetCount: 0,
-          splitSummary: { train: 0, valid: 0, test: 0, unassigned: 0 },
-          canMutate: true,
-        }}
-      />
-    );
-  }
-
-  if (active === 'annotate') {
-    return (
-      <AnnotationInspector
-        selectedAnnotation={selectedAnn}
-        threshold={threshold}
-        onThresholdChange={setThreshold}
-      />
-    );
-  }
-
-  if (active === 'pipeline') {
-    const selectedNode =
-      pipelineDefinition.nodes.find((n) => n.id === pipelineSelectedNodeId) ??
-      pipelineDefinition.nodes[0] ??
-      null;
-
-    return <PipelineInspector selectedNode={selectedNode} validation={pipelineValidation} />;
-  }
-
-  if (active === 'jobs') {
-    return (
-      <JobInspector
-        job={job}
-        jobError={job.error}
-        jobLogs={job.logs}
-        hasPredictions={predictions.length > 0}
-        hasEvaluationReport={false}
-        canRunInference={job.status !== 'RUNNING' && job.status !== 'QUEUED'}
-        canRunInferenceReason={
-          job.status === 'RUNNING'
-            ? 'Inference already running.'
-            : job.status === 'QUEUED'
-              ? 'Inference already queued.'
-              : null
-        }
-      />
-    );
-  }
-
-  return (
-    <InspectorShell title="Inspector" section={active}>
-      <div className="divide-y divide-graphite-200">
-        <InspectorRow label="Project" value={demoSnapshot.project.name} />
-        <InspectorRow label="Dataset" value={demoSnapshot.project.datasetVersion} />
-        <InspectorRow label="Assets" value={String(demoSnapshot.project.assetCount)} />
-        <InspectorRow label="Boxes" value={String(annotations.length)} />
-        <InspectorRow label="Job" value={`${job.status} ${job.progress}%`} />
-        {job.error ? (
-          <div className="px-4 py-3">
-            <p className="text-xs font-semibold text-red-300">Error</p>
-            <p className="mt-1 text-xs text-red-200/80">{job.error}</p>
-          </div>
-        ) : null}
-      </div>
-    </InspectorShell>
-  );
-}
-
-function InspectorRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-4 py-3 text-sm">
-      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-neutral-500">
-        {label}
-      </span>
-      <span className="truncate text-neutral-200">{value}</span>
-    </div>
-  );
-}
-
-function InspectorShell({
-  title,
-  section,
-  children,
-}: {
-  title: string;
-  section: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="bg-graphite-900/75 inner-border-subtle min-w-0 rounded-md shadow-panel"
-      style={{ width: 320 }}
-    >
-      <div className="divider px-4 py-3">
-        <h2 className="text-sm font-semibold text-neutral-100">{title}</h2>
-        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
-          {section}
-        </p>
-      </div>
-      {children}
-    </div>
-  );
 }
 
 function NavRail({
@@ -813,7 +804,10 @@ function ShellHeader({
             aria-label="Run inference"
             onClick={onRun}
             disabled={
-              job.source === 'loading' || job.status === 'RUNNING' || job.status === 'QUEUED'
+              !inferenceEligibility.ok ||
+              job.source === 'loading' ||
+              job.status === 'RUNNING' ||
+              job.status === 'QUEUED'
             }
             className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -878,9 +872,11 @@ function ReadinessStrip({ job }: { job: JobUiState }) {
 function OverviewPanel({
   onRun,
   inferenceEligibility,
+  pipelineValidation,
 }: {
   onRun: () => void;
   inferenceEligibility: { ok: boolean; reason: string | null };
+  pipelineValidation: PipelineValidationResult;
 }) {
   const canRun = inferenceEligibility.ok;
 
@@ -992,9 +988,13 @@ function OverviewPanel({
 function MediaPanel({
   uploads,
   setUploads,
+  selectedAssetId,
+  onSelectAsset,
 }: {
   uploads: MediaUploadRow[];
   setUploads: Dispatch<SetStateAction<MediaUploadRow[]>>;
+  selectedAssetId: string | null;
+  onSelectAsset: (id: string | null) => void;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -1120,7 +1120,16 @@ function MediaPanel({
           </thead>
           <tbody className="divide-y divide-graphite-200">
             {allRows.map((asset) => (
-              <tr key={asset.id} className="text-neutral-300">
+              <tr
+                key={asset.id}
+                className={[
+                  'cursor-pointer text-neutral-300 transition',
+                  selectedAssetId === asset.id
+                    ? 'bg-signal-400/10 inner-border-subtle'
+                    : 'hover:bg-white/[0.03]',
+                ].join(' ')}
+                onClick={() => onSelectAsset(selectedAssetId === asset.id ? null : asset.id)}
+              >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div className="media-asset-thumb" />
@@ -1359,7 +1368,23 @@ function formatMediaShape(asset: MediaUploadRow): string {
     : formatBytes(asset.sizeBytes);
 }
 
-function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
+function DatasetPanel({
+  mediaRows,
+  selectedVersionId: externalSelectedVersionId,
+  onSelectVersion,
+  versions: externalVersions,
+  onVersionsChange,
+  sourceState: externalSourceState,
+  onSourceStateChange,
+}: {
+  mediaRows: MediaUploadRow[];
+  selectedVersionId?: string | null;
+  onSelectVersion?: (id: string | null) => void;
+  versions?: DatasetVersionSummary[];
+  onVersionsChange?: (v: DatasetVersionSummary[]) => void;
+  sourceState?: 'loading' | 'api' | 'fallback';
+  onSourceStateChange?: (s: 'loading' | 'api' | 'fallback') => void;
+}) {
   const projectId = demoSnapshot.project.id;
   const shouldReduceMotion = useReducedMotion();
   const fallbackDatasetId = createFallbackDatasetId(projectId);
@@ -1371,11 +1396,40 @@ function DatasetPanel({ mediaRows }: { mediaRows: MediaUploadRow[] }) {
     () => createFallbackVersions(fallbackDatasetId, mediaRows),
     [fallbackDatasetId, mediaRows]
   );
-  const [sourceState, setSourceState] = useState<DatasetSourceState>('loading');
+  const [sourceState, _setSourceState] = useState<'loading' | 'api' | 'fallback'>(
+    externalSourceState ?? 'loading'
+  );
+  const setSourceState = (s: 'loading' | 'api' | 'fallback') => {
+    _setSourceState(s);
+    onSourceStateChange?.(s);
+  };
   const [datasets, setDatasets] = useState<DatasetSummary[]>(fallbackDatasets);
-  const [versions, setVersions] = useState<DatasetVersionSummary[]>(fallbackVersions);
+  const [versions, _setVersions] = useState<DatasetVersionSummary[]>(
+    externalVersions ?? fallbackVersions
+  );
+  const setVersions = (
+    v: DatasetVersionSummary[] | ((prev: DatasetVersionSummary[]) => DatasetVersionSummary[])
+  ) => {
+    if (typeof v === 'function') {
+      _setVersions((prev) => {
+        const next = v(prev);
+        onVersionsChange?.(next);
+        return next;
+      });
+    } else {
+      _setVersions(v);
+      onVersionsChange?.(v);
+    }
+  };
   const [selectedDatasetId, setSelectedDatasetId] = useState(fallbackDatasetId);
-  const [selectedVersionId, setSelectedVersionId] = useState(fallbackVersions[0]?.id ?? '');
+  const [selectedVersionId, _setSelectedVersionId] = useState(
+    externalSelectedVersionId ?? fallbackVersions[0]?.id ?? ''
+  );
+
+  const setSelectedVersionId = (id: string) => {
+    _setSelectedVersionId(id);
+    onSelectVersion?.(id);
+  };
   const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>(
     mediaRows.slice(0, 2).map((row) => row.id)
   );
@@ -2137,17 +2191,58 @@ function AnnotationPanel({
   );
 }
 
-function PipelinePanel() {
+function PipelinePanel({
+  selectedNodeId: externalSelectedNodeId,
+  onSelectNode,
+  definition: externalDefinition,
+  onDefinitionChange,
+  validation: externalValidation,
+  onValidationChange,
+}: {
+  selectedNodeId?: string;
+  onSelectNode?: (id: string) => void;
+  definition?: PipelineDefinition;
+  onDefinitionChange?: (d: PipelineDefinition) => void;
+  validation?: PipelineValidationResult;
+  onValidationChange?: (v: PipelineValidationResult) => void;
+}) {
   const projectId = demoSnapshot.project.id;
   const shouldReduceMotion = useReducedMotion();
   const compactPipeline = useCompactPipelineLayout();
   const [sourceState, setSourceState] = useState<PipelineSourceState>('loading');
   const [pipeline, setPipeline] = useState<PipelineSummary | null>(null);
-  const [definition, setDefinition] = useState<PipelineDefinition>(demoSnapshot.pipeline);
-  const [validation, setValidation] = useState<PipelineValidationResult>(() =>
-    validatePipelineDefinition(demoSnapshot.pipeline)
+  const [definition, _setDefinition] = useState(externalDefinition ?? demoSnapshot.pipeline);
+
+  const setDefinition = (
+    d: PipelineDefinition | ((prev: PipelineDefinition) => PipelineDefinition)
+  ) => {
+    if (typeof d === 'function') {
+      _setDefinition((prev) => {
+        const next = d(prev);
+        onDefinitionChange?.(next);
+        return next;
+      });
+    } else {
+      _setDefinition(d);
+      onDefinitionChange?.(d);
+    }
+  };
+
+  const [validation, _setValidation] = useState<PipelineValidationResult>(
+    externalValidation ?? validatePipelineDefinition(demoSnapshot.pipeline)
   );
-  const [selectedNodeId, setSelectedNodeId] = useState('detector');
+
+  const setValidation = (v: PipelineValidationResult) => {
+    _setValidation(v);
+    onValidationChange?.(v);
+  };
+
+  const [selectedNodeId, _setSelectedNodeId] = useState(externalSelectedNodeId ?? 'detector');
+
+  const setSelectedNodeId = (id: string) => {
+    _setSelectedNodeId(id);
+    onSelectNode?.(id);
+  };
   const [actionState, setActionState] = useState<DatasetActionState>({
     busy: false,
     message: null,

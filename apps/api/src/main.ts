@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import type { RequestHandler } from 'express';
 import { AppModule } from './app.module';
 import { GlobalErrorFilter } from './common/interceptors/error.interceptor';
 import { RequestIdInterceptor } from './common/interceptors/request-id.interceptor';
@@ -24,11 +25,26 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
   );
   app.useGlobalFilters(new GlobalErrorFilter());
   app.useGlobalInterceptors(new RequestIdInterceptor());
+
+  // Disable ETag generation for all API responses to prevent 304 Not Modified responses.
+  // NestJS uses Express under the hood; disabling the default etag prevents the server
+  // from sending weak validators that cause the frontend fetch wrapper to throw on 304.
+  app.getHttpAdapter().getInstance().disable('etag');
+
+  // Explicit no-cache headers on every API response as a belt-and-suspenders measure.
+  const noCacheMiddleware: RequestHandler = (_req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+  };
+  app.use(noCacheMiddleware);
 
   const webOrigin = process.env.WEB_ORIGIN;
   const allowedOrigins = webOrigin
