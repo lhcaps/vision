@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Client } from 'minio';
 import { StorageRepository } from './storage.repository';
 
+const BUCKET = () => process.env.MINIO_BUCKET ?? 'visionflow-artifacts';
+
 @Injectable()
 export class MinioStorageRepository implements StorageRepository {
   private readonly client: Client;
@@ -17,18 +19,24 @@ export class MinioStorageRepository implements StorageRepository {
   }
 
   async putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void> {
-    const bucket = process.env.MINIO_BUCKET ?? 'vision-media';
-    await this.client.putObject(bucket, key, buffer, buffer.length, { 'Content-Type': mimeType });
+    await this.client.putObject(BUCKET(), key, buffer, buffer.length, { 'Content-Type': mimeType });
+  }
+
+  async putOriginalStream(
+    key: string,
+    stream: NodeJS.ReadableStream,
+    size: number,
+    mimeType: string,
+  ): Promise<void> {
+    await this.client.putObject(BUCKET(), key, stream, size, { 'Content-Type': mimeType });
   }
 
   async getSignedUrl(key: string): Promise<string> {
-    const bucket = process.env.MINIO_BUCKET ?? 'vision-media';
-    return this.client.presignedGetObject(bucket, key, 3600);
+    return this.client.presignedGetObject(BUCKET(), key, 3600);
   }
 
   async delete(key: string): Promise<void> {
-    const bucket = process.env.MINIO_BUCKET ?? 'vision-media';
-    await this.client.removeObject(bucket, key);
+    await this.client.removeObject(BUCKET(), key);
   }
 
   async listBuckets(): Promise<void> {

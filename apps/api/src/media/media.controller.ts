@@ -11,10 +11,24 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { memoryStorage } from 'multer';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { randomUUID } from 'crypto';
+import * as os from 'os';
+import * as fs from 'fs';
 import { MediaUploadResponseSchema } from '@visionflow/contracts';
 import { MediaService } from './media.service';
 import { SignedUrlService } from '../common/utils/signed-url';
+
+const UPLOAD_TMP_DIR = join(os.tmpdir(), 'visionflow-uploads');
+// Ensure the upload temp directory exists before any requests arrive
+try {
+  if (!fs.existsSync(UPLOAD_TMP_DIR)) {
+    fs.mkdirSync(UPLOAD_TMP_DIR, { recursive: true });
+  }
+} catch {
+  // Non-fatal: multer will fail at upload time if directory is missing
+}
 
 @ApiTags('media')
 @Controller('projects/:projectId/media')
@@ -35,7 +49,12 @@ export class MediaController {
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: memoryStorage(),
+      storage: diskStorage({
+        destination: UPLOAD_TMP_DIR,
+        filename: (_req, file, cb) => {
+          cb(null, `${randomUUID()}-${file.originalname}`);
+        },
+      }),
       limits: {
         fileSize: 250 * 1024 * 1024,
         files: 1,

@@ -37,6 +37,7 @@ import type {
   InferenceJobEvent,
   InferenceJobSummary,
   InferenceJobStatus,
+  DatasetVersionSummary,
   MediaUploadStatus,
   PipelineDefinition,
   PipelineNode,
@@ -268,6 +269,56 @@ export function App() {
   const [datasetSourceState, setDatasetSourceState] = useState<'loading' | 'api' | 'fallback'>(
     'loading'
   );
+
+  // Load datasets + versions from the API on mount so Run button eligibility
+  // can be determined from real data (locked version + assets).
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const datasetsResponse = await listProjectDatasets(demoSnapshot.project.id);
+
+        if (cancelled) return;
+
+        // Fetch all versions in parallel
+        const versionResponses = await Promise.all(
+          datasetsResponse.datasets.map((ds) =>
+            listDatasetVersions(demoSnapshot.project.id, ds.id)
+          )
+        );
+
+        if (cancelled) return;
+
+        // Flatten all versions across datasets
+        const allVersions: DatasetVersionSummary[] = versionResponses.flatMap(
+          (vr) => vr.versions
+        );
+
+        setDatasetVersions(allVersions);
+
+        // Auto-select the first LOCKED version with assets if nothing selected yet
+        if (allVersions.length > 0) {
+          const lockedWithAssets = allVersions.find(
+            (v) => v.status === 'LOCKED' && v.assetCount > 0
+          );
+          if (lockedWithAssets) {
+            setSelectedDatasetVersionId(lockedWithAssets.id);
+          }
+        }
+
+        setDatasetSourceState('api');
+      } catch {
+        if (cancelled) return;
+        setDatasetVersions([]);
+        setDatasetSourceState('fallback');
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Pipeline selected node — lifted from PipelinePanel so InspectorRouter can access it
   const [pipelineSelectedNodeId, setPipelineSelectedNodeId] = useState<string>('detector');

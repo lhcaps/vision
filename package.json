@@ -27,6 +27,7 @@
     "dev:full:win": "powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1",
     "kill": "docker compose -f infra/docker-compose.yml down",
     "seed": "npx tsx scripts/seed-demo.ts",
+    "seed:db": "npx tsx scripts/seed-db.ts",
     "test:e2e": "pnpm --filter @visionflow/web test:e2e"
   },
   "devDependencies": {

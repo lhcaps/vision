@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { createReadStream } from 'fs';
 import {
   MediaAssetSummary,
   MediaProcessingJobSummary,
@@ -19,7 +20,8 @@ type UploadedFile = {
   originalname: string;
   mimetype: string;
   size: number;
-  buffer: Buffer;
+  buffer?: Buffer;
+  path?: string;
 };
 
 @Injectable()
@@ -29,6 +31,7 @@ export class MediaService {
     @Inject(STORAGE_REPOSITORY)
     private readonly storage: {
       putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void>;
+      putOriginalStream(key: string, stream: NodeJS.ReadableStream, size: number, mimeType: string): Promise<void>;
       delete(key: string): Promise<void>;
     },
     private readonly prisma: PrismaService,
@@ -60,6 +63,7 @@ export class MediaService {
 
     const existing = await this.mediaRepo.findByChecksum(projectId, plan.checksum);
     if (existing) {
+      if (file.path) await this.safelyDeleteFile(file.path);
       return {
         asset: { ...existing, status: 'duplicate' },
         processingJob: null,
@@ -68,10 +72,17 @@ export class MediaService {
     }
 
     if (isDatabaseMode()) {
-      return this.uploadWithSaga(projectId, file.buffer, plan);
+      return this.uploadWithSaga(projectId, file, plan);
     }
 
-    await this.storage.putOriginal(plan.storageKey, file.buffer, plan.mimeType);
+    if (file.buffer) {
+      await this.storage.putOriginal(plan.storageKey, file.buffer, plan.mimeType);
+    } else if (file.path) {
+      await this.streamToStorage(plan.storageKey, file.path, file.size, plan.mimeType);
+    } else {
+      throw new InternalServerErrorException('No file content available for upload.');
+    }
+
     const asset = await this.mediaRepo.create({
       projectId,
       name: plan.originalName,
@@ -98,7 +109,7 @@ export class MediaService {
 
   private async uploadWithSaga(
     projectId: string,
-    buffer: Buffer,
+    file: UploadedFile,
     plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>,
   ): Promise<MediaUploadResponse> {
     let asset: Awaited<ReturnType<MediaRepository['create']>>;
@@ -128,13 +139,46 @@ export class MediaService {
     }
 
     try {
-      await this.storage.putOriginal(plan.storageKey, buffer, plan.mimeType);
+      if (file.buffer) {
+        await this.storage.putOriginal(plan.storageKey, file.buffer, plan.mimeType);
+      } else if (file.path) {
+        await this.streamToStorage(plan.storageKey, file.path, file.size, plan.mimeType);
+      } else {
+        throw new Error('No file content available for upload.');
+      }
     } catch (err) {
       await this.cleanupFailedUpload(projectId, asset.id, plan.storageKey);
       throw new InternalServerErrorException('Media upload failed; storage cleaned up.');
+    } finally {
+      if (file.path) await this.safelyDeleteFile(file.path);
     }
 
     return { asset, processingJob, deduplicated: false };
+  }
+
+  private async streamToStorage(
+    storageKey: string,
+    filePath: string,
+    size: number,
+    mimeType: string,
+  ): Promise<void> {
+    if (typeof this.storage.putOriginalStream === 'function') {
+      const stream = createReadStream(filePath) as unknown as NodeJS.ReadableStream;
+      await this.storage.putOriginalStream(storageKey, stream, size, mimeType);
+    } else {
+      const fs = await import('fs/promises');
+      const buffer = await fs.readFile(filePath);
+      await this.storage.putOriginal(storageKey, buffer, mimeType);
+    }
+  }
+
+  private async safelyDeleteFile(path: string): Promise<void> {
+    try {
+      const fs = await import('fs/promises');
+      await fs.unlink(path);
+    } catch {
+      // Non-critical: temp file will be cleaned by OS eventually
+    }
   }
 
   private async cleanupFailedUpload(

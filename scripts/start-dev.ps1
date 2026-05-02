@@ -89,7 +89,24 @@ try {
     Pop-Location
 }
 
-# Step 5: Validate demo data
+# Step 3c: Seed database with demo project
+Write-Host ""
+Log-Info "Seeding database..."
+Push-Location $ROOT
+try {
+    pnpm seed:db
+    if ($LASTEXITCODE -ne 0) {
+        Log-Warn "Database seed failed — Run button may be disabled"
+    } else {
+        Log-Ok "Database seeded"
+    }
+} catch {
+    Log-Warn "Database seed skipped"
+} finally {
+    Pop-Location
+}
+
+# Step 4: Validate demo data (legacy, non-API mode)
 Write-Host ""
 Log-Info "Validating demo data..."
 Push-Location $ROOT
@@ -104,7 +121,7 @@ try {
     Pop-Location
 }
 
-# Step 6: Start all apps
+# Step 5: Start all apps
 Write-Host ""
 Log-Info "Starting all apps..."
 Write-Host ""
@@ -114,11 +131,8 @@ Write-Host "  Swagger: http://localhost:3000/api/docs"
 Write-Host "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
 Write-Host ""
 
-# Start web + api in background
+# Start API + web in background
 Start-Process powershell -ArgumentList "-NoExit", "cd '$ROOT'; pnpm dev"
-
-# Start CV worker in background
-Start-Process powershell -ArgumentList "-NoExit", "cd '$ROOT'; python -m uvicorn apps.cv-worker.src.main:app --reload --port 8000 --host 127.0.0.1"
 
 Write-Host ""
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

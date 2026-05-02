@@ -89,14 +89,23 @@ if ! pnpm db:push; then
     exit 1
 fi
 
-# Step 5: Validate demo data
+# Step 3c: Seed database with demo project
+echo ""
+log_info "Seeding database..."
+if ! pnpm seed:db; then
+    log_warn "Database seed failed — Run button may be disabled"
+else
+    log_ok "Database seeded"
+fi
+
+# Step 4: Validate demo data (legacy, non-API mode)
 echo ""
 log_info "Validating demo data..."
 if ! pnpm seed 2>/dev/null; then
     log_warn "Demo data validation skipped (Docker required for full validation)"
 fi
 
-# Step 6: Start all apps
+# Step 5: Start all apps
 echo ""
 log_info "Starting all apps..."
 echo ""
@@ -107,16 +116,10 @@ echo "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
 echo ""
 
 # Set trap for cleanup
-trap 'echo ""; log_info "Shutting down... Run `pnpm kill` to stop Docker containers"; kill 0 2>/dev/null; wait' EXIT
+trap 'echo ""; log_info "Shutting down... Run \`pnpm kill\` to stop Docker containers"; kill 0 2>/dev/null; wait' EXIT
 
 # Start web + api in background
 pnpm dev &
-WEB_PID=$!
-
-# Start CV worker in background
-cd "$ROOT_DIR"
-python -m uvicorn apps.cv-worker.src.main:app --reload --port 8000 --host 127.0.0.1 &
-CV_PID=$!
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " VisionFlow Studio is running!"
@@ -125,4 +128,4 @@ echo "  Logs: docker compose -f infra/docker-compose.yml logs -f"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Wait for all background processes
-wait $WEB_PID $CV_PID
+wait $WEB_PID

@@ -14,6 +14,12 @@ export default defineConfig({
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: [
     {
+      command: 'pnpm --filter @visionflow/api dev',
+      url: 'http://localhost:3000/api/health/live',
+      reuseExistingServer: !process.env.CI,
+      timeout: 60 * 1000,
+    },
+    {
       command: 'pnpm dev:web',
       url: 'http://localhost:5173',
       reuseExistingServer: !process.env.CI,
