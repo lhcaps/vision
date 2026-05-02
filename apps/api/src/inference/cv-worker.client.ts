@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createHash } from 'node:crypto';
+import { createLogger, getCurrentRequestId } from '../common/logging/structured-logger';
 import {
   CvWorkerEvaluationPayload,
   CvWorkerEvaluationRequestSchema,
@@ -11,13 +12,21 @@ import {
   CvWorkerRunPipelineResponseSchema,
 } from '@visionflow/contracts';
 
+const logger = createLogger('CvWorkerClient');
+
 @Injectable()
 export class CvWorkerClient {
   async runPipeline(request: CvWorkerRunPipelineRequest): Promise<CvWorkerRunPipelineResponse> {
     const payload = CvWorkerRunPipelineRequestSchema.parse(request);
     const baseUrl = process.env.CV_WORKER_URL?.replace(/\/+$/, '');
+    const correlationId = getCurrentRequestId();
+    const startMs = Date.now();
 
     if (!baseUrl || baseUrl === 'mock') {
+      logger.info(
+        { jobId: payload.jobId, correlationId, mode: 'mock' },
+        'Using mock CV worker fallback',
+      );
       return this.runPipelineFallback(payload);
     }
 
@@ -30,26 +39,40 @@ export class CvWorkerClient {
     try {
       const response = await fetch(`${baseUrl}/cv/run-pipeline`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(correlationId ? { 'x-correlation-id': correlationId } : {}),
+        },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
 
+      const durationMs = Date.now() - startMs;
+
       if (!response.ok) {
-        throw new Error(
-          `CV worker run-pipeline failed with HTTP ${response.status}: ${await readWorkerError(
-            response
-          )}`
+        const errorMsg = await readWorkerError(response);
+        logger.error(
+          { jobId: payload.jobId, correlationId, statusCode: response.status, durationMs },
+          `CV worker run-pipeline failed: ${errorMsg}`,
         );
+        throw new Error(`CV worker run-pipeline failed with HTTP ${response.status}: ${errorMsg}`);
       }
+
+      logger.info(
+        { jobId: payload.jobId, correlationId, statusCode: response.status, durationMs },
+        'CV worker run-pipeline completed',
+      );
 
       return CvWorkerRunPipelineResponseSchema.parse(await response.json());
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
+        logger.error(
+          { jobId: payload.jobId, correlationId, durationMs: Date.now() - startMs },
+          'CV worker run-pipeline timed out',
+        );
         throw new Error('CV worker run-pipeline timed out.');
       }
-
-      throw error;
+      throw error instanceof Error ? error : new Error(String(error));
     } finally {
       clearTimeout(timeout);
     }
@@ -58,6 +81,9 @@ export class CvWorkerClient {
   async evaluate(request: CvWorkerEvaluationPayload): Promise<CvWorkerEvaluationResponse> {
     const payload = CvWorkerEvaluationRequestSchema.parse(request);
     const baseUrl = process.env.CV_WORKER_URL?.replace(/\/+$/, '');
+    const correlationId = getCurrentRequestId();
+    const startMs = Date.now();
+    const jobId = payload.jobId ?? '-';
 
     if (!baseUrl || baseUrl === 'mock') {
       return this.evaluateFallback(payload);
@@ -72,26 +98,40 @@ export class CvWorkerClient {
     try {
       const response = await fetch(`${baseUrl}/cv/evaluate-detections`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(correlationId ? { 'x-correlation-id': correlationId } : {}),
+        },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
 
+      const durationMs = Date.now() - startMs;
+
       if (!response.ok) {
-        throw new Error(
-          `CV worker evaluate failed with HTTP ${response.status}: ${await readWorkerError(
-            response
-          )}`
+        const errorMsg = await readWorkerError(response);
+        logger.error(
+          { jobId, correlationId, statusCode: response.status, durationMs },
+          `CV worker evaluate failed: ${errorMsg}`,
         );
+        throw new Error(`CV worker evaluate failed with HTTP ${response.status}: ${errorMsg}`);
       }
+
+      logger.info(
+        { jobId, correlationId, statusCode: response.status, durationMs },
+        'CV worker evaluate completed',
+      );
 
       return (await response.json()) as CvWorkerEvaluationResponse;
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
+        logger.error(
+          { jobId, correlationId, durationMs: Date.now() - startMs },
+          'CV worker evaluate timed out',
+        );
         throw new Error('CV worker evaluate timed out.');
       }
-
-      throw error;
+      throw error instanceof Error ? error : new Error(String(error));
     } finally {
       clearTimeout(timeout);
     }

@@ -1,16 +1,50 @@
 from __future__ import annotations
 
 import hashlib
+import uuid
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+
+from observability import (
+    RequestLogger,
+    get_correlation_id,
+    get_job_id,
+    log_error,
+    log_exception,
+    log_info,
+    request_context,
+)
 
 WORKER_VERSION = "0.2.0"
 
 app = FastAPI(title="VisionFlow CV Worker", version=WORKER_VERSION)
 
+
+# ─── Correlation ID middleware ──────────────────────────────────────────────────
+
+@app.middleware("http")
+async def correlation_id_middleware(request: Request, call_next):
+    correlation_id = request.headers.get("x-correlation-id") or str(uuid.uuid4())
+    request.state.correlation_id = correlation_id
+
+    start = RequestLogger.log_request_received(request)
+
+    with request_context(correlation_id):
+        try:
+            response = await call_next(request)
+            response.headers["x-correlation-id"] = correlation_id
+            RequestLogger.log_request_completed(request, response.status_code, start)
+            return response
+        except Exception as exc:  # noqa: BLE001
+            RequestLogger.log_request_failed(request, start, str(exc))
+            raise
+
+
+# ─── Pydantic Models ──────────────────────────────────────────────────────────
 
 class AssetInput(BaseModel):
     assetId: str
@@ -59,9 +93,13 @@ class EvaluateDetectionsRequest(BaseModel):
     groundTruth: list[DetectionObject]
 
 
+# ─── Endpoints ────────────────────────────────────────────────────────────────
+
 @app.get("/health")
-def health() -> dict[str, Any]:
-    return {
+def health(request: Request) -> dict[str, Any]:
+    correlation_id: Optional[str] = getattr(request.state, "correlation_id", None)
+
+    response: dict[str, Any] = {
         "ok": True,
         "service": "visionflow-cv-worker",
         "version": WORKER_VERSION,
@@ -73,104 +111,231 @@ def health() -> dict[str, Any]:
             },
             "evaluation": True,
         },
+        "logging": {
+            "level": "INFO",
+            "correlationIdPropagation": True,
+            "structuredOutput": True,
+        },
     }
+
+    if correlation_id:
+        response["correlationId"] = correlation_id
+
+    return response
 
 
 @app.post("/cv/run-pipeline")
-def run_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
-    if not req.assets:
-        raise HTTPException(status_code=400, detail="No assets provided")
+def run_pipeline(req: RunPipelineRequest, request: Request) -> dict[str, Any]:
+    correlation_id = getattr(request.state, "correlation_id", None)
+    job_id = req.jobId
 
-    if req.detectorMode == "onnx":
-        return _run_onnx_pipeline(req)
+    with request_context(correlation_id, job_id):
+        log_info(
+            "Pipeline execution started",
+            job_id=job_id,
+            detector_mode=req.detectorMode,
+            asset_count=len(req.assets),
+        )
 
-    predictions = [_mock_prediction(req.jobId, asset) for asset in req.assets]
+        if not req.assets:
+            log_error("Pipeline rejected: no assets provided", job_id=job_id)
+            raise HTTPException(status_code=400, detail="No assets provided")
 
-    if req.confidenceThreshold is not None:
-        predictions = [
-            prediction
-            for prediction in predictions
-            if prediction["confidence"] >= req.confidenceThreshold
-        ]
+        try:
+            if req.detectorMode == "onnx":
+                result = _run_onnx_pipeline(req)
+            else:
+                predictions = [_mock_prediction(job_id, asset) for asset in req.assets]
 
-    return {
-        "jobId": req.jobId,
-        "mode": "mock_detector",
-        "workerVersion": WORKER_VERSION,
-        "assetCount": len(req.assets),
-        "predictionCount": len(predictions),
-        "predictions": predictions,
-        "warnings": [],
-    }
+                if req.confidenceThreshold is not None:
+                    predictions = [
+                        p
+                        for p in predictions
+                        if p["confidence"] >= req.confidenceThreshold
+                    ]
+
+                result = {
+                    "jobId": req.jobId,
+                    "mode": "mock_detector",
+                    "workerVersion": WORKER_VERSION,
+                    "assetCount": len(req.assets),
+                    "predictionCount": len(predictions),
+                    "predictions": predictions,
+                    "warnings": [],
+                }
+
+            log_info(
+                "Pipeline execution completed",
+                job_id=job_id,
+                predictions_count=result.get("predictionCount", 0),
+            )
+            return result
+
+        except HTTPException:
+            raise
+        except Exception as exc:  # noqa: BLE001
+            log_exception(
+                "Pipeline execution failed",
+                job_id=job_id,
+                error=str(exc),
+            )
+            raise HTTPException(status_code=500, detail=str(exc))
 
 
 @app.post("/cv/evaluate-detections")
-def evaluate_detections(req: EvaluateDetectionsRequest) -> dict[str, Any]:
-    matches = _match_detections(req.predictions, req.groundTruth, req.iouThreshold)
-    true_positive = len(matches)
-    false_positive = len(req.predictions) - true_positive
-    false_negative = len(req.groundTruth) - true_positive
-    precision = _safe_ratio(true_positive, true_positive + false_positive)
-    recall = _safe_ratio(true_positive, true_positive + false_negative)
-    f1 = _safe_ratio(2 * precision * recall, precision + recall)
-    mean_iou = _safe_ratio(sum(match["iou"] for match in matches), true_positive)
+def evaluate_detections(req: EvaluateDetectionsRequest, request: Request) -> dict[str, Any]:
+    correlation_id = getattr(request.state, "correlation_id", None)
+    job_id = req.jobId or "-"
 
-    return {
-        "jobId": req.jobId,
-        "iouThreshold": req.iouThreshold,
-        "truePositive": true_positive,
-        "falsePositive": false_positive,
-        "falseNegative": false_negative,
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "f1": round(f1, 4),
-        "meanIou": round(mean_iou, 4),
-        "matches": matches,
-    }
+    with request_context(correlation_id, job_id):
+        log_info(
+            "Evaluation started",
+            job_id=job_id,
+            prediction_count=len(req.predictions),
+            ground_truth_count=len(req.groundTruth),
+            iou_threshold=req.iouThreshold,
+        )
+
+        try:
+            matches = _match_detections(req.predictions, req.groundTruth, req.iouThreshold)
+            true_positive = len(matches)
+            false_positive = len(req.predictions) - true_positive
+            false_negative = len(req.groundTruth) - true_positive
+            precision = _safe_ratio(true_positive, true_positive + false_positive)
+            recall = _safe_ratio(true_positive, true_positive + false_negative)
+            f1 = _safe_ratio(2 * precision * recall, precision + recall)
+            mean_iou = _safe_ratio(
+                sum(m["iou"] for m in matches), true_positive
+            )
+
+            result = {
+                "jobId": req.jobId,
+                "iouThreshold": req.iouThreshold,
+                "truePositive": true_positive,
+                "falsePositive": false_positive,
+                "falseNegative": false_negative,
+                "precision": round(precision, 4),
+                "recall": round(recall, 4),
+                "f1": round(f1, 4),
+                "meanIou": round(mean_iou, 4),
+                "matches": matches,
+            }
+
+            log_info(
+                "Evaluation completed",
+                job_id=job_id,
+                true_positive=true_positive,
+                false_positive=false_positive,
+                false_negative=false_negative,
+                f1=round(f1, 4),
+            )
+            return result
+
+        except HTTPException:
+            raise
+        except Exception as exc:  # noqa: BLE001
+            log_exception("Evaluation failed", job_id=job_id, error=str(exc))
+            raise HTTPException(status_code=500, detail=str(exc))
 
 
 @app.post("/cv/create-thumbnail")
-def create_thumbnail(req: MediaProcessingRequest) -> dict[str, Any]:
-    if not req.mimeType.startswith("image/"):
-        raise HTTPException(status_code=400, detail="Thumbnail jobs require image media")
+def create_thumbnail(req: MediaProcessingRequest, request: Request) -> dict[str, Any]:
+    correlation_id = getattr(request.state, "correlation_id", None)
+    job_id = req.jobId
 
-    return {
-        "jobId": req.jobId,
-        "assetId": req.assetId,
-        "status": "SUCCEEDED",
-        "derivative": {
-            "type": "THUMBNAIL",
-            "storageKey": req.targetKey,
-            "width": min(req.width or 512, 512),
-            "height": min(req.height or 512, 512),
-        },
-        "metadata": {
-            "runtime": "mock_thumbnailer",
-            "sourceKey": req.storageKey,
-        },
-    }
+    with request_context(correlation_id, job_id):
+        log_info(
+            "Thumbnail generation started",
+            job_id=job_id,
+            source_storage_key=req.storageKey,
+            target_storage_key=req.targetKey,
+            mime_type=req.mimeType,
+        )
+
+        if not req.mimeType.startswith("image/"):
+            log_error(
+                "Thumbnail generation rejected: invalid mime type",
+                job_id=job_id,
+                mime_type=req.mimeType,
+            )
+            raise HTTPException(
+                status_code=400,
+                detail="Thumbnail jobs require image media",
+            )
+
+        result = {
+            "jobId": req.jobId,
+            "assetId": req.assetId,
+            "status": "SUCCEEDED",
+            "derivative": {
+                "type": "THUMBNAIL",
+                "storageKey": req.targetKey,
+                "width": min(req.width or 512, 512),
+                "height": min(req.height or 512, 512),
+            },
+            "metadata": {
+                "runtime": "mock_thumbnailer",
+                "sourceKey": req.storageKey,
+            },
+        }
+
+        log_info(
+            "Thumbnail generation completed",
+            job_id=job_id,
+            output_key=req.targetKey,
+        )
+        return result
 
 
 @app.post("/cv/extract-frames")
-def extract_frames(req: MediaProcessingRequest) -> dict[str, Any]:
-    if not req.mimeType.startswith("video/"):
-        raise HTTPException(status_code=400, detail="Frame extraction jobs require video media")
+def extract_frames(req: MediaProcessingRequest, request: Request) -> dict[str, Any]:
+    correlation_id = getattr(request.state, "correlation_id", None)
+    job_id = req.jobId
 
-    return {
-        "jobId": req.jobId,
-        "assetId": req.assetId,
-        "status": "SUCCEEDED",
-        "derivative": {
-            "type": "FRAME",
-            "storageKey": req.targetKey,
-            "frameCount": 12,
-        },
-        "metadata": {
-            "runtime": "mock_frame_extractor",
-            "sourceKey": req.storageKey,
-        },
-    }
+    with request_context(correlation_id, job_id):
+        log_info(
+            "Frame extraction started",
+            job_id=job_id,
+            source_storage_key=req.storageKey,
+            target_storage_key=req.targetKey,
+            mime_type=req.mimeType,
+        )
 
+        if not req.mimeType.startswith("video/"):
+            log_error(
+                "Frame extraction rejected: invalid mime type",
+                job_id=job_id,
+                mime_type=req.mimeType,
+            )
+            raise HTTPException(
+                status_code=400,
+                detail="Frame extraction jobs require video media",
+            )
+
+        result = {
+            "jobId": req.jobId,
+            "assetId": req.assetId,
+            "status": "SUCCEEDED",
+            "derivative": {
+                "type": "FRAME",
+                "storageKey": req.targetKey,
+                "frameCount": 12,
+            },
+            "metadata": {
+                "runtime": "mock_frame_extractor",
+                "sourceKey": req.storageKey,
+            },
+        }
+
+        log_info(
+            "Frame extraction completed",
+            job_id=job_id,
+            frame_count=12,
+        )
+        return result
+
+
+# ─── Internal Helpers ─────────────────────────────────────────────────────────
 
 def _mock_prediction(job_id: str, asset: AssetInput) -> dict[str, Any]:
     digest = hashlib.sha256(f"{job_id}:{asset.assetId}".encode("utf-8")).digest()

@@ -8,6 +8,8 @@ import {
   MediaProcessingJobType,
   validateMediaMime,
 } from '@visionflow/contracts';
+import { validateMagicBytes } from '../common/utils/magic-bytes';
+import { validateMediaIntegrity } from '../common/utils/media-integrity';
 
 export type MediaIngestionInput = {
   projectId: string;
@@ -28,10 +30,18 @@ export type MediaIngestionPlan = {
   processingJobType: MediaProcessingJobType;
 };
 
-export function buildMediaIngestionPlan(input: MediaIngestionInput): MediaIngestionPlan {
+export async function buildMediaIngestionPlan(
+  input: MediaIngestionInput
+): Promise<MediaIngestionPlan> {
   const mimeType = validateMediaMime(input.mimeType);
   const checksum = createHash('sha256').update(input.buffer).digest('hex');
   const mediaType = classifyMediaType(mimeType);
+
+  if (!validateMagicBytes(input.buffer, mimeType)) {
+    throw new Error('Magic bytes do not match declared MIME type');
+  }
+
+  await validateMediaIntegrity(input.buffer, mimeType);
 
   return {
     projectId: input.projectId,

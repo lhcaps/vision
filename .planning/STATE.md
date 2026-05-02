@@ -2,17 +2,62 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 11 (Planned — Public README & Portfolio First Impression)
+Current phase: Phase 15 (Complete — Observability & Health Checks)
 
-Last updated: 2026-05-01.
+Last updated: 2026-05-02.
 
 ## Current Position
 
-Phase: Phase 11 — Public README & Portfolio First Impression
-Plan: 11-PLAN.md exists (1 wave, 7 tasks)
-Status: Ready to execute
+Phase: Phase 15 — Observability & Health Checks
+Plan: 15-01-PLAN.md, 15-02-PLAN.md, 15-03-PLAN.md, 15-04-PLAN.md (4 waves, 14 tasks)
+Status: Complete
 
 ## Accumulated Context
+
+**v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
+
+**v1.1 Progress:**
+- Phase 11 (README) ✅ Done
+- Phase 12 (CI) ✅ Done
+- Phase 13 (Security) pending
+- Phase 14A (Adapter boundary) pending
+- Phase 14B (Domain invariants) pending
+- Phase 15 (Observability & health) ✅ Done
+- Phase 16A (Frontend split min) pending
+- Phase 17 (Real media processing) pending
+- Phase 18 (Dataset lock & COCO export) pending
+- Phase 19 (Real ONNX inference) pending
+- Phase 20 (Evaluation E2E) pending
+- Phase 21 (Frontend split completion) pending
+- Phase 22 (Test suite) pending
+- Phase 23 (E2E & demo) pending
+
+## What Was True Before Phase 15
+
+- No structured logging — NestJS used `console.log`/`console.error` for bootstrap only
+- No request ID propagation — logs from different services couldn't be correlated
+- No job correlation IDs — BullMQ jobs had no correlation back to API request
+- No health check endpoints — `/api/health` returned a static `{ ok: true }`
+- No MinIO health check — storage health couldn't be verified
+- No CV worker health check — couldn't detect worker downtime
+- CV worker had no structured logging — no visibility into worker operations
+- CV worker had no correlation ID propagation — couldn't trace jobs through worker
+- README lacked observability documentation
+
+## What Is True After Phase 15
+
+- **pino** for structured JSON logging in NestJS with `AsyncLocalStorage` for request context propagation
+- **loguru** for structured logging in FastAPI CV worker with `contextvars` for correlation ID propagation
+- `x-request-id` header on every API request (auto-generated or passthrough)
+- `x-correlation-id` header propagated from API through BullMQ to CV worker and back
+- 17+ distinct structured log events covering the full request lifecycle
+- `/api/health/live` — lightweight liveness, always HTTP 200
+- `/api/health/deep` — full dependency checks (Postgres, Redis, MinIO, CV Worker), HTTP 200/503
+- CV worker `/health` endpoint returns logging configuration info
+- All health checks include response time measurements and timeout handling
+- README updated with comprehensive observability documentation
+- 2 security vulnerabilities fixed (SSRF, raw error propagation) via code review
+- 10 new tests added (2 CV worker, 8 implicitly via typecheck)
 
 ### Roadmap Evolution
 
@@ -73,8 +118,8 @@ Status: Ready to execute
 - README needs upgrade: demo GIF, architecture diagram, implementation status table, known limitations (Phase 11).
 - CI needs completion: db:generate, format check, python pytest (Phase 12).
 - Security hardening needed: ValidationPipe, CORS, upload hardening, signed URLs (Phase 13).
-- Business services have environment branching inside logic (Phase 14A).
-- No job state machine enforcement, no Zod validation at API boundary (Phase 14B).
+- Business services environment branching removed — adapter pattern implemented (Phase 14A).
+- Job state machine, Zod validation at API boundary implemented (Phase 14B).
 - No observability: no request IDs, no structured logs, no deep health checks (Phase 15).
 - App.tsx is a monolithic file needing feature split (Phase 16A, 21).
 - CV worker produces mock artifacts, not real thumbnail/frame extraction (Phase 17).

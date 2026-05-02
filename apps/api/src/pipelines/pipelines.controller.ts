@@ -17,6 +17,7 @@ import {
   PipelineValidationResponseSchema,
   UpdatePipelineRequestSchema,
   ValidatePipelineRequestSchema,
+  validatePipelineDefinition,
 } from '@visionflow/contracts';
 import { PipelinesService } from './pipelines.service';
 
@@ -102,6 +103,13 @@ export class PipelinesController {
   })
   async createPipeline(@Param('projectId') projectId: string, @Body() body: unknown) {
     const dto = parseBody(CreatePipelineRequestSchema, body, 'Invalid pipeline create body.');
+    const validation = validatePipelineDefinition(dto.definition);
+    if (!validation.ok) {
+      throw new BadRequestException({
+        message: 'Pipeline definition validation failed',
+        issues: validation.issues,
+      });
+    }
 
     return PipelineSummarySchema.parse(await this.pipelinesService.createPipeline(projectId, dto));
   }
@@ -123,6 +131,15 @@ export class PipelinesController {
     @Body() body: unknown
   ) {
     const dto = parseBody(UpdatePipelineRequestSchema, body, 'Invalid pipeline update body.');
+    if (dto.definition) {
+      const validation = validatePipelineDefinition(dto.definition);
+      if (!validation.ok) {
+        throw new BadRequestException({
+          message: 'Pipeline definition validation failed',
+          issues: validation.issues,
+        });
+      }
+    }
 
     return PipelineSummarySchema.parse(
       await this.pipelinesService.updatePipeline(projectId, pipelineId, dto)

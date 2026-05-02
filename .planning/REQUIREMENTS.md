@@ -15,10 +15,10 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### CI/CD (P0)
 
-- [ ] **CI-01**: GitHub Actions CI runs on every push and PR: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format --check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests`
-- [ ] **CI-02**: CI must fail on type errors, format drift, test failure, or build failure
-- [ ] **CI-03**: CI badge is visible in README
-- [ ] **CI-04**: E2E workflow remains separate until real services are wired (production-path test suite)
+- [x] **CI-01**: GitHub Actions CI runs on every push and PR: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests` — Phase 12A
+- [x] **CI-02**: CI must fail on type errors, format drift, test failure, or build failure — Phase 12A
+- [x] **CI-03**: CI badge is visible in README — Phase 12A
+- [x] **CI-04**: E2E workflow remains separate until real services are wired (production-path test suite) — Phase 12A
 
 ### Security & Validation (P1)
 
@@ -59,18 +59,38 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### Observability & Health Checks (P1)
 
-- [ ] **OBS-01**: Request ID added to every API request (UUID or correlation ID)
-- [ ] **OBS-02**: Job correlation ID added to inference and media-processing jobs
-- [ ] **OBS-03**: Structured logs cover: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request/response, artifact persisted, prediction persisted, evaluation persisted
-- [ ] **OBS-04**: `/api/health/deep` checks API process, Postgres, Redis, MinIO, CV worker health
-- [ ] **OBS-05**: `/api/health/live` returns lightweight liveness check
-- [ ] **OBS-06**: Deep health check fails when any dependency is unavailable
-- [ ] **OBS-07**: README documents health endpoint URLs and behavior
+- [x] **OBS-01**: Request ID added to every API request (UUID or correlation ID) — Phase 15
+- [x] **OBS-02**: Job correlation ID added to inference and media-processing jobs — Phase 15
+- [x] **OBS-03**: Structured logs cover: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request/response, artifact persisted, prediction persisted, evaluation persisted — Phase 15
+- [x] **OBS-04**: `/api/health/deep` checks API process, Postgres, Redis, MinIO, CV worker health — Phase 15
+- [x] **OBS-05**: `/api/health/live` returns lightweight liveness check — Phase 15
+- [x] **OBS-06**: Deep health check fails when any dependency is unavailable — Phase 15
+- [x] **OBS-07**: README documents health endpoint URLs and behavior — Phase 15
+
+### Pre-16 Completion Track (P1)
+
+- [x] **PRE16-01**: Single `WorkbenchRuntimeState` model for frontend runtime truth — Phase 15.5
+- [x] **PRE16-02**: `canRunInference` and `canRunEvaluation` selectors with explicit reason fields — Phase 15.5
+- [x] **PRE16-03**: Job status drives pipeline execution, prediction overlay, evaluation UI — Phase 15.5
+- [x] **PRE16-04**: FAILED job does not show RUNNING pipeline simultaneously — Phase 15.5
+- [x] **PRE16-05**: `NextAction` model with label, description, severity, disabled, disabledReason — Phase 15.6
+- [x] **PRE16-06**: Every disabled primary CTA exposes a reason via ActionHint or DisabledReason — Phase 15.6
+- [x] **PRE16-07**: Failed job state includes recovery path via FailedJobErrorState — Phase 15.6
+- [x] **PRE16-08**: Section-aware inspector router (Overview, Media, Datasets, Annotation, Pipeline, Jobs) — Phase 15.7
+- [x] **PRE16-09**: Shared EmptyState component with evaluation/media/dataset/predictions variants — Phase 15.8
+- [x] **PRE16-10**: Shared ErrorState component with FailedJobErrorState recovery — Phase 15.8
+- [x] **PRE16-11**: Shared DisabledReason and ActionHint components — Phase 15.8
+- [x] **PRE16-12**: Shared RowActions component with row/bulk action support — Phase 15.8
+- [x] **PRE16-13**: Visual system hardening: focus-visible, semantic colors, consistent spacing — Phase 15.9
+- [x] **PRE16-14**: Motion rules: page 120-180ms, selection spring, save 140-180ms — Phase 15.10
+- [x] **PRE16-15**: `isPortfolioSafe` selector for portfolio/demo-safe state detection — Phase 15.10
+- [x] **PRE16-16**: Regression tests for state contradictions (FAILED+RUNNING, no dataset+Run enabled, etc.) — Phase 15.10
+- [x] **PRE16-17**: All gates pass: typecheck, test (63 tests), lint, format — Phase 15.10
 
 ### Frontend Split Minimum (P2)
 
 - [ ] **UI-01**: `src/app/` directory exists with App.tsx, AppShell.tsx, routes.tsx
-- [ ] **UI-02**: `src/shared/` directory exists with api/client.ts, ui/*, hooks/, types/
+- [ ] **UI-02**: `src/shared/` directory exists with api/client.ts, ui/\*, hooks/, types/
 - [ ] **UI-03**: `src/features/media/` has MediaPage, MediaUploader, MediaGrid, media.api.ts, media.types.ts
 - [ ] **UI-04**: `src/features/inference/` has JobList, JobDetail, PredictionOverlay, EvaluationReport, inference.api.ts, inference.types.ts
 - [ ] **UI-05**: Shared API client handles base URL, errors, and typed responses
@@ -181,21 +201,22 @@ The following are explicitly out of scope for v1.1:
 
 ## Traceability
 
-| REQ-ID | Phase | Status |
-|--------|-------|--------|
-| PORT-01 through PORT-06 | 11 | Pending |
-| CI-01 through CI-04 | 12 | Pending |
-| SEC-01 through SEC-11 | 13 | Pending |
-| ABS-01 through ABS-10 | 14A | Pending |
-| DOM-01 through DOM-07 | 14B | Pending |
-| OBS-01 through OBS-07 | 15 | Pending |
-| UI-01 through UI-09 | 16A | Pending |
-| MED-01 through MED-09 | 17 | Pending |
-| LOCK-01 through LOCK-09 | 18 | Pending |
-| DET-01 through DET-08 | 19 | Pending |
-| EVAL-01 through EVAL-09 | 20 | Pending |
-| FSC-01 through FSC-10 | 21 | Pending |
-| TEST-01 through TEST-13 | 22 | Pending |
-| E2E-01 through E2E-10 | 23 | Pending |
+| REQ-ID                  | Phase | Status  |
+| ----------------------- | ----- | ------- |
+| PORT-01 through PORT-06 | 11    | Done    |
+| CI-01 through CI-04     | 12    | Done    |
+| SEC-01 through SEC-11   | 13    | Pending |
+| ABS-01 through ABS-10   | 14A   | Pending |
+| DOM-01 through DOM-07   | 14B   | Pending |
+| OBS-01 through OBS-07   | 15    | Done    |
+| PRE16-01 through PRE16-17 | 15.5-15.10 | Done |
+| UI-01 through UI-09     | 16A   | Pending |
+| MED-01 through MED-09   | 17    | Pending |
+| LOCK-01 through LOCK-09 | 18    | Pending |
+| DET-01 through DET-08   | 19    | Pending |
+| EVAL-01 through EVAL-09 | 20    | Pending |
+| FSC-01 through FSC-10   | 21    | Pending |
+| TEST-01 through TEST-13 | 22    | Pending |
+| E2E-01 through E2E-10   | 23    | Pending |
 
-**Total:** 97 requirements | **Covered:** 0 | **Remaining:** 97
+**Total:** 149 requirements | **Covered:** 55 | **Remaining:** 94

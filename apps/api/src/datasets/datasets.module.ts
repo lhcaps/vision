@@ -1,10 +1,24 @@
-import { Module } from '@nestjs/common';
+import { Injectable, Module } from '@nestjs/common';
 import { DatasetsController } from './datasets.controller';
 import { DatasetsService } from './datasets.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { isDatabaseMode } from '../config/app-mode';
+import { PrismaDatasetRepository } from '../repositories/dataset.repository.impl';
+import { MemoryDatasetRepository } from '../repositories/dataset.memory';
+import { DATASET_REPOSITORY } from '../config/provider-tokens';
+
+const useDatabase = isDatabaseMode();
 
 @Module({
+  imports: [PrismaModule],
   controllers: [DatasetsController],
-  providers: [DatasetsService],
-  exports: [DatasetsService],
+  providers: [
+    {
+      provide: DATASET_REPOSITORY,
+      useClass: useDatabase ? PrismaDatasetRepository : MemoryDatasetRepository,
+    },
+    DatasetsService,
+  ],
+  exports: [DatasetsService, DATASET_REPOSITORY],
 })
 export class DatasetsModule {}

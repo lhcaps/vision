@@ -11,19 +11,106 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+
+      - name: Start infrastructure
+        run: |
+          docker compose -f infra/docker-compose.yml up -d
+          echo "Waiting for Postgres..."
+          for i in $(seq 1 30); do
+            if docker exec visionflow-postgres pg_isready -U visionflow >/dev/null 2>&1; then
+              echo "Postgres ready"
+              break
+            fi
+            sleep 1
+          done
+          echo "Waiting for MinIO..."
+          for i in $(seq 1 20); do
+            if curl -sf http://localhost:9000/minio/health/live >/dev/null 2>&1; then
+              echo "MinIO ready"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Install dependencies
+        uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10.32.1
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
         env:
-          DATABASE_URL: postgresql://test:test@localhost:5432/test
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
+          DATABASE_URL: postgresql://visionflow:visionflow@localhost:5432/visionflow?schema=public
+
+      - name: Build packages
+        run: pnpm build
         env:
-          VITE_API_BASE_URL: http://localhost:5173
+          DATABASE_URL: postgresql://visionflow:visionflow@localhost:5432/visionflow?schema=public
+          CV_WORKER_URL: http://localhost:8000
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          MINIO_ENDPOINT: localhost
+          MINIO_PORT: 9000
+          MINIO_USE_SSL: 'false'
+          MINIO_ACCESS_KEY: visionflow
+          MINIO_SECRET_KEY: visionflow-secret
+          MINIO_BUCKET: visionflow-artifacts
+          WEB_ORIGIN: http://localhost:5173
+          API_PORT: 3000
+          DEMO_MODE: 'false'
+          DATA_MODE: database
+          MEDIA_STORAGE_MODE: minio
+          INFERENCE_QUEUE_MODE: bullmq
+
+      - name: Start API server
+        run: |
+          cd apps/api && pnpm exec nest start &
+          API_PID=$!
+          echo "API_PID=$API_PID" >> $GITHUB_ENV
+          echo "Waiting for API to be ready..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/api/health/live >/dev/null 2>&1; then
+              echo "API ready"
+              break
+            fi
+            sleep 1
+          done
+        env:
+          DATABASE_URL: postgresql://visionflow:visionflow@localhost:5432/visionflow?schema=public
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          MINIO_ENDPOINT: localhost
+          MINIO_PORT: 9000
+          MINIO_USE_SSL: 'false'
+          MINIO_ACCESS_KEY: visionflow
+          MINIO_SECRET_KEY: visionflow-secret
+          MINIO_BUCKET: visionflow-artifacts
+          WEB_ORIGIN: http://localhost:5173
+          API_PORT: 3000
+          DEMO_MODE: 'false'
+          DATA_MODE: database
+          MEDIA_STORAGE_MODE: minio
+          INFERENCE_QUEUE_MODE: bullmq
+
+      - name: Install Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: pnpm test:e2e
+        env:
+          VITE_API_BASE_URL: http://localhost:3000
           API_BASE_URL: http://localhost:3000
+          CI: 'true'
+
+      - name: Stop API
+        if: always()
+        run: kill ${{ env.API_PID }} 2>/dev/null || true
+
+      - name: Stop infrastructure
+        if: always()
+        run: docker compose -f infra/docker-compose.yml down

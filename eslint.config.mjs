@@ -3,15 +3,15 @@
  * Per-package lint tasks use `tsc --noEmit` for type checking.
  * This config handles JS/TS general rules for root-level files.
  */
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import tseslint from '@typescript-eslint/eslint-plugin'
-import tsparser from '@typescript-eslint/parser'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import tailwindcss from 'eslint-plugin-tailwindcss'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import tailwindcss from 'eslint-plugin-tailwindcss';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const eslintConfig = [
   {
@@ -63,6 +63,6 @@ const eslintConfig = [
       'tailwindcss/no-contradicting-classname': 'error',
     },
   },
-]
+];
 
-export default eslintConfig
+export default eslintConfig;

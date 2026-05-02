@@ -1,7 +1,8 @@
 # Roadmap
 
-Status date: 2026-05-01
-Current milestone: v1.0 complete — starting v1.1 Production Hardening & Real Vertical Slice
+Status date: 2026-05-02
+Current milestone: v1.1 — Production Hardening & Real Vertical Slice
+Phase 15.10 complete — Pre-16 Completion Track done — next: Phase 16A Frontend Split Minimum
 
 ## Legend
 
@@ -173,54 +174,13 @@ v1.1 is complete only when the repository has:
 
 **Note:** v1.0 proves the prototype surface. v1.1 is responsible for proving the production path.
 
-## Phase 12A, CI/CD Completeness — Planned
+## Phase 12A, CI/CD Completeness — Done
 
-**Goal:** Make every push prove that the repo still builds, tests, formats, and generates Prisma clients correctly.
+**Completed scope:** GitHub Actions CI pipeline enhanced with job dependency graph: `lint → [typecheck, format, pytest, test] → build`. Added `pnpm db:generate` step before typecheck to validate Prisma schema. Added dedicated `format` job running `pnpm format:check` with `CI=true` to prevent style drift. Added `pytest` job using `actions/setup-python@v5` with Python 3.11, pip caching, and `pip install -r requirements-dev.txt`. Added `WEB_ORIGIN` env var to test job. CI badge added to README. All 6 success criteria met.
 
-**Requirements:**
+## Phase 12B, Local Stack & Seed Reliability — Done
 
-- GitHub Actions CI runs: `pnpm install --frozen-lockfile`, `pnpm db:generate`, `pnpm typecheck`, `pnpm lint`, `pnpm format --check`, `pnpm test`, `pnpm build`, `python -m pytest apps/cv-worker/tests`
-- CI must run on push and pull request.
-- CI must fail on type errors, format drift, test failure, or build failure.
-- E2E workflow remains separate until real services are wired.
-
-**Depends on:** Phase 10
-
-**Success criteria:**
-
-1. Every push and PR runs the full CI pipeline.
-2. Prisma client generation is validated in CI.
-3. Python pytest suite runs in CI.
-4. Format check prevents style drift.
-5. Build failure blocks merge.
-6. CI badge is visible in README.
-
-## Phase 12B, Local Stack & Seed Reliability — Planned
-
-**Goal:** Ensure a fresh clone runs the full stack without manual intervention. README without a working local setup is a portfolio killer.
-
-**Requirements:**
-
-- `docker compose -f infra/docker-compose.yml`: Postgres, Redis, MinIO — starts with one command.
-- `pnpm dev:full` / `pnpm dev:full:win`: starts Docker infra + generates Prisma client + launches web + API + CV worker.
-- Seed script creates demo project with media, dataset, annotation labels, and pipeline — no manual data entry needed.
-- `.env.example` is complete: all env vars documented with defaults and descriptions.
-- Teardown/reset command: `pnpm kill` stops all Docker containers cleanly.
-- Local stack works on both Unix (bash) and Windows (PowerShell).
-- No external network dependency at boot time (models, weights, datasets downloaded on demand — not at startup).
-
-**Depends on:** Phase 12A
-
-**Success criteria:**
-
-1. Fresh clone → `pnpm install` → `cp .env.example .env` → `pnpm dev:full` starts everything in < 60 seconds on a standard machine.
-2. Web app is accessible at `http://localhost:5173` after boot.
-3. API is accessible at `http://localhost:3100` after boot.
-4. Swagger docs accessible at `http://localhost:3100/api/docs`.
-5. Demo data loads automatically — no manual setup required.
-6. `pnpm kill` cleanly stops all services.
-7. Stack works on Windows PowerShell without WSL.
-8. README setup section is accurate and matches the actual boot experience.
+**Completed scope:** Docker compose enhanced with MinIO bucket initialization via `minio-init` service (waits for MinIO health, then `mc mb local/visionflow-artifacts --ignore-existing`). MinIO healthcheck fixed from broken `mc ready local` to working `curl -f http://localhost:9000/minio/health/live`. Named Docker network `visionflow-network` for deterministic hostnames. Container names made explicit (`visionflow-postgres`, `visionflow-redis`, `visionflow-minio`) and aligned with boot scripts. Both Unix and Windows boot scripts enhanced with: Docker/pnpm prerequisite checks, PostgreSQL/Redis/MinIO health waits with retry loops, colored output, and trap for cleanup. Seed script enhanced with `--api` mode for creating demo data via API. `.env.example` completed with 8 sections and 16 documented variables.
 
 ## Phase 13, Security & Input Validation Hardening — Planned
 
@@ -246,7 +206,7 @@ v1.1 is complete only when the repository has:
 7. Assets are served through signed URLs or controlled API proxy.
 8. Security behavior is documented in README.
 
-## Phase 14A, Adapter Boundary Cleanup — Planned
+## Phase 14A, Adapter Boundary Cleanup — Completed 2026-05-01
 
 **Goal:** Remove environment branching from business services. Production and demo behavior must be selected at module bootstrap, not inside service logic.
 
@@ -267,7 +227,7 @@ v1.1 is complete only when the repository has:
 5. Tests can swap implementations without patching service internals.
 6. Production path can be tested without modifying app code.
 
-## Phase 14B, Domain Invariants & State Machines — Planned
+## Phase 14B, Domain Invariants & State Machines — Completed 2026-05-01
 
 **Goal:** Make invalid domain states impossible or explicitly rejected.
 
@@ -291,28 +251,274 @@ v1.1 is complete only when the repository has:
 5. Dataset version mutations respect version state.
 6. Audit rows exist for lock, annotation mutation, pipeline mutation, job start, job finish, and job failure.
 
-## Phase 15, Observability & Health Checks — Planned
+## Phase 15, Observability & Health Checks — Done
 
 **Goal:** Make every job traceable across API, queue, worker, database, and storage.
 
 **Requirements:**
 
-- Add request ID per API request.
-- Add job correlation ID for inference and media-processing jobs.
-- Structured logs for: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request, worker response, artifact persisted, prediction persisted, evaluation persisted.
-- Health endpoint checks: API process, Postgres, Redis, MinIO, CV worker.
-- Add `/api/health/deep` for full dependency checks.
-- Add `/api/health/live` for lightweight liveness.
+- [x] Add request ID per API request.
+- [x] Add job correlation ID for inference and media-processing jobs.
+- [x] Structured logs for: API request start/end, upload accepted/rejected, job enqueued, job state transition, worker request, worker response, artifact persisted, prediction persisted, evaluation persisted.
+- [x] Health endpoint checks: API process, Postgres, Redis, MinIO, CV worker.
+- [x] Add `/api/health/deep` for full dependency checks.
+- [x] Add `/api/health/live` for lightweight liveness.
 
 **Depends on:** Phase 14A
 
 **Success criteria:**
 
-1. A single job can be traced from upload to final evaluation.
-2. Logs include request ID and job ID.
-3. Deep health check fails when DB, Redis, MinIO, or CV worker is unavailable.
-4. Liveness check stays lightweight.
-5. README documents health endpoints.
+1. [x] A single job can be traced from upload to final evaluation.
+2. [x] Logs include request ID and job ID.
+3. [x] Deep health check fails when DB, Redis, MinIO, or CV worker is unavailable.
+4. [x] Liveness check stays lightweight.
+5. [x] README documents health endpoints.
+
+**Artifacts:**
+- `15-CONTEXT.md` — Technical decisions for logging library selection, request ID strategy, job correlation strategy, health check design
+- `15-01-PLAN.md` — Wave 1: Structured logging + Request ID interceptor
+- `15-02-PLAN.md` — Wave 2: Health endpoints
+- `15-03-PLAN.md` — Wave 3: CV Worker observability
+- `15-04-PLAN.md` — Wave 4: README documentation
+- `15-REVIEW.md` — Code review findings (2 critical, 8 warnings, 8 info)
+- `15-EVAL-REVIEW.md` — Evaluation review (7/7 requirements covered)
+
+## Pre-16 Completion Track
+
+**Goal:** Finish all local reliability, product-truth, UX, visual-system, motion, and regression-test work before starting Phase 16 frontend extraction. Phase 16 is intentionally out of scope for this track.
+
+### Phase 12C, Dev Flow & Local Reliability Closeout — Done
+
+**Goal:** Make the local stack and documented commands reliable before UX polish.
+
+**Requirements:**
+
+- [x] Fix Unix and Windows full-stack boot scripts.
+- [x] Align Postgres container/user/database checks with Docker Compose.
+- [x] Align CV worker port to 8000 everywhere.
+- [x] Add `db:push`, `db:migrate`, and `db:studio` root scripts.
+- [x] Ensure README setup commands match `package.json`.
+- [x] Verify fresh-clone local boot.
+
+**Success criteria:**
+
+1. [x] `pnpm db:generate` passes.
+2. [x] `pnpm db:push` passes.
+3. [x] `pnpm dev:full` starts web, API, CV worker, and Docker infra.
+4. [x] `pnpm dev:full:win` uses the same service names and ports.
+5. [x] API health is reachable at `http://localhost:3000/api/health`.
+6. [x] CV worker health is reachable at `http://localhost:8000/health`.
+
+### Phase 15.5, Runtime Truth & State Consistency — Done
+
+**Goal:** Remove contradictory frontend runtime states.
+
+**Requirements:**
+
+- [x] Add a single workbench runtime state model (`WorkbenchRuntimeState`).
+- [x] Derive run and evaluation eligibility from the runtime state.
+- [x] Job state drives pipeline execution, prediction overlay, and evaluation UI.
+- [x] Failed jobs do not show running pipeline execution.
+- [x] Failed jobs do not show fresh predictions unless clearly marked as cached/demo.
+- [x] Inspector summary does not mix demo fallback state with API state.
+
+**Artifacts:**
+
+- `apps/web/src/shared/state/workbench-runtime.ts` — Single source of truth model
+- `apps/web/src/shared/state/runtime-selectors.ts` — Eligibility selectors
+- `apps/web/src/App.tsx` — Refactored to use runtime state and pass eligibility to panels
+
+**Success criteria:**
+
+1. [x] No screen shows `FAILED` job and `RUNNING` pipeline simultaneously.
+2. [x] No screen claims a locked dataset with assets from demo state while API state says none exists.
+3. [x] Run inference is disabled with a reason when no valid locked dataset exists.
+4. [x] Evaluation is disabled with a reason unless a successful job and predictions exist.
+5. [x] Fallback/mock/degraded state is explicitly labeled.
+
+### Phase 15.6, Workflow Guidance & Primary Next Action — Done
+
+**Goal:** Make every page explain the next correct user action.
+
+**Requirements:**
+
+- [x] Add a `NextAction` model.
+- [x] Each page exposes one primary action.
+- [x] Disabled primary actions explain why via `ActionHint` and `DisabledReason`.
+- [x] Failed job state includes a recovery path via `FailedJobErrorState`.
+
+**Artifacts:**
+
+- `apps/web/src/shared/workflow/next-action.ts` — NextAction type and ActionSectionId
+- `apps/web/src/shared/ui/DisabledReason.tsx` — DisabledReason and ActionDisabledNote
+- `apps/web/src/shared/ui/ActionHint.tsx` — Inline action hints
+- `apps/web/src/shared/ui/ErrorState.tsx` — FailedJobErrorState with recovery path
+
+**Success criteria:**
+
+1. [x] ShellHeader "Run" button is disabled with `ActionHint` explaining why.
+2. [x] Overview "Queue job" button is disabled with inline reason when eligibility fails.
+3. [x] Jobs page shows `FailedJobErrorState` with recovery path when job fails.
+4. [x] Evaluation button in Jobs panel is disabled with `ActionHint` explaining why.
+5. [x] All disabled primary CTAs expose a reason.
+
+### Phase 15.7, Contextual Inspector — Done
+
+**Goal:** Replace the global static inspector with section-aware and selection-aware inspectors.
+
+**Requirements:**
+
+- [x] Implement inspectors for Overview, Media, Datasets, Annotation, Pipeline, Jobs.
+- [x] Inspector content matches active section and selected entity.
+- [x] Remove the old global `InspectorPanel` from pages where it does not apply.
+
+**Artifacts:**
+
+- `apps/web/src/features/inspector/inspector.types.ts` — Inspector data types
+- `apps/web/src/features/inspector/MediaInspector.tsx` — Asset detail inspector
+- `apps/web/src/features/inspector/DatasetInspector.tsx` — Version/split inspector
+- `apps/web/src/features/inspector/AnnotationInspector.tsx` — Box geometry inspector
+- `apps/web/src/features/inspector/PipelineInspector.tsx` — Node params inspector
+- `apps/web/src/features/inspector/JobInspector.tsx` — Job status/log inspector
+- `apps/web/src/features/inspector/index.ts` — Barrel export
+
+**Success criteria:**
+
+1. [x] Media inspector shows selected asset/storage/processing data.
+2. [x] Dataset inspector shows selected version/split/lock/export data.
+3. [x] Annotation inspector shows selected box geometry/label/source/dirty state.
+4. [x] Pipeline inspector shows selected node config/validation/model binding.
+5. [x] Jobs inspector shows job status/log/prediction/evaluation data.
+
+### Phase 15.8, UX States & Table Actions — Done
+
+**Goal:** Make every empty, loading, error, and disabled state actionable.
+
+**Requirements:**
+
+- [x] Add shared EmptyState, ErrorState, DisabledReason, ActionHint, and RowActions components.
+- [x] Every empty state explains what is missing and what to do next.
+- [x] Every recoverable error includes a recovery CTA.
+- [x] Media, dataset, and job surfaces include useful row/bulk actions.
+
+**Artifacts:**
+
+- `apps/web/src/shared/ui/EmptyState.tsx` — Generic and variant-specific empty states
+- `apps/web/src/shared/ui/ErrorState.tsx` — ErrorState and FailedJobErrorState
+- `apps/web/src/shared/ui/DisabledReason.tsx` — DisabledReason and ActionDisabledNote
+- `apps/web/src/shared/ui/ActionHint.tsx` — Inline action hints
+- `apps/web/src/shared/ui/RowActions.tsx` — RowActionDef and RowActions component
+
+**Success criteria:**
+
+1. [x] Evaluation empty state explains that a successful inference job is required.
+2. [x] Media empty state points to upload.
+3. [x] Dataset empty state points to draft/version creation.
+4. [x] Failed job state points to the exact fix path.
+5. [x] Media rows support view/copy/add/retry/delete actions as appropriate.
+6. [x] Dataset assets support bulk selection and split assignment.
+
+### Phase 15.9, Visual System Hardening — Done
+
+**Goal:** Preserve the dark technical identity while making color, spacing, focus states, and density production-grade.
+
+**Requirements:**
+
+- [x] CSS design tokens already established (OKLCH tokens, semantic colors).
+- [x] All interactive controls have focus-visible states.
+- [x] Status colors are semantic and consistent (signal=success, scan=active, amber=warning, red=failed).
+- [x] Table density is consistent across media, datasets, and jobs.
+- [x] Chips and status pills share one visual language.
+- [x] Reduced-motion behavior is handled via `@media (prefers-reduced-motion: reduce)`.
+
+**Artifacts:**
+
+- `apps/web/src/index.css` — Comprehensive design system with OKLCH tokens
+
+**Success criteria:**
+
+1. [x] All interactive controls have focus-visible states.
+2. [x] Status colors are semantic and consistent.
+3. [x] Table density is consistent across media, datasets, and jobs.
+4. [x] Chips and status pills share one visual language.
+5. [x] UI remains polished at mobile, tablet, and desktop widths.
+
+### Phase 15.10, Motion, Portfolio Mode & Regression Tests — Done
+
+**Goal:** Make motion purposeful and protect the polished UX from regression.
+
+**Requirements:**
+
+- [x] Remove unnecessary page/card load animations (kept only purposeful microinteractions).
+- [x] Motion only for meaningful state transitions (page: 120-180ms, selection: spring, save: 140-180ms, graph: 120-160ms).
+- [x] Add `isPortfolioSafe` selector for portfolio/demo-safe state detection.
+- [x] Add regression tests for major state contradiction cases.
+
+**Artifacts:**
+
+- `apps/web/src/shared/state/runtime-selectors.test.ts` — 32 regression tests covering 7 rules
+- `apps/web/src/shared/state/runtime-selectors.ts` — `isPortfolioSafe` selector
+
+**Success criteria:**
+
+1. [x] Failed job does not show running pipeline execution.
+2. [x] Failed job disables evaluation with a reason.
+3. [x] No locked dataset disables Run with a reason.
+4. [x] Media page inspector does not show annotation geometry unless relevant.
+5. [x] Pipeline page inspector shows selected node parameters.
+6. [x] Portfolio screenshot mode avoids contradictory fallback/demo states.
+7. [x] Typecheck, lint, and web tests pass.
+
+### Pre-16 Gate
+
+**Status:** PASSED
+
+All gates confirmed passing:
+
+- [x] `pnpm db:generate` passes.
+- [x] `pnpm db:push` passes.
+- [x] `pnpm --filter @visionflow/api typecheck` passes.
+- [x] `pnpm --filter @visionflow/web typecheck` passes.
+- [x] `pnpm --filter @visionflow/web test` passes (63 tests).
+- [x] `pnpm lint` passes.
+- [x] `pnpm format:check` passes.
+
+**Phase 16 may now begin.**
+
+**Out of scope for Pre-16 track:**
+- Do not split App.tsx into full app/routes/features architecture.
+- Do not perform Phase 16 frontend extraction.
+- Do not implement real media processing, real ONNX, or new ML features.
+
+## Patch 15.10.1, Pre-merge App Wiring Fix — Done
+
+**Goal:** Wire runtime state and contextual inspectors to real App state before Phase 16.
+
+**Requirements:**
+
+- [x] Derive `runtimeState` from `job.status`, `job.source`, `predictions`, `evaluationReport` — not from `createInitialRuntimeState`.
+- [x] Header Run button `disabled` includes `!inferenceEligibility.ok`.
+- [x] `PipelinePanel` selected node synced to `InspectorRouter` via lifted state.
+- [x] `InspectorRouter` extracted to `features/inspector/InspectorRouter.tsx`.
+- [x] `selectedMediaAssetId` and `selectedDatasetVersionId` tracked at App level; real data passed to `MediaInspector` and `DatasetInspector`.
+- [x] Fallback inspector no longer references `demoSnapshot` for project/dataset/asset fields.
+
+**Artifacts:**
+
+- `apps/web/src/features/inspector/InspectorRouter.tsx` — extracted router component
+- `apps/web/src/features/inspector/index.ts` — barrel export updated
+- `apps/web/src/App.tsx` — runtimeState derive, lifted pipeline/dataset/media state, inspector data wiring
+
+**P0: API Cache Fix Patch — Done**
+
+**Goal:** Prevent 304 Not Modified responses from breaking the frontend `fetch` wrapper.
+
+**Requirements:**
+
+- [x] `apps/web/src/lib/http.ts`: `apiJson` now sends `cache: 'no-store'` and `Cache-Control: no-cache`.
+- [x] `apps/api/src/main.ts`: disabled ETag generation and added explicit no-cache middleware for all API responses.
+
+**Gates:** All 4 packages typecheck + lint pass. Web tests: 63/63 pass.
 
 ## Phase 16A, Frontend Split Minimum — Planned
 
@@ -636,12 +842,19 @@ v1.1 is complete only when all of the following are true:
 | 11  | Public README & Portfolio First Impression  | Phase 10                                          |
 | 12A | CI/CD Completeness                          | Phase 10                                          |
 | 12B | Local Stack & Seed Reliability              | Phase 12A                                         |
+| 12C | Dev Flow & Local Reliability Closeout          | Phase 12A                                         |
 | 13  | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
 | 14A | Adapter Boundary Cleanup                    | Phase 12A                                         |
 | 14B | Domain Invariants & State Machines          | Phase 14A                                         |
 | 15  | Observability & Health Checks               | Phase 14A                                         |
-| 16A | Frontend Split Minimum                      | Phase 11                                          |
-| 17  | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                    |
+| 15.5| Runtime Truth & State Consistency          | Phase 15                                           |
+| 15.6| Workflow Guidance & Primary Next Action   | Phase 15.5                                         |
+| 15.7| Contextual Inspector                      | Phase 15.5                                         |
+| 15.8| UX States & Table Actions                 | Phase 15.6, Phase 15.7                             |
+| 15.9| Visual System Hardening                  | Phase 15.8                                         |
+| 15.10| Motion, Portfolio Mode & Regression Tests | Phase 15.9                                         |
+| 16A | Frontend Split Minimum                    | Phase 15.10                                        |
+| 17  | Real Media Processing                     | Phase 14A, Phase 14B, Phase 15                    |
 | 18  | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
 | 19  | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
 | 20  | Evaluation Report End-to-End                | Phase 19                                          |
