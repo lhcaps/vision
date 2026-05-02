@@ -59,9 +59,11 @@ services:
     depends_on:
       minio:
         condition: service_healthy
-    entrypoint: ['/bin/sh', '-c']
-    command: |
-      "sleep 5 && mc alias set local http://minio:9000 visionflow visionflow-secret && mc mb local/visionflow-artifacts --ignore-existing && mc anonymous set download local/visionflow-artifacts"
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      sleep 5 &&
+      mc alias set local http://minio:9000 visionflow visionflow-secret &&
+      mc mb local/visionflow-artifacts --ignore-existing
     restart: 'no'
     networks:
       - visionflow-net

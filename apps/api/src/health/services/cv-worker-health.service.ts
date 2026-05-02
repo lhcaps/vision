@@ -1,22 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { DependencyHealthDto } from '../dto/health-response.dto';
 
-const ALLOWED_WORKER_HOSTS = ['localhost', '127.0.0.1'];
+function getAllowedWorkerHosts(): string[] {
+  const env = process.env.CV_WORKER_ALLOWED_HOSTS ?? '';
+  if (!env) return ['localhost', '127.0.0.1'];
+  return env.split(',').map((h) => h.trim()).filter(Boolean);
+}
 
 @Injectable()
 export class CvWorkerHealthService {
   private readonly workerUrl: string;
+  private readonly allowedHosts: string[];
   private readonly isAllowed: boolean;
 
   constructor() {
-    this.workerUrl = process.env.CV_WORKER_URL ?? 'http://localhost:8000';
+    this.allowedHosts = getAllowedWorkerHosts();
+    this.workerUrl = process.env.CV_WORKER_URL ?? '';
     this.isAllowed = this.#validateHost(this.workerUrl);
   }
 
   #validateHost(url: string): boolean {
+    if (!url || url === 'mock') return true;
     try {
       const parsed = new URL(url);
-      return ALLOWED_WORKER_HOSTS.includes(parsed.hostname);
+      return this.allowedHosts.includes(parsed.hostname);
     } catch {
       return false;
     }
@@ -36,7 +43,7 @@ export class CvWorkerHealthService {
       return {
         status: 'down',
         responseTimeMs: Date.now() - start,
-        details: { error: 'CV_WORKER_URL must point to localhost' },
+        details: { error: `CV_WORKER_URL hostname must be one of: ${this.allowedHosts.join(', ')}` },
       };
     }
 

@@ -5,7 +5,14 @@ import { DependencyHealthDto } from '../dto/health-response.dto';
 
 @Injectable()
 export class MinioHealthService {
-  constructor(@Inject(STORAGE_REPOSITORY) private readonly storage: { listBuckets(): Promise<void> }) {}
+  private readonly bucket: string;
+
+  constructor(
+    @Inject(STORAGE_REPOSITORY)
+    private readonly storage: { listBuckets(): Promise<void>; bucketExists?(name: string): Promise<boolean> },
+  ) {
+    this.bucket = process.env.MINIO_BUCKET ?? 'visionflow-artifacts';
+  }
 
   async check(timeoutMs = 5000): Promise<DependencyHealthDto> {
     const start = Date.now();
@@ -16,6 +23,16 @@ export class MinioHealthService {
           setTimeout(() => reject(new Error('Timeout')), timeoutMs),
         ),
       ]);
+
+      if (typeof this.storage.bucketExists === 'function') {
+        await Promise.race([
+          this.storage.bucketExists(this.bucket),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error('Bucket check timeout')), timeoutMs),
+          ),
+        ]);
+      }
+
       return { status: 'up', responseTimeMs: Date.now() - start };
     } catch (err) {
       return {

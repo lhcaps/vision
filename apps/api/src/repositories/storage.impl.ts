@@ -34,4 +34,8 @@ export class MinioStorageRepository implements StorageRepository {
   async listBuckets(): Promise<void> {
     await this.client.listBuckets();
   }
+
+  async bucketExists(name: string): Promise<boolean> {
+    return this.client.bucketExists(name);
+  }
 }

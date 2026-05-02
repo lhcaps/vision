@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { createConnection } from 'net';
+import { Redis } from 'ioredis';
 import { DependencyHealthDto } from '../dto/health-response.dto';
 
 @Injectable()
@@ -20,26 +20,29 @@ export class RedisHealthService {
 
     const host = process.env.REDIS_HOST ?? '127.0.0.1';
     const port = Number(process.env.REDIS_PORT ?? 6379);
+    const password = process.env.REDIS_PASSWORD || undefined;
+
+    const redis = new Redis({
+      host,
+      port,
+      password,
+      connectTimeout: timeoutMs,
+      lazyConnect: true,
+    });
 
     return new Promise((resolve) => {
-      const socket = createConnection({ host, port, timeout: timeoutMs });
-
-      socket.on('connect', () => {
-        socket.destroy();
-        resolve({ status: 'up', responseTimeMs: Date.now() - start });
-      });
-
-      socket.on('timeout', () => {
-        socket.destroy();
+      const timer = setTimeout(() => {
+        redis.disconnect();
         resolve({
           status: 'down',
           responseTimeMs: Date.now() - start,
-          details: { error: 'connection timeout' },
+          details: { error: 'timeout' },
         });
-      });
+      }, timeoutMs);
 
-      socket.on('error', (err) => {
-        socket.destroy();
+      redis.on('error', (err) => {
+        clearTimeout(timer);
+        redis.disconnect();
         resolve({
           status: 'down',
           responseTimeMs: Date.now() - start,
@@ -47,14 +50,30 @@ export class RedisHealthService {
         });
       });
 
-      setTimeout(() => {
-        socket.destroy();
-        resolve({
-          status: 'down',
-          responseTimeMs: Date.now() - start,
-          details: { error: 'timeout' },
+      redis.connect()
+        .then(() => redis.ping())
+        .then((reply) => {
+          clearTimeout(timer);
+          redis.disconnect();
+          if (reply === 'PONG') {
+            resolve({ status: 'up', responseTimeMs: Date.now() - start });
+          } else {
+            resolve({
+              status: 'down',
+              responseTimeMs: Date.now() - start,
+              details: { error: `unexpected PING reply: ${reply}` },
+            });
+          }
+        })
+        .catch((err: Error) => {
+          clearTimeout(timer);
+          redis.disconnect();
+          resolve({
+            status: 'down',
+            responseTimeMs: Date.now() - start,
+            details: { error: err.message },
+          });
         });
-      }, timeoutMs);
     });
   }
 }

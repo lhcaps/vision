@@ -3,4 +3,5 @@ export interface StorageRepository {
   getSignedUrl(key: string): Promise<string>;
   delete(key: string): Promise<void>;
   listBuckets(): Promise<void>;
+  bucketExists(name: string): Promise<boolean>;
 }

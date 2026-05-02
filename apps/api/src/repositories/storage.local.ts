@@ -20,4 +20,8 @@ export class LocalStorageRepository implements StorageRepository {
   async listBuckets(): Promise<void> {
     // No-op for local storage
   }
+
+  async bucketExists(_name: string): Promise<boolean> {
+    return true;
+  }
 }
