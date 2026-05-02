@@ -266,8 +266,8 @@ export function App() {
     void (async () => {
       try {
         const [existingReport, predData] = await Promise.all([
-          getEvaluationReport(job.id),
-          getJobPredictions(job.id),
+          getEvaluationReport(job.projectId, job.id),
+          getJobPredictions(job.projectId, job.id),
         ]);
 
         if (cancelled) return;
@@ -294,10 +294,10 @@ export function App() {
     setEvaluationError(null);
 
     try {
-      const report = await runEvaluation(job.id);
+      const report = await runEvaluation(job.projectId, job.id);
       setEvaluationReport(report);
 
-      const predData = await getJobPredictions(job.id);
+      const predData = await getJobPredictions(job.projectId, job.id);
       setPredictions(predData.predictions);
     } catch (err) {
       setEvaluationError(err instanceof Error ? err.message : 'Evaluation failed.');
@@ -461,6 +461,7 @@ function seededJobSummary(): InferenceJobSummary {
     status: demoSnapshot.job.status,
     progress: demoSnapshot.job.progress,
     createdAt: '2026-04-28T13:35:40.000Z',
+    updatedAt: '2026-04-28T13:35:40.000Z',
     startedAt: demoSnapshot.job.startedAt ?? null,
     completedAt: null,
     errorMessage: null,

@@ -1,40 +1,35 @@
 /**
  * Application mode configuration for VisionFlow Studio.
- * Determines whether the application runs in production or demo mode.
- */
-
-export type AppMode = 'production' | 'demo';
-
-/**
- * Detect the application mode from environment variables.
+ * Determines whether the application uses database or in-memory stores.
  *
  * Priority:
- * 1. APP_MODE environment variable (explicit override)
- * 2. DATABASE_URL presence (production if present)
- * 3. Default to demo mode
+ *  1. DATA_MODE env var (explicit, preferred)
+ *  2. APP_MODE env var (backwards-compatible fallback)
+ *  3. DATABASE_URL presence (legacy heuristic)
  */
-export function detectMode(): AppMode {
-  if (process.env.APP_MODE === 'demo') {
-    return 'demo';
-  }
 
-  if (process.env.DATABASE_URL) {
-    return 'production';
-  }
-
-  return 'demo';
-}
+export type DataMode = 'database' | 'memory';
 
 /**
- * Check if the application is running in production mode.
+ * Detect data mode from environment variables.
+ * DATA_MODE is the preferred explicit override.
  */
-export function isProductionMode(): boolean {
-  return detectMode() === 'production';
+export function detectMode(): DataMode {
+  if (process.env.DATA_MODE === 'database') return 'database';
+  if (process.env.DATA_MODE === 'memory') return 'memory';
+
+  if (process.env.APP_MODE === 'demo') return 'memory';
+  if (process.env.APP_MODE === 'production') return 'database';
+
+  if (process.env.DATABASE_URL) return 'database';
+
+  return 'memory';
 }
 
-/**
- * Check if the application is running in demo mode.
- */
-export function isDemoMode(): boolean {
-  return detectMode() === 'demo';
+export function isDatabaseMode(): boolean {
+  return detectMode() === 'database';
+}
+
+export function isMemoryMode(): boolean {
+  return detectMode() === 'memory';
 }

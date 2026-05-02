@@ -50,7 +50,6 @@ type JobPatch = {
 };
 
 const QUEUE_NAME = 'visionflow.inference';
-const DEFAULT_PROJECT_ID = 'proj_parking_lot';
 
 @Injectable()
 export class InferenceService implements OnModuleInit, OnModuleDestroy {

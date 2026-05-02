@@ -3,7 +3,7 @@ import { MediaController } from './media.controller';
 import { MediaService } from './media.service';
 import { MediaStorageService } from './media-storage.service';
 import { PrismaModule } from '../prisma/prisma.module';
-import { detectMode } from '../config/app-mode';
+import { detectMode, isDatabaseMode } from '../config/app-mode';
 import {
   PrismaMediaRepository,
   MemoryMediaRepository,
@@ -18,16 +18,16 @@ import {
   STORAGE_REPOSITORY,
 } from '../config/provider-tokens';
 
-const mode = detectMode();
+const useDatabase = isDatabaseMode();
 
 @Module({
   imports: [PrismaModule],
   controllers: [MediaController],
   providers: [
     // Bootstrap: detect mode and provide concrete implementations
-    { provide: APP_MODE, useValue: mode },
-    { provide: STORAGE_REPOSITORY, useClass: mode === 'production' ? MinioStorageRepository : LocalStorageRepository },
-    { provide: MEDIA_REPOSITORY, useClass: mode === 'production' ? PrismaMediaRepository : MemoryMediaRepository },
+    { provide: APP_MODE, useValue: useDatabase ? 'production' : 'demo' },
+    { provide: STORAGE_REPOSITORY, useClass: useDatabase ? MinioStorageRepository : LocalStorageRepository },
+    { provide: MEDIA_REPOSITORY, useClass: useDatabase ? PrismaMediaRepository : MemoryMediaRepository },
     // Concrete implementations available for direct injection where needed
     MediaStorageService,
     MinioStorageRepository,

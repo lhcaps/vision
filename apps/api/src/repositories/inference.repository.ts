@@ -49,4 +49,5 @@ export interface InferenceJobSummary {
   completedAt: string | null;
   errorMessage: string | null;
   createdAt: string;
+  updatedAt: string;
 }

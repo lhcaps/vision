@@ -107,6 +107,7 @@ function toJobSummary(row: {
   completedAt: Date | null;
   errorMessage: string | null;
   createdAt: Date;
+  updatedAt: Date;
 }): InferenceJobSummary {
   return {
     id: row.id,
@@ -120,5 +121,6 @@ function toJobSummary(row: {
     completedAt: row.completedAt?.toISOString() ?? null,
     errorMessage: row.errorMessage,
     createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
   };
 }

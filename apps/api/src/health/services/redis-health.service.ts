@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { createConnection } from 'net';
 import { DependencyHealthDto } from '../dto/health-response.dto';
 
 @Injectable()
@@ -17,15 +18,43 @@ export class RedisHealthService {
       return { status: 'up', responseTimeMs: 0, details: { note: 'memory mode' } };
     }
 
-    // Redis is configured but we can't get the client reference here.
-    // Return a transitional "checking" status — the deep health endpoint
-    // will only succeed if Redis is reachable during the actual BullMQ operation.
-    return {
-      status: 'up',
-      responseTimeMs: Date.now() - start,
-      details: {
-        note: 'redis configured — availability validated by BullMQ connection',
-      },
-    };
+    const host = process.env.REDIS_HOST ?? '127.0.0.1';
+    const port = Number(process.env.REDIS_PORT ?? 6379);
+
+    return new Promise((resolve) => {
+      const socket = createConnection({ host, port, timeout: timeoutMs });
+
+      socket.on('connect', () => {
+        socket.destroy();
+        resolve({ status: 'up', responseTimeMs: Date.now() - start });
+      });
+
+      socket.on('timeout', () => {
+        socket.destroy();
+        resolve({
+          status: 'down',
+          responseTimeMs: Date.now() - start,
+          details: { error: 'connection timeout' },
+        });
+      });
+
+      socket.on('error', (err) => {
+        socket.destroy();
+        resolve({
+          status: 'down',
+          responseTimeMs: Date.now() - start,
+          details: { error: err.message },
+        });
+      });
+
+      setTimeout(() => {
+        socket.destroy();
+        resolve({
+          status: 'down',
+          responseTimeMs: Date.now() - start,
+          details: { error: 'timeout' },
+        });
+      }, timeoutMs);
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { createLogger } from '../common/logging/structured-logger';
+import { isDatabaseMode } from '../config/app-mode';
 
 const logger = createLogger('prisma');
 
@@ -26,8 +27,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
 
   async onModuleInit() {
-    if (process.env.DATABASE_URL) {
+    if (isDatabaseMode()) {
       await this.$connect();
+    } else {
+      logger.info('Skipping Prisma connection — running in memory mode');
     }
   }
 

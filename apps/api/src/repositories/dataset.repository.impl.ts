@@ -121,24 +121,56 @@ export class PrismaDatasetRepository implements DatasetRepository {
     if (dto.parentVersionId) {
       await this.assertVersionForDataset(projectId, datasetId, dto.parentVersionId);
     }
-    const latest = await this.prisma.datasetVersion.aggregate({
-      where: { datasetId },
-      _max: { version: true },
+    return this.#createVersionWithRetry(projectId, datasetId, dto.parentVersionId ?? null);
+  }
+
+  #createVersionWithRetry(
+    projectId: string,
+    datasetId: string,
+    parentVersionId: string | null,
+    attempt = 1,
+  ): Promise<DatasetVersionSummary> {
+    const MAX_ATTEMPTS = 3;
+
+    return this.prisma.$transaction(async (tx) => {
+      const latest = await tx.datasetVersion.aggregate({
+        where: { datasetId },
+        _max: { version: true },
+      });
+      const nextVersion = (latest._max.version ?? 0) + 1;
+
+      const version = await tx.datasetVersion.create({
+        data: {
+          datasetId,
+          version: nextVersion,
+          parentVersionId,
+        },
+        include: versionInclude,
+      });
+
+      await tx.auditLog.create({
+        data: {
+          projectId,
+          action: 'DATASET_VERSION_CREATED',
+          targetType: 'DatasetVersion',
+          targetId: version.id,
+          metadataJson: { datasetId, version: version.version, parentVersionId: version.parentVersionId },
+        },
+      });
+
+      return toVersionSummary(version, datasetId);
+    }).catch(async (err: unknown) => {
+      const isUniqueViolation =
+        err instanceof Error &&
+        (err.message.includes('Unique constraint') ||
+          err.message.includes('unique constraint') ||
+          (err as { code?: string }).code === 'P2002');
+
+      if (isUniqueViolation && attempt < MAX_ATTEMPTS) {
+        return this.#createVersionWithRetry(projectId, datasetId, parentVersionId, attempt + 1);
+      }
+      throw err;
     });
-    const version = await this.prisma.datasetVersion.create({
-      data: {
-        datasetId,
-        version: (latest._max.version ?? 0) + 1,
-        parentVersionId: dto.parentVersionId ?? null,
-      },
-      include: versionInclude,
-    });
-    await this.writeAudit(projectId, 'DATASET_VERSION_CREATED', 'DatasetVersion', version.id, {
-      datasetId,
-      version: version.version,
-      parentVersionId: version.parentVersionId,
-    });
-    return toVersionSummary(version, datasetId);
   }
 
   async listVersions(

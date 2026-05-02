@@ -25,6 +25,7 @@ export class MemoryInferenceRepository implements InferenceRepository {
       completedAt: null,
       errorMessage: null,
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     memoryJobs.set(job.id, job);
     return job;
@@ -60,6 +61,7 @@ export class MemoryInferenceRepository implements InferenceRepository {
     if (data.error !== undefined) job.errorMessage = data.error;
     if (data.startedAt !== undefined) job.startedAt = data.startedAt;
     if (data.completedAt !== undefined) job.completedAt = data.completedAt;
+    job.updatedAt = new Date().toISOString();
     return job;
   }
 

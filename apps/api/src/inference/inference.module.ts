@@ -7,12 +7,12 @@ import { CvWorkerClient } from './cv-worker.client';
 import { EvaluationService } from './evaluation.service';
 import { InferenceController } from './inference.controller';
 import { InferenceService } from './inference.service';
-import { detectMode } from '../config/app-mode';
+import { isDatabaseMode } from '../config/app-mode';
 import { PrismaInferenceRepository } from '../repositories/inference.prisma';
 import { MemoryInferenceRepository } from '../repositories/inference.memory';
 import { INFERENCE_REPOSITORY } from '../config/provider-tokens';
 
-const mode = detectMode();
+const useDatabase = isDatabaseMode();
 
 @Module({
   imports: [DatasetsModule, MediaModule, PipelinesModule, PrismaModule],
@@ -20,7 +20,7 @@ const mode = detectMode();
   providers: [
     {
       provide: INFERENCE_REPOSITORY,
-      useClass: mode === 'production' ? PrismaInferenceRepository : MemoryInferenceRepository,
+      useClass: useDatabase ? PrismaInferenceRepository : MemoryInferenceRepository,
     },
     CvWorkerClient,
     EvaluationService,

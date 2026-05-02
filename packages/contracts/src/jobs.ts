@@ -75,6 +75,7 @@ export const InferenceJobSummarySchema = z.object({
   status: InferenceJobStatusSchema,
   progress: z.number().int().min(0).max(100),
   createdAt: z.string(),
+  updatedAt: z.string(),
   startedAt: z.string().nullable(),
   completedAt: z.string().nullable(),
   errorMessage: z.string().nullable(),

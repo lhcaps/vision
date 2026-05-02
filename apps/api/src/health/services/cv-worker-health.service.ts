@@ -9,7 +9,7 @@ export class CvWorkerHealthService {
   private readonly isAllowed: boolean;
 
   constructor() {
-    this.workerUrl = process.env.CV_WORKER_URL ?? 'http://localhost:8001';
+    this.workerUrl = process.env.CV_WORKER_URL ?? 'http://localhost:8000';
     this.isAllowed = this.#validateHost(this.workerUrl);
   }
 
