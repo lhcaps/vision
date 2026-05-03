@@ -82,7 +82,7 @@ import {
   listProjectDatasets,
   lockDatasetVersion,
 } from './lib/datasets';
-import { checksumFile, uploadMediaFile } from './lib/media-upload';
+import { checksumFile, uploadMediaFile, type MediaUploadRow } from './features/media';
 import {
   createProjectPipeline,
   listProjectPipelines,
@@ -98,7 +98,9 @@ import {
   mergeJobEvent,
   openInferenceJobEvents,
   runEvaluation,
-} from './lib/inference';
+  type JobUiState,
+  type JobSourceState,
+} from './features/inference';
 import {
   EmptyState,
   EvaluationEmptyState,
@@ -125,29 +127,6 @@ type SectionId =
   | 'jobs'
   | 'timeline'
   | 'diff';
-
-type JobSourceState = 'loading' | 'api' | 'fallback';
-
-type JobUiState = InferenceJobSummary & {
-  logs: string[];
-  source: JobSourceState;
-  error: string | null;
-};
-
-type MediaUploadRow = {
-  id: string;
-  name: string;
-  type: 'IMAGE' | 'VIDEO' | 'FRAME';
-  checksum: string;
-  split: string;
-  status: MediaUploadStatus | 'hashing' | 'uploading';
-  progress: number;
-  sizeBytes: number;
-  width: number | null;
-  height: number | null;
-  error?: string;
-  processingJob?: string;
-};
 
 type DatasetSourceState = 'loading' | 'api' | 'fallback';
 type PipelineSourceState = 'loading' | 'api' | 'fallback';
@@ -283,17 +262,13 @@ export function App() {
 
         // Fetch all versions in parallel
         const versionResponses = await Promise.all(
-          datasetsResponse.datasets.map((ds) =>
-            listDatasetVersions(demoSnapshot.project.id, ds.id)
-          )
+          datasetsResponse.datasets.map((ds) => listDatasetVersions(demoSnapshot.project.id, ds.id))
         );
 
         if (cancelled) return;
 
         // Flatten all versions across datasets
-        const allVersions: DatasetVersionSummary[] = versionResponses.flatMap(
-          (vr) => vr.versions
-        );
+        const allVersions: DatasetVersionSummary[] = versionResponses.flatMap((vr) => vr.versions);
 
         setDatasetVersions(allVersions);
 

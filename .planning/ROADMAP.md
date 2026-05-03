@@ -522,7 +522,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Gates:** All 4 packages typecheck + lint pass. Web tests: 63/63 pass.
 
-## Phase 16A, Frontend Split Minimum — Planned
+## Phase 16A, Frontend Split Minimum — Done
 
 **Goal:** Reduce risk before real worker and detector work by extracting high-change areas from the monolithic frontend.
 
@@ -541,6 +541,8 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 4. Shared API client handles base URL, errors, and typed responses.
 5. Existing UI behavior is preserved.
 6. No circular dependencies are introduced.
+
+**Completed scope:** Canonical shared API boundary at `shared/api/client.ts` (`apiJson`, `apiUpload`, `readApiError`, `API_BASE_URL`). `lib/http.ts`, `lib/media-upload.ts`, `lib/inference.ts` delegate to canonical modules. `features/media/` module: `MediaUploadRow` type, `uploadMediaFile`, `checksumFile`. `features/inference/` module: `JobUiState`, `JobSourceState`, all inference API functions, SSE (`openInferenceJobEvents`), event merge (`mergeJobEvent`). `App.tsx` imports from feature modules. Runtime selectors (`shared/state/`) untouched. No circular dependencies introduced.
 
 ## Phase 17, Real Media Processing — Planned
 

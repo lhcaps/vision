@@ -75,7 +75,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 15.8 | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions     | ✅ Done |
 | 15.9 | Visual System Hardening                    | Focus-visible, semantic colors, consistent spacing       | ✅ Done |
 | 15.10| Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests | ✅ Done |
-| 16A  | Frontend Split Minimum                       | Feature module extraction (media, inference)            | Planned |
+| 16A  | Frontend Split Minimum                       | Feature module extraction (media, inference)            | ✅ Done |
 | 17  | Real Media Processing                       | Pillow thumbnails, ffmpeg frames, BullMQ consumer       | Planned |
 | 18  | Dataset Locking & COCO Export               | Lock enforcement, deterministic COCO export             | Planned |
 | 19  | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                   | Planned |

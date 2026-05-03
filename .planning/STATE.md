@@ -2,22 +2,22 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 16A (Planned — Frontend Split Minimum)
+Current phase: Phase 16A (Completed — Frontend Split Minimum)
 
 Last updated: 2026-05-03.
 
 ## Current Position
 
 Phase: Phase 16A — Frontend Split Minimum
-Status: Planned
+Status: Done
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum)
 
-**v1.1 In Progress:** Phase 16A (Frontend Split Minimum) — next to execute
+**v1.1 In Progress:** Phase 17 (Real Media Processing) — next to execute
 
 ## Accumulated Context
 
@@ -31,7 +31,7 @@ Status: Planned
 - Phase 14B (Domain invariants) ✅ Done
 - Phase 15 (Observability & health) ✅ Done
 - Phase 15.5-15.10 (Pre-16 Completion Track) ✅ Done
-- Phase 16A (Frontend split min) pending
+- Phase 16A (Frontend split min) ✅ Done
 - Phase 17 (Real media processing) pending
 - Phase 18 (Dataset lock & COCO export) pending
 - Phase 19 (Real ONNX inference) pending
@@ -119,15 +119,26 @@ Status: Planned
 
 ## Active Goals
 
-- Execute Phase 16A: Frontend Split Minimum.
+- Execute Phase 17: Real Media Processing.
 - Push updated artifacts to GitHub.
 
 ## Known Partial Areas (v1.1 Focus)
 
-- App.tsx is a monolithic file needing feature split (Phase 16A, 21).
 - CV worker produces mock artifacts, not real thumbnail/frame extraction (Phase 17).
 - No COCO export endpoint (Phase 18).
 - ONNX inference needs real YOLOv8n model integration (Phase 19).
 - Evaluation needs real data path end-to-end (Phase 20).
+- App.tsx is a monolithic file needing continued feature split (Phase 21).
 - No production-path test suite (Phase 22A/B).
 - No real-service E2E test or demo video (Phase 23).
+
+## What Is True After Phase 16A
+
+- Shared API boundary established at `shared/api/client.ts`: single `API_BASE_URL`, single `apiJson`, single `apiUpload`, single `readApiError`. No more duplicated error parsing across lib files.
+- `lib/http.ts`, `lib/media-upload.ts`, `lib/inference.ts` now delegate to canonical modules.
+- `features/media/` module: `MediaUploadRow` type, `uploadMediaFile`, `checksumFile` isolated.
+- `features/inference/` module: `JobUiState`, `JobSourceState`, all inference API functions, SSE (`openInferenceJobEvents`), event merging (`mergeJobEvent`) isolated.
+- `App.tsx` imports inference types/functions from `features/inference`, media types/functions from `features/media`.
+- Runtime truth selectors (`shared/state/`) remain untouched — Phase 15.5 contract preserved.
+- `demoSnapshot` usage unchanged in App.tsx — Phase 17+ concern.
+- No circular dependencies introduced: `shared/` → `features/` chain is clean.

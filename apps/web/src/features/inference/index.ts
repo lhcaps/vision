@@ -1,3 +1,4 @@
+export type { JobSourceState, JobUiState } from './inference.types';
 export {
   listInferenceJobs,
   createInferenceJob,
@@ -7,4 +8,4 @@ export {
   getInferenceJob,
   openInferenceJobEvents,
   mergeJobEvent,
-} from '../features/inference/inference.api';
+} from './inference.api';
