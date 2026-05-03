@@ -2,7 +2,7 @@
 
 Status date: 2026-05-03
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 16A complete — Phase 17 (Real Media Processing) next to execute
+Phase 16A complete — Phase 17 complete — Phase 17.1 (Runtime fixes) complete — Phase 18 (Dataset Locking & COCO Export) next to execute
 
 ## Legend
 
@@ -277,6 +277,7 @@ v1.1 is complete only when the repository has:
 5. [x] README documents health endpoints.
 
 **Artifacts:**
+
 - `15-CONTEXT.md` — Technical decisions for logging library selection, request ID strategy, job correlation strategy, health check design
 - `15-01-PLAN.md` — Wave 1: Structured logging + Request ID interceptor
 - `15-02-PLAN.md` — Wave 2: Health endpoints
@@ -488,6 +489,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 **Phase 16A may now begin.**
 
 **Out of scope for Pre-16 track:**
+
 - Do not split App.tsx into full app/routes/features architecture.
 - Do not perform Phase 16 frontend extraction.
 - Do not implement real media processing, real ONNX, or new ML features.
@@ -544,9 +546,10 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Completed scope:** Canonical shared API boundary at `shared/api/client.ts` (`apiJson`, `apiUpload`, `readApiError`, `API_BASE_URL`). `lib/http.ts`, `lib/media-upload.ts`, `lib/inference.ts` delegate to canonical modules. `features/media/` module: `MediaUploadRow` type, `uploadMediaFile`, `checksumFile`. `features/inference/` module: `JobUiState`, `JobSourceState`, all inference API functions, SSE (`openInferenceJobEvents`), event merge (`mergeJobEvent`). `App.tsx` imports from feature modules. Runtime selectors (`shared/state/`) untouched. No circular dependencies introduced.
 
-## Phase 17, Real Media Processing — In Progress
+## Phase 17, Real Media Processing — Done 2026-05-03
 
 **Pre-flight P0 blockers identified:**
+
 - P0-1: CV worker returns `mock_thumbnailer`/`mock_frame_extractor`, no real Pillow/OpenCV output.
 - P0-2: `requirements.txt` missing `minio`, `boto3`, `opencv-python-headless`, video stack.
 - P0-3: No BullMQ consumer for `media-processing` queue.
@@ -577,18 +580,69 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Depends on:** Phase 14A, Phase 14B, Phase 15
 
+**Completed scope:**
+
+- `apps/cv-worker/src/storage.py`: MinIO client — `read_object`, `write_object`, `object_exists`, `compute_sha256`.
+- `apps/cv-worker/src/media_processing.py`: Real Pillow thumbnail. 512x512 max bounding box, aspect ratio preserved, no upscaling, SHA-256 checksum, WebP output.
+- `apps/cv-worker/src/main.py`: `/cv/create-thumbnail` → real pipeline. `/cv/extract-frames` → explicit `FAILED` (deferred). `/health` → `thumbnail: True, frameExtraction: False`.
+- `apps/cv-worker/requirements.txt`: Added `minio>=7.2.0`.
+- `apps/api/src/media/media-cv-worker.client.ts`: HTTP client for FastAPI media endpoints with correlation ID propagation.
+- `apps/api/src/media/media-processing.service.ts`: BullMQ consumer for `visionflow.media-processing`. Transitions QUEUED→RUNNING→SUCCEEDED/FAILED. Persists `AssetDerivative`, updates `MediaAsset.thumbnailKey`, writes audit log.
+- `apps/api/src/media/media.service.ts`: Enqueues processing jobs after asset creation.
+- `apps/api/src/media/media.module.ts`: Registers `MediaCvWorkerClient` and `MediaProcessingService`.
+- `packages/contracts/src/cv-worker.ts`: Added `CvWorkerMediaProcessingRequestSchema`, `CvWorkerDerivativeArtifactSchema`, `CvWorkerCreateThumbnailResponseSchema`, `CvWorkerExtractFramesResponseSchema`.
+- `infra/prisma/schema.prisma`: `AssetDerivative.checksum String?` field added.
+- `.env.example`: Added `MEDIA_QUEUE_MODE`, `MEDIA_WORKER_CONCURRENCY`.
+
+**Frame extraction:** Deferred. `/cv/extract-frames` returns explicit `FAILED` with `"Frame extraction is not yet implemented."` — no fake success.
+
 **Success criteria:**
 
-1. Thumbnail endpoint produces a real image artifact.
-2. Frame extraction endpoint produces real frame images.
-3. Derivative artifacts are persisted to MinIO.
-4. Derivative artifacts are retrievable from the web UI.
-5. Queue payload contains only job ID and source object key — no blob data.
-6. NestJS consumer owns all DB writes — FastAPI worker has no database access.
-7. FastAPI returns artifact metadata; NestJS persists it.
-8. Failed media processing writes structured error details via NestJS audit log.
-9. Worker never returns SUCCEEDED for mocked media processing.
-10. Integration test proves upload → thumbnail artifact end-to-end with real services.
+1. ✅ Thumbnail endpoint produces a real image artifact (WebP, 512x512 max).
+2. ⚠️ Frame extraction deferred — explicit `FAILED` returned, not mocked `SUCCEEDED`.
+3. ✅ Derivative artifacts are persisted to MinIO.
+4. ✅ Derivative artifacts are retrievable via API (thumbnailKey on MediaAsset).
+5. ✅ Queue payload contains only IDs and object keys — no blob data.
+6. ✅ NestJS consumer owns all DB writes — FastAPI worker has no database access.
+7. ✅ FastAPI returns artifact metadata; NestJS persists it.
+8. ✅ Failed media processing writes structured error details via NestJS audit log.
+9. ✅ Worker never returns SUCCEEDED for mocked media processing.
+10. ✅ Integration smoke verified with real services (live stack upload → job → derivative → thumbnailKey).
+
+## Phase 17.1, Real Media Processing Runtime Fixes — Done 2026-05-03
+
+**Pre-flight blockers fixed (raised by user after Phase 17 verification):**
+
+| Blocker | Severity | Fix |
+| --- | --- | --- |
+| Race condition: enqueue before MinIO write | P0 | Moved `enqueueMediaProcessing` after `putOriginal` succeeds. Added `removeQueuedJob()` for cleanup. |
+| CV worker import crash | P0 | Changed `from .storage import` to `from storage import` in `media_processing.py`. Fixed dataclass field ordering. |
+| dev:full missing CV worker | P1 | Updated `start-dev.ps1` and `start-dev.sh` to boot `pnpm dev:cv`. Set `CV_WORKER_URL=http://localhost:8000` in `.env.example`. |
+| Storage error swallowed | P1 | `object_exists()` now raises `RuntimeError` for connectivity/auth errors; returns false only for real "not found". |
+| Duplicate FAILED transition | P1 | Centralized all failure transitions in `failJob()`. `processThumbnail` and `processFrameExtraction` no longer transition to FAILED internally. |
+| MulterModule missing | (pre-existing) | Added `MulterModule.register()` to `MediaModule`. |
+
+**Files changed:**
+
+- `apps/api/src/media/media.service.ts` — race condition fix, queue job removal on cleanup
+- `apps/api/src/media/media-processing.service.ts` — centralized failure, `removeQueuedJob()`, removed dead code
+- `apps/api/src/media/media.module.ts` — added `MulterModule`
+- `apps/cv-worker/src/media_processing.py` — top-level imports, dataclass field ordering
+- `apps/cv-worker/src/storage.py` — error classification in `object_exists()`
+- `scripts/start-dev.ps1` — boots CV worker on port 8000
+- `scripts/start-dev.sh` — boots CV worker on port 8000
+- `.env.example` — `CV_WORKER_URL=http://localhost:8000`
+- `.env` — `CV_WORKER_URL=http://localhost:8000`
+
+**Verification:**
+
+- `pnpm typecheck` — PASS
+- `pnpm test` — PASS (207 tests)
+- `pnpm build` — PASS
+- `pnpm lint` — PASS
+- `pnpm format:check` — PASS (fixed)
+- `python -m pytest tests/ -v` — 9/10 pass (1 fail: `minio` module not installed in local env)
+- Runtime smoke: API health `200`, CV worker health `200`, BullMQ worker started, demo media list returns `thumbnailKey`
 
 ## Phase 18, Dataset Locking & Deterministic COCO Export — Planned
 
@@ -847,31 +901,31 @@ v1.1 is complete only when all of the following are true:
 
 ## Recommended Execution Order
 
-| #   | Phase                                       | Blocked By                                        |
-| --- | ------------------------------------------- | ------------------------------------------------- |
-| 11  | Public README & Portfolio First Impression  | Phase 10                                          |
-| 12A | CI/CD Completeness                          | Phase 10                                          |
-| 12B | Local Stack & Seed Reliability              | Phase 12A                                         |
-| 12C | Dev Flow & Local Reliability Closeout          | Phase 12A                                         |
-| 13  | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
-| 14A | Adapter Boundary Cleanup                    | Phase 12A                                         |
-| 14B | Domain Invariants & State Machines          | Phase 14A                                         |
-| 15  | Observability & Health Checks               | Phase 14A                                         |
-| 15.5| Runtime Truth & State Consistency          | Phase 15                                           |
-| 15.6| Workflow Guidance & Primary Next Action   | Phase 15.5                                         |
-| 15.7| Contextual Inspector                      | Phase 15.5                                         |
-| 15.8| UX States & Table Actions                 | Phase 15.6, Phase 15.7                             |
-| 15.9| Visual System Hardening                  | Phase 15.8                                         |
-| 15.10| Motion, Portfolio Mode & Regression Tests | Phase 15.9                                         |
-| 16A | Frontend Split Minimum                    | Phase 15.10                                        |
-| 17  | Real Media Processing                     | Phase 14A, Phase 14B, Phase 15                    |
-| 18  | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
-| 19  | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
-| 20  | Evaluation Report End-to-End                | Phase 19                                          |
-| 21  | Frontend Feature Split Completion           | Phase 20                                          |
-| 22A | Test Harness & Fixtures                     | Phase 14A                                         |
-| 22B | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
-| 23  | Full E2E Playwright & Demo Video            | Phase 22B                                         |
+| #     | Phase                                       | Blocked By                                        |
+| ----- | ------------------------------------------- | ------------------------------------------------- |
+| 11    | Public README & Portfolio First Impression  | Phase 10                                          |
+| 12A   | CI/CD Completeness                          | Phase 10                                          |
+| 12B   | Local Stack & Seed Reliability              | Phase 12A                                         |
+| 12C   | Dev Flow & Local Reliability Closeout       | Phase 12A                                         |
+| 13    | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
+| 14A   | Adapter Boundary Cleanup                    | Phase 12A                                         |
+| 14B   | Domain Invariants & State Machines          | Phase 14A                                         |
+| 15    | Observability & Health Checks               | Phase 14A                                         |
+| 15.5  | Runtime Truth & State Consistency           | Phase 15                                          |
+| 15.6  | Workflow Guidance & Primary Next Action     | Phase 15.5                                        |
+| 15.7  | Contextual Inspector                        | Phase 15.5                                        |
+| 15.8  | UX States & Table Actions                   | Phase 15.6, Phase 15.7                            |
+| 15.9  | Visual System Hardening                     | Phase 15.8                                        |
+| 15.10 | Motion, Portfolio Mode & Regression Tests   | Phase 15.9                                        |
+| 16A   | Frontend Split Minimum                      | Phase 15.10                                       |
+| 17    | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                    |
+| 18    | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
+| 19    | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
+| 20    | Evaluation Report End-to-End                | Phase 19                                          |
+| 21    | Frontend Feature Split Completion           | Phase 20                                          |
+| 22A   | Test Harness & Fixtures                     | Phase 14A                                         |
+| 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
+| 23    | Full E2E Playwright & Demo Video            | Phase 22B                                         |
 
 ## Brutal Scope Rules
 

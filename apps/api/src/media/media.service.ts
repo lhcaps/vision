@@ -154,10 +154,6 @@ export class MediaService {
       );
     }
 
-    // Enqueue to media-processing queue for real worker processing
-    const targetKey = processingJob.targetKey!;
-    await this.enqueueMediaProcessing(projectId, asset.id, processingJob.id, plan, targetKey);
-
     try {
       if (file.buffer) {
         await this.storage.putOriginal(plan.storageKey, file.buffer, plan.mimeType);
@@ -167,11 +163,17 @@ export class MediaService {
         throw new Error('No file content available for upload.');
       }
     } catch (err) {
-      await this.cleanupFailedUpload(projectId, asset.id, plan.storageKey);
+      await this.cleanupFailedUpload(projectId, asset.id, processingJob.id, plan.storageKey);
       throw new InternalServerErrorException('Media upload failed; storage cleaned up.');
     } finally {
       if (file.path) await this.safelyDeleteFile(file.path);
     }
+
+    // Enqueue to media-processing queue ONLY after the original object
+    // is confirmed in MinIO. This prevents a race where the BullMQ worker
+    // picks up the job and tries to read a source that does not yet exist.
+    const targetKey = processingJob.targetKey!;
+    await this.enqueueMediaProcessing(projectId, asset.id, processingJob.id, plan, targetKey);
 
     return { asset, processingJob, deduplicated: false };
   }
@@ -204,8 +206,13 @@ export class MediaService {
   private async cleanupFailedUpload(
     projectId: string,
     assetId: string,
+    mediaJobId: string | undefined,
     storageKey: string
   ): Promise<void> {
+    // Remove the queued BullMQ job first so the worker never picks it up.
+    if (mediaJobId) {
+      await this.mediaProcessingService.removeQueuedJob(mediaJobId);
+    }
     try {
       await this.storage.delete(storageKey);
     } catch {

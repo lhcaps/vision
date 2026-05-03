@@ -2,28 +2,29 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 17 (Planned — Real Media Processing)
+Current phase: Phase 17 (Completed — Real Media Processing)
 
 Last updated: 2026-05-03.
 
 ## Current Position
 
 Phase: Phase 17 — Real Media Processing
-Status: Planned
+Status: Completed
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing)
 
-**v1.1 In Progress:** Phase 17 (Real Media Processing) — next to execute
+**v1.1 In Progress:** Phase 17.1 (Runtime fixes) — Phase 18 next
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
 **v1.1 Progress:**
+
 - Phase 11 (README) ✅ Done
 - Phase 12 (CI) ✅ Done
 - Phase 13 (Security) ✅ Done
@@ -32,7 +33,8 @@ Status: Planned
 - Phase 15 (Observability & health) ✅ Done
 - Phase 15.5-15.10 (Pre-16 Completion Track) ✅ Done
 - Phase 16A (Frontend split min) ✅ Done
-- Phase 17 (Real media processing) ⏳ In Progress (P0 blockers: fake artifacts, missing deps, no BullMQ consumer, missing schema checksum)
+- Phase 17 (Real media processing) ✅ Done — Pillow thumbnail, MinIO read/write, BullMQ consumer, derivative persistence, AssetDerivative.checksum field
+- Phase 17.1 (Runtime fixes) ✅ Done — Race condition fix, CV worker import fix, full-stack dev boot, storage error classification, duplicate FAILED fix
 - Phase 18 (Dataset lock & COCO export) pending
 - Phase 19 (Real ONNX inference) pending
 - Phase 20 (Evaluation E2E) pending
@@ -119,13 +121,13 @@ Status: Planned
 
 ## Active Goals
 
-- Execute Phase 17: Real Media Processing.
-- Phase 17 P0 blockers identified: (P0-1) CV worker fake artifacts, (P0-2) missing minio/opencv deps, (P0-3) no BullMQ consumer for media-processing, (P0-4) AssetDerivative missing checksum field.
-- Push updated artifacts to GitHub.
+- Execute Phase 18: Dataset Locking & Deterministic COCO Export.
+- Phase 17 complete — real thumbnail pipeline end-to-end verified with live stack.
 
 ## Known Partial Areas (v1.1 Focus)
 
 Phase 16A is complete. Phase 17 P0 blockers identified (see Active Goals above). The following areas remain pending after Phase 17:
+
 - No COCO export endpoint (Phase 18).
 - ONNX inference needs real YOLOv8n model integration (Phase 19).
 - Evaluation needs real data path end-to-end (Phase 20).
@@ -147,7 +149,37 @@ Phase 16A is complete. All Phase 16A deliverables delivered via commit `95d52bc1
 - No circular dependencies introduced: `shared/` → `features/` chain is clean.
 
 **Phase 17 pre-flight found 4 P0 issues to address within Phase 17 implementation:**
+
 1. CV worker returns `mock_thumbnailer`/`mock_frame_extractor` instead of real Pillow/OpenCV output.
 2. `requirements.txt` missing `minio`, `boto3`, `opencv-python-headless`, and video stack.
 3. No BullMQ consumer processes `media-processing` queue jobs.
 4. `AssetDerivative` schema missing `checksum` field.
+
+## What Is True After Phase 17 (Complete)
+
+All 4 P0 blockers resolved. Commit: `feat(media): process real thumbnail artifacts`.
+
+**CV Worker changes:**
+
+- `apps/cv-worker/src/storage.py`: MinIO client with `read_object`, `write_object`, `object_exists`, `compute_sha256`.
+- `apps/cv-worker/src/media_processing.py`: Real Pillow thumbnail generation. 512x512 max bounding box, aspect ratio preserved, no upscaling, SHA-256 checksum computed, output as WebP.
+- `apps/cv-worker/src/main.py`: `/cv/create-thumbnail` replaced with real pipeline. `/cv/extract-frames` returns explicit `FAILED` with "not yet implemented". `/health` reflects `thumbnail: True`, `frameExtraction: False`.
+- `requirements.txt`: Added `minio>=7.2.0`.
+
+**NestJS API changes:**
+
+- `apps/api/src/media/media-cv-worker.client.ts`: HTTP client for FastAPI media endpoints with correlation ID propagation.
+- `apps/api/src/media/media-processing.service.ts`: BullMQ consumer for `visionflow.media-processing`. Transitions job states (QUEUED→RUNNING→SUCCEEDED/FAILED), calls FastAPI, persists `AssetDerivative`, updates `MediaAsset.thumbnailKey`, writes audit logs.
+- `apps/api/src/media/media.service.ts`: Enqueues media processing jobs after asset creation.
+- `apps/api/src/media/media.module.ts`: Registers `MediaCvWorkerClient` and `MediaProcessingService`.
+- `.env.example`: Added `MEDIA_QUEUE_MODE` and `MEDIA_WORKER_CONCURRENCY`.
+
+**Contracts changes:**
+
+- `packages/contracts/src/cv-worker.ts`: Added `CvWorkerMediaProcessingRequestSchema`, `CvWorkerDerivativeArtifactSchema`, `CvWorkerCreateThumbnailResponseSchema`, `CvWorkerExtractFramesResponseSchema` and their TypeScript types.
+
+**Schema changes:**
+
+- `infra/prisma/schema.prisma`: `AssetDerivative.checksum String?` field added.
+
+**Frame extraction deferred:** `/cv/extract-frames` returns explicit `FAILED` with `error: "Frame extraction is not yet implemented. Video frame extraction will be added in a future phase."` — no fake success.

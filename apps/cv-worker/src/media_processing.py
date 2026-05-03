@@ -15,7 +15,7 @@ from typing import Tuple
 
 from PIL import Image
 
-from .storage import compute_sha256, object_exists, read_object, write_object
+from storage import compute_sha256, object_exists, read_object, write_object
 
 THUMBNAIL_MAX_BOX = 512
 THUMBNAIL_FORMAT = "WEBP"
@@ -26,11 +26,11 @@ THUMBNAIL_MIME = "image/webp"
 class ThumbnailResult:
     """Result of a successful thumbnail generation operation."""
 
-    type: str = "THUMBNAIL"
     storage_key: str
     width: int
     height: int
     checksum: str
+    type: str = "THUMBNAIL"
     mime_type: str = THUMBNAIL_MIME
 
 

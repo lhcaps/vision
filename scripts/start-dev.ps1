@@ -16,7 +16,7 @@ Write-Host ""
 
 # Step 0: Kill anything holding dev ports
 Log-Info "Stopping stale dev servers..."
-foreach ($port in @(3000, 5173)) {
+foreach ($port in @(3000, 5173, 8000)) {
     $conn = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
     if ($conn) {
         $pids = $conn | Select-Object -ExpandProperty OwningProcess -Unique
@@ -119,6 +119,7 @@ Log-Info "Starting dev servers..."
 Write-Host ""
 Write-Host "  Web:     http://localhost:5173"
 Write-Host "  API:     http://localhost:3000"
+Write-Host "  CV Worker: http://localhost:8000"
 Write-Host "  Swagger: http://localhost:3000/api/docs"
 Write-Host "  MinIO:   http://localhost:9000  (console: http://localhost:9001)"
 Write-Host ""
@@ -129,6 +130,8 @@ Write-Host "===================================================="
 Write-Host ""
 
 # ONE command only. Turbo handles API + web parallelization internally.
+# CV worker runs separately in its own window.
 # -NoExit keeps this window open to show pnpm dev output.
 # -Wait keeps this terminal blocked so the script stays alive.
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT/apps/cv-worker/src'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"

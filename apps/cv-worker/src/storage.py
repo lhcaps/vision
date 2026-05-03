@@ -108,14 +108,24 @@ def object_exists(storage_key: str) -> bool:
         storage_key: The object key within the configured bucket.
 
     Returns:
-        True if the object exists, False otherwise.
+        True if the object exists, False if the object is not found.
+
+    Raises:
+        RuntimeError: When MinIO is unreachable or credentials are invalid.
     """
     client = get_client()
     try:
         client.stat_object(BUCKET, storage_key)
         return True
-    except Exception:  # noqa: BLE001
-        return False
+    except Exception as exc:  # noqa: BLE001
+        exc_str = str(exc)
+        if "NoSuchKey" in exc_str or "No such object" in exc_str or "404" in exc_str:
+            return False
+        # Real infrastructure error — do not silently swallow connectivity/auth failures
+        raise RuntimeError(
+            f"MinIO connectivity or auth error while checking '{storage_key}' in bucket "
+            f"'{BUCKET}': {exc}"
+        ) from exc
 
 
 def compute_sha256(data: bytes) -> str:

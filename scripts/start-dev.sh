@@ -109,17 +109,19 @@ fi
 echo ""
 log_info "Starting all apps..."
 echo ""
-echo "  Web:     http://localhost:5173"
-echo "  API:     http://localhost:3000"
-echo "  Swagger: http://localhost:3000/api/docs"
-echo "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
+echo "  Web:       http://localhost:5173"
+echo "  API:       http://localhost:3000"
+echo "  CV Worker: http://localhost:8000"
+echo "  Swagger:   http://localhost:3000/api/docs"
+echo "  MinIO:     http://localhost:9000 (console: http://localhost:9001)"
 echo ""
 
 # Set trap for cleanup
 trap 'echo ""; log_info "Shutting down... Run \`pnpm kill\` to stop Docker containers"; kill 0 2>/dev/null; wait' EXIT
 
-# Start web + api in background
+# Start web + api and CV worker in background
 pnpm dev &
+cd "$ROOT_DIR/apps/cv-worker/src" && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " VisionFlow Studio is running!"
@@ -128,4 +130,4 @@ echo "  Logs: docker compose -f infra/docker-compose.yml logs -f"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Wait for all background processes
-wait $WEB_PID
+wait

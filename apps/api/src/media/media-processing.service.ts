@@ -1,19 +1,10 @@
-import {
-  Injectable,
-  OnModuleDestroy,
-  OnModuleInit,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Queue, Worker, type ConnectionOptions } from 'bullmq';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaCvWorkerClient } from './media-cv-worker.client';
-import { createLogger, getCurrentRequestId } from '../common/logging/structured-logger';
-import {
-  CvWorkerCreateThumbnailResponse,
-  CvWorkerDerivativeArtifact,
-  CvWorkerExtractFramesResponse,
-} from '@visionflow/contracts';
+import { createLogger } from '../common/logging/structured-logger';
+import { CvWorkerCreateThumbnailResponse, CvWorkerDerivativeArtifact } from '@visionflow/contracts';
 
 export type MediaProcessingPayload = {
   projectId: string;
@@ -107,6 +98,22 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
     );
   }
 
+  async removeQueuedJob(mediaJobId: string): Promise<void> {
+    if (!this.queue) return;
+    try {
+      const job = await this.queue.getJob(mediaJobId);
+      if (job) {
+        const state = await job.getState();
+        if (state === 'waiting' || state === 'delayed') {
+          await job.remove();
+          logger.info({ mediaJobId }, 'Queued media job removed during cleanup');
+        }
+      }
+    } catch (err) {
+      logger.warn({ mediaJobId, error: String(err) }, 'Failed to remove queued job — non-critical');
+    }
+  }
+
   private async processJob(payload: MediaProcessingPayload): Promise<void> {
     const { mediaJobId, projectId, assetId, correlationId } = payload;
 
@@ -130,17 +137,7 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processThumbnail(payload: MediaProcessingPayload): Promise<void> {
-    const {
-      mediaJobId,
-      projectId,
-      assetId,
-      sourceObjectKey,
-      targetKey,
-      correlationId,
-      mimeType,
-      width,
-      height,
-    } = payload;
+    const { mediaJobId, assetId, sourceObjectKey, targetKey, correlationId, mimeType } = payload;
 
     logger.info(
       { mediaJobId, assetId, sourceObjectKey, targetKey, correlationId },
@@ -149,70 +146,36 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
 
     let response: CvWorkerCreateThumbnailResponse;
 
-    try {
-      response = await this.mediaWorkerClient.createThumbnail({
-        jobId: mediaJobId,
-        assetId,
-        storageKey: sourceObjectKey,
-        targetKey,
-        mimeType,
-        width,
-        height,
-      });
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      logger.error(
-        { mediaJobId, assetId, correlationId, error: msg },
-        'CV worker thumbnail request failed'
-      );
-      await this.transitionJob(mediaJobId, projectId, 'FAILED', msg);
-      await this.writeAuditLog(
-        projectId,
-        'MEDIA_THUMBNAIL_FAILED',
-        'MediaProcessingJob',
-        mediaJobId,
-        {
-          assetId,
-          error: msg,
-        }
-      );
-      throw error;
-    }
+    response = await this.mediaWorkerClient.createThumbnail({
+      jobId: mediaJobId,
+      assetId,
+      storageKey: sourceObjectKey,
+      targetKey,
+      mimeType,
+      width: null,
+      height: null,
+    });
 
     if (response.status === 'FAILED') {
-      const errorMsg = response.error ?? 'CV worker returned FAILED status';
-      logger.error(
-        { mediaJobId, assetId, correlationId, error: errorMsg },
-        'CV worker thumbnail returned FAILED'
-      );
-      await this.transitionJob(mediaJobId, projectId, 'FAILED', errorMsg);
-      await this.writeAuditLog(
-        projectId,
-        'MEDIA_THUMBNAIL_FAILED',
-        'MediaProcessingJob',
-        mediaJobId,
-        {
-          assetId,
-          error: errorMsg,
-        }
-      );
-      throw new Error(errorMsg);
+      throw new Error(response.error ?? 'CV worker returned FAILED status');
     }
 
     const derivative = response.derivative;
     if (!derivative) {
-      const msg = 'CV worker returned SUCCEEDED but no derivative was provided';
-      logger.error({ mediaJobId, assetId }, msg);
-      await this.transitionJob(mediaJobId, projectId, 'FAILED', msg);
-      throw new Error(msg);
+      throw new Error('CV worker returned SUCCEEDED but no derivative was provided');
     }
 
-    await this.persistDerivative(projectId, assetId, derivative, mediaJobId);
-    await this.updateAssetThumbnailKey(projectId, assetId, derivative.storageKey, mediaJobId);
-    await this.transitionJob(mediaJobId, projectId, 'SUCCEEDED', null);
+    await this.persistDerivative(payload.projectId, assetId, derivative, mediaJobId);
+    await this.updateAssetThumbnailKey(
+      payload.projectId,
+      assetId,
+      derivative.storageKey,
+      mediaJobId
+    );
+    await this.transitionJob(mediaJobId, payload.projectId, 'SUCCEEDED', null);
 
     await this.writeAuditLog(
-      projectId,
+      payload.projectId,
       'MEDIA_THUMBNAIL_CREATED',
       'MediaProcessingJob',
       mediaJobId,
@@ -240,63 +203,29 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processFrameExtraction(payload: MediaProcessingPayload): Promise<void> {
-    const { mediaJobId, projectId, assetId, sourceObjectKey, targetKey, correlationId, mimeType } =
-      payload;
+    const { mediaJobId, assetId, sourceObjectKey, correlationId, mimeType } = payload;
 
     logger.info(
       { mediaJobId, assetId, sourceObjectKey, correlationId },
       'Dispatching frame extraction to CV worker'
     );
 
-    let response: CvWorkerExtractFramesResponse;
+    const response = await this.mediaWorkerClient.extractFrames({
+      jobId: mediaJobId,
+      assetId,
+      storageKey: sourceObjectKey,
+      targetKey: payload.targetKey,
+      mimeType,
+      width: payload.width,
+      height: payload.height,
+    });
 
-    try {
-      response = await this.mediaWorkerClient.extractFrames({
-        jobId: mediaJobId,
-        assetId,
-        storageKey: sourceObjectKey,
-        targetKey,
-        mimeType,
-        width: payload.width,
-        height: payload.height,
-      });
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      logger.error(
-        { mediaJobId, assetId, correlationId, error: msg },
-        'CV worker frame extraction failed'
-      );
-      await this.transitionJob(mediaJobId, projectId, 'FAILED', msg);
-      await this.writeAuditLog(
-        projectId,
-        'MEDIA_FRAME_EXTRACTION_FAILED',
-        'MediaProcessingJob',
-        mediaJobId,
-        {
-          assetId,
-          error: msg,
-        }
-      );
-      throw error;
-    }
-
-    const errorMsg = response.error ?? 'Frame extraction returned FAILED';
-    logger.error(
-      { mediaJobId, assetId, correlationId, error: errorMsg },
-      'CV worker frame extraction returned FAILED'
+    // Frame extraction is not implemented — the worker returns FAILED.
+    // Propagate as an error so the outer catch in processJob handles it uniformly.
+    throw new Error(
+      response.error ??
+        'Frame extraction is not implemented. This feature requires OpenCV or ffmpeg dependencies.'
     );
-    await this.transitionJob(mediaJobId, projectId, 'FAILED', errorMsg);
-    await this.writeAuditLog(
-      projectId,
-      'MEDIA_FRAME_EXTRACTION_FAILED',
-      'MediaProcessingJob',
-      mediaJobId,
-      {
-        assetId,
-        error: errorMsg,
-      }
-    );
-    throw new Error(errorMsg);
   }
 
   private async persistDerivative(
@@ -382,11 +311,13 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
 
   private async failJob(payload: MediaProcessingPayload, error: unknown): Promise<void> {
     const errorMsg = error instanceof Error ? error.message : String(error);
+    const action =
+      payload.jobType === 'THUMBNAIL' ? 'MEDIA_THUMBNAIL_FAILED' : 'MEDIA_FRAME_EXTRACTION_FAILED';
     try {
       await this.transitionJob(payload.mediaJobId, payload.projectId, 'FAILED', errorMsg);
       await this.writeAuditLog(
         payload.projectId,
-        'MEDIA_PROCESSING_FAILED',
+        action,
         'MediaProcessingJob',
         payload.mediaJobId,
         {

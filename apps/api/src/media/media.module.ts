@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
 import { MediaController } from './media.controller';
 import { MediaService } from './media.service';
 import { MediaProcessingService } from './media-processing.service';
@@ -17,7 +18,12 @@ import { APP_MODE, MEDIA_REPOSITORY, STORAGE_REPOSITORY } from '../config/provid
 const useDatabase = isDatabaseMode();
 
 @Module({
-  imports: [PrismaModule],
+  imports: [
+    PrismaModule,
+    MulterModule.register({
+      limits: { fileSize: 250 * 1024 * 1024 },
+    }),
+  ],
   controllers: [MediaController],
   providers: [
     // Bootstrap: detect mode and provide concrete implementations
