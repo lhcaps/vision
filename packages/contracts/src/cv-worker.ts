@@ -72,6 +72,44 @@ export const CvWorkerEvaluationResponseSchema = z.object({
   matches: z.array(CvWorkerEvaluationMatchSchema),
 });
 
+// ─── Media Processing Contracts ────────────────────────────────────────────────
+
+export const CvWorkerDerivativeArtifactSchema = z.object({
+  type: z.enum(['THUMBNAIL', 'FRAME']),
+  storageKey: z.string().min(1),
+  width: z.number().int().nonnegative().nullable(),
+  height: z.number().int().nonnegative().nullable(),
+  checksum: z.string().min(1),
+  mimeType: z.string().min(1),
+});
+
+export const CvWorkerMediaProcessingRequestSchema = z.object({
+  jobId: z.string().min(1),
+  assetId: z.string().min(1),
+  storageKey: z.string().min(1),
+  targetKey: z.string().min(1),
+  mimeType: z.string().min(1),
+  width: z.number().int().positive().nullable(),
+  height: z.number().int().positive().nullable(),
+});
+
+export const CvWorkerCreateThumbnailResponseSchema = z.object({
+  jobId: z.string().min(1),
+  assetId: z.string().min(1),
+  status: z.enum(['SUCCEEDED', 'FAILED']),
+  derivative: CvWorkerDerivativeArtifactSchema.nullable(),
+  error: z.string().nullable().optional(),
+});
+
+export const CvWorkerExtractFramesResponseSchema = z.object({
+  jobId: z.string().min(1),
+  assetId: z.string().min(1),
+  status: z.enum(['SUCCEEDED', 'FAILED']),
+  frames: z.array(CvWorkerDerivativeArtifactSchema),
+  frameCount: z.number().int().nonnegative(),
+  error: z.string().nullable().optional(),
+});
+
 export type CvWorkerDetectorMode = z.infer<typeof CvWorkerDetectorModeSchema>;
 export type CvWorkerAssetInput = z.infer<typeof CvWorkerAssetInputSchema>;
 export type CvWorkerPrediction = z.infer<typeof CvWorkerPredictionSchema>;
@@ -83,3 +121,7 @@ export type CvWorkerEvaluationRequest = z.input<typeof CvWorkerEvaluationRequest
 export type CvWorkerEvaluationPayload = z.infer<typeof CvWorkerEvaluationRequestSchema>;
 export type CvWorkerEvaluationMatch = z.infer<typeof CvWorkerEvaluationMatchSchema>;
 export type CvWorkerEvaluationResponse = z.infer<typeof CvWorkerEvaluationResponseSchema>;
+export type CvWorkerDerivativeArtifact = z.infer<typeof CvWorkerDerivativeArtifactSchema>;
+export type CvWorkerMediaProcessingRequest = z.infer<typeof CvWorkerMediaProcessingRequestSchema>;
+export type CvWorkerCreateThumbnailResponse = z.infer<typeof CvWorkerCreateThumbnailResponseSchema>;
+export type CvWorkerExtractFramesResponse = z.infer<typeof CvWorkerExtractFramesResponseSchema>;

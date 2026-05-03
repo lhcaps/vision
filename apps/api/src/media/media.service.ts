@@ -5,16 +5,21 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { createReadStream } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 import {
   MediaAssetSummary,
   MediaProcessingJobSummary,
   MediaUploadResponse,
 } from '@visionflow/contracts';
 import { buildMediaIngestionPlan } from './media-ingestion';
+import { MediaProcessingService, MediaProcessingPayload } from './media-processing.service';
 import { MediaRepository } from '../repositories/media.repository';
 import { MEDIA_REPOSITORY, STORAGE_REPOSITORY } from '../config/provider-tokens';
 import { PrismaService } from '../prisma/prisma.service';
 import { isDatabaseMode } from '../config/app-mode';
+import { createLogger } from '../common/logging/structured-logger';
+
+const uploadLogger = createLogger('MediaService');
 
 type UploadedFile = {
   originalname: string;
@@ -31,10 +36,16 @@ export class MediaService {
     @Inject(STORAGE_REPOSITORY)
     private readonly storage: {
       putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void>;
-      putOriginalStream(key: string, stream: NodeJS.ReadableStream, size: number, mimeType: string): Promise<void>;
+      putOriginalStream(
+        key: string,
+        stream: NodeJS.ReadableStream,
+        size: number,
+        mimeType: string
+      ): Promise<void>;
       delete(key: string): Promise<void>;
     },
     private readonly prisma: PrismaService,
+    private readonly mediaProcessingService: MediaProcessingService
   ) {}
 
   async upload(projectId: string, file: UploadedFile | undefined): Promise<MediaUploadResponse> {
@@ -55,7 +66,7 @@ export class MediaService {
     } catch (err) {
       if (err instanceof Error && err.message.includes('Magic bytes')) {
         throw new BadRequestException(
-          'File content does not match declared file type. The file may be corrupted or misnamed.',
+          'File content does not match declared file type. The file may be corrupted or misnamed.'
         );
       }
       throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || 'unknown'}.`);
@@ -100,6 +111,9 @@ export class MediaService {
       storageKey: plan.storageKey,
       mimeType: plan.mimeType,
     });
+    // Enqueue to media-processing queue for real worker processing
+    const targetKey = processingJob.targetKey!;
+    await this.enqueueMediaProcessing(projectId, asset.id, processingJob.id, plan, targetKey);
     return {
       asset,
       processingJob,
@@ -110,7 +124,7 @@ export class MediaService {
   private async uploadWithSaga(
     projectId: string,
     file: UploadedFile,
-    plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>,
+    plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>
   ): Promise<MediaUploadResponse> {
     let asset: Awaited<ReturnType<MediaRepository['create']>>;
     let processingJob: Awaited<ReturnType<MediaRepository['createProcessingJob']>>;
@@ -135,8 +149,14 @@ export class MediaService {
         mimeType: plan.mimeType,
       });
     } catch (err) {
-      throw new InternalServerErrorException(`Failed to persist media record: ${(err as Error).message}`);
+      throw new InternalServerErrorException(
+        `Failed to persist media record: ${(err as Error).message}`
+      );
     }
+
+    // Enqueue to media-processing queue for real worker processing
+    const targetKey = processingJob.targetKey!;
+    await this.enqueueMediaProcessing(projectId, asset.id, processingJob.id, plan, targetKey);
 
     try {
       if (file.buffer) {
@@ -160,7 +180,7 @@ export class MediaService {
     storageKey: string,
     filePath: string,
     size: number,
-    mimeType: string,
+    mimeType: string
   ): Promise<void> {
     if (typeof this.storage.putOriginalStream === 'function') {
       const stream = createReadStream(filePath) as unknown as NodeJS.ReadableStream;
@@ -184,7 +204,7 @@ export class MediaService {
   private async cleanupFailedUpload(
     projectId: string,
     assetId: string,
-    storageKey: string,
+    storageKey: string
   ): Promise<void> {
     try {
       await this.storage.delete(storageKey);
@@ -217,5 +237,41 @@ export class MediaService {
 
   async findAsset(projectId: string, assetId: string): Promise<MediaAssetSummary | null> {
     return this.mediaRepo.findById(projectId, assetId);
+  }
+
+  private async enqueueMediaProcessing(
+    projectId: string,
+    assetId: string,
+    mediaJobId: string,
+    plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>,
+    targetKey: string
+  ): Promise<void> {
+    const correlationId = uuidv4();
+
+    const payload: MediaProcessingPayload = {
+      projectId,
+      mediaJobId,
+      assetId,
+      sourceObjectKey: plan.storageKey,
+      targetKey,
+      jobType: plan.processingJobType,
+      correlationId,
+      mimeType: plan.mimeType,
+      width: null,
+      height: null,
+    };
+
+    try {
+      await this.mediaProcessingService.enqueueJob(payload);
+      uploadLogger.info(
+        { mediaJobId, assetId, jobType: plan.processingJobType, correlationId },
+        'Media processing job enqueued'
+      );
+    } catch (err) {
+      uploadLogger.error(
+        { mediaJobId, assetId, jobType: plan.processingJobType, error: String(err) },
+        'Failed to enqueue media processing job — worker will not process this asset'
+      );
+    }
   }
 }

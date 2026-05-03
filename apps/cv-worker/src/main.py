@@ -18,6 +18,11 @@ from observability import (
     log_info,
     request_context,
 )
+from media_processing import (
+    ImageDecodeError,
+    SourceNotFoundError,
+    create_thumbnail,
+)
 
 WORKER_VERSION = "0.2.0"
 
@@ -110,6 +115,17 @@ def health(request: Request) -> dict[str, Any]:
                 "mode": "explicit",
             },
             "evaluation": True,
+            "thumbnail": {
+                "available": True,
+                "format": "WEBP",
+                "maxBox": 512,
+                "quality": 85,
+                "runtime": "pillow",
+            },
+            "frameExtraction": {
+                "available": False,
+                "reason": "Deferred to Phase 17 follow-up after thumbnail verification",
+            },
         },
         "logging": {
             "level": "INFO",
@@ -239,7 +255,14 @@ def evaluate_detections(req: EvaluateDetectionsRequest, request: Request) -> dic
 
 
 @app.post("/cv/create-thumbnail")
-def create_thumbnail(req: MediaProcessingRequest, request: Request) -> dict[str, Any]:
+def create_thumbnail_endpoint(req: MediaProcessingRequest, request: Request) -> dict[str, Any]:
+    """Generate a real thumbnail derivative from a source image.
+
+    The worker reads the source image from MinIO, creates a WebP thumbnail
+    fitting within a 512x512 bounding box, writes the derivative back to MinIO,
+    and returns the artifact metadata. This endpoint has NO database access.
+    All state transitions are handled by the NestJS API consumer.
+    """
     correlation_id = getattr(request.state, "correlation_id", None)
     job_id = req.jobId
 
@@ -263,38 +286,86 @@ def create_thumbnail(req: MediaProcessingRequest, request: Request) -> dict[str,
                 detail="Thumbnail jobs require image media",
             )
 
-        result = {
-            "jobId": req.jobId,
-            "assetId": req.assetId,
-            "status": "SUCCEEDED",
-            "derivative": {
-                "type": "THUMBNAIL",
-                "storageKey": req.targetKey,
-                "width": min(req.width or 512, 512),
-                "height": min(req.height or 512, 512),
-            },
-            "metadata": {
-                "runtime": "mock_thumbnailer",
-                "sourceKey": req.storageKey,
-            },
-        }
+        try:
+            result = create_thumbnail(req.storageKey, req.targetKey)
+            derivative = {
+                "type": result.type,
+                "storageKey": result.storage_key,
+                "width": result.width,
+                "height": result.height,
+                "checksum": result.checksum,
+                "mimeType": result.mime_type,
+            }
+            log_info(
+                "Thumbnail generation completed",
+                job_id=job_id,
+                output_key=result.storage_key,
+                width=result.width,
+                height=result.height,
+                checksum=result.checksum[:16] + "...",
+            )
+            return {
+                "jobId": job_id,
+                "assetId": req.assetId,
+                "status": "SUCCEEDED",
+                "derivative": derivative,
+                "error": None,
+            }
 
-        log_info(
-            "Thumbnail generation completed",
-            job_id=job_id,
-            output_key=req.targetKey,
-        )
-        return result
+        except SourceNotFoundError as exc:
+            log_error(
+                "Thumbnail generation failed: source not found in MinIO",
+                job_id=job_id,
+                source_key=req.storageKey,
+                error=str(exc),
+            )
+            raise HTTPException(
+                status_code=404,
+                detail=f"Source object not found: {req.storageKey}",
+            )
+
+        except ImageDecodeError as exc:
+            log_error(
+                "Thumbnail generation failed: image decode error",
+                job_id=job_id,
+                source_key=req.storageKey,
+                error=str(exc),
+            )
+            raise HTTPException(
+                status_code=400,
+                detail=f"Image decode failed for '{req.storageKey}': {str(exc)[:120]}",
+            )
+
+        except Exception as exc:  # noqa: BLE001
+            log_exception(
+                "Thumbnail generation failed: unexpected error",
+                job_id=job_id,
+                source_key=req.storageKey,
+                error=str(exc),
+            )
+            raise HTTPException(
+                status_code=500,
+                detail=f"Thumbnail generation failed: {str(exc)[:120]}",
+            )
 
 
 @app.post("/cv/extract-frames")
 def extract_frames(req: MediaProcessingRequest, request: Request) -> dict[str, Any]:
+    """Extract video frames — explicitly unsupported in Phase 17.
+
+    Returns FAILED status with a clear error message. The NestJS consumer
+    will transition the job to FAILED in the database. This stub exists
+    so the API consumer always gets a structured response.
+
+    Frame extraction will be implemented after the thumbnail path is
+    verified end-to-end in Phase 17 follow-up.
+    """
     correlation_id = getattr(request.state, "correlation_id", None)
     job_id = req.jobId
 
     with request_context(correlation_id, job_id):
         log_info(
-            "Frame extraction started",
+            "Frame extraction called — explicitly unsupported",
             job_id=job_id,
             source_storage_key=req.storageKey,
             target_storage_key=req.targetKey,
@@ -312,27 +383,25 @@ def extract_frames(req: MediaProcessingRequest, request: Request) -> dict[str, A
                 detail="Frame extraction jobs require video media",
             )
 
-        result = {
-            "jobId": req.jobId,
-            "assetId": req.assetId,
-            "status": "SUCCEEDED",
-            "derivative": {
-                "type": "FRAME",
-                "storageKey": req.targetKey,
-                "frameCount": 12,
-            },
-            "metadata": {
-                "runtime": "mock_frame_extractor",
-                "sourceKey": req.storageKey,
-            },
-        }
-
-        log_info(
-            "Frame extraction completed",
+        log_error(
+            "Frame extraction is not yet implemented",
             job_id=job_id,
-            frame_count=12,
+            source_key=req.storageKey,
         )
-        return result
+        return {
+            "jobId": job_id,
+            "assetId": req.assetId,
+            "status": "FAILED",
+            "frames": [],
+            "frameCount": 0,
+            "error": (
+                "Frame extraction is not yet implemented. "
+                "This feature requires OpenCV or ffmpeg dependencies and is deferred "
+                "until the thumbnail processing path is verified end-to-end. "
+                "The video file has been uploaded and stored; frame extraction "
+                "will be added as a follow-up after Phase 17 thumbnail verification."
+            ),
+        }
 
 
 # ─── Internal Helpers ─────────────────────────────────────────────────────────
