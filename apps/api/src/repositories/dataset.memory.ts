@@ -1,5 +1,5 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
-import { DatasetRepository } from './dataset.repository';
+import { DatasetRepository, VersionSnapshot } from './dataset.repository';
 import {
   DatasetSummary,
   DatasetVersionSummary,
@@ -27,8 +27,15 @@ type DatasetRow = {
   versions: VersionRow[];
 };
 
+type AnnotationSetRow = {
+  id: string;
+  projectId: string;
+  datasetVersionId: string;
+};
+
 const memoryDatasets = new Map<string, DatasetRow>();
 const memoryVersions = new Map<string, VersionRow>();
+const memoryAnnotationSets = new Map<string, AnnotationSetRow>();
 
 function toDatasetSummary(row: DatasetRow): DatasetSummary {
   return {
@@ -113,10 +120,7 @@ export class MemoryDatasetRepository implements DatasetRepository {
     return toVersionSummary(version);
   }
 
-  async listVersions(
-    projectId: string,
-    datasetId: string
-  ): Promise<DatasetVersionSummary[]> {
+  async listVersions(projectId: string, datasetId: string): Promise<DatasetVersionSummary[]> {
     const dataset = memoryDatasets.get(datasetId);
     if (!dataset || dataset.projectId !== projectId) {
       throw new NotFoundException('Dataset not found for this project.');
@@ -124,10 +128,7 @@ export class MemoryDatasetRepository implements DatasetRepository {
     return dataset.versions.map(toVersionSummary).sort((a, b) => b.version - a.version);
   }
 
-  async listVersionAssetIds(
-    projectId: string,
-    versionId: string
-  ): Promise<string[]> {
+  async listVersionAssetIds(projectId: string, versionId: string): Promise<string[]> {
     const version = memoryVersions.get(versionId);
     if (!version) throw new NotFoundException('Dataset version not found for this project.');
     return version.assets.map((a) => a.assetId);
@@ -155,10 +156,7 @@ export class MemoryDatasetRepository implements DatasetRepository {
     return toVersionSummary(version);
   }
 
-  async lockVersion(
-    projectId: string,
-    versionId: string
-  ): Promise<DatasetVersionSummary> {
+  async lockVersion(projectId: string, versionId: string): Promise<DatasetVersionSummary> {
     const version = memoryVersions.get(versionId);
     if (!version) throw new NotFoundException('Dataset version not found.');
     const dataset = memoryDatasets.get(version.datasetId);
@@ -169,5 +167,41 @@ export class MemoryDatasetRepository implements DatasetRepository {
     assertDraftDatasetVersion(version.status);
     version.status = 'LOCKED';
     return toVersionSummary(version);
+  }
+
+  async getVersionSnapshot(projectId: string, versionId: string): Promise<VersionSnapshot | null> {
+    const version = memoryVersions.get(versionId);
+    if (!version) return null;
+    const dataset = memoryDatasets.get(version.datasetId);
+    if (!dataset || dataset.projectId !== projectId) return null;
+    return {
+      id: version.id,
+      datasetId: version.datasetId,
+      version: version.version,
+      status: version.status,
+      assets: version.assets.map((a) => ({
+        assetId: a.assetId,
+        split: a.split,
+        asset: {
+          id: a.assetId,
+          type: 'IMAGE' as const,
+          storageKey: `projects/${projectId}/originals/${a.assetId}.jpg`,
+          width: 1920,
+          height: 1080,
+        },
+      })),
+      annotationSets: [],
+    };
+  }
+
+  async getVersionStatusByAnnotationSet(
+    projectId: string,
+    annotationSetId: string
+  ): Promise<'DRAFT' | 'LOCKED' | 'ARCHIVED' | null> {
+    const set = memoryAnnotationSets.get(annotationSetId);
+    if (!set || set.projectId !== projectId) return null;
+    const version = memoryVersions.get(set.datasetVersionId);
+    if (!version) return null;
+    return version.status;
   }
 }

@@ -14,6 +14,9 @@ import {
 } from '@visionflow/contracts';
 import { PrismaService } from '../prisma/prisma.service';
 import { demoSnapshot } from '../projects/demo-snapshot';
+import { DatasetRepository } from '../repositories/dataset.repository';
+import { DATASET_REPOSITORY } from '../config/provider-tokens';
+import { assertAnnotationsImmutable } from '../datasets/dataset-lock.validator';
 
 const DEFAULT_ANNOTATION_SET_NAME = 'Manual QA Set';
 const DEFAULT_IMAGE_WIDTH = 1920;
@@ -34,7 +37,10 @@ export class AnnotationsService {
   private readonly memorySets = new Map<string, MemoryAnnotationSet>();
   private readonly memoryAnnotations = new Map<string, AnnotationSummary>();
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(DATASET_REPOSITORY) private readonly datasetRepo: DatasetRepository
+  ) {}
 
   async loadWorkspace(
     projectId: string,
@@ -91,8 +97,7 @@ export class AnnotationsService {
     const assets = this.memoryAssets(projectId);
     const asset = assets.find((item) => item.id === assetId) ?? assets[0] ?? null;
     const annotations = [...this.memoryAnnotations.values()].filter(
-      (annotation) =>
-        annotation.annotationSetId === set.id && annotation.assetId === asset?.id
+      (annotation) => annotation.annotationSetId === set.id && annotation.assetId === asset?.id
     );
     return {
       annotationSet: this.toPublicSet(set),
@@ -333,6 +338,12 @@ export class AnnotationsService {
     dto: CreateAnnotationRequest
   ): Promise<AnnotationSummary> {
     const annotationSet = await this.assertPrismaAnnotationSet(projectId, annotationSetId);
+    const versionStatus = await this.datasetRepo.getVersionStatusByAnnotationSet(
+      projectId,
+      annotationSetId
+    );
+    if (versionStatus) assertAnnotationsImmutable(versionStatus);
+
     const asset = await this.assertPrismaAsset(projectId, dto.assetId);
     const label = await this.assertPrismaLabel(projectId, dto.labelClassId);
     const { width, height } = dimensionsFor(asset);
@@ -367,10 +378,16 @@ export class AnnotationsService {
         id: annotationId,
         annotationSet: { datasetVersion: { dataset: { projectId } } },
       },
-      include: { asset: true, labelClass: true },
+      include: { asset: true, labelClass: true, annotationSet: true },
     });
 
     if (!existing) throw new NotFoundException('Annotation not found for this project.');
+
+    const versionStatus = await this.datasetRepo.getVersionStatusByAnnotationSet(
+      projectId,
+      existing.annotationSetId
+    );
+    if (versionStatus) assertAnnotationsImmutable(versionStatus);
 
     const label = dto.labelClassId
       ? await this.assertPrismaLabel(projectId, dto.labelClassId)
@@ -402,9 +419,16 @@ export class AnnotationsService {
         id: annotationId,
         annotationSet: { datasetVersion: { dataset: { projectId } } },
       },
-      select: { id: true },
+      select: { id: true, annotationSetId: true },
     });
     if (!existing) throw new NotFoundException('Annotation not found for this project.');
+
+    const versionStatus = await this.datasetRepo.getVersionStatusByAnnotationSet(
+      projectId,
+      existing.annotationSetId
+    );
+    if (versionStatus) assertAnnotationsImmutable(versionStatus);
+
     await this.prisma.annotation.delete({ where: { id: annotationId } });
     await this.writeAudit(projectId, 'ANNOTATION_DELETED', 'Annotation', annotationId, {});
   }
@@ -481,7 +505,11 @@ const annotationInclude = {
   labelClass: { select: { name: true, color: true } },
 } as const;
 
-function normalizeGeometry(geometry: BBoxGeometry, imageWidth: number, imageHeight: number): BBoxGeometry {
+function normalizeGeometry(
+  geometry: BBoxGeometry,
+  imageWidth: number,
+  imageHeight: number
+): BBoxGeometry {
   const normalized = clampBBox(BBoxGeometrySchema.parse(geometry), imageWidth, imageHeight);
   if (bboxArea(normalized) <= 0) {
     throw new BadRequestException('BBox must overlap the image with positive area.');

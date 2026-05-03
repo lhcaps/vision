@@ -1,5 +1,23 @@
 import sharp from 'sharp';
 
+export type ImageMetadata = {
+  width: number;
+  height: number;
+};
+
+export async function extractImageMetadata(
+  buffer: Buffer,
+  mimeType: string
+): Promise<ImageMetadata> {
+  if (mimeType === 'image/jpeg' || mimeType === 'image/png' || mimeType === 'image/webp') {
+    const meta = await sharp(buffer).metadata();
+    if (meta.width && meta.height) {
+      return { width: meta.width, height: meta.height };
+    }
+  }
+  throw new Error(`Cannot extract image dimensions for ${mimeType}`);
+}
+
 export async function validateImageIntegrity(buffer: Buffer, mimeType: string): Promise<void> {
   try {
     if (mimeType === 'image/jpeg' || mimeType === 'image/png' || mimeType === 'image/webp') {

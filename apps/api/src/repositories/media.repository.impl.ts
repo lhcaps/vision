@@ -19,6 +19,8 @@ export interface MediaRepository {
     mimeType: string;
     sizeBytes: number;
     originalName?: string;
+    width?: number | null;
+    height?: number | null;
   }): Promise<MediaAssetSummary>;
   createProcessingJob(data: {
     projectId: string;
@@ -48,7 +50,10 @@ type Row = {
 export class PrismaMediaRepository implements MediaRepository {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(STORAGE_REPOSITORY) private readonly storage: { putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void> }
+    @Inject(STORAGE_REPOSITORY)
+    private readonly storage: {
+      putOriginal(key: string, buffer: Buffer, mimeType: string): Promise<void>;
+    }
   ) {}
 
   async findByProject(projectId: string): Promise<MediaAssetSummary[]> {
@@ -65,10 +70,7 @@ export class PrismaMediaRepository implements MediaRepository {
     return toSummary(row);
   }
 
-  async findByChecksum(
-    projectId: string,
-    checksum: string
-  ): Promise<MediaAssetSummary | null> {
+  async findByChecksum(projectId: string, checksum: string): Promise<MediaAssetSummary | null> {
     const row = await this.prisma.mediaAsset.findUnique({
       where: { projectId_checksum: { projectId, checksum } },
     });
@@ -83,15 +85,16 @@ export class PrismaMediaRepository implements MediaRepository {
     checksum: string;
     mimeType: string;
     sizeBytes: number;
+    width?: number | null;
+    height?: number | null;
   }): Promise<MediaAssetSummary> {
     await this.prisma.project.upsert({
       where: { id: data.projectId },
       create: {
         id: data.projectId,
         slug: data.projectId,
-        name: data.projectId === demoSnapshot.project.id
-          ? demoSnapshot.project.name
-          : data.projectId,
+        name:
+          data.projectId === demoSnapshot.project.id ? demoSnapshot.project.name : data.projectId,
       },
       update: {},
     });
@@ -102,6 +105,8 @@ export class PrismaMediaRepository implements MediaRepository {
         type: data.type,
         storageKey: data.storageKey,
         checksum: data.checksum,
+        width: data.width ?? null,
+        height: data.height ?? null,
         metadataJson: {
           originalName: data.name,
           mimeType: data.mimeType as MediaAssetSummary['mimeType'],
@@ -182,10 +187,7 @@ export class MemoryMediaRepository implements MediaRepository {
     return this.memoryAssets.get(assetId) ?? null;
   }
 
-  async findByChecksum(
-    projectId: string,
-    checksum: string
-  ): Promise<MediaAssetSummary | null> {
+  async findByChecksum(projectId: string, checksum: string): Promise<MediaAssetSummary | null> {
     return [...this.memoryAssets.values()].find((a) => a.checksum === checksum) ?? null;
   }
 
@@ -198,6 +200,8 @@ export class MemoryMediaRepository implements MediaRepository {
     mimeType: string;
     sizeBytes: number;
     originalName?: string;
+    width?: number | null;
+    height?: number | null;
   }): Promise<MediaAssetSummary> {
     const asset: MediaAssetSummary = {
       id: `asset_${data.checksum.slice(0, 12)}`,
@@ -207,8 +211,8 @@ export class MemoryMediaRepository implements MediaRepository {
       mimeType: data.mimeType as MediaAssetSummary['mimeType'],
       storageKey: data.storageKey,
       thumbnailKey: null,
-      width: null,
-      height: null,
+      width: data.width ?? null,
+      height: data.height ?? null,
       durationMs: null,
       frameCount: null,
       checksum: data.checksum,
@@ -241,7 +245,9 @@ export class MemoryMediaRepository implements MediaRepository {
 }
 
 function toSummary(row: Row): MediaAssetSummary {
-  const meta = row.metadataJson as { originalName?: string; mimeType?: string; sizeBytes?: number } | undefined;
+  const meta = row.metadataJson as
+    | { originalName?: string; mimeType?: string; sizeBytes?: number }
+    | undefined;
   return {
     id: row.id,
     projectId: row.projectId,

@@ -36,8 +36,11 @@ describe('DatasetsService memory fallback', () => {
     const created = await service.createDataset('proj_test', { name: 'Test Dataset' });
     const version = await service.createVersion('proj_test', created.id, {});
 
-    await service.lockVersion('proj_test', version.id);
+    // Memory repo does not validate asset readiness — lock succeeds with no assets
+    const locked = await service.lockVersion('proj_test', version.id);
+    expect(locked.status).toBe('LOCKED');
 
+    // Asset assignment after lock must be rejected
     await expect(
       service.assignAssets('proj_test', version.id, {
         assets: [{ assetId: 'asset_after_lock', split: 'TEST' }],

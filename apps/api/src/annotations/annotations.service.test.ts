@@ -2,13 +2,18 @@ import { BadRequestException } from '@nestjs/common';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { PrismaService } from '../prisma/prisma.service';
 import { AnnotationsService } from './annotations.service';
+import type { DatasetRepository } from '../repositories/dataset.repository';
+
+const mockDatasetRepo: DatasetRepository = {
+  getVersionStatusByAnnotationSet: async () => null,
+} as unknown as DatasetRepository;
 
 describe('AnnotationsService memory fallback', () => {
   let service: AnnotationsService;
 
   beforeEach(() => {
     delete process.env.DATABASE_URL;
-    service = new AnnotationsService({} as PrismaService);
+    service = new AnnotationsService({} as PrismaService, mockDatasetRepo);
   });
 
   it('loads a seeded annotation workspace with default labels', async () => {

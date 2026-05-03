@@ -1,6 +1,6 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { DatasetRepository } from './dataset.repository';
+import { DatasetRepository, VersionSnapshot } from './dataset.repository';
 import {
   DatasetSummary,
   DatasetVersionSummary,
@@ -10,6 +10,7 @@ import {
 } from '@visionflow/contracts';
 import { demoSnapshot } from '../projects/demo-snapshot';
 import { Prisma } from '@prisma/client';
+import { DatasetLockValidator } from '../datasets/dataset-lock.validator';
 
 type VersionRow = {
   id: string;
@@ -99,7 +100,9 @@ export class PrismaDatasetRepository implements DatasetRepository {
       data: { projectId, name: dto.name, description: dto.description ?? null },
       include: datasetInclude,
     });
-    await this.writeAudit(projectId, 'DATASET_CREATED', 'Dataset', dataset.id, { name: dataset.name });
+    await this.writeAudit(projectId, 'DATASET_CREATED', 'Dataset', dataset.id, {
+      name: dataset.name,
+    });
     return toDatasetSummary(dataset);
   }
 
@@ -128,55 +131,58 @@ export class PrismaDatasetRepository implements DatasetRepository {
     projectId: string,
     datasetId: string,
     parentVersionId: string | null,
-    attempt = 1,
+    attempt = 1
   ): Promise<DatasetVersionSummary> {
     const MAX_ATTEMPTS = 3;
 
-    return this.prisma.$transaction(async (tx) => {
-      const latest = await tx.datasetVersion.aggregate({
-        where: { datasetId },
-        _max: { version: true },
+    return this.prisma
+      .$transaction(async (tx) => {
+        const latest = await tx.datasetVersion.aggregate({
+          where: { datasetId },
+          _max: { version: true },
+        });
+        const nextVersion = (latest._max.version ?? 0) + 1;
+
+        const version = await tx.datasetVersion.create({
+          data: {
+            datasetId,
+            version: nextVersion,
+            parentVersionId,
+          },
+          include: versionInclude,
+        });
+
+        await tx.auditLog.create({
+          data: {
+            projectId,
+            action: 'DATASET_VERSION_CREATED',
+            targetType: 'DatasetVersion',
+            targetId: version.id,
+            metadataJson: {
+              datasetId,
+              version: version.version,
+              parentVersionId: version.parentVersionId,
+            },
+          },
+        });
+
+        return toVersionSummary(version, datasetId);
+      })
+      .catch(async (err: unknown) => {
+        const isUniqueViolation =
+          err instanceof Error &&
+          (err.message.includes('Unique constraint') ||
+            err.message.includes('unique constraint') ||
+            (err as { code?: string }).code === 'P2002');
+
+        if (isUniqueViolation && attempt < MAX_ATTEMPTS) {
+          return this.#createVersionWithRetry(projectId, datasetId, parentVersionId, attempt + 1);
+        }
+        throw err;
       });
-      const nextVersion = (latest._max.version ?? 0) + 1;
-
-      const version = await tx.datasetVersion.create({
-        data: {
-          datasetId,
-          version: nextVersion,
-          parentVersionId,
-        },
-        include: versionInclude,
-      });
-
-      await tx.auditLog.create({
-        data: {
-          projectId,
-          action: 'DATASET_VERSION_CREATED',
-          targetType: 'DatasetVersion',
-          targetId: version.id,
-          metadataJson: { datasetId, version: version.version, parentVersionId: version.parentVersionId },
-        },
-      });
-
-      return toVersionSummary(version, datasetId);
-    }).catch(async (err: unknown) => {
-      const isUniqueViolation =
-        err instanceof Error &&
-        (err.message.includes('Unique constraint') ||
-          err.message.includes('unique constraint') ||
-          (err as { code?: string }).code === 'P2002');
-
-      if (isUniqueViolation && attempt < MAX_ATTEMPTS) {
-        return this.#createVersionWithRetry(projectId, datasetId, parentVersionId, attempt + 1);
-      }
-      throw err;
-    });
   }
 
-  async listVersions(
-    projectId: string,
-    datasetId: string
-  ): Promise<DatasetVersionSummary[]> {
+  async listVersions(projectId: string, datasetId: string): Promise<DatasetVersionSummary[]> {
     await this.assertDatasetForProject(projectId, datasetId);
     const versions = await this.prisma.datasetVersion.findMany({
       where: { datasetId },
@@ -186,10 +192,7 @@ export class PrismaDatasetRepository implements DatasetRepository {
     return versions.map((v) => toVersionSummary(v, datasetId));
   }
 
-  async listVersionAssetIds(
-    projectId: string,
-    versionId: string
-  ): Promise<string[]> {
+  async listVersionAssetIds(projectId: string, versionId: string): Promise<string[]> {
     const version = await this.prisma.datasetVersion.findFirst({
       where: { id: versionId, dataset: { projectId } },
       include: { assets: { select: { assetId: true } } },
@@ -215,7 +218,8 @@ export class PrismaDatasetRepository implements DatasetRepository {
         where: { id: { in: assetIds }, projectId },
         select: { id: true },
       });
-      if (assets.length !== assetIds.length) throw new ConflictException('Assets do not belong to this project.');
+      if (assets.length !== assetIds.length)
+        throw new ConflictException('Assets do not belong to this project.');
       const existing = await tx.datasetVersionAsset.findMany({
         where: { datasetVersionId: versionId, assetId: { in: assetIds } },
         select: { assetId: true },
@@ -245,18 +249,74 @@ export class PrismaDatasetRepository implements DatasetRepository {
     });
   }
 
-  async lockVersion(
-    projectId: string,
-    versionId: string
-  ): Promise<DatasetVersionSummary> {
+  async lockVersion(projectId: string, versionId: string): Promise<DatasetVersionSummary> {
     return this.prisma.$transaction(async (tx) => {
       const version = await tx.datasetVersion.findFirst({
         where: { id: versionId, dataset: { projectId } },
-        include: versionInclude,
+        include: {
+          assets: {
+            include: {
+              asset: {
+                select: { id: true, type: true, storageKey: true, width: true, height: true },
+              },
+            },
+          },
+          annotationSets: {
+            include: {
+              annotations: {
+                select: {
+                  id: true,
+                  assetId: true,
+                  labelClassId: true,
+                  type: true,
+                  geometryJson: true,
+                },
+              },
+            },
+          },
+        },
       });
       if (!version) throw new NotFoundException('Dataset version not found.');
-      if (version.status === 'LOCKED') return toVersionSummary(version, version.datasetId);
+      if (version.status === 'LOCKED') {
+        const summary = await tx.datasetVersion.findUniqueOrThrow({
+          where: { id: versionId },
+          include: versionInclude,
+        });
+        return toVersionSummary(summary, summary.datasetId);
+      }
       assertDraftDatasetVersion(version.status);
+
+      const snapshot = {
+        id: version.id,
+        datasetId: version.datasetId,
+        version: version.version,
+        status: version.status,
+        assets: version.assets.map((link) => ({
+          assetId: link.assetId,
+          split: link.split,
+          asset: {
+            id: link.asset.id,
+            type: link.asset.type,
+            storageKey: link.asset.storageKey,
+            width: link.asset.width,
+            height: link.asset.height,
+          },
+        })),
+        annotationSets: version.annotationSets.map((set) => ({
+          id: set.id,
+          annotations: set.annotations.map((ann) => ({
+            id: ann.id,
+            assetId: ann.assetId,
+            labelClassId: ann.labelClassId,
+            type: ann.type as 'BBOX' | 'MASK' | 'KEYPOINT',
+            geometryJson: ann.geometryJson,
+          })),
+        })),
+      };
+
+      const validator = new DatasetLockValidator();
+      validator.validate(snapshot);
+
       const locked = await tx.datasetVersion.update({
         where: { id: versionId },
         data: { status: 'LOCKED' },
@@ -280,6 +340,77 @@ export class PrismaDatasetRepository implements DatasetRepository {
       });
       return toVersionSummary(locked, locked.datasetId);
     });
+  }
+
+  async getVersionSnapshot(projectId: string, versionId: string): Promise<VersionSnapshot | null> {
+    const version = await this.prisma.datasetVersion.findFirst({
+      where: { id: versionId, dataset: { projectId } },
+      include: {
+        assets: {
+          include: {
+            asset: {
+              select: { id: true, type: true, storageKey: true, width: true, height: true },
+            },
+          },
+        },
+        annotationSets: {
+          include: {
+            annotations: {
+              select: {
+                id: true,
+                assetId: true,
+                labelClassId: true,
+                type: true,
+                geometryJson: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!version) return null;
+
+    return {
+      id: version.id,
+      datasetId: version.datasetId,
+      version: version.version,
+      status: version.status,
+      assets: version.assets.map((link) => ({
+        assetId: link.assetId,
+        split: link.split,
+        asset: {
+          id: link.asset.id,
+          type: link.asset.type,
+          storageKey: link.asset.storageKey,
+          width: link.asset.width,
+          height: link.asset.height,
+        },
+      })),
+      annotationSets: version.annotationSets.map((set) => ({
+        id: set.id,
+        annotations: set.annotations.map((ann) => ({
+          id: ann.id,
+          assetId: ann.assetId,
+          labelClassId: ann.labelClassId,
+          type: ann.type as 'BBOX' | 'MASK' | 'KEYPOINT',
+          geometryJson: ann.geometryJson,
+        })),
+      })),
+    };
+  }
+
+  async getVersionStatusByAnnotationSet(
+    projectId: string,
+    annotationSetId: string
+  ): Promise<'DRAFT' | 'LOCKED' | 'ARCHIVED' | null> {
+    const version = await this.prisma.datasetVersion.findFirst({
+      where: {
+        annotationSets: { some: { id: annotationSetId } },
+        dataset: { projectId },
+      },
+      select: { status: true },
+    });
+    return version?.status ?? null;
   }
 
   private async ensureProject(projectId: string): Promise<void> {

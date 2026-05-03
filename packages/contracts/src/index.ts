@@ -1,4 +1,5 @@
 export * from './annotations';
+export * from './coco';
 export * from './cv-worker';
 export * from './datasets';
 export * from './evaluation';

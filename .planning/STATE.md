@@ -2,13 +2,13 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 17 (Completed — Real Media Processing)
+Current phase: Phase 18 (Completed — Dataset Locking & Deterministic COCO Export)
 
-Last updated: 2026-05-03.
+Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 17 — Real Media Processing
+Phase: Phase 18 — Dataset Locking & Deterministic COCO Export
 Status: Completed
 
 ## Accumulated Context
@@ -17,7 +17,7 @@ Status: Completed
 
 **v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing)
 
-**v1.1 In Progress:** Phase 17.1 (Runtime fixes) — Phase 18 next
+**v1.1 In Progress:** Phase 18 complete — Phase 19 (Real ONNX inference) next
 
 ## Accumulated Context
 
@@ -35,7 +35,7 @@ Status: Completed
 - Phase 16A (Frontend split min) ✅ Done
 - Phase 17 (Real media processing) ✅ Done — Pillow thumbnail, MinIO read/write, BullMQ consumer, derivative persistence, AssetDerivative.checksum field
 - Phase 17.1 (Runtime fixes) ✅ Done — Race condition fix, CV worker import fix, full-stack dev boot, storage error classification, duplicate FAILED fix
-- Phase 18 (Dataset lock & COCO export) pending
+- Phase 18 (Dataset lock & COCO export) completed — lock invariants, annotation immutability, deterministic COCO export, real image dimensions persisted
 - Phase 19 (Real ONNX inference) pending
 - Phase 20 (Evaluation E2E) pending
 - Phase 21 (Frontend split completion) pending
@@ -121,14 +121,14 @@ Status: Completed
 
 ## Active Goals
 
-- Execute Phase 18: Dataset Locking & Deterministic COCO Export.
-- Phase 17 complete — real thumbnail pipeline end-to-end verified with live stack.
+- Execute Phase 19: Real ONNX Detector & Prediction Persistence.
+- Phase 18 complete — dataset versions are immutable after lock, deterministic COCO export works.
 
 ## Known Partial Areas (v1.1 Focus)
 
-Phase 16A is complete. Phase 17 P0 blockers identified (see Active Goals above). The following areas remain pending after Phase 17:
+Phase 18 complete. The following areas remain pending after Phase 18:
 
-- No COCO export endpoint (Phase 18).
+- COCO export UI wiring — export endpoint exists, UI button not wired (Phase 18 wave 18-06 skipped as optional).
 - ONNX inference needs real YOLOv8n model integration (Phase 19).
 - Evaluation needs real data path end-to-end (Phase 20).
 - App.tsx is a monolithic file needing continued feature split (Phase 21).
@@ -183,3 +183,38 @@ All 4 P0 blockers resolved. Commit: `feat(media): process real thumbnail artifac
 - `infra/prisma/schema.prisma`: `AssetDerivative.checksum String?` field added.
 
 **Frame extraction deferred:** `/cv/extract-frames` returns explicit `FAILED` with `error: "Frame extraction is not yet implemented. Video frame extraction will be added in a future phase."` — no fake success.
+
+## What Is True After Phase 18 (Completed)
+
+All Phase 18 deliverables completed. Commit: `feat(datasets): export locked versions as deterministic COCO`.
+
+**Lock-readiness invariants (`DatasetLockValidator`):**
+
+- 8 checks before locking: DRAFT status, at least one asset, no UNASSIGNED splits, all IMAGE assets have width/height, annotation set exists, at least one BBox annotation, all annotation assetIds belong to version, all BBox geometry has positive area.
+- All rejection messages are safe, actionable, no stack traces or internal error details.
+
+**Annotation immutability (`AnnotationsService`):**
+
+- `getVersionStatusByAnnotationSet()` resolves annotation → annotationSet → datasetVersion status.
+- create/update/delete rejected with 409 when parent version is LOCKED or ARCHIVED.
+- Read path (workspace loading) unaffected.
+
+**Real image dimensions:**
+
+- `extractImageMetadata()` uses `sharp().metadata()` to extract width/height from uploaded images.
+- `MediaIngestionPlan` carries dimensions through upload pipeline.
+- `MediaProcessingService` persists dimensions from CV worker thumbnail response.
+- `MediaAsset` rows now have real `width`/`height`.
+
+**Deterministic COCO export (`CocoExportService`):**
+
+- `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`
+- Requires LOCKED status. DRAFT/ARCHIVED => 409.
+- Deterministic ordering: images by (split TRAIN>VALID>TEST, storageKey, id), categories by (name, labelClassId), annotations by (image_id, category_id, id).
+- COCO IDs assigned sequentially starting at 1 after sorting.
+- SHA-256 hash of canonical JSON of stable content (excludes `date_created`, `generatedAt`).
+- Response includes VisionFlow metadata: projectId, datasetId, datasetVersionId, datasetVersion, status, assetCount, annotationCount, categoryCount, splits, deterministicHash.
+
+**Contracts:**
+
+- `packages/contracts/src/coco.ts` — COCO Zod schemas exported from `@visionflow/contracts`.

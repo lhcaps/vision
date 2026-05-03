@@ -131,23 +131,23 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 
 ### In Progress (v1.1 — Production Hardening)
 
-| Feature                    | Status     | Target Phase        |
-| -------------------------- | ---------- | ------------------- |
-| Professional README        | ✅ Done    | Phase 11 (complete) |
-| CI completeness            | ✅ Done    | Phase 12A           |
-| Local stack & seed         | ✅ Done    | Phase 12B           |
+| Feature                    | Status     | Target Phase         |
+| -------------------------- | ---------- | -------------------- |
+| Professional README        | ✅ Done    | Phase 11 (complete)  |
+| CI completeness            | ✅ Done    | Phase 12A            |
+| Local stack & seed         | ✅ Done    | Phase 12B            |
 | Security hardening         | ✅ Done    | Phase 13 (complete)  |
-| Adapter boundary cleanup   | ✅ Done    | Phase 14A (complete)|
-| Domain invariants          | ✅ Done    | Phase 14B (complete)|
-| Observability & health     | ✅ Done    | Phase 15            |
-| Frontend feature split     | 🔄 Planned | Phase 16A           |
-| Real media processing      | 🔄 Planned | Phase 17            |
-| Dataset lock & COCO export | 🔄 Planned | Phase 18            |
-| Real ONNX inference        | 🔄 Planned | Phase 19            |
-| Evaluation E2E             | 🔄 Planned | Phase 20            |
-| Frontend split completion  | 🔄 Planned | Phase 21            |
-| Production test suite      | 🔄 Planned | Phase 22A/B         |
-| Full E2E & demo video      | 🔄 Planned | Phase 23            |
+| Adapter boundary cleanup   | ✅ Done    | Phase 14A (complete) |
+| Domain invariants          | ✅ Done    | Phase 14B (complete) |
+| Observability & health     | ✅ Done    | Phase 15             |
+| Frontend feature split     | ✅ Done    | Phase 16A            |
+| Real media processing      | ✅ Done    | Phase 17             |
+| Dataset lock & COCO export | ✅ Done    | Phase 18             |
+| Real ONNX inference        | 🔄 Planned | Phase 19             |
+| Evaluation E2E             | 🔄 Planned | Phase 20             |
+| Frontend split completion  | 🔄 Planned | Phase 21             |
+| Production test suite      | 🔄 Planned | Phase 22A/B          |
+| Full E2E & demo video      | 🔄 Planned | Phase 23             |
 
 ### Out of Scope
 
@@ -226,6 +226,7 @@ curl http://localhost:3000/api/health/live
 ```
 
 Response (always HTTP 200):
+
 ```json
 {
   "status": "ok",
@@ -243,6 +244,7 @@ curl http://localhost:3000/api/health/deep
 ```
 
 Response (HTTP 200 when all dependencies healthy, HTTP 503 when any dependency is down):
+
 ```json
 {
   "status": "healthy",
@@ -286,6 +288,7 @@ The API uses [pino](https://getpino.io) for structured JSON logging. In developm
 **Log Levels:** Controlled by `LOG_LEVEL` environment variable (`debug`, `info`, `warn`, `error`).
 
 **Log Format (production JSON):**
+
 ```json
 {
   "level": 30,
@@ -300,6 +303,7 @@ The API uses [pino](https://getpino.io) for structured JSON logging. In developm
 ```
 
 **Reading logs:**
+
 - Development: Auto-pretty-printed to console with color
 - Production: JSON lines — parse with `pino`, `jq`, or any log aggregator
 
@@ -407,24 +411,24 @@ python -m pytest tests/ -v
 
 ## Environment Variables
 
-| Variable                    | Default                               | Description                            |
-| --------------------------- | ------------------------------------- | -------------------------------------- |
-| `DATABASE_URL`              | `postgresql://...@localhost:5432/...` | PostgreSQL connection string           |
-| `REDIS_HOST`                | `localhost`                           | Redis host                             |
-| `REDIS_PORT`                | `6379`                                | Redis port                             |
-| `MINIO_ENDPOINT`            | `localhost`                           | MinIO endpoint                         |
-| `MINIO_PORT`                | `9000`                                | MinIO port                             |
-| `MINIO_ACCESS_KEY`          | `visionflow`                          | MinIO access key                       |
-| `MINIO_SECRET_KEY`          | `visionflow-secret`                   | MinIO secret key                       |
-| `MINIO_BUCKET`              | `visionflow-artifacts`                | MinIO bucket name                      |
-| `API_PORT`                  | `3000`                                | API server port                        |
-| `CV_WORKER_URL`             | `http://localhost:8000`               | CV Worker URL                          |
-| `CV_WORKER_DETECTOR_MODE`   | `mock`                                | Detector mode (`mock` or `onnx`)       |
-| `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL                     |
-| `WEB_ORIGIN`                | `http://localhost:5173`               | Allowed CORS origins (comma-separated) |
-| `SIGNED_URL_EXPIRY_SECONDS` | `3600`                                | Signed URL expiry (0 = use API proxy)  |
-| `LOG_LEVEL`                 | `info`                                | Log level: debug, info, warn, error     |
-| `HEALTH_CHECK_TIMEOUT_MS`    | `5000`                                | Timeout for health check dependency probes (ms) |
+| Variable                    | Default                               | Description                                     |
+| --------------------------- | ------------------------------------- | ----------------------------------------------- |
+| `DATABASE_URL`              | `postgresql://...@localhost:5432/...` | PostgreSQL connection string                    |
+| `REDIS_HOST`                | `localhost`                           | Redis host                                      |
+| `REDIS_PORT`                | `6379`                                | Redis port                                      |
+| `MINIO_ENDPOINT`            | `localhost`                           | MinIO endpoint                                  |
+| `MINIO_PORT`                | `9000`                                | MinIO port                                      |
+| `MINIO_ACCESS_KEY`          | `visionflow`                          | MinIO access key                                |
+| `MINIO_SECRET_KEY`          | `visionflow-secret`                   | MinIO secret key                                |
+| `MINIO_BUCKET`              | `visionflow-artifacts`                | MinIO bucket name                               |
+| `API_PORT`                  | `3000`                                | API server port                                 |
+| `CV_WORKER_URL`             | `http://localhost:8000`               | CV Worker URL                                   |
+| `CV_WORKER_DETECTOR_MODE`   | `mock`                                | Detector mode (`mock` or `onnx`)                |
+| `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL                              |
+| `WEB_ORIGIN`                | `http://localhost:5173`               | Allowed CORS origins (comma-separated)          |
+| `SIGNED_URL_EXPIRY_SECONDS` | `3600`                                | Signed URL expiry (0 = use API proxy)           |
+| `LOG_LEVEL`                 | `info`                                | Log level: debug, info, warn, error             |
+| `HEALTH_CHECK_TIMEOUT_MS`   | `5000`                                | Timeout for health check dependency probes (ms) |
 
 ## Project Structure
 
@@ -461,15 +465,15 @@ This is a prototype under active development (v1.1). The following limitations e
 
 ### CV Worker
 
-- **Real thumbnail/frame extraction** — Being implemented in Phase 17. Currently stubbed.
+- **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
 - **Real ONNX inference** — Being implemented in Phase 19. Mock detector runs by default.
 - **Real evaluation persistence** — Being implemented in Phase 20.
 
 ### Data & Reproducibility
 
-- **COCO export** — Being implemented in Phase 18.
-- **Immutable version lock hardening** — Being implemented in Phase 18.
-- **Evaluation reproducibility** — Requires locked versions + model artifacts (Phases 18–20).
+- **COCO export** — Implemented in Phase 18. `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`. Dataset must be LOCKED. Export is deterministic (stable ordering, SHA-256 hash of canonical content).
+- **Immutable version lock** — Implemented in Phase 18. Lock-readiness invariants enforced: at least one asset, no UNASSIGNED splits, all assets have dimensions, at least one BBox annotation. Locked versions reject annotation create/update/delete.
+- **Evaluation reproducibility** — Requires locked versions + model artifacts (Phases 19–20).
 
 ### Frontend
 

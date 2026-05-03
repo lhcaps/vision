@@ -152,8 +152,8 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
       storageKey: sourceObjectKey,
       targetKey,
       mimeType,
-      width: null,
-      height: null,
+      width: payload.width,
+      height: payload.height,
     });
 
     if (response.status === 'FAILED') {
@@ -170,7 +170,9 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
       payload.projectId,
       assetId,
       derivative.storageKey,
-      mediaJobId
+      mediaJobId,
+      derivative.width ?? undefined,
+      derivative.height ?? undefined
     );
     await this.transitionJob(mediaJobId, payload.projectId, 'SUCCEEDED', null);
 
@@ -262,14 +264,25 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
     projectId: string,
     assetId: string,
     thumbnailKey: string,
-    jobId: string
+    jobId: string,
+    width?: number | null,
+    height?: number | null
   ): Promise<void> {
+    const updateData: { thumbnailKey: string; width?: number | null; height?: number | null } = {
+      thumbnailKey,
+    };
+    if (width != null) updateData.width = width;
+    if (height != null) updateData.height = height;
+
     await this.prisma.mediaAsset.update({
       where: { id: assetId },
-      data: { thumbnailKey },
+      data: updateData,
     });
 
-    logger.debug({ assetId, thumbnailKey }, 'MediaAsset.thumbnailKey updated');
+    logger.debug(
+      { assetId, thumbnailKey, width, height },
+      'MediaAsset.thumbnailKey and dimensions updated'
+    );
   }
 
   private async transitionJob(

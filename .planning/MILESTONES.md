@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A
+**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18
 
 ### Goal
 
@@ -59,31 +59,31 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 
 ### Phase Progress
 
-| #    | Name                                         | Goal                                                    | Status  |
-| ---- | -------------------------------------------- | ------------------------------------------------------- | ------- |
-| 11   | Public README & Portfolio First Impression     | Root README, architecture diagram, demo GIF, setup docs | ✅ Done |
-| 12A  | CI/CD Completeness                             | Full CI pipeline, db:generate, format check, pytest     | ✅ Done |
-| 12B  | Local Stack & Seed Reliability               | Docker compose, boot scripts, seed, .env.example        | ✅ Done |
-| 12C  | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes              | ✅ Done |
-| 13   | Security & Input Validation Hardening          | ValidationPipe, CORS, upload hardening, safe errors     | ✅ Done |
-| 14A  | Adapter Boundary Cleanup                       | Repository interfaces, adapter implementations          | ✅ Done |
-| 14B  | Domain Invariants & State Machines             | Zod validation, job state machine, audit logs          | ✅ Done |
-| 15   | Observability & Health Checks                 | Request IDs, structured logs, /health endpoints          | ✅ Done |
-| 15.5 | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors            | ✅ Done |
-| 15.6 | Workflow Guidance & Primary Next Action      | NextAction model, disabled reasons, recovery paths      | ✅ Done |
-| 15.7 | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs) | ✅ Done |
-| 15.8 | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions     | ✅ Done |
-| 15.9 | Visual System Hardening                    | Focus-visible, semantic colors, consistent spacing       | ✅ Done |
-| 15.10| Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests | ✅ Done |
-| 16A  | Frontend Split Minimum                       | Feature module extraction (media, inference)            | ✅ Done |
-| 17  | Real Media Processing                       | Pillow thumbnails, ffmpeg frames, BullMQ consumer       | ⏳ In Progress |
-| 18  | Dataset Locking & COCO Export               | Lock enforcement, deterministic COCO export             | Planned |
-| 19  | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                   | Planned |
-| 20  | Evaluation Report E2E                       | Evaluation metrics, persisted reports, UI display       | Planned |
-| 21  | Frontend Split Completion                   | All feature modules, shared components                  | Planned |
-| 22A | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures               | Planned |
-| 22B | Production-Path Test Suite                  | Real path tests, contract tests                         | Planned |
-| 23  | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                       | Planned |
+| #     | Name                                        | Goal                                                                                         | Status  |
+| ----- | ------------------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
+| 11    | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs                                      | ✅ Done |
+| 12A   | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest                                          | ✅ Done |
+| 12B   | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example                                             | ✅ Done |
+| 12C   | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes                                                  | ✅ Done |
+| 13    | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors                                          | ✅ Done |
+| 14A   | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations                                               | ✅ Done |
+| 14B   | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs                                                | ✅ Done |
+| 15    | Observability & Health Checks               | Request IDs, structured logs, /health endpoints                                              | ✅ Done |
+| 15.5  | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors                                                 | ✅ Done |
+| 15.6  | Workflow Guidance & Primary Next Action     | NextAction model, disabled reasons, recovery paths                                           | ✅ Done |
+| 15.7  | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs)                        | ✅ Done |
+| 15.8  | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions                                           | ✅ Done |
+| 15.9  | Visual System Hardening                     | Focus-visible, semantic colors, consistent spacing                                           | ✅ Done |
+| 15.10 | Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests                                      | ✅ Done |
+| 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                 | ✅ Done |
+| 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field | ✅ Done |
+| 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions   | ✅ Done |
+| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                                                        | Planned |
+| 20    | Evaluation Report E2E                       | Evaluation metrics, persisted reports, UI display                                            | Planned |
+| 21    | Frontend Split Completion                   | All feature modules, shared components                                                       | Planned |
+| 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                    | Planned |
+| 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                              | Planned |
+| 23    | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                                                            | Planned |
 
 ### Phase 11 Key Outcomes
 

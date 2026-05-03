@@ -10,13 +10,18 @@ import {
   DatasetVersionListResponseSchema,
   DatasetVersionSummarySchema,
   LockDatasetVersionResponseSchema,
+  CocoExportResponseSchema,
 } from '@visionflow/contracts';
 import { DatasetsService } from './datasets.service';
+import { CocoExportService } from './coco-export.service';
 
 @ApiTags('datasets')
 @Controller('projects/:projectId')
 export class DatasetsController {
-  constructor(@Inject(DatasetsService) private readonly datasetsService: DatasetsService) {}
+  constructor(
+    @Inject(DatasetsService) private readonly datasetsService: DatasetsService,
+    @Inject(CocoExportService) private readonly cocoExportService: CocoExportService
+  ) {}
 
   @Post('datasets')
   @ApiBody({
@@ -112,6 +117,16 @@ export class DatasetsController {
     return LockDatasetVersionResponseSchema.parse({
       version: await this.datasetsService.lockVersion(projectId, versionId),
     });
+  }
+
+  @Get('dataset-versions/:versionId/export/coco')
+  @ApiOkResponse({
+    description: 'Export a locked dataset version as deterministic COCO JSON.',
+  })
+  async exportCoco(@Param('projectId') projectId: string, @Param('versionId') versionId: string) {
+    return CocoExportResponseSchema.parse(
+      await this.cocoExportService.exportCoco(projectId, versionId)
+    );
   }
 }
 

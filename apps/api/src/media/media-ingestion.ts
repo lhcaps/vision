@@ -9,7 +9,7 @@ import {
   validateMediaMime,
 } from '@visionflow/contracts';
 import { validateMagicBytes } from '../common/utils/magic-bytes';
-import { validateMediaIntegrity } from '../common/utils/media-integrity';
+import { validateMediaIntegrity, extractImageMetadata } from '../common/utils/media-integrity';
 
 export type MediaIngestionInput = {
   projectId: string;
@@ -28,6 +28,8 @@ export type MediaIngestionPlan = {
   storageKey: string;
   sizeBytes: number;
   processingJobType: MediaProcessingJobType;
+  width: number | null;
+  height: number | null;
 };
 
 export async function buildMediaIngestionPlan(
@@ -43,6 +45,19 @@ export async function buildMediaIngestionPlan(
 
   await validateMediaIntegrity(input.buffer, mimeType);
 
+  let width: number | null = null;
+  let height: number | null = null;
+
+  if (mediaType === 'IMAGE') {
+    try {
+      const meta = await extractImageMetadata(input.buffer, mimeType);
+      width = meta.width;
+      height = meta.height;
+    } catch {
+      // Dimensions unavailable — COCO export will fail later if dimensions are required
+    }
+  }
+
   return {
     projectId: input.projectId,
     originalName: input.originalName,
@@ -52,6 +67,8 @@ export async function buildMediaIngestionPlan(
     storageKey: createMediaObjectKey(input.projectId, checksum, mimeType),
     sizeBytes: input.sizeBytes,
     processingJobType: mediaType === 'IMAGE' ? 'THUMBNAIL' : 'EXTRACT_FRAMES',
+    width,
+    height,
   };
 }
 

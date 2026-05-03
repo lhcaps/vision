@@ -109,6 +109,8 @@ export class MediaService {
       mimeType: plan.mimeType,
       sizeBytes: plan.sizeBytes,
       originalName: plan.originalName,
+      width: plan.width,
+      height: plan.height,
     });
     const processingJob = await this.mediaRepo.createProcessingJob({
       projectId,
@@ -145,6 +147,8 @@ export class MediaService {
         mimeType: plan.mimeType,
         sizeBytes: plan.sizeBytes,
         originalName: plan.originalName,
+        width: plan.width,
+        height: plan.height,
       });
 
       processingJob = await this.mediaRepo.createProcessingJob({
@@ -279,8 +283,8 @@ export class MediaService {
       jobType: plan.processingJobType,
       correlationId,
       mimeType: plan.mimeType,
-      width: null,
-      height: null,
+      width: plan.width,
+      height: plan.height,
     };
 
     try {

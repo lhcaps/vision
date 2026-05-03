@@ -1,6 +1,8 @@
 import { Injectable, Module } from '@nestjs/common';
 import { DatasetsController } from './datasets.controller';
 import { DatasetsService } from './datasets.service';
+import { DatasetLockValidator } from './dataset-lock.validator';
+import { CocoExportService } from './coco-export.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { isDatabaseMode } from '../config/app-mode';
 import { PrismaDatasetRepository } from '../repositories/dataset.repository.impl';
@@ -18,7 +20,9 @@ const useDatabase = isDatabaseMode();
       useClass: useDatabase ? PrismaDatasetRepository : MemoryDatasetRepository,
     },
     DatasetsService,
+    DatasetLockValidator,
+    CocoExportService,
   ],
-  exports: [DatasetsService, DATASET_REPOSITORY],
+  exports: [DatasetsService, DatasetLockValidator, CocoExportService, DATASET_REPOSITORY],
 })
 export class DatasetsModule {}

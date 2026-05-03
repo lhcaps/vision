@@ -1,8 +1,8 @@
 # Roadmap
 
-Status date: 2026-05-03
+Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 16A complete — Phase 17 complete — Phase 17.1 (Runtime fixes) complete — Phase 18 (Dataset Locking & COCO Export) next to execute
+Phase 16A complete — Phase 17 complete — Phase 17.1 (Runtime fixes) complete — Phase 18 complete — Phase 19 (Real ONNX Detector) next to execute
 
 ## Legend
 
@@ -548,7 +548,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 ## Phase 17, Real Media Processing — Done 2026-05-03
 
-**Pre-flight P0 blockers identified:**
+**Pre-flight P0 blockers identified:** (see Phase 17.1 for resolution)
 
 - P0-1: CV worker returns `mock_thumbnailer`/`mock_frame_extractor`, no real Pillow/OpenCV output.
 - P0-2: `requirements.txt` missing `minio`, `boto3`, `opencv-python-headless`, video stack.
@@ -613,14 +613,14 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Pre-flight blockers fixed (raised by user after Phase 17 verification):**
 
-| Blocker | Severity | Fix |
-| --- | --- | --- |
-| Race condition: enqueue before MinIO write | P0 | Moved `enqueueMediaProcessing` after `putOriginal` succeeds. Added `removeQueuedJob()` for cleanup. |
-| CV worker import crash | P0 | Changed `from .storage import` to `from storage import` in `media_processing.py`. Fixed dataclass field ordering. |
-| dev:full missing CV worker | P1 | Updated `start-dev.ps1` and `start-dev.sh` to boot `pnpm dev:cv`. Set `CV_WORKER_URL=http://localhost:8000` in `.env.example`. |
-| Storage error swallowed | P1 | `object_exists()` now raises `RuntimeError` for connectivity/auth errors; returns false only for real "not found". |
-| Duplicate FAILED transition | P1 | Centralized all failure transitions in `failJob()`. `processThumbnail` and `processFrameExtraction` no longer transition to FAILED internally. |
-| MulterModule missing | (pre-existing) | Added `MulterModule.register()` to `MediaModule`. |
+| Blocker                                    | Severity       | Fix                                                                                                                                            |
+| ------------------------------------------ | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Race condition: enqueue before MinIO write | P0             | Moved `enqueueMediaProcessing` after `putOriginal` succeeds. Added `removeQueuedJob()` for cleanup.                                            |
+| CV worker import crash                     | P0             | Changed `from .storage import` to `from storage import` in `media_processing.py`. Fixed dataclass field ordering.                              |
+| dev:full missing CV worker                 | P1             | Updated `start-dev.ps1` and `start-dev.sh` to boot `pnpm dev:cv`. Set `CV_WORKER_URL=http://localhost:8000` in `.env.example`.                 |
+| Storage error swallowed                    | P1             | `object_exists()` now raises `RuntimeError` for connectivity/auth errors; returns false only for real "not found".                             |
+| Duplicate FAILED transition                | P1             | Centralized all failure transitions in `failJob()`. `processThumbnail` and `processFrameExtraction` no longer transition to FAILED internally. |
+| MulterModule missing                       | (pre-existing) | Added `MulterModule.register()` to `MediaModule`.                                                                                              |
 
 **Files changed:**
 
@@ -644,30 +644,28 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 - `python -m pytest tests/ -v` — 9/10 pass (1 fail: `minio` module not installed in local env)
 - Runtime smoke: API health `200`, CV worker health `200`, BullMQ worker started, demo media list returns `thumbnailKey`
 
-## Phase 18, Dataset Locking & Deterministic COCO Export — Planned
+## Phase 18, Dataset Locking & Deterministic COCO Export — Done 2026-05-04
 
-**Goal:** Make locked dataset versions reproducible and exportable.
+**Pre-flight blockers identified:**
 
-**Requirements:**
+- P0-1: `lockVersion()` does not enforce export-readiness invariants (asset count, UNASSIGNED splits, image dimensions, annotation presence).
+- P0-2: Annotation create/update/delete does not check dataset version lock state.
+- P0-3: `MediaAsset.width`/`height` not persisted during upload — COCO export would have no real image dimensions.
+- P0-4: No COCO export endpoint exists.
 
-- When `DatasetVersion.status = LOCKED`, reject: asset assignment, asset removal, annotation create/update/delete, split mutation. Return 409 Conflict for locked-version mutation attempts.
-- Implement COCO export endpoint: `GET /datasets/:datasetId/versions/:versionId/export/coco`.
-- COCO export includes: images, annotations, categories, dataset metadata, project ID, dataset version ID, export checksum.
-- Export must be deterministic: stable ordering, stable IDs or stable mapping, no random fields, no side effects.
-- README documents locked-version behavior and export behavior.
+**Goal:** Make dataset versions genuinely immutable after locking and export locked dataset versions as deterministic COCO JSON.
+
+**Completed scope:**
+
+- `DatasetLockValidator` — 8 lock-readiness invariants enforced before locking: DRAFT status, at least one asset, no UNASSIGNED splits, all IMAGE assets have valid width/height, annotation set exists, at least one BBox annotation, all annotation assetIds belong to version, all BBox geometry has positive area. All rejection messages are safe and actionable.
+- `AnnotationsService` — pre-check on create/update/delete via `getVersionStatusByAnnotationSet()`. Returns 409 "Annotations are immutable once the dataset version is locked." for LOCKED/ARCHIVED versions. Read path unaffected.
+- `extractImageMetadata()` — uses `sharp().metadata()` to extract real width/height from uploaded images. Dimensions persisted on `MediaAsset` via ingestion plan and CV worker thumbnail response.
+- `CocoExportService` — `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`. Requires LOCKED status. Deterministic ordering: images by (split TRAIN>VALID>TEST, storageKey, id), categories by (name, labelClassId), annotations by (image_id, category_id, id). SHA-256 hash of canonical stable content. VisionFlow metadata: projectId, datasetId, datasetVersionId, datasetVersion, status, assetCount, annotationCount, categoryCount, splits, deterministicHash.
+- `packages/contracts/src/coco.ts` — COCO Zod schemas: `CocoInfoSchema`, `CocoImageSchema`, `CocoCategorySchema`, `CocoAnnotationSchema`, `CocoDatasetSchema`, `CocoExportMetadataSchema`, `CocoExportResponseSchema`. All exported from `@visionflow/contracts`.
+
+**Files created:** `coco.ts`, `coco-export.service.ts`, `coco-export.service.spec.ts`, `dataset-lock.validator.ts`, `dataset-lock.validator.spec.ts`.
 
 **Depends on:** Phase 14B
-
-**Success criteria:**
-
-1. Locked version rejects asset assignment with 409.
-2. Locked version rejects annotation create/update/delete with 409.
-3. COCO export works for locked dataset versions.
-4. Same locked version produces deterministic JSON.
-5. COCO export includes images, annotations, and categories.
-6. Export checksum is stable for unchanged data.
-7. API integration test proves deterministic export.
-8. README documents reproducibility guarantees.
 
 ## Phase 19, Real ONNX Detector & Prediction Persistence — Planned
 
