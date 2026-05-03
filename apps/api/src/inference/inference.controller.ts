@@ -4,7 +4,6 @@ import {
   Controller,
   Get,
   Inject,
-  NotFoundException,
   Param,
   Post,
   Sse,
@@ -129,10 +128,6 @@ export class InferenceController {
   })
   async getEvaluation(@Param('jobId') jobId: string) {
     const report = await this.evaluationService.getEvaluationReport(jobId);
-
-    if (!report) {
-      throw new NotFoundException('No evaluation report found for this inference job.');
-    }
 
     return EvaluationRunResponseSchema.parse({ report });
   }

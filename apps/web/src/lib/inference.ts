@@ -47,7 +47,7 @@ export async function runEvaluation(
     }
   );
 
-  return data.report;
+  return data.report!;
 }
 
 export async function getJobPredictions(

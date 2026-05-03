@@ -34,7 +34,7 @@ export const EvaluationReportListResponseSchema = z.object({
 });
 
 export const EvaluationRunResponseSchema = z.object({
-  report: EvaluationReportSchema,
+  report: EvaluationReportSchema.nullable(),
 });
 
 export const PredictionSummarySchema = z.object({
