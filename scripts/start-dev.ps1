@@ -117,21 +117,66 @@ else { Log-Warn "Seed failed -- Run button may be disabled"; Write-Host $seedOut
 Write-Host ""
 Log-Info "Starting dev servers..."
 Write-Host ""
-Write-Host "  Web:     http://localhost:5173"
-Write-Host "  API:     http://localhost:3000"
-Write-Host "  CV Worker: http://localhost:8000"
-Write-Host "  Swagger: http://localhost:3000/api/docs"
-Write-Host "  MinIO:   http://localhost:9000  (console: http://localhost:9001)"
+
+$devProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
+$cvProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT/apps/cv-worker/src'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+Write-Host ("  Web PID:      {0}" -f $devProc.Id)
+Write-Host ("  CV Worker PID: {0}" -f $cvProc.Id)
+Write-Host ""
+
+function Wait-Http($name, $url, $maxWaitSeconds = 90) {
+    Write-Host ("  Waiting for {0} at {1}..." -f $name, $url)
+    for ($i = 0; $i -lt $maxWaitSeconds; $i++) {
+        try {
+            $res = Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 2
+            if ($res.StatusCode -ge 200 -and $res.StatusCode -lt 500) {
+                Write-Host ("      [OK] {0} ready ({1}s)" -f $name, $i) -ForegroundColor Green
+                return $true
+            }
+        } catch {
+            # not ready yet
+        }
+        Start-Sleep -Seconds 1
+    }
+    return $false
+}
+
+# API readiness check
+if (-not (Wait-Http "API" "http://localhost:3000/api/health" 90)) {
+    Write-Host ""
+    Log-Error "API failed to become ready. Check the pnpm dev window for NestJS errors."
+    Write-Host "  Common causes:"
+    Write-Host "    - Missing DATABASE_URL or other env vars in .env"
+    Write-Host "    - PostgreSQL not ready (check docker logs)"
+    Write-Host "    - Prisma client out of sync (run pnpm db:generate)"
+    Write-Host ""
+    Write-Host "  API PID was: $env:LAST_PID" -ForegroundColor Yellow
+    exit 1
+}
+
+# CV Worker readiness check
+if (-not (Wait-Http "CV Worker" "http://localhost:8000/health" 60)) {
+    Write-Host ""
+    Log-Error "CV Worker failed to become ready. Check the uvicorn window."
+    exit 1
+}
+
+# Web readiness check (Vite dev server)
+if (-not (Wait-Http "Web" "http://localhost:5173" 60)) {
+    Write-Host ""
+    Log-Error "Web dev server failed to become ready. Check the Vite window."
+    exit 1
+}
+
 Write-Host ""
 Write-Host "===================================================="
 Write-Host " VisionFlow Studio is running!"
+Write-Host "  API:     http://localhost:3000"
+Write-Host "  Web:     http://localhost:5173"
+Write-Host "  Swagger: http://localhost:3000/api/docs"
+Write-Host "  CV Worker: http://localhost:8000"
+Write-Host "  MinIO:   http://localhost:9000  (console: http://localhost:9001)"
+Write-Host ""
 Write-Host "  Stop: docker compose -f infra/docker-compose.yml down"
 Write-Host "===================================================="
 Write-Host ""
-
-# ONE command only. Turbo handles API + web parallelization internally.
-# CV worker runs separately in its own window.
-# -NoExit keeps this window open to show pnpm dev output.
-# -Wait keeps this terminal blocked so the script stays alive.
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT/apps/cv-worker/src'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"

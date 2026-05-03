@@ -98,36 +98,80 @@ else
     log_ok "Database seeded"
 fi
 
-# Step 4: Validate demo data (legacy, non-API mode)
-echo ""
-log_info "Validating demo data..."
-if ! pnpm seed 2>/dev/null; then
-    log_warn "Demo data validation skipped (Docker required for full validation)"
-fi
+wait_for_http() {
+    local name=$1
+    local url=$2
+    local max_attempts=90
+    local attempt=1
+
+    echo "  Waiting for $name at $url..."
+    while [ $attempt -le $max_attempts ]; do
+        if curl -sf --max-time 2 "$url" &>/dev/null; then
+            echo -e "      \033[0;32m[OK]\033[0m $name ready (${attempt}s)"
+            return 0
+        fi
+        sleep 1
+        attempt=$((attempt + 1))
+    done
+
+    log_error "$name failed to become ready at $url after ${max_attempts}s"
+    return 1
+}
 
 # Step 5: Start all apps
 echo ""
 log_info "Starting all apps..."
-echo ""
-echo "  Web:       http://localhost:5173"
-echo "  API:       http://localhost:3000"
-echo "  CV Worker: http://localhost:8000"
-echo "  Swagger:   http://localhost:3000/api/docs"
-echo "  MinIO:     http://localhost:9000 (console: http://localhost:9001)"
-echo ""
 
-# Set trap for cleanup
-trap 'echo ""; log_info "Shutting down... Run \`pnpm kill\` to stop Docker containers"; kill 0 2>/dev/null; wait' EXIT
-
-# Start web + api and CV worker in background
+# Start web + api and CV worker in background; capture PIDs
+cd "$ROOT_DIR"
 pnpm dev &
-cd "$ROOT_DIR/apps/cv-worker/src" && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+API_PID=$!
+echo "  Web/API PID: $API_PID"
 
+cd "$ROOT_DIR/apps/cv-worker/src" && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+CV_PID=$!
+echo "  CV Worker PID: $CV_PID"
+
+cd "$ROOT_DIR"
+
+# Step 6: Wait for all services to be reachable
+echo ""
+
+if ! wait_for_http "API" "http://localhost:3000/api/health"; then
+    log_error "API failed to boot. Check the pnpm dev output for NestJS errors."
+    log_error "Common causes: missing DATABASE_URL in .env, Prisma client out of sync, PostgreSQL not ready."
+    kill $API_PID $CV_PID 2>/dev/null
+    wait
+    exit 1
+fi
+
+if ! wait_for_http "CV Worker" "http://localhost:8000/health"; then
+    log_error "CV Worker failed to boot. Check the uvicorn output."
+    kill $API_PID $CV_PID 2>/dev/null
+    wait
+    exit 1
+fi
+
+if ! wait_for_http "Web" "http://localhost:5173"; then
+    log_error "Web dev server failed to boot. Check the Vite output."
+    kill $API_PID $CV_PID 2>/dev/null
+    wait
+    exit 1
+fi
+
+echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " VisionFlow Studio is running!"
+echo "  API:     http://localhost:3000"
+echo "  Web:     http://localhost:5173"
+echo "  Swagger: http://localhost:3000/api/docs"
+echo "  CV Worker: http://localhost:8000"
+echo "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
+echo ""
 echo "  Stop all: pnpm kill"
 echo "  Logs: docker compose -f infra/docker-compose.yml logs -f"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
 
-# Wait for all background processes
+# Wait for all background processes (keeps script alive so trap fires on Ctrl+C)
 wait

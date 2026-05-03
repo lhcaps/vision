@@ -12,18 +12,21 @@ import { createLogger } from './common/logging/structured-logger';
 const logger = createLogger('bootstrap');
 
 async function bootstrap() {
+  const port = Number(process.env.API_PORT ?? 3000);
   logger.info(
     {
       environment: process.env.NODE_ENV ?? 'development',
-      port: Number(process.env.API_PORT ?? 3000),
+      port,
       logLevel: process.env.LOG_LEVEL ?? 'info',
     },
     'Starting VisionFlow API'
   );
 
+  logger.info('Creating Nest application (DI + module bootstrap)');
   const app = await NestFactory.create(AppModule, {
     logger: false,
   });
+  logger.info('Nest application created');
 
   app.setGlobalPrefix('api');
 
@@ -74,7 +77,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = Number(process.env.API_PORT ?? 3000);
+  logger.info({ port }, 'Starting HTTP listener');
   await app.listen(port);
   logger.info({ port, docs: '/api/docs' }, 'VisionFlow API ready');
 }
