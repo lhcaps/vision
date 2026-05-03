@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Client } from 'minio';
+import { Readable } from 'stream';
 import { StorageRepository } from './storage.repository';
 
 const BUCKET = () => process.env.MINIO_BUCKET ?? 'visionflow-artifacts';
@@ -28,7 +29,7 @@ export class MinioStorageRepository implements StorageRepository {
     size: number,
     mimeType: string,
   ): Promise<void> {
-    await this.client.putObject(BUCKET(), key, stream, size, { 'Content-Type': mimeType });
+    await this.client.putObject(BUCKET(), key, stream as Readable, size, { 'Content-Type': mimeType });
   }
 
   async getSignedUrl(key: string): Promise<string> {

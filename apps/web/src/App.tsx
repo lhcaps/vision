@@ -92,6 +92,7 @@ import {
 import {
   createInferenceJob,
   getEvaluationReport,
+  getInferenceJob,
   getJobPredictions,
   listInferenceJobs,
   mergeJobEvent,
@@ -417,19 +418,65 @@ export function App() {
     };
 
     source.onerror = () => {
-      setJob((current) =>
-        current.id === job.id
-          ? {
-              ...current,
-              error: 'Progress stream disconnected. Refresh the job list to resync.',
-              logs: [...current.logs, 'Progress stream disconnected.'].slice(-8),
-            }
-          : current
-      );
-      source.close();
+      void getInferenceJob(demoSnapshot.project.id, job.id)
+        .then((latest) => {
+          setJob((current) =>
+            current.id === latest.id
+              ? toJobUiState(
+                  latest,
+                  'api',
+                  [
+                    ...current.logs,
+                    isTerminalJobStatus(latest.status)
+                      ? `Job resynced after stream close: ${latest.status}.`
+                      : 'Progress stream disconnected. Resynced latest job snapshot.',
+                  ].slice(-8)
+                )
+              : current
+          );
+        })
+        .catch(() => {
+          setJob((current) =>
+            current.id === job.id && !isTerminalJobStatus(current.status)
+              ? {
+                  ...current,
+                  error: 'Progress stream disconnected. Refresh the job list to resync.',
+                  logs: [...current.logs, 'Progress stream disconnected.'].slice(-8),
+                }
+              : current
+          );
+        })
+        .finally(() => source.close());
     };
 
     return () => source.close();
+  }, [job.id, job.source, job.status]);
+
+  // Polling fallback: SSE is a realtime optimization, not the source of truth.
+  // If SSE closes before job reaches terminal state, poll the API every second.
+  useEffect(() => {
+    if (job.source !== 'api' || !job.id || isTerminalJobStatus(job.status)) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      void getInferenceJob(demoSnapshot.project.id, job.id)
+        .then((latest) => {
+          setJob((current) =>
+            current.id === latest.id
+              ? {
+                  ...toJobUiState(latest, 'api', current.logs),
+                  error: latest.errorMessage,
+                }
+              : current
+          );
+        })
+        .catch(() => {
+          // SSE already surfaces connection errors. Polling stays quiet.
+        });
+    }, 1000);
+
+    return () => window.clearInterval(timer);
   }, [job.id, job.source, job.status]);
 
   // Fetch evaluation report and predictions when a completed job is available

@@ -59,6 +59,15 @@ export async function getJobPredictions(
   );
 }
 
+export async function getInferenceJob(
+  projectId: string,
+  jobId: string
+): Promise<InferenceJobSummary> {
+  return apiJson<InferenceJobSummary>(
+    `/api/projects/${projectId}/inference-jobs/${jobId}`
+  );
+}
+
 export function openInferenceJobEvents(projectId: string, jobId: string): EventSource {
   return new EventSource(
     `${API_BASE_URL}/api/projects/${projectId}/inference-jobs/${jobId}/events`

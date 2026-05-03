@@ -50,7 +50,7 @@ export class MediaService {
         originalName: file.originalname,
         mimeType: file.mimetype,
         sizeBytes: file.size,
-        buffer: file.buffer,
+        buffer: file.buffer!,
       });
     } catch (err) {
       if (err instanceof Error && err.message.includes('Magic bytes')) {

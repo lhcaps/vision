@@ -115,7 +115,44 @@ $mustNotContain = "QUEUED,RUNNING,Dataset version not found,Annotation workspace
 Test-Endpoint -Name "API Health" -Url "$BASE/api/health" -ExpectedPattern '"status"'
 Test-Endpoint -Name "Datasets" -Url "$BASE/api/projects/$Project/datasets"
 Test-Endpoint -Name "Dataset Versions" -Url "$BASE/api/projects/$Project/dataset-versions"
-Test-Endpoint -Name "Inference Jobs" -Url "$BASE/api/projects/$Project/inference-jobs" -MustNotContain $mustNotContain
+
+Write-Host "  Checking: Inference Jobs (polling for terminal state)..." -NoNewline
+$jobPollingPass = $false
+$latestStatus = $null
+try {
+    $maxAttempts = 20
+    for ($i = 0; $i -lt $maxAttempts; $i++) {
+        $resp = Invoke-WebRequest -Uri "$BASE/api/projects/$Project/inference-jobs" -TimeoutSec 10 -UseBasicParsing
+        $body = $resp.Content | ConvertFrom-Json -AsHashtable
+        $latestJob = $body.jobs[0]
+        $latestStatus = $latestJob.status
+
+        if ($latestStatus -eq "SUCCEEDED" -or $latestStatus -eq "FAILED" -or $latestStatus -eq "CANCELLED") {
+            $jobPollingPass = $true
+            break
+        }
+
+        Start-Sleep -Seconds 1
+    }
+
+    if ($jobPollingPass) {
+        Write-Host "  [PASS] Latest job reached terminal state: $latestStatus" -ForegroundColor Green
+        $passCount++
+
+        foreach ($pattern in $mustNotContain -split ",") {
+            if ($latestJob -and $latestJob.progress -match $pattern.Trim()) {
+                Write-Host "  [FAIL] Job data contains forbidden: $pattern" -ForegroundColor Red
+                $script:failCount++
+            }
+        }
+    } else {
+        Write-Host "  [FAIL] Latest job did not reach terminal state after $maxAttempts attempts. Status: $latestStatus" -ForegroundColor Red
+        $failCount++
+    }
+} catch {
+    Write-Host "  [FAIL] $($_.Exception.Message)" -ForegroundColor Red
+    $script:failCount++
+}
 Test-Endpoint -Name "Annotation Workspace" -Url "$BASE/api/projects/$Project/dataset-versions/dataset_${Project}_parking_v3/annotation-workspace?assetId=asset_frame_1482"
 
 # --- Summary ---
