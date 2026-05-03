@@ -36,12 +36,8 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalErrorFilter());
   app.useGlobalInterceptors(new RequestIdInterceptor());
 
-  // Disable ETag generation for all API responses to prevent 304 Not Modified responses.
-  // NestJS uses Express under the hood; disabling the default etag prevents the server
-  // from sending weak validators that cause the frontend fetch wrapper to throw on 304.
   app.getHttpAdapter().getInstance().disable('etag');
 
-  // Explicit no-cache headers on every API response as a belt-and-suspenders measure.
   const noCacheMiddleware: RequestHandler = (_req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');

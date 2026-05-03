@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { demoSnapshot } from '../projects/demo-snapshot';
 import { PrismaService } from '../prisma/prisma.service';
@@ -12,6 +13,7 @@ import {
   UpdatePipelineRequest,
   validatePipelineDefinition,
 } from '@visionflow/contracts';
+import { PRISMA_SERVICE } from '../config/provider-tokens';
 
 type MemoryPipeline = {
   id: string;
@@ -42,7 +44,7 @@ function sanitizeId(value: string): string {
 
 @Injectable()
 export class PrismaPipelineRepository implements PipelineRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   async listByProject(projectId: string): Promise<PipelineSummary[]> {
     const pipelines = await this.prisma.pipeline.findMany({
@@ -95,7 +97,9 @@ export class PrismaPipelineRepository implements PipelineRepository {
       where: { id: args.pipelineId },
       data: {
         ...(args.dto.name ? { name: args.dto.name } : {}),
-        ...(args.dto.definition ? { definitionJson: args.dto.definition as Prisma.InputJsonValue } : {}),
+        ...(args.dto.definition
+          ? { definitionJson: args.dto.definition as Prisma.InputJsonValue }
+          : {}),
       },
     });
     await this.writeAudit(args.projectId, 'PIPELINE_UPDATED', 'Pipeline', pipeline.id, {

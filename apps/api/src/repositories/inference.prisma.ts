@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { InferenceJobStatus } from '@visionflow/contracts';
 import {
@@ -6,10 +7,11 @@ import {
   InferenceJobSummary,
   InferenceProgressUpdate,
 } from './inference.repository';
+import { PRISMA_SERVICE } from '../config/provider-tokens';
 
 @Injectable()
 export class PrismaInferenceRepository implements InferenceRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   async createJob(data: {
     projectId: string;

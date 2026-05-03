@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AnnotationRepository, AnnotationJob } from './annotation.repository';
+import { PRISMA_SERVICE } from '../config/provider-tokens';
 
 @Injectable()
 export class PrismaAnnotationRepository implements AnnotationRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   async createJob(data: {
     projectId: string;

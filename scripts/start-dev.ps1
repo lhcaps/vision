@@ -120,8 +120,8 @@ Write-Host ""
 
 $devProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
 $cvProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT/apps/cv-worker/src'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
-Write-Host ("  Web PID:      {0}" -f $devProc.Id)
-Write-Host ("  CV Worker PID: {0}" -f $cvProc.Id)
+Write-Host "  Web PID: $($devProc.Id)" -ForegroundColor Yellow
+Write-Host "  CV Worker PID: $($cvProc.Id)" -ForegroundColor Yellow
 Write-Host ""
 
 function Wait-Http($name, $url, $maxWaitSeconds = 90) {
@@ -150,7 +150,8 @@ if (-not (Wait-Http "API" "http://localhost:3000/api/health" 90)) {
     Write-Host "    - PostgreSQL not ready (check docker logs)"
     Write-Host "    - Prisma client out of sync (run pnpm db:generate)"
     Write-Host ""
-    Write-Host "  API PID was: $env:LAST_PID" -ForegroundColor Yellow
+    Write-Host "  Web API PID: $($devProc.Id)" -ForegroundColor Yellow
+    Write-Host "  CV Worker PID: $($cvProc.Id)" -ForegroundColor Yellow
     exit 1
 }
 

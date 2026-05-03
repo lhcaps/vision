@@ -9,3 +9,10 @@ export const STORAGE_REPOSITORY = 'STORAGE_REPOSITORY';
 export const JOB_QUEUE = 'JOB_QUEUE';
 export const AUDIT_LOGGER = 'AUDIT_LOGGER';
 export const APP_MODE = 'APP_MODE';
+
+// Self-injection token for PrismaService.
+// NestJS resolves class-based dependencies from emitDecoratorMetadata, but tsx
+// does not execute the reflect-metadata polyfill at runtime, so design:paramtypes
+// metadata is undefined. Using an explicit token lets NestJS resolve PrismaService
+// without relying on decorator metadata.
+export const PRISMA_SERVICE = 'PRISMA_SERVICE';

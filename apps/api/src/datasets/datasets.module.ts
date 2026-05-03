@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Global, Injectable, Module } from '@nestjs/common';
 import { DatasetsController } from './datasets.controller';
 import { DatasetsService } from './datasets.service';
 import { DatasetLockValidator } from './dataset-lock.validator';
@@ -11,6 +11,7 @@ import { DATASET_REPOSITORY } from '../config/provider-tokens';
 
 const useDatabase = isDatabaseMode();
 
+@Global()
 @Module({
   imports: [PrismaModule],
   controllers: [DatasetsController],

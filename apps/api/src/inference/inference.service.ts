@@ -25,14 +25,17 @@ import {
   isTerminalJobStatus,
 } from '@visionflow/contracts';
 import { createLogger, getCurrentRequestId } from '../common/logging/structured-logger';
-import { assertValidInferenceTransition, assertValidProgress } from '../domain/inference-job-state-machine';
+import {
+  assertValidInferenceTransition,
+  assertValidProgress,
+} from '../domain/inference-job-state-machine';
 import { DatasetsService } from '../datasets/datasets.service';
 import { MediaService } from '../media/media.service';
 import { PipelinesService } from '../pipelines/pipelines.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CvWorkerClient } from './cv-worker.client';
 import { InferenceRepository } from '../repositories/inference.repository';
-import { INFERENCE_REPOSITORY } from '../config/provider-tokens';
+import { INFERENCE_REPOSITORY, PRISMA_SERVICE } from '../config/provider-tokens';
 
 type InferenceQueuePayload = {
   projectId: string;
@@ -65,7 +68,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   private jobSequence = 0;
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService,
     @Inject(INFERENCE_REPOSITORY) private readonly inferenceRepo: InferenceRepository,
     private readonly datasetsService: DatasetsService,
     private readonly mediaService: MediaService,
@@ -92,13 +95,13 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       if (!job) {
         this.logger.error(
           { correlationId },
-          `Inference worker failed before job data was available: ${error.message}`,
+          `Inference worker failed before job data was available: ${error.message}`
         );
         return;
       }
       this.logger.error(
         { jobId: job.data.jobId, correlationId: job.data.correlationId },
-        `Inference worker failed for job ${job.data.jobId}: ${error.message}`,
+        `Inference worker failed for job ${job.data.jobId}: ${error.message}`
       );
     });
 
@@ -231,13 +234,13 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         });
         this.logger.info(
           { jobId: payload.jobId, correlationId, pipelineId: payload.projectId },
-          'Inference job enqueued',
+          'Inference job enqueued'
         );
         return;
       } catch (error) {
         this.logger.warn(
           { jobId: payload.jobId, correlationId, error: formatError(error) },
-          'BullMQ enqueue failed, falling back to in-process worker',
+          'BullMQ enqueue failed, falling back to in-process worker'
         );
       }
     }
@@ -245,7 +248,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     this.memoryQueue.push(payload);
     this.logger.info(
       { jobId: payload.jobId, correlationId },
-      'Inference job queued in memory fallback',
+      'Inference job queued in memory fallback'
     );
     if (!this.memoryDrain) {
       this.memoryDrain = this.drainMemoryQueue().finally(() => {
@@ -264,7 +267,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   private async processJob(payload: InferenceQueuePayload): Promise<void> {
     this.logger.info(
       { jobId: payload.jobId, correlationId: payload.correlationId },
-      'Worker started processing inference job',
+      'Worker started processing inference job'
     );
 
     try {
@@ -283,8 +286,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
         message: `Locked dataset version resolved with ${workerPayload.assets.length} image assets.`,
       });
       this.logger.info(
-        { jobId: payload.jobId, correlationId: payload.correlationId, assetCount: workerPayload.assets.length },
-        'Dataset assets resolved for inference',
+        {
+          jobId: payload.jobId,
+          correlationId: payload.correlationId,
+          assetCount: workerPayload.assets.length,
+        },
+        'Dataset assets resolved for inference'
       );
       await this.runStep(payload, {
         progress: 46,
@@ -313,8 +320,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       const persistedCount = await this.persistPredictions(payload, workerResponse);
 
       this.logger.info(
-        { jobId: payload.jobId, correlationId: payload.correlationId, predictionCount: persistedCount },
-        'Predictions persisted',
+        {
+          jobId: payload.jobId,
+          correlationId: payload.correlationId,
+          predictionCount: persistedCount,
+        },
+        'Predictions persisted'
       );
 
       await this.runStep(payload, {
@@ -341,7 +352,8 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const pipeline = (await this.pipelinesService.listPipelines(payload.projectId)).find(
       (item) => item.id === job.pipelineId
     );
-    if (!pipeline) throw new Error('Inference job pipeline could not be resolved for worker dispatch.');
+    if (!pipeline)
+      throw new Error('Inference job pipeline could not be resolved for worker dispatch.');
 
     const assetIds = await this.datasetsService.listVersionAssetIds(
       payload.projectId,
@@ -356,7 +368,10 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       jobId: job.id,
       pipeline: pipeline.definition,
       detectorMode,
-      modelArtifactKey: await this.resolveModelArtifactKey(payload.projectId, job.modelId ?? detectorModelId),
+      modelArtifactKey: await this.resolveModelArtifactKey(
+        payload.projectId,
+        job.modelId ?? detectorModelId
+      ),
       confidenceThreshold:
         detectorNode?.type === 'yolo_onnx' ? detectorNode.params.threshold : undefined,
       assets,
@@ -437,7 +452,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
     const errMsg = formatError(error);
     this.logger.error(
       { jobId: payload.jobId, correlationId: payload.correlationId, error: errMsg },
-      'Inference job failed',
+      'Inference job failed'
     );
     try {
       await this.patchJob(payload, {
@@ -450,8 +465,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       });
     } catch (patchError) {
       this.logger.warn(
-        { jobId: payload.jobId, correlationId: payload.correlationId, error: formatError(patchError) },
-        'Could not mark inference job as failed',
+        {
+          jobId: payload.jobId,
+          correlationId: payload.correlationId,
+          error: formatError(patchError),
+        },
+        'Could not mark inference job as failed'
       );
     }
   }
@@ -474,8 +493,12 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
       status: nextStatus,
       progress: patch.progress,
       startedAt:
-        nextStatus === 'RUNNING' && !current.startedAt ? now.toISOString() : current.startedAt ?? null,
-      completedAt: isTerminalJobStatus(nextStatus) ? now.toISOString() : current.completedAt ?? null,
+        nextStatus === 'RUNNING' && !current.startedAt
+          ? now.toISOString()
+          : (current.startedAt ?? null),
+      completedAt: isTerminalJobStatus(nextStatus)
+        ? now.toISOString()
+        : (current.completedAt ?? null),
       error: patch.errorMessage ?? null,
     });
 

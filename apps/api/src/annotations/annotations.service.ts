@@ -15,7 +15,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { demoSnapshot } from '../projects/demo-snapshot';
 import { DatasetRepository } from '../repositories/dataset.repository';
-import { DATASET_REPOSITORY } from '../config/provider-tokens';
+import { DATASET_REPOSITORY, PRISMA_SERVICE } from '../config/provider-tokens';
 import { assertAnnotationsImmutable } from '../datasets/dataset-lock.validator';
 
 const DEFAULT_ANNOTATION_SET_NAME = 'Manual QA Set';
@@ -38,7 +38,7 @@ export class AnnotationsService {
   private readonly memoryAnnotations = new Map<string, AnnotationSummary>();
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService,
     @Inject(DATASET_REPOSITORY) private readonly datasetRepo: DatasetRepository
   ) {}
 

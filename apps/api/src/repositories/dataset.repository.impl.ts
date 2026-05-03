@@ -1,4 +1,5 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { DatasetRepository, VersionSnapshot } from './dataset.repository';
 import {
@@ -11,6 +12,7 @@ import {
 import { demoSnapshot } from '../projects/demo-snapshot';
 import { Prisma } from '@prisma/client';
 import { DatasetLockValidator } from '../datasets/dataset-lock.validator';
+import { PRISMA_SERVICE } from '../config/provider-tokens';
 
 type VersionRow = {
   id: string;
@@ -90,7 +92,7 @@ function toVersionSummary(row: VersionRow, datasetId: string): DatasetVersionSum
 @Injectable()
 export class PrismaDatasetRepository implements DatasetRepository {
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService,
     private readonly lockValidator: DatasetLockValidator
   ) {}
 

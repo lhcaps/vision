@@ -8,12 +8,12 @@ import {
 } from '@visionflow/contracts';
 import { PrismaService } from '../prisma/prisma.service';
 import { PipelineRepository } from '../repositories/pipeline.repository';
-import { PIPELINE_REPOSITORY } from '../config/provider-tokens';
+import { PIPELINE_REPOSITORY, PRISMA_SERVICE } from '../config/provider-tokens';
 
 @Injectable()
 export class PipelinesService {
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService,
     @Inject(PIPELINE_REPOSITORY) private readonly pipelineRepo: PipelineRepository
   ) {}
 
