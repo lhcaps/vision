@@ -362,4 +362,55 @@ describe('CocoExportService', () => {
       expect(result.annotations.map((a) => a.id)).toEqual([1, 2, 3, 4]);
     });
   });
+
+  describe('rejects invalid geometry', () => {
+    it('throws ConflictException when locked snapshot contains invalid BBox geometry', async () => {
+      vi.mocked(repo.getVersionSnapshot).mockResolvedValue(
+        makeSnapshot({
+          annotationSets: [
+            {
+              id: 'set_1',
+              annotations: [
+                {
+                  id: 'bad_ann',
+                  assetId: 'asset_a',
+                  labelClassId: 'label_car',
+                  labelName: 'car',
+                  type: 'BBOX',
+                  geometryJson: { x: 0, y: 0, width: -10, height: 10 },
+                },
+              ],
+            },
+          ],
+        })
+      );
+      await expect(service.exportCoco('proj', 'version_1')).rejects.toThrow(ConflictException);
+      await expect(service.exportCoco('proj', 'version_1')).rejects.toThrow(
+        'Locked dataset contains invalid BBox geometry'
+      );
+    });
+
+    it('throws ConflictException when BBox geometry is non-numeric', async () => {
+      vi.mocked(repo.getVersionSnapshot).mockResolvedValue(
+        makeSnapshot({
+          annotationSets: [
+            {
+              id: 'set_1',
+              annotations: [
+                {
+                  id: 'bad_ann',
+                  assetId: 'asset_a',
+                  labelClassId: 'label_car',
+                  labelName: 'car',
+                  type: 'BBOX',
+                  geometryJson: { x: 'bad', y: 0, width: 10, height: 10 } as unknown as object,
+                },
+              ],
+            },
+          ],
+        })
+      );
+      await expect(service.exportCoco('proj', 'version_1')).rejects.toThrow(ConflictException);
+    });
+  });
 });
