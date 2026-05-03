@@ -1,9 +1,22 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import uuid
 from pathlib import Path
 from typing import Any, Literal, Optional
+
+from dotenv import load_dotenv
+
+# Load .env from project root so that subprocesses (uvicorn --reload)
+# have the correct MinIO credentials even when started via Start-Process.
+# Path from D:\Study\Project\Vision\apps\cv-worker\src\main.py up to root:
+#   parents[0]=src, parents[1]=cv-worker, parents[2]=apps, parents[3]=Vision(root)
+_env_path = Path(__file__).resolve().parents[3] / ".env"
+load_dotenv(_env_path)
+
+# get_client() re-reads env vars on every call so credentials from .env take effect
+# even when the worker is started via Start-Process without inheriting env vars.
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse

@@ -9,31 +9,50 @@ from __future__ import annotations
 
 import hashlib
 import os
+from io import BytesIO
 from typing import TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
     from minio import Minio
     from minio.datatypes import Object
 
-BUCKET = os.environ.get("MINIO_BUCKET", "visionflow-artifacts")
-
 _client: "Minio | None" = None
 
 
-def get_client() -> "Minio":
-    """Lazily initialise and return the MinIO client singleton."""
-    global _client
-    if _client is None:
-        from minio import Minio
+def _get_bucket() -> str:
+    """Return the configured bucket name (evaluated lazily so dotenv can load first)."""
+    return os.environ.get("MINIO_BUCKET", "visionflow-artifacts")
 
-        endpoint = os.environ.get("MINIO_ENDPOINT", "localhost")
-        port = os.environ.get("MINIO_PORT", "9000")
-        _client = Minio(
-            endpoint=f"{endpoint}:{port}",
-            access_key=os.environ.get("MINIO_ACCESS_KEY", ""),
-            secret_key=os.environ.get("MINIO_SECRET_KEY", ""),
-            secure=os.environ.get("MINIO_USE_SSL", "false").lower() == "true",
-        )
+
+def _reset_client() -> None:
+    """Reset the client so the next get_client() call re-reads env vars.
+
+    Call this after loading a new .env so the MinIO credentials are refreshed.
+    """
+    global _client
+    _client = None
+
+
+def get_client() -> "Minio":
+    """Lazily initialise and return the MinIO client.
+
+    Always re-reads environment variables so credential changes (e.g. after
+    loading .env via dotenv) take effect without requiring a process restart.
+    """
+    global _client
+    from minio import Minio
+
+    endpoint = os.environ.get("MINIO_ENDPOINT", "localhost")
+    port = os.environ.get("MINIO_PORT", "9000")
+    access_key = os.environ.get("MINIO_ACCESS_KEY", "")
+    secret_key = os.environ.get("MINIO_SECRET_KEY", "")
+    secure = os.environ.get("MINIO_USE_SSL", "false").lower() == "true"
+    _client = Minio(
+        endpoint=f"{endpoint}:{port}",
+        access_key=access_key,
+        secret_key=secret_key,
+        secure=secure,
+    )
     return _client
 
 
@@ -50,9 +69,10 @@ def read_object(storage_key: str) -> Tuple[bytes, str]:
         FileNotFoundError: When the object does not exist in MinIO.
         RuntimeError: When MinIO returns an unexpected error.
     """
+    bucket = _get_bucket()
     client = get_client()
     try:
-        response = client.get_object(BUCKET, storage_key)
+        response = client.get_object(bucket, storage_key)
         try:
             data = response.read()
         finally:
@@ -68,10 +88,10 @@ def read_object(storage_key: str) -> Tuple[bytes, str]:
         exc_str = str(exc)
         if "NoSuchKey" in exc_str or "No such object" in exc_str or "404" in exc_str:
             raise FileNotFoundError(
-                f"Object not found in MinIO bucket '{BUCKET}': {storage_key}"
+                f"Object not found in MinIO bucket '{bucket}': {storage_key}"
             ) from exc
         raise RuntimeError(
-            f"MinIO read error for '{storage_key}' in bucket '{BUCKET}': {exc}"
+            f"MinIO read error for '{storage_key}' in bucket '{bucket}': {exc}"
         ) from exc
 
 
@@ -86,18 +106,21 @@ def write_object(storage_key: str, data: bytes, content_type: str) -> None:
     Raises:
         RuntimeError: When MinIO returns an error during write.
     """
+    bucket = _get_bucket()
     client = get_client()
     try:
+        # minio>=7.2.0 put_object requires a readable IO-like object (not raw bytes).
+        stream = BytesIO(data)
         client.put_object(
-            BUCKET,
+            bucket,
             storage_key,
-            data,
+            stream,
             len(data),
             content_type=content_type,
         )
     except Exception as exc:  # noqa: BLE001
         raise RuntimeError(
-            f"MinIO write error for '{storage_key}' in bucket '{BUCKET}': {exc}"
+            f"MinIO write error for '{storage_key}' in bucket '{bucket}': {exc}"
         ) from exc
 
 
@@ -113,18 +136,18 @@ def object_exists(storage_key: str) -> bool:
     Raises:
         RuntimeError: When MinIO is unreachable or credentials are invalid.
     """
+    bucket = _get_bucket()
     client = get_client()
     try:
-        client.stat_object(BUCKET, storage_key)
+        client.stat_object(bucket, storage_key)
         return True
     except Exception as exc:  # noqa: BLE001
         exc_str = str(exc)
         if "NoSuchKey" in exc_str or "No such object" in exc_str or "404" in exc_str:
             return False
-        # Real infrastructure error — do not silently swallow connectivity/auth failures
         raise RuntimeError(
             f"MinIO connectivity or auth error while checking '{storage_key}' in bucket "
-            f"'{BUCKET}': {exc}"
+            f"'{bucket}': {exc}"
         ) from exc
 
 

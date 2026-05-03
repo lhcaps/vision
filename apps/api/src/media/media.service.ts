@@ -53,6 +53,10 @@ export class MediaService {
       throw new BadRequestException("Missing multipart file field named 'file'.");
     }
 
+    // diskStorage writes to disk and gives us file.path (no file.buffer).
+    // memoryStorage gives us file.buffer directly. Handle both paths here.
+    const buffer = await this.readUploadedFileBuffer(file);
+
     let plan: Awaited<ReturnType<typeof buildMediaIngestionPlan>>;
 
     try {
@@ -61,9 +65,11 @@ export class MediaService {
         originalName: file.originalname,
         mimeType: file.mimetype,
         sizeBytes: file.size,
-        buffer: file.buffer!,
+        buffer,
       });
     } catch (err) {
+      // Clean up the temp file since we already read it into memory.
+      if (file.path) await this.safelyDeleteFile(file.path);
       if (err instanceof Error && err.message.includes('Magic bytes')) {
         throw new BadRequestException(
           'File content does not match declared file type. The file may be corrupted or misnamed.'
@@ -176,6 +182,15 @@ export class MediaService {
     await this.enqueueMediaProcessing(projectId, asset.id, processingJob.id, plan, targetKey);
 
     return { asset, processingJob, deduplicated: false };
+  }
+
+  private async readUploadedFileBuffer(file: UploadedFile): Promise<Buffer> {
+    if (file.buffer) return file.buffer;
+    if (file.path) {
+      const fs = await import('fs/promises');
+      return fs.readFile(file.path);
+    }
+    throw new InternalServerErrorException('No file content available for upload.');
   }
 
   private async streamToStorage(
