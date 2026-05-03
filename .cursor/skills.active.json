@@ -12,6 +12,7 @@
     "design-taste-frontend"
   ],
   "inactive_by_default": [
+    "open-design",
     "brutalist-skill",
     "minimalist-skill",
     "soft-skill",

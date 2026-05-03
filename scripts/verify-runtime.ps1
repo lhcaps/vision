@@ -113,7 +113,7 @@ Write-Host "[3] API Endpoint Checks" -ForegroundColor Yellow
 $mustNotContain = "QUEUED,RUNNING,Dataset version not found,Annotation workspace 404,API is not connected,Progress stream disconnected,PrismaClientKnownRequestError"
 
 $DatasetId = "ds_proj_parking_lot"
-Test-Endpoint -Name "API Health" -Url "$BASE/api/health" -ExpectedPattern '"status"'
+Test-Endpoint -Name "API Health" -Url "$BASE/api/health" -ExpectedPattern '"ok"'
 Test-Endpoint -Name "Datasets" -Url "$BASE/api/projects/$Project/datasets"
 Test-Endpoint -Name "Dataset Versions" -Url "$BASE/api/projects/$Project/datasets/$DatasetId/versions"
 
