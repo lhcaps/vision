@@ -57,6 +57,7 @@ model AssetDerivative {
   storageKey String
   width      Int?
   height     Int?
+  checksum   String?
   createdAt  DateTime            @default(now())
 
   asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)

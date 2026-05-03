@@ -2,14 +2,14 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 16A (Completed — Frontend Split Minimum)
+Current phase: Phase 17 (Planned — Real Media Processing)
 
 Last updated: 2026-05-03.
 
 ## Current Position
 
-Phase: Phase 16A — Frontend Split Minimum
-Status: Done
+Phase: Phase 17 — Real Media Processing
+Status: Planned
 
 ## Accumulated Context
 
@@ -32,7 +32,7 @@ Status: Done
 - Phase 15 (Observability & health) ✅ Done
 - Phase 15.5-15.10 (Pre-16 Completion Track) ✅ Done
 - Phase 16A (Frontend split min) ✅ Done
-- Phase 17 (Real media processing) pending
+- Phase 17 (Real media processing) ⏳ In Progress (P0 blockers: fake artifacts, missing deps, no BullMQ consumer, missing schema checksum)
 - Phase 18 (Dataset lock & COCO export) pending
 - Phase 19 (Real ONNX inference) pending
 - Phase 20 (Evaluation E2E) pending
@@ -120,11 +120,12 @@ Status: Done
 ## Active Goals
 
 - Execute Phase 17: Real Media Processing.
+- Phase 17 P0 blockers identified: (P0-1) CV worker fake artifacts, (P0-2) missing minio/opencv deps, (P0-3) no BullMQ consumer for media-processing, (P0-4) AssetDerivative missing checksum field.
 - Push updated artifacts to GitHub.
 
 ## Known Partial Areas (v1.1 Focus)
 
-- CV worker produces mock artifacts, not real thumbnail/frame extraction (Phase 17).
+Phase 16A is complete. Phase 17 P0 blockers identified (see Active Goals above). The following areas remain pending after Phase 17:
 - No COCO export endpoint (Phase 18).
 - ONNX inference needs real YOLOv8n model integration (Phase 19).
 - Evaluation needs real data path end-to-end (Phase 20).
@@ -132,7 +133,9 @@ Status: Done
 - No production-path test suite (Phase 22A/B).
 - No real-service E2E test or demo video (Phase 23).
 
-## What Is True After Phase 16A
+## What Is True After Phase 16A (Complete)
+
+Phase 16A is complete. All Phase 16A deliverables delivered via commit `95d52bc10ab60068eec0882b83d8276e870249fc`.
 
 - Shared API boundary established at `shared/api/client.ts`: single `API_BASE_URL`, single `apiJson`, single `apiUpload`, single `readApiError`. No more duplicated error parsing across lib files.
 - `lib/http.ts`, `lib/media-upload.ts`, `lib/inference.ts` now delegate to canonical modules.
@@ -142,3 +145,9 @@ Status: Done
 - Runtime truth selectors (`shared/state/`) remain untouched — Phase 15.5 contract preserved.
 - `demoSnapshot` usage unchanged in App.tsx — Phase 17+ concern.
 - No circular dependencies introduced: `shared/` → `features/` chain is clean.
+
+**Phase 17 pre-flight found 4 P0 issues to address within Phase 17 implementation:**
+1. CV worker returns `mock_thumbnailer`/`mock_frame_extractor` instead of real Pillow/OpenCV output.
+2. `requirements.txt` missing `minio`, `boto3`, `opencv-python-headless`, and video stack.
+3. No BullMQ consumer processes `media-processing` queue jobs.
+4. `AssetDerivative` schema missing `checksum` field.

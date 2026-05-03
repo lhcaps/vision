@@ -6,7 +6,7 @@ Reduce risk before real worker/detector phases by extracting the highest-change 
 
 ## Status
 
-**Planned** — executing now.
+**Done** — Completed 2026-05-03. Commit: `95d52bc10ab60068eec0882b83d8276e870249fc`
 
 ## Out of Scope
 
@@ -19,7 +19,7 @@ Reduce risk before real worker/detector phases by extracting the highest-change 
 
 ## Task 1: Create Phase Plan Artifact
 
-**Status:** Creating this file.
+**Status:** Done.
 
 ---
 
@@ -536,6 +536,92 @@ pnpm build
 
 ---
 
+## Phase 17 Pre-flight: P0 Blockers Identified
+
+Before starting Phase 17, the following P0 issues must be addressed within that phase. No blocking issues prevent beginning Phase 17 — all are correctly scoped as Phase 17 deliverables.
+
+### P0-1: CV Worker Real Media Processing (Core Phase 17 Goal)
+
+**Current state:** `/cv/create-thumbnail` and `/cv/extract-frames` return `SUCCEEDED` with `runtime: mock_thumbnailer` / `mock_frame_extractor`. No MinIO read/write occurs.
+
+**Required:** Real Pillow thumbnail generation, real OpenCV/ffmpeg frame extraction. Worker must read source from MinIO, write derivative to MinIO, return real artifact metadata.
+
+**Required packages missing from `requirements.txt`:**
+- `minio` or `boto3` — MinIO/S3 client for artifact read/write
+- `opencv-python-headless` — video frame extraction (already in scope, not yet added)
+- `ffmpeg-python` or subprocess wrapper — video processing (already in scope, not yet added)
+
+### P0-2: Media Processing BullMQ Consumer
+
+**Current state:** `MediaService.upload()` creates a `MediaProcessingJob` record and queues it, but no BullMQ consumer processes the job and calls the CV worker.
+
+**Required:** NestJS `BullMQ` consumer for `media-processing` queue that dispatches to `/cv/create-thumbnail` or `/cv/extract-frames`, persists derivative metadata, transitions job state, and writes audit logs.
+
+### P0-3: Schema — AssetDerivative Missing `checksum`
+
+**Current state:** `AssetDerivative` model has `storageKey`, `width`, `height` but no `checksum` field.
+
+**Required:** Add `checksum String?` to `AssetDerivative`. Migration file: `infra/prisma/migrations/YYYYMMDDHHMMSS_add_asset_derivative_checksum/migration.sql`. See Task 7 below.
+
+### P0-4: API Upload — MediaService.upload() No Worker Dispatch
+
+**Current state:** `MediaService.upload()` creates asset + job, but does not dispatch the job to the BullMQ queue.
+
+**Required:** After creating `MediaProcessingJob`, enqueue the job to the `media-processing` queue. The BullMQ consumer handles the rest per P0-2.
+
+### Verification: Phase 16A Complete
+
+```bash
+git log --oneline 95d52bc10ab60068eec0882b83d8276e870249fc -1
+# 95d52bc refactor(web): split media and inference frontend modules
+
+git diff --stat 95d52bc^..95d52bc -- apps/web/src/shared/ apps/web/src/features/ apps/web/src/lib/
+# shared/api/client.ts         — new file
+# shared/api/index.ts          — new file
+# features/media/              — new files (media.types.ts, media.api.ts, index.ts)
+# features/inference/         — new files (inference.types.ts, inference.api.ts, index.ts)
+# lib/http.ts                  — re-export from shared
+# lib/media-upload.ts          — delegates to shared
+# lib/inference.ts             — re-exports from features/inference
+# App.tsx                      — imports from feature modules
+```
+
+## Phase 17 Pre-flight: Schema Change
+
+### Task 7: Add `checksum` to `AssetDerivative`
+
+**Goal:** Track derivative artifact integrity with SHA-256 checksum.
+
+### Action
+
+Add `checksum String?` to `AssetDerivative` model in `infra/prisma/schema.prisma`:
+
+```prisma
+model AssetDerivative {
+  id         String              @id @default(cuid())
+  assetId    String
+  type       AssetDerivativeType
+  storageKey String
+  width      Int?
+  height     Int?
+  checksum   String?
+  createdAt  DateTime            @default(now())
+
+  asset MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId, type])
+}
+```
+
+### Acceptance Criteria
+
+1. `AssetDerivative` has `checksum String?` field.
+2. Migration generated with `pnpm db:migrate`.
+3. CV worker returns `checksum` in artifact metadata response.
+4. NestJS consumer persists `checksum` to DB.
+
+---
+
 ## Files to Create
 
 - `.planning/phases/phase-16-frontend-split-minimum/16A-PLAN.md` (this file)
@@ -554,3 +640,5 @@ pnpm build
 - `apps/web/src/lib/media-upload.ts` — use shared apiUpload
 - `apps/web/src/lib/inference.ts` — re-export from features/inference
 - `apps/web/src/App.tsx` — import from feature modules
+- `infra/prisma/schema.prisma` — add checksum to AssetDerivative (Phase 17 pre-flight)
+- `infra/prisma/migrations/` — new migration for checksum field

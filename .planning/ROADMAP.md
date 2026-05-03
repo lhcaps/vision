@@ -2,7 +2,7 @@
 
 Status date: 2026-05-03
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 15.10 complete — Pre-16 Completion Track done — Phases 13/14A/14B marked done — next: Phase 16A Frontend Split Minimum
+Phase 16A complete — Phase 17 (Real Media Processing) next to execute
 
 ## Legend
 
@@ -522,7 +522,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Gates:** All 4 packages typecheck + lint pass. Web tests: 63/63 pass.
 
-## Phase 16A, Frontend Split Minimum — Done
+## Phase 16A, Frontend Split Minimum — Done 2026-05-03
 
 **Goal:** Reduce risk before real worker and detector work by extracting high-change areas from the monolithic frontend.
 
@@ -544,7 +544,13 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Completed scope:** Canonical shared API boundary at `shared/api/client.ts` (`apiJson`, `apiUpload`, `readApiError`, `API_BASE_URL`). `lib/http.ts`, `lib/media-upload.ts`, `lib/inference.ts` delegate to canonical modules. `features/media/` module: `MediaUploadRow` type, `uploadMediaFile`, `checksumFile`. `features/inference/` module: `JobUiState`, `JobSourceState`, all inference API functions, SSE (`openInferenceJobEvents`), event merge (`mergeJobEvent`). `App.tsx` imports from feature modules. Runtime selectors (`shared/state/`) untouched. No circular dependencies introduced.
 
-## Phase 17, Real Media Processing — Planned
+## Phase 17, Real Media Processing — In Progress
+
+**Pre-flight P0 blockers identified:**
+- P0-1: CV worker returns `mock_thumbnailer`/`mock_frame_extractor`, no real Pillow/OpenCV output.
+- P0-2: `requirements.txt` missing `minio`, `boto3`, `opencv-python-headless`, video stack.
+- P0-3: No BullMQ consumer for `media-processing` queue.
+- P0-4: `AssetDerivative` schema missing `checksum` field.
 
 **Goal:** Make the CV worker produce real derivative artifacts. Stop returning fake successful media-processing results.
 

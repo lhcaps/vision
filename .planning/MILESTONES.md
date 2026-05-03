@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10
+**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A
 
 ### Goal
 
@@ -76,7 +76,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 15.9 | Visual System Hardening                    | Focus-visible, semantic colors, consistent spacing       | ✅ Done |
 | 15.10| Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests | ✅ Done |
 | 16A  | Frontend Split Minimum                       | Feature module extraction (media, inference)            | ✅ Done |
-| 17  | Real Media Processing                       | Pillow thumbnails, ffmpeg frames, BullMQ consumer       | Planned |
+| 17  | Real Media Processing                       | Pillow thumbnails, ffmpeg frames, BullMQ consumer       | ⏳ In Progress |
 | 18  | Dataset Locking & COCO Export               | Lock enforcement, deterministic COCO export             | Planned |
 | 19  | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                   | Planned |
 | 20  | Evaluation Report E2E                       | Evaluation metrics, persisted reports, UI display       | Planned |
