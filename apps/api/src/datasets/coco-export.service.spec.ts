@@ -246,19 +246,12 @@ describe('CocoExportService', () => {
       });
       vi.mocked(repo.getVersionSnapshot).mockResolvedValue(snapshot);
       const result = await service.exportCoco('proj', 'version_1');
-      const splits = result.images.map((img) => {
-        const asset = snapshot.assets.find((a) =>
-          a.assetId === img.file_name.split('/').pop()?.replace('.jpg', '') ||
-          img.file_name.includes(a.assetId)
-            ? a.assetId
-            : ''
-        );
-        return snapshot.assets.find((a) => img.file_name.includes(a.assetId))?.split;
-      });
       // TRAIN should come first, then VALID, then TEST
-      expect(result.images[0].file_name).toContain('a.jpg');
-      expect(result.images[1].file_name).toContain('v.jpg');
-      expect(result.images[2].file_name).toContain('t.jpg');
+      expect(result.images.map((img) => img.file_name)).toEqual([
+        'projects/p/originals/a.jpg',
+        'projects/p/originals/v.jpg',
+        'projects/p/originals/t.jpg',
+      ]);
     });
 
     it('sorts categories by name asc, then labelClassId asc', async () => {

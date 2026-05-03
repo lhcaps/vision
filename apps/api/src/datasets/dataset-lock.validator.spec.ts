@@ -292,6 +292,27 @@ describe('DatasetLockValidator', () => {
     });
   });
 
+  describe('rejects BBox annotations only on non-exportable assets', () => {
+    it('rejects when BBox annotations exist only on VIDEO assets (mixed media)', () => {
+      const snapshot = makeSnapshot({
+        assets: [
+          makeAsset({ assetId: 'img_1', type: 'IMAGE', width: 100, height: 100 }),
+          {
+            assetId: 'video_1',
+            split: 'TRAIN' as const,
+            asset: { id: 'video_1', type: 'VIDEO' as const, width: null, height: null },
+          },
+        ],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [makeAnnotation({ assetId: 'video_1', type: 'BBOX' })],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('exportable image');
+    });
+  });
+
   describe('rejects non-image assets without dimensions', () => {
     it('throws when no exportable IMAGE assets exist', () => {
       const snapshot = makeSnapshot({

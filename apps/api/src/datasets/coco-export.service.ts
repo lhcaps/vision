@@ -6,6 +6,7 @@ import {
   CocoCategory,
   CocoAnnotation,
   buildCocoInfo,
+  BBoxGeometrySchema,
 } from '@visionflow/contracts';
 import { DatasetRepository } from '../repositories/dataset.repository';
 import { DATASET_REPOSITORY } from '../config/provider-tokens';
@@ -79,7 +80,14 @@ export class CocoExportService {
     }));
 
     const cocoAnnotations: CocoAnnotation[] = sortedAnnotations.map((ann, index) => {
-      const geo = ann.geometryJson as { x: number; y: number; width: number; height: number };
+      let geo: { x: number; y: number; width: number; height: number };
+      try {
+        geo = BBoxGeometrySchema.parse(ann.geometryJson);
+      } catch {
+        throw new ConflictException(
+          'Locked dataset contains invalid BBox geometry. Cannot export COCO format.'
+        );
+      }
       return {
         id: index + 1,
         image_id: imageIdMap.get(ann.assetId)!,

@@ -75,6 +75,11 @@ export class MediaService {
           'File content does not match declared file type. The file may be corrupted or misnamed.'
         );
       }
+      if (err instanceof Error && err.message.includes('Cannot extract image dimensions')) {
+        throw new BadRequestException(
+          'Image dimensions could not be extracted. The image may be corrupted.'
+        );
+      }
       throw new BadRequestException(`Unsupported media MIME type: ${file.mimetype || 'unknown'}.`);
     }
 

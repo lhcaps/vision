@@ -99,12 +99,40 @@ export class DatasetLockValidator {
       }
     }
 
+    const exportableImageAssetIds = new Set(
+      snapshot.assets
+        .filter(
+          (a) =>
+            a.asset.type === 'IMAGE' &&
+            a.asset.width != null &&
+            a.asset.height != null &&
+            a.asset.width > 0 &&
+            a.asset.height > 0
+        )
+        .map((a) => a.assetId)
+    );
+
+    if (exportableImageAssetIds.size === 0) {
+      throw new ConflictException(
+        'Dataset version contains no exportable image assets with valid dimensions. COCO export requires at least one image asset with width and height.'
+      );
+    }
+
     const bboxAnnotations = allAnnotations.filter((ann) => ann.type === 'BBOX');
     if (bboxAnnotations.length === 0) {
       throw new ConflictException(REJECTION_MESSAGES['no_bbox_annotations']);
     }
 
-    for (const ann of bboxAnnotations) {
+    const exportableBboxAnnotations = bboxAnnotations.filter((ann) =>
+      exportableImageAssetIds.has(ann.assetId)
+    );
+    if (exportableBboxAnnotations.length === 0) {
+      throw new ConflictException(
+        'Dataset version requires at least one BBox annotation on an exportable image asset before COCO export.'
+      );
+    }
+
+    for (const ann of exportableBboxAnnotations) {
       const parsed = BBoxGeometrySchema.safeParse(ann.geometryJson);
       if (!parsed.success) {
         throw new ConflictException(`BBox annotation "${ann.id}" has invalid geometry.`);
@@ -114,17 +142,6 @@ export class DatasetLockValidator {
           `BBox annotation "${ann.id}" has invalid geometry. Width and height must be positive.`
         );
       }
-    }
-
-    const validAssetIds = new Set(
-      snapshot.assets.filter((a) => a.asset.type === 'IMAGE').map((a) => a.assetId)
-    );
-    const exportableAssets = snapshot.assets.filter((a) => validAssetIds.has(a.assetId));
-
-    if (exportableAssets.length === 0) {
-      throw new ConflictException(
-        'Dataset version contains no exportable image assets with valid dimensions. COCO export requires at least one image asset with width and height.'
-      );
     }
   }
 }
