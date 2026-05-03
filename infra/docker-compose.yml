@@ -63,7 +63,8 @@ services:
     command: >
       sleep 5 &&
       mc alias set local http://minio:9000 visionflow visionflow-secret &&
-      mc mb local/visionflow-artifacts --ignore-existing
+      mc mb local/visionflow-artifacts --ignore-existing &&
+      mc anonymous set none local/visionflow-artifacts
     restart: 'no'
     networks:
       - visionflow-net
