@@ -1,0 +1,35 @@
+{
+  "objective": "Detect runtime regressions in VisionFlow — broken APIs, DB failures, stale seed data, queue issues, and infrastructure mismatches.",
+  "constraints": [
+    "Scope writes to harness/runtime files only. Never rewrite the whole repo.",
+    "Hard fail on QUEUED/RUNNING jobs without active worker.",
+    "Hard fail on 404 annotation workspace or disconnected API."
+  ],
+  "baseline_dir": "baseline",
+  "runs_dir": "runs",
+  "tasks_file": "tasks.json",
+  "required_files": [
+    "baseline/scripts/runtime-validate.sh"
+  ],
+  "allowed_write_paths": [
+    "baseline",
+    "baseline/scripts",
+    "baseline/smoke",
+    "scripts/verify-runtime.ps1"
+  ],
+  "backend_plugins": {
+    "cursor": {
+      "factory": "cursor_backend:create_backend",
+      "options": {
+        "model": "auto",
+        "timeout_seconds": 900,
+        "output_format": "text",
+        "force": false
+      }
+    }
+  },
+  "default_budget": 1,
+  "search_mode": "hill-climb",
+  "proposal_batch_size": 1,
+  "selection_policy": "single"
+}

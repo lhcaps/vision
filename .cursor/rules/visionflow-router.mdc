@@ -1,0 +1,70 @@
+---
+description: Route VisionFlow Studio tasks to correct skills and verification gates.
+alwaysApply: true
+---
+
+# VisionFlow Router
+
+## Classify First
+
+Before touching code, classify the task:
+
+**Runtime / Backend** — keywords: API, Prisma, PostgreSQL, Redis, BullMQ, MinIO, Docker, seed-db, inference, annotation workspace, dataset versions, job queue, queue worker, API health, endpoint, controller, service, repository.
+
+**Frontend / UI** — keywords: layout, visual, theme, component, animation, color, typography, CSS, JSX, page, route, button, form, modal.
+
+**Test** — keywords: test, spec, coverage, unit, integration.
+
+**Browser Smoke** — keywords: check UI, verify page, screenshot, smoke, open page.
+
+## Rules
+
+### Runtime first, UI second
+
+If the task mentions API, Prisma, PostgreSQL, Redis, BullMQ, MinIO, Docker, seed, queue, inference jobs, annotation workspace, or dataset versions:
+
+1. Fix the runtime issue first.
+2. Do NOT start with UI redesign while the API is broken.
+3. Verify with API endpoints and database state before claiming success.
+
+### UI skills only after runtime is green
+
+If the task mentions layout, visual polish, theme, animation, components:
+1. Run `scripts/verify-runtime.ps1` first.
+2. If runtime is broken, fix it first.
+3. Only then apply UI/design skills.
+
+## Verification Gate
+
+Every completed fix MUST include:
+
+1. `pnpm typecheck` passes
+2. `pnpm test` passes (when touched code has tests)
+3. `pnpm build` passes (when API/backend changed)
+4. API health: `curl http://localhost:3000/api/health`
+5. The specific endpoint relevant to the fix returns expected data
+
+## VisionFlow System Model
+
+- **Frontend**: React/Vite/TypeScript (`apps/web`)
+- **API**: NestJS/TypeScript (`apps/api`)
+- **DB**: PostgreSQL via Prisma (`infra/prisma`)
+- **Queue**: Redis/BullMQ
+- **Storage**: MinIO
+- **CV Worker**: Python/FastAPI or mock detector
+
+## Common Failure Patterns
+
+| Pattern | Fix |
+|---------|-----|
+| Stale seed data | `pnpm seed:db -- --reset` |
+| QUEUED jobs stuck forever | Start queue worker + reset jobs |
+| Annotation workspace 404 | Verify assetId in seed-db.ts |
+| API disconnected | Check `pnpm dev` running on port 3000 |
+| Progress stream disconnected | Check MinIO running + credentials |
+
+## Skill Activation
+
+For runtime tasks: use `visionflow-runtime` + `karpathy-coding-guidelines`
+For UI tasks: use `impeccable` + `stitch-skill` (after runtime is green)
+For browser smoke: use `browser-use`

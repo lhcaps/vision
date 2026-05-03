@@ -1,0 +1,53 @@
+[
+  {
+    "id": "cursor-instructions",
+    "type": "file_phrase",
+    "path": "AGENTS.md",
+    "weight": 1.0,
+    "required_phrases": [
+      "Cursor",
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "no-destructive-git",
+    "type": "file_phrase",
+    "path": "AGENTS.md",
+    "weight": 1.0,
+    "required_phrases": [
+      "Never use destructive git commands",
+      "git reset --hard",
+      "git checkout --"
+    ]
+  },
+  {
+    "id": "repo-inspection",
+    "type": "file_phrase",
+    "path": "AGENTS.md",
+    "weight": 1.0,
+    "required_phrases": [
+      "Read the repository before editing"
+    ]
+  },
+  {
+    "id": "typecheck-pass",
+    "type": "command",
+    "weight": 1.5,
+    "command": "cd D:\\Study\\Project\\Vision && pnpm typecheck",
+    "expect_exit_code": 0
+  },
+  {
+    "id": "validate-pass",
+    "type": "command",
+    "weight": 1.5,
+    "command": "bash .metaharness-vision/baseline/scripts/validate.sh",
+    "expect_exit_code": 0
+  },
+  {
+    "id": "test-pass",
+    "type": "command",
+    "weight": 1.5,
+    "command": "bash .metaharness-vision/baseline/scripts/test.sh",
+    "expect_exit_code": 0
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "objective": "Improve Cursor agent instruction files, helper scripts, and harness code so the tool behaves safely and predictably on the Vision monorepo.",
+  "constraints": [
+    "Keep the workflow deterministic.",
+    "Scope writes to harness/runtime files only — never rewrite the whole repo.",
+    "Validation scripts must pass before any candidate is kept."
+  ],
+  "baseline_dir": "baseline",
+  "runs_dir": "runs",
+  "tasks_file": "tasks.json",
+    "required_files": [
+      "AGENTS.md"
+    ],
+  "allowed_write_paths": [
+    "AGENTS.md",
+    "baseline",
+    "baseline/scripts",
+    "baseline/smoke",
+    ".cursor/rules",
+    "scripts/start-dev.ps1",
+    "scripts/start-dev.sh",
+    "scripts/smoke",
+    "apps/web/src/features/annotations",
+    "apps/web/src/shared/state",
+    "apps/api/src/annotations",
+    "apps/api/src/inference",
+    "infra/prisma/schema.prisma"
+  ],
+  "backend_plugins": {
+    "cursor": {
+      "factory": "cursor_backend:create_backend",
+      "options": {
+        "model": "auto",
+        "timeout_seconds": 900,
+        "output_format": "text",
+        "force": false
+      }
+    }
+  },
+  "backends": {
+    "codex": {
+      "sandbox_mode": "workspace-write",
+      "approval_policy": "never",
+      "use_oss": false,
+      "local_provider": null,
+      "model": null,
+      "proposal_timeout_seconds": null
+    }
+  },
+  "example_profile": "coding-tool-scaffold",
+  "default_budget": 1,
+  "search_mode": "hill-climb",
+  "proposal_batch_size": 1,
+  "selection_policy": "single",
+  "test_tasks_file": null
+}

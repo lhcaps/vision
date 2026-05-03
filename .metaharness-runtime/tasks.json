@@ -1,0 +1,47 @@
+[
+  {
+    "id": "api-health",
+    "type": "command",
+    "weight": 2.0,
+    "command": "curl http://localhost:3000/api/health",
+    "expect_exit_code": 0
+  },
+  {
+    "id": "typecheck",
+    "type": "command",
+    "weight": 1.5,
+    "command": "pnpm typecheck",
+    "expect_exit_code": 0
+  },
+  {
+    "id": "build",
+    "type": "command",
+    "weight": 1.5,
+    "command": "pnpm build",
+    "expect_exit_code": 0
+  },
+  {
+    "id": "datasets",
+    "type": "command",
+    "weight": 1.5,
+    "command": "curl http://localhost:3000/api/projects/proj_parking_lot/datasets",
+    "expect_exit_code": 0,
+    "must_not_contain": "QUEUED,RUNNING,404,not found,disconnected"
+  },
+  {
+    "id": "annotation-workspace",
+    "type": "command",
+    "weight": 2.0,
+    "command": "curl \"http://localhost:3000/api/projects/proj_parking_lot/dataset-versions/dataset_proj_parking_lot_parking_v3/annotation-workspace?assetId=asset_frame_1482\"",
+    "expect_exit_code": 0,
+    "must_not_contain": "404,not found,disconnected"
+  },
+  {
+    "id": "inference-jobs",
+    "type": "command",
+    "weight": 1.5,
+    "command": "curl http://localhost:3000/api/projects/proj_parking_lot/inference-jobs",
+    "expect_exit_code": 0,
+    "must_not_contain": "QUEUED,RUNNING (without worker),disconnected"
+  }
+]

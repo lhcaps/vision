@@ -1,0 +1,24 @@
+{
+  "active": [
+    "agent-router",
+    "visionflow-runtime",
+    "karpathy-coding-guidelines",
+    "output-skill",
+    "playwright-testing",
+    "unittest-skill",
+    "browser-use",
+    "stitch-skill",
+    "impeccable",
+    "design-taste-frontend"
+  ],
+  "inactive_by_default": [
+    "brutalist-skill",
+    "minimalist-skill",
+    "soft-skill",
+    "redesign-skill",
+    "gpt-tasteskill",
+    "images-taste-skill",
+    "ui-ux-pro-max"
+  ],
+  "activation_rule": "Sync-CursorSkills.ps1 only syncs skills listed in 'active'. "
+}
