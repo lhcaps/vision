@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -10,11 +9,8 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { map } from 'rxjs';
-import { z } from 'zod';
 import {
   CreateInferenceJobResponseSchema,
-  EvaluationReportListResponseSchema,
-  EvaluationReportSchema,
   EvaluationRunResponseSchema,
   InferenceJobListResponseSchema,
   InferenceJobPreviewSchema,
@@ -158,20 +154,4 @@ export class InferenceController {
 
     return PredictionListResponseSchema.parse({ predictions });
   }
-}
-
-function parseBody<T>(schema: z.ZodSchema<T>, body: unknown, message: string): T {
-  const parsed = schema.safeParse(body);
-
-  if (!parsed.success) {
-    throw new BadRequestException({
-      message,
-      issues: parsed.error.issues.map((issue) => ({
-        path: issue.path.join('.'),
-        message: issue.message,
-      })),
-    });
-  }
-
-  return parsed.data;
 }

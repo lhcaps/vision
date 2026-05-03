@@ -112,9 +112,10 @@ Write-Host "[3] API Endpoint Checks" -ForegroundColor Yellow
 
 $mustNotContain = "QUEUED,RUNNING,Dataset version not found,Annotation workspace 404,API is not connected,Progress stream disconnected,PrismaClientKnownRequestError"
 
+$DatasetId = "ds_proj_parking_lot"
 Test-Endpoint -Name "API Health" -Url "$BASE/api/health" -ExpectedPattern '"status"'
 Test-Endpoint -Name "Datasets" -Url "$BASE/api/projects/$Project/datasets"
-Test-Endpoint -Name "Dataset Versions" -Url "$BASE/api/projects/$Project/dataset-versions"
+Test-Endpoint -Name "Dataset Versions" -Url "$BASE/api/projects/$Project/datasets/$DatasetId/versions"
 
 Write-Host "  Checking: Inference Jobs (polling for terminal state)..." -NoNewline
 $jobPollingPass = $false
@@ -139,9 +140,10 @@ try {
         Write-Host "  [PASS] Latest job reached terminal state: $latestStatus" -ForegroundColor Green
         $passCount++
 
+        $jobsJson = $body | ConvertTo-Json -Depth 10 -Compress
         foreach ($pattern in $mustNotContain -split ",") {
-            if ($latestJob -and $latestJob.progress -match $pattern.Trim()) {
-                Write-Host "  [FAIL] Job data contains forbidden: $pattern" -ForegroundColor Red
+            if ($jobsJson -match [regex]::Escape($pattern.Trim())) {
+                Write-Host "  [FAIL] Inference jobs response contains forbidden: $pattern" -ForegroundColor Red
                 $script:failCount++
             }
         }

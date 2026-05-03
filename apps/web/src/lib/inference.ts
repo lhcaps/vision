@@ -47,7 +47,11 @@ export async function runEvaluation(
     }
   );
 
-  return data.report!;
+  if (!data.report) {
+    throw new Error('Evaluation completed but no report was returned.');
+  }
+
+  return data.report;
 }
 
 export async function getJobPredictions(
