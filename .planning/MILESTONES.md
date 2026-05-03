@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18
+**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19
 
 ### Goal
 
@@ -78,7 +78,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                 | ✅ Done |
 | 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field | ✅ Done |
 | 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions   | ✅ Done |
-| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                                                        | Planned |
+| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability                                                        | Done    |
 | 20    | Evaluation Report E2E                       | Evaluation metrics, persisted reports, UI display                                            | Planned |
 | 21    | Frontend Split Completion                   | All feature modules, shared components                                                       | Planned |
 | 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                    | Planned |

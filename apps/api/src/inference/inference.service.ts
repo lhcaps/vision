@@ -421,6 +421,8 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
   ): Promise<number> {
     if (workerResponse.predictions.length === 0) return 0;
 
+    const job = await this.getJob(payload.projectId, payload.jobId);
+
     await this.prisma.prediction.deleteMany({
       where: { inferenceJobId: payload.jobId },
     });
@@ -436,6 +438,9 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
           ...prediction.metadata,
           workerMode: workerResponse.mode,
           workerVersion: workerResponse.workerVersion,
+          datasetVersionId: job.datasetVersionId,
+          pipelineId: job.pipelineId,
+          modelVersion: (workerResponse as { modelVersion?: string }).modelVersion ?? undefined,
         } as Prisma.InputJsonObject,
       })),
     });

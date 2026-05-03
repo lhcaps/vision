@@ -160,7 +160,7 @@ const DEMO_PIPELINE = {
       {
         id: 'detector',
         type: 'yolo_onnx',
-        params: { modelId: 'model_onnx_parking', threshold: 0.62 },
+        params: { modelId: 'model_onnx_yolov8n_v1', threshold: 0.62 },
       },
       { id: 'nms', type: 'nms', params: { iouThreshold: 0.45 } },
       { id: 'output', type: 'output', params: {} },
@@ -369,7 +369,40 @@ async function main() {
     });
     log(`Pipeline: ${pipeline.name} (${pipeline.id})`);
 
-    // ── 8. Stable completed job + predictions ───────────────────────────────
+    // ── 8. Model artifact ───────────────────────────────────────────────────
+    const modelArtifact = await prisma.modelArtifact.upsert({
+      where: { id: 'model_onnx_yolov8n_v1' },
+      update: {
+        projectId: project.id,
+        name: 'YOLOv8n',
+        type: 'DETECTION',
+        runtime: 'ONNX',
+        artifactKey: './models/yolov8n.onnx',
+        configJson: {
+          inputSize: 640,
+          confidenceThreshold: 0.25,
+          nmsIouThreshold: 0.45,
+          classCount: 80,
+        },
+      },
+      create: {
+        id: 'model_onnx_yolov8n_v1',
+        projectId: project.id,
+        name: 'YOLOv8n',
+        type: 'DETECTION',
+        runtime: 'ONNX',
+        artifactKey: './models/yolov8n.onnx',
+        configJson: {
+          inputSize: 640,
+          confidenceThreshold: 0.25,
+          nmsIouThreshold: 0.45,
+          classCount: 80,
+        },
+      },
+    });
+    log(`Model artifact: ${modelArtifact.name} (${modelArtifact.id})`);
+
+    // ── 9. Stable completed job + predictions ───────────────────────────────
     await deleteJobsForProject(project.id);
 
     const job = await prisma.inferenceJob.create({
@@ -474,7 +507,10 @@ async function resetDemoProjectBySlug(slug: string): Promise<void> {
   await deleteJobsForProject(existingProject.id);
 
   const datasetIds = (
-    await prisma.dataset.findMany({ where: { projectId: existingProject.id }, select: { id: true } })
+    await prisma.dataset.findMany({
+      where: { projectId: existingProject.id },
+      select: { id: true },
+    })
   ).map((dataset) => dataset.id);
   const datasetVersionIds = datasetIds.length
     ? (
@@ -503,7 +539,9 @@ async function resetDemoProjectBySlug(slug: string): Promise<void> {
     await prisma.annotation.deleteMany({ where: { annotationSetId: { in: annotationSetIds } } });
   }
   if (datasetVersionIds.length) {
-    await prisma.annotationSet.deleteMany({ where: { datasetVersionId: { in: datasetVersionIds } } });
+    await prisma.annotationSet.deleteMany({
+      where: { datasetVersionId: { in: datasetVersionIds } },
+    });
     await prisma.datasetVersionAsset.deleteMany({
       where: { datasetVersionId: { in: datasetVersionIds } },
     });

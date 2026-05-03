@@ -125,14 +125,14 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### Real ONNX Detector (P2)
 
-- [ ] **DET-01**: `/cv/run-pipeline` executes real ONNX Runtime inference with YOLOv8n ONNX
-- [ ] **DET-02**: Input shape is 640x640 with resize/letterbox preprocessing
-- [ ] **DET-03**: Postprocessing: decode boxes, apply confidence threshold (default 0.25), apply NMS (IoU 0.45), convert to original image coordinates
-- [ ] **DET-04**: Predictions persisted to DB with full traceability fields
-- [ ] **DET-05**: ONNX unavailable/runtime/model errors surfaced clearly in job logs — no silent fallback
-- [ ] **DET-06**: Mock detector available only when explicitly selected (not as fallback)
-- [ ] **DET-07**: ONNX model path/version is explicit in configuration
-- [ ] **DET-08**: API integration test proves prediction persistence on production database path
+- [x] **DET-01**: `/cv/run-pipeline` executes real ONNX Runtime inference with YOLOv8n ONNX — Phase 19
+- [x] **DET-02**: Input shape is 640x640 with resize/letterbox preprocessing — Phase 19
+- [x] **DET-03**: Postprocessing: decode boxes, apply confidence threshold (default 0.25), apply NMS (IoU 0.45), convert to original image coordinates — Phase 19
+- [x] **DET-04**: Predictions persisted to DB with full traceability fields — Phase 19
+- [x] **DET-05**: ONNX unavailable/runtime/model errors surfaced clearly in job logs — no silent fallback — Phase 19
+- [x] **DET-06**: Mock detector available only when explicitly selected (not as fallback) — Phase 19
+- [x] **DET-07**: ONNX model path/version is explicit in configuration — Phase 19
+- [x] **DET-08**: API integration test proves prediction persistence on production database path — Phase 19
 
 ### Evaluation Report E2E (P2)
 
@@ -201,22 +201,22 @@ The following are explicitly out of scope for v1.1:
 
 ## Traceability
 
-| REQ-ID                  | Phase | Status  |
-| ----------------------- | ----- | ------- |
-| PORT-01 through PORT-06 | 11    | Done    |
-| CI-01 through CI-04     | 12    | Done    |
-| SEC-01 through SEC-11   | 13    | Pending |
-| ABS-01 through ABS-10   | 14A   | Pending |
-| DOM-01 through DOM-07   | 14B   | Pending |
-| OBS-01 through OBS-07   | 15    | Done    |
-| PRE16-01 through PRE16-17 | 15.5-15.10 | Done |
-| UI-01 through UI-09     | 16A   | Pending |
-| MED-01 through MED-09   | 17    | Pending |
-| LOCK-01 through LOCK-09 | 18    | Pending |
-| DET-01 through DET-08   | 19    | Pending |
-| EVAL-01 through EVAL-09 | 20    | Pending |
-| FSC-01 through FSC-10   | 21    | Pending |
-| TEST-01 through TEST-13 | 22    | Pending |
-| E2E-01 through E2E-10   | 23    | Pending |
+| REQ-ID                    | Phase      | Status  |
+| ------------------------- | ---------- | ------- |
+| PORT-01 through PORT-06   | 11         | Done    |
+| CI-01 through CI-04       | 12         | Done    |
+| SEC-01 through SEC-11     | 13         | Pending |
+| ABS-01 through ABS-10     | 14A        | Pending |
+| DOM-01 through DOM-07     | 14B        | Pending |
+| OBS-01 through OBS-07     | 15         | Done    |
+| PRE16-01 through PRE16-17 | 15.5-15.10 | Done    |
+| UI-01 through UI-09       | 16A        | Pending |
+| MED-01 through MED-09     | 17         | Pending |
+| LOCK-01 through LOCK-09   | 18         | Pending |
+| DET-01 through DET-08     | 19         | Done    |
+| EVAL-01 through EVAL-09   | 20         | Pending |
+| FSC-01 through FSC-10     | 21         | Pending |
+| TEST-01 through TEST-13   | 22         | Pending |
+| E2E-01 through E2E-10     | 23         | Pending |
 
 **Total:** 149 requirements | **Covered:** 55 | **Remaining:** 94

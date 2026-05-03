@@ -32,6 +32,7 @@ export const CvWorkerRunPipelineResponseSchema = z.object({
   jobId: z.string().min(1),
   mode: z.enum(['mock_detector', 'onnx_detector']),
   workerVersion: z.string().min(1),
+  modelVersion: z.string().optional(),
   assetCount: z.number().int().nonnegative(),
   predictionCount: z.number().int().nonnegative(),
   predictions: z.array(CvWorkerPredictionSchema),

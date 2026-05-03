@@ -28,7 +28,8 @@
     "kill": "docker compose -f infra/docker-compose.yml down",
     "seed": "npx tsx scripts/seed-demo.ts",
     "seed:db": "npx tsx scripts/seed-db.ts",
-    "test:e2e": "pnpm --filter @visionflow/web test:e2e"
+    "test:e2e": "pnpm --filter @visionflow/web test:e2e",
+    "download-model": "pwsh -ExecutionPolicy Bypass -File scripts/download-model.ps1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

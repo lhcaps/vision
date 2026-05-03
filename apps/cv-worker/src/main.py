@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import os
 import uuid
 from pathlib import Path
@@ -22,6 +21,13 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
+from detectors import (
+    ImageDecodeError,
+    MockDetector,
+    ModelLoadError,
+    OnnxRuntimeUnavailableError,
+    OnnxYoloDetector,
+)
 from observability import (
     RequestLogger,
     get_correlation_id,
@@ -32,12 +38,12 @@ from observability import (
     request_context,
 )
 from media_processing import (
-    ImageDecodeError,
+    ImageDecodeError as MpImageDecodeError,
     SourceNotFoundError,
     create_thumbnail,
 )
 
-WORKER_VERSION = "0.2.0"
+WORKER_VERSION = "0.3.0"
 
 app = FastAPI(title="VisionFlow CV Worker", version=WORKER_VERSION)
 
@@ -125,7 +131,12 @@ def health(request: Request) -> dict[str, Any]:
             "mockDetector": True,
             "onnxDetector": {
                 "available": _onnx_runtime_available(),
-                "mode": "explicit",
+                "mode": os.getenv("CV_WORKER_DETECTOR_MODE", "mock"),
+                "modelVersion": os.getenv("CV_WORKER_ONNX_MODEL_VERSION", "not_configured"),
+                "inputSize": int(os.getenv("CV_WORKER_INPUT_SIZE", "640")),
+                "confidenceThreshold": float(os.getenv("CV_WORKER_CONFIDENCE_THRESHOLD", "0.25")),
+                "nmsIouThreshold": float(os.getenv("CV_WORKER_NMS_IOU_THRESHOLD", "0.45")),
+                "modelPath": _mask_path(os.getenv("CV_WORKER_ONNX_MODEL_PATH", "")),
             },
             "evaluation": True,
             "thumbnail": {
@@ -174,24 +185,7 @@ def run_pipeline(req: RunPipelineRequest, request: Request) -> dict[str, Any]:
             if req.detectorMode == "onnx":
                 result = _run_onnx_pipeline(req)
             else:
-                predictions = [_mock_prediction(job_id, asset) for asset in req.assets]
-
-                if req.confidenceThreshold is not None:
-                    predictions = [
-                        p
-                        for p in predictions
-                        if p["confidence"] >= req.confidenceThreshold
-                    ]
-
-                result = {
-                    "jobId": req.jobId,
-                    "mode": "mock_detector",
-                    "workerVersion": WORKER_VERSION,
-                    "assetCount": len(req.assets),
-                    "predictionCount": len(predictions),
-                    "predictions": predictions,
-                    "warnings": [],
-                }
+                result = _run_mock_pipeline(req)
 
             log_info(
                 "Pipeline execution completed",
@@ -337,7 +331,7 @@ def create_thumbnail_endpoint(req: MediaProcessingRequest, request: Request) -> 
                 detail=f"Source object not found: {req.storageKey}",
             )
 
-        except ImageDecodeError as exc:
+        except MpImageDecodeError as exc:
             log_error(
                 "Thumbnail generation failed: image decode error",
                 job_id=job_id,
@@ -419,31 +413,31 @@ def extract_frames(req: MediaProcessingRequest, request: Request) -> dict[str, A
 
 # ─── Internal Helpers ─────────────────────────────────────────────────────────
 
-def _mock_prediction(job_id: str, asset: AssetInput) -> dict[str, Any]:
-    digest = hashlib.sha256(f"{job_id}:{asset.assetId}".encode("utf-8")).digest()
-    width = min(asset.width, max(36, asset.width // 5, 1))
-    height = min(asset.height, max(32, asset.height // 6, 1))
-    max_x = max(0, asset.width - width)
-    max_y = max(0, asset.height - height)
-    x = 0 if max_x == 0 else int.from_bytes(digest[:2], "big") % (max_x + 1)
-    y = 0 if max_y == 0 else int.from_bytes(digest[2:4], "big") % (max_y + 1)
-    confidence = 0.62 + (digest[4] / 255) * 0.33
+def _run_mock_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
+    detector = MockDetector()
+    try:
+        all_predictions: list[dict[str, Any]] = []
+        for asset in req.assets:
+            detections = detector.detect(asset.assetId, "", asset.width, asset.height)
+            for det in detections:
+                all_predictions.append(det.to_dict())
 
-    return {
-        "assetId": asset.assetId,
-        "labelClassId": None,
-        "geometry": {
-            "x": x,
-            "y": y,
-            "width": width,
-            "height": height,
-        },
-        "confidence": round(confidence, 3),
-        "metadata": {
-            "runtime": "mock_detector",
-            "storageKey": asset.storageKey,
-        },
-    }
+        if req.confidenceThreshold is not None:
+            all_predictions = [
+                p for p in all_predictions if (p.get("confidence") or 0) >= req.confidenceThreshold
+            ]
+
+        return {
+            "jobId": req.jobId,
+            "mode": "mock_detector",
+            "workerVersion": WORKER_VERSION,
+            "assetCount": len(req.assets),
+            "predictionCount": len(all_predictions),
+            "predictions": all_predictions,
+            "warnings": [],
+        }
+    finally:
+        detector.close()
 
 
 def _run_onnx_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
@@ -471,10 +465,105 @@ def _run_onnx_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
             detail=f"ONNX model artifact not found: {req.modelArtifactKey}",
         )
 
-    raise HTTPException(
-        status_code=501,
-        detail="ONNX runtime is available, but image tensor loading and YOLO post-processing are not configured for this V1 worker.",
+    conf_thresh = req.confidenceThreshold if req.confidenceThreshold is not None else 0.25
+    nms_thresh = float(os.getenv("CV_WORKER_NMS_IOU_THRESHOLD", "0.45"))
+    input_size = int(os.getenv("CV_WORKER_INPUT_SIZE", "640"))
+    model_version = os.getenv("CV_WORKER_ONNX_MODEL_VERSION", model_path.stem)
+
+    detector = OnnxYoloDetector(
+        model_path=model_path,
+        confidence_threshold=conf_thresh,
+        nms_iou_threshold=nms_thresh,
+        input_size=input_size,
+        model_version=model_version,
     )
+
+    try:
+        all_predictions: list[dict[str, Any]] = []
+        for asset in req.assets:
+            storage_key = asset.storageKey
+            image_path = _resolve_asset_image(storage_key)
+            detections = detector.detect(
+                asset_id=asset.assetId,
+                image_path=image_path,
+                width=asset.width,
+                height=asset.height,
+            )
+            for det in detections:
+                det.metadata["storageKey"] = storage_key
+                all_predictions.append(det.to_dict())
+
+        log_info(
+            "ONNX pipeline completed",
+            job_id=req.jobId,
+            detector_mode="onnx",
+            model_version=model_version,
+            prediction_count=len(all_predictions),
+        )
+
+        return {
+            "jobId": req.jobId,
+            "mode": "onnx_detector",
+            "workerVersion": WORKER_VERSION,
+            "modelVersion": model_version,
+            "assetCount": len(req.assets),
+            "predictionCount": len(all_predictions),
+            "predictions": all_predictions,
+            "warnings": [],
+        }
+
+    except ImageDecodeError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Image decode failed: {exc}",
+        )
+    except OnnxRuntimeUnavailableError as exc:
+        raise HTTPException(
+            status_code=501,
+            detail={
+                "message": str(exc),
+                "install": "pip install onnxruntime",
+                "mode": "onnx_detector",
+            },
+        )
+    except ModelLoadError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Model load failed: {exc}",
+        )
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(
+            status_code=500,
+            detail=f"ONNX inference failed: {exc}",
+        )
+    finally:
+        detector.close()
+
+
+def _resolve_asset_image(storage_key: str) -> Path:
+    """Resolve a MinIO storage key to a local image path.
+
+    The CV worker reads source images from MinIO. We construct a local path
+    based on the storage key convention used by the API (SHA-256 of the original).
+    Since the worker receives the image bytes through the storage client,
+    we download to a temp path for inference.
+    """
+    from storage import MinIOStorage
+
+    storage = MinIOStorage()
+    try:
+        tmp_dir = Path(os.getenv("CV_WORKER_TMP_DIR", "/tmp/visionflow"))
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        filename = Path(storage_key).name
+        tmp_path = tmp_dir / f"inference_{filename}"
+
+        if not tmp_path.exists():
+            content = storage.read_object(storage_key)
+            tmp_path.write_bytes(content)
+
+        return tmp_path
+    except Exception as exc:
+        raise RuntimeError(f"Failed to resolve image for storage key '{storage_key}': {exc}") from exc
 
 
 def _onnx_runtime_available() -> bool:
@@ -484,6 +573,14 @@ def _onnx_runtime_available() -> bool:
         return False
 
     return True
+
+
+def _mask_path(path: str) -> str:
+    """Mask a file path for safe logging — show directory and filename but redact the full path."""
+    if not path:
+        return ""
+    p = Path(path)
+    return str(p.parent / p.name)
 
 
 def _match_detections(

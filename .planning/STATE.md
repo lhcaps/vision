@@ -2,7 +2,7 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 18 (Completed — Dataset Locking & Deterministic COCO Export)
+Current phase: Phase 19 (Completed — Real ONNX Detector & Prediction Persistence)
 
 Last updated: 2026-05-04.
 
@@ -121,15 +121,15 @@ Status: Completed
 
 ## Active Goals
 
-- Execute Phase 19: Real ONNX Detector & Prediction Persistence.
+- Execute Phase 20: Evaluation Report E2E.
+- Phase 19 complete — real ONNX detector wired, predictions persisted with full traceability.
 - Phase 18 complete — dataset versions are immutable after lock, deterministic COCO export works.
 
 ## Known Partial Areas (v1.1 Focus)
 
-Phase 18 complete. The following areas remain pending after Phase 18:
+Phase 19 complete. The following areas remain pending:
 
-- COCO export UI wiring — export endpoint exists, UI button not wired (Phase 18 wave 18-06 skipped as optional).
-- ONNX inference needs real YOLOv8n model integration (Phase 19).
+- Evaluation needs real data path end-to-end (Phase 20).
 - Evaluation needs real data path end-to-end (Phase 20).
 - App.tsx is a monolithic file needing continued feature split (Phase 21).
 - No production-path test suite (Phase 22A/B).
@@ -218,3 +218,54 @@ All Phase 18 deliverables completed. Commit: `feat(datasets): export locked vers
 **Contracts:**
 
 - `packages/contracts/src/coco.ts` — COCO Zod schemas exported from `@visionflow/contracts`.
+
+## What Is True After Phase 19 (Completed)
+
+All Phase 19 deliverables completed. Commit: `feat(inference): run ONNX detector and persist predictions`.
+
+**ONNX detector module (`src/detectors/`):**
+
+- `base.py`: `Detector` ABC + `Detection` dataclass with `to_dict()` method.
+- `mock_detector.py`: Extracted deterministic mock detector, `image_path` param accepted for interface compatibility.
+- `onnx_yolo.py`: YOLOv8n ONNX implementation with 640x640 letterbox preprocessing, ONNX Runtime inference, YOLO output decode, confidence threshold (default 0.25), NMS IoU (default 0.45), coordinate conversion back to original image space. Explicit errors for: missing onnxruntime, model load failure, image decode error. No fallback to mock in ONNX mode.
+- 80 COCO class names for label mapping.
+
+**CV worker wiring (`src/main.py`):**
+
+- `WORKER_VERSION` updated to `0.3.0`.
+- `/cv/run-pipeline` now dispatches to `MockDetector` or `OnnxYoloDetector` based on `detectorMode`.
+- `_run_onnx_pipeline()` reads images from MinIO via `_resolve_asset_image()`, runs inference, returns structured response with `modelVersion`.
+- Health endpoint exposes: `onnxDetector.available`, `mode`, `modelVersion`, `inputSize`, `confidenceThreshold`, `nmsIouThreshold`, `modelPath` (masked).
+- Explicit error codes: 400 (missing modelArtifactKey), 404 (model not found), 422 (invalid model / image decode), 501 (onnxruntime unavailable).
+
+**Prediction traceability (`InferenceService.persistPredictions()`):**
+
+- Each prediction metadata now includes: `workerMode`, `workerVersion`, `datasetVersionId`, `pipelineId`, `modelVersion` (when ONNX).
+
+**Contracts (`packages/contracts/src/cv-worker.ts`):**
+
+- `CvWorkerRunPipelineResponseSchema` extended with optional `modelVersion` field.
+
+**Env vars (`.env.example`, `.env`):**
+
+- `CV_WORKER_DETECTOR_MODE=mock` (default)
+- `CV_WORKER_ONNX_MODEL_PATH=./models/yolov8n.onnx`
+- `CV_WORKER_ONNX_MODEL_VERSION=yolov8n-640`
+- `CV_WORKER_CONFIDENCE_THRESHOLD=0.25`
+- `CV_WORKER_NMS_IOU_THRESHOLD=0.45`
+- `CV_WORKER_INPUT_SIZE=640`
+
+**Model download scripts:**
+
+- `scripts/download-model.ps1` (Windows) and `scripts/download-model.sh` (Unix) — idempotent, SHA-256 verification, pinned URL.
+
+**Seed data (`scripts/seed-db.ts`):**
+
+- `ModelArtifact` row seeded for `model_onnx_yolov8n_v1` with config: 640 input, confidence 0.25, NMS 0.45, 80 COCO classes.
+- Pipeline updated to reference `model_onnx_yolov8n_v1` instead of `model_onnx_parking`.
+
+**Tests:**
+
+- 25 new CV worker tests covering letterbox (7), normalization (2), NMS (5), mock detector (4), ONNX runtime errors (2), mock pipeline endpoint (3), COCO classes (1).
+- 2 new API tests: ONNX mode throws without CV_WORKER_URL, mock fallback works, prediction traceability.
+- `test_thumbnail_contract_for_image_media` skipped (pre-existing, requires live MinIO).
