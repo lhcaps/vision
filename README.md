@@ -136,9 +136,9 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Professional README        | ✅ Done    | Phase 11 (complete) |
 | CI completeness            | ✅ Done    | Phase 12A           |
 | Local stack & seed         | ✅ Done    | Phase 12B           |
-| Security hardening         | 🔄 Planned | Phase 13            |
-| Adapter boundary cleanup   | 🔄 Planned | Phase 14A           |
-| Domain invariants          | 🔄 Planned | Phase 14B           |
+| Security hardening         | ✅ Done    | Phase 13 (complete)  |
+| Adapter boundary cleanup   | ✅ Done    | Phase 14A (complete)|
+| Domain invariants          | ✅ Done    | Phase 14B (complete)|
 | Observability & health     | ✅ Done    | Phase 15            |
 | Frontend feature split     | 🔄 Planned | Phase 16A           |
 | Real media processing      | 🔄 Planned | Phase 17            |
@@ -479,7 +479,10 @@ This is a prototype under active development (v1.1). The following limitations e
 
 ### Security
 
-- **No upload hardening beyond MIME validation** — Security hardening (Phase 13) adds ValidationPipe, CORS allowlist, magic byte validation, corrupted media detection, signed URL proxy, and structured error responses.
+- **Authentication** — Not implemented in v1.x. This is a single-user local workbench.
+- **Rate limiting** — Planned for a future phase.
+- **CSRF protection** — Not applicable (no session-based auth).
+- **Public exposure** — This platform is designed for local/private use. Do not expose the API publicly without adding authentication and rate limiting.
 
 ### Browser Support
 

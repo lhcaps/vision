@@ -1,8 +1,8 @@
 # Roadmap
 
-Status date: 2026-05-02
+Status date: 2026-05-03
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 15.10 complete — Pre-16 Completion Track done — next: Phase 16A Frontend Split Minimum
+Phase 15.10 complete — Pre-16 Completion Track done — Phases 13/14A/14B marked done — next: Phase 16A Frontend Split Minimum
 
 ## Legend
 
@@ -182,29 +182,31 @@ v1.1 is complete only when the repository has:
 
 **Completed scope:** Docker compose enhanced with MinIO bucket initialization via `minio-init` service (waits for MinIO health, then `mc mb local/visionflow-artifacts --ignore-existing`). MinIO healthcheck fixed from broken `mc ready local` to working `curl -f http://localhost:9000/minio/health/live`. Named Docker network `visionflow-network` for deterministic hostnames. Container names made explicit (`visionflow-postgres`, `visionflow-redis`, `visionflow-minio`) and aligned with boot scripts. Both Unix and Windows boot scripts enhanced with: Docker/pnpm prerequisite checks, PostgreSQL/Redis/MinIO health waits with retry loops, colored output, and trap for cleanup. Seed script enhanced with `--api` mode for creating demo data via API. `.env.example` completed with 8 sections and 16 documented variables.
 
-## Phase 13, Security & Input Validation Hardening — Planned
+## Phase 13, Security & Input Validation Hardening — Done
 
 **Goal:** Close the basic attack surface of a media upload platform.
 
 **Requirements:**
 
-- Enable global NestJS ValidationPipe: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
-- CORS explicit allowlist from `WEB_ORIGIN`.
-- Upload hardening: file size limit, MIME allowlist, magic byte validation, reject corrupted images/videos, never trust original filename, deterministic object keys from SHA-256, project-scoped checksum dedupe, signed URL or controlled asset proxy, no public MinIO bucket requirement.
-- Error responses must be structured and safe. API must not leak internal filesystem paths, stack traces, or storage credentials.
+- [x] Enable global NestJS ValidationPipe: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
+- [x] CORS explicit allowlist from `WEB_ORIGIN`.
+- [x] Upload hardening: file size limit, MIME allowlist, magic byte validation, reject corrupted images/videos, never trust original filename, deterministic object keys from SHA-256, project-scoped checksum dedupe, signed URL or controlled asset proxy, no public MinIO bucket requirement.
+- [x] Error responses must be structured and safe. API must not leak internal filesystem paths, stack traces, or storage credentials.
 
 **Depends on:** Phase 11, Phase 12A
 
 **Success criteria:**
 
-1. Unknown fields in request payloads are rejected.
-2. CORS only allows configured origins.
-3. Oversized uploads return 413 Payload Too Large.
-4. MIME type is validated by both declared type and magic bytes.
-5. Corrupted media is rejected.
-6. Duplicate upload returns existing asset, not a new row.
-7. Assets are served through signed URLs or controlled API proxy.
-8. Security behavior is documented in README.
+1. [x] Unknown fields in request payloads are rejected.
+2. [x] CORS only allows configured origins.
+3. [x] Oversized uploads return 413 Payload Too Large.
+4. [x] MIME type is validated by both declared type and magic bytes.
+5. [x] Corrupted media is rejected.
+6. [x] Duplicate upload returns existing asset, not a new row.
+7. [x] Assets are served through signed URLs or controlled API proxy.
+8. [x] Security behavior is documented in README.
+
+**Completed scope:** `ValidationPipe` configured globally in `main.ts`. `CorsModule` configured with allowlist from `WEB_ORIGIN`. `multer` configured with 250MB limit and MIME filter. `magic-bytes.ts` validates file content vs declared MIME type. `media-integrity.ts` decodes images/videos to detect corruption. `sanitize-filename.ts` strips path traversal from original filenames. `SignedUrlService` generates MinIO presigned URLs; `streamFile()` proxies assets when `SIGNED_URL_EXPIRY_SECONDS=0`. `sanitize-filename.ts` strips path traversal from original filenames. Structured error responses via NestJS exception filter. Full Security section in README documenting all controls.
 
 ## Phase 14A, Adapter Boundary Cleanup — Completed 2026-05-01
 
@@ -473,7 +475,7 @@ v1.1 is complete only when the repository has:
 
 **Status:** PASSED
 
-All gates confirmed passing:
+All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 - [x] `pnpm db:generate` passes.
 - [x] `pnpm db:push` passes.
@@ -483,7 +485,7 @@ All gates confirmed passing:
 - [x] `pnpm lint` passes.
 - [x] `pnpm format:check` passes.
 
-**Phase 16 may now begin.**
+**Phase 16A may now begin.**
 
 **Out of scope for Pre-16 track:**
 - Do not split App.tsx into full app/routes/features architecture.

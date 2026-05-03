@@ -2,15 +2,22 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 15 (Complete — Observability & Health Checks)
+Current phase: Phase 16A (Planned — Frontend Split Minimum)
 
-Last updated: 2026-05-02.
+Last updated: 2026-05-03.
 
 ## Current Position
 
-Phase: Phase 15 — Observability & Health Checks
-Plan: 15-01-PLAN.md, 15-02-PLAN.md, 15-03-PLAN.md, 15-04-PLAN.md (4 waves, 14 tasks)
-Status: Complete
+Phase: Phase 16A — Frontend Split Minimum
+Status: Planned
+
+## Accumulated Context
+
+**v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
+
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track)
+
+**v1.1 In Progress:** Phase 16A (Frontend Split Minimum) — next to execute
 
 ## Accumulated Context
 
@@ -19,17 +26,19 @@ Status: Complete
 **v1.1 Progress:**
 - Phase 11 (README) ✅ Done
 - Phase 12 (CI) ✅ Done
-- Phase 13 (Security) pending
-- Phase 14A (Adapter boundary) pending
-- Phase 14B (Domain invariants) pending
+- Phase 13 (Security) ✅ Done
+- Phase 14A (Adapter boundary) ✅ Done
+- Phase 14B (Domain invariants) ✅ Done
 - Phase 15 (Observability & health) ✅ Done
+- Phase 15.5-15.10 (Pre-16 Completion Track) ✅ Done
 - Phase 16A (Frontend split min) pending
 - Phase 17 (Real media processing) pending
 - Phase 18 (Dataset lock & COCO export) pending
 - Phase 19 (Real ONNX inference) pending
 - Phase 20 (Evaluation E2E) pending
 - Phase 21 (Frontend split completion) pending
-- Phase 22 (Test suite) pending
+- Phase 22A (Test harness) pending
+- Phase 22B (Production test suite) pending
 - Phase 23 (E2E & demo) pending
 
 ## What Was True Before Phase 15
@@ -110,21 +119,15 @@ Status: Complete
 
 ## Active Goals
 
-- Execute Phase 11: Public README & Portfolio First Impression.
-- Push Phase 11 to GitHub.
+- Execute Phase 16A: Frontend Split Minimum.
+- Push updated artifacts to GitHub.
 
 ## Known Partial Areas (v1.1 Focus)
 
-- README needs upgrade: demo GIF, architecture diagram, implementation status table, known limitations (Phase 11).
-- CI needs completion: db:generate, format check, python pytest (Phase 12).
-- Security hardening needed: ValidationPipe, CORS, upload hardening, signed URLs (Phase 13).
-- Business services environment branching removed — adapter pattern implemented (Phase 14A).
-- Job state machine, Zod validation at API boundary implemented (Phase 14B).
-- No observability: no request IDs, no structured logs, no deep health checks (Phase 15).
 - App.tsx is a monolithic file needing feature split (Phase 16A, 21).
 - CV worker produces mock artifacts, not real thumbnail/frame extraction (Phase 17).
 - No COCO export endpoint (Phase 18).
 - ONNX inference needs real YOLOv8n model integration (Phase 19).
 - Evaluation needs real data path end-to-end (Phase 20).
-- No production-path test suite (Phase 22).
+- No production-path test suite (Phase 22A/B).
 - No real-service E2E test or demo video (Phase 23).

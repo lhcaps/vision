@@ -37,7 +37,6 @@ import type {
   InferenceJobEvent,
   InferenceJobSummary,
   InferenceJobStatus,
-  DatasetVersionSummary,
   MediaUploadStatus,
   PipelineDefinition,
   PipelineNode,

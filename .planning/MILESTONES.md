@@ -35,15 +35,8 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 
 ### Known Partial Areas
 
-- BullMQ live smoke requires Redis-backed environment (memory fallback used locally)
-- ONNX inference gated on model artifact supply (fails loudly, no silent mock fallback)
-- Playwright E2E tests require `pnpm exec playwright install chromium` locally
-- Repository lacks root README with architecture diagram and demo assets
-- Core services contain memory fallback logic mixed with production paths
 - CV worker produces mock artifacts rather than real thumbnail/frame extraction
 - Frontend App.tsx is a single large file (not yet split into feature modules)
-- No upload hardening beyond MIME validation
-- No signed URL or controlled asset serving layer
 - No real production-path test matrix
 - COCO/YOLO export deferred
 
@@ -54,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 15, 15.5–15.10
+**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10
 
 ### Goal
 
@@ -72,9 +65,9 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 12A  | CI/CD Completeness                             | Full CI pipeline, db:generate, format check, pytest     | ✅ Done |
 | 12B  | Local Stack & Seed Reliability               | Docker compose, boot scripts, seed, .env.example        | ✅ Done |
 | 12C  | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes              | ✅ Done |
-| 13   | Security & Input Validation Hardening          | ValidationPipe, CORS, upload hardening, safe errors     | 🔄 Next |
-| 14A  | Adapter Boundary Cleanup                       | Repository interfaces, adapter implementations          | Planned |
-| 14B  | Domain Invariants & State Machines           | Zod validation, job state machine, audit logs           | Planned |
+| 13   | Security & Input Validation Hardening          | ValidationPipe, CORS, upload hardening, safe errors     | ✅ Done |
+| 14A  | Adapter Boundary Cleanup                       | Repository interfaces, adapter implementations          | ✅ Done |
+| 14B  | Domain Invariants & State Machines             | Zod validation, job state machine, audit logs          | ✅ Done |
 | 15   | Observability & Health Checks                 | Request IDs, structured logs, /health endpoints          | ✅ Done |
 | 15.5 | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors            | ✅ Done |
 | 15.6 | Workflow Guidance & Primary Next Action      | NextAction model, disabled reasons, recovery paths      | ✅ Done |
@@ -101,3 +94,28 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 
 - **CI/CD (12A):** GitHub Actions pipeline with job dependency graph `lint → [typecheck, format, pytest, test] → build`. Prisma client generation validated before typecheck. Python pytest suite (8 tests) runs in isolated job. Prettier format check prevents style drift. CI badge in README.
 - **Local Stack (12B):** Docker compose with named network, MinIO bucket initialization, fixed healthchecks. Both Unix and Windows boot scripts with prerequisite checks, service health waits, colored output. Seed script with `--api` mode for API-based demo data creation. Complete `.env.example` with 16 documented variables in 8 sections.
+
+### Phase 13 Key Outcomes
+
+- **Input Validation:** Global NestJS `ValidationPipe` with `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`. Unknown fields in request payloads rejected with HTTP 400.
+- **CORS Policy:** Explicit allowlist from `WEB_ORIGIN` env var. Cross-origin requests blocked when not configured.
+- **Upload Hardening:** Magic byte validation (`magic-bytes.ts` + tests), corrupted media detection (`media-integrity.ts`), 250MB file size limit, MIME type allowlist (JPEG, PNG, WebP, MP4, MOV).
+- **Asset Access:** `SignedUrlService` for MinIO presigned URLs; `streamFile()` API proxy fallback when `SIGNED_URL_EXPIRY_SECONDS` is not set.
+- **Safe Filenames:** `sanitize-filename.ts` strips path traversal attempts from original filenames.
+- **Structured Errors:** All error responses are consistently formatted `{ statusCode, message, error, timestamp }`. Internal details never leaked to clients.
+- Full Security section in README documenting all controls.
+
+### Phase 14A Key Outcomes
+
+- **Repository Interfaces:** 9 interfaces defined in `provider-tokens.ts`: `MediaRepository`, `DatasetRepository`, `AnnotationRepository`, `PipelineRepository`, `InferenceRepository`, `PredictionRepository`, `EvaluationRepository`, `StorageRepository`, `JobQueue`, `AuditLogger`.
+- **Adapter Implementations:** `Prisma*` implementations (media, dataset, annotation, inference, prediction, evaluation), `MinioStorageRepository`, `BullMqJobQueue`, `PrismaAuditLogger` for production. `Memory*` and `LocalStorageRepository`, `NoopJobQueue`, `MemoryAuditLogger` for demo.
+- **Module Bootstrap Pattern:** `AppMode` enum drives adapter selection. No `if (process.env.DATABASE_URL)` inside service methods. All infrastructure wired in `app.module.ts`.
+- Clean separation: API module owns DB writes, CV worker owns MinIO artifact writes.
+
+### Phase 14B Key Outcomes
+
+- **Zod Validation at Boundary:** `annotation-geometry.validator.ts` validates BBox geometry via `BBoxGeometrySchema` before persistence. Pipeline graph validation via `pipeline-definition.integration.spec.ts`.
+- **Inference Job State Machine:** `inference-job-state-machine.ts` enforces valid transitions (`QUEUED → RUNNING → SUCCEEDED/FAILED`, `QUEUED → CANCELLED`, `RUNNING → CANCELLED`). Invalid transitions throw `InferenceJobTransitionError`.
+- **Progress Rewind Guard:** `assertValidProgress()` prevents progress percentage from decreasing (unless transitioning to FAILED).
+- **Audit Logger Interface:** `AuditLogger` interface with `log(event: AuditEvent)` method. `PrismaAuditLogger` persists audit events; `MemoryAuditLogger` for demo.
+- Prediction traceability: all predictions link to `inferenceJobId`, `mediaAssetId`, `datasetVersionId`, `pipelineId`.

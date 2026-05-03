@@ -22,6 +22,8 @@
     "@types/multer": "^2.1.0",
     "@visionflow/contracts": "workspace:*",
     "bullmq": "^5.76.3",
+    "dotenv": "^16.4.7",
+    "ioredis": "^5.10.1",
     "minio": "^8.0.7",
     "multer": "^2.1.1",
     "pino": "^10.3.1",
@@ -30,8 +32,7 @@
     "rxjs": "^7.8.2",
     "sharp": "^0.34.5",
     "uuid": "^14.0.0",
-    "zod": "^3.24.3",
-    "dotenv": "^16.4.7"
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/express": "5.0.6",
