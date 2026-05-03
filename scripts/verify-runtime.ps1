@@ -124,7 +124,7 @@ try {
     $maxAttempts = 20
     for ($i = 0; $i -lt $maxAttempts; $i++) {
         $resp = Invoke-WebRequest -Uri "$BASE/api/projects/$Project/inference-jobs" -TimeoutSec 10 -UseBasicParsing
-        $body = $resp.Content | ConvertFrom-Json -AsHashtable
+        $body = $resp.Content | ConvertFrom-Json
         $latestJob = $body.jobs[0]
         $latestStatus = $latestJob.status
 
@@ -140,7 +140,7 @@ try {
         Write-Host "  [PASS] Latest job reached terminal state: $latestStatus" -ForegroundColor Green
         $passCount++
 
-        $jobsJson = $body | ConvertTo-Json -Depth 10 -Compress
+        $jobsJson = $resp.Content
         foreach ($pattern in $mustNotContain -split ",") {
             if ($jobsJson -match [regex]::Escape($pattern.Trim())) {
                 Write-Host "  [FAIL] Inference jobs response contains forbidden: $pattern" -ForegroundColor Red
