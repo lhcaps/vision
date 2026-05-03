@@ -1,141 +1,134 @@
-# VisionFlow Studio — Full Stack Boot (Windows)
+# VisionFlow Studio -- Full Stack Boot (Windows)
 $ErrorActionPreference = "Stop"
 
 $ROOT = Split-Path -Parent $PSScriptRoot
 
-function Log-Info($msg) { Write-Host "▶ $msg" }
-function Log-Warn($msg)  { Write-Host "⚠ $msg" -ForegroundColor Yellow }
-function Log-Error($msg){ Write-Host "✗ $msg" -ForegroundColor Red }
-function Log-Ok($msg)    { Write-Host "✓ $msg" -ForegroundColor Green }
+function Log-Info($msg) { Write-Host "==> $msg" }
+function Log-Warn($msg)  { Write-Host "WARNING: $msg" -ForegroundColor Yellow }
+function Log-Error($msg){ Write-Host "ERROR: $msg" -ForegroundColor Red }
+function Log-Ok($msg)    { Write-Host "[OK] $msg" -ForegroundColor Green }
 
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-Write-Host " VisionFlow Studio — Full Stack Boot"
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-# Step 0: Validate prerequisites
 Write-Host ""
-Log-Info "Checking prerequisites..."
+Write-Host "===================================================="
+Write-Host " VisionFlow Studio -- Full Stack Boot"
+Write-Host "===================================================="
+Write-Host ""
 
-$dockerCheck = docker info 2>&1
+# Step 0: Kill anything holding dev ports
+Log-Info "Stopping stale dev servers..."
+foreach ($port in @(3000, 5173)) {
+    $conn = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
+    if ($conn) {
+        $pids = $conn | Select-Object -ExpandProperty OwningProcess -Unique
+        foreach ($p in $pids) {
+            if ($p -gt 0) {
+                $name = (Get-Process -Id $p -ErrorAction SilentlyContinue).ProcessName
+                Stop-Process -Id $p -Force -ErrorAction SilentlyContinue
+                Write-Host "    Killed $name (PID $p) on port $port"
+            }
+        }
+    }
+}
+Start-Sleep -Seconds 2
+
+# Step 1: Check Docker
+Log-Info "Checking Docker..."
+$null = docker info 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Log-Error "Docker is not running. Please start Docker Desktop."
+    Log-Error "Docker is not running. Start Docker Desktop first."
     exit 1
 }
-Log-Ok "Docker is running"
+Log-Ok "Docker running"
 
-$pnpmCheck = Get-Command pnpm -ErrorAction SilentlyContinue
-if (-not $pnpmCheck) {
-    Log-Error "pnpm is not installed. Run: npm install -g pnpm"
+# Step 2: Check pnpm
+if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
+    Log-Error "pnpm is not installed."
     exit 1
 }
-Log-Ok "pnpm is available"
+Log-Ok "pnpm available"
 
-# Step 1: Start infrastructure
+# Step 3: Start infra
 Write-Host ""
-Log-Info "Starting infrastructure (Docker)..."
+Log-Info "Starting Docker infra..."
 docker compose -f "$ROOT/infra/docker-compose.yml" up -d
 
-# Step 2: Wait for services
+# Step 4: Wait for services
 Write-Host ""
 Log-Info "Waiting for services..."
 
-function Wait-ForService($name, $checkCmd, $maxAttempts = 30) {
-    for ($i = 1; $i -le $maxAttempts; $i++) {
-        $result = Invoke-Expression $checkCmd 2>$null
-        if ($LASTEXITCODE -eq 0) {
-            Log-Ok "$name is ready"
-            return $true
-        }
+$maxWait = 30
+function Wait-For($svc, $check) {
+    for ($i = 0; $i -lt $maxWait; $i++) {
+        $null = Invoke-Expression $check 2>$null
+        if ($LASTEXITCODE -eq 0) { return $true }
         Start-Sleep -Seconds 1
     }
-    Log-Error "$name failed to start after ${maxAttempts}s"
     return $false
 }
 
-$pgReady = Wait-ForService "PostgreSQL" "docker exec visionflow-postgres pg_isready -U visionflow"
-if (-not $pgReady) { exit 1 }
+if (-not (Wait-For "PostgreSQL" "docker exec visionflow-postgres pg_isready -U visionflow")) {
+    Log-Error "PostgreSQL failed to start."
+    exit 1
+}
+Log-Ok "PostgreSQL ready"
 
-$redisReady = Wait-ForService "Redis" "docker exec visionflow-redis redis-cli ping"
-if (-not $redisReady) { exit 1 }
+if (-not (Wait-For "Redis" "docker exec visionflow-redis redis-cli ping")) {
+    Log-Error "Redis failed to start."
+    exit 1
+}
+Log-Ok "Redis ready"
 
-$minioReady = Wait-ForService "MinIO" "try { Invoke-WebRequest -Uri 'http://localhost:9000/minio/health/live' -Method Head -TimeoutSec 2 } catch { `$false }"
-if (-not $minioReady) { exit 1 }
+# MinIO health via container curl (avoids Windows Invoke-WebRequest issues)
+if (-not (Wait-For "MinIO" "docker exec visionflow-minio curl -sf http://localhost:9000/minio/health/live")) {
+    Log-Error "MinIO failed to start."
+    exit 1
+}
+Log-Ok "MinIO ready"
 
-# Step 3: Generate Prisma client
+# Step 5: Prisma — use cmd /c to bypass pnpm.ps1 corepack shim incompatibility with PowerShell
 Write-Host ""
 Log-Info "Generating Prisma client..."
-Push-Location $ROOT
-try {
-    pnpm db:generate
-    if ($LASTEXITCODE -ne 0) {
-        Log-Error "Prisma client generation failed"
-        exit 1
-    }
-} finally {
-    Pop-Location
+Set-Location $ROOT
+$dbGenOutput = cmd /c "pnpm db:generate 2>&1"
+if ($LASTEXITCODE -ne 0) {
+    Log-Error "Prisma generate failed."
+    Write-Host $dbGenOutput
+    exit 1
 }
+Log-Ok "Prisma client generated"
 
-# Step 3b: Apply Prisma schema
-Write-Host ""
-Log-Info "Applying Prisma schema..."
-Push-Location $ROOT
-try {
-    pnpm db:push
-    if ($LASTEXITCODE -ne 0) {
-        Log-Error "Prisma db push failed"
-        exit 1
-    }
-} finally {
-    Pop-Location
+Log-Info "Pushing schema..."
+$dbPushOutput = cmd /c "pnpm db:push 2>&1"
+if ($LASTEXITCODE -ne 0) {
+    Log-Error "Prisma db push failed."
+    Write-Host $dbPushOutput
+    exit 1
 }
+Log-Ok "Schema in sync"
 
-# Step 3c: Seed database with demo project
+# Step 6: Seed
 Write-Host ""
 Log-Info "Seeding database..."
-Push-Location $ROOT
-try {
-    pnpm seed:db
-    if ($LASTEXITCODE -ne 0) {
-        Log-Warn "Database seed failed — Run button may be disabled"
-    } else {
-        Log-Ok "Database seeded"
-    }
-} catch {
-    Log-Warn "Database seed skipped"
-} finally {
-    Pop-Location
-}
+$seedOutput = cmd /c "pnpm seed:db 2>&1"
+if ($LASTEXITCODE -eq 0) { Log-Ok "Database seeded" }
+else { Log-Warn "Seed failed -- Run button may be disabled"; Write-Host $seedOutput }
 
-# Step 4: Validate demo data (legacy, non-API mode)
+# Step 7: Start dev servers
 Write-Host ""
-Log-Info "Validating demo data..."
-Push-Location $ROOT
-try {
-    pnpm seed 2>$null
-    if ($LASTEXITCODE -ne 0) {
-        Log-Warn "Demo data validation skipped"
-    }
-} catch {
-    Log-Warn "Demo data validation skipped"
-} finally {
-    Pop-Location
-}
-
-# Step 5: Start all apps
-Write-Host ""
-Log-Info "Starting all apps..."
+Log-Info "Starting dev servers..."
 Write-Host ""
 Write-Host "  Web:     http://localhost:5173"
 Write-Host "  API:     http://localhost:3000"
 Write-Host "  Swagger: http://localhost:3000/api/docs"
-Write-Host "  MinIO:   http://localhost:9000 (console: http://localhost:9001)"
+Write-Host "  MinIO:   http://localhost:9000  (console: http://localhost:9001)"
 Write-Host ""
-
-# Start API + web in background
-Start-Process powershell -ArgumentList "-NoExit", "cd '$ROOT'; pnpm dev"
-
-Write-Host ""
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+Write-Host "===================================================="
 Write-Host " VisionFlow Studio is running!"
 Write-Host "  Stop: docker compose -f infra/docker-compose.yml down"
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+Write-Host "===================================================="
+Write-Host ""
+
+# ONE command only. Turbo handles API + web parallelization internally.
+# -NoExit keeps this window open to show pnpm dev output.
+# -Wait keeps this terminal blocked so the script stays alive.
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
