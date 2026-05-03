@@ -89,8 +89,8 @@ export const demoSnapshot: ProjectSnapshot = {
   },
   job: {
     id: 'job_2026_04_28_2036',
-    status: 'QUEUED',
-    progress: 18,
+    status: 'SUCCEEDED',
+    progress: 100,
     startedAt: '2026-04-28T13:36:00.000Z',
   },
 };
@@ -98,8 +98,8 @@ export const demoSnapshot: ProjectSnapshot = {
 export const pipelineValidation = validatePipelineDefinition(demoSnapshot.pipeline);
 
 export const logs = [
-  'queue accepted job payload: inferenceJobId only',
-  'dataset version v1.3 locked, 20 assets resolved',
+  'seeded demo job completed successfully',
+  'dataset version v1.3 locked, 3 demo assets resolved',
   'cv-worker mode selected: mock_detector',
   'prediction persistence ready for batched createMany',
 ];
