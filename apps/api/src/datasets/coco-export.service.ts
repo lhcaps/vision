@@ -7,7 +7,7 @@ import {
   CocoAnnotation,
   buildCocoInfo,
 } from '@visionflow/contracts';
-import { DatasetRepository, VersionSnapshot } from '../repositories/dataset.repository';
+import { DatasetRepository } from '../repositories/dataset.repository';
 import { DATASET_REPOSITORY } from '../config/provider-tokens';
 
 const SPLIT_ORDER: Record<string, number> = { TRAIN: 0, VALID: 1, TEST: 2, UNASSIGNED: 3 };
@@ -44,16 +44,14 @@ export class CocoExportService {
       (ann) => validAssetIds.has(ann.assetId) && ann.type === 'BBOX'
     );
 
-    const usedLabelClassIds = new Set<string>();
-    for (const ann of exportableAnnotations) {
-      usedLabelClassIds.add(ann.labelClassId);
-    }
-
+    // Sort assets for deterministic COCO ID assignment
     const sortedImages = this.sortImages(exportableAssets);
-    const sortedAnnotations = this.sortAnnotations(exportableAnnotations);
-    const categories = this.buildCategories(sortedAnnotations);
+
+    // Build categories from annotations using labelName
+    const categories = this.buildCategories(exportableAnnotations);
     const sortedCategories = this.sortCategories(categories);
 
+    // Assign COCO IDs sequentially after sorting
     const imageIdMap = new Map<string, number>();
     for (let i = 0; i < sortedImages.length; i++) {
       imageIdMap.set(sortedImages[i].assetId, i + 1);
@@ -63,6 +61,22 @@ export class CocoExportService {
     for (let i = 0; i < sortedCategories.length; i++) {
       categoryIdMap.set(sortedCategories[i].labelClassId, i + 1);
     }
+
+    // Sort annotations by mapped COCO IDs for deterministic output
+    const sortedAnnotations = this.sortAnnotationsByCocoIds(
+      exportableAnnotations,
+      imageIdMap,
+      categoryIdMap
+    );
+
+    const info = buildCocoInfo();
+
+    const cocoImages: CocoImage[] = sortedImages.map((link) => ({
+      id: imageIdMap.get(link.assetId)!,
+      file_name: link.asset.storageKey,
+      width: link.asset.width!,
+      height: link.asset.height!,
+    }));
 
     const cocoAnnotations: CocoAnnotation[] = sortedAnnotations.map((ann, index) => {
       const geo = ann.geometryJson as { x: number; y: number; width: number; height: number };
@@ -75,15 +89,6 @@ export class CocoExportService {
         iscrowd: 0,
       };
     });
-
-    const info = buildCocoInfo();
-
-    const cocoImages: CocoImage[] = sortedImages.map((link, index) => ({
-      id: index + 1,
-      file_name: link.asset.storageKey,
-      width: link.asset.width!,
-      height: link.asset.height!,
-    }));
 
     const cocoCategories: CocoCategory[] = sortedCategories.map((cat) => ({
       id: categoryIdMap.get(cat.labelClassId)!,
@@ -142,20 +147,8 @@ export class CocoExportService {
     });
   }
 
-  private sortAnnotations(
-    annotations: Array<{ id: string; assetId: string; labelClassId: string; geometryJson: unknown }>
-  ): typeof annotations {
-    return [...annotations].sort((a, b) => {
-      const assetDiff = a.assetId.localeCompare(b.assetId);
-      if (assetDiff !== 0) return assetDiff;
-      const catDiff = a.labelClassId.localeCompare(b.labelClassId);
-      if (catDiff !== 0) return catDiff;
-      return a.id.localeCompare(b.id);
-    });
-  }
-
   private buildCategories(
-    annotations: Array<{ labelClassId: string }>
+    annotations: Array<{ labelClassId: string; labelName: string }>
   ): Array<{ labelClassId: string; name: string; supercategory: string }> {
     const seen = new Set<string>();
     const result: Array<{ labelClassId: string; name: string; supercategory: string }> = [];
@@ -165,7 +158,7 @@ export class CocoExportService {
         seen.add(ann.labelClassId);
         result.push({
           labelClassId: ann.labelClassId,
-          name: ann.labelClassId,
+          name: ann.labelName,
           supercategory: 'object',
         });
       }
@@ -181,6 +174,25 @@ export class CocoExportService {
       const nameDiff = a.name.localeCompare(b.name);
       if (nameDiff !== 0) return nameDiff;
       return a.labelClassId.localeCompare(b.labelClassId);
+    });
+  }
+
+  private sortAnnotationsByCocoIds(
+    annotations: Array<{
+      id: string;
+      assetId: string;
+      labelClassId: string;
+      geometryJson: unknown;
+    }>,
+    imageIdMap: Map<string, number>,
+    categoryIdMap: Map<string, number>
+  ): typeof annotations {
+    return [...annotations].sort((a, b) => {
+      const imageDiff = imageIdMap.get(a.assetId)! - imageIdMap.get(b.assetId)!;
+      if (imageDiff !== 0) return imageDiff;
+      const categoryDiff = categoryIdMap.get(a.labelClassId)! - categoryIdMap.get(b.labelClassId)!;
+      if (categoryDiff !== 0) return categoryDiff;
+      return a.id.localeCompare(b.id);
     });
   }
 

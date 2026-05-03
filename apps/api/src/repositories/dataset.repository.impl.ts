@@ -89,7 +89,10 @@ function toVersionSummary(row: VersionRow, datasetId: string): DatasetVersionSum
 
 @Injectable()
 export class PrismaDatasetRepository implements DatasetRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly lockValidator: DatasetLockValidator
+  ) {}
 
   async createDataset(
     projectId: string,
@@ -270,6 +273,7 @@ export class PrismaDatasetRepository implements DatasetRepository {
                   labelClassId: true,
                   type: true,
                   geometryJson: true,
+                  labelClass: { select: { name: true } },
                 },
               },
             },
@@ -308,14 +312,14 @@ export class PrismaDatasetRepository implements DatasetRepository {
             id: ann.id,
             assetId: ann.assetId,
             labelClassId: ann.labelClassId,
+            labelName: ann.labelClass.name,
             type: ann.type as 'BBOX' | 'MASK' | 'KEYPOINT',
             geometryJson: ann.geometryJson,
           })),
         })),
       };
 
-      const validator = new DatasetLockValidator();
-      validator.validate(snapshot);
+      this.lockValidator.validate(snapshot);
 
       const locked = await tx.datasetVersion.update({
         where: { id: versionId },
@@ -362,6 +366,7 @@ export class PrismaDatasetRepository implements DatasetRepository {
                 labelClassId: true,
                 type: true,
                 geometryJson: true,
+                labelClass: { select: { name: true } },
               },
             },
           },
@@ -392,6 +397,7 @@ export class PrismaDatasetRepository implements DatasetRepository {
           id: ann.id,
           assetId: ann.assetId,
           labelClassId: ann.labelClassId,
+          labelName: ann.labelClass.name,
           type: ann.type as 'BBOX' | 'MASK' | 'KEYPOINT',
           geometryJson: ann.geometryJson,
         })),

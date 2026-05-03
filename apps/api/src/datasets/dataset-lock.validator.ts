@@ -1,4 +1,5 @@
 import { ConflictException } from '@nestjs/common';
+import { BBoxGeometrySchema, bboxArea } from '@visionflow/contracts';
 
 export type VersionSnapshot = {
   id: string;
@@ -34,7 +35,8 @@ export type LockRejectionReason =
   | 'asset_missing_dimensions'
   | 'no_annotation_set'
   | 'no_bbox_annotations'
-  | 'annotation_asset_outside_version';
+  | 'annotation_asset_outside_version'
+  | 'bbox_invalid_geometry';
 
 const REJECTION_MESSAGES: Record<LockRejectionReason, string> = {
   version_not_found: 'Dataset version not found for this project.',
@@ -49,6 +51,8 @@ const REJECTION_MESSAGES: Record<LockRejectionReason, string> = {
   no_bbox_annotations: 'Dataset version requires at least one BBox annotation before COCO export.',
   annotation_asset_outside_version:
     'Some annotations reference assets outside this dataset version. All annotations must belong to assets within this version.',
+  bbox_invalid_geometry:
+    'Some BBox annotations have invalid geometry. Width and height must be positive finite numbers.',
 };
 
 export class DatasetLockValidator {
@@ -98,6 +102,18 @@ export class DatasetLockValidator {
     const bboxAnnotations = allAnnotations.filter((ann) => ann.type === 'BBOX');
     if (bboxAnnotations.length === 0) {
       throw new ConflictException(REJECTION_MESSAGES['no_bbox_annotations']);
+    }
+
+    for (const ann of bboxAnnotations) {
+      const parsed = BBoxGeometrySchema.safeParse(ann.geometryJson);
+      if (!parsed.success) {
+        throw new ConflictException(`BBox annotation "${ann.id}" has invalid geometry.`);
+      }
+      if (bboxArea(parsed.data) <= 0) {
+        throw new ConflictException(
+          `BBox annotation "${ann.id}" has invalid geometry. Width and height must be positive.`
+        );
+      }
     }
 
     const validAssetIds = new Set(

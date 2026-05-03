@@ -157,6 +157,9 @@ export class MemoryDatasetRepository implements DatasetRepository {
   }
 
   async lockVersion(projectId: string, versionId: string): Promise<DatasetVersionSummary> {
+    // Memory mode: lock-readiness validation is not enforced.
+    // This is a demo/fallback path — production path (PrismaDatasetRepository) enforces
+    // all DatasetLockValidator invariants before locking.
     const version = memoryVersions.get(versionId);
     if (!version) throw new NotFoundException('Dataset version not found.');
     const dataset = memoryDatasets.get(version.datasetId);
@@ -174,6 +177,8 @@ export class MemoryDatasetRepository implements DatasetRepository {
     if (!version) return null;
     const dataset = memoryDatasets.get(version.datasetId);
     if (!dataset || dataset.projectId !== projectId) return null;
+    // Memory mode: COCO export is not supported on the memory path.
+    // annotationSets is empty so labelName is never accessed.
     return {
       id: version.id,
       datasetId: version.datasetId,

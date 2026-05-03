@@ -285,6 +285,13 @@ export class MediaProcessingService implements OnModuleInit, OnModuleDestroy {
     );
   }
 
+  async markJobFailed(jobId: string, projectId: string, errorMessage: string): Promise<void> {
+    await this.prisma.mediaProcessingJob.update({
+      where: { id: jobId },
+      data: { status: 'FAILED', errorMessage },
+    });
+  }
+
   private async transitionJob(
     jobId: string,
     projectId: string,

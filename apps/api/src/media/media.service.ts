@@ -296,7 +296,12 @@ export class MediaService {
     } catch (err) {
       uploadLogger.error(
         { mediaJobId, assetId, jobType: plan.processingJobType, error: String(err) },
-        'Failed to enqueue media processing job — worker will not process this asset'
+        'Failed to enqueue media processing job'
+      );
+      await this.mediaProcessingService.markJobFailed(
+        mediaJobId,
+        projectId,
+        `Failed to enqueue media processing job: ${String(err)}`
       );
     }
   }

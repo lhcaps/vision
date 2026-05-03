@@ -46,6 +46,7 @@ export type VersionSnapshotAnnotation = {
   id: string;
   assetId: string;
   labelClassId: string;
+  labelName: string;
   type: 'BBOX' | 'MASK' | 'KEYPOINT';
   geometryJson: unknown;
 };

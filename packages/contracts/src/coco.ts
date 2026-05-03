@@ -26,14 +26,29 @@ export const CocoCategorySchema = z.object({
   supercategory: z.string().optional(),
 });
 
-export const CocoAnnotationSchema = z.object({
-  id: z.number().int().positive(),
-  image_id: z.number().int().positive(),
-  category_id: z.number().int().positive(),
-  bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
-  area: z.number().nonnegative(),
-  iscrowd: z.literal(0),
-});
+export const CocoAnnotationSchema = z
+  .object({
+    id: z.number().int().positive(),
+    image_id: z.number().int().positive(),
+    category_id: z.number().int().positive(),
+    bbox: z.tuple([
+      z.number().finite().nonnegative(),
+      z.number().finite().nonnegative(),
+      z.number().finite().positive(),
+      z.number().finite().positive(),
+    ]),
+    area: z.number().finite().positive(),
+    iscrowd: z.literal(0),
+  })
+  .superRefine((data, ctx) => {
+    const [x, y, w, h] = data.bbox;
+    if (Math.abs(w * h - data.area) > 0.001) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `area must equal bbox[2] * bbox[3] (${w * h}, got ${data.area})`,
+      });
+    }
+  });
 
 export const CocoDatasetSchema = z.object({
   info: CocoInfoSchema,

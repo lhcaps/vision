@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { createHash } from 'node:crypto';
 import {
   AcceptedMediaMime,
@@ -49,13 +50,9 @@ export async function buildMediaIngestionPlan(
   let height: number | null = null;
 
   if (mediaType === 'IMAGE') {
-    try {
-      const meta = await extractImageMetadata(input.buffer, mimeType);
-      width = meta.width;
-      height = meta.height;
-    } catch {
-      // Dimensions unavailable — COCO export will fail later if dimensions are required
-    }
+    const meta = await extractImageMetadata(input.buffer, input.mimeType);
+    width = meta.width;
+    height = meta.height;
   }
 
   return {

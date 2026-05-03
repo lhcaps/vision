@@ -6,6 +6,12 @@ import type { DatasetRepository } from '../repositories/dataset.repository';
 
 const mockDatasetRepo: DatasetRepository = {
   getVersionStatusByAnnotationSet: async () => null,
+  listVersionAssetIds: async () => [
+    'asset_frame_1482',
+    'asset_frame_1673',
+    'asset_frame_1694',
+    'asset_frame_1829',
+  ],
 } as unknown as DatasetRepository;
 
 describe('AnnotationsService memory fallback', () => {

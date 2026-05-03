@@ -2,65 +2,72 @@ import { ConflictException } from '@nestjs/common';
 import { describe, expect, it } from 'vitest';
 import { DatasetLockValidator } from './dataset-lock.validator';
 
-function makeSnapshot(
-  overrides: Partial<Parameters<DatasetLockValidator['validate']>[0]> = {}
-): Parameters<DatasetLockValidator['validate']>[0] {
+function makeSnapshot(overrides?: {
+  status?: 'DRAFT' | 'LOCKED' | 'ARCHIVED';
+  assets?: Array<{
+    assetId: string;
+    split: 'TRAIN' | 'VALID' | 'TEST' | 'UNASSIGNED';
+    asset: {
+      id: string;
+      type: 'IMAGE' | 'VIDEO' | 'FRAME';
+      width: number | null;
+      height: number | null;
+    };
+  }>;
+  annotationSets?: ReturnType<typeof makeAnnotationSet>[];
+}) {
+  const assets = overrides?.assets ?? [makeAsset()];
   return {
     id: 'version_1',
     datasetId: 'dataset_1',
     version: 1,
-    status: 'DRAFT',
-    assets: [],
-    annotationSets: [],
-    ...overrides,
+    status: overrides?.status ?? 'DRAFT',
+    assets,
+    annotationSets: overrides?.annotationSets ?? [makeAnnotationSet()],
   };
 }
 
-function makeAsset(
-  overrides: Partial<{
-    assetId: string;
-    split: 'TRAIN' | 'VALID' | 'TEST' | 'UNASSIGNED';
-    width: number | null;
-    height: number | null;
-    type: 'IMAGE' | 'VIDEO' | 'FRAME';
-  }> = {}
-): Parameters<DatasetLockValidator['validate']>[0]['assets'][0] {
+function makeAsset(overrides?: {
+  assetId?: string;
+  split?: 'TRAIN' | 'VALID' | 'TEST' | 'UNASSIGNED';
+  width?: number | null;
+  height?: number | null;
+  type?: 'IMAGE' | 'VIDEO' | 'FRAME';
+}) {
+  const assetId = overrides?.assetId ?? 'asset_1';
   return {
-    assetId: 'asset_1',
-    split: 'TRAIN',
-    asset: { id: 'asset_1', type: 'IMAGE', width: 1920, height: 1080, ...overrides },
-    ...overrides,
+    assetId,
+    split: overrides?.split ?? 'TRAIN',
+    asset: {
+      id: assetId,
+      type: (overrides?.type ?? 'IMAGE') as 'IMAGE' | 'VIDEO' | 'FRAME',
+      width: overrides?.width ?? 1920,
+      height: overrides?.height ?? 1080,
+    },
   };
 }
 
-function makeAnnotation(
-  overrides: Partial<{
-    id: string;
-    assetId: string;
-    type: 'BBOX' | 'MASK' | 'KEYPOINT';
-  }> = {}
-): Parameters<DatasetLockValidator['validate']>[0]['annotationSets'][0]['annotations'][0] {
+function makeAnnotation(overrides?: {
+  id?: string;
+  assetId?: string;
+  type?: 'BBOX' | 'MASK' | 'KEYPOINT';
+  geometryJson?: object;
+}) {
   return {
-    id: 'ann_1',
-    assetId: 'asset_1',
-    type: 'BBOX',
-    geometryJson: { x: 0, y: 0, width: 100, height: 100 },
-    ...overrides,
+    id: overrides?.id ?? 'ann_1',
+    assetId: overrides?.assetId ?? 'asset_1',
+    type: (overrides?.type ?? 'BBOX') as 'BBOX' | 'MASK' | 'KEYPOINT',
+    geometryJson: overrides?.geometryJson ?? { x: 0, y: 0, width: 100, height: 100 },
   };
 }
 
-function makeAnnotationSet(
-  overrides: Partial<{
-    id: string;
-    annotations: Parameters<
-      DatasetLockValidator['validate']
-    >[0]['annotationSets'][0]['annotations'];
-  }> = {}
-): Parameters<DatasetLockValidator['validate']>[0]['annotationSets'][0] {
+function makeAnnotationSet(overrides?: {
+  id?: string;
+  annotations?: ReturnType<typeof makeAnnotation>[];
+}) {
   return {
-    id: 'set_1',
-    annotations: [makeAnnotation()],
-    ...overrides,
+    id: overrides?.id ?? 'set_1',
+    annotations: overrides?.annotations ?? [makeAnnotation()],
   };
 }
 
@@ -101,24 +108,77 @@ describe('DatasetLockValidator', () => {
 
   describe('rejects assets without dimensions', () => {
     it('throws when IMAGE asset has null width', () => {
-      const snapshot = makeSnapshot({
-        assets: [makeAsset({ width: null, height: 1080 })],
-        annotationSets: [makeAnnotationSet()],
-      });
+      // Inline snapshot to avoid makeAsset helper spread issues with null
+      const snapshot = {
+        id: 'version_1',
+        datasetId: 'dataset_1',
+        version: 1,
+        status: 'DRAFT' as const,
+        assets: [
+          {
+            assetId: 'asset_1',
+            split: 'TRAIN' as const,
+            asset: { id: 'asset_1', type: 'IMAGE' as const, width: null, height: 1080 },
+          },
+        ],
+        annotationSets: [
+          {
+            id: 'set_1',
+            annotations: [
+              {
+                id: 'ann_1',
+                assetId: 'asset_1',
+                type: 'BBOX' as const,
+                geometryJson: { x: 0, y: 0, width: 100, height: 100 },
+              },
+            ],
+          },
+        ],
+      };
       expect(() => validator.validate(snapshot)).toThrow('missing image dimensions');
     });
 
     it('throws when IMAGE asset has null height', () => {
-      const snapshot = makeSnapshot({
-        assets: [makeAsset({ width: 1920, height: null })],
-        annotationSets: [makeAnnotationSet()],
-      });
+      const snapshot = {
+        id: 'version_1',
+        datasetId: 'dataset_1',
+        version: 1,
+        status: 'DRAFT' as const,
+        assets: [
+          {
+            assetId: 'asset_1',
+            split: 'TRAIN' as const,
+            asset: { id: 'asset_1', type: 'IMAGE' as const, width: 1920, height: null },
+          },
+        ],
+        annotationSets: [
+          {
+            id: 'set_1',
+            annotations: [
+              {
+                id: 'ann_1',
+                assetId: 'asset_1',
+                type: 'BBOX' as const,
+                geometryJson: { x: 0, y: 0, width: 100, height: 100 },
+              },
+            ],
+          },
+        ],
+      };
       expect(() => validator.validate(snapshot)).toThrow('missing image dimensions');
     });
 
     it('throws when IMAGE asset has zero width', () => {
       const snapshot = makeSnapshot({
         assets: [makeAsset({ width: 0, height: 1080 })],
+        annotationSets: [makeAnnotationSet()],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid dimensions');
+    });
+
+    it('throws when IMAGE asset has zero height', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ width: 1920, height: 0 })],
         annotationSets: [makeAnnotationSet()],
       });
       expect(() => validator.validate(snapshot)).toThrow('invalid dimensions');
@@ -162,6 +222,76 @@ describe('DatasetLockValidator', () => {
     });
   });
 
+  describe('rejects invalid BBox geometry', () => {
+    it('throws when BBox width is zero', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ assetId: 'asset_1' })],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [makeAnnotation({ geometryJson: { x: 0, y: 0, width: 0, height: 100 } })],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid geometry');
+    });
+
+    it('throws when BBox height is zero', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ assetId: 'asset_1' })],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [makeAnnotation({ geometryJson: { x: 0, y: 0, width: 100, height: 0 } })],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid geometry');
+    });
+
+    it('throws when BBox width is negative', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ assetId: 'asset_1' })],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [
+              makeAnnotation({ geometryJson: { x: 10, y: 10, width: -100, height: 50 } }),
+            ],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid geometry');
+    });
+
+    it('throws when BBox height is negative', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ assetId: 'asset_1' })],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [
+              makeAnnotation({ geometryJson: { x: 10, y: 10, width: 100, height: -50 } }),
+            ],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid geometry');
+    });
+
+    it('throws when geometry JSON is not a valid BBox', () => {
+      const snapshot = makeSnapshot({
+        assets: [makeAsset({ assetId: 'asset_1' })],
+        annotationSets: [
+          makeAnnotationSet({
+            annotations: [
+              makeAnnotation({
+                geometryJson: { x: 'bad', y: 0, width: 100, height: 100 } as unknown as object,
+              }),
+            ],
+          }),
+        ],
+      });
+      expect(() => validator.validate(snapshot)).toThrow('invalid geometry');
+    });
+  });
+
   describe('rejects non-image assets without dimensions', () => {
     it('throws when no exportable IMAGE assets exist', () => {
       const snapshot = makeSnapshot({
@@ -174,7 +304,7 @@ describe('DatasetLockValidator', () => {
         ],
         annotationSets: [
           makeAnnotationSet({
-            annotations: [makeAnnotation({ assetId: 'asset_video', type: 'BBOX' as const })],
+            annotations: [makeAnnotation({ assetId: 'asset_video', type: 'BBOX' })],
           }),
         ],
       });
@@ -188,7 +318,13 @@ describe('DatasetLockValidator', () => {
         assets: [makeAsset({ assetId: 'asset_1', split: 'TRAIN', width: 1920, height: 1080 })],
         annotationSets: [
           makeAnnotationSet({
-            annotations: [makeAnnotation({ assetId: 'asset_1', type: 'BBOX' })],
+            annotations: [
+              makeAnnotation({
+                assetId: 'asset_1',
+                type: 'BBOX',
+                geometryJson: { x: 0, y: 0, width: 100, height: 100 },
+              }),
+            ],
           }),
         ],
       });

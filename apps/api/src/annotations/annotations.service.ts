@@ -109,12 +109,20 @@ export class AnnotationsService {
     };
   }
 
-  private createMemoryAnnotation(
+  private async createMemoryAnnotation(
     projectId: string,
     annotationSetId: string,
     dto: CreateAnnotationRequest
-  ): AnnotationSummary {
+  ): Promise<AnnotationSummary> {
     const set = this.assertMemorySet(projectId, annotationSetId);
+    // Memory path: use datasetRepo to check asset membership in the version
+    const versionAssetIds = await this.datasetRepo.listVersionAssetIds(
+      projectId,
+      set.datasetVersionId
+    );
+    if (!versionAssetIds.includes(dto.assetId)) {
+      throw new BadRequestException('Annotation asset must belong to the dataset version.');
+    }
     const asset = this.assertMemoryAsset(projectId, dto.assetId);
     const label = this.assertMemoryLabel(projectId, dto.labelClassId);
     const now = new Date().toISOString();
@@ -343,6 +351,18 @@ export class AnnotationsService {
       annotationSetId
     );
     if (versionStatus) assertAnnotationsImmutable(versionStatus);
+
+    // Verify asset belongs to the dataset version of this annotation set
+    const assigned = await this.prisma.datasetVersionAsset.findFirst({
+      where: {
+        datasetVersionId: annotationSet.datasetVersionId,
+        assetId: dto.assetId,
+      },
+      select: { id: true },
+    });
+    if (!assigned) {
+      throw new BadRequestException('Annotation asset must belong to the dataset version.');
+    }
 
     const asset = await this.assertPrismaAsset(projectId, dto.assetId);
     const label = await this.assertPrismaLabel(projectId, dto.labelClassId);
