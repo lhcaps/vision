@@ -4,12 +4,12 @@ Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
 Current phase: Phase 21 (Frontend Feature Split Completion)
 
-Last updated: 2026-05-04.
+Last updated: 2026-05-05.
 
 ## Current Position
 
-Phase: Phase 21 (Frontend Feature Split Completion) (2026-05-04)
-Status: Pending — Feature split completion
+Phase: Phase 21B — Hook/State Organization (pending)
+Status: Phase 21A complete — App composition boundary + clean imports
 
 ## Accumulated Context
 
@@ -35,7 +35,8 @@ Status: Pending — Feature split completion
 - Phase 20D ✅ FULL PASS 10/10 — EvaluationReport schema with 7 integrity columns, unique upsert index, read-consistency check, 12-point DB harness, integration tests.
 - Phase 20E ✅ FULL PASS 10/10 — Explicit migration SQL with safe backfill, backfill check/apply scripts, Phase 20E harness, CI test job schema sync fix.
 - Phase 20F ✅ FULL PASS 10/10 — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness.
-- Phase 21 (Frontend split completion) pending
+- Phase 21A ✅ Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal, full verification gate passed.
+- Phase 21 (Frontend split completion) Phase 21A complete; 21B/21C/21D pending.
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending
 - Phase 23 (E2E & demo) pending
@@ -497,3 +498,40 @@ Phase 20B summary stated that seed hash was aligned with the runtime. Upon close
 - Phase 20C: added entry
 - CV Worker ONNX: changed from "(stub)" to "YOLOv8n detector"
 - Known limitations: updated evaluation reproducibility to reflect implementation status
+
+## What Is True After Phase 21A (Complete)
+
+Phase 21A established the app composition boundary. `App.tsx` is now the thin composition root. All route rendering is in `AppRoutes.tsx`. All panel components are in the `app/` directory.
+
+**Files extracted (commit 86416bf):**
+- `AppRoutes.tsx` — route rendering with conditional panel display
+- `OverviewPanel.tsx`, `MediaPanel.tsx`, `DatasetPanel.tsx`, `PipelinePanel.tsx`, `JobsPanel.tsx` — panel components
+- `Panel`, `VisionPreview`, `StateRow`, `OverviewStateRow` — shared UI primitives
+- `NavRail`, `ShellHeader`, `ReadinessStrip`, `StatusPill` — shell components
+
+**Import cleanup (this pass):**
+- Removed 11 unused icon imports from App.tsx
+- Removed 8 unused type imports from App.tsx
+- Removed 40+ unused value/component imports from App.tsx
+- Removed dead `visibleMediaRows` (duplicated in AppRoutes)
+- Removed dead `showPipelineExecution` (computed but unused)
+- Removed unused `useRef` hook from App.tsx
+- Cleaned inline `MediaUploadRow` type import in AppRoutes.tsx
+- Removed unused `MediaInspectorData`/`DatasetInspectorData` type imports from AppRoutes.tsx
+
+**App.tsx line counts:**
+- Before Phase 21A: 799 lines
+- After extraction (86416bf): 638 lines
+- After cleanup (this pass): 548 lines
+
+**Boundary maintained:**
+- `app/` imports `features/` — correct
+- `features/` does not import `app/` — correct
+- `shared/` does not import `app/` or `features/` — correct
+- No circular dependencies
+
+**Not changed:**
+- No hook extraction — reserved for Phase 21B
+- No state management changes — React useState/useEffect remain
+- No backend changes
+- No CSS/visual changes

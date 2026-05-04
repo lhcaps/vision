@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { motionTokens } from '@visionflow/motion';
+import type { Dispatch, SetStateAction } from 'react';
 import type {
   AnnotationSummary,
   DatasetVersionSummary,
@@ -8,21 +9,21 @@ import type {
   PipelineValidationResult,
   PredictionSummary,
 } from '@visionflow/contracts';
-import type { MediaInspectorData, DatasetInspectorData } from './inspector-builders';
-import type { Dispatch, SetStateAction } from 'react';
-import type { SectionId, DatasetSourceState } from './section.types';
-import { buildDatasetInspectorData, buildMediaInspectorData } from './inspector-builders';
-import { AnnotationEnginePanel } from '../features/annotations/AnnotationEngine';
-import { DatasetVersionDiff, TimelineReplayPanel } from '../features/timeline';
-import { InspectorRouter } from '../features/inspector';
+import type { DatasetSourceState, SectionId } from './section.types';
+import type { DatasetInspectorData, MediaInspectorData } from './inspector-builders';
+import type { MediaUploadRow } from '../features/media';
 import type { JobUiState } from '../features/inference';
 import { demoSnapshot } from '../data/demo';
+import { buildDatasetInspectorData, buildMediaInspectorData } from './inspector-builders';
 import { OverviewPanel } from './OverviewPanel';
 import { DatasetPanel } from './DatasetPanel';
 import { JobsPanel } from './JobsPanel';
 import { MediaPanel, seededMediaRows } from './MediaPanel';
 import { PipelinePanel } from './PipelinePanel';
 import { ReadinessStrip } from './ReadinessStrip';
+import { AnnotationEnginePanel } from '../features/annotations/AnnotationEngine';
+import { DatasetVersionDiff, TimelineReplayPanel } from '../features/timeline';
+import { InspectorRouter } from '../features/inspector';
 
 interface AppRoutesProps {
   section: SectionId;
@@ -36,8 +37,8 @@ interface AppRoutesProps {
   selectedAnnotation: string;
   setSelectedAnnotation: (id: string) => void;
   setThreshold: (value: number) => void;
-  mediaUploads: import('../features/media').MediaUploadRow[];
-  setMediaUploads: Dispatch<SetStateAction<import('../features/media').MediaUploadRow[]>>;
+  mediaUploads: MediaUploadRow[];
+  setMediaUploads: Dispatch<SetStateAction<MediaUploadRow[]>>;
   selectedMediaAssetId: string | null;
   onSelectAsset: (id: string | null) => void;
   selectedDatasetVersionId: string | null;
@@ -97,7 +98,11 @@ export function AppRoutes({
 }: AppRoutesProps) {
   const visibleMediaRows = [...mediaUploads, ...seededMediaRows()];
   const mediaInspectorData = buildMediaInspectorData(visibleMediaRows, selectedMediaAssetId);
-  const datasetInspectorData = buildDatasetInspectorData(selectedDatasetVersionId, datasetVersions, datasetSourceState);
+  const datasetInspectorData = buildDatasetInspectorData(
+    selectedDatasetVersionId,
+    datasetVersions,
+    datasetSourceState
+  );
 
   return (
     <div className="mx-auto grid max-w-[1500px] gap-4 px-4 pb-5 pt-4 lg:grid-cols-[minmax(0,1fr)_320px]">

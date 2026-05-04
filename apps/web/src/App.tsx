@@ -1,19 +1,9 @@
 import {
   ActivityIcon as Activity,
-  ArrowsLeftRightIcon as ArrowsLeftRight,
-  BoundingBoxIcon as BoundingBox,
   CheckCircleIcon as CheckCircle,
   DatabaseIcon as Database,
-  GitBranchIcon as GitBranch,
-  GraphIcon as Graph,
-  ImageSquareIcon as ImageSquare,
-  PlayCircleIcon as PlayCircle,
   PlayIcon as Play,
-  SlidersHorizontalIcon as SlidersHorizontal,
   StackIcon as Stack,
-  TerminalWindowIcon as TerminalWindow,
-  TimerIcon as Timer,
-  UploadSimpleIcon as UploadSimple,
   WarningCircleIcon as WarningCircle,
 } from '@phosphor-icons/react';
 import type { SectionId } from './app/section.types';
@@ -22,97 +12,26 @@ import { NavRail } from './app/NavRail';
 import { ShellHeader } from './app/ShellHeader';
 import { StatusPill } from './app/StatusPill';
 import { ReadinessStrip } from './app/ReadinessStrip';
-import { Panel } from './app/ui/Panel';
-import { OverviewPanel } from './app/OverviewPanel';
-import { MediaPanel, seededMediaRows, MediaStatusPill } from './app/MediaPanel';
-import { DatasetPanel } from './app/DatasetPanel';
-import { PipelinePanel } from './app/PipelinePanel';
-import { JobsPanel } from './app/JobsPanel';
-import { VisionPreview } from './app/ui/VisionPreview';
-import { StateRow } from './app/ui/StateRow';
-import {
-  buildDatasetInspectorData,
-  buildMediaInspectorData,
-} from './app/inspector-builders';
-import {
-  datasetSplits,
-  type DatasetActionState,
-  type DatasetSourceState,
-  type PipelineSourceState,
-} from './app/section.types';
-import {
-  Background,
-  Controls,
-  Edge as FlowEdge,
-  MarkerType,
-  Node as FlowNode,
-  Position,
-  ReactFlow,
-} from '@xyflow/react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import type { CSSProperties, Dispatch, ElementType, SetStateAction } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type {
   AnnotationSummary,
-  DatasetSplit,
-  DatasetSummary,
   DatasetVersionSummary,
   EvaluationReport,
   InferenceJobEvent,
   InferenceJobSummary,
-  InferenceJobStatus,
-  MediaUploadStatus,
   PipelineDefinition,
-  PipelineNode,
-  PipelineSummary,
-  PipelineValidationIssue,
   PipelineValidationResult,
   PredictionSummary,
 } from '@visionflow/contracts';
 import {
-  createEmptySplitSummary,
   InferenceJobEventSchema,
   isTerminalJobStatus,
-  SplitSummary,
-  summarizeDatasetSplits,
   validatePipelineDefinition,
-  validateMediaMime,
 } from '@visionflow/contracts';
-import { motionTokens } from '@visionflow/motion';
 import { demoSnapshot, logs } from './data/demo';
-import {
-  AnnotationEnginePanel,
-  createSeedAnnotationSummaries,
-} from './features/annotations/AnnotationEngine';
-import { EvaluationMetricsPanel, PredictionOverlayCanvas } from './features/evaluation';
-import {
-  TimelineReplayPanel,
-  DatasetVersionDiff,
-  PipelineExecutionFlow,
-} from './features/timeline';
-import {
-  AnnotationInspector,
-  DatasetInspector,
-  InspectorRouter,
-  JobInspector,
-  MediaInspector,
-  PipelineInspector,
-} from './features/inspector';
-import {
-  assignDatasetVersionAssets,
-  createDataset,
-  createDatasetVersion,
-  listDatasetVersions,
-  listProjectDatasets,
-  lockDatasetVersion,
-} from './lib/datasets';
-import { checksumFile, uploadMediaFile, type MediaUploadRow } from './features/media';
-import {
-  createProjectPipeline,
-  listProjectPipelines,
-  updateProjectPipeline,
-  validateProjectPipeline,
-} from './lib/pipelines';
+import { listDatasetVersions, listProjectDatasets } from './lib/datasets';
+import type { MediaUploadRow } from './features/media';
+import { createSeedAnnotationSummaries } from './features/annotations/AnnotationEngine';
 import {
   createInferenceJob,
   getEvaluationReport,
@@ -125,22 +44,9 @@ import {
   type JobUiState,
   type JobSourceState,
 } from './features/inference';
-import {
-  EmptyState,
-  EvaluationEmptyState,
-  MediaEmptyState,
-  DatasetEmptyState,
-  PredictionsEmptyState,
-} from './shared/ui/EmptyState';
-import { ErrorState, FailedJobErrorState } from './shared/ui/ErrorState';
-import { ActionHint } from './shared/ui/ActionHint';
+import { createProjectPipeline, listProjectPipelines } from './lib/pipelines';
 import { type WorkbenchRuntimeState } from './shared/state/workbench-runtime';
-import {
-  canRunInference,
-  canRunEvaluation,
-  canShowPredictionOverlay,
-  shouldShowPipelineExecution,
-} from './shared/state/runtime-selectors';
+import { canRunInference, canRunEvaluation } from './shared/state/runtime-selectors';
 
 export function App() {
   const [section, setSection] = useState<SectionId>('overview');
@@ -157,7 +63,6 @@ export function App() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
   const [predictions, setPredictions] = useState<PredictionSummary[]>([]);
-  const visibleMediaRows = useMemo(() => [...mediaUploads, ...seededMediaRows()], [mediaUploads]);
 
   // Tracked selection state for contextual inspectors
   const [selectedMediaAssetId, setSelectedMediaAssetId] = useState<string | null>(null);
@@ -462,10 +367,6 @@ export function App() {
   // Resolve eligibility from runtime state
   const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
   const evaluationEligibility = useMemo(() => canRunEvaluation(runtimeState), [runtimeState]);
-  const showPipelineExecution = useMemo(
-    () => shouldShowPipelineExecution(runtimeState),
-    [runtimeState]
-  );
 
   const startJob = async () => {
     setSection('jobs');

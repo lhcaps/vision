@@ -148,16 +148,18 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### Frontend Split Completion (P2)
 
-- [ ] **FSC-01**: App.tsx is under 400 lines — Phase 21
-- [ ] **FSC-02**: `src/features/datasets/` has DatasetPage, DatasetVersionPanel, SplitAssigner, DatasetLockBanner, CocoExportPanel, datasets.api.ts, datasets.types.ts — Phase 21
-- [ ] **FSC-03**: `src/features/annotations/` has AnnotationWorkbench, CanvasStage, BoundingBoxLayer, LabelInspector, AnnotationToolbar, annotations.api.ts, annotations.types.ts — Phase 21
-- [ ] **FSC-04**: `src/features/pipelines/` has PipelineBuilder, PipelineNode, PipelineInspector, PipelineValidationPanel, pipelines.api.ts, pipelines.types.ts — Phase 21
-- [ ] **FSC-05**: `src/features/inference/` has JobList, JobDetail, PredictionOverlay, EvaluationReport, JobLogs, inference.api.ts, inference.types.ts — Phase 21
-- [ ] **FSC-06**: `src/shared/ui/` has Button, Panel, EmptyState, ErrorState, LoadingState, MetricCard — Phase 21
-- [ ] **FSC-07**: Every feature module independently importable — Phase 21
-- [ ] **FSC-08**: No circular dependencies between feature modules — Phase 21
-- [ ] **FSC-09**: Existing visual design preserved — no visual regression — Phase 21
-- [ ] **FSC-10**: Frontend tests still pass after split — Phase 21
+Phase 21A addressed composition boundary, AppRoutes extraction, and import cleanup. Phase 21B/C/D complete the remaining work.
+
+- [~] **FSC-01**: App.tsx reduced from 799 to 548 lines. Target <400 reserved for Phase 21C (line count polish) — Phase 21A partial, 21C target
+- [ ] **FSC-02**: `src/features/datasets/` extraction — Phase 21B
+- [ ] **FSC-03**: `src/features/annotations/` extraction — Phase 21B
+- [ ] **FSC-04**: `src/features/pipelines/` extraction — Phase 21B
+- [ ] **FSC-05**: `src/features/inference/` remaining extraction — Phase 21B
+- [ ] **FSC-06**: `src/shared/ui/` full set (Button, Panel, EmptyState, ErrorState, LoadingState, MetricCard) — Phase 21D
+- [ ] **FSC-07**: Every feature module independently importable — Phase 21B
+- [x] **FSC-08**: No circular dependencies between feature modules — Phase 21A
+- [x] **FSC-09**: Existing visual design preserved — no visual regression — Phase 21A
+- [x] **FSC-10**: Frontend tests still pass after split — Phase 21A (63/63)
 
 ### Production-Path Test Suite (P2)
 
@@ -214,9 +216,13 @@ The following are explicitly out of scope for v1.1:
 | MED-01 through MED-09     | 17         | Partial  |
 | LOCK-01 through LOCK-09   | 18         | Done     |
 | DET-01 through DET-08     | 19         | Done     |
-| EVAL-01 through EVAL-09   | 20        | Done     |
-| FSC-01 through FSC-10     | 21         | Pending  |
+| EVAL-01 through EVAL-09   | 20         | Done     |
+| FSC-01                    | 21A        | Partial  |
+| FSC-02 through FSC-05     | 21B        | Pending  |
+| FSC-06                    | 21D        | Pending  |
+| FSC-07                    | 21B        | Pending  |
+| FSC-08 through FSC-10     | 21A        | Done     |
 | TEST-01 through TEST-13   | 22         | Pending  |
 | E2E-01 through E2E-10    | 23         | Pending  |
 
-**Total:** 149 requirements | **Done:** 88 | **Partial:** 11 | **Pending:** 50
+**Total:** 149 requirements | **Done:** 90 | **Partial:** 12 | **Pending:** 47
