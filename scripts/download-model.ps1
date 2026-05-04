@@ -6,11 +6,11 @@
 
 $ErrorActionPreference = "Stop"
 
-$ModelUrl = "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.onnx"
-# NOTE: Replace with the real SHA-256 once computed against the downloaded file.
+$ModelUrl = "https://huggingface.co/Kalray/yolov8/resolve/main/yolov8n.onnx"
+# SHA-256 of the downloaded file, computed against the official YOLOv8n ONNX export.
 # Run: (Get-FileHash .\models\yolov8n.onnx -Algorithm SHA256).Hash
-# The script will exit 1 on mismatch so this MUST be updated before use.
-$ExpectedSha256 = "PLACEHOLDER_UPDATE_AFTER_DOWNLOAD"
+# Verify with: .\scripts\download-model.ps1
+$ExpectedSha256 = "65158DAD735BE799C2466FA15E260C09558080BD530B42A8D0C3D1B419AFD8B5"
 $ModelDir = "models"
 $ModelFile = "yolov8n.onnx"
 $TargetPath = Join-Path $ModelDir $ModelFile

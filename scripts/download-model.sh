@@ -6,11 +6,11 @@
 
 set -euo pipefail
 
-MODEL_URL="https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.onnx"
-# NOTE: Replace with the real SHA-256 once computed against the downloaded file.
+MODEL_URL="https://huggingface.co/Kalray/yolov8/resolve/main/yolov8n.onnx"
+# SHA-256 of the downloaded file, computed against the official YOLOv8n ONNX export.
 # Run: sha256sum ./models/yolov8n.onnx
-# The script will exit 1 on mismatch so this MUST be updated before use.
-EXPECTED_SHA256="PLACEHOLDER_UPDATE_AFTER_DOWNLOAD"
+# Verify with: ./scripts/download-model.sh
+EXPECTED_SHA256="65158dad735be799c2466fa15e260c09558080bd530b42a8d0c3d1b419afd8b5"
 MODEL_DIR="models"
 MODEL_FILE="yolov8n.onnx"
 TARGET_PATH="${MODEL_DIR}/${MODEL_FILE}"

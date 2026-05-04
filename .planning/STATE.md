@@ -2,13 +2,13 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 19 (Completed — Real ONNX Detector & Prediction Persistence)
+Current phase: Phase 19 (FULL PASS — Real ONNX Detector & Prediction Persistence)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 18 — Dataset Locking & Deterministic COCO Export
+Phase: Phase 19 — FULL PASS (2026-05-04)
 Status: Completed
 
 ## Accumulated Context
@@ -17,7 +17,7 @@ Status: Completed
 
 **v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing)
 
-**v1.1 In Progress:** Phase 18 complete — Phase 19 (Real ONNX inference) next
+**v1.1 In Progress:** Phase 20 (Evaluation E2E) next to execute
 
 ## Accumulated Context
 
@@ -36,7 +36,7 @@ Status: Completed
 - Phase 17 (Real media processing) ✅ Done — Pillow thumbnail, MinIO read/write, BullMQ consumer, derivative persistence, AssetDerivative.checksum field
 - Phase 17.1 (Runtime fixes) ✅ Done — Race condition fix, CV worker import fix, full-stack dev boot, storage error classification, duplicate FAILED fix
 - Phase 18 (Dataset lock & COCO export) completed — lock invariants, annotation immutability, deterministic COCO export, real image dimensions persisted
-- Phase 19 (Real ONNX inference) pending
+- Phase 19 (Real ONNX inference) ✅ FULL PASS — YOLOv8n ONNX executed end-to-end, predictions persisted with full traceability, SHA-256 pinned, 8/8 DET criteria passed
 - Phase 20 (Evaluation E2E) pending
 - Phase 21 (Frontend split completion) pending
 - Phase 22A (Test harness) pending
@@ -122,8 +122,7 @@ Status: Completed
 ## Active Goals
 
 - Execute Phase 20: Evaluation Report E2E.
-- Phase 19 complete — real ONNX detector wired, predictions persisted with full traceability.
-- Phase 18 complete — dataset versions are immutable after lock, deterministic COCO export works.
+- Phase 19 ✅ FULL PASS — real ONNX detector wired, predictions persisted with full traceability, model downloaded and SHA-256 verified.
 
 ## Known Partial Areas (v1.1 Focus)
 

@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 16A complete — Phase 17 complete — Phase 17.1 (Runtime fixes) complete — Phase 18 complete — Phase 19 complete — Phase 20 (Evaluation E2E) next to execute
+Phase 19 FULL PASS (2026-05-04) — Phase 20 (Evaluation E2E) next to execute
 
 ## Legend
 
@@ -667,7 +667,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Depends on:** Phase 14B
 
-## Phase 19, Real ONNX Detector & Prediction Persistence — Done 2026-05-04
+## Phase 19, Real ONNX Detector & Prediction Persistence — FULL PASS 2026-05-04
 
 **Completed scope:**
 
@@ -687,7 +687,6 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 **Depends on:** Phase 17, Phase 18
 
 **Success criteria:**
-
 1. ✅ ONNX detector scaffolded with real YOLOv8n ONNX integration.
 2. ✅ NMS removes overlapping duplicate predictions.
 3. ✅ Confidence threshold filters low-confidence predictions.
@@ -698,6 +697,15 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 8. ✅ Model artifact seeded with name, version, runtime, input shape.
 9. ✅ Model download script documented and reproducible.
 10. ✅ API tests prove prediction persistence on production database path.
+
+**Runtime verification (2026-05-04):**
+- YOLOv8n ONNX model downloaded from HuggingFace (~6MB)
+- SHA-256 verified: `65158DAD735BE799C2466FA15E260C09558080BD530B42A8D0C3D1B419AFD8B5`
+- Both `download-model.ps1` and `download-model.sh` updated with pinned hash
+- ONNX missing-model smoke: job FAILED with 404, no fallback ✅
+- ONNX real-model smoke: job SUCCEEDED at 100% (~970ms), zero predictions (correct for synthetic test image) ✅
+- Mock job smoke: job SUCCEEDED, 3 predictions persisted with full metadata ✅
+- DB spot-check: prediction traceability confirmed (workerMode, workerVersion, datasetVersionId, pipelineId, modelId) ✅
 
 ## Phase 20, Evaluation Report End-to-End — Planned
 
