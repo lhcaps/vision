@@ -148,6 +148,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Evaluation Correctness     | ✅ Done    | Phase 20B (complete) |
 | Evaluation Integrity       | ✅ Done    | Phase 20C (complete) |
 | Evaluation Persistence     | ✅ Done    | Phase 20D (complete) |
+| Evaluation Migration       | ✅ Done    | Phase 20E (complete) |
 | Frontend split completion  | 🔄 Planned | Phase 21             |
 | Production test suite      | 🔄 Planned | Phase 22A/B          |
 | Full E2E & demo video      | 🔄 Planned | Phase 23             |
@@ -189,6 +190,15 @@ pnpm db:push
 
 # Open Prisma Studio to browse and edit data
 pnpm db:studio
+
+# Check EvaluationReport integrity columns (dry run, no mutations)
+pnpm migration:eval-report:check
+
+# Apply backfill for EvaluationReport integrity columns
+pnpm migration:eval-report:apply
+
+# Run EvaluationReport migration verification harness
+pnpm harness:phase20e
 ```
 
 **In CI:** The GitHub Actions pipeline runs `pnpm db:generate` to validate the schema compiles correctly. Migration application happens at deployment time.
@@ -470,7 +480,7 @@ This is a prototype under active development (v1.1). The following limitations e
 
 - **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
 - **Real ONNX inference** — Implemented in Phase 19. YOLOv8n ONNX detector runs end-to-end with real predictions persisted. Mock detector available as fallback.
-- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time.
+- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time. Explicit Prisma migration SQL with safe backfill path implemented in Phase 20E.
 
 ### Data & Reproducibility
 

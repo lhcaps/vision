@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D completed — Phase 21 (Frontend Feature Split Completion) next to execute
+Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D/20E completed — Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -859,8 +859,6 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 
 ## Phase 20D, Evaluation Persistence & CI Hardening — Done 2026-05-04
 
-**Goal:** Push the Phase 20 evaluation subsystem from "correct runtime logic" to "production-grade persistence and verification" by adding dedicated DB columns, upsert-by-hash, hex validation, strict harness, DB-backed integration tests, and CI wiring.
-
 **Completed scope:**
 
 **A. EvaluationReport DB columns (`infra/prisma/schema.prisma`):**
@@ -902,7 +900,7 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 
 **H. CI wiring (`.github/workflows/ci.yml`):**
 
-- New `db-harness` job with PostgreSQL service: `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`
+- New `db-harness` job with PostgreSQL service: `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d` → `harness:phase20e`
 - `build` job now depends on `db-harness` — CI fails if any harness fails
 - Integration tests run as part of `pnpm test` (in the `test` job)
 
@@ -943,6 +941,82 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 7. ✅ CI runs seed + phase20c + phase20d in dedicated job
 8. ✅ DB-backed integration tests cover DRAFT reject, annotation leak isolation, upsert dedupe
 9. ✅ Typecheck, build, lint, format all pass
+
+## Phase 20E, Evaluation Migration Finalization — Done 2026-05-04
+
+**Goal:** Add explicit PostgreSQL migration/backfill discipline, fix CI test job schema synchronization, complete Phase 20D artifact closeout, and deliver Phase 20E artifacts.
+
+**Completed scope:**
+
+**A. Explicit migration SQL (`infra/prisma/migrations/20260504_evaluation_report_integrity_columns/migration.sql`):**
+
+- Adds 7 new columns as nullable first (zero data loss)
+- Backfills from `metricsJson` with `COALESCE` (preserves existing non-null values)
+- Validates required fields and hash format via `DO` block (fails migration if corrupt rows exist)
+- Adds NOT NULL constraints only after validation passes
+- Creates 5 indexes with `IF NOT EXISTS` (idempotent)
+- Creates unique index on `[inferenceJobId, inputHash]`
+- Clear rollback note included
+
+**B. Phase 20E harness (`scripts/harness/phase20e-evaluation-migration-check.ts`):**
+
+- 12-point read-only DB check: all 7 columns exist in `information_schema`, NOT NULL enforced, 5 indexes + unique index, row/JSON consistency, hex format, no duplicates, no placeholders, strict schema parse, nullable optional columns
+
+**C. Backfill check/apply (`scripts/migrations/backfill-evaluation-report-integrity.ts`):**
+
+- `--check` (dry run): inspects rows, reports consistency issues, invalid hashes, duplicates, missing JSON fields. Exits 1 if unsafe.
+- `--apply`: executes safe backfill (copies from JSON to null columns), refuses on corrupt rows, does not recompute hashes or modify `metricsJson`
+
+**D. CI test job fix (`.github/workflows/ci.yml`):**
+
+- `test` job now runs `pnpm db:generate` and `pnpm db:push` before `pnpm test`
+- Integration tests now run against a properly synchronized schema, not an empty Postgres instance
+
+**E. CI db-harness extension (`.github/workflows/ci.yml`):**
+
+- Added `pnpm harness:phase20e` to db-harness job sequence
+
+**F. Phase 20D artifact closeout:**
+
+- `20D-SUMMARY.md` created
+- `20D-REVIEW.md` created
+- `20D-PLAN.md` status updated to Complete
+
+**Files created:**
+
+- `infra/prisma/migrations/20260504_evaluation_report_integrity_columns/migration.sql`
+- `scripts/harness/phase20e-evaluation-migration-check.ts`
+- `scripts/migrations/backfill-evaluation-report-integrity.ts`
+- `docs/database/evaluation-report-integrity-migration.md`
+- `.planning/phases/phase-20e-evaluation-migration-finalization/20E-PLAN.md`
+- `.planning/phases/phase-20e-evaluation-migration-finalization/20E-SUMMARY.md`
+- `.planning/phases/phase-20e-evaluation-migration-finalization/20E-REVIEW.md`
+- `.planning/phases/phase-20d-evaluation-persistence-ci-hardening/20D-SUMMARY.md`
+- `.planning/phases/phase-20d-evaluation-persistence-ci-hardening/20D-REVIEW.md`
+
+**Files changed:**
+
+- `package.json` — added `harness:phase20e`, `migration:eval-report:check`, `migration:eval-report:apply`
+- `.github/workflows/ci.yml` — test job fixed (db:generate + db:push), db-harness extended (phase20e)
+- `.planning/phases/phase-20d-evaluation-persistence-ci-hardening/20D-PLAN.md` — status Complete
+- `.planning/STATE.md` — Phase 20D/20E entries
+- `.planning/ROADMAP.md` — Phase 20E entry
+- `.planning/MILESTONES.md` — Phase 20E entry
+- `README.md` — Phase 20E entry
+
+**Depends on:** Phase 20D
+
+**Success criteria:**
+
+1. ✅ Explicit migration SQL exists with safe backfill logic
+2. ✅ Phase 20E harness verifies all 12 DB integrity points
+3. ✅ Backfill check/apply scripts work correctly
+4. ✅ CI test job runs db:generate/db:push before tests
+5. ✅ CI db-harness runs phase20e harness
+6. ✅ Phase 20D artifacts complete
+7. ✅ Phase 20E artifacts complete
+8. ✅ STATE/ROADMAP/MILESTONES updated
+9. ✅ README updated
 
 ## Phase 21, Frontend Feature Split Completion — Planned
 
@@ -1108,34 +1182,35 @@ v1.1 is complete only when all of the following are true:
 
 ## Recommended Execution Order
 
-| #     | Phase                                       | Blocked By                                        |
-| ----- | ------------------------------------------- | ------------------------------------------------- |
-| 11    | Public README & Portfolio First Impression  | Phase 10                                          |
-| 12A   | CI/CD Completeness                          | Phase 10                                          |
-| 12B   | Local Stack & Seed Reliability              | Phase 12A                                         |
-| 12C   | Dev Flow & Local Reliability Closeout       | Phase 12A                                         |
-| 13    | Security & Input Validation Hardening       | Phase 11, Phase 12A                               |
-| 14A   | Adapter Boundary Cleanup                    | Phase 12A                                         |
-| 14B   | Domain Invariants & State Machines          | Phase 14A                                         |
-| 15    | Observability & Health Checks               | Phase 14A                                         |
-| 15.5  | Runtime Truth & State Consistency           | Phase 15                                          |
-| 15.6  | Workflow Guidance & Primary Next Action     | Phase 15.5                                        |
-| 15.7  | Contextual Inspector                        | Phase 15.5                                        |
-| 15.8  | UX States & Table Actions                   | Phase 15.6, Phase 15.7                            |
-| 15.9  | Visual System Hardening                     | Phase 15.8                                        |
-| 15.10 | Motion, Portfolio Mode & Regression Tests   | Phase 15.9                                        |
-| 16A   | Frontend Split Minimum                      | Phase 15.10                                       |
-| 17    | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                    |
-| 18    | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
-| 19    | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
-| 20    | Evaluation Report End-to-End                | Phase 19                                          |
-| 20B   | Evaluation Correctness Hardening            | Phase 20                                          |
-| 20C   | Evaluation Integrity Finalization           | Phase 20B                                         |
-| 20D   | Evaluation Persistence & CI Hardening       | Phase 20C                                         |
-| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C, Phase 20D         |
-| 22A   | Test Harness & Fixtures                     | Phase 14A                                         |
-| 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
-| 23    | Full E2E Playwright & Demo Video            | Phase 22B                                         |
+| #     | Phase                                       | Blocked By                                           |
+| ----- | ------------------------------------------- | ---------------------------------------------------- |
+| 11    | Public README & Portfolio First Impression  | Phase 10                                             |
+| 12A   | CI/CD Completeness                          | Phase 10                                             |
+| 12B   | Local Stack & Seed Reliability              | Phase 12A                                            |
+| 12C   | Dev Flow & Local Reliability Closeout       | Phase 12A                                            |
+| 13    | Security & Input Validation Hardening       | Phase 11, Phase 12A                                  |
+| 14A   | Adapter Boundary Cleanup                    | Phase 12A                                            |
+| 14B   | Domain Invariants & State Machines          | Phase 14A                                            |
+| 15    | Observability & Health Checks               | Phase 14A                                            |
+| 15.5  | Runtime Truth & State Consistency           | Phase 15                                             |
+| 15.6  | Workflow Guidance & Primary Next Action     | Phase 15.5                                           |
+| 15.7  | Contextual Inspector                        | Phase 15.5                                           |
+| 15.8  | UX States & Table Actions                   | Phase 15.6, Phase 15.7                               |
+| 15.9  | Visual System Hardening                     | Phase 15.8                                           |
+| 15.10 | Motion, Portfolio Mode & Regression Tests   | Phase 15.9                                           |
+| 16A   | Frontend Split Minimum                      | Phase 15.10                                          |
+| 17    | Real Media Processing                       | Phase 14A, Phase 14B, Phase 15                       |
+| 18    | Dataset Locking & Deterministic COCO Export | Phase 14B                                            |
+| 19    | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                   |
+| 20    | Evaluation Report End-to-End                | Phase 19                                             |
+| 20B   | Evaluation Correctness Hardening            | Phase 20                                             |
+| 20C   | Evaluation Integrity Finalization           | Phase 20B                                            |
+| 20D   | Evaluation Persistence & CI Hardening       | Phase 20C                                            |
+| 20E   | Evaluation Migration Finalization           | Phase 20D                                            |
+| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C, Phase 20D, Phase 20E |
+| 22A   | Test Harness & Fixtures                     | Phase 14A                                            |
+| 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A    |
+| 23    | Full E2E Playwright & Demo Video            | Phase 22B                                            |
 
 ## Brutal Scope Rules
 

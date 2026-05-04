@@ -2,20 +2,20 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 20D (Evaluation Persistence & CI Hardening)
+Current phase: Phase 20E (Evaluation Migration Finalization)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 20D — Evaluation Persistence & CI Hardening (2026-05-04)
-Status: In Progress — Prisma schema updated, service upserted, contracts hardened, phase20c strict fixed, phase20d harness created, integration tests added, CI wired
+Phase: Phase 20E (Evaluation Migration Finalization) (2026-05-04)
+Status: Complete — explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization)
 
 **v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion)
 
@@ -369,9 +369,9 @@ All 7 Phase 20 correctness blockers fixed. Commit: `fix(evaluation): harden dete
 - `computeInputHash` aligned to new signature (includes `algorithmVersion`, sorts by `id`).
 - `algorithmVersion` explicitly set to `eval-v1-iou-0.5-greedy-class-aware`.
 
-## What Is True After Phase 20D (In Progress)
+## What Is True After Phase 20D (Completed)
 
-Phase 20D adds production-grade persistence and CI wiring to the evaluation subsystem.
+Phase 20D added production-grade persistence and CI wiring to the evaluation subsystem.
 
 **EvaluationReport model (`infra/prisma/schema.prisma`):**
 
@@ -409,8 +409,45 @@ Phase 20D adds production-grade persistence and CI wiring to the evaluation subs
 
 **CI (`.github/workflows/ci.yml`):**
 
-- New `db-harness` job with PostgreSQL service: runs `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`
+- New `db-harness` job with PostgreSQL service: runs `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d` → `harness:phase20e`
 - `build` job now depends on `db-harness` — CI fails if any harness fails
+
+## What Is True After Phase 20E (Completed)
+
+Phase 20E added explicit PostgreSQL migration/backfill discipline, fixed the CI test job schema synchronization, completed Phase 20D artifact closeout, and delivered all Phase 20E artifacts.
+
+**Explicit migration SQL (`infra/prisma/migrations/20260504_evaluation_report_integrity_columns/migration.sql`):**
+
+- Adds 7 new columns as nullable first (zero data loss)
+- Backfills from `metricsJson` with `COALESCE` (preserves existing non-null values)
+- Validates required fields and hash format via `DO` block (fails migration if corrupt rows exist)
+- Adds NOT NULL constraints only after validation passes
+- Creates 5 indexes with `IF NOT EXISTS` (idempotent)
+- Creates unique index on `[inferenceJobId, inputHash]`
+- Clear rollback note included
+
+**Phase 20E harness (`scripts/harness/phase20e-evaluation-migration-check.ts`):**
+
+- 12-point read-only DB check: 7 columns exist, NOT NULL enforced, 5 indexes + unique index, row/JSON consistency, hex format, no duplicates, no placeholders, strict schema parse, nullable optional columns
+
+**Backfill check/apply (`scripts/migrations/backfill-evaluation-report-integrity.ts`):**
+
+- `--check`: dry run, reports consistency issues/invalid hashes/duplicates/missing JSON fields, exits 1 if unsafe
+- `--apply`: executes safe backfill, refuses on corrupt rows, does not recompute hashes or modify `metricsJson`
+
+**CI test job fix (`.github/workflows/ci.yml`):**
+
+- `test` job now runs `pnpm db:generate` and `pnpm db:push` before `pnpm test` — integration tests run against a properly synchronized schema
+
+**CI db-harness extension (`.github/workflows/ci.yml`):**
+
+- Added `pnpm harness:phase20e` to db-harness job
+
+**Phase 20D artifacts:**
+
+- `20D-SUMMARY.md` created
+- `20D-REVIEW.md` created
+- `20D-PLAN.md` status updated to Complete
 
 ## What Is True After Phase 20C (Completed)
 

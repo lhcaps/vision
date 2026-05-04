@@ -33,7 +33,10 @@
     "harness:phase19": "npx tsx scripts/harness/phase19-db-spot-check.ts --strict",
     "harness:phase20": "npx tsx scripts/harness/phase20-db-spot-check.ts --strict",
     "harness:phase20c": "npx tsx scripts/harness/phase20c-evaluation-integrity-check.ts --strict",
-    "harness:phase20d": "npx tsx scripts/harness/phase20d-evaluation-db-index-check.ts --strict"
+    "harness:phase20d": "npx tsx scripts/harness/phase20d-evaluation-db-index-check.ts --strict",
+    "harness:phase20e": "npx tsx scripts/harness/phase20e-evaluation-migration-check.ts --strict",
+    "migration:eval-report:check": "npx tsx scripts/migrations/backfill-evaluation-report-integrity.ts --check",
+    "migration:eval-report:apply": "npx tsx scripts/migrations/backfill-evaluation-report-integrity.ts --apply"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

@@ -83,6 +83,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 20B   | Evaluation Correctness Hardening            | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash                 | ✅ Done      |
 | 20C   | Evaluation Integrity Finalization           | Shared hash module, seed alignment, safe legacy adapter, 12-point harness, README fixed                                               | ✅ Done      |
 | 20D   | Evaluation Persistence & CI Hardening       | DB columns, upsert-by-hash, read consistency, hex regex, strict harness fix, phase20d harness, DB-backed integration tests, CI wiring | ✅ Done      |
+| 20E   | Evaluation Migration Finalization           | Explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout                          | ✅ Done      |
 | 21    | Frontend Split Completion                   | All feature modules, shared components                                                                                                | Planned      |
 | 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                                                             | Planned      |
 | 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                                                                       | Planned      |
@@ -169,6 +170,17 @@ Phase 20D added production-grade persistence and CI wiring:
 - **Phase 20C strict fix:** `--strict` harness exits 1 without `DATABASE_URL`
 - **Phase 20D harness:** 12-point read-only DB check verifying new columns, row/JSON consistency, unique constraint effectiveness, hash format
 - **DB-backed integration tests:** DRAFT reject, annotation leak isolation, upsert dedupe
-- **CI wiring:** `db-harness` job runs `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`; `build` depends on `db-harness`
+- **CI wiring:** `db-harness` job runs `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d` → `harness:phase20e`; `build` depends on `db-harness`
 
-> **Note:** Phase 20B artifacts initially overclaimed seed alignment. Phase 20C later corrected that the seed still used the old lossy hash (toFixed-based) and "seed_placeholder" metricsHash. Phase 20D then added the persistence layer above.
+> **Note:** Phase 20B artifacts initially overclaimed seed alignment. Phase 20C later corrected that the seed still used the old lossy hash (toFixed-based) and "seed_placeholder" metricsHash. Phase 20D then added the persistence layer. Phase 20E added explicit migration SQL, backfill scripts, CI fixes, and artifact closeout.
+
+### Phase 20E Key Outcomes (Evaluation Migration Finalization)
+
+Phase 20E added explicit migration/backfill discipline and completed Phase 20D artifact closeout:
+
+- **Migration SQL:** `infra/prisma/migrations/20260504_evaluation_report_integrity_columns/migration.sql` — safe backfill with COALESCE, validation DO block, idempotent indexes
+- **Phase 20E harness:** 12-point read-only DB check via `information_schema` — all 7 columns, NOT NULL, indexes, unique constraint, row/JSON consistency, hex format
+- **Backfill scripts:** `--check` (dry run, no mutations) and `--apply` (safe backfill only, refuses on corrupt rows)
+- **CI test job fix:** `test` job now runs `db:generate` + `db:push` before `pnpm test` — integration tests run against synchronized schema
+- **CI db-harness extension:** Added `harness:phase20e`
+- **Phase 20D artifacts:** `20D-SUMMARY.md` and `20D-REVIEW.md` created, `20D-PLAN.md` status updated to Complete
