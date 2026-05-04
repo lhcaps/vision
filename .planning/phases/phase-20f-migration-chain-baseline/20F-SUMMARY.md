@@ -15,7 +15,7 @@ Phase 20F closes the final migration-discipline gap in Phase 20 by adding a full
 `infra/prisma/migrations/00000000000000_init/migration.sql`:
 
 - Generated via `pnpm exec prisma migrate diff --from-empty --to-schema-datamodel infra/prisma/schema.prisma --script`
-- Contains all 8 enum `CREATE TYPE` statements
+- Contains all 12 enum `CREATE TYPE` statements (AssetType, AssetDerivativeType, MediaProcessingJobType, MediaProcessingJobStatus, DatasetVersionStatus, DatasetSplit, LabelType, AnnotationSetStatus, AnnotationSource, ModelType, ModelRuntime, InferenceJobStatus)
 - Contains all 16 model `CREATE TABLE` statements (Project, MediaAsset, AssetDerivative, MediaProcessingJob, Dataset, DatasetVersion, DatasetVersionAsset, LabelClass, AnnotationSet, Annotation, ModelArtifact, Pipeline, InferenceJob, Prediction, EvaluationReport, AuditLog)
 - All foreign keys, indexes, unique constraints
 - EvaluationReport created with all 7 integrity columns as NOT NULL

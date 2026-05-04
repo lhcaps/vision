@@ -391,17 +391,13 @@ async function main() {
 
     // ── Check 10: Latest report passes strict schema parse ────────────────────
     {
-      if (allRows.length > 0) {
-        const latestRow = allRows.reduce((latest, row) => {
-          const latestCreatedAt =
-            (latest as unknown as { createdAt: Date }).createdAt ?? new Date(0);
-          const rowCreatedAt = (row as unknown as { createdAt: Date }).createdAt ?? new Date(0);
-          return rowCreatedAt > latestCreatedAt ? row : latest;
-        });
+      const latestRows = await prisma.$queryRawUnsafe<
+        Array<{ metricsJson: Record<string, unknown> }>
+      >('SELECT "metricsJson" FROM "EvaluationReport" ORDER BY "createdAt" DESC LIMIT 1');
+      if (latestRows.length > 0) {
+        const latestMetrics = latestRows[0].metricsJson;
         const { EvaluationReportSchema } = await import('@visionflow/contracts');
-        const parseResult = EvaluationReportSchema.safeParse(
-          (latestRow as unknown as { metricsJson: Record<string, unknown> }).metricsJson
-        );
+        const parseResult = EvaluationReportSchema.safeParse(latestMetrics);
 
         const passed = parseResult.success;
         results.push({

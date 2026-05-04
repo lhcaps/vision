@@ -1018,7 +1018,7 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 8. ✅ STATE/ROADMAP/MILESTONES updated
 9. ✅ README updated
 
-## Phase 20F, Migration Chain Baseline & Backfill Hardening — In Progress
+## Phase 20F, Migration Chain Baseline & Backfill Hardening — Done
 
 **Goal:** Close the final migration-discipline gap by adding a full baseline migration chain for the entire Prisma schema, proving `prisma migrate deploy` works from a fresh database, hardening the backfill script classification logic, and fixing Phase 20E harness issues.
 

@@ -2,24 +2,22 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 20F (Migration Chain Baseline & Backfill Hardening)
+Current phase: Phase 21 (Frontend Feature Split Completion)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 20F (Migration Chain Baseline & Backfill Hardening) (2026-05-04)
-Status: In progress — baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness
+Phase: Phase 21 (Frontend Feature Split Completion) (2026-05-04)
+Status: Pending — Feature split completion
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization), Phase 20F (Migration Chain Baseline & Backfill Hardening)
 
 **v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion)
-
-**Phase 20E Complete:** Phase 20E (Evaluation Migration Finalization) ✅ Done (2026-05-04)
 
 - Phase 13 (Security) ✅ Done
 - Phase 14A (Adapter boundary) ✅ Done
@@ -32,6 +30,11 @@ Status: In progress — baseline migration, migrate deploy, migration-chain CI j
 - Phase 18 (Dataset lock & COCO export) completed — lock invariants, annotation immutability, deterministic COCO export, real image dimensions persisted
 - Phase 19 (Real ONNX inference) ✅ FULL PASS 10/10 — YOLOv8n ONNX executed end-to-end, predictions persisted with full traceability, SHA-256 pinned, 8/8 DET criteria passed, ONNX real-object smoke (4 predictions), CI fixed
 - Phase 20 (Evaluation E2E) ✅ FULL PASS 10/10 — Deterministic IoU matching in TypeScript, persisted evaluation reports with traceability (jobId/datasetVersionId/pipelineId/modelId/inputHash/metricsHash), per-class metrics for car/van/truck, label mapping from labelClassId or metadata.cocoLabel, 21 algorithm unit tests, Phase 19 harness still passes
+- Phase 20B ✅ FULL PASS 10/10 — 7 correctness bugs fixed, 10 new algorithm tests, typecheck/test/build/lint/format all pass.
+- Phase 20C ✅ FULL PASS 10/10 — Corrected seed hash alignment, shared evaluation-hash module, legacy adapter, 30 new unit tests.
+- Phase 20D ✅ FULL PASS 10/10 — EvaluationReport schema with 7 integrity columns, unique upsert index, read-consistency check, 12-point DB harness, integration tests.
+- Phase 20E ✅ FULL PASS 10/10 — Explicit migration SQL with safe backfill, backfill check/apply scripts, Phase 20E harness, CI test job schema sync fix.
+- Phase 20F ✅ FULL PASS 10/10 — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness.
 - Phase 21 (Frontend split completion) pending
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending
@@ -116,7 +119,7 @@ Status: In progress — baseline migration, migrate deploy, migration-chain CI j
 ## Active Goals
 
 - Execute Phase 21: Frontend Feature Split Completion.
-- Phase 20B ✅ COMPLETE — 7 correctness bugs fixed, 10 new algorithm tests, typecheck/test/build/lint/format all pass.
+- Phase 20F ✅ COMPLETE — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness, all 11 checks pass.
 
 ## Known Partial Areas (v1.1 Focus)
 
