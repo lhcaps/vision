@@ -28,11 +28,13 @@ test('nav links work', async ({ page }) => {
 
 ```typescript
 test('shows mock data', async ({ page }) => {
-  await page.route('**/api/users', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify([{ id: 1, name: 'John' }]),
-  }));
+  await page.route('**/api/users', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([{ id: 1, name: 'John' }]),
+    })
+  );
   await page.goto('/users');
   await expect(page.getByText('John')).toBeVisible();
 });
@@ -102,13 +104,13 @@ export const test = base.extend<{ loginAs: (role: string) => Promise<void> }>({
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| Test flaky | Use `page.waitForLoadState('networkidle')` after clicks |
-| Element not found | Use `page.waitForSelector()` instead of immediate query |
-| Screenshot mismatch | Update with `npx playwright test --update-snapshots` |
-| Slow CI | Use `fullyParallel: true` and `retries: 1` |
-| Memory issues | Use `workers: 4` instead of `workers: undefined` |
+| Problem             | Solution                                                |
+| ------------------- | ------------------------------------------------------- |
+| Test flaky          | Use `page.waitForLoadState('networkidle')` after clicks |
+| Element not found   | Use `page.waitForSelector()` instead of immediate query |
+| Screenshot mismatch | Update with `npx playwright test --update-snapshots`    |
+| Slow CI             | Use `fullyParallel: true` and `retries: 1`              |
+| Memory issues       | Use `workers: 4` instead of `workers: undefined`        |
 
 ## Best Practices Summary
 

@@ -1,10 +1,4 @@
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { createLogger, getCurrentRequestId } from '../logging/structured-logger';
 
@@ -43,7 +37,7 @@ export class GlobalErrorFilter implements ExceptionFilter {
     } else if (exception instanceof Error) {
       logger.error(
         { requestId, stack: exception.stack, name: exception.name },
-        `Unhandled exception: ${exception.message}`,
+        `Unhandled exception: ${exception.message}`
       );
       message = 'An unexpected error occurred.';
     }

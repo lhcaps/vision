@@ -79,21 +79,26 @@ curl http://localhost:3000/api/health  # includes queue worker status
 ## Common Failure Patterns
 
 ### Stale seed data
+
 Dataset version IDs in seed don't match what frontend requests.
 Fix: `pnpm seed:db -- --reset`
 
 ### QUEUED jobs stuck forever
+
 No queue worker running, or worker crashed.
 Fix: Start queue worker + `pnpm seed:db -- --reset` to clean job table.
 
 ### Annotation workspace 404
+
 Asset ID not in seed data, or dataset version mismatch.
 Fix: Verify assetId in seed-db.ts, verify dataset version matches.
 
 ### API disconnected in browser
+
 Backend not running, CORS misconfigured, or wrong port.
 Fix: `pnpm dev`, check `apps/api/src/main.ts` CORS config.
 
 ### Progress stream disconnected
+
 MinIO not running, or PRESIGNED_URL expired.
 Fix: `docker ps` for MinIO, check MinIO credentials in .env.

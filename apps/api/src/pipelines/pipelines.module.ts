@@ -3,7 +3,10 @@ import { PipelinesController } from './pipelines.controller';
 import { PipelinesService } from './pipelines.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { isDatabaseMode } from '../config/app-mode';
-import { PrismaPipelineRepository, MemoryPipelineRepository } from '../repositories/pipeline.repository.impl';
+import {
+  PrismaPipelineRepository,
+  MemoryPipelineRepository,
+} from '../repositories/pipeline.repository.impl';
 import { PIPELINE_REPOSITORY } from '../config/provider-tokens';
 
 const useDatabase = isDatabaseMode();

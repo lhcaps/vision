@@ -8,9 +8,7 @@
   "baseline_dir": "baseline",
   "runs_dir": "runs",
   "tasks_file": "tasks.json",
-    "required_files": [
-      "AGENTS.md"
-    ],
+  "required_files": ["AGENTS.md"],
   "allowed_write_paths": [
     "AGENTS.md",
     "baseline",

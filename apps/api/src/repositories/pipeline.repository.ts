@@ -7,7 +7,10 @@ import {
 
 export interface PipelineRepository {
   listByProject(projectId: string): Promise<PipelineSummary[]>;
-  findById(projectId: string, pipelineId: string): Promise<(PipelineSummary & { definition: unknown }) | null>;
+  findById(
+    projectId: string,
+    pipelineId: string
+  ): Promise<(PipelineSummary & { definition: unknown }) | null>;
   create(args: {
     projectId: string;
     dto: CreatePipelineRequest;

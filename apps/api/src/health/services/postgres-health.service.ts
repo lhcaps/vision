@@ -12,7 +12,7 @@ export class PostgresHealthService {
       await Promise.race([
         this.prisma.$queryRaw`SELECT 1`,
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), timeoutMs),
+          setTimeout(() => reject(new Error('Timeout')), timeoutMs)
         ),
       ]);
       return { status: 'up', responseTimeMs: Date.now() - start };

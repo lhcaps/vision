@@ -1,4 +1,5 @@
 # Vision Cursor Agent Baseline (GEMINI.md placeholder)
+
 # This mirrors Gemini's conventions for cross-tool compatibility
 
 - Read AGENTS.md first before editing any file.

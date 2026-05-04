@@ -104,10 +104,12 @@ const context = await browser.newContext({
 ### Network Interception
 
 ```typescript
-await page.route('**/api/**', route => route.fulfill({
-  status: 200,
-  body: JSON.stringify({ mock: true }),
-}));
+await page.route('**/api/**', (route) =>
+  route.fulfill({
+    status: 200,
+    body: JSON.stringify({ mock: true }),
+  })
+);
 ```
 
 ## Configuration (playwright.config.ts)
@@ -139,6 +141,7 @@ export default defineConfig({
 ## When to Use This Skill
 
 Activate when user mentions:
+
 - Testing or test automation
 - E2E / end-to-end testing
 - Browser automation

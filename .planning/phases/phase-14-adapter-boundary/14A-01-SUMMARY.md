@@ -16,6 +16,7 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 ## Key Files Created
 
 ### Domain Layer (`apps/api/src/domain/`)
+
 - `errors.ts` — Base `DomainError` class with `code` and `context` properties
   - `InferenceJobTransitionError` — thrown for invalid job state transitions
   - `ProgressRewindError` — thrown for invalid progress rewinds
@@ -30,6 +31,7 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 - `index.ts` — Barrel export for domain layer
 
 ### Repository Interfaces (`apps/api/src/repositories/`)
+
 - `index.ts` — Repository interface definitions:
   - `MediaRepository` — media upload, listing, and retrieval
   - `StorageRepository` — object storage operations
@@ -43,6 +45,7 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
   - `AuditLogger` — audit event logging
 
 ### Configuration (`apps/api/src/config/`)
+
 - `app-mode.ts` — App mode detection:
   - `AppMode` type (`'production' | 'demo'`)
   - `detectMode()` — environment-based mode detection
@@ -50,9 +53,11 @@ Created the core domain layer for VisionFlow Studio as the foundation for Phase 
 - `index.ts` — Barrel export for config
 
 ### Tests (`apps/api/src/domain/`)
+
 - `inference-job-state-machine.spec.ts` — Comprehensive test coverage
 
 ### Refactored
+
 - `inference/inference.service.ts` — Now uses domain state machine instead of contracts helpers
 
 ## Key Decisions

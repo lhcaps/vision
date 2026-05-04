@@ -21,6 +21,7 @@ Reduce risk before real worker and detector phases by extracting the highest-cha
 ### Shared API Boundary
 
 Established a canonical shared API boundary at `shared/api/client.ts`:
+
 - `API_BASE_URL` — single source of truth for API base URL
 - `apiJson` — typed JSON fetch with no-cache headers
 - `apiUpload` — FormData upload without hardcoded Content-Type
@@ -81,12 +82,12 @@ Established a canonical shared API boundary at `shared/api/client.ts`:
 
 No blockers prevent starting Phase 17. The following P0 issues are correctly scoped as Phase 17 deliverables:
 
-| P0 | Description | Location |
-| --- | --- | --- |
-| P0-1 | CV worker returns `mock_thumbnailer`/`mock_frame_extractor`, not real Pillow/OpenCV output | `apps/cv-worker/src/main.py` |
-| P0-2 | No `minio`, `boto3`, `opencv-python-headless`, or video stack in `requirements.txt` | `apps/cv-worker/requirements.txt` |
-| P0-3 | No BullMQ consumer for `media-processing` queue | `apps/api/src/` |
-| P0-4 | `AssetDerivative` missing `checksum` field | `infra/prisma/schema.prisma` |
+| P0   | Description                                                                                | Location                          |
+| ---- | ------------------------------------------------------------------------------------------ | --------------------------------- |
+| P0-1 | CV worker returns `mock_thumbnailer`/`mock_frame_extractor`, not real Pillow/OpenCV output | `apps/cv-worker/src/main.py`      |
+| P0-2 | No `minio`, `boto3`, `opencv-python-headless`, or video stack in `requirements.txt`        | `apps/cv-worker/requirements.txt` |
+| P0-3 | No BullMQ consumer for `media-processing` queue                                            | `apps/api/src/`                   |
+| P0-4 | `AssetDerivative` missing `checksum` field                                                 | `infra/prisma/schema.prisma`      |
 
 See `16A-PLAN.md` Phase 17 Pre-flight section for full detail.
 
@@ -94,22 +95,24 @@ See `16A-PLAN.md` Phase 17 Pre-flight section for full detail.
 
 ## Verification Evidence
 
-| Check | Result |
-| --- | --- |
-| `pnpm --filter @visionflow/web typecheck` | Pass |
-| `pnpm --filter @visionflow/web test` | Pass (63 tests) |
-| `pnpm lint` | Pass |
-| `pnpm format:check` | Pass |
-| `pnpm build` | Pass |
-| No circular dependencies | Verified |
-| No behavior regression | Verified |
+| Check                                     | Result          |
+| ----------------------------------------- | --------------- |
+| `pnpm --filter @visionflow/web typecheck` | Pass            |
+| `pnpm --filter @visionflow/web test`      | Pass (63 tests) |
+| `pnpm lint`                               | Pass            |
+| `pnpm format:check`                       | Pass            |
+| `pnpm build`                              | Pass            |
+| No circular dependencies                  | Verified        |
+| No behavior regression                    | Verified        |
 
 Commit verified:
+
 ```
 95d52bc refactor(web): split media and inference frontend modules
 ```
 
 Changed files:
+
 - `shared/api/client.ts` — new
 - `shared/api/index.ts` — new
 - `features/media/media.types.ts` — new
@@ -127,15 +130,15 @@ Changed files:
 
 ## Key Files
 
-| File | Role |
-| --- | --- |
-| `apps/web/src/shared/api/client.ts` | Canonical API boundary |
-| `apps/web/src/shared/api/index.ts` | Barrel export |
-| `apps/web/src/features/media/media.api.ts` | Media API functions |
-| `apps/web/src/features/media/media.types.ts` | Media types |
-| `apps/web/src/features/inference/inference.api.ts` | Inference API functions + SSE |
-| `apps/web/src/features/inference/inference.types.ts` | Inference types |
-| `apps/web/src/lib/http.ts` | Backward-compatible re-export |
-| `apps/web/src/lib/media-upload.ts` | Backward-compatible delegation |
-| `apps/web/src/lib/inference.ts` | Backward-compatible re-export |
-| `apps/web/src/App.tsx` | Composes feature modules |
+| File                                                 | Role                           |
+| ---------------------------------------------------- | ------------------------------ |
+| `apps/web/src/shared/api/client.ts`                  | Canonical API boundary         |
+| `apps/web/src/shared/api/index.ts`                   | Barrel export                  |
+| `apps/web/src/features/media/media.api.ts`           | Media API functions            |
+| `apps/web/src/features/media/media.types.ts`         | Media types                    |
+| `apps/web/src/features/inference/inference.api.ts`   | Inference API functions + SSE  |
+| `apps/web/src/features/inference/inference.types.ts` | Inference types                |
+| `apps/web/src/lib/http.ts`                           | Backward-compatible re-export  |
+| `apps/web/src/lib/media-upload.ts`                   | Backward-compatible delegation |
+| `apps/web/src/lib/inference.ts`                      | Backward-compatible re-export  |
+| `apps/web/src/App.tsx`                               | Composes feature modules       |

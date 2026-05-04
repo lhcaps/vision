@@ -26,8 +26,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // PID file in the project root so both the server and agent can find it
 // predictably (os.tmpdir() varies across platforms).
 const LIVE_PID_FILE = path.join(process.cwd(), '.impeccable-live.json');
-const DEFAULT_POLL_TIMEOUT = 600_000;   // 10 min — agent re-polls on timeout anyway
-const SSE_HEARTBEAT_INTERVAL = 30_000;  // keepalive ping every 30s
+const DEFAULT_POLL_TIMEOUT = 600_000; // 10 min — agent re-polls on timeout anyway
+const SSE_HEARTBEAT_INTERVAL = 30_000; // keepalive ping every 30s
 
 // ---------------------------------------------------------------------------
 // Port detection
@@ -51,11 +51,11 @@ async function findOpenPort(start = 8400) {
 const state = {
   token: null,
   port: null,
-  sseClients: new Set(),   // SSE response objects (server→browser push)
-  pendingEvents: [],        // browser events waiting for agent poll
-  pendingPolls: [],         // agent poll callbacks waiting for browser events
+  sseClients: new Set(), // SSE response objects (server→browser push)
+  pendingEvents: [], // browser events waiting for agent poll
+  pendingPolls: [], // agent poll callbacks waiting for browser events
   exitTimer: null,
-  sessionDir: null,         // per-session tmp dir for annotation screenshots
+  sessionDir: null, // per-session tmp dir for annotation screenshots
 };
 
 // Cap per-annotation upload size. A full 1920×1080 PNG is typically <1 MB;
@@ -74,7 +74,11 @@ function enqueueEvent(event) {
 function broadcast(msg) {
   const data = 'data: ' + JSON.stringify(msg) + '\n\n';
   for (const res of state.sseClients) {
-    try { res.write(data); } catch { /* client gone */ }
+    try {
+      res.write(data);
+    } catch {
+      /* client gone */
+    }
   }
 }
 
@@ -92,7 +96,12 @@ function loadBrowserScripts() {
   ];
   let detectScript = '';
   for (const p of detectPaths) {
-    try { detectScript = fs.readFileSync(p, 'utf-8'); break; } catch { /* try next */ }
+    try {
+      detectScript = fs.readFileSync(p, 'utf-8');
+      break;
+    } catch {
+      /* try next */
+    }
   }
 
   // live-browser.js: DO NOT cache. Return the path so the /live.js handler
@@ -115,11 +124,17 @@ function hasProjectContext() {
   try {
     fs.accessSync(path.join(process.cwd(), 'PRODUCT.md'), fs.constants.R_OK);
     return true;
-  } catch { return false; }
+  } catch {
+    return false;
+  }
 }
 
 function statOrNull(filePath) {
-  try { return fs.statSync(filePath); } catch { return null; }
+  try {
+    return fs.statSync(filePath);
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -127,8 +142,18 @@ function statOrNull(filePath) {
 // ---------------------------------------------------------------------------
 
 const VISUAL_ACTIONS = [
-  'impeccable', 'bolder', 'quieter', 'distill', 'polish', 'typeset',
-  'colorize', 'layout', 'adapt', 'animate', 'delight', 'overdrive',
+  'impeccable',
+  'bolder',
+  'quieter',
+  'distill',
+  'polish',
+  'typeset',
+  'colorize',
+  'layout',
+  'adapt',
+  'animate',
+  'delight',
+  'overdrive',
 ];
 
 function validateEvent(msg) {
@@ -137,18 +162,26 @@ function validateEvent(msg) {
     case 'generate':
       if (!msg.id || typeof msg.id !== 'string') return 'generate: missing id';
       if (!msg.action || !VISUAL_ACTIONS.includes(msg.action)) return 'generate: invalid action';
-      if (!Number.isInteger(msg.count) || msg.count < 1 || msg.count > 8) return 'generate: count must be 1-8';
+      if (!Number.isInteger(msg.count) || msg.count < 1 || msg.count > 8)
+        return 'generate: count must be 1-8';
       if (!msg.element || !msg.element.outerHTML) return 'generate: missing element context';
       // Optional annotation fields (all-or-nothing: if any present, all must be well-formed).
-      if (msg.screenshotPath !== undefined && typeof msg.screenshotPath !== 'string') return 'generate: screenshotPath must be string';
-      if (msg.comments !== undefined && !Array.isArray(msg.comments)) return 'generate: comments must be array';
-      if (msg.strokes !== undefined && !Array.isArray(msg.strokes)) return 'generate: strokes must be array';
+      if (msg.screenshotPath !== undefined && typeof msg.screenshotPath !== 'string')
+        return 'generate: screenshotPath must be string';
+      if (msg.comments !== undefined && !Array.isArray(msg.comments))
+        return 'generate: comments must be array';
+      if (msg.strokes !== undefined && !Array.isArray(msg.strokes))
+        return 'generate: strokes must be array';
       return null;
     case 'accept':
       if (!msg.id) return 'accept: missing id';
       if (!msg.variantId) return 'accept: missing variantId';
       if (msg.paramValues !== undefined) {
-        if (typeof msg.paramValues !== 'object' || msg.paramValues === null || Array.isArray(msg.paramValues)) {
+        if (
+          typeof msg.paramValues !== 'object' ||
+          msg.paramValues === null ||
+          Array.isArray(msg.paramValues)
+        ) {
           return 'accept: paramValues must be an object';
         }
       }
@@ -175,7 +208,11 @@ function createRequestHandler({ detectScript, livePath }) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
 
     const p = url.pathname;
 
@@ -200,13 +237,17 @@ function createRequestHandler({ detectScript, livePath }) {
       res.writeHead(200, {
         'Content-Type': 'application/javascript',
         'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-        'Pragma': 'no-cache',
+        Pragma: 'no-cache',
       });
       res.end(body);
       return;
     }
     if (p === '/detect.js' || p === '/') {
-      if (!detectScript) { res.writeHead(404); res.end('Not available'); return; }
+      if (!detectScript) {
+        res.writeHead(404);
+        res.end('Not available');
+        return;
+      }
       res.writeHead(200, { 'Content-Type': 'application/javascript' });
       res.end(detectScript);
       return;
@@ -224,7 +265,8 @@ function createRequestHandler({ detectScript, livePath }) {
         });
         res.end(fs.readFileSync(vendorPath));
       } catch {
-        res.writeHead(404); res.end('Vendor script not found');
+        res.writeHead(404);
+        res.end('Vendor script not found');
       }
       return;
     }
@@ -235,7 +277,11 @@ function createRequestHandler({ detectScript, livePath }) {
     // bridge and preserves the "one shot from the user's POV" UX.
     if (p === '/annotation' && req.method === 'POST') {
       const token = url.searchParams.get('token');
-      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
+      if (token !== state.token) {
+        res.writeHead(401);
+        res.end('Unauthorized');
+        return;
+      }
       const eventId = url.searchParams.get('eventId');
       if (!eventId || !/^[A-Za-z0-9_-]{1,64}$/.test(eventId)) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -292,11 +338,15 @@ function createRequestHandler({ detectScript, livePath }) {
     // --- Health ---
     if (p === '/health') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({
-        status: 'ok', port: state.port, mode: 'variant',
-        hasProjectContext: hasProjectContext(),
-        connectedClients: state.sseClients.size,
-      }));
+      res.end(
+        JSON.stringify({
+          status: 'ok',
+          port: state.port,
+          mode: 'variant',
+          hasProjectContext: hasProjectContext(),
+          connectedClients: state.sseClients.size,
+        })
+      );
       return;
     }
 
@@ -313,7 +363,11 @@ function createRequestHandler({ detectScript, livePath }) {
     //   /design-system/raw     returns DESIGN.md markdown verbatim
     if (p === '/design-system.json' || p === '/design-system/raw') {
       const token = url.searchParams.get('token');
-      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
+      if (token !== state.token) {
+        res.writeHead(401);
+        res.end('Unauthorized');
+        return;
+      }
 
       const mdPath = path.join(process.cwd(), 'DESIGN.md');
       const jsonPath = path.join(process.cwd(), 'DESIGN.json');
@@ -321,7 +375,11 @@ function createRequestHandler({ detectScript, livePath }) {
       const jsonStat = statOrNull(jsonPath);
 
       if (p === '/design-system/raw') {
-        if (!mdStat) { res.writeHead(404); res.end('Not found'); return; }
+        if (!mdStat) {
+          res.writeHead(404);
+          res.end('Not found');
+          return;
+        }
         res.writeHead(200, { 'Content-Type': 'text/markdown; charset=utf-8' });
         res.end(fs.readFileSync(mdPath, 'utf-8'));
         return;
@@ -364,14 +422,31 @@ function createRequestHandler({ detectScript, livePath }) {
     // --- Source file (no-HMR fallback) ---
     if (p === '/source') {
       const token = url.searchParams.get('token');
-      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
+      if (token !== state.token) {
+        res.writeHead(401);
+        res.end('Unauthorized');
+        return;
+      }
       const filePath = url.searchParams.get('path');
-      if (!filePath || filePath.includes('..')) { res.writeHead(400); res.end('Bad path'); return; }
+      if (!filePath || filePath.includes('..')) {
+        res.writeHead(400);
+        res.end('Bad path');
+        return;
+      }
       const absPath = path.resolve(process.cwd(), filePath);
-      if (!absPath.startsWith(process.cwd())) { res.writeHead(403); res.end('Forbidden'); return; }
+      if (!absPath.startsWith(process.cwd())) {
+        res.writeHead(403);
+        res.end('Forbidden');
+        return;
+      }
       let content;
-      try { content = fs.readFileSync(absPath, 'utf-8'); }
-      catch { res.writeHead(404); res.end('File not found'); return; }
+      try {
+        content = fs.readFileSync(absPath, 'utf-8');
+      } catch {
+        res.writeHead(404);
+        res.end('File not found');
+        return;
+      }
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end(content);
       return;
@@ -380,23 +455,35 @@ function createRequestHandler({ detectScript, livePath }) {
     // --- SSE: server→browser push (replaces WebSocket) ---
     if (p === '/events' && req.method === 'GET') {
       const token = url.searchParams.get('token');
-      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
+      if (token !== state.token) {
+        res.writeHead(401);
+        res.end('Unauthorized');
+        return;
+      }
       res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
+        Connection: 'keep-alive',
       });
-      res.write('data: ' + JSON.stringify({
-        type: 'connected',
-        hasProjectContext: hasProjectContext(),
-      }) + '\n\n');
+      res.write(
+        'data: ' +
+          JSON.stringify({
+            type: 'connected',
+            hasProjectContext: hasProjectContext(),
+          }) +
+          '\n\n'
+      );
 
       state.sseClients.add(res);
       clearTimeout(state.exitTimer);
 
       // Keepalive: SSE comment every 30s prevents silent connection drops.
       const heartbeat = setInterval(() => {
-        try { res.write(': keepalive\n\n'); } catch { clearInterval(heartbeat); }
+        try {
+          res.write(': keepalive\n\n');
+        } catch {
+          clearInterval(heartbeat);
+        }
       }, SSE_HEARTBEAT_INTERVAL);
 
       req.on('close', () => {
@@ -415,10 +502,14 @@ function createRequestHandler({ detectScript, livePath }) {
     // --- Browser→server events (replaces WebSocket messages) ---
     if (p === '/events' && req.method === 'POST') {
       let body = '';
-      req.on('data', (c) => { body += c; });
+      req.on('data', (c) => {
+        body += c;
+      });
       req.on('end', () => {
         let msg;
-        try { msg = JSON.parse(body); } catch {
+        try {
+          msg = JSON.parse(body);
+        } catch {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Invalid JSON' }));
           return;
@@ -444,7 +535,11 @@ function createRequestHandler({ detectScript, livePath }) {
     // --- Stop ---
     if (p === '/stop') {
       const token = url.searchParams.get('token');
-      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
+      if (token !== state.token) {
+        res.writeHead(401);
+        res.end('Unauthorized');
+        return;
+      }
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.end('stopping');
       shutdown();
@@ -461,7 +556,8 @@ function createRequestHandler({ detectScript, livePath }) {
       return;
     }
 
-    res.writeHead(404); res.end('Not found');
+    res.writeHead(404);
+    res.end('Not found');
   };
 }
 
@@ -503,10 +599,14 @@ function handlePollGet(req, res, url) {
 
 function handlePollPost(req, res) {
   let body = '';
-  req.on('data', (c) => { body += c; });
+  req.on('data', (c) => {
+    body += c;
+  });
   req.on('end', () => {
     let msg;
-    try { msg = JSON.parse(body); } catch {
+    try {
+      msg = JSON.parse(body);
+    } catch {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Invalid JSON' }));
       return;
@@ -517,7 +617,13 @@ function handlePollPost(req, res) {
       return;
     }
     // Forward the reply to the browser via SSE
-    broadcast({ type: msg.type || 'done', id: msg.id, message: msg.message, file: msg.file, data: msg.data });
+    broadcast({
+      type: msg.type || 'done',
+      id: msg.id,
+      message: msg.message,
+      file: msg.file,
+      data: msg.data,
+    });
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ ok: true }));
   });
@@ -530,11 +636,19 @@ function handlePollPost(req, res) {
 let httpServer = null;
 
 function shutdown() {
-  try { fs.unlinkSync(LIVE_PID_FILE); } catch {}
+  try {
+    fs.unlinkSync(LIVE_PID_FILE);
+  } catch {}
   if (state.sessionDir) {
-    try { fs.rmSync(state.sessionDir, { recursive: true, force: true }); } catch {}
+    try {
+      fs.rmSync(state.sessionDir, { recursive: true, force: true });
+    } catch {}
   }
-  for (const res of state.sseClients) { try { res.end(); } catch {} }
+  for (const res of state.sseClients) {
+    try {
+      res.end();
+    } catch {}
+  }
   state.sseClients.clear();
   for (const resolve of state.pendingPolls) resolve({ type: 'exit' });
   state.pendingPolls.length = 0;
@@ -604,10 +718,11 @@ if (args.includes('stop')) {
         }
       }
     } catch (err) {
-      const detail = err.stderr?.toString?.().trim?.()
-        || err.stdout?.toString?.().trim?.()
-        || err.message
-        || String(err);
+      const detail =
+        err.stderr?.toString?.().trim?.() ||
+        err.stdout?.toString?.().trim?.() ||
+        err.message ||
+        String(err);
       console.warn(`Note: could not remove live script tag (${detail.split('\n')[0]})`);
     }
   }
@@ -618,7 +733,7 @@ if (args.includes('stop')) {
 // print the connection JSON, then exit.  This keeps the startup command
 // simple (no shell backgrounding or chained commands).
 if (args.includes('--background')) {
-  const childArgs = args.filter(a => a !== '--background');
+  const childArgs = args.filter((a) => a !== '--background');
   const child = spawn(process.execPath, [fileURLToPath(import.meta.url), ...childArgs], {
     detached: true,
     stdio: 'ignore',
@@ -636,8 +751,10 @@ if (args.includes('--background')) {
         console.log(JSON.stringify(info));
         process.exit(0);
       }
-    } catch { /* not ready yet */ }
-    await new Promise(r => setTimeout(r, 200));
+    } catch {
+      /* not ready yet */
+    }
+    await new Promise((r) => setTimeout(r, 200));
   }
   console.error('Timed out waiting for live server to start.');
   process.exit(1);
@@ -646,15 +763,20 @@ if (args.includes('--background')) {
 // Check for existing session
 try {
   const existing = JSON.parse(fs.readFileSync(LIVE_PID_FILE, 'utf-8'));
-  try { process.kill(existing.pid, 0);
+  try {
+    process.kill(existing.pid, 0);
     console.error(`Live server already running on port ${existing.port} (pid ${existing.pid}).`);
-    console.error('Stop it first with: node ' + path.basename(fileURLToPath(import.meta.url)) + ' stop');
+    console.error(
+      'Stop it first with: node ' + path.basename(fileURLToPath(import.meta.url)) + ' stop'
+    );
     process.exit(1);
-  } catch { fs.unlinkSync(LIVE_PID_FILE); }
+  } catch {
+    fs.unlinkSync(LIVE_PID_FILE);
+  }
 } catch {}
 
 state.token = randomUUID();
-const portArg = args.find(a => a.startsWith('--port='));
+const portArg = args.find((a) => a.startsWith('--port='));
 state.port = portArg ? parseInt(portArg.split('=')[1], 10) : await findOpenPort();
 // Annotation screenshots live in the project root so the agent's Read tool
 // doesn't trip a per-file permission prompt. Sessioned by token so concurrent
@@ -667,7 +789,10 @@ const { detectScript, livePath } = loadBrowserScripts();
 httpServer = http.createServer(createRequestHandler({ detectScript, livePath }));
 
 httpServer.listen(state.port, '127.0.0.1', () => {
-  fs.writeFileSync(LIVE_PID_FILE, JSON.stringify({ pid: process.pid, port: state.port, token: state.token }));
+  fs.writeFileSync(
+    LIVE_PID_FILE,
+    JSON.stringify({ pid: process.pid, port: state.port, token: state.token })
+  );
   const url = `http://localhost:${state.port}`;
   console.log(`\nImpeccable live server running on ${url}`);
   console.log(`Token: ${state.token}\n`);

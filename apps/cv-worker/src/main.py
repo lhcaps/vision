@@ -562,17 +562,17 @@ def _resolve_asset_image(storage_key: str) -> Path:
     Since the worker receives the image bytes through the storage client,
     we download to a temp path for inference.
     """
-    from storage import MinIOStorage
+    from storage import read_object
 
-    storage = MinIOStorage()
     try:
-        tmp_dir = Path(os.getenv("CV_WORKER_TMP_DIR", "/tmp/visionflow"))
+        import tempfile as _tempfile
+        tmp_dir = Path(os.getenv("CV_WORKER_TMP_DIR", _tempfile.gettempdir())) / "visionflow"
         tmp_dir.mkdir(parents=True, exist_ok=True)
         filename = Path(storage_key).name
         tmp_path = tmp_dir / f"inference_{filename}"
 
         if not tmp_path.exists():
-            content = storage.read_object(storage_key)
+            content, _ = read_object(storage_key)
             tmp_path.write_bytes(content)
 
         return tmp_path

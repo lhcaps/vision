@@ -81,6 +81,9 @@ export class MediaController {
     @Param('projectId') projectId: string,
     @UploadedFile() file: Express.Multer.File | undefined
   ) {
+    if (!file) {
+      return { statusCode: 400, message: 'Missing file', timestamp: new Date().toISOString() };
+    }
     return MediaUploadResponseSchema.parse(await this.mediaService.upload(projectId, file));
   }
 

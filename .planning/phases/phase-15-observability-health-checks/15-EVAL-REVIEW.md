@@ -22,6 +22,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - `RequestIdInterceptor` (`apps/api/src/common/interceptors/request-id.interceptor.ts`) extracts `x-request-id` from incoming headers or generates a new UUID v4.
 - Response always includes `x-request-id` header via `response.setHeader()`.
 - `AsyncLocalStorage` (`requestContextStorage`) propagates request ID through all async operations.
@@ -38,6 +39,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - `InferenceQueuePayload` (`apps/api/src/inference/inference.service.ts`) includes `correlationId: string`.
 - `createJob()` propagates `getCurrentRequestId() ?? uuidv4()` as the correlation ID.
 - `CvWorkerClient` sends `x-correlation-id` header in all HTTP requests to the CV worker.
@@ -56,27 +58,27 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 
 **Evidence:**
 
-| Log Event | Location | Fields |
-|---|---|---|
-| API bootstrap | `main.ts` | environment, port, logLevel |
-| HTTP request received | `request-logger.middleware.ts` | method, url, statusCode, durationMs, requestId, userAgent |
-| HTTP request completed/failed | `request-logger.middleware.ts` | method, url, statusCode, durationMs, requestId |
-| Global error | `error.interceptor.ts` | requestId, stack, name |
-| Job enqueued | `inference.service.ts` | jobId, correlationId, projectId |
-| Worker started | `inference.service.ts` | jobId, correlationId, assetCount |
-| Dataset assets resolved | `inference.service.ts` | jobId, correlationId, assetCount |
-| Inference job failed | `inference.service.ts` | jobId, correlationId, error |
-| CV worker request | `cv-worker.client.ts` | jobId, correlationId, mode |
-| CV worker response | `cv-worker.client.ts` | jobId, correlationId, statusCode, durationMs |
-| CV worker timeout | `cv-worker.client.ts` | jobId, correlationId, durationMs |
-| CV worker error | `cv-worker.client.ts` | jobId, correlationId, statusCode, durationMs |
-| Pipeline started | `cv-worker/main.py` | job_id, detector_mode, asset_count |
-| Pipeline completed | `cv-worker/main.py` | job_id, predictions_count |
-| Evaluation started/completed | `cv-worker/main.py` | job_id, prediction_count, ground_truth_count, iou_threshold, f1 |
-| Thumbnail started/completed | `cv-worker/main.py` | job_id, source_storage_key, target_storage_key |
-| Frame extraction started/completed | `cv-worker/main.py` | job_id, source_storage_key, frame_count |
-| Prisma warning | `prisma.service.ts` | prismaTags |
-| Prisma error | `prisma.service.ts` | prismaTags |
+| Log Event                          | Location                       | Fields                                                          |
+| ---------------------------------- | ------------------------------ | --------------------------------------------------------------- |
+| API bootstrap                      | `main.ts`                      | environment, port, logLevel                                     |
+| HTTP request received              | `request-logger.middleware.ts` | method, url, statusCode, durationMs, requestId, userAgent       |
+| HTTP request completed/failed      | `request-logger.middleware.ts` | method, url, statusCode, durationMs, requestId                  |
+| Global error                       | `error.interceptor.ts`         | requestId, stack, name                                          |
+| Job enqueued                       | `inference.service.ts`         | jobId, correlationId, projectId                                 |
+| Worker started                     | `inference.service.ts`         | jobId, correlationId, assetCount                                |
+| Dataset assets resolved            | `inference.service.ts`         | jobId, correlationId, assetCount                                |
+| Inference job failed               | `inference.service.ts`         | jobId, correlationId, error                                     |
+| CV worker request                  | `cv-worker.client.ts`          | jobId, correlationId, mode                                      |
+| CV worker response                 | `cv-worker.client.ts`          | jobId, correlationId, statusCode, durationMs                    |
+| CV worker timeout                  | `cv-worker.client.ts`          | jobId, correlationId, durationMs                                |
+| CV worker error                    | `cv-worker.client.ts`          | jobId, correlationId, statusCode, durationMs                    |
+| Pipeline started                   | `cv-worker/main.py`            | job_id, detector_mode, asset_count                              |
+| Pipeline completed                 | `cv-worker/main.py`            | job_id, predictions_count                                       |
+| Evaluation started/completed       | `cv-worker/main.py`            | job_id, prediction_count, ground_truth_count, iou_threshold, f1 |
+| Thumbnail started/completed        | `cv-worker/main.py`            | job_id, source_storage_key, target_storage_key                  |
+| Frame extraction started/completed | `cv-worker/main.py`            | job_id, source_storage_key, frame_count                         |
+| Prisma warning                     | `prisma.service.ts`            | prismaTags                                                      |
+| Prisma error                       | `prisma.service.ts`            | prismaTags                                                      |
 
 **Gap:** "Artifact persisted" and "Prediction persisted" logs are implicit in "Pipeline completed" but could be more explicit. This is acceptable — the key events are covered.
 
@@ -89,6 +91,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - `HealthService.deepCheck()` (`apps/api/src/health/health.service.ts`) runs all four checks in parallel via `Promise.all`.
 - `PostgresHealthService` runs `SELECT 1` via Prisma with 5s timeout.
 - `RedisHealthService` checks Redis configuration environment variables and validates via BullMQ connection note.
@@ -107,6 +110,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - `HealthController.live()` (`apps/api/src/health/health.controller.ts`) returns immediately with `{ status: 'ok', timestamp, uptimeSeconds }`.
 - No dependency checks are performed.
 - `Cache-Control: no-cache, no-store, must-revalidate` header set.
@@ -123,6 +127,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - `HealthService.deepCheck()` evaluates `allUp = [postgres, redis, minio, cvWorker].every(d => d.status === 'up')`.
 - If any dependency is down, throws `ServiceUnavailableException(response)` with HTTP 503.
 - The full response body is included in the 503, giving operators visibility into which dependency failed.
@@ -139,6 +144,7 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 **Status:** ✅ COVERED
 
 **Evidence:**
+
 - README `Health & Observability` section documents:
   - Liveness endpoint with curl example and JSON response
   - Deep health endpoint with curl example and JSON response (including dependency breakdown)
@@ -168,15 +174,15 @@ Phase 15 delivers comprehensive observability infrastructure across the NestJS A
 
 ## Scoring
 
-| Requirement | Status | Notes |
-|---|---|---|
-| OBS-01 | ✅ COVERED | Request ID + AsyncLocalStorage |
-| OBS-02 | ✅ COVERED | Correlation ID through BullMQ + CV Worker |
-| OBS-03 | ✅ COVERED | 17+ distinct log events across both services |
-| OBS-04 | ✅ COVERED | All 4 dependencies checked in parallel |
-| OBS-05 | ✅ COVERED | Lightweight, always 200 |
-| OBS-06 | ✅ COVERED | HTTP 503 with full failure details |
-| OBS-07 | ✅ COVERED | README fully updated |
+| Requirement | Status     | Notes                                        |
+| ----------- | ---------- | -------------------------------------------- |
+| OBS-01      | ✅ COVERED | Request ID + AsyncLocalStorage               |
+| OBS-02      | ✅ COVERED | Correlation ID through BullMQ + CV Worker    |
+| OBS-03      | ✅ COVERED | 17+ distinct log events across both services |
+| OBS-04      | ✅ COVERED | All 4 dependencies checked in parallel       |
+| OBS-05      | ✅ COVERED | Lightweight, always 200                      |
+| OBS-06      | ✅ COVERED | HTTP 503 with full failure details           |
+| OBS-07      | ✅ COVERED | README fully updated                         |
 
 **Total:** 7/7 requirements covered.
 **Code review findings:** 2 critical fixed, 6 warnings addressed, 2 info notes accepted.

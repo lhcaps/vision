@@ -27,10 +27,7 @@ const MARKER_CLOSE_TEXT = 'impeccable-live-end';
  * matching them would silently inject tracking scripts into third-party
  * code. The user cannot turn these off via config — they are the floor.
  */
-const HARD_EXCLUDES = [
-  '**/node_modules/**',
-  '**/.git/**',
-];
+const HARD_EXCLUDES = ['**/node_modules/**', '**/.git/**'];
 
 export async function injectCli() {
   const args = process.argv.slice(2);
@@ -60,13 +57,27 @@ Output (JSON):
     try {
       cfg = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
     } catch (err) {
-      console.log(JSON.stringify({ ok: false, error: 'config_invalid', message: err.message, path: CONFIG_PATH }));
+      console.log(
+        JSON.stringify({
+          ok: false,
+          error: 'config_invalid',
+          message: err.message,
+          path: CONFIG_PATH,
+        })
+      );
       return;
     }
     try {
       validateConfig(cfg);
     } catch (err) {
-      console.log(JSON.stringify({ ok: false, error: 'config_invalid', message: err.message, path: CONFIG_PATH }));
+      console.log(
+        JSON.stringify({
+          ok: false,
+          error: 'config_invalid',
+          message: err.message,
+          path: CONFIG_PATH,
+        })
+      );
       return;
     }
     console.log(JSON.stringify({ ok: true, config: cfg, path: CONFIG_PATH }));
@@ -111,7 +122,12 @@ Output (JSON):
     const content = fs.readFileSync(absFile, 'utf-8');
     const withoutOld = removeTag(content, config.commentSyntax);
     const updated = insertTag(withoutOld, config, port);
-    if (updated === withoutOld) return { file: relFile, error: 'insertion_point_not_found', anchor: config.insertBefore || config.insertAfter };
+    if (updated === withoutOld)
+      return {
+        file: relFile,
+        error: 'insertion_point_not_found',
+        anchor: config.insertBefore || config.insertAfter,
+      };
     fs.writeFileSync(absFile, updated, 'utf-8');
     return { file: relFile, inserted: true };
   });
@@ -236,20 +252,36 @@ function validateConfig(cfg) {
     throw new Error("config.commentSyntax must be 'html' or 'jsx'");
   }
   if (cfg.cspChecked !== undefined && typeof cfg.cspChecked !== 'boolean') {
-    throw new Error("config.cspChecked, if present, must be a boolean");
+    throw new Error('config.cspChecked, if present, must be a boolean');
   }
 }
 
-function commentOpen(syntax) { return syntax === 'jsx' ? '{/*' : '<!--'; }
-function commentClose(syntax) { return syntax === 'jsx' ? '*/}' : '-->'; }
+function commentOpen(syntax) {
+  return syntax === 'jsx' ? '{/*' : '<!--';
+}
+function commentClose(syntax) {
+  return syntax === 'jsx' ? '*/}' : '-->';
+}
 
 function buildTagBlock(syntax, port) {
   const open = commentOpen(syntax);
   const close = commentClose(syntax);
   return (
-    open + ' ' + MARKER_OPEN_TEXT + ' ' + close + '\n' +
-    '<script src="http://localhost:' + port + '/live.js"></script>\n' +
-    open + ' ' + MARKER_CLOSE_TEXT + ' ' + close + '\n'
+    open +
+    ' ' +
+    MARKER_OPEN_TEXT +
+    ' ' +
+    close +
+    '\n' +
+    '<script src="http://localhost:' +
+    port +
+    '/live.js"></script>\n' +
+    open +
+    ' ' +
+    MARKER_CLOSE_TEXT +
+    ' ' +
+    close +
+    '\n'
   );
 }
 
@@ -269,7 +301,8 @@ function insertTag(content, config, port) {
   if (idx === -1) return content;
   const after = idx + config.insertAfter.length;
   // Preserve a single trailing newline if the anchor didn't end with one
-  const prefix = content[after] === '\n' ? content.slice(0, after + 1) : content.slice(0, after) + '\n';
+  const prefix =
+    content[after] === '\n' ? content.slice(0, after + 1) : content.slice(0, after) + '\n';
   return prefix + block + content.slice(prefix.length);
 }
 

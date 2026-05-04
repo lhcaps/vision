@@ -4,10 +4,7 @@
     "type": "file_phrase",
     "path": "AGENTS.md",
     "weight": 1.0,
-    "required_phrases": [
-      "Cursor",
-      "AGENTS.md"
-    ]
+    "required_phrases": ["Cursor", "AGENTS.md"]
   },
   {
     "id": "no-destructive-git",
@@ -25,9 +22,7 @@
     "type": "file_phrase",
     "path": "AGENTS.md",
     "weight": 1.0,
-    "required_phrases": [
-      "Read the repository before editing"
-    ]
+    "required_phrases": ["Read the repository before editing"]
   },
   {
     "id": "typecheck-pass",

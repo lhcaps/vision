@@ -1,9 +1,11 @@
 # Vision Project - Cursor Agent Instructions
+
 # This file guides the Cursor Agent when working on the Vision monorepo
 
 ## Project Overview
 
 Vision is a video annotation and ML inference platform monorepo containing:
+
 - `apps/api` — NestJS backend (TypeScript)
 - `apps/web` — React frontend (TypeScript)
 - `scripts` — Dev helper scripts (PowerShell/Bash)
@@ -44,6 +46,7 @@ curl http://localhost:3000/api/health
 ## Allowed Write Paths
 
 Only modify these files/directories when working within metaharness:
+
 - `AGENTS.md`, `.cursor/rules`, `scripts/start-dev.ps1`, `scripts/start-dev.sh`
 - `scripts/smoke`, `baseline/scripts`, `baseline/smoke`
 - `apps/web/src/features/annotations`, `apps/web/src/shared/state`
@@ -53,6 +56,7 @@ Only modify these files/directories when working within metaharness:
 ## Validation Checklist
 
 Before marking a task as complete, verify:
+
 1. `pnpm typecheck` passes
 2. `pnpm test` passes
 3. `pnpm build` passes (if API changed)

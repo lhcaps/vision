@@ -2,7 +2,12 @@ import pino from 'pino';
 import { hostname } from 'os';
 import { getCurrentRequestId } from './request-context';
 
-export { getCurrentRequestId, getRequestStartTime, withRequestContext, requestContextStorage } from './request-context';
+export {
+  getCurrentRequestId,
+  getRequestStartTime,
+  withRequestContext,
+  requestContextStorage,
+} from './request-context';
 
 export { type RequestContext } from './request-context';
 
@@ -48,7 +53,7 @@ export function createLogger(name: string): pino.Logger {
 
 export function createChildLogger(
   parent: pino.Logger,
-  bindings: Record<string, unknown>,
+  bindings: Record<string, unknown>
 ): pino.Logger {
   return parent.child(bindings);
 }

@@ -24,12 +24,14 @@ The phase introduces comprehensive observability infrastructure including struct
 ## Critical Issues
 
 ### CR-01: CV Worker Health Service — SSRF Vulnerability
+
 **File:** `apps/api/src/health/services/cv-worker-health.service.ts`
 **Lines:** 22–23
 **Severity:** Critical
 **Description:** The `CvWorkerHealthService` fetches health from `this.workerUrl` without validating that the URL is an internal service. `CV_WORKER_URL` is an environment variable that can be set to any HTTP/HTTPS URL by a developer, but if this env var is ever injected from untrusted input (e.g., a config file, a deployment template, or a multi-tenant scenario), an attacker could cause the health check to fetch arbitrary URLs — a Server-Side Request Forgery attack. While this is a local workbench (no multi-tenant risk today), it's a bad pattern that could persist into future deployments.
 
 **Fix:**
+
 ```typescript
 // Add URL allowlist validation
 private static readonly ALLOWED_HOSTS = ['localhost', '127.0.0.1', '::1'];
@@ -64,6 +66,7 @@ async check(timeoutMs = 5000): Promise<DependencyHealthDto> {
 ```
 
 ### CR-02: BullMQ `getRedisClient` Race Condition
+
 **File:** `apps/api/src/queues/job-queue.impl.ts`
 **Lines:** 20–31, 53–58
 **Severity:** Critical
@@ -92,6 +95,7 @@ async pingRedis(): Promise<boolean> {
 ```
 
 Then in `RedisHealthService`:
+
 ```typescript
 async check(timeoutMs = 5000): Promise<DependencyHealthDto> {
   const start = Date.now();
@@ -118,6 +122,7 @@ async check(timeoutMs = 5000): Promise<DependencyHealthDto> {
 ## Warnings
 
 ### WR-01: Header Name Inconsistency — `x-request-id` vs `x-correlation-id`
+
 **File:** `apps/api/src/common/interceptors/request-id.interceptor.ts` (L32–33)
 **Files Affected:** `apps/api/src/common/interceptors/request-id.interceptor.ts`, `apps/api/src/inference/cv-worker.client.ts`, `apps/api/src/common/middleware/request-logger.middleware.ts`
 **Lines:** RequestIdInterceptor:32–33; CvWorkerClient:44,102; RequestLoggerMiddleware:11
@@ -129,6 +134,7 @@ The `RequestLoggerMiddleware` reads `x-request-id` (line 11), so it's consistent
 **Fix:** Pick one — `x-request-id` (NestJS ecosystem convention) or `x-correlation-id` (distributed tracing convention). Rename `x-correlation-id` to `x-request-id` everywhere in `CvWorkerClient` and `structured.py` to align with the NestJS interceptor. Alternatively, update the `RequestIdInterceptor` to also read/write `x-correlation-id` and keep both headers.
 
 ### WR-02: Error Detail Leakage in HTTP 500 Responses
+
 **File:** `apps/api/src/common/interceptors/error.interceptor.ts`
 **Lines:** 176–182
 **Severity:** Warning
@@ -141,6 +147,7 @@ The `RequestLoggerMiddleware` reads `x-request-id` (line 11), so it's consistent
 ```
 
 And in the API:
+
 ```typescript
 176|  } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
@@ -163,6 +170,7 @@ throw new CvWorkerError('CV worker request failed', { cause: error });
 Where `CvWorkerError` has a safe `message` property that doesn't expose internals.
 
 ### WR-03: Storage Interface Returns `void` for `listBuckets`
+
 **File:** `apps/api/src/repositories/storage.repository.ts`
 **Lines:** 5
 **Severity:** Warning
@@ -198,6 +206,7 @@ async listBuckets(): Promise<string[]> {
 ```
 
 ### WR-04: `evaluate` Method Missing Correlation ID Logging
+
 **File:** `apps/api/src/inference/cv-worker.client.ts`
 **Lines:** 113–121
 **Severity:** Warning
@@ -209,11 +218,12 @@ async listBuckets(): Promise<string[]> {
 // line 112-115
 logger.error(
   { jobId: payload.jobId, correlationId, statusCode: response.status, durationMs },
-  `CV worker evaluate failed: ${errorMsg}`,
+  `CV worker evaluate failed: ${errorMsg}`
 );
 ```
 
 ### WR-05: `bind_context` Implementation Is Wrong
+
 **File:** `apps/cv-worker/src/observability/structured.py`
 **Lines:** 79–81
 **Severity:** Warning
@@ -228,6 +238,7 @@ def bind_context(**kwargs: object) -> "loguru.Logger":
 ```
 
 Then use it as:
+
 ```python
 _loguru_logger.bind(correlation_id=cid, job_id=jid).info("message")
 ```
@@ -235,6 +246,7 @@ _loguru_logger.bind(correlation_id=cid, job_id=jid).info("message")
 Or use `contextualize()` for async-safe context propagation.
 
 ### WR-06: Python `RequestLogger` Level Function Bug
+
 **File:** `apps/cv-worker/src/observability/structured.py`
 **Lines:** 127
 **Severity:** Warning
@@ -260,6 +272,7 @@ def log_request_completed(self, request: "Request", status_code: int, start: flo
 ```
 
 ### WR-07: Prisma Event Typing Workaround Could Break on Prisma Upgrades
+
 **File:** `apps/api/src/prisma/prisma.service.ts`
 **Lines:** 17, 22
 **Severity:** Warning
@@ -274,6 +287,7 @@ this.$on('warn', (event: { message: string; tags?: string[] }) => {
 ```
 
 ### WR-08: Memory Queue Race Condition in `NoopJobQueue`
+
 **File:** `apps/api/src/queues/job-queue.impl.ts`
 **Lines:** 76–81
 **Severity:** Warning
@@ -321,48 +335,56 @@ private async processAll(): Promise<void> {
 ## Info
 
 ### IN-01: Unused Import in `main.ts`
+
 **File:** `apps/api/src/main.ts`
 **Lines:** 6–8
 **Severity:** Info
 **Description:** `RequestIdInterceptor` is imported at line 7 but the import is used at line 31. The import is correct and used.
 
 ### IN-02: `getRedisClient` Return Type Uses `any`
+
 **File:** `apps/api/src/queues/job-queue.impl.ts`
 **Lines:** 14, 53
 **Severity:** Info
 **Description:** `private redisClient: any = null;` uses `any` to store the BullMQ internal Redis client. Consider using `import type { RedisClient } from 'bullmq'` if available, or at minimum `object` with a typed interface.
 
 ### IN-03: Missing Type for `npm_package_version`
+
 **File:** `apps/api/src/health/health.service.ts`
 **Lines:** 36
 **Severity:** Info
 **Description:** `process.env.npm_package_version` is a non-standard env var populated by some tools (e.g., `npm run`). This could be `undefined` even though TypeScript narrows it. The `?? '0.0.0'` fallback is correct, but the source of this value is non-standard. Consider using `import { version } from '../../../package.json'` with a build-time replacement, or a dedicated `APP_VERSION` env var.
 
 ### IN-04: CV Worker `/health` Endpoint Doesn't Validate `x-correlation-id`
+
 **File:** `apps/cv-worker/src/main.py`
 **Lines:** 100–124
 **Severity:** Info
 **Description:** The `/health` endpoint reads `correlation_id` from `request.state` but never validates it. Since this is a public endpoint (used by load balancers and orchestrators), any input is acceptable. No action needed, but be aware that the `correlationId` in the response is whatever was passed in (including malformed values).
 
 ### IN-05: Hardcoded Version String in CV Worker
+
 **File:** `apps/cv-worker/src/main.py`
 **Lines:** 22
 **Severity:** Info
 **Description:** `WORKER_VERSION = "0.2.0"` is hardcoded. Consider loading from `pyproject.toml` or `__version__` to avoid drift.
 
 ### IN-06: `x-request-id` Header Only Set When Present in Incoming Request
+
 **File:** `apps/api/src/common/interceptors/request-id.interceptor.ts`
 **Lines:** 31–33
 **Severity:** Info
 **Description:** The interceptor only sets `x-request-id` response header if an incoming header exists. If the client doesn't send `x-request-id`, the response won't have it either. This is generally fine, but could make tracing harder for clients who don't send an initial ID. Consider always setting the response header (regardless of whether one was received).
 
 ### IN-07: `listBuckets()` Called Without Bucket Names in Health Response
+
 **File:** `apps/api/src/health/services/minio-health.service.ts`
 **Lines:** 13, 18
 **Severity:** Info
 **Description:** The MinIO health check successfully calls `listBuckets()` but doesn't include bucket information in the response. Since the return type is `void`, this information is lost. If desired for debugging, the `StorageRepository` interface could be updated to return bucket data.
 
 ### IN-08: Python Exception Handler Uses Bare `raise`
+
 **File:** `apps/cv-worker/src/main.py`
 **Lines:** 42
 **Severity:** Info
@@ -374,23 +396,23 @@ private async processAll(): Promise<void> {
 
 The following files passed review with no issues:
 
-| File | Reason |
-| ---- | ------ |
-| `apps/api/src/common/logging/request-context.ts` | Clean AsyncLocalStorage implementation, correct `getStore()` usage, proper `withRequestContext` wrapper |
-| `apps/api/src/common/logging/structured-logger.ts` | Clean pino factory, proper logger caching, transport configuration is sound |
-| `apps/api/src/common/middleware/request-logger.middleware.ts` | Proper `res.on('finish')` pattern, correct timing measurement, appropriate log levels |
-| `apps/api/src/common/interceptors/error.interceptor.ts` | Proper exception hierarchy handling, safe error response construction, sanitized messages |
-| `apps/api/src/health/health.controller.ts` | Clean controller, proper DTO usage, correct HTTP status codes |
-| `apps/api/src/health/health.module.ts` | Proper module structure, all dependencies correctly imported |
-| `apps/api/src/health/dto/health-response.dto.ts` | Clean DTOs with `!` definite assignment assertions for required fields |
-| `apps/api/src/health/services/postgres-health.service.ts` | Correct `Promise.race` timeout pattern, proper error handling |
-| `apps/api/src/health/services/redis-health.service.ts` | Graceful fallback to memory mode, proper timeout handling |
-| `apps/api/src/health/services/minio-health.service.ts` | Clean abstraction through `StorageRepository`, proper timeout |
-| `apps/api/src/app.module.ts` | Proper module imports, middleware configuration is correct |
-| `apps/cv-worker/src/observability/__init__.py` | Clean module exports, all public API properly exposed |
-| `apps/cv-worker/src/observability/structured.py` (except WR-05, WR-06) | Proper contextvars usage, loguru configuration, context manager cleanup |
-| `apps/cv-worker/tests/test_worker.py` | Comprehensive test coverage, edge cases covered |
-| `README.md` | Well-structured documentation, accurate examples |
+| File                                                                   | Reason                                                                                                  |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `apps/api/src/common/logging/request-context.ts`                       | Clean AsyncLocalStorage implementation, correct `getStore()` usage, proper `withRequestContext` wrapper |
+| `apps/api/src/common/logging/structured-logger.ts`                     | Clean pino factory, proper logger caching, transport configuration is sound                             |
+| `apps/api/src/common/middleware/request-logger.middleware.ts`          | Proper `res.on('finish')` pattern, correct timing measurement, appropriate log levels                   |
+| `apps/api/src/common/interceptors/error.interceptor.ts`                | Proper exception hierarchy handling, safe error response construction, sanitized messages               |
+| `apps/api/src/health/health.controller.ts`                             | Clean controller, proper DTO usage, correct HTTP status codes                                           |
+| `apps/api/src/health/health.module.ts`                                 | Proper module structure, all dependencies correctly imported                                            |
+| `apps/api/src/health/dto/health-response.dto.ts`                       | Clean DTOs with `!` definite assignment assertions for required fields                                  |
+| `apps/api/src/health/services/postgres-health.service.ts`              | Correct `Promise.race` timeout pattern, proper error handling                                           |
+| `apps/api/src/health/services/redis-health.service.ts`                 | Graceful fallback to memory mode, proper timeout handling                                               |
+| `apps/api/src/health/services/minio-health.service.ts`                 | Clean abstraction through `StorageRepository`, proper timeout                                           |
+| `apps/api/src/app.module.ts`                                           | Proper module imports, middleware configuration is correct                                              |
+| `apps/cv-worker/src/observability/__init__.py`                         | Clean module exports, all public API properly exposed                                                   |
+| `apps/cv-worker/src/observability/structured.py` (except WR-05, WR-06) | Proper contextvars usage, loguru configuration, context manager cleanup                                 |
+| `apps/cv-worker/tests/test_worker.py`                                  | Comprehensive test coverage, edge cases covered                                                         |
+| `README.md`                                                            | Well-structured documentation, accurate examples                                                        |
 
 ---
 

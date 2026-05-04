@@ -13,33 +13,33 @@ Make the CV worker produce real derivative artifacts. Stop returning fake succes
 
 ### CV Worker (FastAPI)
 
-| File | Change |
-|------|--------|
-| `apps/cv-worker/src/storage.py` | New — MinIO client with `read_object`, `write_object`, `object_exists`, `compute_sha256` |
-| `apps/cv-worker/src/media_processing.py` | New — Real Pillow thumbnail generation. 512x512 max bounding box, aspect ratio preserved, no upscaling, SHA-256 checksum, WebP output |
-| `apps/cv-worker/src/main.py` | Replaced mock `/cv/create-thumbnail` with real pipeline. `/cv/extract-frames` → explicit `FAILED` (deferred). `/health` → `thumbnail: True, frameExtraction: False` |
-| `apps/cv-worker/requirements.txt` | Added `minio>=7.2.0` |
+| File                                     | Change                                                                                                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/cv-worker/src/storage.py`          | New — MinIO client with `read_object`, `write_object`, `object_exists`, `compute_sha256`                                                                            |
+| `apps/cv-worker/src/media_processing.py` | New — Real Pillow thumbnail generation. 512x512 max bounding box, aspect ratio preserved, no upscaling, SHA-256 checksum, WebP output                               |
+| `apps/cv-worker/src/main.py`             | Replaced mock `/cv/create-thumbnail` with real pipeline. `/cv/extract-frames` → explicit `FAILED` (deferred). `/health` → `thumbnail: True, frameExtraction: False` |
+| `apps/cv-worker/requirements.txt`        | Added `minio>=7.2.0`                                                                                                                                                |
 
 ### NestJS API
 
-| File | Change |
-|------|--------|
-| `apps/api/src/media/media-cv-worker.client.ts` | New — HTTP client for FastAPI media endpoints with correlation ID propagation |
+| File                                             | Change                                                                                                                                                                                |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/api/src/media/media-cv-worker.client.ts`   | New — HTTP client for FastAPI media endpoints with correlation ID propagation                                                                                                         |
 | `apps/api/src/media/media-processing.service.ts` | New — BullMQ consumer for `visionflow.media-processing`. Transitions QUEUED→RUNNING→SUCCEEDED/FAILED. Persists `AssetDerivative`, updates `MediaAsset.thumbnailKey`, writes audit log |
-| `apps/api/src/media/media.service.ts` | Enqueues processing jobs after asset creation (both memory and database paths) |
-| `apps/api/src/media/media.module.ts` | Registers `MediaCvWorkerClient` and `MediaProcessingService` |
-| `.env.example` | Added `MEDIA_QUEUE_MODE`, `MEDIA_WORKER_CONCURRENCY` |
+| `apps/api/src/media/media.service.ts`            | Enqueues processing jobs after asset creation (both memory and database paths)                                                                                                        |
+| `apps/api/src/media/media.module.ts`             | Registers `MediaCvWorkerClient` and `MediaProcessingService`                                                                                                                          |
+| `.env.example`                                   | Added `MEDIA_QUEUE_MODE`, `MEDIA_WORKER_CONCURRENCY`                                                                                                                                  |
 
 ### Contracts
 
-| File | Change |
-|------|--------|
+| File                                  | Change                                                                                                                                                           |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `packages/contracts/src/cv-worker.ts` | Added `CvWorkerMediaProcessingRequestSchema`, `CvWorkerDerivativeArtifactSchema`, `CvWorkerCreateThumbnailResponseSchema`, `CvWorkerExtractFramesResponseSchema` |
 
 ### Schema
 
-| File | Change |
-|------|--------|
+| File                         | Change                                         |
+| ---------------------------- | ---------------------------------------------- |
 | `infra/prisma/schema.prisma` | Added `AssetDerivative.checksum String?` field |
 
 ## What Was NOT Built (Out of Scope)
@@ -53,14 +53,14 @@ Make the CV worker produce real derivative artifacts. Stop returning fake succes
 
 All gates passed before commit:
 
-| Gate | Result |
-|------|--------|
-| `pnpm db:generate` | Passed |
-| `pnpm typecheck` | Passed (6 packages) |
-| `pnpm test` | 207 tests passed, 2 skipped |
-| `pnpm build` | Passed (4 packages) |
-| `pnpm lint` | Passed (4 packages) |
-| `pnpm format:check` | Passed |
+| Gate                | Result                      |
+| ------------------- | --------------------------- |
+| `pnpm db:generate`  | Passed                      |
+| `pnpm typecheck`    | Passed (6 packages)         |
+| `pnpm test`         | 207 tests passed, 2 skipped |
+| `pnpm build`        | Passed (4 packages)         |
+| `pnpm lint`         | Passed (4 packages)         |
+| `pnpm format:check` | Passed                      |
 
 ## Key Decisions
 

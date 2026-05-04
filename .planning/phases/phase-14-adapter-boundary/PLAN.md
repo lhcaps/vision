@@ -23,6 +23,7 @@ A clean repository/adapter pattern across all NestJS services. Business logic de
 ### Why It Matters
 
 The current services have dual-path logic scattered through every method: `if (process.env.DATABASE_URL)` calls Prisma, `else` uses in-memory maps. This pattern:
+
 - Duplicates business logic across two paths
 - Makes testing harder (cannot swap adapters without patching)
 - Makes it impossible to use real DB in demo mode or in-memory in production
@@ -45,15 +46,31 @@ export interface DatasetRepository {
   findByProject(projectId: string): Promise<DatasetSummary[]>;
   findVersionById(projectId: string, versionId: string): Promise<DatasetVersionSummary | null>;
   listVersionAssetIds(projectId: string, versionId: string): Promise<string[]>;
-  assignAssets(projectId: string, versionId: string, assets: AssignDatasetVersionAssetsRequest): Promise<DatasetVersionSummary>;
+  assignAssets(
+    projectId: string,
+    versionId: string,
+    assets: AssignDatasetVersionAssetsRequest
+  ): Promise<DatasetVersionSummary>;
   lockVersion(projectId: string, versionId: string): Promise<DatasetVersionSummary>;
 }
 
 // apps/api/src/repositories/annotation.repository.ts
 export interface AnnotationRepository {
-  loadWorkspace(projectId: string, datasetVersionId: string, assetId?: string): Promise<AnnotationWorkspaceResponse>;
-  create(projectId: string, annotationSetId: string, dto: CreateAnnotationRequest): Promise<AnnotationSummary>;
-  update(projectId: string, annotationId: string, dto: UpdateAnnotationRequest): Promise<AnnotationSummary>;
+  loadWorkspace(
+    projectId: string,
+    datasetVersionId: string,
+    assetId?: string
+  ): Promise<AnnotationWorkspaceResponse>;
+  create(
+    projectId: string,
+    annotationSetId: string,
+    dto: CreateAnnotationRequest
+  ): Promise<AnnotationSummary>;
+  update(
+    projectId: string,
+    annotationId: string,
+    dto: UpdateAnnotationRequest
+  ): Promise<AnnotationSummary>;
   delete(projectId: string, annotationId: string): Promise<void>;
 }
 
@@ -61,7 +78,11 @@ export interface AnnotationRepository {
 export interface PipelineRepository {
   findByProject(projectId: string): Promise<PipelineSummary[]>;
   create(projectId: string, dto: CreatePipelineRequest): Promise<PipelineSummary>;
-  update(projectId: string, pipelineId: string, dto: UpdatePipelineRequest): Promise<PipelineSummary>;
+  update(
+    projectId: string,
+    pipelineId: string,
+    dto: UpdatePipelineRequest
+  ): Promise<PipelineSummary>;
 }
 
 // apps/api/src/repositories/inference.repository.ts
@@ -70,7 +91,10 @@ export interface InferenceRepository {
   findById(projectId: string, jobId: string): Promise<InferenceJobSummary | null>;
   create(projectId: string, dto: CreateInferenceJobRequest): Promise<InferenceJobSummary>;
   updateJobStatus(projectId: string, jobId: string, patch: JobPatch): Promise<void>;
-  persistPredictions(payload: InferenceQueuePayload, predictions: CvWorkerPrediction[]): Promise<number>;
+  persistPredictions(
+    payload: InferenceQueuePayload,
+    predictions: CvWorkerPrediction[]
+  ): Promise<number>;
 }
 
 // apps/api/src/repositories/prediction.repository.ts
@@ -105,18 +129,18 @@ export interface AuditLogger {
 
 ### Concrete Implementations
 
-| Interface | Prisma/Real Impl | In-Memory/Demo Impl |
-|---|---|---|
-| `MediaRepository` | `PrismaMediaRepository` | `MemoryMediaRepository` |
-| `DatasetRepository` | `PrismaDatasetRepository` | `MemoryDatasetRepository` |
+| Interface              | Prisma/Real Impl             | In-Memory/Demo Impl          |
+| ---------------------- | ---------------------------- | ---------------------------- |
+| `MediaRepository`      | `PrismaMediaRepository`      | `MemoryMediaRepository`      |
+| `DatasetRepository`    | `PrismaDatasetRepository`    | `MemoryDatasetRepository`    |
 | `AnnotationRepository` | `PrismaAnnotationRepository` | `MemoryAnnotationRepository` |
-| `PipelineRepository` | `PrismaPipelineRepository` | `MemoryPipelineRepository` |
-| `InferenceRepository` | `PrismaInferenceRepository` | `MemoryInferenceRepository` |
+| `PipelineRepository`   | `PrismaPipelineRepository`   | `MemoryPipelineRepository`   |
+| `InferenceRepository`  | `PrismaInferenceRepository`  | `MemoryInferenceRepository`  |
 | `PredictionRepository` | `PrismaPredictionRepository` | `MemoryPredictionRepository` |
 | `EvaluationRepository` | `PrismaEvaluationRepository` | `MemoryEvaluationRepository` |
-| `StorageRepository` | `MinioStorageRepository` | `LocalStorageRepository` |
-| `JobQueue` | `BullMqJobQueue` | `NoopJobQueue` |
-| `AuditLogger` | `PrismaAuditLogger` | `MemoryAuditLogger` |
+| `StorageRepository`    | `MinioStorageRepository`     | `LocalStorageRepository`     |
+| `JobQueue`             | `BullMqJobQueue`             | `NoopJobQueue`               |
+| `AuditLogger`          | `PrismaAuditLogger`          | `MemoryAuditLogger`          |
 
 ### Bootstrap Strategy
 
@@ -133,17 +157,12 @@ export function detectMode(): AppMode {
 
 export function createAdapters(mode: AppMode) {
   const prisma = new PrismaService();
-  const storage = mode === 'production'
-    ? new MinioStorageRepository()
-    : new LocalStorageRepository();
-  const queue = mode === 'production'
-    ? new BullMqJobQueue()
-    : new NoopJobQueue();
-  const audit = mode === 'production'
-    ? new PrismaAuditLogger(prisma)
-    : new MemoryAuditLogger();
+  const storage =
+    mode === 'production' ? new MinioStorageRepository() : new LocalStorageRepository();
+  const queue = mode === 'production' ? new BullMqJobQueue() : new NoopJobQueue();
+  const audit = mode === 'production' ? new PrismaAuditLogger(prisma) : new MemoryAuditLogger();
   // ... all adapters
-  return { prisma, storage, queue, audit, /* repositories */ };
+  return { prisma, storage, queue, audit /* repositories */ };
 }
 ```
 
@@ -176,7 +195,7 @@ export function assertValidTransition(from: InferenceJobStatus, to: InferenceJob
   if (!valid.includes(to)) {
     throw new DomainError(
       `Invalid inference job transition: ${from} → ${to}. ` +
-      `Valid transitions from ${from}: [${valid.join(', ')}]`
+        `Valid transitions from ${from}: [${valid.join(', ')}]`
     );
   }
 }
@@ -198,10 +217,18 @@ export class DomainError extends Error {
 }
 
 // Subclasses for specific domains
-export class InferenceJobTransitionError extends DomainError { /* ... */ }
-export class AnnotationGeometryError extends DomainError { /* ... */ }
-export class PipelineValidationError extends DomainError { /* ... */ }
-export class DatasetVersionLockedError extends DomainError { /* ... */ }
+export class InferenceJobTransitionError extends DomainError {
+  /* ... */
+}
+export class AnnotationGeometryError extends DomainError {
+  /* ... */
+}
+export class PipelineValidationError extends DomainError {
+  /* ... */
+}
+export class DatasetVersionLockedError extends DomainError {
+  /* ... */
+}
 ```
 
 ## Plans
@@ -220,6 +247,7 @@ export class DatasetVersionLockedError extends DomainError { /* ... */ }
 6. Add tests for state machine transitions covering all valid and invalid paths
 
 **Files created/modified:**
+
 - `apps/api/src/domain/errors.ts` (new)
 - `apps/api/src/domain/inference-job-state-machine.ts` (new)
 - `apps/api/src/repositories/index.ts` (new)
@@ -246,6 +274,7 @@ export class DatasetVersionLockedError extends DomainError { /* ... */ }
 11. Write unit tests for each repository interface verifying both implementations
 
 **Files created:**
+
 - `apps/api/src/repositories/media.repository.ts`
 - `apps/api/src/repositories/dataset.repository.ts`
 - `apps/api/src/repositories/annotation.repository.ts`
@@ -274,6 +303,7 @@ export class DatasetVersionLockedError extends DomainError { /* ... */ }
 8. Verify all existing tests still pass with new adapter pattern
 
 **Files modified:**
+
 - `apps/api/src/media/media.service.ts`
 - `apps/api/src/media/media.module.ts`
 - `apps/api/src/datasets/datasets.service.ts`
@@ -301,6 +331,7 @@ export class DatasetVersionLockedError extends DomainError { /* ... */ }
 6. Add integration tests verifying invalid geometries are rejected with structured errors
 
 **Files modified:**
+
 - `apps/api/src/annotations/annotations.controller.ts` (add Zod validation)
 - `apps/api/src/pipelines/pipelines.controller.ts` (add Zod validation)
 - `apps/api/src/validation/zod-validation.pipe.ts` (new — reusable Zod pipe for NestJS)
@@ -322,6 +353,7 @@ export class DatasetVersionLockedError extends DomainError { /* ... */ }
 8. Add domain error tests verifying all invalid-state rejection paths
 
 **Files modified:**
+
 - `apps/api/src/domain/errors.ts` (add `DatasetVersionLockedError`)
 - `apps/api/src/domain/inference-job-state-machine.ts` (add transition auditing)
 - `apps/api/src/datasets/datasets.service.ts` (use domain errors)

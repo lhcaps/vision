@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateDatasetRequest, CreateDatasetVersionRequest, DatasetSummary, DatasetVersionSummary, AssignDatasetVersionAssetsRequest } from '@visionflow/contracts';
+import {
+  CreateDatasetRequest,
+  CreateDatasetVersionRequest,
+  DatasetSummary,
+  DatasetVersionSummary,
+  AssignDatasetVersionAssetsRequest,
+} from '@visionflow/contracts';
 import { DatasetRepository } from '../repositories/dataset.repository';
 import { DATASET_REPOSITORY } from '../config/provider-tokens';
 
@@ -23,10 +29,7 @@ export class DatasetsService {
     return this.datasetRepo.createVersion(projectId, datasetId, dto);
   }
 
-  async listVersions(
-    projectId: string,
-    datasetId: string
-  ): Promise<DatasetVersionSummary[]> {
+  async listVersions(projectId: string, datasetId: string): Promise<DatasetVersionSummary[]> {
     return this.datasetRepo.listVersions(projectId, datasetId);
   }
 

@@ -74,6 +74,7 @@ Phase 15 adds observability capabilities to VisionFlow Studio: request ID tracki
 ## Canonical References
 
 **Must read before implementation:**
+
 - `apps/api/src/main.ts` — API bootstrap
 - `apps/api/src/common/interceptors/error.interceptor.ts` — existing interceptor pattern
 - `apps/api/src/inference/inference.service.ts` — BullMQ job creation

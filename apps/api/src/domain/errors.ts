@@ -2,11 +2,7 @@ export class DomainError extends Error {
   public readonly code: string;
   public readonly context: Record<string, unknown>;
 
-  constructor(
-    message: string,
-    code: string,
-    context: Record<string, unknown> = {}
-  ) {
+  constructor(message: string, code: string, context: Record<string, unknown> = {}) {
     super(message);
     this.name = 'DomainError';
     this.code = code;
@@ -49,11 +45,11 @@ export class DatasetVersionLockedError extends DomainError {
 
 export class ProgressRewindError extends DomainError {
   constructor(current: number, next: number, context: Record<string, unknown> = {}) {
-    super(
-      `Invalid progress rewind: ${current} -> ${next}`,
-      'PROGRESS_REWIND_ERROR',
-      { current, next, ...context }
-    );
+    super(`Invalid progress rewind: ${current} -> ${next}`, 'PROGRESS_REWIND_ERROR', {
+      current,
+      next,
+      ...context,
+    });
     this.name = 'ProgressRewindError';
     Object.setPrototypeOf(this, new.target.prototype);
   }

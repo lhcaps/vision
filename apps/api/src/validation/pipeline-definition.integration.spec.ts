@@ -6,7 +6,11 @@ describe('Pipeline Definition Validation', () => {
     version: 1 as const,
     nodes: [
       { id: 'input', type: 'input' as const, params: {} },
-      { id: 'detector', type: 'yolo_onnx' as const, params: { modelId: 'model_test', threshold: 0.5 } },
+      {
+        id: 'detector',
+        type: 'yolo_onnx' as const,
+        params: { modelId: 'model_test', threshold: 0.5 },
+      },
       { id: 'output', type: 'output' as const, params: {} },
     ],
     edges: [
@@ -109,7 +113,11 @@ describe('Pipeline Definition Validation', () => {
         ...validPipeline,
         nodes: [
           { id: 'input', type: 'input' as const, params: {} },
-          { id: 'detector', type: 'yolo_onnx' as const, params: { modelId: 'model_test', threshold: 0.5 } },
+          {
+            id: 'detector',
+            type: 'yolo_onnx' as const,
+            params: { modelId: 'model_test', threshold: 0.5 },
+          },
           { id: 'orphan', type: 'resize' as const, params: { width: 640 } },
           { id: 'output', type: 'output' as const, params: {} },
         ],
@@ -120,7 +128,9 @@ describe('Pipeline Definition Validation', () => {
       };
       const result = validatePipelineDefinition(unreachablePipeline);
       expect(result.ok).toBe(false);
-      expect(result.errors.some((e) => e.includes('unreachable') || e.includes('inbound'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('unreachable') || e.includes('inbound'))).toBe(
+        true
+      );
     });
 
     it('provides structured issues array', () => {

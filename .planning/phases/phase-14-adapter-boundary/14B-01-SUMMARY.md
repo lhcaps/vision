@@ -33,12 +33,14 @@ Implemented Zod validation at API boundaries for VisionFlow Studio's NestJS back
 ## Validation Rules
 
 ### Annotation Geometry
+
 - All fields (x, y, width, height) are required numbers
 - x and y must be non-negative
 - width and height must be positive
 - Values must be finite (no Infinity or NaN)
 
 ### Pipeline Definition
+
 - Exactly one input node required
 - Exactly one output node required
 - No duplicate node IDs
@@ -49,6 +51,7 @@ Implemented Zod validation at API boundaries for VisionFlow Studio's NestJS back
 - Detector nodes require a valid modelId
 
 ### Inference Job Request
+
 - datasetVersionId and pipelineId are required
 - modelId is optional but must be a valid UUID if provided
 

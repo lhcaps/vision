@@ -4,7 +4,9 @@ import { CreateInferenceJobRequestSchema } from '@visionflow/contracts';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-export function validateInferenceJobRequest(body: unknown): z.infer<typeof CreateInferenceJobRequestSchema> {
+export function validateInferenceJobRequest(
+  body: unknown
+): z.infer<typeof CreateInferenceJobRequestSchema> {
   const result = CreateInferenceJobRequestSchema.safeParse(body);
   if (!result.success) {
     const issues = result.error.issues.map((i) => ({

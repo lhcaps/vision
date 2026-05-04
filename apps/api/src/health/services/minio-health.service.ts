@@ -9,7 +9,10 @@ export class MinioHealthService {
 
   constructor(
     @Inject(STORAGE_REPOSITORY)
-    private readonly storage: { listBuckets(): Promise<void>; bucketExists?(name: string): Promise<boolean> },
+    private readonly storage: {
+      listBuckets(): Promise<void>;
+      bucketExists?(name: string): Promise<boolean>;
+    }
   ) {
     this.bucket = process.env.MINIO_BUCKET ?? 'visionflow-artifacts';
   }
@@ -20,7 +23,7 @@ export class MinioHealthService {
       await Promise.race([
         this.storage.listBuckets(),
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), timeoutMs),
+          setTimeout(() => reject(new Error('Timeout')), timeoutMs)
         ),
       ]);
 
@@ -28,7 +31,7 @@ export class MinioHealthService {
         await Promise.race([
           this.storage.bucketExists(this.bucket),
           new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error('Bucket check timeout')), timeoutMs),
+            setTimeout(() => reject(new Error('Bucket check timeout')), timeoutMs)
           ),
         ]);
       }

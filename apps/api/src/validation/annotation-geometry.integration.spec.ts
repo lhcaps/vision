@@ -34,9 +34,9 @@ describe('Annotation Geometry Validation', () => {
     });
 
     it('throws BadRequestException for non-finite numbers', () => {
-      expect(() => validateAnnotationGeometry({ x: Infinity, y: 0, width: 100, height: 100 })).toThrow(
-        BadRequestException
-      );
+      expect(() =>
+        validateAnnotationGeometry({ x: Infinity, y: 0, width: 100, height: 100 })
+      ).toThrow(BadRequestException);
       expect(() => validateAnnotationGeometry({ x: NaN, y: 0, width: 100, height: 100 })).toThrow(
         BadRequestException
       );

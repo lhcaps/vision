@@ -3,10 +3,7 @@ import { PostgresHealthService } from './services/postgres-health.service';
 import { RedisHealthService } from './services/redis-health.service';
 import { MinioHealthService } from './services/minio-health.service';
 import { CvWorkerHealthService } from './services/cv-worker-health.service';
-import {
-  HealthResponseDto,
-  DependencyHealthDto,
-} from './dto/health-response.dto';
+import { HealthResponseDto, DependencyHealthDto } from './dto/health-response.dto';
 
 @Injectable()
 export class HealthService {
@@ -14,7 +11,7 @@ export class HealthService {
     private readonly postgresHealth: PostgresHealthService,
     private readonly redisHealth: RedisHealthService,
     private readonly minioHealth: MinioHealthService,
-    private readonly cvWorkerHealth: CvWorkerHealthService,
+    private readonly cvWorkerHealth: CvWorkerHealthService
   ) {}
 
   async deepCheck(): Promise<HealthResponseDto> {
@@ -26,7 +23,7 @@ export class HealthService {
     ]);
 
     const allUp = [postgres, redis, minio, cvWorker].every(
-      (d: DependencyHealthDto) => d.status === 'up',
+      (d: DependencyHealthDto) => d.status === 'up'
     );
 
     const response: HealthResponseDto = {

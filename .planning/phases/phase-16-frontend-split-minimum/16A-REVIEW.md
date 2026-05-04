@@ -69,6 +69,7 @@ The following issues were identified during review of the codebase. These are co
 **Files:** `apps/cv-worker/src/main.py`
 
 `/cv/create-thumbnail` returns:
+
 ```python
 {
     "status": "SUCCEEDED",
@@ -95,6 +96,7 @@ This does NOT read from MinIO, does NOT write to MinIO, and does NOT produce a r
 **File:** `apps/cv-worker/requirements.txt`
 
 Current dependencies:
+
 ```
 fastapi==0.115.12
 uvicorn[standard]==0.34.2
@@ -105,6 +107,7 @@ loguru==0.7.3
 ```
 
 Missing for Phase 17:
+
 - `minio` or `boto3` — MinIO/S3 client
 - `opencv-python-headless` — video frame extraction
 - `ffmpeg-python` or subprocess wrapper — video processing
@@ -126,6 +129,7 @@ Missing for Phase 17:
 **File:** `infra/prisma/schema.prisma`
 
 Current `AssetDerivative` model:
+
 ```prisma
 model AssetDerivative {
   id         String              @id @default(cuid())
@@ -147,12 +151,12 @@ Phase 17 ROADMAP requires the worker to return `checksum` metadata. Schema curre
 
 ## Summary
 
-| Category | Count |
-| --- | --- |
-| Critical | 0 |
-| Warnings | 2 |
-| Info | 3 |
-| Phase 17 P0 | 4 |
+| Category    | Count |
+| ----------- | ----- |
+| Critical    | 0     |
+| Warnings    | 2     |
+| Info        | 3     |
+| Phase 17 P0 | 4     |
 
 Phase 16A is clean. The 4 P0 items are correctly scoped as Phase 17 work. No code-level blockers prevent Phase 17 execution.
 

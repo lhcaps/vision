@@ -15,9 +15,6 @@ export function getRequestStartTime(): number | undefined {
   return requestContextStorage.getStore()?.startedAt;
 }
 
-export function withRequestContext<T>(
-  context: RequestContext,
-  fn: () => T,
-): T {
+export function withRequestContext<T>(context: RequestContext, fn: () => T): T {
   return requestContextStorage.run(context, fn);
 }

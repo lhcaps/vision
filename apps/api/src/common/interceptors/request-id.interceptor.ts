@@ -1,16 +1,8 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from 'express';
-import {
-  requestContextStorage,
-  RequestContext,
-} from '../logging/request-context';
+import { requestContextStorage, RequestContext } from '../logging/request-context';
 
 // Extend Express Request to include requestId state
 declare global {
@@ -28,8 +20,7 @@ export class RequestIdInterceptor implements NestInterceptor {
     const request = httpContext.getRequest<Request>();
     const response = httpContext.getResponse<Response>();
 
-    const requestId =
-      (request.headers['x-request-id'] as string) || uuidv4();
+    const requestId = (request.headers['x-request-id'] as string) || uuidv4();
     response.setHeader('x-request-id', requestId);
 
     const ctx: RequestContext = {

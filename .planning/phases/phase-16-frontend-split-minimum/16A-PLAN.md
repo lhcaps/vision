@@ -8,6 +8,8 @@ Reduce risk before real worker/detector phases by extracting the highest-change 
 
 **Done** — Completed 2026-05-03. Commit: `95d52bc10ab60068eec0882b83d8276e870249fc`
 
+**Verification note:** All 16A deliverables confirmed via `git diff --stat`. pnpm typecheck, test, lint, format:check, build all passed. Feature modules isolated, no circular deps, App.tsx imports from feature modules.
+
 ## Out of Scope
 
 - UI redesign or visual polish
@@ -75,10 +77,7 @@ export async function readApiError(response: Response): Promise<string> {
   }
 }
 
-export async function apiUpload<T>(
-  path: string,
-  body: FormData
-): Promise<T> {
+export async function apiUpload<T>(path: string, body: FormData): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: 'POST',
     body,
@@ -151,23 +150,15 @@ Create `apps/web/src/features/media/media.api.ts`:
 import type { MediaUploadResponse } from '@visionflow/contracts';
 import { apiUpload } from '../../shared/api';
 
-export async function uploadMediaFile(
-  projectId: string,
-  file: File
-): Promise<MediaUploadResponse> {
+export async function uploadMediaFile(projectId: string, file: File): Promise<MediaUploadResponse> {
   const body = new FormData();
   body.append('file', file);
-  return apiUpload<MediaUploadResponse>(
-    `/api/projects/${projectId}/media/upload`,
-    body
-  );
+  return apiUpload<MediaUploadResponse>(`/api/projects/${projectId}/media/upload`, body);
 }
 
 export async function checksumFile(file: File): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
-  return [...new Uint8Array(digest)]
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join('');
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 ```
 
@@ -220,22 +211,18 @@ import type {
 } from '@visionflow/contracts';
 import { apiJson, API_BASE_URL } from '../../shared/api';
 
-export async function listInferenceJobs(
-  projectId: string
-): Promise<InferenceJobListResponse> {
-  return apiJson<InferenceJobListResponse>(
-    `/api/projects/${projectId}/inference-jobs`
-  );
+export async function listInferenceJobs(projectId: string): Promise<InferenceJobListResponse> {
+  return apiJson<InferenceJobListResponse>(`/api/projects/${projectId}/inference-jobs`);
 }
 
 export async function createInferenceJob(
   projectId: string,
   body: CreateInferenceJobRequest
 ): Promise<CreateInferenceJobResponse> {
-  return apiJson<CreateInferenceJobResponse>(
-    `/api/projects/${projectId}/inference-jobs`,
-    { method: 'POST', body: JSON.stringify(body) }
-  );
+  return apiJson<CreateInferenceJobResponse>(`/api/projects/${projectId}/inference-jobs`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
 }
 
 export async function getEvaluationReport(
@@ -248,10 +235,7 @@ export async function getEvaluationReport(
   return data.report ?? null;
 }
 
-export async function runEvaluation(
-  projectId: string,
-  jobId: string
-): Promise<EvaluationReport> {
+export async function runEvaluation(projectId: string, jobId: string): Promise<EvaluationReport> {
   const data = await apiJson<EvaluationRunResponse>(
     `/api/projects/${projectId}/inference-jobs/evaluate`,
     { method: 'POST', body: JSON.stringify({ jobId }) }
@@ -275,15 +259,10 @@ export async function getInferenceJob(
   projectId: string,
   jobId: string
 ): Promise<InferenceJobSummary> {
-  return apiJson<InferenceJobSummary>(
-    `/api/projects/${projectId}/inference-jobs/${jobId}`
-  );
+  return apiJson<InferenceJobSummary>(`/api/projects/${projectId}/inference-jobs/${jobId}`);
 }
 
-export function openInferenceJobEvents(
-  projectId: string,
-  jobId: string
-): EventSource {
+export function openInferenceJobEvents(projectId: string, jobId: string): EventSource {
   return new EventSource(
     `${API_BASE_URL}/api/projects/${projectId}/inference-jobs/${jobId}/events`
   );
@@ -299,9 +278,7 @@ export function mergeJobEvent(
     progress: event.progress,
     startedAt: job.startedAt ?? (event.status === 'RUNNING' ? event.createdAt : null),
     completedAt:
-      event.status === 'SUCCEEDED' ||
-      event.status === 'FAILED' ||
-      event.status === 'CANCELLED'
+      event.status === 'SUCCEEDED' || event.status === 'FAILED' || event.status === 'CANCELLED'
         ? event.createdAt
         : job.completedAt,
     errorMessage: event.type === 'error' ? event.message : job.errorMessage,
@@ -366,23 +343,15 @@ Update `lib/media-upload.ts`:
 import type { MediaUploadResponse } from '@visionflow/contracts';
 import { apiUpload } from './shared/api';
 
-export async function uploadMediaFile(
-  projectId: string,
-  file: File
-): Promise<MediaUploadResponse> {
+export async function uploadMediaFile(projectId: string, file: File): Promise<MediaUploadResponse> {
   const body = new FormData();
   body.append('file', file);
-  return apiUpload<MediaUploadResponse>(
-    `/api/projects/${projectId}/media/upload`,
-    body
-  );
+  return apiUpload<MediaUploadResponse>(`/api/projects/${projectId}/media/upload`, body);
 }
 
 export async function checksumFile(file: File): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
-  return [...new Uint8Array(digest)]
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join('');
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 ```
 
@@ -470,9 +439,11 @@ import { apiJson } from './lib/http';
 ```
 
 Also replace:
+
 ```typescript
 import { demoSnapshot, logs } from './data/demo';
 ```
+
 Stays as-is — demo snapshot is intentionally kept at this stage.
 
 ### Acceptance Criteria
@@ -512,27 +483,27 @@ pnpm build
 
 ## Dependency Constraints (enforced)
 
-| Rule | Reason |
-|------|--------|
-| `shared/` must not import from `features/` | shared is lower-layer |
-| `features/media` must not import from `features/inference` | feature isolation |
-| `features/inference` must not import from `features/media` | feature isolation |
-| `app/` (App.tsx) may compose features | app is upper-layer |
-| No `features/*` imports from `app/` | feature modules are tree-shakeable |
-| Runtime selectors stay in `shared/state/` | Phase 15.5 contract preserved |
-| `demoSnapshot` kept at `data/demo.ts` | Phase 16A does not touch demo truth |
+| Rule                                                       | Reason                              |
+| ---------------------------------------------------------- | ----------------------------------- |
+| `shared/` must not import from `features/`                 | shared is lower-layer               |
+| `features/media` must not import from `features/inference` | feature isolation                   |
+| `features/inference` must not import from `features/media` | feature isolation                   |
+| `app/` (App.tsx) may compose features                      | app is upper-layer                  |
+| No `features/*` imports from `app/`                        | feature modules are tree-shakeable  |
+| Runtime selectors stay in `shared/state/`                  | Phase 15.5 contract preserved       |
+| `demoSnapshot` kept at `data/demo.ts`                      | Phase 16A does not touch demo truth |
 
 ---
 
 ## Risk Map
 
-| Risk | Mitigation |
-|------|------------|
-| Circular deps during re-export chain | Path analysis before writing; barrel exports at leaves only |
-| SSE/polling regression | `openInferenceJobEvents`, `mergeJobEvent` preserved verbatim in feature module |
-| Runtime selectors broken | `shared/state/` not moved; `WorkbenchRuntimeState` unchanged |
-| Seed mismatch | No seed changes in Phase 16A |
-| Health endpoint regression | No backend changes |
+| Risk                                 | Mitigation                                                                     |
+| ------------------------------------ | ------------------------------------------------------------------------------ |
+| Circular deps during re-export chain | Path analysis before writing; barrel exports at leaves only                    |
+| SSE/polling regression               | `openInferenceJobEvents`, `mergeJobEvent` preserved verbatim in feature module |
+| Runtime selectors broken             | `shared/state/` not moved; `WorkbenchRuntimeState` unchanged                   |
+| Seed mismatch                        | No seed changes in Phase 16A                                                   |
+| Health endpoint regression           | No backend changes                                                             |
 
 ---
 
@@ -547,6 +518,7 @@ Before starting Phase 17, the following P0 issues must be addressed within that 
 **Required:** Real Pillow thumbnail generation, real OpenCV/ffmpeg frame extraction. Worker must read source from MinIO, write derivative to MinIO, return real artifact metadata.
 
 **Required packages missing from `requirements.txt`:**
+
 - `minio` or `boto3` — MinIO/S3 client for artifact read/write
 - `opencv-python-headless` — video frame extraction (already in scope, not yet added)
 - `ffmpeg-python` or subprocess wrapper — video processing (already in scope, not yet added)

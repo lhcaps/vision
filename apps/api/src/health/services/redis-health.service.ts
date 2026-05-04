@@ -8,7 +8,9 @@ export class RedisHealthService {
 
   constructor() {
     this.redisConfigured = !!(
-      process.env.REDIS_HOST || process.env.REDIS_URL || process.env.REDIS_CONNECTION_STRING
+      process.env.REDIS_HOST ||
+      process.env.REDIS_URL ||
+      process.env.REDIS_CONNECTION_STRING
     );
   }
 
@@ -50,7 +52,8 @@ export class RedisHealthService {
         });
       });
 
-      redis.connect()
+      redis
+        .connect()
         .then(() => redis.ping())
         .then((reply) => {
           clearTimeout(timer);

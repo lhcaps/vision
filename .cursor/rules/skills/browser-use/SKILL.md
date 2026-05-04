@@ -36,6 +36,7 @@ async def main():
 ## Key Patterns
 
 ### Specify Actions Directly in Task
+
 ```python
 task = """
 1. Go to https://quotes.toscrape.com/
@@ -45,6 +46,7 @@ task = """
 ```
 
 ### Cloud Browser (production, no local setup)
+
 ```python
 from browser_use import Agent, Browser, ChatBrowserUse
 
@@ -53,6 +55,7 @@ agent = Agent(task="...", llm=ChatBrowserUse(), browser=browser)
 ```
 
 ### Connect to Existing Chrome
+
 ```python
 browser = Browser(
     executable_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -62,6 +65,7 @@ browser = Browser(
 ```
 
 ### Custom Tools
+
 ```python
 from browser_use import Tools, ActionResult
 
@@ -74,6 +78,7 @@ async def get_2fa_code(browser_session):
 ```
 
 ### Structured Output
+
 ```python
 from pydantic import BaseModel
 

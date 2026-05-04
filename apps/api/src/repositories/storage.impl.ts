@@ -27,9 +27,11 @@ export class MinioStorageRepository implements StorageRepository {
     key: string,
     stream: NodeJS.ReadableStream,
     size: number,
-    mimeType: string,
+    mimeType: string
   ): Promise<void> {
-    await this.client.putObject(BUCKET(), key, stream as Readable, size, { 'Content-Type': mimeType });
+    await this.client.putObject(BUCKET(), key, stream as Readable, size, {
+      'Content-Type': mimeType,
+    });
   }
 
   async getSignedUrl(key: string): Promise<string> {

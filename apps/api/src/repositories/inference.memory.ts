@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InferenceJobStatus } from '@visionflow/contracts';
-import { InferenceRepository, InferenceJobSummary, InferenceProgressUpdate } from './inference.repository';
+import {
+  InferenceRepository,
+  InferenceJobSummary,
+  InferenceProgressUpdate,
+} from './inference.repository';
 
 const memoryJobs = new Map<string, InferenceJobSummary>();
 

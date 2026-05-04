@@ -25,7 +25,7 @@ export class CvWorkerClient {
     if (!baseUrl || baseUrl === 'mock') {
       logger.info(
         { jobId: payload.jobId, correlationId, mode: 'mock' },
-        'Using mock CV worker fallback',
+        'Using mock CV worker fallback'
       );
       return this.runPipelineFallback(payload);
     }
@@ -53,14 +53,14 @@ export class CvWorkerClient {
         const errorMsg = await readWorkerError(response);
         logger.error(
           { jobId: payload.jobId, correlationId, statusCode: response.status, durationMs },
-          `CV worker run-pipeline failed: ${errorMsg}`,
+          `CV worker run-pipeline failed: ${errorMsg}`
         );
         throw new Error(`CV worker run-pipeline failed with HTTP ${response.status}: ${errorMsg}`);
       }
 
       logger.info(
         { jobId: payload.jobId, correlationId, statusCode: response.status, durationMs },
-        'CV worker run-pipeline completed',
+        'CV worker run-pipeline completed'
       );
 
       return CvWorkerRunPipelineResponseSchema.parse(await response.json());
@@ -68,7 +68,7 @@ export class CvWorkerClient {
       if (error instanceof Error && error.name === 'AbortError') {
         logger.error(
           { jobId: payload.jobId, correlationId, durationMs: Date.now() - startMs },
-          'CV worker run-pipeline timed out',
+          'CV worker run-pipeline timed out'
         );
         throw new Error('CV worker run-pipeline timed out.');
       }
@@ -112,14 +112,14 @@ export class CvWorkerClient {
         const errorMsg = await readWorkerError(response);
         logger.error(
           { jobId, correlationId, statusCode: response.status, durationMs },
-          `CV worker evaluate failed: ${errorMsg}`,
+          `CV worker evaluate failed: ${errorMsg}`
         );
         throw new Error(`CV worker evaluate failed with HTTP ${response.status}: ${errorMsg}`);
       }
 
       logger.info(
         { jobId, correlationId, statusCode: response.status, durationMs },
-        'CV worker evaluate completed',
+        'CV worker evaluate completed'
       );
 
       return (await response.json()) as CvWorkerEvaluationResponse;
@@ -127,7 +127,7 @@ export class CvWorkerClient {
       if (error instanceof Error && error.name === 'AbortError') {
         logger.error(
           { jobId, correlationId, durationMs: Date.now() - startMs },
-          'CV worker evaluate timed out',
+          'CV worker evaluate timed out'
         );
         throw new Error('CV worker evaluate timed out.');
       }

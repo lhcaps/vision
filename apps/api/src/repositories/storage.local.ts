@@ -10,7 +10,12 @@ export class LocalStorageRepository implements StorageRepository {
     this.storage.set(key, { buffer, mimeType });
   }
 
-  async putOriginalStream(key: string, stream: NodeJS.ReadableStream, _size: number, mimeType: string): Promise<void> {
+  async putOriginalStream(
+    key: string,
+    stream: NodeJS.ReadableStream,
+    _size: number,
+    mimeType: string
+  ): Promise<void> {
     const readable = stream as Readable;
     const chunks: Buffer[] = [];
     for await (const chunk of readable) {

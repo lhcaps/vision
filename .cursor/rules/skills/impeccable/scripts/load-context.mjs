@@ -75,7 +75,11 @@ function firstExisting(cwd, names) {
 }
 
 function safeRead(p) {
-  try { return fs.readFileSync(p, 'utf-8'); } catch { return null; }
+  try {
+    return fs.readFileSync(p, 'utf-8');
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -8,9 +8,7 @@
   "baseline_dir": "baseline",
   "runs_dir": "runs",
   "tasks_file": "tasks.json",
-  "required_files": [
-    "baseline/scripts/runtime-validate.sh"
-  ],
+  "required_files": ["baseline/scripts/runtime-validate.sh"],
   "allowed_write_paths": [
     "baseline",
     "baseline/scripts",
