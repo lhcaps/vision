@@ -120,21 +120,35 @@ Write-Host ""
 
 $devProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT'; pnpm dev"
 $cvProc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", "Set-Location '$ROOT/apps/cv-worker/src'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
-Write-Host "  Web PID: $($devProc.Id)" -ForegroundColor Yellow
+Write-Host "  Dev server (API+Web) PID: $($devProc.Id)" -ForegroundColor Yellow
 Write-Host "  CV Worker PID: $($cvProc.Id)" -ForegroundColor Yellow
 Write-Host ""
 
 function Wait-Http($name, $url, $maxWaitSeconds = 90) {
     Write-Host ("  Waiting for {0} at {1}..." -f $name, $url)
     for ($i = 0; $i -lt $maxWaitSeconds; $i++) {
-        try {
-            $res = Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 2
-            if ($res.StatusCode -ge 200 -and $res.StatusCode -lt 500) {
-                Write-Host ("      [OK] {0} ready ({1}s)" -f $name, $i) -ForegroundColor Green
-                return $true
+        # Use Start-Job to ensure the request has its own timeout context,
+        # avoiding Invoke-WebRequest -TimeoutSec hanging in some environments.
+        $job = Start-Job -ScriptBlock {
+            param($u)
+            try {
+                $res = Invoke-WebRequest -Uri $u -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop
+                return $res.StatusCode
+            } catch {
+                return $null
             }
+        } -ArgumentList $url
+        $result = Wait-Job $job -Timeout 6 | Out-Null
+        try {
+            $statusCode = Receive-Job $job -ErrorAction SilentlyContinue
         } catch {
-            # not ready yet
+            $statusCode = $null
+        }
+        Remove-Job $job -Force -ErrorAction SilentlyContinue
+
+        if ($null -ne $statusCode -and $statusCode -ge 200 -and $statusCode -lt 500) {
+            Write-Host ("      [OK] {0} ready ({1}s)" -f $name, $i) -ForegroundColor Green
+            return $true
         }
         Start-Sleep -Seconds 1
     }
@@ -150,16 +164,31 @@ if (-not (Wait-Http "API" "http://localhost:3000/api/health" 90)) {
     Write-Host "    - PostgreSQL not ready (check docker logs)"
     Write-Host "    - Prisma client out of sync (run pnpm db:generate)"
     Write-Host ""
-    Write-Host "  Web API PID: $($devProc.Id)" -ForegroundColor Yellow
+    Write-Host "  Dev server PID: $($devProc.Id)" -ForegroundColor Yellow
     Write-Host "  CV Worker PID: $($cvProc.Id)" -ForegroundColor Yellow
     exit 1
 }
 
-# CV Worker readiness check
-if (-not (Wait-Http "CV Worker" "http://localhost:8000/health" 60)) {
+# CV Worker readiness check (120s: uvicorn needs time to start + optionally load ONNX model)
+if (-not (Wait-Http "CV Worker" "http://localhost:8000/health" 120)) {
     Write-Host ""
-    Log-Error "CV Worker failed to become ready. Check the uvicorn window."
-    exit 1
+    Log-Error "CV Worker failed to become ready after 120s."
+    Write-Host ""
+    Write-Host "  To start CV Worker manually, run:" -ForegroundColor Yellow
+    Write-Host "    cd apps/cv-worker/src" -ForegroundColor Cyan
+    Write-Host "    python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  Dev server PID: $($devProc.Id)" -ForegroundColor Yellow
+    Write-Host "  CV Worker PID: $($cvProc.Id)" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "  The CV Worker is optional. Dev server (API+Web) is already running." -ForegroundColor Yellow
+    Write-Host "  You can open http://localhost:5173 and use Mock detector mode." -ForegroundColor Yellow
+    Write-Host ""
+    # Don't exit — let user decide if they want mock mode to proceed
+    # Write-Host "  (Optional) Press Ctrl+C to stop, or let mock-mode continue..."
+    # For now, just warn and continue since API/Web are already up
+    Log-Warn "Continuing without CV Worker. Run button will use mock detector."
+    Write-Host ""
 }
 
 # Web readiness check (Vite dev server)
