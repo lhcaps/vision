@@ -184,67 +184,71 @@ export function computeEvaluationMetrics(
     }
   }
 
-  const allGroupKeys = new Set([...groupedPredictions.keys(), ...groupedGt.keys()]);
-
-  const classMetrics = new Map<
-    string,
-    {
-      classKey: string;
-      label: string;
-      tp: number;
-      fp: number;
-      fn: number;
-      ious: number[];
-    }
-  >();
-
-  const matchByClass = new Map<string, EvaluationMatch[]>();
-  for (const m of matches) {
-    if (!matchByClass.has(m.classKey)) {
-      matchByClass.set(m.classKey, []);
-    }
-    matchByClass.get(m.classKey)!.push(m);
-  }
-
-  const matchByPredId = new Map<string, EvaluationMatch>();
-  for (const m of matches) {
-    matchByPredId.set(m.predictionId, m);
-  }
-
+  // Build a lookup from GT id -> match for that GT
   const matchByGtId = new Map<string, EvaluationMatch>();
   for (const m of matches) {
     matchByGtId.set(m.groundTruthId, m);
   }
 
-  for (const classKey of allGroupKeys) {
-    const parts = classKey.split('|');
-    const assetId = parts[0];
-    const keyClassKey = parts[1];
-    const preds = groupedPredictions.get(classKey) ?? [];
-    const gts = groupedGt.get(classKey) ?? [];
+  // ── Per-class aggregation: accumulate TP/FP/FN across ALL assetId|classKey
+  // groups into a single entry per classKey.
+  // The accumulator approach ensures that if "car" appears in asset a1 and
+  // asset a2, both contribute to the same "car" row rather than overwriting.
+  // ─────────────────────────────────────────────────────────────────────────────
 
-    const classLabel = gts[0]?.label ?? preds[0]?.label ?? keyClassKey;
+  const classAccumulator = new Map<
+    string,
+    { classKey: string; label: string; tp: number; fp: number; fn: number; ious: number[] }
+  >();
 
-    const gtForClass = gts.map((gt) => gt.id);
-    const matchedGtForClass = gtForClass.filter((gtId) => matchByGtId.has(gtId));
-    const tp = matchedGtForClass.length;
+  // Process every (assetId, classKey) group to accumulate per-class counts.
+  // Groups that have no predictions still contribute FN (missing GT).
+  // Groups that have predictions with no matches contribute FP.
+  for (const [groupKey, gts] of groupedGt) {
+    const parts = groupKey.split('|');
+    const classKey = parts[1];
+    const preds = groupedPredictions.get(groupKey) ?? [];
+
+    // Resolve label: prefer GT label > prediction label > classKey
+    const label = gts[0]?.label ?? preds[0]?.label ?? classKey;
+
+    const gtIds = gts.map((gt) => gt.id);
+    const matchedGtIds = gtIds.filter((gtId) => matchByGtId.has(gtId));
+    const tp = matchedGtIds.length;
     const fp = preds.length - tp;
     const fn = gts.length - tp;
 
-    const matchIous: number[] = [];
-    for (const gtId of matchedGtForClass) {
-      const match = matchByGtId.get(gtId);
-      if (match) matchIous.push(match.iou);
-    }
+    const ious = matchedGtIds.map((gtId) => matchByGtId.get(gtId)!.iou);
 
-    classMetrics.set(keyClassKey, {
-      classKey: keyClassKey,
-      label: classLabel,
-      tp,
-      fp,
-      fn,
-      ious: matchIous,
-    });
+    if (!classAccumulator.has(classKey)) {
+      classAccumulator.set(classKey, { classKey, label, tp: 0, fp: 0, fn: 0, ious: [] });
+    }
+    const acc = classAccumulator.get(classKey)!;
+    // Label preference: keep existing label unless new one is more specific
+    if (label !== classKey && acc.label === classKey) {
+      acc.label = label;
+    }
+    acc.tp += tp;
+    acc.fp += fp;
+    acc.fn += fn;
+    acc.ious.push(...ious);
+  }
+
+  // Groups with predictions but no GT at all contribute FP per class.
+  for (const [groupKey, preds] of groupedPredictions) {
+    if (!groupedGt.has(groupKey)) {
+      const parts = groupKey.split('|');
+      const classKey = parts[1];
+      const label = preds[0]?.label ?? classKey;
+      if (!classAccumulator.has(classKey)) {
+        classAccumulator.set(classKey, { classKey, label, tp: 0, fp: 0, fn: 0, ious: [] });
+      }
+      const acc = classAccumulator.get(classKey)!;
+      if (label !== classKey && acc.label === classKey) {
+        acc.label = label;
+      }
+      acc.fp += preds.length;
+    }
   }
 
   const totalTp = matches.length;
@@ -256,7 +260,7 @@ export function computeEvaluationMetrics(
   const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
   const meanIou = totalTp > 0 ? matches.reduce((s, m) => s + m.iou, 0) / totalTp : 0;
 
-  const perClassMetrics: PerClassMetrics[] = [...classMetrics.values()]
+  const perClassMetrics: PerClassMetrics[] = [...classAccumulator.values()]
     .sort((a, b) => {
       const labelCmp = a.label.localeCompare(b.label);
       if (labelCmp !== 0) return labelCmp;
@@ -297,7 +301,8 @@ export function computeEvaluationMetrics(
     datasetVersionId,
     predictions,
     groundTruth,
-    iouThreshold
+    iouThreshold,
+    algorithmVersion
   );
 
   const pipelineId: string | null = predictions[0]
@@ -329,51 +334,48 @@ export function computeEvaluationMetrics(
   };
 }
 
-function canonicalPredId(p: EvaluationPrediction): string {
-  const g = p.geometry;
-  return [
-    p.assetId,
-    p.classKey,
-    g.x.toFixed(1),
-    g.y.toFixed(1),
-    g.width.toFixed(1),
-    g.height.toFixed(1),
-    p.confidence.toFixed(3),
-  ].join('|');
-}
-
-function canonicalGtId(gt: EvaluationGroundTruth): string {
-  const g = gt.geometry;
-  return [
-    gt.assetId,
-    gt.classKey,
-    g.x.toFixed(1),
-    g.y.toFixed(1),
-    g.width.toFixed(1),
-    g.height.toFixed(1),
-  ].join('|');
-}
-
+/**
+ * Deterministic canonical JSON for input hash.
+ * Uses exact numeric values (no rounding) so that tiny precision differences
+ * produce different hashes. Keys are sorted for deterministic ordering.
+ */
 export function computeInputHash(
   jobId: string,
   datasetVersionId: string,
   predictions: EvaluationPrediction[],
   groundTruth: EvaluationGroundTruth[],
-  iouThreshold: number
+  iouThreshold: number,
+  algorithmVersion: string
 ): string {
   const sortedPreds = [...predictions]
     .sort((a, b) => a.id.localeCompare(b.id))
-    .map(canonicalPredId);
-  const sortedGt = [...groundTruth].sort((a, b) => a.id.localeCompare(b.id)).map(canonicalGtId);
-  const content = [
+    .map((p) => ({
+      id: p.id,
+      assetId: p.assetId,
+      classKey: p.classKey,
+      geometry: p.geometry,
+      confidence: p.confidence,
+    }));
+
+  const sortedGt = [...groundTruth]
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((gt) => ({
+      id: gt.id,
+      assetId: gt.assetId,
+      classKey: gt.classKey,
+      geometry: gt.geometry,
+    }));
+
+  const canonical = JSON.stringify({
     jobId,
     datasetVersionId,
-    iouThreshold.toString(),
-    sortedPreds.join('#'),
-    sortedGt.join('#'),
-  ].join('||');
+    iouThreshold,
+    algorithmVersion,
+    predictions: sortedPreds,
+    groundTruth: sortedGt,
+  });
 
-  return createHash('sha256').update(content).digest('hex').slice(0, 16);
+  return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }
 
 export function safeDiv(numerator: number, denominator: number): number {

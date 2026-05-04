@@ -11,6 +11,13 @@ describe('EvaluationReportSchema', () => {
     const valid = {
       id: 'report-1',
       jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
       precision: 0.82,
       recall: 0.74,
       f1: 0.78,
@@ -18,8 +25,11 @@ describe('EvaluationReportSchema', () => {
       truePositives: 45,
       falsePositives: 8,
       falseNegatives: 12,
+      predictionCount: 53,
+      groundTruthCount: 57,
       perClassMetrics: [
         {
+          classKey: 'car',
           label: 'Car',
           precision: 0.82,
           recall: 0.74,
@@ -28,6 +38,7 @@ describe('EvaluationReportSchema', () => {
           falsePositives: 8,
           falseNegatives: 12,
           count: 57,
+          meanIou: 0.61,
         },
       ],
       evaluatedAt: '2026-04-28T13:36:00.000Z',
@@ -36,10 +47,66 @@ describe('EvaluationReportSchema', () => {
     expect(() => EvaluationReportSchema.parse(valid)).not.toThrow();
   });
 
+  it('accepts valid evaluation report with matches', () => {
+    const valid = {
+      id: 'report-1',
+      jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
+      precision: 1,
+      recall: 1,
+      f1: 1,
+      meanIoU: 1,
+      truePositives: 3,
+      falsePositives: 0,
+      falseNegatives: 0,
+      predictionCount: 3,
+      groundTruthCount: 3,
+      perClassMetrics: [
+        {
+          classKey: 'car',
+          label: 'Car',
+          precision: 1,
+          recall: 1,
+          f1: 1,
+          truePositives: 1,
+          falsePositives: 0,
+          falseNegatives: 0,
+          count: 1,
+          meanIou: 1,
+        },
+      ],
+      matches: [
+        {
+          predictionId: 'p1',
+          groundTruthId: 'g1',
+          assetId: 'a1',
+          classKey: 'car',
+          iou: 1,
+        },
+      ],
+      evaluatedAt: '2026-04-28T13:36:00.000Z',
+      assetCount: 1,
+    };
+    expect(() => EvaluationReportSchema.parse(valid)).not.toThrow();
+  });
+
   it('rejects negative precision', () => {
     const invalid = {
       id: 'report-1',
       jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
       precision: -0.1,
       recall: 0.74,
       f1: 0.78,
@@ -47,6 +114,8 @@ describe('EvaluationReportSchema', () => {
       truePositives: 45,
       falsePositives: 8,
       falseNegatives: 12,
+      predictionCount: 53,
+      groundTruthCount: 57,
       perClassMetrics: [],
       evaluatedAt: '2026-04-28T13:36:00.000Z',
       assetCount: 10,
@@ -58,6 +127,13 @@ describe('EvaluationReportSchema', () => {
     const invalid = {
       id: 'report-1',
       jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
       precision: 0.82,
       recall: 0.74,
       f1: 1.5,
@@ -65,6 +141,8 @@ describe('EvaluationReportSchema', () => {
       truePositives: 45,
       falsePositives: 8,
       falseNegatives: 12,
+      predictionCount: 53,
+      groundTruthCount: 57,
       perClassMetrics: [],
       evaluatedAt: '2026-04-28T13:36:00.000Z',
       assetCount: 10,
@@ -76,6 +154,13 @@ describe('EvaluationReportSchema', () => {
     const invalid = {
       id: 'report-1',
       jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
       precision: 0.82,
       recall: 0.74,
       f1: 0.78,
@@ -83,6 +168,8 @@ describe('EvaluationReportSchema', () => {
       truePositives: 45,
       falsePositives: 8,
       falseNegatives: 12,
+      predictionCount: 53,
+      groundTruthCount: 57,
       perClassMetrics: [],
       evaluatedAt: '2026-04-28T13:36:00.000Z',
       assetCount: 10,
@@ -103,6 +190,7 @@ describe('EvaluationReportSchema', () => {
 describe('PerClassMetricSchema', () => {
   it('accepts valid per-class metric', () => {
     const valid = {
+      classKey: 'car',
       label: 'Car',
       precision: 0.82,
       recall: 0.74,
@@ -111,12 +199,14 @@ describe('PerClassMetricSchema', () => {
       falsePositives: 8,
       falseNegatives: 12,
       count: 57,
+      meanIou: 0.61,
     };
     expect(() => PerClassMetricSchema.parse(valid)).not.toThrow();
   });
 
   it('accepts zero counts (empty class)', () => {
     const zero = {
+      classKey: 'empty',
       label: 'EmptyClass',
       precision: 0,
       recall: 0,
@@ -125,12 +215,14 @@ describe('PerClassMetricSchema', () => {
       falsePositives: 0,
       falseNegatives: 0,
       count: 0,
+      meanIou: 0,
     };
     expect(() => PerClassMetricSchema.parse(zero)).not.toThrow();
   });
 
   it('rejects negative tp/fp/fn', () => {
     const invalid = {
+      classKey: 'car',
       label: 'Car',
       precision: 0.82,
       recall: 0.74,
@@ -139,6 +231,7 @@ describe('PerClassMetricSchema', () => {
       falsePositives: 8,
       falseNegatives: 12,
       count: 57,
+      meanIou: 0.61,
     };
     expect(() => PerClassMetricSchema.parse(invalid)).toThrow();
   });
@@ -212,10 +305,17 @@ describe('PredictionSummarySchema', () => {
 });
 
 describe('EvaluationReportSummarySchema', () => {
-  it('accepts summary without perClassMetrics', () => {
+  it('accepts valid summary with all required fields', () => {
     const valid = {
       id: 'summary-1',
       jobId: 'job-1',
+      datasetVersionId: 'dsv-1',
+      pipelineId: 'pipe-1',
+      modelId: 'model-1',
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: 'a1b2c3d4e5f6a1b2',
+      metricsHash: '1234567890abcdef',
       precision: 0.82,
       recall: 0.74,
       f1: 0.78,
@@ -223,8 +323,10 @@ describe('EvaluationReportSummarySchema', () => {
       truePositives: 45,
       falsePositives: 8,
       falseNegatives: 12,
-      evaluatedAt: '2026-04-28T13:36:00.000Z',
+      predictionCount: 53,
+      groundTruthCount: 57,
       assetCount: 10,
+      evaluatedAt: '2026-04-28T13:36:00.000Z',
     };
     expect(() => EvaluationReportSummarySchema.parse(valid)).not.toThrow();
   });

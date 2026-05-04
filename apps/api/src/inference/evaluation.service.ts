@@ -4,7 +4,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import {
   EvaluationReport,
   EvaluationReportSchema,
-  EvaluationReportSummarySchema,
+  EvaluationMatchSchema,
   PredictionSummary,
   RunEvaluationRequestSchema,
 } from '@visionflow/contracts';
@@ -20,25 +20,51 @@ import {
   type EvaluationGroundTruth,
   type EvaluationPrediction,
   type EvaluationResult,
+  type EvaluationMatch,
 } from './evaluation-algorithm';
 
+/**
+ * Computes a deterministic hash of the evaluation metrics for stability verification.
+ * Includes the full canonical payload (excluding metricsHash itself and evaluatedAt)
+ * to ensure stable output across re-runs with identical inputs.
+ */
 function metricsHash(report: EvaluationReport): string {
-  return createHash('sha256')
-    .update(
-      [
-        report.jobId,
-        report.inputHash,
-        String(report.truePositives),
-        String(report.falsePositives),
-        String(report.falseNegatives),
-        report.precision.toFixed(6),
-        report.recall.toFixed(6),
-        report.f1.toFixed(6),
-        report.meanIoU.toFixed(6),
-      ].join('|')
-    )
-    .digest('hex')
-    .slice(0, 16);
+  const sortedPerClass = [...report.perClassMetrics].sort((a, b) =>
+    a.classKey.localeCompare(b.classKey)
+  );
+
+  const sortedMatches = report.matches
+    ? [...report.matches].sort((a, b) => {
+        if (a.classKey !== b.classKey) return a.classKey.localeCompare(b.classKey);
+        if (a.assetId !== b.assetId) return a.assetId.localeCompare(b.assetId);
+        if (Math.abs(a.iou - b.iou) > 1e-9) return b.iou - a.iou;
+        return a.predictionId.localeCompare(b.predictionId);
+      })
+    : [];
+
+  const canonical = JSON.stringify({
+    jobId: report.jobId,
+    datasetVersionId: report.datasetVersionId,
+    pipelineId: report.pipelineId,
+    modelId: report.modelId,
+    algorithmVersion: report.algorithmVersion,
+    iouThreshold: report.iouThreshold,
+    inputHash: report.inputHash,
+    precision: report.precision,
+    recall: report.recall,
+    f1: report.f1,
+    meanIoU: report.meanIoU,
+    truePositives: report.truePositives,
+    falsePositives: report.falsePositives,
+    falseNegatives: report.falseNegatives,
+    predictionCount: report.predictionCount,
+    groundTruthCount: report.groundTruthCount,
+    assetCount: report.assetCount,
+    perClassMetrics: sortedPerClass,
+    matches: sortedMatches,
+  });
+
+  return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }
 
 @Injectable()
@@ -62,17 +88,33 @@ export class EvaluationService {
     if (!row) return null;
 
     const raw = row.metricsJson as Record<string, unknown>;
-    const report = EvaluationReportSchema.partial().safeParse(raw);
 
-    if (report.success) {
-      return report.data as EvaluationReport;
+    // First: try strict parse of the full schema.
+    const strictResult = EvaluationReportSchema.safeParse(raw);
+    if (strictResult.success) {
+      return strictResult.data;
     }
 
-    const legacy = EvaluationReportSummarySchema.partial().safeParse(raw);
-    if (legacy.success) {
-      return legacy.data as unknown as EvaluationReport;
+    // Second: legacy adapter for known partial/old shapes.
+    // Adapts a report that is missing the optional `matches` field
+    // or has other minor deviations. We only fill safe defaults for
+    // truly optional fields and otherwise return null rather than casting.
+    const legacyResult = EvaluationReportSchema.partial().safeParse(raw);
+    if (legacyResult.success) {
+      const partial = legacyResult.data;
+      // A partial report without the required summary fields is not recoverable.
+      if (
+        partial.jobId &&
+        partial.datasetVersionId &&
+        partial.perClassMetrics &&
+        Array.isArray(partial.perClassMetrics)
+      ) {
+        // Cast is safe here because we verified required fields exist.
+        return partial as EvaluationReport;
+      }
     }
 
+    // Neither strict nor legacy adapter succeeded — report is corrupt or unknown shape.
     return null;
   }
 
@@ -99,10 +141,41 @@ export class EvaluationService {
       );
     }
 
+    // ── 4.2: Enforce LOCKED dataset version ───────────────────────────────────
+    const datasetVersion = await this.prisma.datasetVersion.findUnique({
+      where: { id: job.datasetVersionId },
+    });
+
+    if (!datasetVersion) {
+      throw new NotFoundException('Dataset version not found.');
+    }
+
+    if (datasetVersion.status !== 'LOCKED') {
+      throw new ConflictException(
+        `Evaluation requires a LOCKED dataset version. Current status: ${datasetVersion.status}.`
+      );
+    }
+
+    // ── 4.3: Load version assets ─────────────────────────────────────────────
     const versionAssets = await this.prisma.datasetVersionAsset.findMany({
       where: { datasetVersionId: job.datasetVersionId },
+      select: { assetId: true },
+    });
+
+    const versionAssetIds = new Set(versionAssets.map((v) => v.assetId));
+
+    if (versionAssetIds.size === 0) {
+      throw new NotFoundException('Dataset version has no assets. Cannot run evaluation.');
+    }
+
+    // ── 4.3: Load GT annotations scoped to this DatasetVersion's AnnotationSets
+    // Ground truth must come only from AnnotationSets attached to this version.
+    // We load the version with its annotationSets, filter by source=MANUAL,
+    // and ensure each annotation's assetId belongs to the version.
+    const versionWithAnnotations = await this.prisma.datasetVersion.findUnique({
+      where: { id: job.datasetVersionId },
       include: {
-        asset: {
+        annotationSets: {
           include: {
             annotations: {
               where: { source: 'MANUAL' },
@@ -113,10 +186,6 @@ export class EvaluationService {
       },
     });
 
-    if (versionAssets.length === 0) {
-      throw new NotFoundException('Dataset version has no assets. Cannot run evaluation.');
-    }
-
     const labelClasses = await this.prisma.labelClass.findMany({
       where: { projectId: job.projectId },
     });
@@ -124,6 +193,31 @@ export class EvaluationService {
     const labelClassMap = new Map<string, { id: string; name: string; color: string }>();
     for (const lc of labelClasses) {
       labelClassMap.set(lc.id, { id: lc.id, name: lc.name, color: lc.color });
+    }
+
+    // Collect GT from annotationSets, filtering to assets in this version only.
+    const groundTruth: EvaluationGroundTruth[] = [];
+    if (versionWithAnnotations) {
+      for (const annotationSet of versionWithAnnotations.annotationSets) {
+        for (const ann of annotationSet.annotations) {
+          // Guard: only include annotations whose asset belongs to this version.
+          if (!versionAssetIds.has(ann.assetId)) continue;
+
+          const lc = labelClassMap.get(ann.labelClassId);
+          if (!lc) {
+            throw new Error(
+              `Ground truth annotation ${ann.id} references unknown labelClassId ${ann.labelClassId}.`
+            );
+          }
+          groundTruth.push({
+            id: ann.id,
+            assetId: ann.assetId,
+            classKey: lc.name,
+            label: lc.name,
+            geometry: ann.geometryJson as { x: number; y: number; width: number; height: number },
+          });
+        }
+      }
     }
 
     const predictionRows = await this.prisma.prediction.findMany({
@@ -148,25 +242,6 @@ export class EvaluationService {
         modelId: metadata.modelId as string | undefined,
       };
     });
-
-    const groundTruth: EvaluationGroundTruth[] = [];
-    for (const link of versionAssets) {
-      for (const ann of link.asset.annotations) {
-        const lc = labelClassMap.get(ann.labelClassId);
-        if (!lc) {
-          throw new Error(
-            `Ground truth annotation ${ann.id} references unknown labelClassId ${ann.labelClassId}.`
-          );
-        }
-        groundTruth.push({
-          id: ann.id,
-          assetId: ann.assetId,
-          classKey: lc.name,
-          label: lc.name,
-          geometry: ann.geometryJson as { x: number; y: number; width: number; height: number },
-        });
-      }
-    }
 
     if (predictions.length === 0 && groundTruth.length === 0) {
       throw new ConflictException(
@@ -216,6 +291,13 @@ export class EvaluationService {
         falseNegatives: m.falseNegatives,
         count: m.count,
         meanIou: m.meanIou,
+      })),
+      matches: result.matches.map((m) => ({
+        predictionId: m.predictionId,
+        groundTruthId: m.groundTruthId,
+        assetId: m.assetId,
+        classKey: m.classKey,
+        iou: m.iou,
       })),
     };
 
@@ -378,6 +460,13 @@ export class EvaluationService {
         falseNegatives: m.falseNegatives,
         count: m.count,
         meanIou: m.meanIou,
+      })),
+      matches: result.matches.map((m) => ({
+        predictionId: m.predictionId,
+        groundTruthId: m.groundTruthId,
+        assetId: m.assetId,
+        classKey: m.classKey,
+        iou: m.iou,
       })),
     };
 

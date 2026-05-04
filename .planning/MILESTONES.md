@@ -59,31 +59,32 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 
 ### Phase Progress
 
-| #     | Name                                        | Goal                                                                                         | Status       |
-| ----- | ------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------ |
-| 11    | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs                                      | ✅ Done      |
-| 12A   | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest                                          | ✅ Done      |
-| 12B   | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example                                             | ✅ Done      |
-| 12C   | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes                                                  | ✅ Done      |
-| 13    | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors                                          | ✅ Done      |
-| 14A   | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations                                               | ✅ Done      |
-| 14B   | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs                                                | ✅ Done      |
-| 15    | Observability & Health Checks               | Request IDs, structured logs, /health endpoints                                              | ✅ Done      |
-| 15.5  | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors                                                 | ✅ Done      |
-| 15.6  | Workflow Guidance & Primary Next Action     | NextAction model, disabled reasons, recovery paths                                           | ✅ Done      |
-| 15.7  | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs)                        | ✅ Done      |
-| 15.8  | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions                                           | ✅ Done      |
-| 15.9  | Visual System Hardening                     | Focus-visible, semantic colors, consistent spacing                                           | ✅ Done      |
-| 15.10 | Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests                                      | ✅ Done      |
-| 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                 | ✅ Done      |
-| 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field | ✅ Done      |
-| 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions   | ✅ Done      |
-| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                | ✅ FULL PASS |
-| 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                            | ✅ FULL PASS |
-| 21    | Frontend Split Completion                   | All feature modules, shared components                                                       | Planned      |
-| 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                    | Planned      |
-| 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                              | Planned      |
-| 23    | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                                                            | Planned      |
+| #     | Name                                        | Goal                                                                                                                  | Status       |
+| ----- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 11    | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs                                                               | ✅ Done      |
+| 12A   | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest                                                                   | ✅ Done      |
+| 12B   | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example                                                                      | ✅ Done      |
+| 12C   | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes                                                                           | ✅ Done      |
+| 13    | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors                                                                   | ✅ Done      |
+| 14A   | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations                                                                        | ✅ Done      |
+| 14B   | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs                                                                         | ✅ Done      |
+| 15    | Observability & Health Checks               | Request IDs, structured logs, /health endpoints                                                                       | ✅ Done      |
+| 15.5  | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors                                                                          | ✅ Done      |
+| 15.6  | Workflow Guidance & Primary Next Action     | NextAction model, disabled reasons, recovery paths                                                                    | ✅ Done      |
+| 15.7  | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs)                                                 | ✅ Done      |
+| 15.8  | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions                                                                    | ✅ Done      |
+| 15.9  | Visual System Hardening                     | Focus-visible, semantic colors, consistent spacing                                                                    | ✅ Done      |
+| 15.10 | Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests                                                               | ✅ Done      |
+| 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                                          | ✅ Done      |
+| 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field                          | ✅ Done      |
+| 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions                            | ✅ Done      |
+| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                                         | ✅ FULL PASS |
+| 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                                                     | ✅ FULL PASS |
+| 20B   | Evaluation Correctness Hardening            | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash | ✅ Done      |
+| 21    | Frontend Split Completion                   | All feature modules, shared components                                                                                | Planned      |
+| 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                                             | Planned      |
+| 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                                                       | Planned      |
+| 23    | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                                                                                     | Planned      |
 
 ### Phase 11 Key Outcomes
 
@@ -123,9 +124,21 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 ### Phase 20 Key Outcomes
 
 - **Deterministic evaluation algorithm:** `computeEvaluationMetrics()` — pure function, greedy IoU-based matching (threshold 0.5), deterministic ordering (confidence desc, id asc for predictions; IoU desc, id asc for GT candidates)
-- **inputHash:** SHA-256 of canonical inputs (jobId, datasetVersionId, sorted predictions, sorted GTs, iouThreshold), 16-char hex, stable across re-runs
+- **inputHash:** SHA-256 of canonical inputs (jobId, datasetVersionId, sorted predictions, sorted GTs, iouThreshold, algorithmVersion), 16-char hex, stable across re-runs. Non-lossy: exact numeric values, no rounding.
 - **Label mapping:** `resolvePredictionClass()` from `labelClassId`, `metadata.cocoLabel`, or `unmapped:unknown`; real class names (car/van/truck) in per-class metrics
 - **EvaluationService refactored:** Removed `DATABASE_URL` branching, removed CV worker delegation, removed `Date.now()` in report ID, added full traceability fields
 - **Contracts extended:** `PerClassMetricSchema` +`classKey`/`meanIou`, `EvaluationMatchSchema`, `EvaluationReportSummarySchema` + traceability + hash fields
-- **21 algorithm unit tests:** Covering all EVAL-09 fixture cases (perfect match, duplicates, low IoU, wrong class, missing pred, multi-class, empty states, determinism, mean IoU, geometry validation, match sorting)
+- **31 algorithm unit tests:** Covering all EVAL-09 fixture cases plus cross-asset aggregation, hash precision, and order stability (10 new tests added by Phase 20B)
 - **Runtime results:** TP=3, FP=0, FN=0; Precision=1.0, Recall=1.0, F1=1.0, Mean IoU=1.0 (seed data: identical GT/prediction boxes)
+
+### Phase 20B Key Outcomes (Evaluation Correctness Hardening)
+
+Phase 20B fixed 7 correctness blockers found in the Phase 20 audit:
+
+- **Per-class aggregation:** Accumulator pattern — if "car" appears in asset a1 (TP) and asset a2 (FP+FN), one aggregated "car" row with TP=1, FP=1, FN=1
+- **LOCKED check:** Throws `ConflictException` before evaluation if `DatasetVersion.status !== 'LOCKED'`
+- **GT scoping:** Ground truth loaded only from `AnnotationSet` rows belonging to the evaluated `DatasetVersion`, filtered by `source='MANUAL'`
+- **Strict report parsing:** `safeParse` first; legacy adapter for known shapes; `null` if neither succeeds
+- **Non-lossy hash:** Exact numeric values in canonical JSON; tiny differences change hash; same IDs in different order produce identical hash
+- **Matches persisted:** `matches[]` included in `EvaluationReportSchema` and persisted in `metricsJson`
+- **Full metricsHash:** Computed from canonical JSON of full report payload including perClassMetrics and matches, excluding `metricsHash`/`id`/`evaluatedAt`

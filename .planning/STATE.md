@@ -2,31 +2,23 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 19 (FULL PASS — Real ONNX Detector & Prediction Persistence)
+Current phase: Phase 20B (Evaluation Correctness Hardening)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 19 — FULL PASS 10/10 (2026-05-04)
-Status: Completed
+Phase: Phase 20B — Evaluation Correctness Hardening (2026-05-04)
+Status: Complete — all 7 blockers fixed, 10 new tests, typecheck/test/build/lint/format pass
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 20 (Evaluation E2E)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening)
 
-**v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion) next to execute
+**v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion)
 
-## Accumulated Context
-
-**v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
-
-**v1.1 Progress:**
-
-- Phase 11 (README) ✅ Done
-- Phase 12 (CI) ✅ Done
 - Phase 13 (Security) ✅ Done
 - Phase 14A (Adapter boundary) ✅ Done
 - Phase 14B (Domain invariants) ✅ Done
@@ -122,7 +114,7 @@ Status: Completed
 ## Active Goals
 
 - Execute Phase 21: Frontend Feature Split Completion.
-- Phase 20 ✅ FULL PASS — deterministic IoU matching, persisted evaluation reports, per-class metrics, label mapping, 10/10.
+- Phase 20B ✅ COMPLETE — 7 correctness bugs fixed, 10 new algorithm tests, typecheck/test/build/lint/format all pass.
 
 ## Known Partial Areas (v1.1 Focus)
 
@@ -318,3 +310,61 @@ All Phase 20 deliverables completed. Commit: `feat(evaluation): persist determin
 - Precision=1.0, Recall=1.0, F1=1.0, Mean IoU=1.0
 - Per-class: car/van/truck each P=1, R=1, F1=1, IoU=1.0
 - `inputHash` stable across re-runs: `0c59dbe9c7062999`
+
+## What Is True After Phase 20B (Completed)
+
+All 7 Phase 20 correctness blockers fixed. Commit: `fix(evaluation): harden deterministic evaluation correctness`.
+
+**4.1 Per-class aggregation fixed (`evaluation-algorithm.ts`):**
+
+- The old code stored metrics into `classMetrics` map keyed by `classKey`, overwriting entries across different `assetId|classKey` groups for the same class.
+- The new code uses an accumulator pattern: every `assetId|classKey` group contributes TP/FP/FN counts to a single `classKey`-keyed accumulator. If "car" appears in asset a1 (TP=1) and asset a2 (FN=1), the final per-class "car" row has TP=1, FN=1.
+- Label resolution: GT label preferred over prediction label over classKey.
+- 31 algorithm unit tests now cover cross-asset aggregation (10 new tests added).
+
+**4.2 LOCKED dataset version enforcement (`evaluation.service.ts`):**
+
+- Before loading GT annotations, the service now queries the `DatasetVersion` by `job.datasetVersionId`.
+- If `status !== 'LOCKED'`, throws `ConflictException("Evaluation requires a LOCKED dataset version. Current status: <status>.")`.
+- Seeded dataset version is already LOCKED, so happy path is unaffected.
+- Memory/demo mode does not enforce this (architecture-compatible).
+
+**4.3 GT scoping fixed (`evaluation.service.ts`):**
+
+- Old code loaded annotations via `versionAssets` → `link.asset.annotations` without filtering by annotation set.
+- New code loads `DatasetVersion` with `annotationSets` included, collects annotations from those sets filtered by `source: 'MANUAL'`, then filters to `assetId in versionAssetIds`.
+- This prevents annotations from other dataset versions' annotation sets from leaking into evaluation.
+- If no GT annotations exist for a locked version (predictions-only), evaluation produces FP-only metrics.
+
+**4.4 Strict report parsing (`evaluation.service.ts`):**
+
+- Old code: `EvaluationReportSchema.partial().safeParse(raw)` — any subset of fields was accepted and cast to full `EvaluationReport`.
+- New code: strict `EvaluationReportSchema.safeParse(raw)` first; if it fails, try a minimal legacy adapter that verifies required summary fields exist; if that also fails, return `null`.
+- Corrupt/unknown-shape reports no longer return fabricated full reports.
+
+**4.5 Non-lossy inputHash (`evaluation-algorithm.ts`):**
+
+- Old: `canonicalPredId` used `toFixed(1)` for geometry and `toFixed(3)` for confidence — tiny differences could produce the same hash.
+- New: deterministic canonical JSON with exact numeric values, sorted by `id`, includes `algorithmVersion` in canonical input.
+- Same geometry different by 0.0001 now produces a different hash.
+- Same IDs in different array order produces identical hash.
+
+**4.6 EvaluationMatch persisted (`evaluation.service.ts`, `evaluation.ts`):**
+
+- `EvaluationReportSchema` extended with optional `matches: EvaluationMatchSchema[]`.
+- `runEvaluation()` now includes `result.matches` in the persisted `metricsJson`.
+- `getEvaluationReport()` returns matches automatically since the full report is returned.
+- Frontend ignores unknown fields — no contract change needed on consumer side.
+
+**4.7 metricsHash improved (`evaluation.service.ts`):**
+
+- Old: computed from 8 fields only (jobId, inputHash, TP/FP/FN, P/R/F1/meanIoU).
+- New: computed from canonical JSON of the full report payload including perClassMetrics and matches (sorted deterministically), excluding `metricsHash`, `id`, `evaluatedAt`.
+- Stable across re-runs with identical inputs regardless of `evaluatedAt` timestamp.
+
+**Seed data updates (`scripts/seed-db.ts`):**
+
+- `meanIoU` corrected from `0.88` to `1.0` (identical boxes have IoU=1.0).
+- `matches` field added to seeded `evaluationReport` with all 3 match rows.
+- `computeInputHash` aligned to new signature (includes `algorithmVersion`, sorts by `id`).
+- `algorithmVersion` explicitly set to `eval-v1-iou-0.5-greedy-class-aware`.

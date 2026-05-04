@@ -62,6 +62,7 @@ const DEMO_JOB_COMPLETED_AT = new Date('2026-04-28T13:37:30.000Z');
 
 const LEGACY_DATASET_VERSION_ID = `dsv_${DEMO_PROJECT.id}_v1`;
 const LEGACY_PIPELINE_ID = `pipe_${DEMO_PROJECT.id}_v1`;
+const SEED_ALGORITHM_VERSION = 'eval-v1-iou-0.5-greedy-class-aware';
 
 const DEMO_LABELS = [
   { name: 'car', color: '#6ad9a1' },
@@ -441,9 +442,21 @@ async function main() {
     const seedInputHash = computeInputHash(
       DEMO_JOB_ID,
       datasetVersion.id,
-      seedPredictions,
-      seedAnnotations,
-      0.5
+      seedPredictions.map((p) => ({
+        id: p.id,
+        assetId: p.assetId,
+        label: p.label,
+        geometry: p.geometry,
+        confidence: p.confidence,
+      })),
+      seedAnnotations.map((a) => ({
+        id: a.id,
+        assetId: a.assetId,
+        label: a.label,
+        geometry: a.geometry,
+      })),
+      0.5,
+      SEED_ALGORITHM_VERSION
     );
 
     const evaluationReport = {
@@ -452,14 +465,14 @@ async function main() {
       datasetVersionId: datasetVersion.id,
       pipelineId: pipeline.id,
       modelId: modelArtifact.id,
-      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      algorithmVersion: SEED_ALGORITHM_VERSION,
       iouThreshold: 0.5,
       inputHash: seedInputHash,
       metricsHash: 'seed_placeholder',
       precision: 1,
       recall: 1,
       f1: 1,
-      meanIoU: 0.88,
+      meanIoU: 1,
       truePositives: seedPredictions.length,
       falsePositives: 0,
       falseNegatives: 0,
@@ -478,7 +491,7 @@ async function main() {
           falsePositives: 0,
           falseNegatives: 0,
           count: 1,
-          meanIou: 0.88,
+          meanIou: 1,
         },
         {
           classKey: 'van',
@@ -490,7 +503,7 @@ async function main() {
           falsePositives: 0,
           falseNegatives: 0,
           count: 1,
-          meanIou: 0.88,
+          meanIou: 1,
         },
         {
           classKey: 'truck',
@@ -502,7 +515,30 @@ async function main() {
           falsePositives: 0,
           falseNegatives: 0,
           count: 1,
-          meanIou: 0.88,
+          meanIou: 1,
+        },
+      ],
+      matches: [
+        {
+          predictionId: 'pred_demo_01',
+          groundTruthId: 'ann_01',
+          assetId: 'asset_frame_1482',
+          classKey: 'car',
+          iou: 1,
+        },
+        {
+          predictionId: 'pred_demo_02',
+          groundTruthId: 'ann_02',
+          assetId: 'asset_frame_1482',
+          classKey: 'van',
+          iou: 1,
+        },
+        {
+          predictionId: 'pred_demo_03',
+          groundTruthId: 'ann_03',
+          assetId: 'asset_frame_1482',
+          classKey: 'truck',
+          iou: 1,
         },
       ],
     };
@@ -647,6 +683,7 @@ async function deleteJobsForProject(projectId: string): Promise<void> {
 }
 
 function canonicalPredId(p: {
+  id: string;
   assetId: string;
   label: string;
   geometry: { x: number; y: number; width: number; height: number };
@@ -654,6 +691,7 @@ function canonicalPredId(p: {
 }): string {
   const g = p.geometry;
   return [
+    p.id,
     p.assetId,
     p.label,
     g.x.toFixed(1),
@@ -665,12 +703,14 @@ function canonicalPredId(p: {
 }
 
 function canonicalGtId(gt: {
+  id: string;
   assetId: string;
   label: string;
   geometry: { x: number; y: number; width: number; height: number };
 }): string {
   const g = gt.geometry;
   return [
+    gt.id,
     gt.assetId,
     gt.label,
     g.x.toFixed(1),
@@ -684,28 +724,30 @@ function computeInputHash(
   jobId: string,
   datasetVersionId: string,
   predictions: Array<{
+    id: string;
     assetId: string;
     label: string;
     geometry: { x: number; y: number; width: number; height: number };
     confidence: number;
   }>,
   groundTruth: Array<{
+    id: string;
     assetId: string;
     label: string;
     geometry: { x: number; y: number; width: number; height: number };
   }>,
-  iouThreshold: number
+  iouThreshold: number,
+  algorithmVersion: string
 ): string {
   const sortedPreds = [...predictions]
-    .sort((a, b) => a.assetId.localeCompare(b.assetId))
+    .sort((a, b) => a.id.localeCompare(b.id))
     .map(canonicalPredId);
-  const sortedGt = [...groundTruth]
-    .sort((a, b) => a.assetId.localeCompare(b.assetId))
-    .map(canonicalGtId);
+  const sortedGt = [...groundTruth].sort((a, b) => a.id.localeCompare(b.id)).map(canonicalGtId);
   const content = [
     jobId,
     datasetVersionId,
     iouThreshold.toString(),
+    algorithmVersion,
     sortedPreds.join('#'),
     sortedGt.join('#'),
   ].join('||');

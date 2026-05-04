@@ -46,6 +46,7 @@ export const EvaluationReportSummarySchema = z.object({
 
 export const EvaluationReportSchema = EvaluationReportSummarySchema.extend({
   perClassMetrics: z.array(PerClassMetricSchema),
+  matches: z.array(EvaluationMatchSchema).optional(),
 });
 
 export const EvaluationReportListResponseSchema = z.object({

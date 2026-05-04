@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 21 (Frontend Feature Split Completion) next to execute
+Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B (Evaluation Correctness Hardening) completed — Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -714,6 +714,12 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 ## Phase 20, Evaluation Report End-to-End — Done 2026-05-04
 
+Phase 20 established deterministic IoU-based evaluation matching, persisted reports, per-class metrics, and label mapping.
+
+**Phase 20B (below) fixed 7 correctness blockers found in the Phase 20 audit.**
+
+## Phase 20B, Evaluation Correctness Hardening — Done 2026-05-04
+
 **Completed scope:**
 
 **Evaluation algorithm (`evaluation-algorithm.ts`):**
@@ -749,7 +755,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 
 **Unit tests (`evaluation-algorithm.test.ts`):**
 
-- 21 test cases covering all EVAL-09 scenarios
+- 31 test cases covering all EVAL-09 fixture cases plus cross-asset aggregation, hash precision, and order stability (Phase 20B added 10 new tests)
 
 **Runtime results (seed data: 3 predictions, 3 GT, identical boxes):**
 
@@ -768,6 +774,39 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 6. ✅ Evaluation report links back to job, dataset version, pipeline, and model artifact.
 7. ✅ Same inputs produce same evaluation report (inputHash verified).
 8. ✅ API test validates the matching algorithm (21 unit tests).
+
+## Phase 20B, Evaluation Correctness Hardening — Done 2026-05-04
+
+**Goal:** Fix 7 correctness blockers found in the Phase 20 audit that prevent production-correct evaluation.
+
+**Bug fixes:**
+
+| #   | Bug                                                                  | Fix                                                                                | File                                     |
+| --- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------- |
+| 4.1 | Per-class aggregation overwrote across assets                        | Accumulator pattern aggregates TP/FP/FN by classKey across all assets              | `evaluation-algorithm.ts`                |
+| 4.2 | No LOCKED dataset version enforcement                                | Query `DatasetVersion` before eval; throw `ConflictException` if not `LOCKED`      | `evaluation.service.ts`                  |
+| 4.3 | GT loaded from all `asset.annotations` regardless of version         | Scope GT to `DatasetVersion.annotationSets` filtered by `source='MANUAL'`          | `evaluation.service.ts`                  |
+| 4.4 | `partial().safeParse()` cast partial data to full `EvaluationReport` | Strict parse first; legacy adapter second; null if neither succeeds                | `evaluation.service.ts`                  |
+| 4.5 | `toFixed(1/3)` caused hash collisions for tiny differences           | Canonical JSON with exact values, includes `algorithmVersion`                      | `evaluation-algorithm.ts`                |
+| 4.6 | `EvaluationMatch` computed but not persisted                         | Added optional `matches[]` to `EvaluationReportSchema`; persisted in `metricsJson` | `evaluation.ts`, `evaluation.service.ts` |
+| 4.7 | `metricsHash` only covered 8 fields                                  | Full canonical JSON including perClassMetrics and matches                          | `evaluation.service.ts`                  |
+
+**Verification:** `pnpm typecheck`, `pnpm test` (173 API + 43 contracts + 63 web = 279 tests), `pnpm build`, `pnpm lint`, `pnpm format:check` — all pass.
+
+**Depends on:** Phase 20
+
+**Success criteria:**
+
+1. ✅ Same class across 2 assets produces ONE per-class row with aggregated TP/FP/FN
+2. ✅ Evaluation against DRAFT throws `ConflictException`
+3. ✅ Annotations from other dataset versions excluded from GT
+4. ✅ Partial/corrupt metricsJson returns `null`, not fabricated full report
+5. ✅ Tiny geometry/confidence diff changes inputHash
+6. ✅ `matches[]` field in persisted report
+7. ✅ `metricsHash` stable for same inputs
+8. ✅ 31 algorithm unit tests (10 new: cross-asset, hash precision, order stability)
+9. ✅ Seeded dataset version is LOCKED
+10. ✅ Typecheck, build, lint, format all pass
 
 ## Phase 21, Frontend Feature Split Completion — Planned
 
@@ -954,7 +993,8 @@ v1.1 is complete only when all of the following are true:
 | 18    | Dataset Locking & Deterministic COCO Export | Phase 14B                                         |
 | 19    | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
 | 20    | Evaluation Report End-to-End                | Phase 19                                          |
-| 21    | Frontend Feature Split Completion           | Phase 20                                          |
+| 20B   | Evaluation Correctness Hardening            | Phase 20                                          |
+| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B                               |
 | 22A   | Test Harness & Fixtures                     | Phase 14A                                         |
 | 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
 | 23    | Full E2E Playwright & Demo Video            | Phase 22B                                         |
