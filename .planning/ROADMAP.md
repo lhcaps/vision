@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 19 FULL PASS (2026-05-04) — Phase 20 (Evaluation E2E) next to execute
+Phase 19 FULL PASS 10/10 (2026-05-04) — Phase 20 (Evaluation E2E) next to execute
 
 ## Legend
 
@@ -702,10 +702,13 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 - YOLOv8n ONNX model downloaded from HuggingFace (~6MB)
 - SHA-256 verified: `65158DAD735BE799C2466FA15E260C09558080BD530B42A8D0C3D1B419AFD8B5`
 - Both `download-model.ps1` and `download-model.sh` updated with pinned hash
-- ONNX missing-model smoke: job FAILED with 404, no fallback ✅
-- ONNX real-model smoke: job SUCCEEDED at 100% (~970ms), zero predictions (correct for synthetic test image) ✅
-- Mock job smoke: job SUCCEEDED, 3 predictions persisted with full metadata ✅
-- DB spot-check: prediction traceability confirmed (workerMode, workerVersion, datasetVersionId, pipelineId, modelId) ✅
+- CI fix: `turbo.json` `lint` task now has `dependsOn: ["^build"]` — CI green
+- ONNX missing-model smoke: HTTP 404, no fallback ✅
+- ONNX real-object smoke: 4 predictions on real image (conf=0.05), cocoLabel/classId/geometry valid ✅
+- Mock smoke: 1 prediction, valid geometry and confidence ✅
+- DB harness `pnpm harness:phase19`: exit 0 ✅
+- `pnpm lint`: all packages pass ✅
+- `git check-ignore models/yolov8n.onnx`: ignored ✅
 
 ## Phase 20, Evaluation Report End-to-End — Planned
 

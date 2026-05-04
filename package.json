@@ -29,7 +29,8 @@
     "seed": "npx tsx scripts/seed-demo.ts",
     "seed:db": "npx tsx scripts/seed-db.ts",
     "test:e2e": "pnpm --filter @visionflow/web test:e2e",
-    "download-model": "pwsh -ExecutionPolicy Bypass -File scripts/download-model.ps1"
+    "download-model": "pwsh -ExecutionPolicy Bypass -File scripts/download-model.ps1",
+    "harness:phase19": "npx tsx scripts/harness/phase19-db-spot-check.ts"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

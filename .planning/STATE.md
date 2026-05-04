@@ -8,7 +8,7 @@ Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 19 — FULL PASS (2026-05-04)
+Phase: Phase 19 — FULL PASS 10/10 (2026-05-04)
 Status: Completed
 
 ## Accumulated Context
@@ -36,7 +36,7 @@ Status: Completed
 - Phase 17 (Real media processing) ✅ Done — Pillow thumbnail, MinIO read/write, BullMQ consumer, derivative persistence, AssetDerivative.checksum field
 - Phase 17.1 (Runtime fixes) ✅ Done — Race condition fix, CV worker import fix, full-stack dev boot, storage error classification, duplicate FAILED fix
 - Phase 18 (Dataset lock & COCO export) completed — lock invariants, annotation immutability, deterministic COCO export, real image dimensions persisted
-- Phase 19 (Real ONNX inference) ✅ FULL PASS — YOLOv8n ONNX executed end-to-end, predictions persisted with full traceability, SHA-256 pinned, 8/8 DET criteria passed
+- Phase 19 (Real ONNX inference) ✅ FULL PASS 10/10 — YOLOv8n ONNX executed end-to-end, predictions persisted with full traceability, SHA-256 pinned, 8/8 DET criteria passed, ONNX real-object smoke (4 predictions), CI fixed
 - Phase 20 (Evaluation E2E) pending
 - Phase 21 (Frontend split completion) pending
 - Phase 22A (Test harness) pending

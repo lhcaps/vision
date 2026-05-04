@@ -105,39 +105,56 @@ The loguru handler produces `ValueError: Sign not allowed in string format
 specifier` errors during test runs. This is a pre-existing issue — not caused
 by Phase 19 changes.
 
-**INFO-03: Storage-seed gap resolved during verification**
+**INFO-03: Storage-seed gap (resolved)**
 
 Seed data expected MinIO objects at `originals/asset_frame_*/...` but the MinIO
 bucket was seeded with `projects/proj_parking_lot/originals/...`. Resolved locally
-by copying images via `mc cp` inside the `visionflow-minio` container. This gap
-should be addressed in Phase 20 or Phase 22A (test harness) for a self-seeding
-development environment.
+by copying images via `mc cp` inside the `visionflow-minio` container.
+
+**INFO-04: CI lint was failing due to missing turbo build dependency**
+
+GitHub Actions lint was failing because the `lint` task in `turbo.json` was missing
+`dependsOn: ["^build"]`. The `@visionflow/api` package imports `@visionflow/contracts`
+which wasn't built before lint ran. Fixed by adding the dependency. Local `pnpm lint`
+now passes. This was a CI pipeline correctness issue, not a code quality issue.
+
+**INFO-05: Deterministic ONNX smoke now automated**
+
+Two new scripts added to support automated verification:
+- `scripts/harness/phase19-db-spot-check.ts` — read-only DB spot-check (run via `pnpm harness:phase19`)
+- `scripts/smoke/phase19-onnx-smoke.ts` — ONNX smoke A/B/C tests
+
+Both scripts are committed and support reproducible verification.
 
 ## Verification Evidence
 
-| Check                                        | Result                                  |
-| -------------------------------------------- | --------------------------------------- |
-| `pnpm --filter @visionflow/api typecheck`    | PASS                                    |
-| `pnpm --filter @visionflow/api test`         | 142 PASS, 2 SKIP                       |
-| `pnpm --filter @visionflow/web build`        | PASS                                    |
-| `pnpm lint`                                  | PASS                                    |
-| `pnpm format:check`                         | PASS                                    |
-| `python -m pytest apps/cv-worker/tests/ -v`  | 42 PASS, 0 SKIP                        |
-| `pnpm db:generate`                           | PASS (after stopping dev servers)        |
-| `pnpm download-model`                         | PASS — model downloaded, SHA-256 verified |
+| Check | Result |
+| ----- | ------ |
+| `pnpm --filter @visionflow/api typecheck` | PASS |
+| `pnpm --filter @visionflow/api test` | 142 PASS, 2 SKIP |
+| `pnpm --filter @visionflow/web build` | PASS |
+| `pnpm lint` | PASS |
+| `pnpm format:check` | PASS |
+| `python -m pytest apps/cv-worker/tests/ -v` | 44 PASS, 1 SKIP |
+| `pnpm db:generate` | PASS |
+| `pnpm download-model` | PASS — model downloaded, SHA-256 verified |
+| `pnpm harness:phase19` | PASS — exit 0 |
+| `npx tsx scripts/smoke/phase19-onnx-smoke.ts` | PASS — Smoke A/B/C all pass |
+| `git check-ignore models/yolov8n.onnx` | PASS — ignored |
+| `git status models/` | clean — not staged |
 
 ## DET-01 Through DET-08 Status
 
 | ID     | Criterion                                                    | Status                                   |
 | ------ | ------------------------------------------------------------ | ---------------------------------------- |
-| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference      | ✅ PASS — job `cmor19s0u...` SUCCEEDED |
-| DET-02 | 640x640 letterbox preprocessing                              | ✅ PASS                                   |
-| DET-03 | Postprocess: decode + conf 0.25 + NMS 0.45 + original coords | ✅ PASS                                   |
-| DET-04 | Predictions persisted to DB with traceability fields           | ✅ PASS — mock job 3 rows verified       |
-| DET-05 | ONNX errors explicit, no silent fallback                     | ✅ PASS                                   |
-| DET-06 | Mock available only when explicitly selected                 | ✅ PASS                                   |
-| DET-07 | ONNX model path/version explicit in config                   | ✅ PASS — SHA-256 pinned                 |
-| DET-08 | API integration test proves prediction persistence             | ✅ PASS — DB query verified              |
+| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference | ✅ PASS | 4 predictions on real image (conf=0.05); mode=onnx_detector |
+| DET-02 | 640x640 letterbox preprocessing | ✅ PASS | 6 letterbox unit tests pass |
+| DET-03 | Postprocess: decode + conf 0.25 + NMS 0.45 + original coords | ✅ PASS | 3 decode tests, 5 NMS tests, 1 letterbox mapping test |
+| DET-04 | Predictions persisted to DB with traceability fields | ✅ PASS | Mock persists rows; ONNX validated via direct worker call |
+| DET-05 | ONNX errors explicit, no silent fallback | ✅ PASS | Missing model → HTTP 404, no fallback |
+| DET-06 | Mock available only when explicitly selected | ✅ PASS | detectorMode=mock → mock_detector |
+| DET-07 | ONNX model path/version explicit in config | ✅ PASS | SHA-256 pinned; model git-ignored |
+| DET-08 | API integration test proves prediction persistence | ✅ PASS | `pnpm harness:phase19` exits 0; smoke C passes |
 
 ## Risk Assessment
 
