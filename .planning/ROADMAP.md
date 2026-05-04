@@ -687,6 +687,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 **Depends on:** Phase 17, Phase 18
 
 **Success criteria:**
+
 1. ✅ ONNX detector scaffolded with real YOLOv8n ONNX integration.
 2. ✅ NMS removes overlapping duplicate predictions.
 3. ✅ Confidence threshold filters low-confidence predictions.
@@ -699,6 +700,7 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 10. ✅ API tests prove prediction persistence on production database path.
 
 **Runtime verification (2026-05-04):**
+
 - YOLOv8n ONNX model downloaded from HuggingFace (~6MB)
 - SHA-256 verified: `65158DAD735BE799C2466FA15E260C09558080BD530B42A8D0C3D1B419AFD8B5`
 - Both `download-model.ps1` and `download-model.sh` updated with pinned hash

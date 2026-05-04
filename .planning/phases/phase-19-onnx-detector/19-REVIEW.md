@@ -87,6 +87,7 @@ mapping using ground-truth annotation class information.
 **LOW-02: SHA-256 checksum was PLACEHOLDER (resolved)**
 
 Real SHA-256 verified and pinned in both scripts:
+
 - Hash: `65158DAD735BE799C2466FA15E260C09558080BD530B42A8D0C3D1B419AFD8B5`
 - Source: `https://huggingface.co/Kalray/yolov8/resolve/main/yolov8n.onnx`
 - Both `download-model.ps1` and `download-model.sh` updated. Script verification confirmed pass.
@@ -121,6 +122,7 @@ now passes. This was a CI pipeline correctness issue, not a code quality issue.
 **INFO-05: Deterministic ONNX smoke now automated**
 
 Two new scripts added to support automated verification:
+
 - `scripts/harness/phase19-db-spot-check.ts` — read-only DB spot-check (run via `pnpm harness:phase19`)
 - `scripts/smoke/phase19-onnx-smoke.ts` — ONNX smoke A/B/C tests
 
@@ -128,41 +130,41 @@ Both scripts are committed and support reproducible verification.
 
 ## Verification Evidence
 
-| Check | Result |
-| ----- | ------ |
-| `pnpm --filter @visionflow/api typecheck` | PASS |
-| `pnpm --filter @visionflow/api test` | 142 PASS, 2 SKIP |
-| `pnpm --filter @visionflow/web build` | PASS |
-| `pnpm lint` | PASS |
-| `pnpm format:check` | PASS |
-| `python -m pytest apps/cv-worker/tests/ -v` | 44 PASS, 1 SKIP |
-| `pnpm db:generate` | PASS |
-| `pnpm download-model` | PASS — model downloaded, SHA-256 verified |
-| `pnpm harness:phase19` | PASS — exit 0 |
-| `npx tsx scripts/smoke/phase19-onnx-smoke.ts` | PASS — Smoke A/B/C all pass |
-| `git check-ignore models/yolov8n.onnx` | PASS — ignored |
-| `git status models/` | clean — not staged |
+| Check                                         | Result                                    |
+| --------------------------------------------- | ----------------------------------------- |
+| `pnpm --filter @visionflow/api typecheck`     | PASS                                      |
+| `pnpm --filter @visionflow/api test`          | 142 PASS, 2 SKIP                          |
+| `pnpm --filter @visionflow/web build`         | PASS                                      |
+| `pnpm lint`                                   | PASS                                      |
+| `pnpm format:check`                           | PASS                                      |
+| `python -m pytest apps/cv-worker/tests/ -v`   | 44 PASS, 1 SKIP                           |
+| `pnpm db:generate`                            | PASS                                      |
+| `pnpm download-model`                         | PASS — model downloaded, SHA-256 verified |
+| `pnpm harness:phase19`                        | PASS — exit 0                             |
+| `npx tsx scripts/smoke/phase19-onnx-smoke.ts` | PASS — Smoke A/B/C all pass               |
+| `git check-ignore models/yolov8n.onnx`        | PASS — ignored                            |
+| `git status models/`                          | clean — not staged                        |
 
 ## DET-01 Through DET-08 Status
 
-| ID     | Criterion                                                    | Status                                   |
-| ------ | ------------------------------------------------------------ | ---------------------------------------- |
-| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference | ✅ PASS | 4 predictions on real image (conf=0.05); mode=onnx_detector |
-| DET-02 | 640x640 letterbox preprocessing | ✅ PASS | 6 letterbox unit tests pass |
-| DET-03 | Postprocess: decode + conf 0.25 + NMS 0.45 + original coords | ✅ PASS | 3 decode tests, 5 NMS tests, 1 letterbox mapping test |
-| DET-04 | Predictions persisted to DB with traceability fields | ✅ PASS | Mock persists rows; ONNX validated via direct worker call |
-| DET-05 | ONNX errors explicit, no silent fallback | ✅ PASS | Missing model → HTTP 404, no fallback |
-| DET-06 | Mock available only when explicitly selected | ✅ PASS | detectorMode=mock → mock_detector |
-| DET-07 | ONNX model path/version explicit in config | ✅ PASS | SHA-256 pinned; model git-ignored |
-| DET-08 | API integration test proves prediction persistence | ✅ PASS | `pnpm harness:phase19` exits 0; smoke C passes |
+| ID     | Criterion                                                    | Status  |
+| ------ | ------------------------------------------------------------ | ------- | ----------------------------------------------------------- |
+| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference      | ✅ PASS | 4 predictions on real image (conf=0.05); mode=onnx_detector |
+| DET-02 | 640x640 letterbox preprocessing                              | ✅ PASS | 6 letterbox unit tests pass                                 |
+| DET-03 | Postprocess: decode + conf 0.25 + NMS 0.45 + original coords | ✅ PASS | 3 decode tests, 5 NMS tests, 1 letterbox mapping test       |
+| DET-04 | Predictions persisted to DB with traceability fields         | ✅ PASS | Mock persists rows; ONNX validated via direct worker call   |
+| DET-05 | ONNX errors explicit, no silent fallback                     | ✅ PASS | Missing model → HTTP 404, no fallback                       |
+| DET-06 | Mock available only when explicitly selected                 | ✅ PASS | detectorMode=mock → mock_detector                           |
+| DET-07 | ONNX model path/version explicit in config                   | ✅ PASS | SHA-256 pinned; model git-ignored                           |
+| DET-08 | API integration test proves prediction persistence           | ✅ PASS | `pnpm harness:phase19` exits 0; smoke C passes              |
 
 ## Risk Assessment
 
-| Risk                                      | Likelihood | Impact   | Mitigation                                     |
-| ----------------------------------------- | ---------- | -------- | ---------------------------------------------- |
+| Risk                                      | Likelihood | Impact   | Mitigation                                        |
+| ----------------------------------------- | ---------- | -------- | ------------------------------------------------- |
 | Wrong YOLO output shape decode            | Low        | Critical | Fixed: `_normalize_yolo_output()` enforces (N,84) |
-| Checksum mismatch accepted silently       | Low        | High     | Fixed: script exits 1 and deletes file          |
-| Model path wrong for Windows start script | Low        | High     | Fixed: resolves against PROJECT_ROOT             |
-| labelClassId FK failure                   | Low        | High     | Fixed: ONNX emits None, stores in metadata      |
-| Model not downloaded                      | Medium     | High     | Resolved: SHA-256 pinned, both scripts updated  |
-| SHA-256 placeholder in use                | High       | Medium   | Resolved: real hash verified and pinned         |
+| Checksum mismatch accepted silently       | Low        | High     | Fixed: script exits 1 and deletes file            |
+| Model path wrong for Windows start script | Low        | High     | Fixed: resolves against PROJECT_ROOT              |
+| labelClassId FK failure                   | Low        | High     | Fixed: ONNX emits None, stores in metadata        |
+| Model not downloaded                      | Medium     | High     | Resolved: SHA-256 pinned, both scripts updated    |
+| SHA-256 placeholder in use                | High       | Medium   | Resolved: real hash verified and pinned           |

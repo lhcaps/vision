@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 # download-model.ps1
-# Downloads YOLOv8n ONNX model from Ultralytics CDN with SHA-256 verification.
+# Downloads YOLOv8n ONNX model from HuggingFace-hosted artifact with SHA-256 verification.
+# Source: https://huggingface.co/Kalray/yolov8/resolve/main/yolov8n.onnx
 # Usage: .\scripts\download-model.ps1
 # Output: ./models/yolov8n.onnx
 

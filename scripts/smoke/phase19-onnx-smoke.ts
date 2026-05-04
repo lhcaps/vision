@@ -50,12 +50,14 @@ async function main() {
       detectorMode: 'onnx',
       modelArtifactKey: './models/definitely_missing.onnx',
       confidenceThreshold: 0.25,
-      assets: [{
-        assetId: 'asset_frame_1482',
-        storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
-        width: 1920,
-        height: 1080,
-      }],
+      assets: [
+        {
+          assetId: 'asset_frame_1482',
+          storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
+          width: 1920,
+          height: 1080,
+        },
+      ],
     };
     await fetchJson(`${WORKER_BASE}/cv/run-pipeline`, {
       method: 'POST',
@@ -82,12 +84,14 @@ async function main() {
       detectorMode: 'onnx',
       modelArtifactKey: './models/yolov8n.onnx',
       confidenceThreshold: 0.05, // Lower threshold to demonstrate detections exist
-      assets: [{
-        assetId: 'asset_frame_1482',
-        storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
-        width: 1920,
-        height: 1080,
-      }],
+      assets: [
+        {
+          assetId: 'asset_frame_1482',
+          storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
+          width: 1920,
+          height: 1080,
+        },
+      ],
     };
     const result = await fetchJson<{
       mode: string;
@@ -122,10 +126,16 @@ async function main() {
 
       // Validate first prediction
       if (geometry.x < 0 || geometry.y < 0 || geometry.width <= 0 || geometry.height <= 0) {
-        log(LOG_FAIL, `Smoke B: Invalid geometry: x=${geometry.x}, y=${geometry.y}, w=${geometry.width}, h=${geometry.height}`);
+        log(
+          LOG_FAIL,
+          `Smoke B: Invalid geometry: x=${geometry.x}, y=${geometry.y}, w=${geometry.width}, h=${geometry.height}`
+        );
         exitCode = 1;
       } else {
-        log(LOG_OK, `  Geometry: (${geometry.x},${geometry.y},${geometry.width}x${geometry.height})`);
+        log(
+          LOG_OK,
+          `  Geometry: (${geometry.x},${geometry.y},${geometry.width}x${geometry.height})`
+        );
       }
 
       if (confidence < 0 || confidence > 1) {
@@ -164,12 +174,14 @@ async function main() {
       pipeline: { version: 1, nodes: [], edges: [] },
       detectorMode: 'mock',
       confidenceThreshold: 0.01,
-      assets: [{
-        assetId: 'asset_frame_1482',
-        storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
-        width: 1920,
-        height: 1080,
-      }],
+      assets: [
+        {
+          assetId: 'asset_frame_1482',
+          storageKey: 'originals/asset_frame_1482/north-gate-frame-1482.jpg',
+          width: 1920,
+          height: 1080,
+        },
+      ],
     };
     const mockResult = await fetchJson<{
       mode: string;

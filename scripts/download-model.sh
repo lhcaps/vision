@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # download-model.sh
-# Downloads YOLOv8n ONNX model from Ultralytics CDN with SHA-256 verification.
+# Downloads YOLOv8n ONNX model from HuggingFace-hosted artifact with SHA-256 verification.
+# Source: https://huggingface.co/Kalray/yolov8/resolve/main/yolov8n.onnx
 # Usage: ./scripts/download-model.sh
 # Output: ./models/yolov8n.onnx
 

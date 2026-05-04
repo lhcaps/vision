@@ -7,12 +7,13 @@
  *
  * Usage:
  *   npx tsx scripts/harness/phase19-db-spot-check.ts
- *   npx tsx scripts/harness/phase19-db-spot-check.ts --job-id <jobId>
+ *   npx tsx scripts/harness/phase19-db-spot-check.ts --strict      # fail if expected evidence absent
+ *   npx tsx scripts/harness/phase19-db-spot-check.ts --job-id <id>  # focus on specific job
  *
  * This script is read-only and does not mutate any database state.
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { config as loadEnv } from 'dotenv';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -25,6 +26,7 @@ if (fs.existsSync(rootEnv)) {
 const LOG_OK = '\x1b[32m[OK]\x1b[0m';
 const LOG_FAIL = '\x1b[31m[FAIL]\x1b[0m';
 const LOG_INFO = '\x1b[36m[INFO]\x1b[0m';
+const LOG_WARN = '\x1b[33m[WARN]\x1b[0m';
 
 function log(label: string, msg: string) {
   console.log(`${label} ${msg}`);
@@ -41,11 +43,17 @@ function assert(condition: boolean, msg: string): void {
 
 async function main() {
   const args = process.argv.slice(2);
+  const strict = args.includes('--strict');
   const targetJobId = args.find((a) => a === '--job-id')
     ? args[args.indexOf('--job-id') + 1]
     : undefined;
 
   log(LOG_INFO, 'Phase 19 DB Spot-Check (read-only)');
+  if (strict) {
+    log(LOG_INFO, 'Mode: STRICT — missing expected evidence causes failure');
+  } else {
+    log(LOG_INFO, 'Mode: LENIENT — missing evidence is logged but not fatal');
+  }
   log(LOG_INFO, `Database: ${process.env.DATABASE_URL ? 'configured' : 'NOT configured'}`);
 
   const prisma = new PrismaClient({
@@ -78,12 +86,17 @@ async function main() {
 
     // 2. Find the latest Phase 19 smoke jobs (non-seed)
     log(LOG_INFO, '\n--- Check 2: Phase 19 smoke jobs ---');
+    const smokeJobsWhere: Parameters<typeof prisma.inferenceJob.findMany>[0]['where'] = {
+      projectId: 'proj_parking_lot',
+      modelId: 'model_onnx_yolov8n_v1',
+      id: { not: 'job_2026_04_28_2036' },
+    };
+    if (targetJobId) {
+      smokeJobsWhere.id = targetJobId;
+    }
+
     const smokeJobs = await prisma.inferenceJob.findMany({
-      where: {
-        projectId: 'proj_parking_lot',
-        modelId: 'model_onnx_yolov8n_v1',
-        id: { not: 'job_2026_04_28_2036' }, // exclude seeded job
-      },
+      where: smokeJobsWhere,
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -98,17 +111,25 @@ async function main() {
     });
 
     if (smokeJobs.length === 0) {
-      log(LOG_INFO, 'No Phase 19 smoke jobs found in DB (expected after fresh seed)');
+      const msg = 'No Phase 19 smoke jobs found in DB (expected after fresh seed)';
+      if (strict) {
+        console.error(`${LOG_FAIL} STRICT: ${msg}`);
+        exitCode = 1;
+      } else {
+        log(LOG_WARN, msg);
+      }
     } else {
       smokeJobs.forEach((j) => {
         const ts = j.createdAt ? new Date(j.createdAt).toISOString() : 'unknown';
-        log(LOG_INFO, `  Job ${j.id}: ${j.status} (progress: ${j.progress}%, model: ${j.modelId}, created: ${ts})`);
+        log(
+          LOG_INFO,
+          `  Job ${j.id}: ${j.status} (progress: ${j.progress}%, model: ${j.modelId}, created: ${ts})`
+        );
       });
     }
 
-    // 3. Find the mock smoke job and verify predictions
+    // 3. Find mock smoke predictions and verify
     log(LOG_INFO, '\n--- Check 3: Mock job predictions (if present) ---');
-    // Query predictions from mock detector directly — their metadata has workerMode=mock_detector
     const mockPredictions = await prisma.prediction.findMany({
       where: {
         inferenceJob: {
@@ -133,15 +154,21 @@ async function main() {
     });
 
     if (mockPredictions.length === 0) {
-      log(LOG_INFO, 'No mock smoke predictions found. Run a mock inference job first.');
+      const msg = 'No mock smoke predictions found. Run a mock inference job first.';
+      if (strict) {
+        console.error(`${LOG_FAIL} STRICT: ${msg}`);
+        exitCode = 1;
+      } else {
+        log(LOG_WARN, msg);
+      }
     } else {
       const mockJobId = mockPredictions[0].inferenceJob.id;
       log(LOG_INFO, `Mock job: ${mockJobId} (status: ${mockPredictions[0].inferenceJob.status})`);
-      log(LOG_INFO, `Predictions: ${mockPredictions.length} rows`);
+      log(LOG_INFO, `Predictions: ${mockPredictions.length} row(s)`);
 
       assert(
         mockPredictions.length > 0,
-        `Mock job has ${mockPredictions.length} prediction rows`
+        `Mock job has ${mockPredictions.length} prediction row(s)`
       );
 
       for (const pred of mockPredictions) {
@@ -158,20 +185,29 @@ async function main() {
           `Prediction ${pred.id}: confidence=${pred.confidence} in [0,1]`
         );
 
-        // labelClassId is null or valid UUID
+        // labelClassId is null or exists in LabelClass table (FK existence, not UUID regex)
         if (pred.labelClassId !== null) {
-          const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          const label = await prisma.labelClass.findUnique({
+            where: { id: pred.labelClassId },
+            select: { id: true, name: true },
+          });
           assert(
-            uuidRegex.test(pred.labelClassId),
-            `Prediction ${pred.id}: labelClassId="${pred.labelClassId}" is valid UUID or null`
+            Boolean(label),
+            `Prediction ${pred.id}: labelClassId="${pred.labelClassId}" exists in LabelClass table (name: ${label?.name ?? 'unknown'})`
           );
         } else {
-          log(LOG_INFO, `  Prediction ${pred.id}: labelClassId=null (expected for mock/ONNX without COCO mapping)`);
+          log(
+            LOG_INFO,
+            `  Prediction ${pred.id}: labelClassId=null (expected — no COCO mapping yet)`
+          );
         }
 
         // Metadata traceability
         const meta = pred.metadataJson as Record<string, unknown>;
-        assert(meta !== null && typeof meta === 'object', `Prediction ${pred.id}: metadataJson is object`);
+        assert(
+          meta !== null && typeof meta === 'object',
+          `Prediction ${pred.id}: metadataJson is object`
+        );
 
         const requiredFields = ['workerMode', 'workerVersion', 'datasetVersionId', 'pipelineId'];
         for (const field of requiredFields) {
@@ -233,7 +269,7 @@ async function main() {
     if (exitCode === 0) {
       log(LOG_INFO, '\n=== All checks passed ===');
     } else {
-      log(LOG_FAIL, '\n=== Some checks failed ===');
+      console.error(`\n${LOG_FAIL} Some checks failed`);
     }
   } catch (err) {
     console.error(`${LOG_FAIL} DB spot-check error:`, err);
