@@ -10,6 +10,7 @@ import type {
   PredictionSummary,
 } from '@visionflow/contracts';
 import type { DatasetSourceState, SectionId } from './section.types';
+import type { RuntimeReadiness } from '../features/runtime/runtime.types';
 import type { MediaUploadRow } from '../features/media';
 import type { JobUiState } from '../features/inference';
 import { demoSnapshot } from '../data/demo';
@@ -58,6 +59,7 @@ interface AppRoutesProps {
   predictions: PredictionSummary[];
   onRunEvaluation: () => void;
   setSection: Dispatch<SetStateAction<SectionId>>;
+  runtimeReadiness: RuntimeReadiness;
 }
 
 export function AppRoutes({
@@ -94,6 +96,7 @@ export function AppRoutes({
   predictions,
   onRunEvaluation,
   setSection,
+  runtimeReadiness,
 }: AppRoutesProps) {
   const visibleMediaRows = [...mediaUploads, ...seededMediaRows()];
   const mediaInspectorData = buildMediaInspectorData(visibleMediaRows, selectedMediaAssetId);
@@ -106,7 +109,7 @@ export function AppRoutes({
   return (
     <div className="mx-auto grid max-w-[1500px] gap-4 px-4 pb-5 pt-4 lg:grid-cols-[minmax(0,1fr)_320px]">
       <section className="min-w-0">
-        <ReadinessStrip job={job} />
+        <ReadinessStrip readiness={runtimeReadiness} job={job} />
         <AnimatePresence mode="wait">
           <motion.div
             key={section}

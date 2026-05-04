@@ -7,18 +7,17 @@ import {
   CircleNotchIcon as CircleNotch,
   XCircleIcon as XCircle,
 } from '@phosphor-icons/react';
-import { useRuntimeStatus } from '../features/runtime/useRuntimeStatus';
 import type { RuntimeReadiness } from '../features/runtime/runtime.types';
 
 interface ReadinessStripProps {
+  readiness: RuntimeReadiness;
   job?: {
     source: 'loading' | 'api' | 'fallback';
     status: string;
   };
 }
 
-export function ReadinessStrip({ job }: ReadinessStripProps) {
-  const { readiness } = useRuntimeStatus();
+export function ReadinessStrip({ readiness, job }: ReadinessStripProps) {
   return <ReadinessStripInner readiness={readiness} job={job} />;
 }
 

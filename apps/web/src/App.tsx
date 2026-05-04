@@ -17,6 +17,7 @@ import { canRunInference, canRunEvaluation } from './shared/state/runtime-select
 import { useDatasetsController } from './features/datasets/useDatasetsController';
 import { useInferenceJobController } from './features/inference/useInferenceJobController';
 import { useEvaluationController } from './features/inference/useEvaluationController';
+import { useRuntimeStatus } from './features/runtime/useRuntimeStatus';
 
 export function App() {
   const [section, setSection] = useState<SectionId>('overview');
@@ -29,6 +30,60 @@ export function App() {
 
   // Tracked selection state for contextual inspectors
   const [selectedMediaAssetId, setSelectedMediaAssetId] = useState<string | null>(null);
+
+  // Backend runtime status — single source of truth for dependency health
+  const runtimeStatus = useRuntimeStatus();
+
+  // Derive WorkbenchRuntimeState-compatible health from backend runtime status
+  const runtimeHealth = useMemo((): WorkbenchRuntimeState['health'] => {
+    const { api, database, queue, cvWorker } = runtimeStatus.readiness;
+
+    const apiHealth: WorkbenchRuntimeState['health']['api'] =
+      api.kind === 'connected'
+        ? 'connected'
+        : api.kind === 'loading'
+          ? 'loading'
+          : 'unavailable';
+
+    const dbHealth: WorkbenchRuntimeState['health']['database'] =
+      database.kind === 'ready'
+        ? 'connected'
+        : database.kind === 'loading'
+          ? 'loading'
+          : database.kind === 'unavailable'
+            ? 'unavailable'
+            : 'unknown';
+
+    const queueHealth: WorkbenchRuntimeState['health']['queue'] =
+      queue.kind === 'bullmq-ready'
+        ? 'connected'
+        : queue.kind === 'memory-fallback'
+          ? 'fallback'
+          : queue.kind === 'loading'
+            ? 'loading'
+            : queue.kind === 'unavailable'
+              ? 'unavailable'
+              : 'unknown';
+
+    const workerHealth: WorkbenchRuntimeState['health']['worker'] =
+      cvWorker.kind === 'onnx-ready'
+        ? 'connected'
+        : cvWorker.kind === 'mock-fallback'
+          ? 'mock'
+          : cvWorker.kind === 'loading'
+            ? 'loading'
+            : cvWorker.kind === 'onnx-configured-unavailable' ||
+                cvWorker.kind === 'worker-unavailable'
+              ? 'unavailable'
+              : 'unknown';
+
+    return {
+      api: apiHealth,
+      database: dbHealth,
+      queue: queueHealth,
+      worker: workerHealth,
+    };
+  }, [runtimeStatus.readiness]);
 
   // Extracted controllers
   const {
@@ -59,18 +114,18 @@ export function App() {
     validatePipelineDefinition(demoSnapshot.pipeline)
   );
 
-  // Derive runtime state from resolved API data — THIS is the single source of truth.
-  // Every selector (canRunInference, canRunEvaluation, etc.) consumes this state.
+  // Derive runtime state from resolved API data and backend runtime status.
+  // Every selector (canRunInference, canRunEvaluation) consumes this state.
   const runtimeState = useMemo((): WorkbenchRuntimeState => {
     const selectedVersion = datasetVersions.find((v) => v.id === selectedDatasetVersionId) ?? null;
     const isLocked = selectedVersion?.status === 'LOCKED' && selectedVersion.assetCount > 0;
 
-    const apiHealth =
+    const jobApiHealth: WorkbenchRuntimeState['health']['api'] =
       job.source === 'loading'
-        ? ('loading' as const)
+        ? 'loading'
         : job.source === 'api'
-          ? ('connected' as const)
-          : ('unavailable' as const);
+          ? 'connected'
+          : 'unavailable';
 
     const jobStatus = job.id ? (job.status as WorkbenchRuntimeState['latestJobStatus']) : 'NONE';
     const jobError = job.error;
@@ -87,13 +142,13 @@ export function App() {
       hasPredictions: predictions.length > 0,
       hasEvaluationReport: evaluationReport !== null,
       health: {
-        api: apiHealth,
-        database: 'unknown',
-        queue: job.source === 'fallback' ? 'fallback' : 'unknown',
-        worker: 'unknown',
+        api: jobApiHealth,
+        database: runtimeHealth.database,
+        queue: runtimeHealth.queue,
+        worker: runtimeHealth.worker,
       },
     };
-  }, [job, predictions, evaluationReport, datasetVersions, selectedDatasetVersionId]);
+  }, [job, predictions, evaluationReport, datasetVersions, selectedDatasetVersionId, runtimeHealth]);
 
   // Resolve eligibility from runtime state
   const inferenceEligibility = useMemo(() => canRunInference(runtimeState), [runtimeState]);
@@ -149,6 +204,7 @@ export function App() {
             predictions={predictions}
             onRunEvaluation={handleRunEvaluation}
             setSection={setSection}
+            runtimeReadiness={runtimeStatus.readiness}
           />
         </main>
       </div>

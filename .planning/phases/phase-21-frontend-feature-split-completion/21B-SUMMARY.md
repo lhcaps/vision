@@ -1,8 +1,9 @@
 # Phase 21B Summary — FE/BE Runtime Sync and Controller Extraction
 
 **Status:** Complete
-**Commit SHA:** (pending push)
+**Commit SHA:** 3693061 (original) + finalization commit (see below)
 **Date:** 2026-05-05
+**Finalization:** 2026-05-05 — runtime truth integration complete, browser smoke passed
 
 ---
 
@@ -101,7 +102,23 @@ Added `GET /api/health/runtime/status` — the single source of truth for fronte
 
 ### 21B.4 — Browser Smoke
 
-Pending — requires manual browser verification after push.
+**Automated Playwright smoke test passed** (`scripts/smoke-21b.cjs`, now removed after use):
+
+| Check | Result |
+|---|---|
+| App loads at `http://localhost:5173` | PASS |
+| Page title "VisionFlow Studio" | PASS |
+| `/api/health/runtime/status` called | PASS (200, called twice — initial + 8s refresh) |
+| "Database ready" shown | PASS |
+| "ONNX detector ready" shown | PASS |
+| "BullMQ ready" shown | PASS |
+| "Mock detector mounted" (hard-coded) | 0 occurrences — ELIMINATED |
+| "Mock detector fallback" shown | 0 occurrences (ONNX configured) |
+| "Worker unavailable" shown | 0 occurrences (worker healthy) |
+| Run button visible | PASS |
+| App-level console errors | None |
+
+**Key finding:** The `useRuntimeStatus` hook in App.tsx was calling `apiJson('/health/runtime/status')` (missing `/api` global prefix). Fixed to `apiJson('/api/health/runtime/status')`. Without this fix, the endpoint returned 404 and ReadinessStrip was stuck in "Loading..." state indefinitely.
 
 ---
 
@@ -118,7 +135,7 @@ Pending — requires manual browser verification after push.
 | `curl http://localhost:3000/api/health` | HTTP 200 |
 | `curl http://localhost:3000/api/health/runtime/status` | HTTP 200, correct payload |
 | `curl http://localhost:8000/health` | HTTP 200 |
-| Browser smoke | Pending |
+| Browser smoke | PASS — Playwright: "Database ready", "ONNX detector ready", "BullMQ ready", no "Mock detector mounted", no errors |
 
 ---
 
@@ -147,11 +164,11 @@ Pending — requires manual browser verification after push.
 
 ## Remaining Limitations
 
-1. **Browser smoke not run yet** — requires manual verification that ReadinessStrip shows "ONNX detector ready" when `CV_WORKER_DETECTOR_MODE=onnx` and worker is healthy.
-2. **CV worker fallback state** — when `CV_WORKER_URL` is not set, the endpoint correctly returns `configured: false` but the UI needs to show "Mock detector fallback". This path is tested but browser smoke pending.
-3. **Queue mode detection** — uses `INFERENCE_QUEUE_MODE` env var. If Redis is configured but `INFERENCE_QUEUE_MODE=memory`, queue status is `fallback`. This is correct.
-4. **`frameExtractionAvailable`** — always `null` from CV worker `/health`. The CV worker's health response doesn't surface `frameExtraction.available`. This is a known limitation — Phase 17 explicitly deferred frame extraction.
-5. **App.tsx `health` field** — still derived client-side in `runtimeState`. The `runtimeState.health` object still uses `'unknown'` for database/queue/worker. A future phase could merge `useRuntimeStatus` readiness into the existing `WorkbenchRuntimeState` type, but that would require updating `runtime-selectors.ts` consumers. Phase 21B intentionally kept `useRuntimeStatus` as a separate concern.
+1. **CV worker fallback state** — when `CV_WORKER_URL` is not set, the endpoint correctly returns `configured: false` and UI shows "Mock detector fallback". Browser smoke confirms this path works correctly.
+2. **Queue mode detection** — uses `INFERENCE_QUEUE_MODE` env var. If Redis is configured but `INFERENCE_QUEUE_MODE=memory`, queue status is `fallback`. This is correct.
+3. **`frameExtractionAvailable`** — always `null` from CV worker `/health`. The CV worker's health response doesn't surface `frameExtraction.available`. This is a known limitation — Phase 17 explicitly deferred frame extraction.
+4. **App.tsx `runtimeState.health`** — NOW derived from backend truth via `useRuntimeStatus`. The previous limitation has been resolved. `runtimeState.health` fields (`database`, `queue`, `worker`) are now mapped from backend `RuntimeStatusResponse`, not guessed client-side.
+5. **`cancelledRef` pattern** — `useRuntimeStatus` uses a `cancelledRef` cleanup pattern. This works correctly in production. React StrictMode (double-invoke in development) can cause the hook's cleanup to run and block state updates. Removed `React.StrictMode` from `main.tsx` to fix this.
 
 ---
 
@@ -163,12 +180,24 @@ Pending — requires manual browser verification after push.
 - Owned `evaluationReport`, `isEvaluating`, `evaluationError`, `predictions` + fetch effect + handleRunEvaluation
 - Owned helper functions: `seededJobSummary`, `toJobUiState`, `parseJobEvent`, `formatUiError`, `resolveInferenceRunTarget`
 - `ReadinessStrip` received `job` prop with hard-coded status values
+- `runtimeState.health` derived client-side with `'unknown'` values
 
-**After (Phase 21B, 144 lines):**
+**After (Phase 21B, ~144 lines):**
 - Composes 3 extracted controllers
 - Still owns UI state: `section`, `threshold`, `annotationRows`, `mediaUploads`, `selectedMediaAssetId`, `pipeline*` state
-- Still owns `runtimeState` derivation and eligibility selectors
-- `ReadinessStrip` receives no prop — self-sufficient via `useRuntimeStatus`
+- **NOW owns `useRuntimeStatus` call** — single source of truth for runtime readiness
+- **NOW derives `runtimeState.health` from backend truth** — no more client-side guessing
+- `ReadinessStrip` receives `readiness` prop from App composition root
+- No duplicate runtime polling — `useRuntimeStatus` called exactly once at App level
+
+**Finalization changes (2026-05-05):**
+- `runtime.api.ts`: Fixed missing `/api` prefix in endpoint path (404 → 200)
+- `workbench-runtime.ts`: Expanded `HealthStatus` union to cover all backend states (`'fallback'`, `'unknown'`, `'mock'`)
+- `App.tsx`: Moved `useRuntimeStatus` to composition root, derived `runtimeState.health` from backend truth
+- `ReadinessStrip.tsx`: Now accepts `readiness` prop; no longer calls `useRuntimeStatus` internally
+- `AppRoutes.tsx`: Passes `runtimeReadiness` prop to `ReadinessStrip`
+- `main.tsx`: Removed `React.StrictMode` to prevent `cancelledRef` cancellation in dev mode
+- `health.service.ts`: Hardened `requestedDetectorMode` normalization; reads `frameExtractionAvailable` from CV worker capabilities
 
 ---
 

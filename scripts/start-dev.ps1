@@ -187,7 +187,7 @@ if (-not (Wait-Http "CV Worker" "http://localhost:8000/health" 120)) {
     # Don't exit — let user decide if they want mock mode to proceed
     # Write-Host "  (Optional) Press Ctrl+C to stop, or let mock-mode continue..."
     # For now, just warn and continue since API/Web are already up
-    Log-Warn "Continuing without CV Worker. Run button will use mock detector."
+    Log-Warn "Continuing without confirmed CV Worker readiness. If CV_WORKER_URL is configured, inference may fail until the worker is reachable. Set CV_WORKER_URL=mock to intentionally use the API mock fallback."
     Write-Host ""
 }
 

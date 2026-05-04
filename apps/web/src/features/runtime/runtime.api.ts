@@ -7,5 +7,5 @@ import { apiJson } from '../../shared/api/client';
  * into a single endpoint so the frontend does not have to guess or hard-code readiness.
  */
 export async function fetchRuntimeStatus(): Promise<RuntimeStatusResponse> {
-  return apiJson<RuntimeStatusResponse>('/health/runtime/status');
+  return apiJson<RuntimeStatusResponse>('/api/health/runtime/status');
 }

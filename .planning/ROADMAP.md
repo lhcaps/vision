@@ -1161,9 +1161,9 @@ This patch addresses accumulated traceability drift — several phases completed
 ## Phase 21, Frontend Feature Split Completion — Phase 21B Done
 
 **Phase 21A commits:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
-**Phase 21B commit:** (pending push)
+**Phase 21B commit:** `3693061` (runtime sync) + finalization commit
 **Phase 21A status:** Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal. Full verification gate passed.
-**Phase 21B status:** Done — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, 3 controllers extracted. App.tsx reduced from 529 to 144 lines.
+**Phase 21B status:** Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, 3 controllers extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health derives from backend truth. Browser smoke passed. Dev boot text corrected.
 
 **Goal:** Extract App.tsx into a thin composition root. Split feature-specific logic into independently importable feature modules. No UI redesign, no new state model, no visual regression.
 
@@ -1193,7 +1193,7 @@ Acceptance achieved:
 
 **Note:** App.tsx at 548 lines is above the <400 target. The gap is orchestration hooks (dataset loading, SSE/polling, evaluation fetching, startJob) that remain until Phase 21B extracts them. Line count polish is Phase 21C scope.
 
-**Wave B — Runtime Truth Hooks — Done**
+**Wave B — Runtime Truth Hooks — Done (finalized 2026-05-05)**
 
 - [x] `GET /api/health/runtime/status` — returns real API/DB/queue/CV worker state
 - [x] `useRuntimeStatus` hook — polls every 8s, exposes loading/error/data
@@ -1201,7 +1201,9 @@ Acceptance achieved:
 - [x] `useDatasetsController` — owns dataset loading, selection, source state
 - [x] `useInferenceJobController` — owns job state, SSE, polling, startJob
 - [x] `useEvaluationController` — owns evaluation report, predictions, handleRunEvaluation
-- [x] App.tsx reduced from 529 to 144 lines
+- [x] App.tsx reduced from 529 to ~144 lines
+- [x] **runtimeState.health derives from backend truth** — `useRuntimeStatus` at App composition root, `runtimeHealth` mapped from `RuntimeStatusResponse` — finalization (2026-05-05)
+- [x] **Browser smoke passes** — Playwright: "Database ready", "ONNX detector ready", "BullMQ ready", 0x "Mock detector mounted", no errors — finalization (2026-05-05)
 
 **Wave C — Dataset + Media Feature Extraction**
 

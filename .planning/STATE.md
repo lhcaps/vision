@@ -8,7 +8,7 @@ Last updated: 2026-05-05.
 
 ## Current Position
 
-Phase: Phase 21B — FE/BE Runtime Sync and Controller Extraction (pending commit)
+Phase: Phase 21B — FE/BE Runtime Sync and Controller Extraction (done, 10/10)
 Status: Phase 21A complete — App composition boundary + clean imports
 
 ## Accumulated Context
@@ -36,7 +36,7 @@ Status: Phase 21A complete — App composition boundary + clean imports
 - Phase 20E ✅ FULL PASS 10/10 — Explicit migration SQL with safe backfill, backfill check/apply scripts, Phase 20E harness, CI test job schema sync fix.
 - Phase 20F ✅ FULL PASS 10/10 — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness.
 - Phase 21A ✅ Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal, full verification gate passed.
-- Phase 21B ✅ Done — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, useDatasetsController/useInferenceJobController/useEvaluationController extracted. App.tsx reduced from 529 to 144 lines.
+- Phase 21B ✅ Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, useDatasetsController/useInferenceJobController/useEvaluationController extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health now derives from backend truth. Browser smoke passed.
 - Phase 21 (Frontend split completion) Phase 21A + 21B complete; 21C/21D pending.
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending

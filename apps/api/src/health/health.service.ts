@@ -77,9 +77,15 @@ export class HealthService {
     const onnxInfo = cvCapabilities?.onnxDetector as
       | { available?: boolean; mode?: string; modelVersion?: string; modelPath?: string }
       | undefined;
+    const mediaInfo = cvCapabilities?.mediaProcessing as
+      | { thumbnail?: boolean; frameExtraction?: { available?: boolean } }
+      | undefined;
 
     const cvConfigured =
       Boolean(process.env.CV_WORKER_URL) && process.env.CV_WORKER_URL !== 'mock';
+
+    const requestedDetectorMode =
+      process.env.CV_WORKER_DETECTOR_MODE === 'onnx' ? 'onnx' : 'mock';
 
     return {
       api: {
@@ -99,13 +105,12 @@ export class HealthService {
         ok: cvWorker.status === 'up',
         configured: cvConfigured,
         url: cvConfigured ? (process.env.CV_WORKER_URL ?? null) : null,
-        requestedDetectorMode:
-          (process.env.CV_WORKER_DETECTOR_MODE as 'onnx' | 'mock') ?? 'mock',
+        requestedDetectorMode,
         activeDetectorMode: onnxInfo?.mode ?? null,
         onnxAvailable: onnxInfo?.available ?? null,
         modelVersion: onnxInfo?.modelVersion ?? null,
         modelPath: onnxInfo?.modelPath ?? null,
-        frameExtractionAvailable: null,
+        frameExtractionAvailable: mediaInfo?.frameExtraction?.available ?? null,
         error: cvWorkerDetails?.error ?? cvWorkerDetails?.note ?? null,
       },
     };

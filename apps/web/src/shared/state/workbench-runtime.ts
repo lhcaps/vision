@@ -13,7 +13,7 @@ export type RuntimeMode = 'loading' | 'api' | 'fallback' | 'mock' | 'degraded';
 
 export type JobStatus = 'NONE' | 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
 
-export type HealthStatus = 'loading' | 'connected' | 'unavailable';
+export type HealthStatus = 'loading' | 'connected' | 'unavailable' | 'unknown' | 'fallback' | 'mock';
 
 export type WorkbenchRuntimeState = {
   /** How the runtime was bootstrapped */
@@ -39,9 +39,9 @@ export type WorkbenchRuntimeState = {
   /** Dependency health */
   health: {
     api: HealthStatus;
-    database: 'connected' | 'unavailable' | 'unknown';
-    queue: 'connected' | 'fallback' | 'unavailable' | 'unknown';
-    worker: 'connected' | 'mock' | 'unavailable' | 'unknown';
+    database: HealthStatus;
+    queue: HealthStatus;
+    worker: HealthStatus;
   };
 };
 
@@ -60,9 +60,9 @@ export function createInitialRuntimeState(projectId: string): WorkbenchRuntimeSt
     hasEvaluationReport: false,
     health: {
       api: 'loading',
-      database: 'unknown',
-      queue: 'unknown',
-      worker: 'unknown',
+      database: 'loading',
+      queue: 'loading',
+      worker: 'loading',
     },
   };
 }
