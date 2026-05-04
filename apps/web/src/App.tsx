@@ -16,6 +16,21 @@ import {
   UploadSimpleIcon as UploadSimple,
   WarningCircleIcon as WarningCircle,
 } from '@phosphor-icons/react';
+import type { SectionId } from './app/section.types';
+import { NavRail } from './app/NavRail';
+import { ShellHeader } from './app/ShellHeader';
+import { StatusPill } from './app/StatusPill';
+import { ReadinessStrip } from './app/ReadinessStrip';
+import {
+  buildDatasetInspectorData,
+  buildMediaInspectorData,
+} from './app/inspector-builders';
+import {
+  datasetSplits,
+  type DatasetActionState,
+  type DatasetSourceState,
+  type PipelineSourceState,
+} from './app/section.types';
 import {
   Background,
   Controls,
@@ -117,112 +132,6 @@ import {
   canShowPredictionOverlay,
   shouldShowPipelineExecution,
 } from './shared/state/runtime-selectors';
-
-type SectionId =
-  | 'overview'
-  | 'media'
-  | 'datasets'
-  | 'annotate'
-  | 'pipeline'
-  | 'jobs'
-  | 'timeline'
-  | 'diff';
-
-type DatasetSourceState = 'loading' | 'api' | 'fallback';
-type PipelineSourceState = 'loading' | 'api' | 'fallback';
-
-type DatasetActionState = {
-  busy: boolean;
-  message: string | null;
-  error: string | null;
-};
-
-const datasetSplits: DatasetSplit[] = ['TRAIN', 'VALID', 'TEST', 'UNASSIGNED'];
-
-// Helpers to derive inspector data from App-level state
-function buildMediaInspectorData(
-  mediaRows: MediaUploadRow[],
-  selectedMediaAssetId: string | null
-): {
-  selectedAssetId: string | null;
-  selectedAssetName: string | null;
-  selectedAssetMime: string | null;
-  selectedAssetWidth: number | null;
-  selectedAssetHeight: number | null;
-  selectedAssetChecksum: string | null;
-  selectedAssetStorageKey: string | null;
-  selectedAssetProcessingState: string | null;
-} {
-  const selected = selectedMediaAssetId
-    ? (mediaRows.find((r) => r.id === selectedMediaAssetId) ?? null)
-    : null;
-
-  return {
-    selectedAssetId: selected?.id ?? null,
-    selectedAssetName: selected?.name ?? null,
-    selectedAssetMime: selected?.type ?? null,
-    selectedAssetWidth: selected?.width ?? null,
-    selectedAssetHeight: selected?.height ?? null,
-    selectedAssetChecksum: selected?.checksum ?? null,
-    selectedAssetStorageKey: null,
-    selectedAssetProcessingState:
-      selected?.status === 'indexed'
-        ? 'processed'
-        : selected?.status === 'failed'
-          ? 'failed'
-          : selected?.status === 'uploading' || selected?.status === 'hashing'
-            ? 'processing'
-            : (selected?.status ?? null),
-  };
-}
-
-function buildDatasetInspectorData(
-  selectedDatasetVersionId: string | null,
-  versions: DatasetVersionSummary[],
-  sourceState: 'loading' | 'api' | 'fallback'
-): {
-  selectedVersionId: string | null;
-  selectedVersionLabel: string | null;
-  selectedVersionStatus: 'DRAFT' | 'LOCKED' | null;
-  selectedVersionAssetCount: number;
-  splitSummary: { train: number; valid: number; test: number; unassigned: number };
-  canMutate: boolean;
-} {
-  const selected = selectedDatasetVersionId
-    ? (versions.find((v) => v.id === selectedDatasetVersionId) ?? null)
-    : null;
-
-  return {
-    selectedVersionId: selected?.id ?? null,
-    selectedVersionLabel: selected?.label ?? null,
-    selectedVersionStatus: selected?.status === 'ARCHIVED' ? null : (selected?.status ?? null),
-    selectedVersionAssetCount: selected?.assetCount ?? 0,
-    splitSummary: selected?.splitSummary
-      ? {
-          train: selected.splitSummary.TRAIN ?? 0,
-          valid: selected.splitSummary.VALID ?? 0,
-          test: selected.splitSummary.TEST ?? 0,
-          unassigned: selected.splitSummary.UNASSIGNED ?? 0,
-        }
-      : { train: 0, valid: 0, test: 0, unassigned: 0 },
-    canMutate: selected?.status === 'DRAFT',
-  };
-}
-
-const sections: Array<{
-  id: SectionId;
-  label: string;
-  icon: typeof Activity;
-}> = [
-  { id: 'overview', label: 'Command', icon: Activity },
-  { id: 'media', label: 'Media', icon: ImageSquare },
-  { id: 'datasets', label: 'Versions', icon: GitBranch },
-  { id: 'annotate', label: 'Annotate', icon: BoundingBox },
-  { id: 'pipeline', label: 'Pipeline', icon: Graph },
-  { id: 'jobs', label: 'Jobs', icon: Timer },
-  { id: 'timeline', label: 'Replay', icon: PlayCircle },
-  { id: 'diff', label: 'Diff', icon: ArrowsLeftRight },
-];
 
 export function App() {
   const [section, setSection] = useState<SectionId>('overview');
@@ -788,170 +697,6 @@ function parseJobEvent(value: string): InferenceJobEvent | null {
 
 function formatUiError(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
-}
-
-function NavRail({
-  active,
-  onSelect,
-}: {
-  active: SectionId;
-  onSelect: (section: SectionId) => void;
-}) {
-  return (
-    <aside className="nav-rail divider-right px-2.5 py-3">
-      <div className="nav-logo mb-5 flex h-10 w-10 items-center justify-center rounded-md text-signal-300">
-        <BoundingBox size={21} weight="duotone" />
-      </div>
-      <nav className="flex flex-col gap-1.5" aria-label="VisionFlow workbench">
-        {sections.map((item, index) => {
-          const Icon = item.icon;
-          const selected = item.id === active;
-
-          return (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                delay: index * 0.03,
-                duration: motionTokens.durationFast,
-                ease: motionTokens.easeScan,
-              }}
-            >
-              <button
-                type="button"
-                title={item.label}
-                aria-label={item.label}
-                aria-pressed={selected}
-                onClick={() => onSelect(item.id)}
-                className="nav-button group relative flex h-10 w-10 items-center justify-center rounded-md text-sm transition active:translate-y-px"
-              >
-                {selected && (
-                  <>
-                    <motion.span
-                      layoutId="nav-active"
-                      className="nav-active-surface absolute inset-0 rounded-md"
-                      transition={motionTokens.springFast}
-                    />
-                    <span className="nav-active-rail" />
-                  </>
-                )}
-                <Icon
-                  className="relative z-10"
-                  size={21}
-                  weight={selected ? 'duotone' : 'regular'}
-                />
-              </button>
-            </motion.div>
-          );
-        })}
-      </nav>
-    </aside>
-  );
-}
-
-function ShellHeader({
-  job,
-  threshold,
-  onRun,
-  inferenceEligibility,
-}: {
-  job: JobUiState;
-  threshold: number;
-  onRun: () => void;
-  inferenceEligibility: { ok: boolean; reason: string | null };
-}) {
-  const isRunDisabled = !inferenceEligibility.ok;
-
-  return (
-    <header className="divider bg-graphite-950/85 backdrop-blur">
-      <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between">
-        <div className="min-w-0">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">
-            {demoSnapshot.project.id} / {demoSnapshot.project.datasetVersion}
-          </p>
-          <h1 className="mt-1 truncate text-xl font-semibold tracking-tight text-neutral-100">
-            VisionFlow Studio
-          </h1>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <StatusPill status={job.status} />
-          <span className="inner-border-subtle rounded-md bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
-            threshold {(threshold / 100).toFixed(2)}
-          </span>
-          <button
-            type="button"
-            title={
-              isRunDisabled && inferenceEligibility.reason
-                ? inferenceEligibility.reason
-                : 'Run inference'
-            }
-            aria-label="Run inference"
-            onClick={onRun}
-            disabled={
-              !inferenceEligibility.ok ||
-              job.source === 'loading' ||
-              job.status === 'RUNNING' ||
-              job.status === 'QUEUED'
-            }
-            className="inline-flex items-center gap-2 rounded-md bg-signal-300 px-3 py-2 text-sm font-semibold text-graphite-950 transition hover:bg-signal-400 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Play size={16} weight="fill" />
-            Run
-          </button>
-        </div>
-      </div>
-      {isRunDisabled && inferenceEligibility.reason && (
-        <div className="mx-auto max-w-[1500px] px-4 pb-2">
-          <ActionHint label="Run disabled" description={inferenceEligibility.reason} tone="amber" />
-        </div>
-      )}
-    </header>
-  );
-}
-
-function ReadinessStrip({ job }: { job: JobUiState }) {
-  const items = [
-    { label: 'API', value: 'OpenAPI ready', icon: CheckCircle, tone: 'text-signal-300' },
-    { label: 'Schema', value: 'Prisma domain mapped', icon: Database, tone: 'text-scan-300' },
-    {
-      label: 'Queue',
-      value:
-        job.source === 'api'
-          ? job.status === 'RUNNING'
-            ? 'Worker active'
-            : 'Redis stream ready'
-          : job.source === 'loading'
-            ? 'Syncing jobs'
-            : 'API fallback',
-      icon: Stack,
-      tone: 'text-amber-300',
-    },
-    { label: 'CV', value: 'Mock detector mounted', icon: Activity, tone: 'text-neutral-300' },
-  ];
-
-  return (
-    <div className="mb-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-      {items.map((item) => {
-        const Icon = item.icon;
-
-        return (
-          <div
-            key={item.label}
-            className="inner-border-subtle rounded-md bg-white/[0.035] px-3 py-2"
-          >
-            <div className="flex items-center gap-2">
-              <Icon className={item.tone} size={16} weight="duotone" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500">
-                {item.label}
-              </span>
-            </div>
-            <p className="mt-1 text-sm font-medium text-neutral-200">{item.value}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
 }
 
 function OverviewPanel({
@@ -2970,6 +2715,7 @@ function JobSourcePill({ source }: { source: JobSourceState }) {
   const tone = source === 'api' ? 'pill-signal' : source === 'loading' ? 'pill-scan' : 'pill-amber';
 
   return <span className={`pill-base ${tone}`}>{source}</span>;
+
 }
 
 function JobStageStep({
@@ -3059,24 +2805,6 @@ function VisionPreview({
         <span className="font-mono text-xs text-signal-300">image-coordinate mode</span>
       </div>
     </div>
-  );
-}
-
-function StatusPill({ status }: { status: InferenceJobStatus }) {
-  const tone =
-    status === 'SUCCEEDED'
-      ? 'pill-signal'
-      : status === 'RUNNING'
-        ? 'pill-scan'
-        : status === 'FAILED'
-          ? 'pill-red'
-          : 'pill-amber';
-
-  return (
-    <span className={`pill-base inline-flex items-center gap-2 ${tone}`}>
-      <span className="h-1.5 w-1.5 rounded-full bg-current" />
-      {status}
-    </span>
   );
 }
 
