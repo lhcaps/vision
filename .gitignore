@@ -17,3 +17,18 @@ venv/
 *.pyc
 infra/minio/data/
 tmp/
+
+# Local smoke/debug scratch artifacts (Cursor/manual runtime checks)
+# Not using *.py glob to avoid hiding Python files in apps/cv-worker
+/check-*.py
+/debug-*.py
+/fix-*.py
+/full-*.py
+/make-*.py
+/poll-*.py
+/smoke-*.py
+/test-*.py
+/smoke-*.jpg
+/smoke-*.jpeg
+/smoke-*.png
+/models/

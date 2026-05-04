@@ -303,14 +303,14 @@ Combined with `_resolve_model_path()` resolving against repo root, a missing mod
 
 | ID | Criterion | Status | Evidence |
 |----|-----------|--------|----------|
-| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference | ✅ PASS | `_normalize_yolo_output` + `_postprocess_yolo` + `_run_onnx_pipeline` wired correctly; shape tests pass; stub test for missing model returns 404 |
+| DET-01 | `/cv/run-pipeline` executes real ONNX Runtime inference | ⚠️ CONDITIONAL PASS | Code + unit test pass; real model runtime not executed (model not downloaded) |
 | DET-02 | 640x640 letterbox preprocessing | ✅ PASS | 6 letterbox unit tests pass (aspect ratio, padding, grayscale, RGBA) |
 | DET-03 | Postprocess: decode + conf 0.25 + NMS 0.45 + original coords | ✅ PASS | 3 postprocess decode tests pass; NMS class-aware tests pass; letterbox coordinate mapping test passes |
-| DET-04 | Predictions persisted to DB with traceability | ✅ PASS (code-level) | `persistPredictions()` writes `datasetVersionId`, `pipelineId`, `modelId`, `modelVersion` to `metadataJson`; DB schema confirmed; runtime smoke blocked |
+| DET-04 | Predictions persisted to DB with traceability | ⚠️ CONDITIONAL PASS | Code persists `datasetVersionId`, `pipelineId`, `modelId`, `modelVersion` to `metadataJson`; DB schema confirmed; runtime smoke blocked |
 | DET-05 | ONNX errors explicit, no silent fallback | ✅ PASS | 501 for unavailable runtime; 404 for missing model; 400 for missing key; 422 for decode error; no fallback path in `_run_onnx_pipeline` |
 | DET-06 | Mock available only when explicitly selected | ✅ PASS | `runPipelineFallback()` throws if `detectorMode === 'onnx'`; endpoint dispatches to mock only when `detectorMode != 'onnx'` |
-| DET-07 | ONNX model path/version explicit in config | ✅ PASS (env vars) ⚠️ CONDITIONAL (checksum) | env vars explicit; `_resolve_model_path` tested; checksum mechanism verified but hash is PLACEHOLDER |
-| DET-08 | API integration test proves prediction persistence | ✅ PASS (service-level) | Unit tests verify metadata structure; runtime smoke blocked by stale servers; schema confirms persistence path |
+| DET-07 | ONNX model path/version explicit in config | ⚠️ CONDITIONAL PASS | Env vars explicit; `_resolve_model_path` tested; checksum mechanism verified but `ExpectedSha256` is PLACEHOLDER |
+| DET-08 | API integration test proves prediction persistence | ⚠️ CONDITIONAL PASS | Service-level + unit test coverage; full production DB integration not exercised with current runtime |
 
 ---
 
@@ -339,23 +339,33 @@ Before claiming Phase 19 fully verified:
 
 ## G. Final Verdict
 
-### Phase 19: ✅ CONDITIONAL PASS
+**MetaHarness Quality: 8/10**
+
+### Phase 19: ⚠️ CONDITIONAL PASS
+
+Not yet a full pass because:
+- DET-01: Real ONNX runtime execution not proven (model not downloaded)
+- DET-04: DB persistence not exercised with current runtime
+- DET-07: Checksum placeholder not replaced
+- DET-08: Full production DB integration not exercised with current runtime
 
 **Strengths:**
 - All 186 unit tests pass (44 pytest + 142 vitest)
 - Typecheck, lint, format, build all clean
 - YOLO decode shape bug fixed with 7 new tests
-- Checksum enforcement mechanism verified
+- Checksum enforcement mechanism verified (fail-hard on mismatch)
 - Model path resolution fixed and tested
 - labelClassId FK risk eliminated
 - Contract schema updated for ONNX semantics
 - modelId wired end-to-end (pipeline → job → prediction metadata)
 
 **Conditions for full pass:**
-- Runtime smoke must be re-run after server restart
-- Real SHA-256 hash must be computed and set in download scripts
-- Model file must be downloaded for ONNX path smoke
-- DB spot-check must confirm prediction records with traceability metadata
+1. Restart `pnpm dev:full:win` with new build
+2. `pnpm db:generate` must pass (after stopping dev servers)
+3. Mock job smoke → SUCCEEDED, predictions visible in DB
+4. ONNX missing-model smoke → 404, no fallback
+5. Download `yolov8n.onnx`, compute SHA-256, update placeholder
+6. ONNX real-model smoke → `onnx_detector` mode, DB predictions with `cocoLabel`
 
 ### Phase 20: ⏸️ ALLOWED TO PLAN
 
