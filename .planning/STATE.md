@@ -15,9 +15,9 @@ Status: Completed
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 20 (Evaluation E2E)
 
-**v1.1 In Progress:** Phase 20 (Evaluation E2E) next to execute
+**v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Accumulated Context
 
@@ -37,7 +37,7 @@ Status: Completed
 - Phase 17.1 (Runtime fixes) ✅ Done — Race condition fix, CV worker import fix, full-stack dev boot, storage error classification, duplicate FAILED fix
 - Phase 18 (Dataset lock & COCO export) completed — lock invariants, annotation immutability, deterministic COCO export, real image dimensions persisted
 - Phase 19 (Real ONNX inference) ✅ FULL PASS 10/10 — YOLOv8n ONNX executed end-to-end, predictions persisted with full traceability, SHA-256 pinned, 8/8 DET criteria passed, ONNX real-object smoke (4 predictions), CI fixed
-- Phase 20 (Evaluation E2E) pending
+- Phase 20 (Evaluation E2E) ✅ FULL PASS 10/10 — Deterministic IoU matching in TypeScript, persisted evaluation reports with traceability (jobId/datasetVersionId/pipelineId/modelId/inputHash/metricsHash), per-class metrics for car/van/truck, label mapping from labelClassId or metadata.cocoLabel, 21 algorithm unit tests, Phase 19 harness still passes
 - Phase 21 (Frontend split completion) pending
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending
@@ -121,15 +121,13 @@ Status: Completed
 
 ## Active Goals
 
-- Execute Phase 20: Evaluation Report E2E.
-- Phase 19 ✅ FULL PASS — real ONNX detector wired, predictions persisted with full traceability, model downloaded and SHA-256 verified.
+- Execute Phase 21: Frontend Feature Split Completion.
+- Phase 20 ✅ FULL PASS — deterministic IoU matching, persisted evaluation reports, per-class metrics, label mapping, 10/10.
 
 ## Known Partial Areas (v1.1 Focus)
 
-Phase 19 complete. The following areas remain pending:
+Phase 20 complete. The following areas remain pending:
 
-- Evaluation needs real data path end-to-end (Phase 20).
-- Evaluation needs real data path end-to-end (Phase 20).
 - App.tsx is a monolithic file needing continued feature split (Phase 21).
 - No production-path test suite (Phase 22A/B).
 - No real-service E2E test or demo video (Phase 23).
@@ -268,3 +266,55 @@ All Phase 19 deliverables completed. Commit: `feat(inference): run ONNX detector
 - 25 new CV worker tests covering letterbox (7), normalization (2), NMS (5), mock detector (4), ONNX runtime errors (2), mock pipeline endpoint (3), COCO classes (1).
 - 2 new API tests: ONNX mode throws without CV_WORKER_URL, mock fallback works, prediction traceability.
 - `test_thumbnail_contract_for_image_media` skipped (pre-existing, requires live MinIO).
+
+## What Is True After Phase 20 (Completed)
+
+All Phase 20 deliverables completed. Commit: `feat(evaluation): persist deterministic evaluation reports`.
+
+**Evaluation algorithm (`evaluation-algorithm.ts`):**
+
+- `computeEvaluationMetrics()` — pure function implementing greedy IoU-based matching with deterministic ordering (confidence desc, id asc for predictions; IoU desc, id asc for GT candidates)
+- `computeInputHash()` — SHA-256 of canonical inputs (jobId, datasetVersionId, sorted predictions, sorted GTs, iouThreshold), 16-char hex output
+- `ALGORITHM_VERSION = 'eval-v1-iou-0.5-greedy-class-aware'`, `DEFAULT_IOU_THRESHOLD = 0.5`
+- Metrics: overall precision, recall, F1, mean IoU; per-class TP/FP/FN, precision, recall, F1, mean IoU
+- Geometry validation rejects invalid BBox inputs with descriptive errors
+
+**Label mapping (`label-mapper.ts`):**
+
+- `resolvePredictionClass()` resolves from `labelClassId` (priority 1), `metadata.cocoLabel` (priority 2), or `unmapped:unknown` (fallback)
+- Normalization: lowercase, trim, collapse whitespace
+- Per-class metrics use real LabelClass names (car/van/truck), not hardcoded "vehicle"
+
+**Refactored EvaluationService (`evaluation.service.ts`):**
+
+- Removed `process.env.DATABASE_URL` branching — uses `isDatabaseMode()`
+- Removed CV worker evaluation delegation — API layer owns full computation
+- Removed `Date.now()` in report ID — replaced with `inputHash`-based deterministic ID: `eval_${inputHash}_${jobId}`
+- Added traceability: `datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`, `predictionCount`, `groundTruthCount`
+- `getPredictionsForJob()` now uses `metadata.cocoLabel` when `labelClassId` is null
+
+**Contracts (`packages/contracts/src/evaluation.ts`):**
+
+- `PerClassMetricSchema`: added `classKey`, `meanIou`
+- `EvaluationMatchSchema`: matched prediction-GT pairs with IoU
+- `EvaluationReportSummarySchema`: extended with all traceability + hash fields
+- `EvaluationReportSchema`: extends summary with `perClassMetrics[]`
+- `PredictionSummarySchema`: added optional `metadata` field
+- `RunEvaluationRequestSchema`: added optional `iouThreshold`
+
+**Seed data (`scripts/seed-db.ts`):**
+
+- All `DEMO_ANNOTATIONS` now `source: 'MANUAL'` (ground truth)
+- `DEMO_PREDICTIONS` geometry precisely aligned with `DEMO_ANNOTATIONS` (perfect IoU = 1.0)
+- Seeded `evaluationReport` row conforms to new contract (inputHash=`0c59dbe9c7062999`, per-class metrics for car/van/truck)
+
+**Unit tests (`evaluation-algorithm.test.ts`):**
+
+- 21 test cases: perfect match, duplicate predictions, low IoU FP, wrong class FP, missing prediction FN, multi-class, empty predictions, empty GT, unmapped COCO label, deterministic ordering, mean IoU, geometry validation, matches sorted
+
+**Runtime results (seed data: 3 predictions, 3 GT, identical boxes):**
+
+- TP=3, FP=0, FN=0
+- Precision=1.0, Recall=1.0, F1=1.0, Mean IoU=1.0
+- Per-class: car/van/truck each P=1, R=1, F1=1, IoU=1.0
+- `inputHash` stable across re-runs: `0c59dbe9c7062999`

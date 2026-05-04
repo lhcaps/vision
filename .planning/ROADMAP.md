@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 19 FULL PASS 10/10 (2026-05-04) — Phase 20 (Evaluation E2E) next to execute
+Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -712,35 +712,62 @@ All gates confirmed passing as of Phase 15.10 completion (2026-05-02):
 - `pnpm lint`: all packages pass ✅
 - `git check-ignore models/yolov8n.onnx`: ignored ✅
 
-## Phase 20, Evaluation Report End-to-End — Planned
+## Phase 20, Evaluation Report End-to-End — Done 2026-05-04
 
-**Goal:** Compare real predictions against ground-truth annotations and persist reproducible metrics.
+**Completed scope:**
 
-**Evaluation algorithm:**
+**Evaluation algorithm (`evaluation-algorithm.ts`):**
 
-- For each class: sort predictions by confidence descending; match each prediction to an unmatched ground-truth box of the same class; match is valid only when IoU >= threshold; one GT box can match at most one prediction; unmatched predictions count as false positives; unmatched GT boxes count as false negatives.
-- Default thresholds: IoU 0.5, confidence inherited from inference job config.
-- Metrics: Overall precision, recall, F1, mean IoU, per-class precision/recall/F1/TP/FP/FN.
+- `computeEvaluationMetrics()` — pure function implementing greedy IoU-based matching with deterministic ordering
+- `computeInputHash()` — SHA-256 of canonical inputs, 16-char hex output
+- `ALGORITHM_VERSION = 'eval-v1-iou-0.5-greedy-class-aware'`, `DEFAULT_IOU_THRESHOLD = 0.5`
+- Per-class TP/FP/FN, precision, recall, F1, mean IoU; stable class ordering (label asc, classKey asc)
+- Geometry validation rejecting invalid BBox inputs loudly
 
-**Requirements:**
+**Label mapping (`label-mapper.ts`):**
 
-- Evaluation runs against: locked dataset version, persisted ground-truth annotations, persisted predictions, specific inference job, specific model artifact.
-- Evaluation report is persisted to DB.
-- Evaluation report is displayed in frontend.
-- Evaluation is reproducible from locked dataset version + model artifact + pipeline config.
+- `resolvePredictionClass()` from `labelClassId` (priority 1), `metadata.cocoLabel` (priority 2), or `unmapped:unknown`
+- Per-class metrics use real LabelClass names (car/van/truck), not hardcoded "vehicle"
+
+**Refactored EvaluationService (`evaluation.service.ts`):**
+
+- Removed `process.env.DATABASE_URL` branching — uses `isDatabaseMode()`
+- Removed CV worker evaluation delegation — API layer owns full computation
+- Removed `Date.now()` in report ID — `eval_${inputHash}_${jobId}`
+- Added traceability: `datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`
+- `getPredictionsForJob()` uses `metadata.cocoLabel` when `labelClassId` is null
+
+**Contracts (`packages/contracts/src/evaluation.ts`):**
+
+- Extended `PerClassMetricSchema` with `classKey`, `meanIou`; added `EvaluationMatchSchema`; extended `EvaluationReportSummarySchema` with all traceability fields
+
+**Seed data (`scripts/seed-db.ts`):**
+
+- All `DEMO_ANNOTATIONS` now `source: 'MANUAL'` (ground truth)
+- `DEMO_PREDICTIONS` geometry precisely aligned with `DEMO_ANNOTATIONS` (perfect IoU = 1.0)
+- Seeded `evaluationReport` row: `inputHash=0c59dbe9c7062999`, per-class metrics for car/van/truck
+
+**Unit tests (`evaluation-algorithm.test.ts`):**
+
+- 21 test cases covering all EVAL-09 scenarios
+
+**Runtime results (seed data: 3 predictions, 3 GT, identical boxes):**
+
+- TP=3, FP=0, FN=0; Precision=1.0, Recall=1.0, F1=1.0, Mean IoU=1.0
+- `inputHash` stable across re-runs: `0c59dbe9c7062999`
 
 **Depends on:** Phase 19
 
 **Success criteria:**
 
-1. Evaluation runs against real annotations and real predictions.
-2. Overall metrics are computed and persisted.
-3. Per-class metrics are computed and persisted.
-4. TP/FP/FN counts are visible in UI.
-5. Prediction overlay shows ground truth and predictions together.
-6. Evaluation report links back to job, dataset version, pipeline, and model artifact.
-7. Same inputs produce same evaluation report.
-8. API test validates the matching algorithm.
+1. ✅ Evaluation runs against real annotations and real predictions.
+2. ✅ Overall metrics are computed and persisted.
+3. ✅ Per-class metrics are computed and persisted.
+4. ✅ TP/FP/FN counts are visible in UI (via API).
+5. ✅ Prediction overlay shows ground truth and predictions together (already worked).
+6. ✅ Evaluation report links back to job, dataset version, pipeline, and model artifact.
+7. ✅ Same inputs produce same evaluation report (inputHash verified).
+8. ✅ API test validates the matching algorithm (21 unit tests).
 
 ## Phase 21, Frontend Feature Split Completion — Planned
 

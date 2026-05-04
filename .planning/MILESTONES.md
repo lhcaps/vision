@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19
+**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19, 20
 
 ### Goal
 
@@ -79,7 +79,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field | ✅ Done      |
 | 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions   | ✅ Done      |
 | 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                | ✅ FULL PASS |
-| 20    | Evaluation Report E2E                       | Evaluation metrics, persisted reports, UI display                                            | Planned      |
+| 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                            | ✅ FULL PASS |
 | 21    | Frontend Split Completion                   | All feature modules, shared components                                                       | Planned      |
 | 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                    | Planned      |
 | 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                              | Planned      |
@@ -119,3 +119,13 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 - **Progress Rewind Guard:** `assertValidProgress()` prevents progress percentage from decreasing (unless transitioning to FAILED).
 - **Audit Logger Interface:** `AuditLogger` interface with `log(event: AuditEvent)` method. `PrismaAuditLogger` persists audit events; `MemoryAuditLogger` for demo.
 - Prediction traceability: all predictions link to `inferenceJobId`, `mediaAssetId`, `datasetVersionId`, `pipelineId`.
+
+### Phase 20 Key Outcomes
+
+- **Deterministic evaluation algorithm:** `computeEvaluationMetrics()` — pure function, greedy IoU-based matching (threshold 0.5), deterministic ordering (confidence desc, id asc for predictions; IoU desc, id asc for GT candidates)
+- **inputHash:** SHA-256 of canonical inputs (jobId, datasetVersionId, sorted predictions, sorted GTs, iouThreshold), 16-char hex, stable across re-runs
+- **Label mapping:** `resolvePredictionClass()` from `labelClassId`, `metadata.cocoLabel`, or `unmapped:unknown`; real class names (car/van/truck) in per-class metrics
+- **EvaluationService refactored:** Removed `DATABASE_URL` branching, removed CV worker delegation, removed `Date.now()` in report ID, added full traceability fields
+- **Contracts extended:** `PerClassMetricSchema` +`classKey`/`meanIou`, `EvaluationMatchSchema`, `EvaluationReportSummarySchema` + traceability + hash fields
+- **21 algorithm unit tests:** Covering all EVAL-09 fixture cases (perfect match, duplicates, low IoU, wrong class, missing pred, multi-class, empty states, determinism, mean IoU, geometry validation, match sorting)
+- **Runtime results:** TP=3, FP=0, FN=0; Precision=1.0, Recall=1.0, F1=1.0, Mean IoU=1.0 (seed data: identical GT/prediction boxes)

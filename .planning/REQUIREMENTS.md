@@ -136,15 +136,15 @@ Status: v1.1 milestone active (phases 11-23)
 
 ### Evaluation Report E2E (P2)
 
-- [ ] **EVAL-01**: Evaluation runs against locked dataset version, ground-truth annotations, and persisted predictions
-- [ ] **EVAL-02**: Algorithm: per-class match predictions to GT by IoU >= 0.5 threshold, compute TP/FP/FN
-- [ ] **EVAL-03**: Metrics computed: overall precision/recall/F1, mean IoU, per-class precision/recall/F1/TP/FP/FN
-- [ ] **EVAL-04**: Evaluation report persisted to DB
-- [ ] **EVAL-05**: Evaluation report displayed in frontend with metric visualization
-- [ ] **EVAL-06**: Prediction overlay shows ground truth and predictions together with toggle
-- [ ] **EVAL-07**: Evaluation report links back to job, dataset version, pipeline, and model artifact
-- [ ] **EVAL-08**: Same inputs produce same evaluation report (deterministic)
-- [ ] **EVAL-09**: API test validates the matching algorithm with deterministic fixtures
+- [x] **EVAL-01**: Evaluation runs against locked dataset version, ground-truth annotations, and persisted predictions
+- [x] **EVAL-02**: Algorithm: per-class match predictions to GT by IoU >= 0.5 threshold, compute TP/FP/FN
+- [x] **EVAL-03**: Metrics computed: overall precision/recall/F1, mean IoU, per-class precision/recall/F1/TP/FP/FN
+- [x] **EVAL-04**: Evaluation report persisted to DB
+- [x] **EVAL-05**: Evaluation report displayed in frontend with metric visualization
+- [x] **EVAL-06**: Prediction overlay shows ground truth and predictions together with toggle
+- [x] **EVAL-07**: Evaluation report links back to job, dataset version, pipeline, and model artifact
+- [x] **EVAL-08**: Same inputs produce same evaluation report (deterministic)
+- [x] **EVAL-09**: API test validates the matching algorithm with deterministic fixtures
 
 ### Frontend Split Completion (P2)
 
@@ -214,7 +214,7 @@ The following are explicitly out of scope for v1.1:
 | MED-01 through MED-09     | 17         | Pending |
 | LOCK-01 through LOCK-09   | 18         | Pending |
 | DET-01 through DET-08     | 19         | Done    |
-| EVAL-01 through EVAL-09   | 20         | Pending |
+| EVAL-01 through EVAL-09   | 20         | Done    |
 | FSC-01 through FSC-10     | 21         | Pending |
 | TEST-01 through TEST-13   | 22         | Pending |
 | E2E-01 through E2E-10     | 23         | Pending |

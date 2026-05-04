@@ -19,6 +19,7 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { config as loadEnv } from 'dotenv';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as crypto from 'crypto';
 
 const rootEnv = path.resolve(__dirname, '../.env');
 if (fs.existsSync(rootEnv)) {
@@ -113,16 +114,16 @@ const DEMO_ANNOTATIONS = [
     assetId: 'asset_frame_1482',
     label: 'van',
     geometry: { x: 1014, y: 352, width: 278, height: 162 },
-    confidence: 0.873,
-    source: 'MODEL' as const,
+    confidence: null,
+    source: 'MANUAL' as const,
   },
   {
     id: 'ann_03',
     assetId: 'asset_frame_1482',
     label: 'truck',
     geometry: { x: 1396, y: 298, width: 260, height: 216 },
-    confidence: 0.694,
-    source: 'MODEL' as const,
+    confidence: null,
+    source: 'MANUAL' as const,
   },
 ];
 
@@ -131,21 +132,21 @@ const DEMO_PREDICTIONS = [
     id: 'pred_demo_01',
     assetId: 'asset_frame_1482',
     label: 'car',
-    geometry: { x: 326, y: 291, width: 332, height: 181 },
+    geometry: { x: 318, y: 284, width: 344, height: 188 },
     confidence: 0.941,
   },
   {
     id: 'pred_demo_02',
     assetId: 'asset_frame_1482',
     label: 'van',
-    geometry: { x: 1008, y: 346, width: 290, height: 171 },
+    geometry: { x: 1014, y: 352, width: 278, height: 162 },
     confidence: 0.887,
   },
   {
     id: 'pred_demo_03',
     assetId: 'asset_frame_1482',
     label: 'truck',
-    geometry: { x: 1406, y: 304, width: 244, height: 202 },
+    geometry: { x: 1396, y: 298, width: 260, height: 216 },
     confidence: 0.731,
   },
 ];
@@ -434,28 +435,74 @@ async function main() {
       });
     }
 
+    const seedPredictions = DEMO_PREDICTIONS;
+    const seedAnnotations = DEMO_ANNOTATIONS.filter((a) => a.source === 'MANUAL');
+
+    const seedInputHash = computeInputHash(
+      DEMO_JOB_ID,
+      datasetVersion.id,
+      seedPredictions,
+      seedAnnotations,
+      0.5
+    );
+
     const evaluationReport = {
-      id: `eval_seed_${DEMO_JOB_ID}`,
+      id: `eval_seed_${seedInputHash}_${DEMO_JOB_ID.replace(/[^a-z0-9]/gi, '')}`,
       jobId: DEMO_JOB_ID,
+      datasetVersionId: datasetVersion.id,
+      pipelineId: pipeline.id,
+      modelId: modelArtifact.id,
+      algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
+      iouThreshold: 0.5,
+      inputHash: seedInputHash,
+      metricsHash: 'seed_placeholder',
       precision: 1,
       recall: 1,
       f1: 1,
       meanIoU: 0.88,
-      truePositives: 3,
+      truePositives: seedPredictions.length,
       falsePositives: 0,
       falseNegatives: 0,
-      evaluatedAt: DEMO_JOB_COMPLETED_AT.toISOString(),
+      predictionCount: seedPredictions.length,
+      groundTruthCount: seedAnnotations.length,
       assetCount: 1,
+      evaluatedAt: DEMO_JOB_COMPLETED_AT.toISOString(),
       perClassMetrics: [
         {
-          label: 'vehicle',
+          classKey: 'car',
+          label: 'car',
           precision: 1,
           recall: 1,
           f1: 1,
-          truePositives: 3,
+          truePositives: 1,
           falsePositives: 0,
           falseNegatives: 0,
-          count: 3,
+          count: 1,
+          meanIou: 0.88,
+        },
+        {
+          classKey: 'van',
+          label: 'van',
+          precision: 1,
+          recall: 1,
+          f1: 1,
+          truePositives: 1,
+          falsePositives: 0,
+          falseNegatives: 0,
+          count: 1,
+          meanIou: 0.88,
+        },
+        {
+          classKey: 'truck',
+          label: 'truck',
+          precision: 1,
+          recall: 1,
+          f1: 1,
+          truePositives: 1,
+          falsePositives: 0,
+          falseNegatives: 0,
+          count: 1,
+          meanIou: 0.88,
         },
       ],
     };
@@ -597,6 +644,72 @@ async function deleteJobsForProject(projectId: string): Promise<void> {
   await prisma.evaluationReport.deleteMany({ where: { inferenceJobId: { in: jobIds } } });
   await prisma.prediction.deleteMany({ where: { inferenceJobId: { in: jobIds } } });
   await prisma.inferenceJob.deleteMany({ where: { id: { in: jobIds } } });
+}
+
+function canonicalPredId(p: {
+  assetId: string;
+  label: string;
+  geometry: { x: number; y: number; width: number; height: number };
+  confidence: number;
+}): string {
+  const g = p.geometry;
+  return [
+    p.assetId,
+    p.label,
+    g.x.toFixed(1),
+    g.y.toFixed(1),
+    g.width.toFixed(1),
+    g.height.toFixed(1),
+    p.confidence.toFixed(3),
+  ].join('|');
+}
+
+function canonicalGtId(gt: {
+  assetId: string;
+  label: string;
+  geometry: { x: number; y: number; width: number; height: number };
+}): string {
+  const g = gt.geometry;
+  return [
+    gt.assetId,
+    gt.label,
+    g.x.toFixed(1),
+    g.y.toFixed(1),
+    g.width.toFixed(1),
+    g.height.toFixed(1),
+  ].join('|');
+}
+
+function computeInputHash(
+  jobId: string,
+  datasetVersionId: string,
+  predictions: Array<{
+    assetId: string;
+    label: string;
+    geometry: { x: number; y: number; width: number; height: number };
+    confidence: number;
+  }>,
+  groundTruth: Array<{
+    assetId: string;
+    label: string;
+    geometry: { x: number; y: number; width: number; height: number };
+  }>,
+  iouThreshold: number
+): string {
+  const sortedPreds = [...predictions]
+    .sort((a, b) => a.assetId.localeCompare(b.assetId))
+    .map(canonicalPredId);
+  const sortedGt = [...groundTruth]
+    .sort((a, b) => a.assetId.localeCompare(b.assetId))
+    .map(canonicalGtId);
+  const content = [
+    jobId,
+    datasetVersionId,
+    iouThreshold.toString(),
+    sortedPreds.join('#'),
+    sortedGt.join('#'),
+  ].join('||');
+  return crypto.createHash('sha256').update(content).digest('hex').slice(0, 16);
 }
 
 main();

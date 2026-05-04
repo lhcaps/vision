@@ -1,29 +1,57 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { createHash } from 'node:crypto';
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import {
-  CvWorkerEvaluationObject,
-  CvWorkerEvaluationResponse,
   EvaluationReport,
-  intersectionOverUnion,
-  PerClassMetric,
+  EvaluationReportSchema,
+  EvaluationReportSummarySchema,
   PredictionSummary,
   RunEvaluationRequestSchema,
 } from '@visionflow/contracts';
 import { PrismaService } from '../prisma/prisma.service';
+import { isDatabaseMode } from '../config/app-mode';
 import { demoSnapshot } from '../projects/demo-snapshot';
-import { CvWorkerClient } from './cv-worker.client';
+import { resolvePredictionClass } from './label-mapper';
+import {
+  ALGORITHM_VERSION,
+  DEFAULT_IOU_THRESHOLD,
+  computeEvaluationMetrics,
+  computeInputHash,
+  type EvaluationGroundTruth,
+  type EvaluationPrediction,
+  type EvaluationResult,
+} from './evaluation-algorithm';
+
+function metricsHash(report: EvaluationReport): string {
+  return createHash('sha256')
+    .update(
+      [
+        report.jobId,
+        report.inputHash,
+        String(report.truePositives),
+        String(report.falsePositives),
+        String(report.falseNegatives),
+        report.precision.toFixed(6),
+        report.recall.toFixed(6),
+        report.f1.toFixed(6),
+        report.meanIoU.toFixed(6),
+      ].join('|')
+    )
+    .digest('hex')
+    .slice(0, 16);
+}
 
 @Injectable()
 export class EvaluationService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly cvWorkerClient: CvWorkerClient
-  ) {}
+  private readonly prisma: PrismaClient;
+
+  constructor(private readonly ps: PrismaService) {
+    this.prisma = ps as PrismaClient;
+  }
 
   async getEvaluationReport(jobId: string): Promise<EvaluationReport | null> {
-    if (!process.env.DATABASE_URL) {
-      return memoryEvalCache.get(jobId) ?? null;
+    if (!isDatabaseMode()) {
+      return null;
     }
 
     const row = await this.prisma.evaluationReport.findFirst({
@@ -33,100 +61,200 @@ export class EvaluationService {
 
     if (!row) return null;
 
-    return row.metricsJson as EvaluationReport;
+    const raw = row.metricsJson as Record<string, unknown>;
+    const report = EvaluationReportSchema.partial().safeParse(raw);
+
+    if (report.success) {
+      return report.data as EvaluationReport;
+    }
+
+    const legacy = EvaluationReportSummarySchema.partial().safeParse(raw);
+    if (legacy.success) {
+      return legacy.data as unknown as EvaluationReport;
+    }
+
+    return null;
   }
 
   async runEvaluation(dto: unknown): Promise<EvaluationReport> {
     const body = RunEvaluationRequestSchema.parse(dto);
-    const { jobId } = body;
+    const { jobId, iouThreshold = DEFAULT_IOU_THRESHOLD } = body;
 
-    if (!process.env.DATABASE_URL) {
-      return this.runMemoryEvaluation(jobId);
+    if (!isDatabaseMode()) {
+      return this.runMemoryEvaluation(jobId, iouThreshold);
     }
 
-    const job = await this.prisma.inferenceJob.findUnique({ where: { id: jobId } });
+    const job = await this.prisma.inferenceJob.findUnique({
+      where: { id: jobId },
+      include: { model: true, pipeline: true },
+    });
 
     if (!job) {
       throw new NotFoundException('Inference job not found.');
     }
 
-    const [predictionRows, versionAssetLinks] = await Promise.all([
-      this.prisma.prediction.findMany({
-        where: { inferenceJobId: jobId },
-        include: { labelClass: true },
-      }),
-      this.prisma.datasetVersionAsset.findMany({
-        where: { datasetVersionId: job.datasetVersionId },
-        include: {
-          asset: {
-            include: {
-              annotations: {
-                where: { source: 'MANUAL' },
-                include: { labelClass: true },
-              },
+    if (job.status !== 'SUCCEEDED') {
+      throw new ConflictException(
+        `Evaluation requires a SUCCEEDED job. Current status: ${job.status}.`
+      );
+    }
+
+    const versionAssets = await this.prisma.datasetVersionAsset.findMany({
+      where: { datasetVersionId: job.datasetVersionId },
+      include: {
+        asset: {
+          include: {
+            annotations: {
+              where: { source: 'MANUAL' },
+              include: { labelClass: true },
             },
           },
         },
-      }),
-    ]);
+      },
+    });
 
-    const predictions: Array<{
-      assetId: string;
-      labelClassId: string | null;
-      geometry: { x: number; y: number; width: number; height: number };
-      confidence: number;
-    }> = predictionRows.map((row) => ({
-      assetId: row.assetId,
-      labelClassId: row.labelClassId,
-      geometry: row.geometryJson as { x: number; y: number; width: number; height: number },
-      confidence: row.confidence,
-    }));
+    if (versionAssets.length === 0) {
+      throw new NotFoundException('Dataset version has no assets. Cannot run evaluation.');
+    }
 
-    const groundTruth: Array<{
-      assetId: string;
-      labelClassId: string | null;
-      geometry: { x: number; y: number; width: number; height: number };
-    }> = [];
+    const labelClasses = await this.prisma.labelClass.findMany({
+      where: { projectId: job.projectId },
+    });
 
-    for (const link of versionAssetLinks) {
+    const labelClassMap = new Map<string, { id: string; name: string; color: string }>();
+    for (const lc of labelClasses) {
+      labelClassMap.set(lc.id, { id: lc.id, name: lc.name, color: lc.color });
+    }
+
+    const predictionRows = await this.prisma.prediction.findMany({
+      where: { inferenceJobId: jobId },
+    });
+
+    const predictions: EvaluationPrediction[] = predictionRows.map((row) => {
+      const geometry = row.geometryJson as { x: number; y: number; width: number; height: number };
+      const metadata = row.metadataJson as Record<string, unknown>;
+      const { classKey, label } = resolvePredictionClass(
+        { labelClassId: row.labelClassId, metadataJson: metadata },
+        labelClasses
+      );
+      return {
+        id: row.id,
+        assetId: row.assetId,
+        classKey,
+        label,
+        geometry,
+        confidence: row.confidence,
+        pipelineId: metadata.pipelineId as string | undefined,
+        modelId: metadata.modelId as string | undefined,
+      };
+    });
+
+    const groundTruth: EvaluationGroundTruth[] = [];
+    for (const link of versionAssets) {
       for (const ann of link.asset.annotations) {
+        const lc = labelClassMap.get(ann.labelClassId);
+        if (!lc) {
+          throw new Error(
+            `Ground truth annotation ${ann.id} references unknown labelClassId ${ann.labelClassId}.`
+          );
+        }
         groundTruth.push({
+          id: ann.id,
           assetId: ann.assetId,
-          labelClassId: ann.labelClassId,
+          classKey: lc.name,
+          label: lc.name,
           geometry: ann.geometryJson as { x: number; y: number; width: number; height: number },
         });
       }
     }
 
-    const cvResult = await this.cvWorkerClient.evaluate({
-      jobId,
-      iouThreshold: 0.5,
+    if (predictions.length === 0 && groundTruth.length === 0) {
+      throw new ConflictException(
+        'No predictions and no ground-truth annotations found. Cannot run evaluation.'
+      );
+    }
+
+    const result: EvaluationResult = computeEvaluationMetrics(
       predictions,
       groundTruth,
-    });
+      jobId,
+      job.datasetVersionId,
+      { iouThreshold, algorithmVersion: ALGORITHM_VERSION }
+    );
 
-    const report = this.buildReport(jobId, cvResult);
+    const evaluatedAt = new Date().toISOString();
+
+    const report: EvaluationReport = {
+      id: `eval_${result.inputHash}_${jobId.replace(/[^a-z0-9]/gi, '')}`,
+      jobId,
+      datasetVersionId: job.datasetVersionId,
+      pipelineId: job.pipelineId ?? null,
+      modelId: job.modelId ?? null,
+      algorithmVersion: result.algorithmVersion,
+      iouThreshold: result.iouThreshold,
+      inputHash: result.inputHash,
+      metricsHash: '',
+      precision: result.precision,
+      recall: result.recall,
+      f1: result.f1,
+      meanIoU: result.meanIou,
+      truePositives: result.truePositive,
+      falsePositives: result.falsePositive,
+      falseNegatives: result.falseNegative,
+      predictionCount: result.predictionCount,
+      groundTruthCount: result.groundTruthCount,
+      assetCount: new Set([...predictions, ...groundTruth].map((p) => p.assetId)).size,
+      evaluatedAt,
+      perClassMetrics: result.perClassMetrics.map((m) => ({
+        classKey: m.classKey,
+        label: m.label,
+        precision: m.precision,
+        recall: m.recall,
+        f1: m.f1,
+        truePositives: m.truePositives,
+        falsePositives: m.falsePositives,
+        falseNegatives: m.falseNegatives,
+        count: m.count,
+        meanIou: m.meanIou,
+      })),
+    };
+
+    report.metricsHash = metricsHash(report);
+
+    const validated = EvaluationReportSchema.parse(report);
 
     await this.prisma.evaluationReport.create({
       data: {
         inferenceJobId: jobId,
-        metricsJson: report as unknown as Prisma.InputJsonValue,
-        confusionMatrixJson: undefined,
+        metricsJson: validated as unknown as Prisma.InputJsonValue,
+        confusionMatrixJson: Prisma.JsonNull,
       },
     });
 
-    return report;
+    return validated;
   }
 
   async getPredictionsForJob(jobId: string): Promise<PredictionSummary[]> {
-    if (!process.env.DATABASE_URL) {
+    if (!isDatabaseMode()) {
       return this.getMemoryPredictions(jobId);
     }
 
-    const job = await this.prisma.inferenceJob.findUnique({ where: { id: jobId } });
+    const job = await this.prisma.inferenceJob.findUnique({
+      where: { id: jobId },
+      include: { model: true },
+    });
 
     if (!job) {
       throw new NotFoundException('Inference job not found.');
+    }
+
+    const labelClasses = await this.prisma.labelClass.findMany({
+      where: { projectId: job.projectId },
+    });
+
+    const labelClassMap = new Map<string, { id: string; name: string; color: string }>();
+    for (const lc of labelClasses) {
+      labelClassMap.set(lc.id, { id: lc.id, name: lc.name, color: lc.color });
     }
 
     const rows = await this.prisma.prediction.findMany({
@@ -134,39 +262,60 @@ export class EvaluationService {
       include: { labelClass: true },
     });
 
-    return rows.map((row) => ({
-      id: row.id,
-      assetId: row.assetId,
-      labelClassId: row.labelClassId,
-      label: row.labelClass?.name ?? 'unknown',
-      color: row.labelClass?.color ?? '#94a3b8',
-      geometry: row.geometryJson as PredictionSummary['geometry'],
-      confidence: row.confidence,
-    }));
+    return rows.map((row) => {
+      const geometry = row.geometryJson as { x: number; y: number; width: number; height: number };
+      const metadata = row.metadataJson as Record<string, unknown>;
+      const { classKey, label } = resolvePredictionClass(
+        { labelClassId: row.labelClassId, metadataJson: metadata },
+        labelClasses
+      );
+      const lc = row.labelClass ?? labelClassMap.get(row.labelClassId ?? '');
+      return {
+        id: row.id,
+        assetId: row.assetId,
+        labelClassId: row.labelClassId,
+        label,
+        color: lc?.color ?? '#94a3b8',
+        geometry,
+        confidence: row.confidence,
+        metadata: metadata as Record<string, unknown>,
+      };
+    });
   }
 
-  private async runMemoryEvaluation(jobId: string): Promise<EvaluationReport> {
+  private async runMemoryEvaluation(
+    jobId: string,
+    iouThreshold = DEFAULT_IOU_THRESHOLD
+  ): Promise<EvaluationReport> {
     const gtByAsset = new Map<string, (typeof demoSnapshot.annotations)[number][]>();
 
     for (const ann of demoSnapshot.annotations) {
       if (ann.source !== 'MANUAL') continue;
-
       if (!gtByAsset.has(ann.assetId)) {
         gtByAsset.set(ann.assetId, []);
       }
-
       gtByAsset.get(ann.assetId)!.push(ann);
     }
 
-    const predictions: CvWorkerEvaluationObject[] = [];
+    const predictions: EvaluationPrediction[] = [];
+    const groundTruth: EvaluationGroundTruth[] = [];
+
+    for (const [, anns] of gtByAsset) {
+      for (const ann of anns) {
+        groundTruth.push({
+          id: ann.id,
+          assetId: ann.assetId,
+          classKey: ann.label ?? 'unknown',
+          label: ann.label ?? 'unknown',
+          geometry: ann.geometry,
+        });
+      }
+    }
 
     for (const [assetId, gtAnns] of gtByAsset) {
       const asset = demoSnapshot.media.find((m) => m.id === assetId);
-
       if (!asset) continue;
-
       const digest = sha256(`${jobId}:${assetId}`);
-
       for (let i = 0; i < Math.min(gtAnns.length, 2); i++) {
         const w = Math.min(asset.width, Math.max(80, Math.floor(asset.width / 4)));
         const h = Math.min(asset.height, Math.max(60, Math.floor(asset.height / 5)));
@@ -177,155 +326,68 @@ export class EvaluationService {
         const confidence = Number((0.65 + (digest[i + 8] / 255) * 0.3).toFixed(3));
 
         predictions.push({
+          id: `pred_${assetId}_${i}`,
           assetId,
-          labelClassId: gtAnns[0]?.label ?? null,
+          classKey: gtAnns[0]?.label ?? 'unknown',
+          label: gtAnns[0]?.label ?? 'unknown',
           geometry: { x, y, width: w, height: h },
           confidence,
         });
       }
     }
 
-    const groundTruth: CvWorkerEvaluationObject[] = [];
-
-    for (const [, anns] of gtByAsset) {
-      for (const ann of anns) {
-        groundTruth.push({
-          assetId: ann.assetId,
-          labelClassId: null,
-          geometry: ann.geometry,
-        });
-      }
-    }
-
-    const cvResult = this.computeIoU(jobId, predictions, groundTruth);
-
-    return this.buildReport(jobId, cvResult);
-  }
-
-  private computeIoU(
-    jobId: string,
-    predictions: CvWorkerEvaluationObject[],
-    groundTruth: CvWorkerEvaluationObject[]
-  ): CvWorkerEvaluationResponse {
-    const IO_U_THRESHOLD = 0.5;
-    const matchedGt = new Set<number>();
-    const matches: CvWorkerEvaluationResponse['matches'] = [];
-
-    for (let pi = 0; pi < predictions.length; pi++) {
-      const pred = predictions[pi];
-
-      for (let gi = 0; gi < groundTruth.length; gi++) {
-        if (matchedGt.has(gi)) continue;
-
-        const gt = groundTruth[gi];
-
-        if (pred.assetId !== gt.assetId) continue;
-
-        const iou = intersectionOverUnion(pred.geometry, gt.geometry);
-
-        if (iou >= IO_U_THRESHOLD) {
-          matchedGt.add(gi);
-          matches.push({ predictionIndex: pi, groundTruthIndex: gi, assetId: pred.assetId, iou });
-          break;
-        }
-      }
-    }
-
-    const tp = matches.length;
-    const fp = predictions.length - tp;
-    const fn = groundTruth.length - tp;
-    const precision = predictions.length > 0 ? tp / predictions.length : 0;
-    const recall = groundTruth.length > 0 ? tp / groundTruth.length : 0;
-    const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
-    const meanIou =
-      matches.length > 0 ? matches.reduce((s, m) => s + m.iou, 0) / matches.length : 0;
-
-    return {
+    const result = computeEvaluationMetrics(
+      predictions,
+      groundTruth,
       jobId,
-      iouThreshold: IO_U_THRESHOLD,
-      truePositive: tp,
-      falsePositive: fp,
-      falseNegative: fn,
-      precision,
-      recall,
-      f1,
-      meanIou,
-      matches,
-    };
-  }
+      'memory_dataset_version',
+      { iouThreshold, algorithmVersion: ALGORITHM_VERSION }
+    );
 
-  private buildReport(jobId: string, cvResult: CvWorkerEvaluationResponse): EvaluationReport {
-    const reportId = `eval_${Date.now()}_${jobId.replace(/[^a-z0-9]/gi, '')}`;
-
-    const classMap = new Map<string, PerClassMetric>();
-
-    for (const match of cvResult.matches) {
-      const label = 'vehicle';
-
-      if (!classMap.has(label)) {
-        classMap.set(label, {
-          label,
-          precision: 0,
-          recall: 0,
-          f1: 0,
-          truePositives: 0,
-          falsePositives: 0,
-          falseNegatives: 0,
-          count: 0,
-        });
-      }
-
-      const m = classMap.get(label)!;
-      m.truePositives++;
-      m.count++;
-      m.precision = m.truePositives / (m.truePositives + m.falsePositives);
-      m.recall = m.truePositives / (m.truePositives + m.falseNegatives);
-      m.f1 =
-        m.precision + m.recall > 0 ? (2 * m.precision * m.recall) / (m.precision + m.recall) : 0;
-    }
-
-    const totalGt = cvResult.truePositive + cvResult.falseNegative;
-
-    if (!classMap.has('vehicle') && cvResult.falsePositive > 0) {
-      classMap.set('vehicle', {
-        label: 'vehicle',
-        precision: 0,
-        recall: cvResult.truePositive > 0 ? cvResult.truePositive / totalGt : 0,
-        f1: 0,
-        truePositives: cvResult.truePositive,
-        falsePositives: cvResult.falsePositive,
-        falseNegatives: cvResult.falseNegative,
-        count: totalGt,
-      });
-    }
+    const evaluatedAt = new Date().toISOString();
 
     const report: EvaluationReport = {
-      id: reportId,
+      id: `eval_${result.inputHash}_${jobId.replace(/[^a-z0-9]/gi, '')}`,
       jobId,
-      precision: cvResult.precision,
-      recall: cvResult.recall,
-      f1: cvResult.f1,
-      meanIoU: cvResult.meanIou,
-      truePositives: cvResult.truePositive,
-      falsePositives: cvResult.falsePositive,
-      falseNegatives: cvResult.falseNegative,
-      evaluatedAt: new Date().toISOString(),
-      assetCount: new Set(cvResult.matches.map((m) => m.assetId)).size || 1,
-      perClassMetrics: [...classMap.values()],
+      datasetVersionId: 'memory_dataset_version',
+      pipelineId: null,
+      modelId: null,
+      algorithmVersion: result.algorithmVersion,
+      iouThreshold: result.iouThreshold,
+      inputHash: result.inputHash,
+      metricsHash: '',
+      precision: result.precision,
+      recall: result.recall,
+      f1: result.f1,
+      meanIoU: result.meanIou,
+      truePositives: result.truePositive,
+      falsePositives: result.falsePositive,
+      falseNegatives: result.falseNegative,
+      predictionCount: result.predictionCount,
+      groundTruthCount: result.groundTruthCount,
+      assetCount: new Set([...predictions, ...groundTruth].map((p) => p.assetId)).size,
+      evaluatedAt,
+      perClassMetrics: result.perClassMetrics.map((m) => ({
+        classKey: m.classKey,
+        label: m.label,
+        precision: m.precision,
+        recall: m.recall,
+        f1: m.f1,
+        truePositives: m.truePositives,
+        falsePositives: m.falsePositives,
+        falseNegatives: m.falseNegatives,
+        count: m.count,
+        meanIou: m.meanIou,
+      })),
     };
 
-    memoryEvalCache.set(jobId, report);
+    report.metricsHash = metricsHash(report);
 
-    return report;
+    return EvaluationReportSchema.parse(report);
   }
 
   private getMemoryPredictions(jobId: string): PredictionSummary[] {
-    const cached = memoryEvalCache.get(jobId);
-
-    if (cached) return [];
-
     const targetAsset = demoSnapshot.media.find((m) => m.id === 'asset_frame_1482');
-
     if (!targetAsset) return [];
 
     const digest = sha256(`${jobId}:${targetAsset.id}`);
@@ -348,8 +410,6 @@ export class EvaluationService {
     ];
   }
 }
-
-const memoryEvalCache = new Map<string, EvaluationReport>();
 
 function sha256(input: string): Buffer {
   return createHash('sha256').update(input).digest();
