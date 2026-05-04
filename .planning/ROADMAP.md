@@ -1160,7 +1160,7 @@ This patch addresses accumulated traceability drift — several phases completed
 
 ## Phase 21, Frontend Feature Split Completion — Phase 21A Done
 
-**Phase 21A commit:** `86416bf` (extraction) + `8f5a2d1` (cleanup)
+**Phase 21A commit:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
 **Phase 21A status:** Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal. Full verification gate passed.
 
 **Goal:** Extract App.tsx into a thin composition root. Split feature-specific logic into independently importable feature modules. No UI redesign, no new state model, no visual regression.

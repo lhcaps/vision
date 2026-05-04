@@ -10,7 +10,6 @@ import type {
   PredictionSummary,
 } from '@visionflow/contracts';
 import type { DatasetSourceState, SectionId } from './section.types';
-import type { DatasetInspectorData, MediaInspectorData } from './inspector-builders';
 import type { MediaUploadRow } from '../features/media';
 import type { JobUiState } from '../features/inference';
 import { demoSnapshot } from '../data/demo';

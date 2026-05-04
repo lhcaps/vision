@@ -1,17 +1,7 @@
-import {
-  ActivityIcon as Activity,
-  CheckCircleIcon as CheckCircle,
-  DatabaseIcon as Database,
-  PlayIcon as Play,
-  StackIcon as Stack,
-  WarningCircleIcon as WarningCircle,
-} from '@phosphor-icons/react';
 import type { SectionId } from './app/section.types';
 import { AppRoutes } from './app/AppRoutes';
 import { NavRail } from './app/NavRail';
 import { ShellHeader } from './app/ShellHeader';
-import { StatusPill } from './app/StatusPill';
-import { ReadinessStrip } from './app/ReadinessStrip';
 import { useEffect, useMemo, useState } from 'react';
 import type {
   AnnotationSummary,
@@ -44,7 +34,7 @@ import {
   type JobUiState,
   type JobSourceState,
 } from './features/inference';
-import { createProjectPipeline, listProjectPipelines } from './lib/pipelines';
+import { listProjectPipelines } from './lib/pipelines';
 import { type WorkbenchRuntimeState } from './shared/state/workbench-runtime';
 import { canRunInference, canRunEvaluation } from './shared/state/runtime-selectors';
 

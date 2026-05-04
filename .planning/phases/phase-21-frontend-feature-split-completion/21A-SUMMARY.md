@@ -3,7 +3,8 @@
 **Phase:** 21A
 **Date:** 2026-05-05
 **Commit (extraction):** `86416bf`
-**Commit (cleanup):** `8f5a2d1`
+**Commit (cleanup round 1):** `27d78bb`
+**Commit (cleanup round 2 — this fix):** `2f3a1c4`
 
 ## Files Changed
 
@@ -20,20 +21,26 @@
 - `apps/web/src/app/ui/StateRow.tsx` — extracted
 - `apps/web/src/app/ui/OverviewStateRow.tsx` — extracted
 
-### Cleanup (Commit 8f5a2d1)
+### Cleanup Round 1 (Commit 27d78bb)
 - `apps/web/src/App.tsx` — reduced from 638 to 548 lines
 - `apps/web/src/app/AppRoutes.tsx` — import cleanup
 
+**Audit finding:** Commit 27d78bb left residual unused imports (see below).
+
+### Cleanup Round 2 — Leftovers Fix (Commit 2f3a1c4)
+- `apps/web/src/App.tsx` — reduced from 548 to 529 lines; removed 9 more unused imports
+- `apps/web/src/app/AppRoutes.tsx` — removed 2 unused type imports
+
 ## Line Counts
 
-| File | Before Phase 21A | After Extraction | After Cleanup |
-|---|---|---|---|
-| `App.tsx` | 799 | 638 | 548 |
-| `AppRoutes.tsx` | N/A | 206 | 209 |
+| File | Before Phase 21A | After Extraction (86416bf) | After Cleanup R1 (27d78bb) | After Cleanup R2 (2f3a1c4) |
+|---|---|---|---|---|
+| `App.tsx` | 799 | 638 | 548 | **529** |
+| `AppRoutes.tsx` | N/A | 206 | 209 | 210 |
 
-## What Changed (Cleanup Pass)
+## What Changed (Cleanup Pass — All Rounds)
 
-### Import Cleanup in `App.tsx`
+### Import Cleanup in `App.tsx` — Round 1 (27d78bb)
 
 **Removed unused icon imports (11):**
 `ArrowsLeftRightIcon`, `BoundingBoxIcon`, `GitBranchIcon`, `GraphIcon`, `ImageSquareIcon`, `PlayCircleIcon`, `SlidersHorizontalIcon`, `TerminalWindowIcon`, `TimerIcon`, `UploadSimpleIcon`
@@ -41,48 +48,53 @@
 **Removed unused type imports (8):**
 `DatasetSplit`, `DatasetSummary`, `InferenceJobStatus`, `MediaUploadStatus`, `PipelineNode`, `PipelineSummary`, `PipelineValidationIssue`, `CSSProperties`, `ElementType`
 
-**Removed unused value imports (6):**
-`createEmptySplitSummary`, `SplitSummary`, `summarizeDatasetSplits`, `validateMediaMime`, `AnnotationEnginePanel`, `EvaluationMetricsPanel`, `PredictionOverlayCanvas`, `TimelineReplayPanel`, `DatasetVersionDiff`, `PipelineExecutionFlow`, `AnnotationInspector`, `DatasetInspector`, `InspectorRouter`, `JobInspector`, `MediaInspector`, `PipelineInspector`, `EmptyState`, `EvaluationEmptyState`, `MediaEmptyState`, `DatasetEmptyState`, `PredictionsEmptyState`, `ErrorState`, `FailedJobErrorState`, `ActionHint`, `assignDatasetVersionAssets`, `createDataset`, `createDatasetVersion`, `lockDatasetVersion`, `checksumFile`, `uploadMediaFile`, `updateProjectPipeline`, `validateProjectPipeline`, `canShowPredictionOverlay`, `Panel`, `OverviewPanel`, `MediaPanel`, `DatasetPanel`, `PipelinePanel`, `JobsPanel`, `VisionPreview`, `StateRow`, `buildDatasetInspectorData`, `buildMediaInspectorData`, `datasetSplits`, `DatasetActionState`, `DatasetSourceState`, `PipelineSourceState`, `motionTokens`, `Background`, `Controls`, `Edge as FlowEdge`, `MarkerType`, `Node as FlowNode`, `Position`, `ReactFlow`, `AnimatePresence`, `motion`, `useReducedMotion`
+**Removed unused value imports (40+):**
+`Panel`, `OverviewPanel`, `MediaPanel`, `DatasetPanel`, `PipelinePanel`, `JobsPanel`, `VisionPreview`, `StateRow`, `buildDatasetInspectorData`, `buildMediaInspectorData`, `AnnotationEnginePanel`, `AnnotationInspector`, `DatasetInspector`, `InspectorRouter`, `JobInspector`, `MediaInspector`, `PipelineInspector`, `EmptyState`, `EvaluationEmptyState`, `MediaEmptyState`, `DatasetEmptyState`, `PredictionsEmptyState`, `ErrorState`, `FailedJobErrorState`, `ActionHint`, `Background`, `Controls`, `Edge as FlowEdge`, `MarkerType`, `Node as FlowNode`, `Position`, `ReactFlow`, `AnimatePresence`, `motion`, `useReducedMotion`, `motionTokens`, `createEmptySplitSummary`, `SplitSummary`, `summarizeDatasetSplits`, `validateMediaMime`, `EvaluationMetricsPanel`, `PredictionOverlayCanvas`, `TimelineReplayPanel`, `DatasetVersionDiff`, `PipelineExecutionFlow`, `assignDatasetVersionAssets`, `createDataset`, `createDatasetVersion`, `lockDatasetVersion`, `checksumFile`, `uploadMediaFile`, `updateProjectPipeline`, `validateProjectPipeline`, `canShowPredictionOverlay`, `datasetSplits`, `DatasetActionState`, `DatasetSourceState`, `PipelineSourceState`
 
 **Removed dead derived values (2):**
-- `visibleMediaRows` — now computed in `AppRoutes.tsx`
-- `showPipelineExecution` — computed but never consumed in App.tsx
+- `visibleMediaRows` — duplicated; `AppRoutes.tsx` computes it independently
+- `showPipelineExecution` — computed but never consumed
 
-**Removed unused hooks (1):**
-- `useRef` — no longer used after dead value removal
+**Removed unused hook (1):**
+- `useRef`
 
-**Cleaned inline imports (1):**
-- `import('../features/media').MediaUploadRow[]` in AppRoutes.tsx → clean type import
+### Import Cleanup in `App.tsx` — Round 2 (2f3a1c4) — Leftovers Found by Audit
 
-### Import Cleanup in `AppRoutes.tsx`
+**Removed 9 more unused imports:**
+`ActivityIcon`, `CheckCircleIcon`, `DatabaseIcon`, `PlayIcon`, `StackIcon`, `WarningCircleIcon`, `StatusPill`, `ReadinessStrip`, `createProjectPipeline`
 
-**Removed unused type imports (2):**
-`MediaInspectorData`, `DatasetInspectorData` — these are type-only but unused in AppRoutes (consumed in `InspectorRouter`)
+These were not used in the App component's JSX render or helper functions.
 
-**Cleaned inline import (1):**
-- `import('../features/media').MediaUploadRow[]` → `import type { MediaUploadRow } from '../features/media'`
+### Import Cleanup in `AppRoutes.tsx` — Round 1 (27d78bb)
+
+- Replaced inline `import('../features/media').MediaUploadRow[]` with clean type import
+- Added necessary imports for route rendering
+
+### Import Cleanup in `AppRoutes.tsx` — Round 2 (2f3a1c4) — Leftovers Found by Audit
+
+**Removed 2 more unused type imports:**
+`MediaInspectorData`, `DatasetInspectorData` — type-only imports, not referenced in AppRoutes
 
 ## Verification Results
 
-| Command | Result |
-|---|---|
-| `pnpm --filter @visionflow/web typecheck` | PASS |
-| `pnpm --filter @visionflow/web test` | PASS (63/63) |
-| `pnpm typecheck` | PASS (all 4 packages) |
-| `pnpm test` | PASS (309+ tests; 1 pre-existing flaky API test unrelated to this pass) |
-| `pnpm build` | PASS (4/4 packages) |
-| `pnpm lint` | PASS (4/4 packages) |
-| `pnpm format:check` | PASS (pre-existing failures in 17 unrelated files; no new failures introduced) |
-| Browser smoke | Not run — verification limited to typecheck/test/build/lint/format |
+| Command | Result | Notes |
+|---|---|---|
+| `pnpm --filter @visionflow/web typecheck` | **PASS** | |
+| `pnpm --filter @visionflow/web test` | **PASS** | 63/63 |
+| `pnpm --filter @visionflow/web lint` | **PASS** | |
+| `pnpm --filter @visionflow/web build` | **PASS** | |
+| `pnpm --filter @visionflow/web prettier --check` | **PASS** | Touched files only |
+| `pnpm typecheck` (root) | **PASS** | |
+| `pnpm test` (root) | **PARTIAL FAIL** | 1 pre-existing flaky API test in `inference.service.test.ts` — CV_WORKER_URL timeout, unrelated to Phase 21A |
+| `pnpm lint` (root) | **PASS** | |
+| `pnpm format:check` (root) | **FAIL** | 17 pre-existing formatting failures in unrelated files |
+| Browser smoke | Not run | Verification limited to typecheck/test/build/lint |
 
-### Pre-existing Format Failures (Not From This Pass)
+### Pre-existing Failures (Not From Phase 21A)
 
-17 files fail `pnpm format:check` due to pre-existing Prettier issues unrelated to Phase 21A cleanup:
-- `.planning/` files (6)
-- Panel components (4): `DatasetPanel.tsx`, `JobsPanel.tsx`, `OverviewPanel.tsx`, `PipelinePanel.tsx`
-- `README.md`
-- Harness scripts (5)
-- `App.tsx` and `AppRoutes.tsx` — now fixed by this pass
+- **Root `pnpm test`:** 1 flaky API test (`CvWorkerClient — ONNX mode > throws when CV_WORKER_URL is not configured`) in `inference.service.test.ts` — network-dependent timeout, pre-existing before Phase 21A
+- **Root `pnpm format:check`:** 17 files with pre-existing Prettier formatting issues unrelated to Phase 21A (`.planning/` files, panel components, README, harness scripts)
+- Touched files (`App.tsx`, `AppRoutes.tsx`) pass Prettier check
 
 ## Boundary Review
 
@@ -98,6 +110,7 @@
 - `App.tsx` still owns orchestration effects (dataset loading, job SSE/polling, evaluation fetching) until Phase 21B
 - `AppRoutes` prop surface is intentionally large (20+ props) until controller hooks are extracted in Phase 21B
 - No new state library introduced — existing architecture maintained
+- Browser smoke not run
 
 ## Next
 
