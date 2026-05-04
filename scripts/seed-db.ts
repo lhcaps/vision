@@ -411,7 +411,7 @@ async function main() {
         projectId: project.id,
         datasetVersionId: datasetVersion.id,
         pipelineId: pipeline.id,
-        modelId: null,
+        modelId: modelArtifact.id,
         status: 'SUCCEEDED',
         progress: 100,
         startedAt: DEMO_JOB_STARTED_AT,

@@ -12,6 +12,7 @@ from .onnx_yolo import (
     _letterbox_resize,
     _nms,
     _normalize_and_convert,
+    _normalize_yolo_output,
     _resize_image,
 )
 

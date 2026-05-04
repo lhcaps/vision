@@ -235,39 +235,144 @@ def test_onnx_detector_mode():
         detector.close()
 
 
-# ─── Mock ONNX unavailable tests ──────────────────────────────────────────────
-
-def test_onnx_runtime_unavailable_error_raised():
-    with patch.dict("sys.modules", {"onnxruntime": None}):
-        with pytest.raises(OnnxRuntimeUnavailableError):
-            OnnxYoloDetector(
-                model_path="/fake/path.onnx",
-                confidence_threshold=0.25,
-                nms_iou_threshold=0.45,
-            )
-
-
-def test_onnx_detector_mode():
-    mock_session = MagicMock()
-    mock_session.get_inputs.return_value = [MagicMock(name="images")]
-    mock_session.get_outputs.return_value = [MagicMock(name="output0")]
-
-    with patch("detectors.onnx_yolo._load_onnx_session", return_value=mock_session):
-        detector = OnnxYoloDetector(
-            model_path="/tmp/fake.onnx",
-            confidence_threshold=0.25,
-            nms_iou_threshold=0.45,
-        )
-        assert detector.mode == "onnx_detector"
-        detector.close()
-
-
 def test_model_load_error_is_importable():
-    # ModelLoadError should be catchable by callers.
     try:
         raise ModelLoadError("test")
     except ModelLoadError as e:
         assert "test" in str(e)
+
+
+# ─── YOLO output normalization tests ─────────────────────────────────────────
+
+def test_normalize_yolo_output_shape_1_84_n():
+    from detectors.onnx_yolo import _normalize_yolo_output
+
+    raw = np.zeros((1, 84, 2), dtype=np.float32)
+    result = _normalize_yolo_output(raw)
+    assert result.shape == (2, 84)
+
+
+def test_normalize_yolo_output_shape_1_n_84():
+    from detectors.onnx_yolo import _normalize_yolo_output
+
+    raw = np.zeros((1, 2, 84), dtype=np.float32)
+    result = _normalize_yolo_output(raw)
+    assert result.shape == (2, 84)
+
+
+def test_normalize_yolo_output_shape_84_n():
+    from detectors.onnx_yolo import _normalize_yolo_output
+
+    raw = np.zeros((84, 100), dtype=np.float32)
+    result = _normalize_yolo_output(raw)
+    assert result.shape == (100, 84)
+
+
+def test_normalize_yolo_output_shape_n_84():
+    from detectors.onnx_yolo import _normalize_yolo_output
+
+    raw = np.zeros((3, 84), dtype=np.float32)
+    result = _normalize_yolo_output(raw)
+    assert result.shape == (3, 84)
+
+
+def test_normalize_yolo_output_rejects_invalid_shape():
+    from detectors.onnx_yolo import _normalize_yolo_output
+
+    raw = np.zeros((1, 50, 3), dtype=np.float32)
+    with pytest.raises(RuntimeError, match="Unexpected.*shape.*50"):
+        _normalize_yolo_output(raw)
+
+
+# ─── YOLO postprocess tests ───────────────────────────────────────────────────
+
+def test_postprocess_yolov8_shape_1_84_n_decodes_car():
+    from detectors.onnx_yolo import _postprocess_yolo
+
+    raw = np.zeros((1, 84, 2), dtype=np.float32)
+    raw[0, 0, 0] = 320  # cx in letterbox coords
+    raw[0, 1, 0] = 320  # cy in letterbox coords
+    raw[0, 2, 0] = 100  # w
+    raw[0, 3, 0] = 80   # h
+    raw[0, 4 + 2, 0] = 0.9  # class 2 (car) score
+
+    detections = _postprocess_yolo(
+        outputs=[raw],
+        input_size=640,
+        original_w=640,
+        original_h=640,
+        conf_thresh=0.25,
+        iou_thresh=0.45,
+        scale=1.0,
+        pad_top=0,
+        pad_left=0,
+    )
+
+    assert len(detections) == 1
+    assert detections[0].label == "car"
+    assert detections[0].label_class_id is None
+    assert detections[0].x == 270.0
+    assert detections[0].y == 280.0
+    assert detections[0].width == 100.0
+    assert detections[0].height == 80.0
+    assert detections[0].confidence == pytest.approx(0.9)
+
+
+def test_postprocess_yolov8_shape_1_n_84_decodes_car():
+    from detectors.onnx_yolo import _postprocess_yolo
+
+    raw = np.zeros((1, 2, 84), dtype=np.float32)
+    raw[0, 0, 0] = 320  # cx
+    raw[0, 0, 1] = 320  # cy
+    raw[0, 0, 2] = 100  # w
+    raw[0, 0, 3] = 80   # h
+    raw[0, 0, 4 + 2] = 0.9  # class 2 (car) score
+
+    detections = _postprocess_yolo(
+        outputs=[raw],
+        input_size=640,
+        original_w=640,
+        original_h=640,
+        conf_thresh=0.25,
+        iou_thresh=0.45,
+        scale=1.0,
+        pad_top=0,
+        pad_left=0,
+    )
+
+    assert len(detections) == 1
+    assert detections[0].label == "car"
+    assert detections[0].label_class_id is None
+
+
+def test_postprocess_preserves_letterbox_padding_mapping():
+    from detectors.onnx_yolo import _postprocess_yolo
+
+    raw = np.zeros((1, 84, 2), dtype=np.float32)
+    raw[0, 0, 0] = 320  # cx in letterbox coords
+    raw[0, 1, 0] = 320  # cy in letterbox coords
+    raw[0, 2, 0] = 100  # w
+    raw[0, 3, 0] = 80   # h
+    raw[0, 4 + 2, 0] = 0.9
+
+    detections = _postprocess_yolo(
+        outputs=[raw],
+        input_size=640,
+        original_w=1920,
+        original_h=1080,
+        conf_thresh=0.25,
+        iou_thresh=0.45,
+        scale=1.0,
+        pad_top=80,
+        pad_left=0,
+    )
+
+    assert len(detections) == 1
+    assert detections[0].label == "car"
+    assert detections[0].x == 270.0
+    assert detections[0].y == 200.0  # (320-80)/1.0 = 240 ... wait: cy-pad_top=320-80=240, /scale=240, y=240-40=200
+    assert detections[0].width == 100.0
+    assert detections[0].height == 80.0
 
 
 # ─── Integration: mock mode stays explicit ────────────────────────────────────
@@ -345,3 +450,22 @@ def test_coco_classes_are_valid():
     assert "person" in COCO_CLASSES
     assert "car" in COCO_CLASSES
     assert "truck" in COCO_CLASSES
+
+
+def test_resolve_model_path_relative():
+    from main import _resolve_model_path
+
+    # Relative path should resolve to project root
+    result = _resolve_model_path("./models/yolov8n.onnx")
+    assert result.is_absolute()
+    assert "Vision" in str(result)
+    assert "yolov8n.onnx" in result.name
+
+
+def test_resolve_model_path_absolute():
+    from main import _resolve_model_path
+
+    # On Windows, only drive-letter paths (D:\...) are absolute.
+    # Unix-style /tmp/... is treated as relative and resolved against PROJECT_ROOT.
+    result = _resolve_model_path("D:/tmp/custom/path.onnx")
+    assert str(result) == "D:\\tmp\\custom\\path.onnx"

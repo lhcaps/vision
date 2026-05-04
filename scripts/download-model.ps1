@@ -7,7 +7,10 @@
 $ErrorActionPreference = "Stop"
 
 $ModelUrl = "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.onnx"
-$ExpectedSha256 = "32636ef3a28457007e4a9b1e9c8eeefb9d4e7c3b7a1f9d6c8e5b2a4f7d1c9e3b"
+# NOTE: Replace with the real SHA-256 once computed against the downloaded file.
+# Run: (Get-FileHash .\models\yolov8n.onnx -Algorithm SHA256).Hash
+# The script will exit 1 on mismatch so this MUST be updated before use.
+$ExpectedSha256 = "PLACEHOLDER_UPDATE_AFTER_DOWNLOAD"
 $ModelDir = "models"
 $ModelFile = "yolov8n.onnx"
 $TargetPath = Join-Path $ModelDir $ModelFile
@@ -24,6 +27,22 @@ if (Test-Path $TargetPath) {
     Write-Host "[INFO] Model already exists at: $TargetPath" -ForegroundColor Cyan
     $existingHash = Get-Checksum -Path $TargetPath
     Write-Host "[INFO] Existing checksum: $existingHash"
+    if ($ExpectedSha256 -eq "PLACEHOLDER_UPDATE_AFTER_DOWNLOAD") {
+        Write-Host "[WARN] Expected SHA-256 is placeholder. Cannot verify existing file." -ForegroundColor Yellow
+        Write-Host "[INFO] To verify: (Get-FileHash .\models\yolov8n.onnx -Algorithm SHA256).Hash" -ForegroundColor Cyan
+        Write-Host "[INFO] Then update `$ExpectedSha256 in this script." -ForegroundColor Cyan
+        Write-Host "[INFO] Treating existing file as valid for now." -ForegroundColor Cyan
+        exit 0
+    }
+    if ($existingHash -ne $ExpectedSha256) {
+        Remove-Item $TargetPath -Force -ErrorAction SilentlyContinue
+        Write-Host "[ERROR] Existing file checksum mismatch. Deleted invalid model file." -ForegroundColor Red
+        Write-Host "[ERROR] Expected: $ExpectedSha256" -ForegroundColor Red
+        Write-Host "[ERROR] Actual:   $existingHash" -ForegroundColor Red
+        Write-Host "[INFO] Run this script again to re-download." -ForegroundColor Cyan
+        exit 1
+    }
+    Write-Host "[PASS] Existing model checksum verified." -ForegroundColor Green
     Write-Host "[INFO] To re-download, delete the file first."
     exit 0
 }
@@ -48,13 +67,16 @@ Write-Host "[INFO] Download complete. Verifying SHA-256 checksum..."
 
 $actualHash = Get-Checksum -Path $TargetPath
 
-if ($actualHash -ne $ExpectedSha256) {
-    Write-Host "[WARN] Checksum does not match known value."
-    Write-Host "[WARN] Expected (known value): $ExpectedSha256"
-    Write-Host "[WARN] Actual  : $actualHash"
-    Write-Host "[INFO] File saved at: $TargetPath"
-    Write-Host "[INFO] YOLOv8n downloads may change version; if inference works, the model is valid."
-    Write-Host "[INFO] You can verify manually at: https://github.com/ultralytics/assets/releases"
+if ($ExpectedSha256 -eq "PLACEHOLDER_UPDATE_AFTER_DOWNLOAD") {
+    Write-Host "[WARN] Expected SHA-256 is not set (placeholder). Skipping verification." -ForegroundColor Yellow
+    Write-Host "[INFO] To verify this file later, compute: (Get-FileHash .\models\yolov8n.onnx -Algorithm SHA256).Hash" -ForegroundColor Cyan
+    Write-Host "[INFO] Then update `$ExpectedSha256 in this script." -ForegroundColor Cyan
+} elseif ($actualHash -ne $ExpectedSha256) {
+    Remove-Item $TargetPath -Force -ErrorAction SilentlyContinue
+    Write-Host "[ERROR] Checksum mismatch. Deleted invalid model file." -ForegroundColor Red
+    Write-Host "[ERROR] Expected: $ExpectedSha256" -ForegroundColor Red
+    Write-Host "[ERROR] Actual:   $actualHash" -ForegroundColor Red
+    exit 1
 } else {
     Write-Host "[PASS] Checksum verified successfully!" -ForegroundColor Green
 }

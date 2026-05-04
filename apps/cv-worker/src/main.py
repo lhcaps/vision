@@ -11,7 +11,8 @@ from dotenv import load_dotenv
 # have the correct MinIO credentials even when started via Start-Process.
 # Path from D:\Study\Project\Vision\apps\cv-worker\src\main.py up to root:
 #   parents[0]=src, parents[1]=cv-worker, parents[2]=apps, parents[3]=Vision(root)
-_env_path = Path(__file__).resolve().parents[3] / ".env"
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+_env_path = _PROJECT_ROOT / ".env"
 load_dotenv(_env_path)
 
 # get_client() re-reads env vars on every call so credentials from .env take effect
@@ -440,6 +441,19 @@ def _run_mock_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
         detector.close()
 
 
+def _resolve_model_path(model_artifact_key: str) -> Path:
+    """Resolve model artifact key to an absolute Path.
+
+    Absolute paths are returned as-is. Relative paths are resolved
+    against the project root (three directories above main.py), which
+    is where start-dev.ps1 runs the worker from.
+    """
+    p = Path(model_artifact_key)
+    if p.is_absolute():
+        return p
+    return _PROJECT_ROOT / p
+
+
 def _run_onnx_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
     if not req.modelArtifactKey:
         raise HTTPException(
@@ -457,7 +471,7 @@ def _run_onnx_pipeline(req: RunPipelineRequest) -> dict[str, Any]:
             },
         )
 
-    model_path = Path(req.modelArtifactKey)
+    model_path = _resolve_model_path(req.modelArtifactKey)
 
     if not model_path.exists():
         raise HTTPException(

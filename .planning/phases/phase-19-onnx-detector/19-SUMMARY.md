@@ -36,11 +36,13 @@ NestJS API → BullMQ → FastAPI CV Worker
 ## Key Implementation Details
 
 **Letterbox preprocessing:**
+
 - Scales image to 640x640 while preserving aspect ratio
 - Pads with gray (114) to avoid distortion
 - Returns scale/pad metadata for coordinate remapping
 
 **YOLO postprocessing:**
+
 - Decodes YOLOv8 ONNX output (80 COCO classes)
 - Applies confidence threshold (default 0.25)
 - Applies NMS within same class (default IoU 0.45)
@@ -48,6 +50,7 @@ NestJS API → BullMQ → FastAPI CV Worker
 - Clamps boxes to image bounds
 
 **Error handling:**
+
 - `OnnxRuntimeUnavailableError` → HTTP 501
 - `ModelLoadError` → HTTP 422
 - `ImageDecodeError` → HTTP 422
@@ -56,6 +59,7 @@ NestJS API → BullMQ → FastAPI CV Worker
 - **No silent fallback to mock in ONNX mode**
 
 **Prediction traceability metadata:**
+
 ```json
 {
   "workerMode": "onnx_detector",
@@ -71,6 +75,7 @@ NestJS API → BullMQ → FastAPI CV Worker
 ## Files Changed
 
 ### Created
+
 - `apps/cv-worker/src/detectors/__init__.py`
 - `apps/cv-worker/src/detectors/base.py`
 - `apps/cv-worker/src/detectors/mock_detector.py`
@@ -81,6 +86,7 @@ NestJS API → BullMQ → FastAPI CV Worker
 - `.planning/phases/phase-19-onnx-detector/19-PLAN.md`
 
 ### Modified
+
 - `apps/cv-worker/src/main.py` — wire detectors, `_run_onnx_pipeline()` implementation
 - `apps/cv-worker/requirements.txt` — added `onnxruntime>=1.19.0`
 - `apps/api/src/inference/inference.service.ts` — traceability metadata
@@ -100,6 +106,7 @@ NestJS API → BullMQ → FastAPI CV Worker
 ## Non-Goals Delivered (Out of Scope for Phase 19)
 
 These remain pending for future phases:
+
 - Real ONNX model binary (download via script, not committed)
 - Real image inference end-to-end (requires live MinIO + model download)
 - Model training / segmentation / keypoints

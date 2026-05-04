@@ -13,7 +13,8 @@ export const CvWorkerAssetInputSchema = z.object({
 
 export const CvWorkerPredictionSchema = z.object({
   assetId: z.string().min(1),
-  labelClassId: z.string().min(1).nullable(),
+  labelClassId: z.string().min(1).optional().nullable(),
+  label: z.string().min(1).optional(),
   geometry: BBoxGeometrySchema,
   confidence: z.number().min(0).max(1),
   metadata: z.record(z.unknown()),

@@ -127,12 +127,27 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
 
   async createJob(projectId: string, dto: CreateInferenceJobRequest): Promise<InferenceJobSummary> {
     await this.assertRunnableDatasetVersion(projectId, dto.datasetVersionId);
-    await this.assertRunnablePipeline(projectId, dto.pipelineId);
+
+    const pipeline = (await this.pipelinesService.listPipelines(projectId)).find(
+      (item) => item.id === dto.pipelineId
+    );
+    if (!pipeline) throw new NotFoundException('Pipeline not found for this project.');
+    if (!pipeline.validation.ok) {
+      throw new BadRequestException({
+        message: 'Inference jobs require a valid persisted pipeline.',
+        issues: pipeline.validation.issues,
+      });
+    }
+
+    const detectorNode = pipeline.definition.nodes.find((node) => node.type === 'yolo_onnx');
+    const modelId =
+      detectorNode?.type === 'yolo_onnx' ? (detectorNode.params.modelId ?? null) : null;
 
     const job = await this.inferenceRepo.createJob({
       projectId,
       pipelineId: dto.pipelineId,
       datasetVersionId: dto.datasetVersionId,
+      modelId,
       status: 'QUEUED',
     });
 
@@ -440,6 +455,7 @@ export class InferenceService implements OnModuleInit, OnModuleDestroy {
           workerVersion: workerResponse.workerVersion,
           datasetVersionId: job.datasetVersionId,
           pipelineId: job.pipelineId,
+          modelId: job.modelId ?? undefined,
           modelVersion: (workerResponse as { modelVersion?: string }).modelVersion ?? undefined,
         } as Prisma.InputJsonObject,
       })),

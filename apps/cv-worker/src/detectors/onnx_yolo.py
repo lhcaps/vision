@@ -113,6 +113,8 @@ class OnnxYoloDetector(Detector):
             d.metadata["runtime"] = "onnx_detector"
             d.metadata["modelVersion"] = self._model_version
             d.metadata["inputSize"] = self._input_size
+            d.metadata["cocoLabel"] = d.label
+            d.metadata["classId"] = d._class_id
         return detections
 
     def close(self) -> None:
@@ -230,6 +232,42 @@ def _normalize_and_convert(tensor: np.ndarray, target_size: int) -> np.ndarray:
 
 # ─── YOLOv8 postprocessing ─────────────────────────────────────────────────
 
+def _normalize_yolo_output(raw: np.ndarray) -> np.ndarray:
+    """Normalize YOLOv8 ONNX output to (N, 84) shape for decode.
+
+    Supported input shapes:
+      - (1, 84, N) → squeeze batch → (84, N) → transpose → (N, 84)
+      - (1, N, 84) → squeeze batch → (N, 84) → keep
+      - (84, N)    → transpose → (N, 84)
+      - (N, 84)    → keep → (N, 84)
+
+    YOLOv8 always outputs 84 values per box: 4 (cx, cy, w, h) + 80 COCO classes.
+    The feature dimension is always 84; we identify it by checking which axis = 84.
+    """
+    if raw.ndim == 3:
+        raw = raw[0]  # (1, 84, N) or (1, N, 84) → (84, N) or (N, 84)
+
+    if raw.ndim != 2:
+        raise RuntimeError(
+            f"Unexpected YOLOv8 output ndim {raw.ndim}. "
+            "Expected 2-D or 3-D array."
+        )
+
+    # shape[0] == 84 means features are rows (YOLO output order: (84, N))
+    # → transpose so features become columns: (N, 84)
+    if raw.shape[0] == 84:
+        return raw.T
+
+    # shape[1] == 84 means features are cols already (N, 84) → keep
+    if raw.shape[1] == 84:
+        return raw
+
+    raise RuntimeError(
+        f"Unexpected YOLOv8 output shape {raw.shape}. "
+        "Expected class dimension of 84 (4 box + 80 COCO classes)."
+    )
+
+
 def _postprocess_yolo(
     outputs: list[np.ndarray],
     input_size: int,
@@ -246,29 +284,14 @@ def _postprocess_yolo(
     if len(outputs) == 0:
         return []
 
-    raw = outputs[0]
-    if raw.ndim != 3:
-        raw = raw[0]
-
-    if raw.shape[1] < 84:
-        raise RuntimeError(
-            f"Unexpected YOLOv8 output shape {raw.shape}. "
-            "Expected (num_boxes, 84) or (1, 84, num_boxes)."
-        )
-
-    num_boxes = raw.shape[2] if raw.shape[1] < raw.shape[2] else raw.shape[1]
-    if raw.shape[1] > raw.shape[2]:
-        raw = np.transpose(raw, (0, 2, 1))
-
-    raw = raw[0]
+    raw = _normalize_yolo_output(outputs[0])
 
     boxes: list[dict[str, Any]] = []
 
-    for i in range(raw.shape[0]):
-        row = raw[i]
-        class_scores = row[4:]
+    for row in raw:
+        class_scores = row[4:84]
         class_id = int(np.argmax(class_scores))
-        confidence = float(row[4 + class_id])
+        confidence = float(class_scores[class_id])
         if confidence < conf_thresh:
             continue
 
@@ -276,13 +299,11 @@ def _postprocess_yolo(
 
         letterbox_cx = cx - pad_left
         letterbox_cy = cy - pad_top
-        letterbox_w = w
-        letterbox_h = h
 
         orig_cx = letterbox_cx / scale
         orig_cy = letterbox_cy / scale
-        orig_w = letterbox_w / scale
-        orig_h = letterbox_h / scale
+        orig_w = w / scale
+        orig_h = h / scale
 
         x = max(0.0, min(orig_cx - orig_w / 2, original_w))
         y = max(0.0, min(orig_cy - orig_h / 2, original_h))
@@ -310,7 +331,7 @@ def _postprocess_yolo(
             Detection(
                 asset_id="",
                 label=b["label"],
-                label_class_id=b["label"],
+                label_class_id=None,
                 x=round(b["x"], 2),
                 y=round(b["y"], 2),
                 width=round(b["width"], 2),
