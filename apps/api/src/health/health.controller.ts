@@ -2,6 +2,7 @@ import { Controller, Get, HttpCode, HttpStatus, Header } from '@nestjs/common';
 import { ApiTags, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { HealthService } from './health.service';
 import { HealthResponseDto, LivenessResponseDto } from './dto/health-response.dto';
+import { RuntimeStatusResponseDto } from './dto/runtime-status-response.dto';
 
 @ApiTags('health')
 @Controller('health')
@@ -44,5 +45,15 @@ export class HealthController {
   })
   async deep(): Promise<HealthResponseDto> {
     return this.healthService.deepCheck();
+  }
+
+  @Get('runtime/status')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    description: 'Runtime status — real state of API, database, queue, and CV worker',
+    type: RuntimeStatusResponseDto,
+  })
+  async getRuntimeStatus(): Promise<RuntimeStatusResponseDto> {
+    return this.healthService.getRuntimeStatus();
   }
 }

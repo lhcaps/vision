@@ -127,3 +127,47 @@ export type CvWorkerDerivativeArtifact = z.infer<typeof CvWorkerDerivativeArtifa
 export type CvWorkerMediaProcessingRequest = z.infer<typeof CvWorkerMediaProcessingRequestSchema>;
 export type CvWorkerCreateThumbnailResponse = z.infer<typeof CvWorkerCreateThumbnailResponseSchema>;
 export type CvWorkerExtractFramesResponse = z.infer<typeof CvWorkerExtractFramesResponseSchema>;
+
+// ─── Runtime Status ─────────────────────────────────────────────────────────────
+
+export const RuntimeStatusCvWorkerSchema = z.object({
+  ok: z.boolean(),
+  configured: z.boolean(),
+  url: z.string().nullable(),
+  requestedDetectorMode: CvWorkerDetectorModeSchema,
+  activeDetectorMode: z.string().nullable(),
+  onnxAvailable: z.boolean().nullable(),
+  modelVersion: z.string().nullable(),
+  modelPath: z.string().nullable(),
+  frameExtractionAvailable: z.boolean().nullable(),
+  error: z.string().nullable(),
+});
+
+export const RuntimeStatusQueueSchema = z.object({
+  ok: z.boolean().nullable(),
+  mode: z.enum(['bullmq', 'memory', 'unknown']),
+  status: z.enum(['ready', 'fallback', 'unavailable', 'unknown']),
+});
+
+export const RuntimeStatusDatabaseSchema = z.object({
+  ok: z.boolean().nullable(),
+  status: z.enum(['ready', 'unavailable', 'unknown']),
+});
+
+export const RuntimeStatusApiSchema = z.object({
+  ok: z.boolean(),
+  mode: z.enum(['database', 'memory', 'unknown']),
+});
+
+export const RuntimeStatusResponseSchema = z.object({
+  api: RuntimeStatusApiSchema,
+  database: RuntimeStatusDatabaseSchema,
+  queue: RuntimeStatusQueueSchema,
+  cvWorker: RuntimeStatusCvWorkerSchema,
+});
+
+export type RuntimeStatusResponse = z.infer<typeof RuntimeStatusResponseSchema>;
+export type RuntimeStatusApi = z.infer<typeof RuntimeStatusApiSchema>;
+export type RuntimeStatusDatabase = z.infer<typeof RuntimeStatusDatabaseSchema>;
+export type RuntimeStatusQueue = z.infer<typeof RuntimeStatusQueueSchema>;
+export type RuntimeStatusCvWorker = z.infer<typeof RuntimeStatusCvWorkerSchema>;

@@ -1158,10 +1158,12 @@ This patch addresses accumulated traceability drift — several phases completed
 7. README Implementation Status table distinguishes Phase 16A (minimum) from Phase 21 (completion)
 8. README Known Limitations reflects current App.tsx state
 
-## Phase 21, Frontend Feature Split Completion — Phase 21A Done
+## Phase 21, Frontend Feature Split Completion — Phase 21B Done
 
-**Phase 21A commit:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
+**Phase 21A commits:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
+**Phase 21B commit:** (pending push)
 **Phase 21A status:** Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal. Full verification gate passed.
+**Phase 21B status:** Done — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, 3 controllers extracted. App.tsx reduced from 529 to 144 lines.
 
 **Goal:** Extract App.tsx into a thin composition root. Split feature-specific logic into independently importable feature modules. No UI redesign, no new state model, no visual regression.
 
@@ -1191,7 +1193,17 @@ Acceptance achieved:
 
 **Note:** App.tsx at 548 lines is above the <400 target. The gap is orchestration hooks (dataset loading, SSE/polling, evaluation fetching, startJob) that remain until Phase 21B extracts them. Line count polish is Phase 21C scope.
 
-**Wave B — Dataset + Media Feature Extraction**
+**Wave B — Runtime Truth Hooks — Done**
+
+- [x] `GET /api/health/runtime/status` — returns real API/DB/queue/CV worker state
+- [x] `useRuntimeStatus` hook — polls every 8s, exposes loading/error/data
+- [x] `ReadinessStrip` — no longer hard-coded; reads from hook
+- [x] `useDatasetsController` — owns dataset loading, selection, source state
+- [x] `useInferenceJobController` — owns job state, SSE, polling, startJob
+- [x] `useEvaluationController` — owns evaluation report, predictions, handleRunEvaluation
+- [x] App.tsx reduced from 529 to 144 lines
+
+**Wave C — Dataset + Media Feature Extraction**
 
 ```
 features/datasets/
@@ -1220,7 +1232,7 @@ Acceptance:
 - Media upload state isolated in feature module
 - No circular dependencies introduced
 
-**Wave C — Pipeline + Jobs/Inference Feature Extraction**
+**Wave D — Pipeline + Jobs/Inference Feature Extraction**
 
 ```
 features/pipelines/
@@ -1251,7 +1263,7 @@ Acceptance:
 - Run job logic leaves App.tsx
 - All feature modules independently importable
 
-**Wave D — Annotation + Timeline + Inspector Final Split**
+**Wave E — Annotation + Timeline + Inspector Final Split**
 
 ```
 features/annotations/
@@ -1279,20 +1291,19 @@ Acceptance:
 
 **Success criteria:**
 
-1. [partial] App.tsx reduced from 799 to 548 lines. Target <400 lines reserved for Phase 21C (line count polish) after Phase 21B (hook extraction).
+1. [done] App.tsx reduced from 799 to 144 lines (target <400 lines achieved in Wave B)
 2. [done] AppRoutes.tsx extracted — all route rendering removed from App.tsx
 3. [done] All panel components extracted to `app/` directory
-4. [done] All unused imports removed from App.tsx and AppRoutes.tsx
-5. [pending 21B] Every feature module independently importable — hook extraction needed
-6. [done] Shared UI components (Panel, EmptyState, ErrorState, ActionHint, DisabledReason) reused
-7. [partial] API calls co-located — contracts still imported in App.tsx; full extraction in 21B
+4. [done] useDatasetsController, useInferenceJobController, useEvaluationController extracted
+5. [done] ReadinessStrip reads real backend state — no more "Mock detector mounted"
+6. [pending] Shared UI components (Panel, EmptyState, ErrorState, ActionHint, DisabledReason) reused in feature modules
+7. [pending] Pipeline and annotation feature extraction (Wave D/E)
 8. [done] No circular dependencies exist
 9. [done] Existing visual design preserved — no CSS/JSX changes
 10. [done] Frontend tests still pass (63/63)
 
-**Phase 21B/21C/21D next:**
-- 21B: Extract `useInferenceJobController`, `useEvaluationController`, `useDatasetsController`
-- 21C: Line count polish — target App.tsx < 400 lines
+**Phase 21C/21D next:**
+- 21C: Pipeline + annotation feature extraction (Wave D/E)
 - 21D: Final circular dependency resolution and shared component extraction
 
 ## Phase 22A, Fixture & Test Infrastructure — Planned

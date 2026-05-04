@@ -7,39 +7,24 @@ import {
   CircleNotchIcon as CircleNotch,
   XCircleIcon as XCircle,
 } from '@phosphor-icons/react';
-import { useRuntimeStatus } from '../features/runtime/useRuntimeStatus';
-import type { RuntimeReadiness } from '../features/runtime/runtime.types';
+import type { RuntimeReadiness } from './runtime.types';
 
-interface ReadinessStripProps {
-  job?: {
-    source: 'loading' | 'api' | 'fallback';
-    status: string;
-  };
-}
-
-export function ReadinessStrip({ job }: ReadinessStripProps) {
-  const { readiness } = useRuntimeStatus();
-  return <ReadinessStripInner readiness={readiness} job={job} />;
-}
-
-function ReadinessStripInner({
-  readiness,
-  job,
-}: {
+interface RuntimeReadinessStripProps {
   readiness: RuntimeReadiness;
-  job?: { source: 'loading' | 'api' | 'fallback'; status: string };
-}) {
+}
+
+export function RuntimeReadinessStrip({ readiness }: RuntimeReadinessStripProps) {
   return (
     <div className="mb-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
       <ApiStatusBadge readiness={readiness} />
       <DatabaseStatusBadge readiness={readiness} />
-      <QueueStatusBadge readiness={readiness} job={job} />
+      <QueueStatusBadge readiness={readiness} />
       <CvStatusBadge readiness={readiness} />
     </div>
   );
 }
 
-function ApiStatusBadge({ readiness }: { readiness: RuntimeReadiness }) {
+function ApiStatusBadge({ readiness }: RuntimeReadinessStripProps) {
   const { api } = readiness;
 
   if (api.kind === 'loading') {
@@ -52,7 +37,7 @@ function ApiStatusBadge({ readiness }: { readiness: RuntimeReadiness }) {
   return <StatusBadge label="API" value="Unavailable" icon={XCircle} tone="text-danger-400" />;
 }
 
-function DatabaseStatusBadge({ readiness }: { readiness: RuntimeReadiness }) {
+function DatabaseStatusBadge({ readiness }: RuntimeReadinessStripProps) {
   const { database } = readiness;
 
   if (database.kind === 'loading') {
@@ -67,22 +52,13 @@ function DatabaseStatusBadge({ readiness }: { readiness: RuntimeReadiness }) {
   return <StatusBadge label="Schema" value="Unknown" icon={Warning} tone="text-amber-400" />;
 }
 
-function QueueStatusBadge({
-  readiness,
-  job,
-}: {
-  readiness: RuntimeReadiness;
-  job?: { source: 'loading' | 'api' | 'fallback'; status: string };
-}) {
+function QueueStatusBadge({ readiness }: RuntimeReadinessStripProps) {
   const { queue } = readiness;
 
   if (queue.kind === 'loading') {
     return <StatusBadge label="Queue" value="Loading..." icon={CircleNotch} tone="text-neutral-400 animate-spin" />;
   }
   if (queue.kind === 'bullmq-ready') {
-    if (job?.source === 'api' && job?.status === 'RUNNING') {
-      return <StatusBadge label="Queue" value="Worker active" icon={Stack} tone="text-amber-300" />;
-    }
     return <StatusBadge label="Queue" value="BullMQ ready" icon={Stack} tone="text-signal-300" />;
   }
   if (queue.kind === 'memory-fallback') {
@@ -94,17 +70,31 @@ function QueueStatusBadge({
   return <StatusBadge label="Queue" value="Unknown" icon={Warning} tone="text-neutral-400" />;
 }
 
-function CvStatusBadge({ readiness }: { readiness: RuntimeReadiness }) {
+function CvStatusBadge({ readiness }: RuntimeReadinessStripProps) {
   const { cvWorker } = readiness;
 
   if (cvWorker.kind === 'loading') {
     return <StatusBadge label="CV" value="Loading..." icon={CircleNotch} tone="text-neutral-400 animate-spin" />;
   }
   if (cvWorker.kind === 'onnx-ready') {
-    return <StatusBadge label="CV" value="ONNX detector ready" icon={CheckCircle} tone="text-signal-300" />;
+    return (
+      <StatusBadge
+        label="CV"
+        value={`ONNX detector ready`}
+        icon={CheckCircle}
+        tone="text-signal-300"
+      />
+    );
   }
   if (cvWorker.kind === 'onnx-configured-unavailable') {
-    return <StatusBadge label="CV" value="ONNX configured, unavailable" icon={Warning} tone="text-amber-400" />;
+    return (
+      <StatusBadge
+        label="CV"
+        value="ONNX configured, unavailable"
+        icon={Warning}
+        tone="text-amber-400"
+      />
+    );
   }
   if (cvWorker.kind === 'mock-fallback') {
     return <StatusBadge label="CV" value="Mock detector fallback" icon={Stack} tone="text-neutral-400" />;
