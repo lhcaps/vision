@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19, 20
+**Completed in v1.1:** 11, 12A, 12B, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19, 20, 20B, 20C, 20D, 20E, 20F
 
 ### Goal
 
@@ -82,9 +82,9 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 20    | Evaluation Report E2E                         | IoU matching, persisted reports, per-class metrics, label mapping                                                                     | ✅ FULL PASS |
 | 20B   | Evaluation Correctness Hardening              | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash                 | ✅ Done      |
 | 20C   | Evaluation Integrity Finalization             | Shared hash module, seed alignment, safe legacy adapter, 12-point harness, README fixed                                               | ✅ Done      |
-| 20D   | Evaluation Persistence & CI Hardening         | DB columns, upsert-by-hash, read consistency, hex regex, strict harness fix, phase20d harness, DB-backed integration tests, CI wiring | ✅ Done      |
-| 20E   | Evaluation Migration Finalization             | Explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout                          | ✅ Done      |
-| 20F   | Migration Chain Baseline & Backfill Hardening | Baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness, Phase 20E harness fixes             | In Progress  |
+| 20D   | Evaluation Persistence & CI Hardening         | DB columns, upsert-by-hash, read consistency, hex regex, strict harness fix, phase20d harness, DB-backed integration tests, CI wiring | ✅ FULL PASS |
+| 20E   | Evaluation Migration Finalization             | Explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout                          | ✅ FULL PASS |
+| 20F   | Migration Chain Baseline & Backfill Hardening | Baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness, Phase 20E harness fixes             | ✅ FULL PASS |
 | 21    | Frontend Split Completion                     | All feature modules, shared components                                                                                                | Planned      |
 | 22A   | Test Harness & Fixtures                       | Docker test stack, deterministic fixtures                                                                                             | Planned      |
 | 22B   | Production-Path Test Suite                    | Real path tests, contract tests                                                                                                       | Planned      |

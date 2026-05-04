@@ -87,12 +87,11 @@ The demo covers the full vertical slice: upload media → create dataset → ann
                            │              FastAPI CV Worker                   │
                            │  ┌─────────────────┐  ┌─────────────────────┐  │
                            │  │  Thumbnail Gen  │  │  Frame Extraction   │  │
-                           │  │    (Pillow)     │  │      (OpenCV)       │  │
+                           │  │    (Pillow)     │  │ (OpenCV/deferred) │  │
                            │  └─────────────────┘  └─────────────────────┘  │
                            │  ┌────────────────────────────────────────────┐ │
                            │  │      ONNX Runtime (detector)               │ │
                            │  │      NMS + confidence threshold            │ │
-                           │  │      Evaluation (IoU-based matching)       │ │
                            │  └────────────────────────────────────────────┘ │
                            └──────────────────────────────────────────────────┘
 
@@ -107,6 +106,8 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 ```
 
 **Data flow:** Browser → NestJS API (metadata + job dispatch) → Redis (job queue) → FastAPI CV Worker (processing) → MinIO (artifacts) → PostgreSQL (predictions + evaluation reports)
+
+**Evaluation** runs in the NestJS API layer (Phase 20) — IoU-based matching with greedy assignment, deterministic input/metrics hashing, per-class precision/recall/F1 metrics.
 
 ## Implementation Status
 
@@ -140,7 +141,8 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Adapter boundary cleanup   | ✅ Done    | Phase 14A (complete) |
 | Domain invariants          | ✅ Done    | Phase 14B (complete) |
 | Observability & health     | ✅ Done    | Phase 15             |
-| Frontend feature split     | ✅ Done    | Phase 16A            |
+| Frontend feature split (minimum) | ✅ Done    | Phase 16A           |
+| Frontend split completion       | 🔄 Planned | Phase 21 (current)  |
 | Real media processing      | ✅ Done    | Phase 17             |
 | Dataset lock & COCO export | ✅ Done    | Phase 18             |
 | Real ONNX inference        | ✅ Done    | Phase 19 (complete)  |
@@ -182,10 +184,19 @@ VisionFlow uses Prisma for database management.
 # Generate Prisma client from schema (run after pulling changes)
 pnpm db:generate
 
-# Apply migrations to database
-pnpm db:migrate
+# Production/migration-proof path: apply migrations in order
+pnpm db:migrate:deploy
 
-# Sync schema without migration history (faster for local dev)
+# Check migration status (which migrations are applied, pending, or failed)
+pnpm db:migrate:status
+
+# Seed demo data (run after migrations)
+pnpm seed:db -- --reset
+
+# Run Phase 20F migration-chain harness
+pnpm harness:phase20f
+
+# Sync schema without migration history (local dev only — faster)
 pnpm db:push
 
 # Open Prisma Studio to browse and edit data
@@ -201,9 +212,15 @@ pnpm migration:eval-report:apply
 pnpm harness:phase20e
 ```
 
-**In CI:** The GitHub Actions pipeline runs `pnpm db:generate` to validate the schema compiles correctly. Migration application happens at deployment time.
+**When to use which:**
 
-**Fresh start:** `docker compose up -d` → `pnpm db:generate` → `pnpm db:push`
+- **Local dev fast path:** `pnpm db:push` — skips migration history, good for rapid iteration.
+- **Production/migration proof path:** `pnpm db:migrate:deploy` + `pnpm db:migrate:status` — applies migrations in order and verifies the chain works from scratch.
+- **CI runs:** `db:migrate:deploy` → `db:migrate:status` → `seed:db --reset` → `harness:phase20f` to prove the full migration chain on a fresh database.
+
+**In CI:** The GitHub Actions pipeline runs `pnpm db:generate` to validate the schema compiles correctly. Migration application happens at deployment time via `pnpm db:migrate:deploy`.
+
+**Fresh start:** `docker compose up -d` → `pnpm db:generate` → `pnpm db:migrate:deploy` → `pnpm db:migrate:status` → `pnpm seed:db -- --reset` → `pnpm harness:phase20f`
 
 ## Development
 
@@ -478,19 +495,19 @@ This is a prototype under active development (v1.1). The following limitations e
 
 ### CV Worker
 
-- **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
+- **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred (returns explicit FAILED).
 - **Real ONNX inference** — Implemented in Phase 19. YOLOv8n ONNX detector runs end-to-end with real predictions persisted. Mock detector available as fallback.
-- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time. Explicit Prisma migration SQL with safe backfill path implemented in Phase 20E. Full baseline migration chain (`db:migrate:deploy`) proving fresh DB creation from migration history in Phase 20F.
 
 ### Data & Reproducibility
 
+- **Evaluation persistence** — Implemented in Phase 20D. NestJS API layer runs deterministic IoU-based evaluation (greedy matching, threshold 0.5). Reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash validated at read time. Explicit Prisma migration SQL with safe backfill implemented in Phase 20E. Full baseline migration chain via `db:migrate:deploy` proven in Phase 20F.
 - **COCO export** — Implemented in Phase 18. `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`. Dataset must be LOCKED. Export is deterministic (stable ordering, SHA-256 hash of canonical content).
 - **Immutable version lock** — Implemented in Phase 18. Lock-readiness invariants enforced: at least one asset, no UNASSIGNED splits, all assets have dimensions, at least one BBox annotation. Locked versions reject annotation create/update/delete.
-- **Evaluation reproducibility** — Deterministic IoU-based evaluation with locked dataset versions (Phases 19–20D). Canonical input hash and metrics hash ensure stable output across re-runs. Dedicated DB columns and upsert-by-hash ensure exactly one report per unique input.
+- **Evaluation reproducibility** — Deterministic IoU-based evaluation (NestJS API layer, Phase 20) with locked dataset versions. Canonical input hash and metrics hash ensure stable output across re-runs. Dedicated DB columns and upsert-by-hash ensure exactly one report per unique input. Migration chain proven via `db:migrate:deploy` (Phase 20F).
 
 ### Frontend
 
-- **App.tsx is monolithic** — Being split into feature modules in Phase 16A.
+- **App.tsx is the composition root** — Being fully split into feature modules (datasets, annotations, pipelines, jobs, timeline, shell) in Phase 21.
 - **No authentication** — Single-user workbench. Auth/RBAC is out of scope for v1.
 - **No real-time collaboration** — Annotations are single-user.
 

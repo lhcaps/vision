@@ -1,8 +1,8 @@
 # Roadmap
 
-Status date: 2026-05-04
+Status date: 2026-05-05
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D/20E/20F completed — Phase 21 (Frontend Feature Split Completion) next to execute
+Phase 20F FULL PASS (2026-05-04) — Planning Cleanup Patch (21-0) then Phase 21A (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -1098,16 +1098,187 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 11. Docs explain `db:push` is local/dev, `db:migrate:deploy` is production-grade
 12. STATE/ROADMAP/MILESTONES updated
 
+## Planning Cleanup Patch — Phase 21-0
+
+**Goal:** Sync all planning artifacts to reflect the actual codebase state before Phase 21 begins. This is a documentation-only patch — no code changes.
+
+**Status:** Planned
+
+This patch addresses accumulated traceability drift — several phases completed their requirements but the planning documents were not fully updated. Failing to sync now means Phase 21 (or any future agent) will incorrectly treat already-completed requirements as pending.
+
+**A. REQUIREMENTS.md sync:**
+
+- PORT-01 through PORT-06 → checked (Phase 11 complete)
+- SEC-01 through SEC-11 → checked (Phase 13 complete)
+- ABS-01 through ABS-10 → checked (Phase 14A complete)
+- DOM-01 through DOM-07 → checked (Phase 14B complete)
+- UI-01 through UI-09 → Partial (Phase 16A minimum done, Phase 21 completes)
+- MED-01 through MED-09 → Partial (thumbnail done, frame extraction deferred)
+- LOCK-01 through LOCK-09 → checked (Phase 18 complete)
+- DET-01 through DET-08 → checked (Phase 19 complete)
+- EVAL-01 through EVAL-09 → checked (Phase 20 complete)
+- Traceability table updated: SEC, ABS, DOM, UI, MED, LOCK now Done/Partial instead of Pending
+
+**B. MILESTONES.md sync:**
+
+- v1.1 completion list updated to include: 20B, 20C, 20D, 20E, 20F
+- Phase 20F status changed from In Progress to ✅ FULL PASS
+- Phase 20D status changed from Done to ✅ FULL PASS
+
+**C. README.md sync:**
+
+- Database Migrations section: added `db:migrate:deploy`, `db:migrate:status`, `harness:phase20f` commands; clarified `db:push` = local dev fast path, `db:migrate:deploy` = production/migration proof path
+- Architecture block: removed "Evaluation (IoU-based matching)" from CV Worker; evaluation belongs to NestJS API layer (Phase 20)
+- Frontend feature split row: split into "(minimum) Phase 16A Done" and "(completion) Phase 21 Planned"
+- Known Limitations: updated App.tsx description from "monolithic" to "composition root"; frame extraction marked deferred; evaluation moved from CV Worker to Data & Reproducibility
+
+**D. Test requirements cleanup:**
+
+- TEST-07: frame derivative removed (not yet implemented)
+- TEST-09: real frame extraction removed; replaced with "explicit frame extraction not-implemented failure"
+- All TEST requirements tagged with Phase 22B
+- All E2E requirements tagged with Phase 23
+
+**Files changed:**
+
+- `.planning/REQUIREMENTS.md`
+- `.planning/MILESTONES.md`
+- `README.md`
+
+**Depends on:** Phase 20F
+
+**Success criteria:**
+
+1. REQUIREMENTS.md shows PORT, SEC, ABS, DOM, LOCK, DET, EVAL as Done
+2. REQUIREMENTS.md shows UI, MED as Partial with correct phase notes
+3. MILESTONES.md Phase 20F shows ✅ FULL PASS
+4. MILESTONES.md v1.1 completion list includes 20B–20F
+5. README Database Migrations section mentions `db:migrate:deploy` and `db:migrate:status`
+6. README architecture block does not attribute evaluation to CV Worker
+7. README Implementation Status table distinguishes Phase 16A (minimum) from Phase 21 (completion)
+8. README Known Limitations reflects current App.tsx state
+
 ## Phase 21, Frontend Feature Split Completion — Planned
 
-**Goal:** Finish the frontend architecture cleanup and remove the monolithic app structure.
+**Goal:** Extract App.tsx into a thin composition root. Split feature-specific logic into independently importable feature modules. No UI redesign, no new state model, no visual regression.
 
-**Requirements:**
+**Hard rules — structural refactor only:**
 
-- Final frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/\*, hooks/, types/, utils/), `src/features/media/`, `src/features/datasets/` (DatasetPage, DatasetVersionPanel, SplitAssigner, DatasetLockBanner, CocoExportPanel, datasets.api.ts, datasets.types.ts), `src/features/annotations/` (AnnotationWorkbench, CanvasStage, BoundingBoxLayer, LabelInspector, AnnotationToolbar, annotations.api.ts, annotations.types.ts), `src/features/pipelines/` (PipelineBuilder, PipelineNode, PipelineInspector, PipelineValidationPanel, pipelines.api.ts, pipelines.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, JobLogs, inference.api.ts, inference.types.ts)
-- Rules: No UI file over 400 lines. Feature-specific API calls stay inside feature modules. Shared UI components must be generic. No circular imports. No visual regression.
+- No redesign of existing UI
+- No new UI concepts or state model changes
+- No fake data improvements
+- No removing fallback labels or endpoints
+- No changing endpoint behavior
+- No CSS overhaul
 
-**Depends on:** Phase 20, Phase 20B, Phase 20C, Phase 20D, Phase 20E, Phase 20F
+App.tsx currently contains: dataset loading, job loading, SSE/polling effects, evaluation fetching, run-job logic, runtimeState derivation, shell rendering, section routing, seeded fallback data. Any one of these extracted wrongly breaks truth. Wave order matters.
+
+**Wave A — App Composition Boundary**
+
+Mục tiêu: biến App.tsx thành composition root, không ôm business logic.
+
+```
+apps/web/src/app/
+  App.tsx         — composition root only (target: < 400 lines)
+  AppShell.tsx    — header, nav, section routing
+  workbench-sections.ts — section → panel routing config
+  useWorkbenchState.ts — lifted runtime state
+  useRuntimeState.ts  — derived from workbench state
+```
+
+Acceptance:
+
+- App.tsx < 400 lines after extraction
+- No feature-specific API calls in App.tsx
+- No feature-specific helper functions in App.tsx
+- No visual regression
+- Frontend tests still pass
+
+**Wave B — Dataset + Media Feature Extraction**
+
+```
+features/datasets/
+  DatasetPage.tsx
+  DatasetVersionPanel.tsx
+  SplitAssigner.tsx
+  DatasetLockBanner.tsx
+  CocoExportPanel.tsx
+  datasets.api.ts
+  datasets.types.ts
+  useDatasets.ts
+
+features/media/
+  MediaPage.tsx
+  MediaUploader.tsx
+  MediaGrid.tsx
+  media.api.ts
+  media.types.ts
+  useMediaUploads.ts
+```
+
+Acceptance:
+
+- App no longer manages `selectedDatasetVersionId` directly unless through app-level route state
+- Dataset API no longer imported from `lib/datasets` inside App
+- Media upload state isolated in feature module
+- No circular dependencies introduced
+
+**Wave C — Pipeline + Jobs/Inference Feature Extraction**
+
+```
+features/pipelines/
+  PipelinePage.tsx
+  PipelineBuilder.tsx
+  PipelineNode.tsx
+  PipelineInspector.tsx
+  PipelineValidationPanel.tsx
+  pipelines.api.ts
+  pipelines.types.ts
+  usePipelineState.ts
+
+features/inference/
+  JobsPage.tsx
+  JobList.tsx
+  JobDetail.tsx
+  JobLogs.tsx
+  PredictionOverlay.tsx
+  EvaluationReport.tsx
+  useInferenceJob.ts
+  useEvaluation.ts
+```
+
+Acceptance:
+
+- SSE/polling effects leave App.tsx
+- Evaluation effects leave App.tsx
+- Run job logic leaves App.tsx
+- All feature modules independently importable
+
+**Wave D — Annotation + Timeline + Inspector Final Split**
+
+```
+features/annotations/
+  AnnotationWorkbench.tsx
+  CanvasStage.tsx
+  BoundingBoxLayer.tsx
+  LabelInspector.tsx
+  AnnotationToolbar.tsx
+  annotations.api.ts
+  annotations.types.ts
+
+features/timeline/
+  TimelinePage.tsx
+  DiffPage.tsx
+```
+
+Acceptance:
+
+- No circular imports between any feature modules
+- All feature modules independently importable
+- App remains shell/composition only
+- InspectorRouter has no `demoSnapshot` leakage
+
+**Depends on:** Phase 20F
 
 **Success criteria:**
 
@@ -1119,12 +1290,24 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 6. Existing visual design is preserved.
 7. Frontend tests still pass.
 
-## Phase 22A, Test Harness & Fixtures — Planned
+## Phase 22A, Fixture & Test Infrastructure — Planned
 
-**Goal:** Establish a deterministic test infrastructure before building real features. Without a harness, Phase 22 production-path tests become extremely painful.
+**Goal:** Establish deterministic test fixtures and bootstrap infrastructure before writing any test logic. Without this, Phase 22B production-path tests become extremely painful.
+
+**Note:** Do not write test logic here. First build the infrastructure that makes test writing tractable.
 
 **Requirements:**
 
+- `scripts/test-fixtures/`: Factory helpers for creating isolated test data
+  - `create-test-project.ts` — creates project with deterministic ID
+  - `create-locked-dataset.ts` — creates dataset version with assets and annotations, locks it
+  - `create-media-asset.ts` — uploads asset, waits for thumbnail, returns assetId
+  - `create-annotation-set.ts` — creates annotation set with BBox annotations
+  - `create-succeeded-inference-job.ts` — enqueues and completes job with mock results
+  - `create-predictions.ts` — creates prediction records for a job
+- `scripts/test-db/`:
+  - `reset-test-db.ts` — drops and recreates test schema
+  - `seed-test-db.ts` — seeds test DB with deterministic fixture data
 - `docker compose test-stack.yml`: Postgres, Redis, MinIO seeded with deterministic fixtures — runs independently of dev stack.
 - Deterministic image fixture: a known 640x480 RGB JPEG image committed to the repo (e.g. `fixtures/sample.jpg`, < 100KB). Must produce deterministic SHA-256 and thumbnail across runs.
 - Deterministic video fixture: a known 5-frame MP4 committed to the repo (e.g. `fixtures/sample.mp4`). Must produce deterministic frame count and frame hashes.
@@ -1141,12 +1324,14 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 
 **Success criteria:**
 
-1. `docker compose -f infra/test-stack.yml up` starts Postgres, Redis, MinIO with fixtures in < 30s.
-2. `pnpm test:integration` runs against the test stack.
-3. `python -m pytest apps/cv-worker/tests` runs against the test worker.
-4. Deterministic image fixture produces the same SHA-256 and thumbnail output across runs.
-5. Test stack is isolated from dev stack (different ports, different databases).
-6. CI runs test stack provisioning before running production-path tests.
+1. `scripts/test-fixtures/` contains factory helpers for creating isolated test data (project, dataset, media, annotations, job, predictions).
+2. `scripts/test-db/` contains reset and seed scripts for test database.
+3. `docker compose -f infra/test-stack.yml up` starts Postgres, Redis, MinIO with fixtures in < 30s.
+4. `pnpm test:integration` runs against the test stack.
+5. `python -m pytest apps/cv-worker/tests` runs against the test worker.
+6. Deterministic image fixture produces the same SHA-256 and thumbnail output across runs.
+7. Test stack is isolated from dev stack (different ports, different databases).
+8. CI runs test stack provisioning before running production-path tests.
 
 ## Phase 22B, Production-Path Test Suite — Planned
 
@@ -1154,7 +1339,7 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 
 **Requirements:**
 
-- Add tests for: API integration (Prisma/Postgres path, dataset locking, COCO export, upload validation, prediction persistence, evaluation persistence), storage integration (upload object, read object, persist thumbnail derivative, persist extracted frame derivative, signed URL or controlled proxy behavior), queue integration (enqueue media job, enqueue inference job, worker consumes job, job retry behavior, failed job behavior), CV worker tests (real thumbnail generation, real frame extraction, mock detector deterministic output, ONNX unavailable error, ONNX runtime error, evaluation matching algorithm), contract tests (shared Zod schemas match API expectations, frontend consumes typed API responses).
+- Add tests for: API integration (Prisma/Postgres path, dataset locking, COCO export, upload validation, prediction persistence, evaluation persistence), storage integration (upload object, read object, persist thumbnail derivative), queue integration (enqueue media job, enqueue inference job, worker consumes job, job retry behavior, failed job behavior), CV worker tests (real thumbnail generation, explicit frame extraction not-implemented failure, mock deterministic output, ONNX unavailable error, ONNX runtime error), contract tests (shared Zod schemas match API expectations, frontend consumes typed API responses).
 
 **Depends on:** Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A
 
@@ -1287,8 +1472,10 @@ v1.1 is complete only when all of the following are true:
 | 20C   | Evaluation Integrity Finalization           | Phase 20B                                            |
 | 20D   | Evaluation Persistence & CI Hardening       | Phase 20C                                            |
 | 20E   | Evaluation Migration Finalization           | Phase 20D                                            |
-| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C, Phase 20D, Phase 20E |
-| 22A   | Test Harness & Fixtures                     | Phase 14A                                            |
+| 20F   | Migration Chain Baseline & Backfill        | Phase 20E                                            |
+| 21-0  | Planning Cleanup Patch                     | Phase 20F                                            |
+| 21    | Frontend Feature Split Completion          | Phase 20F                                            |
+| 22A   | Fixture & Test Infrastructure             | Phase 14A                                            |
 | 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A    |
 | 23    | Full E2E Playwright & Demo Video            | Phase 22B                                            |
 
