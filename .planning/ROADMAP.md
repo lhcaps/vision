@@ -791,7 +791,9 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 | 4.6 | `EvaluationMatch` computed but not persisted                         | Added optional `matches[]` to `EvaluationReportSchema`; persisted in `metricsJson` | `evaluation.ts`, `evaluation.service.ts` |
 | 4.7 | `metricsHash` only covered 8 fields                                  | Full canonical JSON including perClassMetrics and matches                          | `evaluation.service.ts`                  |
 
-**Verification:** `pnpm typecheck`, `pnpm test` (173 API + 43 contracts + 63 web = 279 tests), `pnpm build`, `pnpm lint`, `pnpm format:check` — all pass.
+**Verification:** `pnpm typecheck`, `pnpm test` (203 API + 43 contracts + 63 web = 309 tests), `pnpm build`, `pnpm lint`, `pnpm format:check` — all pass.
+
+> **Note:** Phase 20B artifacts initially overclaimed seed alignment. Phase 20C later corrected that seed still used the old lossy hash (toFixed-based) and "seed_placeholder" metricsHash.
 
 **Depends on:** Phase 20
 
@@ -807,6 +809,53 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 8. ✅ 31 algorithm unit tests (10 new: cross-asset, hash precision, order stability)
 9. ✅ Seeded dataset version is LOCKED
 10. ✅ Typecheck, build, lint, format all pass
+
+## Phase 20C, Evaluation Integrity Finalization — Done 2026-05-04
+
+**Goal:** Eliminate remaining integrity gaps: seed/runtime hash consistency, real metricsHash, safe legacy adapter, harness proof, and stale README.
+
+**Root cause fixed:** Phase 20B overclaimed seed alignment. The seed still used the old lossy `canonicalPredId` (with `toFixed(1/3)`) and `metricsHash: 'seed_placeholder'`, while the runtime used canonical JSON. The two implementations were byte-for-byte different.
+
+**Architecture change:**
+
+| Component                | Before (Phase 20B)                                                            | After (Phase 20C)                                                                           |
+| ------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `computeInputHash`       | Duplicated in `evaluation-algorithm.ts` and `seed-db.ts` with different logic | Single shared module `evaluation-hash.ts`                                                   |
+| `metricsHash`            | Duplicated in `evaluation.service.ts`, hardcoded `'seed_placeholder'` in seed | Single `computeEvaluationMetricsHash` from `evaluation-hash.ts`                             |
+| `EvaluationReportSchema` | `partial().safeParse()` then `as EvaluationReport` cast                       | Strict parse first; explicit legacy adapter with full field checks; `null` if unrecoverable |
+| Hash canonical           | Seed: toFixed(1/3) + string-join; Runtime: JSON.stringify                     | Both: identical canonical JSON                                                              |
+| Harness                  | No Phase 20C harness                                                          | `phase20c-evaluation-integrity-check.ts` — 12-point DB integrity check                      |
+
+**Files created:**
+
+- `apps/api/src/inference/evaluation-hash.ts` — shared pure hash utils (no external deps), imported by runtime + seed + harness
+- `scripts/harness/phase20c-evaluation-integrity-check.ts` — 12-point harness
+- `apps/api/src/inference/evaluation-hash.test.ts` — 15 hash utility tests
+- `apps/api/src/inference/evaluation-report-schema.test.ts` — 15 schema tests
+
+**Files changed:**
+
+- `evaluation-algorithm.ts` — imports from `evaluation-hash.ts`, re-exports
+- `evaluation.service.ts` — imports from `evaluation-hash.ts`, removes local `metricsHash`, fixes legacy adapter
+- `seed-db.ts` — imports from `evaluation-hash.ts`, removes `canonicalPredId`/`canonicalGtId`/`computeInputHash`, no more `seed_placeholder`
+- `README.md` — corrected Phase 19/20/20B/20C status, removed "(stub)" from ONNX
+- `package.json` — added `harness:phase20c` script
+
+**Depends on:** Phase 20B
+
+**Verification:** `pnpm typecheck`, `pnpm test` (203 API + 43 contracts + 63 web = 309 tests), `pnpm build`, `pnpm lint`, `pnpm format:check` — all pass.
+
+**Success criteria:**
+
+1. ✅ Runtime and seed use the same canonical inputHash logic (single shared module)
+2. ✅ Seeded `metricsHash` is computed, not `seed_placeholder`
+3. ✅ Legacy adapter does not cast partial data as full report
+4. ✅ `harness:phase20c` exists and verifies all 12 integrity checks
+5. ✅ README no longer says Phase 19/20 are "Planned"
+6. ✅ README no longer describes ONNX as "stub"
+7. ✅ Phase 20B artifacts corrected with honest note about seed alignment claim
+8. ✅ 30 new unit tests (15 hash + 15 schema)
+9. ✅ Typecheck, build, lint, format all pass
 
 ## Phase 21, Frontend Feature Split Completion — Planned
 
@@ -994,7 +1043,8 @@ v1.1 is complete only when all of the following are true:
 | 19    | Real ONNX Detector & Prediction Persistence | Phase 17, Phase 18                                |
 | 20    | Evaluation Report End-to-End                | Phase 19                                          |
 | 20B   | Evaluation Correctness Hardening            | Phase 20                                          |
-| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B                               |
+| 20C   | Evaluation Integrity Finalization           | Phase 20B                                         |
+| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C                    |
 | 22A   | Test Harness & Fixtures                     | Phase 14A                                         |
 | 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
 | 23    | Full E2E Playwright & Demo Video            | Phase 22B                                         |

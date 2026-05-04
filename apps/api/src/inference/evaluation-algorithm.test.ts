@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   ALGORITHM_VERSION,
   computeEvaluationMetrics,
-  computeInputHash,
+  computeEvaluationInputHash,
   DEFAULT_IOU_THRESHOLD,
 } from './evaluation-algorithm';
 import type { EvaluationGroundTruth, EvaluationPrediction } from './evaluation-algorithm';
@@ -254,8 +254,8 @@ describe('computeEvaluationMetrics', () => {
     const preds = [mkPred('p1', 'a1', 'car', 0, 0, 100, 100)];
     const gts = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).toBe(hash2);
   });
@@ -272,8 +272,8 @@ describe('computeEvaluationMetrics', () => {
     ];
     const gts2 = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).toBe(hash2);
   });
@@ -282,8 +282,8 @@ describe('computeEvaluationMetrics', () => {
     const preds = [mkPred('p1', 'a1', 'car', 0, 0, 100, 100)];
     const gts = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds, gts, 0.7, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.7, ALGORITHM_VERSION);
 
     expect(hash1).not.toBe(hash2);
   });
@@ -443,8 +443,8 @@ describe('computeEvaluationMetrics', () => {
     const preds2 = [mkPred('p1', 'a1', 'car', 0, 0, 100.0001, 100, 0.9)];
     const gts2 = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).not.toBe(hash2);
   });
@@ -455,8 +455,8 @@ describe('computeEvaluationMetrics', () => {
     const preds2 = [mkPred('p1', 'a1', 'car', 0, 0, 100, 100, 0.900001)];
     const gts2 = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).not.toBe(hash2);
   });
@@ -468,8 +468,8 @@ describe('computeEvaluationMetrics', () => {
     const preds2 = [mkPred('p2', 'a1', 'car', 0, 0, 100, 100, 0.9)];
     const gts2 = [mkGt('g2', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds1, gts1, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds2, gts2, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).not.toBe(hash2);
   });
@@ -478,8 +478,8 @@ describe('computeEvaluationMetrics', () => {
     const preds = [mkPred('p1', 'a1', 'car', 0, 0, 100, 100, 0.9)];
     const gts = [mkGt('g1', 'a1', 'car', 0, 0, 100, 100)];
 
-    const hash1 = computeInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
-    const hash2 = computeInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
+    const hash1 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
+    const hash2 = computeEvaluationInputHash(JOB, DS, preds, gts, 0.5, ALGORITHM_VERSION);
 
     expect(hash1).toBe(hash2);
   });

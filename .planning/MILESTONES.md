@@ -81,6 +81,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                                         | ✅ FULL PASS |
 | 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                                                     | ✅ FULL PASS |
 | 20B   | Evaluation Correctness Hardening            | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash | ✅ Done      |
+| 20C   | Evaluation Integrity Finalization           | Shared hash module, seed alignment, safe legacy adapter, 12-point harness, README fixed                               | ✅ Done      |
 | 21    | Frontend Split Completion                   | All feature modules, shared components                                                                                | Planned      |
 | 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                                             | Planned      |
 | 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                                                       | Planned      |
@@ -142,3 +143,16 @@ Phase 20B fixed 7 correctness blockers found in the Phase 20 audit:
 - **Non-lossy hash:** Exact numeric values in canonical JSON; tiny differences change hash; same IDs in different order produce identical hash
 - **Matches persisted:** `matches[]` included in `EvaluationReportSchema` and persisted in `metricsJson`
 - **Full metricsHash:** Computed from canonical JSON of full report payload including perClassMetrics and matches, excluding `metricsHash`/`id`/`evaluatedAt`
+
+> **Phase 20C correction:** Phase 20B artifacts overclaimed seed alignment. The seed still used the old lossy `toFixed`-based hash and `metricsHash: 'seed_placeholder'`. Phase 20C resolved this by creating a shared hash module and updating the seed to use it.
+
+### Phase 20C Key Outcomes (Evaluation Integrity Finalization)
+
+Phase 20C resolved the remaining integrity gaps:
+
+- **Shared hash module (`evaluation-hash.ts`):** Pure TypeScript, no external deps. Single source of truth for `computeEvaluationInputHash` and `computeEvaluationMetricsHash`. Imported by runtime, seed, and harness.
+- **Seed alignment:** Removed old `canonicalPredId`/`canonicalGtId` (with `toFixed`), removed `seed_placeholder`. Seed now uses the same canonical JSON approach as the runtime.
+- **Safe legacy adapter:** Removed `partial as EvaluationReport` cast. Strict parse first, then explicit field validation, then full schema re-validation.
+- **12-point harness:** `phase20c-evaluation-integrity-check.ts` verifies all DB integrity conditions including hash recomputation from live data.
+- **30 new unit tests:** 15 hash utility tests + 15 schema validation tests.
+- **README fixed:** Phase 19/20/20B/20C now show correct status, ONNX no longer described as "stub".

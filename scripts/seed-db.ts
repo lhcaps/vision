@@ -19,7 +19,13 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { config as loadEnv } from 'dotenv';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as crypto from 'crypto';
+
+// Shared pure hash utilities from the API source (no external dependencies).
+// Imported via relative path so tsx can resolve it without build steps.
+import {
+  computeEvaluationInputHash,
+  computeEvaluationMetricsHash,
+} from '../apps/api/src/inference/evaluation-hash';
 
 const rootEnv = path.resolve(__dirname, '../.env');
 if (fs.existsSync(rootEnv)) {
@@ -439,27 +445,36 @@ async function main() {
     const seedPredictions = DEMO_PREDICTIONS;
     const seedAnnotations = DEMO_ANNOTATIONS.filter((a) => a.source === 'MANUAL');
 
-    const seedInputHash = computeInputHash(
+    // Build prediction objects with classKey (required by shared hash module).
+    const seedPredObjs = seedPredictions.map((p) => ({
+      id: p.id,
+      assetId: p.assetId,
+      classKey: p.label, // label IS the classKey in demo data
+      label: p.label,
+      geometry: p.geometry,
+      confidence: p.confidence,
+    }));
+
+    // Build GT objects with classKey (required by shared hash module).
+    const seedGtObjs = seedAnnotations.map((a) => ({
+      id: a.id,
+      assetId: a.assetId,
+      classKey: a.label, // label IS the classKey in demo data
+      label: a.label,
+      geometry: a.geometry,
+    }));
+
+    const seedInputHash = computeEvaluationInputHash(
       DEMO_JOB_ID,
       datasetVersion.id,
-      seedPredictions.map((p) => ({
-        id: p.id,
-        assetId: p.assetId,
-        label: p.label,
-        geometry: p.geometry,
-        confidence: p.confidence,
-      })),
-      seedAnnotations.map((a) => ({
-        id: a.id,
-        assetId: a.assetId,
-        label: a.label,
-        geometry: a.geometry,
-      })),
+      seedPredObjs,
+      seedGtObjs,
       0.5,
       SEED_ALGORITHM_VERSION
     );
 
-    const evaluationReport = {
+    // Build the full seeded report object first so we can compute real metricsHash.
+    const seededReport: Parameters<typeof computeEvaluationMetricsHash>[0] = {
       id: `eval_seed_${seedInputHash}_${DEMO_JOB_ID.replace(/[^a-z0-9]/gi, '')}`,
       jobId: DEMO_JOB_ID,
       datasetVersionId: datasetVersion.id,
@@ -468,7 +483,7 @@ async function main() {
       algorithmVersion: SEED_ALGORITHM_VERSION,
       iouThreshold: 0.5,
       inputHash: seedInputHash,
-      metricsHash: 'seed_placeholder',
+      metricsHash: '', // filled below
       precision: 1,
       recall: 1,
       f1: 1,
@@ -542,6 +557,11 @@ async function main() {
         },
       ],
     };
+
+    // Compute the real metricsHash using the shared canonical logic.
+    seededReport.metricsHash = computeEvaluationMetricsHash(seededReport);
+
+    const evaluationReport = seededReport;
 
     await prisma.evaluationReport.create({
       data: {
@@ -680,78 +700,6 @@ async function deleteJobsForProject(projectId: string): Promise<void> {
   await prisma.evaluationReport.deleteMany({ where: { inferenceJobId: { in: jobIds } } });
   await prisma.prediction.deleteMany({ where: { inferenceJobId: { in: jobIds } } });
   await prisma.inferenceJob.deleteMany({ where: { id: { in: jobIds } } });
-}
-
-function canonicalPredId(p: {
-  id: string;
-  assetId: string;
-  label: string;
-  geometry: { x: number; y: number; width: number; height: number };
-  confidence: number;
-}): string {
-  const g = p.geometry;
-  return [
-    p.id,
-    p.assetId,
-    p.label,
-    g.x.toFixed(1),
-    g.y.toFixed(1),
-    g.width.toFixed(1),
-    g.height.toFixed(1),
-    p.confidence.toFixed(3),
-  ].join('|');
-}
-
-function canonicalGtId(gt: {
-  id: string;
-  assetId: string;
-  label: string;
-  geometry: { x: number; y: number; width: number; height: number };
-}): string {
-  const g = gt.geometry;
-  return [
-    gt.id,
-    gt.assetId,
-    gt.label,
-    g.x.toFixed(1),
-    g.y.toFixed(1),
-    g.width.toFixed(1),
-    g.height.toFixed(1),
-  ].join('|');
-}
-
-function computeInputHash(
-  jobId: string,
-  datasetVersionId: string,
-  predictions: Array<{
-    id: string;
-    assetId: string;
-    label: string;
-    geometry: { x: number; y: number; width: number; height: number };
-    confidence: number;
-  }>,
-  groundTruth: Array<{
-    id: string;
-    assetId: string;
-    label: string;
-    geometry: { x: number; y: number; width: number; height: number };
-  }>,
-  iouThreshold: number,
-  algorithmVersion: string
-): string {
-  const sortedPreds = [...predictions]
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .map(canonicalPredId);
-  const sortedGt = [...groundTruth].sort((a, b) => a.id.localeCompare(b.id)).map(canonicalGtId);
-  const content = [
-    jobId,
-    datasetVersionId,
-    iouThreshold.toString(),
-    algorithmVersion,
-    sortedPreds.join('#'),
-    sortedGt.join('#'),
-  ].join('||');
-  return crypto.createHash('sha256').update(content).digest('hex').slice(0, 16);
 }
 
 main();

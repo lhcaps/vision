@@ -2,20 +2,20 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 20B (Evaluation Correctness Hardening)
+Current phase: Phase 20C (Evaluation Integrity Finalization)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 20B — Evaluation Correctness Hardening (2026-05-04)
-Status: Complete — all 7 blockers fixed, 10 new tests, typecheck/test/build/lint/format pass
+Phase: Phase 20C — Evaluation Integrity Finalization (2026-05-04)
+Status: Complete — shared hash module, seed alignment, safe legacy adapter, harness, README fixed
 
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization)
 
 **v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion)
 
@@ -368,3 +368,47 @@ All 7 Phase 20 correctness blockers fixed. Commit: `fix(evaluation): harden dete
 - `matches` field added to seeded `evaluationReport` with all 3 match rows.
 - `computeInputHash` aligned to new signature (includes `algorithmVersion`, sorts by `id`).
 - `algorithmVersion` explicitly set to `eval-v1-iou-0.5-greedy-class-aware`.
+
+## What Is True After Phase 20C (Completed)
+
+Phase 20C resolved the remaining integrity gaps that Phase 20B identified but did not fully fix.
+
+**Correction: Phase 20B overclaimed seed alignment.**
+
+Phase 20B summary stated that seed hash was aligned with the runtime. Upon closer audit, the seed still used the old lossy `canonicalPredId` (with `toFixed`) and the old string-join approach, which differs from the runtime's canonical JSON approach. Phase 20C corrected this.
+
+**Files created:**
+
+- `apps/api/src/inference/evaluation-hash.ts` — shared pure hash utilities imported by both runtime and seed. Exposes `computeEvaluationInputHash` and `computeEvaluationMetricsHash` (both producing 16-char hex). No external dependencies.
+- `scripts/harness/phase20c-evaluation-integrity-check.ts` — 12-point read-only DB integrity harness. Verifies: LOCKED version, SUCCEEDED job, 3 predictions, 3 GT via annotationSets, report exists, strict schema parse, inputHash match, metricsHash match, no `seed_placeholder`, 3 matches, correct per-class metrics, no stale jobs.
+
+**Shared hash module (`evaluation-hash.ts`):**
+
+- `computeEvaluationInputHash` — deterministic canonical JSON of all inputs (jobId, datasetVersionId, iouThreshold, algorithmVersion, sorted predictions, sorted groundTruth). Exact numeric values, no rounding.
+- `computeEvaluationMetricsHash` — canonical JSON of full report payload (excluding metricsHash/id/evaluatedAt), including perClassMetrics and matches sorted deterministically.
+- Both imported by: `evaluation-algorithm.ts`, `evaluation.service.ts`, `seed-db.ts`, `phase20c-harness.ts`.
+
+**Seed alignment (`scripts/seed-db.ts`):**
+
+- Removed old `canonicalPredId`/`canonicalGtId` (with `toFixed` rounding) and local `computeInputHash`.
+- Now imports `computeEvaluationInputHash` and `computeEvaluationMetricsHash` from `evaluation-hash.ts` via relative path.
+- `metricsHash` is computed from the shared canonical logic, not `seed_placeholder`.
+
+**Legacy adapter (`evaluation.service.ts`):**
+
+- Removed unsafe `partial as EvaluationReport` cast.
+- Strict parse first, then explicit legacy adapter that checks all required summary fields, validates adapted object against full schema, returns null if either fails.
+
+**New unit tests (30 added):**
+
+- `evaluation-hash.test.ts`: 15 tests covering hash stability, order independence, tiny diff detection, 16-char hex format, algorithmVersion/iouThreshold inclusion.
+- `evaluation-report-schema.test.ts`: 15 tests covering strict parse, partial rejection, legacy accept, regex validation.
+
+**README fixed:**
+
+- Phase 19: changed from "Planned" to "Done"
+- Phase 20: changed from "Planned" to "Done"
+- Phase 20B: added entry
+- Phase 20C: added entry
+- CV Worker ONNX: changed from "(stub)" to "YOLOv8n detector"
+- Known limitations: updated evaluation reproducibility to reflect implementation status

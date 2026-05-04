@@ -1,79 +1,27 @@
-import { createHash } from 'node:crypto';
 import { BBoxGeometrySchema } from '@visionflow/contracts';
+import {
+  ALGORITHM_VERSION,
+  DEFAULT_IOU_THRESHOLD,
+  computeEvaluationInputHash,
+  type EvaluationPrediction,
+  type EvaluationGroundTruth,
+  type EvaluationGeometry,
+  type EvaluationMatch,
+  type EvaluationResult,
+  type PerClassMetrics,
+  type EvaluationConfig,
+} from './evaluation-hash';
 
-export const ALGORITHM_VERSION = 'eval-v1-iou-0.5-greedy-class-aware';
-export const DEFAULT_IOU_THRESHOLD = 0.5;
-
-export interface EvaluationPrediction {
-  id: string;
-  assetId: string;
-  classKey: string;
-  label: string;
-  geometry: EvaluationGeometry;
-  confidence: number;
-}
-
-export interface EvaluationGroundTruth {
-  id: string;
-  assetId: string;
-  classKey: string;
-  label: string;
-  geometry: EvaluationGeometry;
-}
-
-export interface EvaluationGeometry {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-export interface EvaluationMatch {
-  predictionId: string;
-  groundTruthId: string;
-  assetId: string;
-  classKey: string;
-  iou: number;
-}
-
-export interface EvaluationResult {
-  algorithmVersion: string;
-  iouThreshold: number;
-  inputHash: string;
-  jobId: string;
-  datasetVersionId: string;
-  pipelineId: string | null;
-  modelId: string | null;
-  predictionCount: number;
-  groundTruthCount: number;
-  truePositive: number;
-  falsePositive: number;
-  falseNegative: number;
-  precision: number;
-  recall: number;
-  f1: number;
-  meanIou: number;
-  perClassMetrics: PerClassMetrics[];
-  matches: EvaluationMatch[];
-}
-
-export interface PerClassMetrics {
-  classKey: string;
-  label: string;
-  precision: number;
-  recall: number;
-  f1: number;
-  truePositives: number;
-  falsePositives: number;
-  falseNegatives: number;
-  count: number;
-  meanIou: number;
-}
-
-export interface EvaluationConfig {
-  iouThreshold?: number;
-  algorithmVersion?: string;
-}
+export { ALGORITHM_VERSION, DEFAULT_IOU_THRESHOLD, computeEvaluationInputHash };
+export type {
+  EvaluationPrediction,
+  EvaluationGroundTruth,
+  EvaluationGeometry,
+  EvaluationMatch,
+  EvaluationResult,
+  PerClassMetrics,
+  EvaluationConfig,
+};
 
 function validateGeometry(geom: EvaluationGeometry, source: string, id: string): void {
   const result = BBoxGeometrySchema.safeParse(geom);
@@ -296,7 +244,7 @@ export function computeEvaluationMetrics(
     return a.predictionId.localeCompare(b.predictionId);
   });
 
-  const inputHash = computeInputHash(
+  const inputHash = computeEvaluationInputHash(
     jobId,
     datasetVersionId,
     predictions,
@@ -332,50 +280,6 @@ export function computeEvaluationMetrics(
     perClassMetrics,
     matches: sortedMatches,
   };
-}
-
-/**
- * Deterministic canonical JSON for input hash.
- * Uses exact numeric values (no rounding) so that tiny precision differences
- * produce different hashes. Keys are sorted for deterministic ordering.
- */
-export function computeInputHash(
-  jobId: string,
-  datasetVersionId: string,
-  predictions: EvaluationPrediction[],
-  groundTruth: EvaluationGroundTruth[],
-  iouThreshold: number,
-  algorithmVersion: string
-): string {
-  const sortedPreds = [...predictions]
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .map((p) => ({
-      id: p.id,
-      assetId: p.assetId,
-      classKey: p.classKey,
-      geometry: p.geometry,
-      confidence: p.confidence,
-    }));
-
-  const sortedGt = [...groundTruth]
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .map((gt) => ({
-      id: gt.id,
-      assetId: gt.assetId,
-      classKey: gt.classKey,
-      geometry: gt.geometry,
-    }));
-
-  const canonical = JSON.stringify({
-    jobId,
-    datasetVersionId,
-    iouThreshold,
-    algorithmVersion,
-    predictions: sortedPreds,
-    groundTruth: sortedGt,
-  });
-
-  return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }
 
 export function safeDiv(numerator: number, denominator: number): number {

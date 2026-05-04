@@ -11,9 +11,9 @@ A fullstack computer vision platform for dataset versioning, annotation, visual 
 - **Annotation Engine** — Bounding box annotations in image coordinates with live preview
 - **Pipeline Builder** — React Flow pipeline graph with typed node/edge validation
 - **Inference Orchestration** — BullMQ job queue with SSE progress streaming
-- **CV Worker** — Mock detector with ONNX runtime support (stub)
+- **CV Worker** — FastAPI with ONNX runtime support and YOLOv8n detector
 - **Prediction Overlay** — Side-by-side GT vs. prediction bounding box comparison
-- **Evaluation** — IoU-based precision, recall, F1 metrics per class
+- **Evaluation** — IoU-based precision, recall, F1 metrics per class, persisted reports with deterministic hash fingerprints
 - **Timeline Replay** — Frame-by-frame BBox morph animation with playback controls
 - **Dataset Diff** — Visual added/removed/changed annotation comparison
 
@@ -143,8 +143,10 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Frontend feature split     | ✅ Done    | Phase 16A            |
 | Real media processing      | ✅ Done    | Phase 17             |
 | Dataset lock & COCO export | ✅ Done    | Phase 18             |
-| Real ONNX inference        | 🔄 Planned | Phase 19             |
-| Evaluation E2E             | 🔄 Planned | Phase 20             |
+| Real ONNX inference        | ✅ Done    | Phase 19 (complete)  |
+| Evaluation E2E             | ✅ Done    | Phase 20 (complete)  |
+| Evaluation Correctness     | ✅ Done    | Phase 20B (complete) |
+| Evaluation Integrity       | ✅ Done    | Phase 20C (complete) |
 | Frontend split completion  | 🔄 Planned | Phase 21             |
 | Production test suite      | 🔄 Planned | Phase 22A/B          |
 | Full E2E & demo video      | 🔄 Planned | Phase 23             |
@@ -165,7 +167,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | --------- | ---------------------------------------------------------------------------- |
 | Web       | React 19, Vite, Tailwind, Framer Motion, Zustand, React Flow, Phosphor Icons |
 | API       | NestJS, Prisma, BullMQ, MinIO, Zod                                           |
-| CV Worker | FastAPI, Pydantic, ONNX Runtime (stub)                                       |
+| CV Worker | FastAPI, Pydantic, ONNX Runtime (YOLOv8n)                                    |
 | Storage   | PostgreSQL, Redis, MinIO                                                     |
 | Types     | TypeScript, Zod                                                              |
 | Tests     | Vitest, Playwright                                                           |
@@ -466,14 +468,14 @@ This is a prototype under active development (v1.1). The following limitations e
 ### CV Worker
 
 - **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
-- **Real ONNX inference** — Being implemented in Phase 19. Mock detector runs by default.
-- **Real evaluation persistence** — Being implemented in Phase 20.
+- **Real ONNX inference** — Implemented in Phase 19. YOLOv8n ONNX detector runs end-to-end with real predictions persisted. Mock detector available as fallback.
+- **Evaluation persistence** — Implemented in Phase 20. Deterministic IoU-based evaluation reports persisted with full traceability (jobId, datasetVersionId, pipelineId, modelId, inputHash, metricsHash). Per-class metrics for car/van/truck.
 
 ### Data & Reproducibility
 
 - **COCO export** — Implemented in Phase 18. `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`. Dataset must be LOCKED. Export is deterministic (stable ordering, SHA-256 hash of canonical content).
 - **Immutable version lock** — Implemented in Phase 18. Lock-readiness invariants enforced: at least one asset, no UNASSIGNED splits, all assets have dimensions, at least one BBox annotation. Locked versions reject annotation create/update/delete.
-- **Evaluation reproducibility** — Requires locked versions + model artifacts (Phases 19–20).
+- **Evaluation reproducibility** — Deterministic IoU-based evaluation with locked dataset versions (Phases 19–20). Canonical input hash and metrics hash ensure stable output across re-runs.
 
 ### Frontend
 

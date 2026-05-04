@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { createHash } from 'node:crypto';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import {
   EvaluationReport,
@@ -15,57 +15,13 @@ import { resolvePredictionClass } from './label-mapper';
 import {
   ALGORITHM_VERSION,
   DEFAULT_IOU_THRESHOLD,
-  computeEvaluationMetrics,
-  computeInputHash,
+  computeEvaluationInputHash,
+  computeEvaluationMetricsHash,
   type EvaluationGroundTruth,
   type EvaluationPrediction,
-  type EvaluationResult,
   type EvaluationMatch,
-} from './evaluation-algorithm';
-
-/**
- * Computes a deterministic hash of the evaluation metrics for stability verification.
- * Includes the full canonical payload (excluding metricsHash itself and evaluatedAt)
- * to ensure stable output across re-runs with identical inputs.
- */
-function metricsHash(report: EvaluationReport): string {
-  const sortedPerClass = [...report.perClassMetrics].sort((a, b) =>
-    a.classKey.localeCompare(b.classKey)
-  );
-
-  const sortedMatches = report.matches
-    ? [...report.matches].sort((a, b) => {
-        if (a.classKey !== b.classKey) return a.classKey.localeCompare(b.classKey);
-        if (a.assetId !== b.assetId) return a.assetId.localeCompare(b.assetId);
-        if (Math.abs(a.iou - b.iou) > 1e-9) return b.iou - a.iou;
-        return a.predictionId.localeCompare(b.predictionId);
-      })
-    : [];
-
-  const canonical = JSON.stringify({
-    jobId: report.jobId,
-    datasetVersionId: report.datasetVersionId,
-    pipelineId: report.pipelineId,
-    modelId: report.modelId,
-    algorithmVersion: report.algorithmVersion,
-    iouThreshold: report.iouThreshold,
-    inputHash: report.inputHash,
-    precision: report.precision,
-    recall: report.recall,
-    f1: report.f1,
-    meanIoU: report.meanIoU,
-    truePositives: report.truePositives,
-    falsePositives: report.falsePositives,
-    falseNegatives: report.falseNegatives,
-    predictionCount: report.predictionCount,
-    groundTruthCount: report.groundTruthCount,
-    assetCount: report.assetCount,
-    perClassMetrics: sortedPerClass,
-    matches: sortedMatches,
-  });
-
-  return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
-}
+} from './evaluation-hash';
+import { computeEvaluationMetrics, type EvaluationResult } from './evaluation-algorithm';
 
 @Injectable()
 export class EvaluationService {
@@ -96,21 +52,70 @@ export class EvaluationService {
     }
 
     // Second: legacy adapter for known partial/old shapes.
-    // Adapts a report that is missing the optional `matches` field
-    // or has other minor deviations. We only fill safe defaults for
-    // truly optional fields and otherwise return null rather than casting.
+    // Only adapters for reports that are MISSING the optional `matches` field
+    // but have ALL required summary fields. Returns null if the report cannot
+    // be safely adapted to a valid full schema.
     const legacyResult = EvaluationReportSchema.partial().safeParse(raw);
     if (legacyResult.success) {
       const partial = legacyResult.data;
-      // A partial report without the required summary fields is not recoverable.
-      if (
-        partial.jobId &&
-        partial.datasetVersionId &&
-        partial.perClassMetrics &&
-        Array.isArray(partial.perClassMetrics)
-      ) {
-        // Cast is safe here because we verified required fields exist.
-        return partial as EvaluationReport;
+
+      // Required summary fields — if any are missing, the report is unrecoverable.
+      const requiredSummaryFields = [
+        'id',
+        'jobId',
+        'datasetVersionId',
+        'pipelineId',
+        'modelId',
+        'algorithmVersion',
+        'iouThreshold',
+        'inputHash',
+        'metricsHash',
+        'precision',
+        'recall',
+        'f1',
+        'meanIoU',
+        'truePositives',
+        'falsePositives',
+        'falseNegatives',
+        'predictionCount',
+        'groundTruthCount',
+        'assetCount',
+        'evaluatedAt',
+      ];
+
+      const missingSummary = requiredSummaryFields.filter((f) => !(f in partial));
+      if (missingSummary.length === 0 && partial.perClassMetrics) {
+        // All required summary fields present — safe to construct full report.
+        const adapted: EvaluationReport = {
+          id: partial.id as string,
+          jobId: partial.jobId as string,
+          datasetVersionId: partial.datasetVersionId as string,
+          pipelineId: (partial.pipelineId as string | null) ?? null,
+          modelId: (partial.modelId as string | null) ?? null,
+          algorithmVersion: partial.algorithmVersion as string,
+          iouThreshold: partial.iouThreshold as number,
+          inputHash: partial.inputHash as string,
+          metricsHash: partial.metricsHash as string,
+          precision: partial.precision as number,
+          recall: partial.recall as number,
+          f1: partial.f1 as number,
+          meanIoU: partial.meanIoU as number,
+          truePositives: partial.truePositives as number,
+          falsePositives: partial.falsePositives as number,
+          falseNegatives: partial.falseNegatives as number,
+          predictionCount: partial.predictionCount as number,
+          groundTruthCount: partial.groundTruthCount as number,
+          assetCount: partial.assetCount as number,
+          evaluatedAt: partial.evaluatedAt as string,
+          perClassMetrics: partial.perClassMetrics as EvaluationReport['perClassMetrics'],
+          matches: partial.matches as EvaluationReport['matches'],
+        };
+
+        // Validate the adapted object against the full schema.
+        const adaptedResult = EvaluationReportSchema.safeParse(adapted);
+        if (adaptedResult.success) {
+          return adaptedResult.data;
+        }
       }
     }
 
@@ -301,7 +306,9 @@ export class EvaluationService {
       })),
     };
 
-    report.metricsHash = metricsHash(report);
+    report.metricsHash = computeEvaluationMetricsHash(
+      report as Parameters<typeof computeEvaluationMetricsHash>[0]
+    );
 
     const validated = EvaluationReportSchema.parse(report);
 
@@ -470,7 +477,9 @@ export class EvaluationService {
       })),
     };
 
-    report.metricsHash = metricsHash(report);
+    report.metricsHash = computeEvaluationMetricsHash(
+      report as Parameters<typeof computeEvaluationMetricsHash>[0]
+    );
 
     return EvaluationReportSchema.parse(report);
   }
