@@ -60,7 +60,7 @@ function logPass(msg: string) {
 }
 
 function logFail(msg: string) {
-  console.error(`\x1b[32m  FAIL\x1b[0m ${msg}`);
+  console.error(`\x1b[31m  FAIL\x1b[0m ${msg}`);
 }
 
 function logSkip(msg: string) {
@@ -392,9 +392,16 @@ async function main() {
     // ── Check 10: Latest report passes strict schema parse ────────────────────
     {
       if (allRows.length > 0) {
-        const latestRow = allRows[allRows.length - 1]; // Last by insertion order
+        const latestRow = allRows.reduce((latest, row) => {
+          const latestCreatedAt =
+            (latest as unknown as { createdAt: Date }).createdAt ?? new Date(0);
+          const rowCreatedAt = (row as unknown as { createdAt: Date }).createdAt ?? new Date(0);
+          return rowCreatedAt > latestCreatedAt ? row : latest;
+        });
         const { EvaluationReportSchema } = await import('@visionflow/contracts');
-        const parseResult = EvaluationReportSchema.safeParse(latestRow.metricsJson);
+        const parseResult = EvaluationReportSchema.safeParse(
+          (latestRow as unknown as { metricsJson: Record<string, unknown> }).metricsJson
+        );
 
         const passed = parseResult.success;
         results.push({

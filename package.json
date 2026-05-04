@@ -22,6 +22,8 @@
     "db:generate": "prisma generate --schema infra/prisma/schema.prisma",
     "db:push": "prisma db push --schema infra/prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema infra/prisma/schema.prisma",
+    "db:migrate:deploy": "prisma migrate deploy --schema infra/prisma/schema.prisma",
+    "db:migrate:status": "prisma migrate status --schema infra/prisma/schema.prisma",
     "db:studio": "prisma studio --schema infra/prisma/schema.prisma",
     "dev:full": "bash scripts/start-dev.sh",
     "dev:full:win": "powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1",
@@ -35,6 +37,7 @@
     "harness:phase20c": "npx tsx scripts/harness/phase20c-evaluation-integrity-check.ts --strict",
     "harness:phase20d": "npx tsx scripts/harness/phase20d-evaluation-db-index-check.ts --strict",
     "harness:phase20e": "npx tsx scripts/harness/phase20e-evaluation-migration-check.ts --strict",
+    "harness:phase20f": "npx tsx scripts/harness/phase20f-migration-chain-check.ts --strict",
     "migration:eval-report:check": "npx tsx scripts/migrations/backfill-evaluation-report-integrity.ts --check",
     "migration:eval-report:apply": "npx tsx scripts/migrations/backfill-evaluation-report-integrity.ts --apply"
   },

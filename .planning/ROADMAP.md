@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D/20E completed — Phase 21 (Frontend Feature Split Completion) next to execute
+Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D/20E/20F completed — Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -1018,6 +1018,86 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 8. ✅ STATE/ROADMAP/MILESTONES updated
 9. ✅ README updated
 
+## Phase 20F, Migration Chain Baseline & Backfill Hardening — In Progress
+
+**Goal:** Close the final migration-discipline gap by adding a full baseline migration chain for the entire Prisma schema, proving `prisma migrate deploy` works from a fresh database, hardening the backfill script classification logic, and fixing Phase 20E harness issues.
+
+**Completed scope:**
+
+**A. Baseline migration (`infra/prisma/migrations/00000000000000_init/migration.sql`):**
+
+- Generated from current Prisma schema using `prisma migrate diff --from-empty --to-schema-datamodel`
+- Creates all 12 enums, all 16 tables, all indexes, all unique constraints, all foreign keys
+- Includes EvaluationReport with all Phase 20D integrity columns (`datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`)
+- Full migration chain ordering:
+  1. `00000000000000_init` — baseline
+  2. `20260503120000_add_asset_derivative_checksum` — Phase 17 patch
+  3. `20260504_evaluation_report_integrity_columns` — Phase 20E patch (idempotent after baseline)
+
+**B. Production migration scripts (`package.json`):**
+
+- `db:migrate:deploy`: `prisma migrate deploy --schema infra/prisma/schema.prisma` — production-grade migration
+- `db:migrate:status`: `prisma migrate status --schema infra/prisma/schema.prisma` — verify state
+- `db:push` kept for local dev convenience
+
+**C. Phase 20F harness (`scripts/harness/phase20f-migration-chain-check.ts`):**
+
+- 11-point read-only DB check verifying: \_prisma_migrations table exists, baseline migration applied, Phase 20E migration applied, no failed migrations, all expected tables exist, EvaluationReport integrity columns exist, unique index exists, at least one row after seed, Phase 20E/20D/20C harnesses all pass independently
+
+**D. CI migration-chain job (`.github/workflows/ci.yml`):**
+
+- New `migration-chain` job proving fresh DB via `db:migrate:deploy`
+- `build` depends on `migration-chain`
+- Sequence: `db:generate` → `db:migrate:deploy` → `db:migrate:status` → `seed:db --reset` → all phase harnesses
+
+**E. Backfill script hardening (`scripts/migrations/backfill-evaluation-report-integrity.ts`):**
+
+- Fixed: `row.iouThreshold = null` + `metricsJson.iouThreshold = 0.5` now correctly classified as `needsBackfill` (not corruption)
+- Added: JSON hash values validated against `/^[a-f0-9]{16}$/` before applying backfill
+- Added: `iouThreshold` JSON must be valid number between 0 and 1
+- Added: tracking counters for invalid JSON hash rows and missing required JSON rows
+- All 10 classification rules now explicit and documented
+
+**F. Phase 20E harness fixes (`scripts/harness/phase20e-evaluation-migration-check.ts`):**
+
+- Fixed: `logFail` color code from `32m` to `31m` (was green, now red)
+- Fixed: latest report strict-parse uses explicit `ORDER BY "createdAt" DESC` reduction (was last insertion order)
+
+**G. Documentation updates:**
+
+- `docs/database/evaluation-report-integrity-migration.md` updated: migration chain ordering table, full flow with harnesses, backfill classification rules table, idempotency explanation for Phase 20E after baseline
+
+**Files created:**
+
+- `infra/prisma/migrations/00000000000000_init/migration.sql`
+- `scripts/harness/phase20f-migration-chain-check.ts`
+- `.planning/phases/phase-20f-migration-chain-baseline/20F-PLAN.md`
+
+**Files changed:**
+
+- `package.json` — added `db:migrate:deploy`, `db:migrate:status`, `harness:phase20f`
+- `.github/workflows/ci.yml` — added `migration-chain` job, `build` depends on it
+- `scripts/migrations/backfill-evaluation-report-integrity.ts` — hardened classification logic
+- `scripts/harness/phase20e-evaluation-migration-check.ts` — logFail color fix, ORDER BY fix
+- `docs/database/evaluation-report-integrity-migration.md` — migration chain docs
+
+**Depends on:** Phase 20E
+
+**Success criteria:**
+
+1. Baseline migration exists at `infra/prisma/migrations/00000000000000_init/migration.sql`
+2. Fresh DB can run `db:migrate:deploy` with both baseline and Phase 20E migrations
+3. `db:migrate:deploy` and `db:migrate:status` scripts exist in package.json
+4. Phase 20F harness exists and passes
+5. CI has `migration-chain` job that proves `migrate deploy` works
+6. `build` job depends on `migration-chain`
+7. Backfill script correctly treats null row + valid JSON as backfill candidate
+8. Backfill script validates JSON hash values before applying
+9. Phase 20E harness logFail is red
+10. Phase 20E latest report query uses `ORDER BY createdAt DESC`
+11. Docs explain `db:push` is local/dev, `db:migrate:deploy` is production-grade
+12. STATE/ROADMAP/MILESTONES updated
+
 ## Phase 21, Frontend Feature Split Completion — Planned
 
 **Goal:** Finish the frontend architecture cleanup and remove the monolithic app structure.
@@ -1027,7 +1107,7 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 - Final frontend structure: `src/app/` (App.tsx, AppShell.tsx, routes.tsx), `src/shared/` (api/client.ts, ui/\*, hooks/, types/, utils/), `src/features/media/`, `src/features/datasets/` (DatasetPage, DatasetVersionPanel, SplitAssigner, DatasetLockBanner, CocoExportPanel, datasets.api.ts, datasets.types.ts), `src/features/annotations/` (AnnotationWorkbench, CanvasStage, BoundingBoxLayer, LabelInspector, AnnotationToolbar, annotations.api.ts, annotations.types.ts), `src/features/pipelines/` (PipelineBuilder, PipelineNode, PipelineInspector, PipelineValidationPanel, pipelines.api.ts, pipelines.types.ts), `src/features/inference/` (JobList, JobDetail, PredictionOverlay, EvaluationReport, JobLogs, inference.api.ts, inference.types.ts)
 - Rules: No UI file over 400 lines. Feature-specific API calls stay inside feature modules. Shared UI components must be generic. No circular imports. No visual regression.
 
-**Depends on:** Phase 20
+**Depends on:** Phase 20, Phase 20B, Phase 20C, Phase 20D, Phase 20E, Phase 20F
 
 **Success criteria:**
 

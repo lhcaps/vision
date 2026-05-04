@@ -2,14 +2,14 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 20E (Evaluation Migration Finalization)
+Current phase: Phase 20F (Migration Chain Baseline & Backfill Hardening)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 20E (Evaluation Migration Finalization) (2026-05-04)
-Status: Complete — explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout
+Phase: Phase 20F (Migration Chain Baseline & Backfill Hardening) (2026-05-04)
+Status: In progress — baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness
 
 ## Accumulated Context
 
@@ -18,6 +18,8 @@ Status: Complete — explicit migration SQL, backfill scripts, CI test job fix, 
 **v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization)
 
 **v1.1 In Progress:** Phase 21 (Frontend Feature Split Completion)
+
+**Phase 20E Complete:** Phase 20E (Evaluation Migration Finalization) ✅ Done (2026-05-04)
 
 - Phase 13 (Security) ✅ Done
 - Phase 14A (Adapter boundary) ✅ Done

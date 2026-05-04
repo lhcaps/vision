@@ -146,9 +146,9 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Real ONNX inference        | ✅ Done    | Phase 19 (complete)  |
 | Evaluation E2E             | ✅ Done    | Phase 20 (complete)  |
 | Evaluation Correctness     | ✅ Done    | Phase 20B (complete) |
-| Evaluation Integrity       | ✅ Done    | Phase 20C (complete) |
 | Evaluation Persistence     | ✅ Done    | Phase 20D (complete) |
 | Evaluation Migration       | ✅ Done    | Phase 20E (complete) |
+| Evaluation Migration Chain | ✅ Done    | Phase 20F (complete) |
 | Frontend split completion  | 🔄 Planned | Phase 21             |
 | Production test suite      | 🔄 Planned | Phase 22A/B          |
 | Full E2E & demo video      | 🔄 Planned | Phase 23             |
@@ -480,7 +480,7 @@ This is a prototype under active development (v1.1). The following limitations e
 
 - **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
 - **Real ONNX inference** — Implemented in Phase 19. YOLOv8n ONNX detector runs end-to-end with real predictions persisted. Mock detector available as fallback.
-- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time. Explicit Prisma migration SQL with safe backfill path implemented in Phase 20E.
+- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time. Explicit Prisma migration SQL with safe backfill path implemented in Phase 20E. Full baseline migration chain (`db:migrate:deploy`) proving fresh DB creation from migration history in Phase 20F.
 
 ### Data & Reproducibility
 

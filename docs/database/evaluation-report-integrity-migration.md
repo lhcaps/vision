@@ -44,16 +44,28 @@ Dropping `metricsJson` is NOT safe. Always keep it.
 
 ## Migration Order
 
-### For fresh databases (via `pnpm db:push` or `pnpm db:migrate`)
+### For fresh databases (via `pnpm db:migrate` or `pnpm db:migrate:deploy`)
 
-No manual steps needed. Prisma applies the schema directly:
+No manual steps needed. Prisma applies the full migration chain from the baseline migration:
 
 ```bash
 pnpm db:generate
-pnpm db:push          # Local dev: fast, no migration history
+pnpm db:migrate:deploy   # Production-grade: creates full migration history
 # OR
-pnpm db:migrate       # Production: creates migration history
+pnpm db:migrate          # Development: interactive, creates migration history
 ```
+
+The migration chain for fresh databases:
+
+1. `00000000000000_init` — creates the full schema including EvaluationReport with all integrity columns
+2. `20260503120000_add_asset_derivative_checksum` — adds `checksum` to AssetDerivative
+3. `20260504_evaluation_report_integrity_columns` — idempotent patch: `ADD COLUMN IF NOT EXISTS` for integrity columns (already exist from baseline), creates indexes
+
+> **Why `db:migrate:deploy` instead of `db:push`?**
+>
+> - `db:push` overwrites the schema without creating migration history — it is for local development convenience only.
+> - `db:migrate:deploy` records each applied migration in `_prisma_migrations`, enabling true production workflows.
+> - A fresh database created with `db:migrate:deploy` has full migration history and can be upgraded incrementally by running `db:migrate:deploy` again with new migrations.
 
 ### For existing databases with EvaluationReport rows
 
@@ -80,14 +92,24 @@ pnpm harness:phase20e
 
 ```bash
 pnpm db:generate
-pnpm db:push
+pnpm db:migrate:deploy
+pnpm db:migrate:status
 pnpm seed:db -- --reset
 pnpm migration:eval-report:check
 pnpm migration:eval-report:apply
 pnpm harness:phase20c
 pnpm harness:phase20d
 pnpm harness:phase20e
+pnpm harness:phase20f
 ```
+
+### Migration chain ordering
+
+| Order | Migration                                      | Purpose                                                                |
+| ----- | ---------------------------------------------- | ---------------------------------------------------------------------- |
+| 1     | `00000000000000_init`                          | Creates full schema including EvaluationReport                         |
+| 2     | `20260503120000_add_asset_derivative_checksum` | Adds `checksum` column to AssetDerivative                              |
+| 3     | `20260504_evaluation_report_integrity_columns` | Idempotent: indexes, unique constraint (already present from baseline) |
 
 ## Migration SQL Details
 
@@ -100,20 +122,52 @@ The migration (`infra/prisma/migrations/20260504_evaluation_report_integrity_col
 5. **Create indexes** — `IF NOT EXISTS` for idempotency
 6. **Create unique index** — for deterministic upsert
 
+**Idempotency after baseline migration:** When the Phase 20E patch is applied after the baseline migration (`00000000000000_init`), all `ADD COLUMN IF NOT EXISTS` statements are no-ops because the baseline already created the columns. The `CREATE INDEX IF NOT EXISTS` statements are also no-ops because the baseline already created the indexes. The `DO` validation block runs against rows that were seeded with all integrity fields already populated, so it passes cleanly. The `ALTER TABLE ... SET NOT NULL` statements also pass because the columns already have values. **The Phase 20E patch is safe to apply after the baseline migration on any fresh or seeded database.**
+
 ## Backfill Script
 
 `scripts/migrations/backfill-evaluation-report-integrity.ts`
+
+### Classification rules
+
+| Rule | Condition                                | Action        |
+| ---- | ---------------------------------------- | ------------- |
+| 1    | row null/empty + JSON valid              | needsBackfill |
+| 2    | row non-null + row equals JSON           | consistent    |
+| 3    | row non-null + JSON missing              | corrupt       |
+| 4    | row non-null + JSON different            | corrupt       |
+| 5    | row null/empty + JSON missing (required) | corrupt       |
+| 6    | row null/empty + JSON missing (optional) | OK            |
+| 7    | JSON hash invalid format                 | corrupt       |
+| 8    | row hash invalid format (if non-null)    | corrupt       |
+| 9    | iouThreshold JSON invalid (not 0-1)      | corrupt       |
+| 10   | iouThreshold row null + JSON valid       | needsBackfill |
+
+Required fields: `datasetVersionId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`
+Optional fields: `pipelineId`, `modelId`
 
 ### `--check` mode
 
 - No mutations
 - Reports total row count
 - Reports rows with row/JSON consistency issues
-- Reports rows with invalid hex hash format
+- Reports rows with invalid hex hash format in JSON values
 - Reports duplicate `[inferenceJobId, inputHash]` groups
 - Reports rows missing required fields even in `metricsJson`
+- Reports invalid JSON iouThreshold (not 0-1 range)
+- Reports invalid hash format in JSON before applying
 - **Exits 1** if any unsafe condition is found
 - **Exits 0** if safe to apply
+
+Reports tracking counters:
+
+- `totalRows` — all EvaluationReport rows
+- `rowsNeedingBackfill` — rows with null columns but valid JSON
+- `rowsConsistent` — rows with matching row/JSON values
+- `rowsCorrupt` — rows with data issues
+- `duplicateGroups` — duplicate [inferenceJobId, inputHash] groups
+- `invalidJsonHashRows` — rows with invalid JSON hash format
+- `missingRequiredJsonRows` — rows missing required fields in JSON
 
 ### `--apply` mode
 
@@ -124,6 +178,26 @@ The migration (`infra/prisma/migrations/20260504_evaluation_report_integrity_col
 - Does not modify `metricsJson`
 
 ## Harness
+
+### Phase 20F Migration Chain Harness
+
+`scripts/harness/phase20f-migration-chain-check.ts` (run via `pnpm harness:phase20f`)
+
+Verifies:
+
+1. `_prisma_migrations` table exists
+2. Baseline migration `00000000000000_init` applied
+3. Phase 20E migration `20260504_evaluation_report_integrity_columns` applied
+4. No failed migrations (finished_at null AND rolled_back_at null)
+5. Expected tables exist: Project, DatasetVersion, EvaluationReport, InferenceJob, Prediction
+6. EvaluationReport integrity columns exist (all 7)
+7. Unique index for [inferenceJobId, inputHash] exists
+8. At least one EvaluationReport row exists after seed
+9. Phase 20E harness passes independently
+10. Phase 20D harness passes independently
+11. Phase 20C harness passes independently
+
+### Phase 20E Harness
 
 `scripts/harness/phase20e-evaluation-migration-check.ts` (run via `pnpm harness:phase20e`)
 
