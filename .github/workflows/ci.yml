@@ -166,7 +166,6 @@ jobs:
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
       - run: pnpm build
-      - run: pnpm install --prefer-offline
       - run: pnpm seed:db -- --reset
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
@@ -212,7 +211,6 @@ jobs:
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
       - run: pnpm build
-      - run: pnpm install --prefer-offline
       - name: Run prisma migrate deploy (fresh DB)
         run: pnpm db:migrate:deploy
         env:
