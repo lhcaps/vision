@@ -18,8 +18,8 @@ describe('EvaluationReportSchema — strict parsing', () => {
     modelId: null,
     algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
     iouThreshold: 0.5,
-    inputHash: 'abcd1234efgh5678',
-    metricsHash: 'hijk9012lmno3456',
+    inputHash: 'abcd1234efab5678',
+    metricsHash: '1234567890abcdef',
     precision: 1,
     recall: 1,
     f1: 1,
@@ -131,13 +131,25 @@ describe('EvaluationReportSchema — strict parsing', () => {
   });
 
   it('report with inputHash not 16 chars fails strict parse', () => {
-    const report = makeFullReport({ inputHash: 'short' });
+    const report = makeFullReport({ inputHash: 'abcd1234efgh' });
     const result = EvaluationReportSchema.safeParse(report);
     expect(result.success).toBe(false);
   });
 
   it('report with metricsHash not 16 chars fails strict parse', () => {
-    const report = makeFullReport({ metricsHash: 'short' });
+    const report = makeFullReport({ metricsHash: '1234567890ab' });
+    const result = EvaluationReportSchema.safeParse(report);
+    expect(result.success).toBe(false);
+  });
+
+  it('report with non-hex inputHash fails strict parse', () => {
+    const report = makeFullReport({ inputHash: 'hijk9012lmno3456' });
+    const result = EvaluationReportSchema.safeParse(report);
+    expect(result.success).toBe(false);
+  });
+
+  it('report with uppercase hex inputHash fails strict parse', () => {
+    const report = makeFullReport({ inputHash: 'ABCD1234EFAB5678' });
     const result = EvaluationReportSchema.safeParse(report);
     expect(result.success).toBe(false);
   });
@@ -170,7 +182,7 @@ describe('EvaluationReportSchema — strict parsing', () => {
 });
 
 describe('inputHash and metricsHash regex validation', () => {
-  it('inputHash must be exactly 16 hex chars', () => {
+  it('inputHash must be exactly 16 lowercase hex chars', () => {
     const valid = EvaluationReportSchema.safeParse({
       id: 'e',
       jobId: 'j',
@@ -179,8 +191,8 @@ describe('inputHash and metricsHash regex validation', () => {
       modelId: null,
       algorithmVersion: 'v',
       iouThreshold: 0.5,
-      inputHash: 'abcd1234efgh5678',
-      metricsHash: 'hijk9012lmno3456',
+      inputHash: 'abcd1234efab5678',
+      metricsHash: '1234567890abcdef',
       precision: 1,
       recall: 1,
       f1: 1,
@@ -205,7 +217,7 @@ describe('inputHash and metricsHash regex validation', () => {
       algorithmVersion: 'v',
       iouThreshold: 0.5,
       inputHash: 'abcd1234efgh',
-      metricsHash: 'hijk9012lmno3456',
+      metricsHash: '1234567890abcdef',
       precision: 1,
       recall: 1,
       f1: 1,
@@ -222,7 +234,7 @@ describe('inputHash and metricsHash regex validation', () => {
     expect(tooShort.success).toBe(false);
   });
 
-  it('metricsHash must be exactly 16 hex chars', () => {
+  it('metricsHash must be exactly 16 lowercase hex chars', () => {
     const valid = EvaluationReportSchema.safeParse({
       id: 'e',
       jobId: 'j',
@@ -231,8 +243,8 @@ describe('inputHash and metricsHash regex validation', () => {
       modelId: null,
       algorithmVersion: 'v',
       iouThreshold: 0.5,
-      inputHash: 'abcd1234efgh5678',
-      metricsHash: 'hijk9012lmno3456',
+      inputHash: 'abcd1234efab5678',
+      metricsHash: '1234567890abcdef',
       precision: 1,
       recall: 1,
       f1: 1,
@@ -248,7 +260,7 @@ describe('inputHash and metricsHash regex validation', () => {
     });
     expect(valid.success).toBe(true);
 
-    const tooShort = EvaluationReportSchema.safeParse({
+    const nonHex = EvaluationReportSchema.safeParse({
       id: 'e',
       jobId: 'j',
       datasetVersionId: 'd',
@@ -256,8 +268,8 @@ describe('inputHash and metricsHash regex validation', () => {
       modelId: null,
       algorithmVersion: 'v',
       iouThreshold: 0.5,
-      inputHash: 'abcd1234efgh5678',
-      metricsHash: 'hijk',
+      inputHash: 'abcd1234efab5678',
+      metricsHash: 'hijk9012lmno3456',
       precision: 1,
       recall: 1,
       f1: 1,
@@ -271,6 +283,31 @@ describe('inputHash and metricsHash regex validation', () => {
       evaluatedAt: '2026-01-01T00:00:00Z',
       perClassMetrics: [],
     });
-    expect(tooShort.success).toBe(false);
+    expect(nonHex.success).toBe(false);
+
+    const uppercase = EvaluationReportSchema.safeParse({
+      id: 'e',
+      jobId: 'j',
+      datasetVersionId: 'd',
+      pipelineId: null,
+      modelId: null,
+      algorithmVersion: 'v',
+      iouThreshold: 0.5,
+      inputHash: 'ABCD1234EFAB5678',
+      metricsHash: '1234567890ABCDEF',
+      precision: 1,
+      recall: 1,
+      f1: 1,
+      meanIoU: 1,
+      truePositives: 0,
+      falsePositives: 0,
+      falseNegatives: 0,
+      predictionCount: 0,
+      groundTruthCount: 0,
+      assetCount: 0,
+      evaluatedAt: '2026-01-01T00:00:00Z',
+      perClassMetrics: [],
+    });
+    expect(uppercase.success).toBe(false);
   });
 });

@@ -2,14 +2,14 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 20C (Evaluation Integrity Finalization)
+Current phase: Phase 20D (Evaluation Persistence & CI Hardening)
 
 Last updated: 2026-05-04.
 
 ## Current Position
 
-Phase: Phase 20C — Evaluation Integrity Finalization (2026-05-04)
-Status: Complete — shared hash module, seed alignment, safe legacy adapter, harness, README fixed
+Phase: Phase 20D — Evaluation Persistence & CI Hardening (2026-05-04)
+Status: In Progress — Prisma schema updated, service upserted, contracts hardened, phase20c strict fixed, phase20d harness created, integration tests added, CI wired
 
 ## Accumulated Context
 
@@ -368,6 +368,49 @@ All 7 Phase 20 correctness blockers fixed. Commit: `fix(evaluation): harden dete
 - `matches` field added to seeded `evaluationReport` with all 3 match rows.
 - `computeInputHash` aligned to new signature (includes `algorithmVersion`, sorts by `id`).
 - `algorithmVersion` explicitly set to `eval-v1-iou-0.5-greedy-class-aware`.
+
+## What Is True After Phase 20D (In Progress)
+
+Phase 20D adds production-grade persistence and CI wiring to the evaluation subsystem.
+
+**EvaluationReport model (`infra/prisma/schema.prisma`):**
+
+- New scalar columns: `datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`
+- New indexes: `@@index([inferenceJobId, createdAt])`, `@@index([datasetVersionId, createdAt])`, `@@index([inputHash])`, `@@index([metricsHash])`, `@@index([algorithmVersion])`
+- New unique constraint: `@@unique([inferenceJobId, inputHash])` — enables deterministic upsert
+
+**EvaluationService (`evaluation.service.ts`):**
+
+- `runEvaluation()` now uses `prisma.evaluationReport.upsert()` with compound unique `[inferenceJobId, inputHash]` — re-running same evaluation with identical inputs updates existing row, no duplicates
+- `getEvaluationReport()` now performs read consistency check: row scalar columns are cross-checked against parsed `metricsJson` fields. Any mismatch returns `null` rather than accepting inconsistent data
+
+**Contracts (`packages/contracts/src/evaluation.ts`):**
+
+- `inputHash` and `metricsHash` now use `Hex16Schema = z.string().regex(/^[a-f0-9]{16}$/)` — enforces lowercase hex format, not just length
+
+**Seed (`scripts/seed-db.ts`):**
+
+- `EvaluationReport` row now writes all new columns (`datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`) directly to the row, not just into `metricsJson`
+- `inputHash` and `metricsHash` are computed from shared `evaluation-hash.ts` module, no `seed_placeholder` remains
+
+**Phase 20C harness (`scripts/harness/phase20c-evaluation-integrity-check.ts`):**
+
+- `--strict` mode now exits with code 1 if `DATABASE_URL` is absent
+
+**Phase 20D harness (`scripts/harness/phase20d-evaluation-db-index-check.ts`):**
+
+- 12-point read-only DB integrity harness verifying: row existence, new columns non-null, row/JSON consistency for inputHash/metricsHash/datasetVersionId/algorithmVersion/iouThreshold, unique constraint effectiveness, strict parse pass, no placeholder values, hash hex format, no stale jobs
+
+**Integration tests (`apps/api/src/inference/evaluation.integration.spec.ts`):**
+
+- **DRAFT reject:** evaluation against DRAFT dataset version throws `ConflictException`
+- **Annotation leak isolation:** two dataset versions sharing same asset, each with different GT; evaluating version A produces groundTruthCount=1 (not 2), proving version B's annotations are not leaked
+- **Upsert-by-hash:** running same evaluation twice with identical inputs creates exactly 1 `EvaluationReport` row; `metricsHash` is stable across runs
+
+**CI (`.github/workflows/ci.yml`):**
+
+- New `db-harness` job with PostgreSQL service: runs `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`
+- `build` job now depends on `db-harness` — CI fails if any harness fails
 
 ## What Is True After Phase 20C (Completed)
 

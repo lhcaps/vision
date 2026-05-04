@@ -147,6 +147,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Evaluation E2E             | ✅ Done    | Phase 20 (complete)  |
 | Evaluation Correctness     | ✅ Done    | Phase 20B (complete) |
 | Evaluation Integrity       | ✅ Done    | Phase 20C (complete) |
+| Evaluation Persistence     | ✅ Done    | Phase 20D (complete) |
 | Frontend split completion  | 🔄 Planned | Phase 21             |
 | Production test suite      | 🔄 Planned | Phase 22A/B          |
 | Full E2E & demo video      | 🔄 Planned | Phase 23             |
@@ -469,13 +470,13 @@ This is a prototype under active development (v1.1). The following limitations e
 
 - **Real thumbnail extraction** — Implemented in Phase 17. Pillow thumbnail generation, MinIO read/write, BullMQ consumer, derivative persistence. Frame extraction deferred.
 - **Real ONNX inference** — Implemented in Phase 19. YOLOv8n ONNX detector runs end-to-end with real predictions persisted. Mock detector available as fallback.
-- **Evaluation persistence** — Implemented in Phase 20. Deterministic IoU-based evaluation reports persisted with full traceability (jobId, datasetVersionId, pipelineId, modelId, inputHash, metricsHash). Per-class metrics for car/van/truck.
+- **Evaluation persistence** — Implemented in Phase 20D. Deterministic IoU-based evaluation reports persisted with full traceability (dedicated DB columns + JSON). Upsert-by-hash ensures exactly one report per unique [jobId, inputHash] pair. Canonical input hash and metrics hash are validated at read time.
 
 ### Data & Reproducibility
 
 - **COCO export** — Implemented in Phase 18. `GET /api/projects/:projectId/dataset-versions/:versionId/export/coco`. Dataset must be LOCKED. Export is deterministic (stable ordering, SHA-256 hash of canonical content).
 - **Immutable version lock** — Implemented in Phase 18. Lock-readiness invariants enforced: at least one asset, no UNASSIGNED splits, all assets have dimensions, at least one BBox annotation. Locked versions reject annotation create/update/delete.
-- **Evaluation reproducibility** — Deterministic IoU-based evaluation with locked dataset versions (Phases 19–20). Canonical input hash and metrics hash ensure stable output across re-runs.
+- **Evaluation reproducibility** — Deterministic IoU-based evaluation with locked dataset versions (Phases 19–20D). Canonical input hash and metrics hash ensure stable output across re-runs. Dedicated DB columns and upsert-by-hash ensure exactly one report per unique input.
 
 ### Frontend
 

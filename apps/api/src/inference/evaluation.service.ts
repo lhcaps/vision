@@ -39,6 +39,17 @@ export class EvaluationService {
     const row = await this.prisma.evaluationReport.findFirst({
       where: { inferenceJobId: jobId },
       orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        datasetVersionId: true,
+        pipelineId: true,
+        modelId: true,
+        algorithmVersion: true,
+        iouThreshold: true,
+        inputHash: true,
+        metricsHash: true,
+        metricsJson: true,
+      },
     });
 
     if (!row) return null;
@@ -48,7 +59,21 @@ export class EvaluationService {
     // First: try strict parse of the full schema.
     const strictResult = EvaluationReportSchema.safeParse(raw);
     if (strictResult.success) {
-      return strictResult.data;
+      // Cross-check row scalar columns against parsed JSON payload.
+      // If any column/JSON mismatch is detected, treat the report as corrupt
+      // and return null rather than silently returning inconsistent data.
+      const report = strictResult.data;
+      const mismatch =
+        row.inputHash !== report.inputHash ||
+        row.metricsHash !== report.metricsHash ||
+        row.datasetVersionId !== report.datasetVersionId ||
+        row.algorithmVersion !== report.algorithmVersion ||
+        row.iouThreshold !== report.iouThreshold;
+
+      if (mismatch) {
+        return null;
+      }
+      return report;
     }
 
     // Second: legacy adapter for known partial/old shapes.
@@ -312,9 +337,35 @@ export class EvaluationService {
 
     const validated = EvaluationReportSchema.parse(report);
 
-    await this.prisma.evaluationReport.create({
-      data: {
+    // Upsert by compound unique [inferenceJobId, inputHash].
+    // Re-running the same job with identical inputs updates the existing row
+    // rather than creating a duplicate, ensuring exactly 1 row per unique input.
+    const inferenceJobId_inputHash = {
+      inferenceJobId: jobId,
+      inputHash: validated.inputHash,
+    };
+
+    await this.prisma.evaluationReport.upsert({
+      where: { inferenceJobId_inputHash },
+      update: {
+        datasetVersionId: validated.datasetVersionId,
+        pipelineId: validated.pipelineId,
+        modelId: validated.modelId,
+        algorithmVersion: validated.algorithmVersion,
+        iouThreshold: validated.iouThreshold,
+        metricsHash: validated.metricsHash,
+        metricsJson: validated as unknown as Prisma.InputJsonValue,
+        confusionMatrixJson: Prisma.JsonNull,
+      },
+      create: {
         inferenceJobId: jobId,
+        datasetVersionId: validated.datasetVersionId,
+        pipelineId: validated.pipelineId,
+        modelId: validated.modelId,
+        algorithmVersion: validated.algorithmVersion,
+        iouThreshold: validated.iouThreshold,
+        inputHash: validated.inputHash,
+        metricsHash: validated.metricsHash,
         metricsJson: validated as unknown as Prisma.InputJsonValue,
         confusionMatrixJson: Prisma.JsonNull,
       },

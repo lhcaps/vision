@@ -59,33 +59,34 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 
 ### Phase Progress
 
-| #     | Name                                        | Goal                                                                                                                  | Status       |
-| ----- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 11    | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs                                                               | ✅ Done      |
-| 12A   | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest                                                                   | ✅ Done      |
-| 12B   | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example                                                                      | ✅ Done      |
-| 12C   | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes                                                                           | ✅ Done      |
-| 13    | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors                                                                   | ✅ Done      |
-| 14A   | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations                                                                        | ✅ Done      |
-| 14B   | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs                                                                         | ✅ Done      |
-| 15    | Observability & Health Checks               | Request IDs, structured logs, /health endpoints                                                                       | ✅ Done      |
-| 15.5  | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors                                                                          | ✅ Done      |
-| 15.6  | Workflow Guidance & Primary Next Action     | NextAction model, disabled reasons, recovery paths                                                                    | ✅ Done      |
-| 15.7  | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs)                                                 | ✅ Done      |
-| 15.8  | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions                                                                    | ✅ Done      |
-| 15.9  | Visual System Hardening                     | Focus-visible, semantic colors, consistent spacing                                                                    | ✅ Done      |
-| 15.10 | Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests                                                               | ✅ Done      |
-| 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                                          | ✅ Done      |
-| 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field                          | ✅ Done      |
-| 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions                            | ✅ Done      |
-| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                                         | ✅ FULL PASS |
-| 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                                                     | ✅ FULL PASS |
-| 20B   | Evaluation Correctness Hardening            | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash | ✅ Done      |
-| 20C   | Evaluation Integrity Finalization           | Shared hash module, seed alignment, safe legacy adapter, 12-point harness, README fixed                               | ✅ Done      |
-| 21    | Frontend Split Completion                   | All feature modules, shared components                                                                                | Planned      |
-| 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                                             | Planned      |
-| 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                                                       | Planned      |
-| 23    | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                                                                                     | Planned      |
+| #     | Name                                        | Goal                                                                                                                                  | Status       |
+| ----- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 11    | Public README & Portfolio First Impression  | Root README, architecture diagram, demo GIF, setup docs                                                                               | ✅ Done      |
+| 12A   | CI/CD Completeness                          | Full CI pipeline, db:generate, format check, pytest                                                                                   | ✅ Done      |
+| 12B   | Local Stack & Seed Reliability              | Docker compose, boot scripts, seed, .env.example                                                                                      | ✅ Done      |
+| 12C   | Dev Flow & Local Reliability Closeout       | DB scripts, CV port alignment, script fixes                                                                                           | ✅ Done      |
+| 13    | Security & Input Validation Hardening       | ValidationPipe, CORS, upload hardening, safe errors                                                                                   | ✅ Done      |
+| 14A   | Adapter Boundary Cleanup                    | Repository interfaces, adapter implementations                                                                                        | ✅ Done      |
+| 14B   | Domain Invariants & State Machines          | Zod validation, job state machine, audit logs                                                                                         | ✅ Done      |
+| 15    | Observability & Health Checks               | Request IDs, structured logs, /health endpoints                                                                                       | ✅ Done      |
+| 15.5  | Runtime Truth & State Consistency           | WorkbenchRuntimeState, eligibility selectors                                                                                          | ✅ Done      |
+| 15.6  | Workflow Guidance & Primary Next Action     | NextAction model, disabled reasons, recovery paths                                                                                    | ✅ Done      |
+| 15.7  | Contextual Inspector                        | Section-aware inspectors (Media, Dataset, Annotation, Pipeline, Jobs)                                                                 | ✅ Done      |
+| 15.8  | UX States & Table Actions                   | EmptyState, ErrorState, DisabledReason, RowActions                                                                                    | ✅ Done      |
+| 15.9  | Visual System Hardening                     | Focus-visible, semantic colors, consistent spacing                                                                                    | ✅ Done      |
+| 15.10 | Motion, Portfolio Mode & Regression Tests   | Purposeful motion, isPortfolioSafe, 32 regression tests                                                                               | ✅ Done      |
+| 16A   | Frontend Split Minimum                      | Feature module extraction (media, inference)                                                                                          | ✅ Done      |
+| 17    | Real Media Processing                       | Pillow thumbnails, MinIO read/write, BullMQ consumer, derivative persistence, checksum field                                          | ✅ Done      |
+| 18    | Dataset Locking & COCO Export               | Lock invariants, annotation immutability, deterministic COCO export, real image dimensions                                            | ✅ Done      |
+| 19    | Real ONNX Detector & Prediction Persistence | YOLOv8n ONNX, prediction traceability, SHA-256 pinned, runtime smoke verified                                                         | ✅ FULL PASS |
+| 20    | Evaluation Report E2E                       | IoU matching, persisted reports, per-class metrics, label mapping                                                                     | ✅ FULL PASS |
+| 20B   | Evaluation Correctness Hardening            | 7 correctness bugs fixed: per-class agg, LOCKED check, GT scoping, strict parse, non-lossy hash, matches, metricsHash                 | ✅ Done      |
+| 20C   | Evaluation Integrity Finalization           | Shared hash module, seed alignment, safe legacy adapter, 12-point harness, README fixed                                               | ✅ Done      |
+| 20D   | Evaluation Persistence & CI Hardening       | DB columns, upsert-by-hash, read consistency, hex regex, strict harness fix, phase20d harness, DB-backed integration tests, CI wiring | ✅ Done      |
+| 21    | Frontend Split Completion                   | All feature modules, shared components                                                                                                | Planned      |
+| 22A   | Test Harness & Fixtures                     | Docker test stack, deterministic fixtures                                                                                             | Planned      |
+| 22B   | Production-Path Test Suite                  | Real path tests, contract tests                                                                                                       | Planned      |
+| 23    | Full E2E Playwright & Demo Video            | Complete E2E flow, demo GIF/video                                                                                                     | Planned      |
 
 ### Phase 11 Key Outcomes
 
@@ -156,3 +157,18 @@ Phase 20C resolved the remaining integrity gaps:
 - **12-point harness:** `phase20c-evaluation-integrity-check.ts` verifies all DB integrity conditions including hash recomputation from live data.
 - **30 new unit tests:** 15 hash utility tests + 15 schema validation tests.
 - **README fixed:** Phase 19/20/20B/20C now show correct status, ONNX no longer described as "stub".
+
+### Phase 20D Key Outcomes (Evaluation Persistence & CI Hardening)
+
+Phase 20D added production-grade persistence and CI wiring:
+
+- **DB columns:** `EvaluationReport` model now has dedicated scalar columns for `datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash` — not just JSON blob
+- **Upsert-by-hash:** `runEvaluation()` uses `prisma.evaluationReport.upsert()` keyed on `[inferenceJobId, inputHash]` — re-running identical evaluation updates existing row, no duplicates
+- **Read consistency:** `getEvaluationReport()` cross-checks row scalar columns against parsed `metricsJson` — mismatches return `null`
+- **Hash hex validation:** `Hex16Schema = z.string().regex(/^[a-f0-9]{16}$/)` enforces lowercase hex, rejects uppercase/non-hex/wrong-length
+- **Phase 20C strict fix:** `--strict` harness exits 1 without `DATABASE_URL`
+- **Phase 20D harness:** 12-point read-only DB check verifying new columns, row/JSON consistency, unique constraint effectiveness, hash format
+- **DB-backed integration tests:** DRAFT reject, annotation leak isolation, upsert dedupe
+- **CI wiring:** `db-harness` job runs `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`; `build` depends on `db-harness`
+
+> **Note:** Phase 20B artifacts initially overclaimed seed alignment. Phase 20C later corrected that the seed still used the old lossy hash (toFixed-based) and "seed_placeholder" metricsHash. Phase 20D then added the persistence layer above.

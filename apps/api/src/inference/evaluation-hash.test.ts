@@ -140,7 +140,7 @@ describe('computeEvaluationMetricsHash', () => {
     modelId: null,
     algorithmVersion: 'eval-v1-iou-0.5-greedy-class-aware',
     iouThreshold: 0.5,
-    inputHash: 'abcd1234efgh5678',
+    inputHash: 'abcd1234efab5678',
     metricsHash: '', // filled by the function
     precision: 1,
     recall: 1,

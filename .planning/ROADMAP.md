@@ -2,7 +2,7 @@
 
 Status date: 2026-05-04
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
-Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B (Evaluation Correctness Hardening) completed — Phase 21 (Frontend Feature Split Completion) next to execute
+Phase 20 FULL PASS 10/10 (2026-05-04) — Phase 20B/20C/20D completed — Phase 21 (Frontend Feature Split Completion) next to execute
 
 ## Legend
 
@@ -857,6 +857,93 @@ Phase 20 established deterministic IoU-based evaluation matching, persisted repo
 8. ✅ 30 new unit tests (15 hash + 15 schema)
 9. ✅ Typecheck, build, lint, format all pass
 
+## Phase 20D, Evaluation Persistence & CI Hardening — Done 2026-05-04
+
+**Goal:** Push the Phase 20 evaluation subsystem from "correct runtime logic" to "production-grade persistence and verification" by adding dedicated DB columns, upsert-by-hash, hex validation, strict harness, DB-backed integration tests, and CI wiring.
+
+**Completed scope:**
+
+**A. EvaluationReport DB columns (`infra/prisma/schema.prisma`):**
+
+- New scalar columns: `datasetVersionId`, `pipelineId`, `modelId`, `algorithmVersion`, `iouThreshold`, `inputHash`, `metricsHash`
+- New indexes: `@@index([inferenceJobId, createdAt])`, `@@index([datasetVersionId, createdAt])`, `@@index([inputHash])`, `@@index([metricsHash])`, `@@index([algorithmVersion])`
+- New unique constraint: `@@unique([inferenceJobId, inputHash])` — enables deterministic upsert
+
+**B. Upsert-by-hash (`evaluation.service.ts`):**
+
+- `runEvaluation()` replaced `prisma.evaluationReport.create()` with `prisma.evaluationReport.upsert()` keyed on `[inferenceJobId, inputHash]`
+- Re-running same evaluation with identical inputs updates the existing row — zero duplicate rows for the same `[jobId, inputHash]` pair
+- All new scalar columns written directly to the row, not only into `metricsJson`
+
+**C. Read consistency check (`evaluation.service.ts`):**
+
+- `getEvaluationReport()` now selects scalar columns from the row and cross-checks them against parsed `metricsJson` fields
+- Any mismatch (inputHash, metricsHash, datasetVersionId, algorithmVersion, iouThreshold) causes the method to return `null` rather than accepting inconsistent data
+
+**D. Hash schema enforces lowercase hex (`packages/contracts/src/evaluation.ts`):**
+
+- `const Hex16Schema = z.string().regex(/^[a-f0-9]{16}$/)` — rejects uppercase, non-hex, and wrong-length strings
+- All test fixtures updated to use valid lowercase hex values (`'abcd1234efab5678'`, `'1234567890abcdef'`)
+
+**E. Phase 20C harness strict mode fix (`scripts/harness/phase20c-evaluation-integrity-check.ts`):**
+
+- `--strict` flag now causes exit code 1 if `DATABASE_URL` is absent
+- `package.json` uses `--strict`, so `pnpm harness:phase20c` fails on CI without DB
+
+**F. Phase 20D harness (`scripts/harness/phase20d-evaluation-db-index-check.ts`):**
+
+- 12-point read-only DB integrity check: row existence, new columns non-null, row/JSON consistency for inputHash/metricsHash/datasetVersionId/algorithmVersion/iouThreshold, unique constraint effectiveness, strict parse pass, no placeholder values, hash hex format, no stale jobs
+
+**G. DB-backed integration tests (`apps/api/src/inference/evaluation.integration.spec.ts`):**
+
+- **DRAFT reject:** evaluation against DRAFT dataset version throws `ConflictException` with message matching `/Evaluation requires a LOCKED dataset version/`
+- **Annotation leak isolation:** two dataset versions sharing same asset, each with different GT; evaluating version A produces `groundTruthCount=1` and `FN=0`, proving version B's annotations do not leak
+- **Upsert-by-hash:** running same evaluation twice with identical inputs creates exactly 1 `EvaluationReport` row; `metricsHash` stable across runs
+
+**H. CI wiring (`.github/workflows/ci.yml`):**
+
+- New `db-harness` job with PostgreSQL service: `db:generate` → `db:push` → `seed:db --reset` → `harness:phase20c` → `harness:phase20d`
+- `build` job now depends on `db-harness` — CI fails if any harness fails
+- Integration tests run as part of `pnpm test` (in the `test` job)
+
+**Files created:**
+
+- `.planning/phases/phase-20d-evaluation-persistence-ci-hardening/20D-PLAN.md`
+- `scripts/harness/phase20d-evaluation-db-index-check.ts`
+- `apps/api/src/inference/evaluation.integration.spec.ts`
+
+**Files changed:**
+
+- `infra/prisma/schema.prisma` — EvaluationReport new columns + indexes + unique
+- `apps/api/src/inference/evaluation.service.ts` — upsert + read consistency
+- `scripts/seed-db.ts` — write all new columns
+- `packages/contracts/src/evaluation.ts` — `Hex16Schema` enforces lowercase hex
+- `packages/contracts/src/evaluation.test.ts` — fixtures updated (already valid hex)
+- `apps/api/src/inference/evaluation-report-schema.test.ts` — added non-hex/uppercase rejection tests
+- `scripts/harness/phase20c-evaluation-integrity-check.ts` — `--strict` exits 1 without DB
+- `.github/workflows/ci.yml` — added `db-harness` job
+- `package.json` — added `harness:phase20d` script
+- `.planning/STATE.md` — Phase 20D status
+- `.planning/ROADMAP.md` — Phase 20D entry
+- `.planning/MILESTONES.md` — Phase 20D entry
+- `README.md` — Phase 20D status
+
+**Depends on:** Phase 20C
+
+**Verification:** `pnpm typecheck`, `pnpm test` (203+ API + 43 contracts + 63 web = 309+ tests), `pnpm build`, `pnpm lint`, `pnpm format:check` — all pass.
+
+**Success criteria:**
+
+1. ✅ EvaluationReport has dedicated DB columns (datasetVersionId, pipelineId, modelId, algorithmVersion, iouThreshold, inputHash, metricsHash)
+2. ✅ Upsert-by-hash prevents duplicate rows for same [jobId, inputHash]
+3. ✅ Read path cross-checks row columns against JSON — mismatches return null
+4. ✅ Hash schema enforces lowercase hex, rejects uppercase/non-hex/wrong-length
+5. ✅ Phase 20C harness fails with --strict when DATABASE_URL absent
+6. ✅ Phase 20D harness verifies all new columns and constraints
+7. ✅ CI runs seed + phase20c + phase20d in dedicated job
+8. ✅ DB-backed integration tests cover DRAFT reject, annotation leak isolation, upsert dedupe
+9. ✅ Typecheck, build, lint, format all pass
+
 ## Phase 21, Frontend Feature Split Completion — Planned
 
 **Goal:** Finish the frontend architecture cleanup and remove the monolithic app structure.
@@ -1044,7 +1131,8 @@ v1.1 is complete only when all of the following are true:
 | 20    | Evaluation Report End-to-End                | Phase 19                                          |
 | 20B   | Evaluation Correctness Hardening            | Phase 20                                          |
 | 20C   | Evaluation Integrity Finalization           | Phase 20B                                         |
-| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C                    |
+| 20D   | Evaluation Persistence & CI Hardening       | Phase 20C                                         |
+| 21    | Frontend Feature Split Completion           | Phase 20, Phase 20B, Phase 20C, Phase 20D         |
 | 22A   | Test Harness & Fixtures                     | Phase 14A                                         |
 | 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A |
 | 23    | Full E2E Playwright & Demo Video            | Phase 22B                                         |

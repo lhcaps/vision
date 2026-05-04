@@ -21,6 +21,10 @@ export const EvaluationMatchSchema = z.object({
   iou: z.number().min(0).max(1),
 });
 
+const Hex16Schema = z.string().regex(/^[a-f0-9]{16}$/, {
+  message: 'Must be exactly 16 lowercase hexadecimal characters',
+});
+
 export const EvaluationReportSummarySchema = z.object({
   id: z.string(),
   jobId: z.string(),
@@ -29,8 +33,8 @@ export const EvaluationReportSummarySchema = z.object({
   modelId: z.string().nullable(),
   algorithmVersion: z.string(),
   iouThreshold: z.number().min(0).max(1),
-  inputHash: z.string().length(16),
-  metricsHash: z.string().length(16),
+  inputHash: Hex16Schema,
+  metricsHash: Hex16Schema,
   precision: z.number().min(0).max(1),
   recall: z.number().min(0).max(1),
   f1: z.number().min(0).max(1),

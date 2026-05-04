@@ -32,7 +32,8 @@
     "download-model": "pwsh -ExecutionPolicy Bypass -File scripts/download-model.ps1",
     "harness:phase19": "npx tsx scripts/harness/phase19-db-spot-check.ts --strict",
     "harness:phase20": "npx tsx scripts/harness/phase20-db-spot-check.ts --strict",
-    "harness:phase20c": "npx tsx scripts/harness/phase20c-evaluation-integrity-check.ts --strict"
+    "harness:phase20c": "npx tsx scripts/harness/phase20c-evaluation-integrity-check.ts --strict",
+    "harness:phase20d": "npx tsx scripts/harness/phase20d-evaluation-db-index-check.ts --strict"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

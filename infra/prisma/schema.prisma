@@ -246,12 +246,26 @@ model Prediction {
 model EvaluationReport {
   id                  String   @id @default(cuid())
   inferenceJobId      String
+  datasetVersionId    String
+  pipelineId          String?
+  modelId            String?
+  algorithmVersion    String
+  iouThreshold       Float
+  inputHash          String
+  metricsHash        String
   metricsJson         Json
   confusionMatrixJson Json?
   artifactKey         String?
   createdAt           DateTime @default(now())
 
   inferenceJob InferenceJob @relation(fields: [inferenceJobId], references: [id], onDelete: Cascade)
+
+  @@unique([inferenceJobId, inputHash])
+  @@index([inferenceJobId, createdAt])
+  @@index([datasetVersionId, createdAt])
+  @@index([inputHash])
+  @@index([metricsHash])
+  @@index([algorithmVersion])
 }
 
 model AuditLog {

@@ -77,7 +77,15 @@ async function main() {
 
   const results: CheckResult[] = [];
 
+  // Check --strict flag first.
+  const strict = process.argv.includes('--strict');
+
   if (!process.env.DATABASE_URL) {
+    if (strict) {
+      logFail('DATABASE_URL not configured — STRICT mode requires database connection.');
+      logFail('Fix: set DATABASE_URL in .env or export DATABASE_URL=<connection_string>');
+      process.exit(1);
+    }
     log('DATABASE_URL not configured.');
     logSkip('DB integrity checks skipped — run with DATABASE_URL to verify.');
     log('');

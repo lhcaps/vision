@@ -566,6 +566,13 @@ async function main() {
     await prisma.evaluationReport.create({
       data: {
         inferenceJobId: job.id,
+        datasetVersionId: evaluationReport.datasetVersionId,
+        pipelineId: evaluationReport.pipelineId,
+        modelId: evaluationReport.modelId,
+        algorithmVersion: evaluationReport.algorithmVersion,
+        iouThreshold: evaluationReport.iouThreshold,
+        inputHash: evaluationReport.inputHash,
+        metricsHash: evaluationReport.metricsHash,
         metricsJson: evaluationReport as Prisma.InputJsonValue,
         confusionMatrixJson: undefined,
       },
