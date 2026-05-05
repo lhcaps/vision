@@ -95,9 +95,10 @@ function createTimeoutSignal(ms: number): AbortSignal {
 }
 
 async function isApiReachable(): Promise<boolean> {
+  // Harness uses API_BASE_URL (prefix-included). Frontend uses VITE_API_BASE_URL (host-only).
+  // These are different conventions — do NOT fall back from one to the other.
   const API_BASE_URL =
     process.env.API_BASE_URL ||
-    process.env.VITE_API_BASE_URL?.replace(/\/$/, '') ||
     'http://localhost:3000/api';
 
   try {

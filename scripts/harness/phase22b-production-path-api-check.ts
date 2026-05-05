@@ -62,9 +62,11 @@ function logInfo(msg: string) {
 
 // ── API client ────────────────────────────────────────────────────────────────
 
+// API_BASE_URL: harness scripts use /api-prefixed paths (e.g. /health, /projects/...).
+// This differs from the frontend convention where paths include /api/ and BASE_URL is host-only.
+// The harness therefore uses a dedicated API_BASE_URL env var (not VITE_API_BASE_URL).
 const API_BASE_URL =
   process.env.API_BASE_URL ||
-  process.env.VITE_API_BASE_URL?.replace(/\/$/, '') ||
   'http://localhost:3000/api';
 
 interface CheckResult {
