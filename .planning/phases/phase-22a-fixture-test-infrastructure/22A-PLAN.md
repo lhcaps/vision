@@ -22,12 +22,12 @@ Verified IDs:
 - `pipeline.id = 'pipeline_proj_parking_lot_parking_detector'`
 - `modelArtifact.id = 'model_onnx_yolov8n_v1'` (ONNX runtime)
 - `inferenceJob.id = 'job_2026_04_28_2036'` (SUCCEEDED)
-- `evaluation.inputHash = '0c59dbe9c7062999'`
+- `evaluation.inputHash = '04c479cae541f764'` (computed from canonical JSON of seeded report payload)
 - 3 predictions, 3 MANUAL annotations, 4 label classes
 
 ### B. Fixture Infrastructure Harness (`scripts/harness/phase22a-fixture-infrastructure-check.ts`)
 
-19-point read-only DB integrity check. Key checks:
+18-point read-only DB integrity check. Key checks:
 1. Project `proj_parking_lot` exists
 2. Dataset exists
 3. Dataset version exists and is LOCKED

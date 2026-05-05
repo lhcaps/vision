@@ -14,7 +14,7 @@
 
 ### Fixture Infrastructure Harness
 - **Location:** `scripts/harness/phase22a-fixture-infrastructure-check.ts`
-- **Checks:** 19 read-only DB integrity assertions
+- **Checks:** 18 read-only DB integrity assertions
 - **Strict mode:** Exits 1 if DATABASE_URL absent or any check fails
 - **Phases verified:** Project existence, LOCKED dataset version, asset links, MANUAL annotations, pipeline/model references, SUCCEEDED job, predictions, evaluation report consistency, stale job check, Phase 20D/20E/20F equivalence
 
