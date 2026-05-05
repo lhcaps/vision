@@ -3,7 +3,7 @@
 **Phase:** 21D
 **Date:** 2026-05-05
 **Status:** Complete
-**Commit:** [pending]
+**Commit:** `4aa564a5`
 
 ---
 
@@ -142,7 +142,16 @@ Not Option B because:
 
 ## Browser Smoke
 
-Not run — verification limited to typecheck/test/lint/build. The change is structural refactor only (no visual/behavioral changes to panel layouts). The honest embedded-notice rendering is strictly internal to `InspectorRouter`.
+**PASS — Playwright navigation smoke (2026-05-05)**
+
+Ran `pnpm playwright test e2e/navigation.spec.ts --project=chromium` against `http://localhost:5173`.
+
+All 10 checks passed:
+- 8 nav sections navigate without errors (Command, Media, Versions, Annotate, Pipeline, Jobs, Replay, Diff)
+- No console errors on initial load
+- All 8 nav buttons are visible
+
+This confirms the `InspectorRouter` refactor does not break navigation or introduce console errors.
 
 ---
 

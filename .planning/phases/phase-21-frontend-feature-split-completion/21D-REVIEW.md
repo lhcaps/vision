@@ -81,6 +81,7 @@ All checks passed:
 | `grep "pipelineDefinition={demoSnapshot"` | 0 results |
 | `grep "pipelineValidation={validatePipelineDefinition"` | 0 results |
 | `grep "useRuntimeStatus" (only App.tsx)` | PASS |
+| Playwright nav smoke (10 checks) | **PASS** — all 8 sections navigate without errors, no console errors |
 
 ---
 
