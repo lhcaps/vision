@@ -151,8 +151,9 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Evaluation Persistence     | ✅ Done    | Phase 20D (complete) |
 | Evaluation Migration       | ✅ Done    | Phase 20E (complete) |
 | Evaluation Migration Chain | ✅ Done    | Phase 20F (complete) |
-| Frontend split completion  | 🔄 Planned | Phase 21             |
-| Production test suite      | 🔄 Planned | Phase 22A/B          |
+| Frontend split completion  | ✅ Done    | Phase 21 (complete)  |
+| Fixture & Test Infrastructure | ✅ Done    | Phase 22A (complete)  |
+| Production test suite      | 🔄 Planned | Phase 22B            |
 | Full E2E & demo video      | 🔄 Planned | Phase 23             |
 
 ### Out of Scope

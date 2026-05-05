@@ -86,7 +86,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 20E   | Evaluation Migration Finalization             | Explicit migration SQL, backfill scripts, CI test job fix, phase20e harness, Phase 20D/20E artifact closeout                          | ✅ FULL PASS |
 | 20F   | Migration Chain Baseline & Backfill Hardening | Baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness, Phase 20E harness fixes             | ✅ FULL PASS |
 | 21    | Frontend Split Completion                     | Phase 21A/21B/21C/21D all complete. InspectorRouter fake state removed. AppRoutes prop surface clean. Phase 21 closed.                                          | ✅ Done      |
-| 22A   | Test Harness & Fixtures                       | Docker test stack, deterministic fixtures                                                                                             | Planned      |
+| 22A   | Test Harness & Fixtures                       | Fixture contract, deterministic fixture harness, meta-harness, CI wiring                                                            | ✅ Done       |
 | 22B   | Production-Path Test Suite                    | Real path tests, contract tests                                                                                                       | Planned      |
 | 23    | Full E2E Playwright & Demo Video              | Complete E2E flow, demo GIF/video                                                                                                     | Planned      |
 

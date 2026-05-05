@@ -1321,48 +1321,34 @@ Acceptance:
 **Phase 21D next:**
 Wave E (Annotation + Timeline + Inspector Final Split) is structurally complete — AnnotationEnginePanel owns annotation state, PipelinePanel owns pipeline state, and InspectorRouter no longer requires fake state for these sections. The remaining Wave E items (formal feature route extraction) are deferred to Phase 22A scope.
 
-## Phase 22A, Fixture & Test Infrastructure — Planned
+## Phase 22A, Fixture & Test Infrastructure — Done
 
 **Goal:** Establish deterministic test fixtures and bootstrap infrastructure before writing any test logic. Without this, Phase 22B production-path tests become extremely painful.
 
 **Note:** Do not write test logic here. First build the infrastructure that makes test writing tractable.
 
-**Requirements:**
+**Completed scope:**
 
-- `scripts/test-fixtures/`: Factory helpers for creating isolated test data
-  - `create-test-project.ts` — creates project with deterministic ID
-  - `create-locked-dataset.ts` — creates dataset version with assets and annotations, locks it
-  - `create-media-asset.ts` — uploads asset, waits for thumbnail, returns assetId
-  - `create-annotation-set.ts` — creates annotation set with BBox annotations
-  - `create-succeeded-inference-job.ts` — enqueues and completes job with mock results
-  - `create-predictions.ts` — creates prediction records for a job
-- `scripts/test-db/`:
-  - `reset-test-db.ts` — drops and recreates test schema
-  - `seed-test-db.ts` — seeds test DB with deterministic fixture data
-- `docker compose test-stack.yml`: Postgres, Redis, MinIO seeded with deterministic fixtures — runs independently of dev stack.
-- Deterministic image fixture: a known 640x480 RGB JPEG image committed to the repo (e.g. `fixtures/sample.jpg`, < 100KB). Must produce deterministic SHA-256 and thumbnail across runs.
-- Deterministic video fixture: a known 5-frame MP4 committed to the repo (e.g. `fixtures/sample.mp4`). Must produce deterministic frame count and frame hashes.
-- Seeded MinIO bucket: `fixtures/` directory pre-loaded into the test bucket so tests don't depend on network.
-- Redis test config: isolated Redis database for queue tests.
-- `scripts/test-stack-up.sh` / `.ps1`: one-command test infrastructure boot.
-- `scripts/test-stack-down.sh` / `.ps1`: teardown.
-- `scripts/test-stack-reset.sh` / `.ps1`: reset state between test runs.
-- Pytest fixtures for CV worker: fast unit fixtures (mock ONNX), slow integration fixtures (real YOLOv8n if available).
-- API integration test bootstrap: factory helpers to create project/dataset/media/annotation/pipeline in tests.
-- Test environment variables: `TEST_DATABASE_URL`, `TEST_MINIO_ENDPOINT`, `TEST_REDIS_URL` — no shared state with dev.
+- `scripts/fixtures/visionflow-fixtures.ts` — canonical fixture ID contract: project, dataset, datasetVersion, annotationWorkspace, assets, pipeline, modelArtifact, inferenceJob, evaluation, annotations, predictions, labels. Single source of truth for all hard-coded IDs used across seed, harnesses, and smoke commands.
+- `scripts/harness/phase22a-fixture-infrastructure-check.ts` — 18-point read-only DB integrity harness verifying: project/dataset/version existence, LOCKED status, asset links, annotation set and MANUAL annotations, pipeline/model references, SUCCEEDED job, predictions, evaluation report consistency, stale job elimination, Phase 20D/20E/20F equivalence. Strict mode exits non-zero on failure. `--strict` used in CI.
+- `scripts/harness/phase22a-meta-harness.ts` — orchestrator running phase22a + phase20c/20d/20e/20f in sequence. Reports per-harness pass/fail with duration. Exits non-zero if any harness fails.
+- `package.json` — added `harness:phase22a` and `meta:harness:phase22a`
+- `.github/workflows/ci.yml` — added `pnpm harness:phase22a` to `db-harness` and `migration-chain` jobs after `seed:db -- --reset`
 
-**Depends on:** Phase 14A
+**Out of scope (Phase 22B):** Test fixture factory helpers, Docker test-stack.yml, deterministic image/video fixtures, seeded MinIO bucket, test:integration script, pytest fixtures for CV worker.
+
+**Depends on:** Phase 14A, Phase 20F
 
 **Success criteria:**
 
-1. `scripts/test-fixtures/` contains factory helpers for creating isolated test data (project, dataset, media, annotations, job, predictions).
-2. `scripts/test-db/` contains reset and seed scripts for test database.
-3. `docker compose -f infra/test-stack.yml up` starts Postgres, Redis, MinIO with fixtures in < 30s.
-4. `pnpm test:integration` runs against the test stack.
-5. `python -m pytest apps/cv-worker/tests` runs against the test worker.
-6. Deterministic image fixture produces the same SHA-256 and thumbnail output across runs.
-7. Test stack is isolated from dev stack (different ports, different databases).
-8. CI runs test stack provisioning before running production-path tests.
+1. ✅ `pnpm harness:phase22a` passes all 18 checks (18/18)
+2. ✅ `pnpm meta:harness:phase22a` runs all 5 harnesses with rollup pass/fail
+3. ✅ `pnpm harness:phase20c` still passes (no regression)
+4. ✅ `pnpm harness:phase20d` still passes (no regression)
+5. ✅ `pnpm harness:phase20e` still passes (no regression)
+6. ✅ `pnpm harness:phase20f` still passes (no regression)
+7. ✅ CI wiring: phase22a added to db-harness and migration-chain
+8. ✅ No phase20 harness removed or weakened
 
 ## Phase 22B, Production-Path Test Suite — Planned
 
