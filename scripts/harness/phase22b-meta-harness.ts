@@ -87,6 +87,13 @@ function runHarness(cmd: string, label: string, env?: Record<string, string>): H
   }
 }
 
+function createTimeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  controller.signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
+  return controller.signal;
+}
+
 async function isApiReachable(): Promise<boolean> {
   const API_BASE_URL =
     process.env.API_BASE_URL ||
@@ -95,7 +102,7 @@ async function isApiReachable(): Promise<boolean> {
 
   try {
     const res = await fetch(`${API_BASE_URL.replace(/\/$/, '')}/health`, {
-      signal: AbortSignal.timeout(5_000),
+      signal: createTimeoutSignal(5_000),
     });
     return res.ok;
   } catch {

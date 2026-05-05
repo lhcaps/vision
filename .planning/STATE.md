@@ -36,7 +36,7 @@ Last updated: 2026-05-05.
 - Phase 21D ✅ Done — Commit `4aa564a5`. InspectorRouter props refactored. Fake annotation/pipeline state removed from AppRoutes. AnnotationInspector and PipelineInspector rendered as honest embedded-notice panels for their respective sections. 4 unused types removed from inspector.types.ts. Option A1 chosen (section-owned inspector). Phase 21 fully closed.
 - Phase 21 (Frontend split completion) Phase 21A + 21B + 21C + 21D all complete.
 - Phase 22A ✅ FULL PASS (18/18) — Fixture contract, 18-point fixture harness, meta-harness, CI wiring, deterministic fixture IDs. All phase20c/20d/20e/20f harnesses still pass.
-- Phase 22B ✅ FULL PASS — Production-path API harness (8 checks), meta-harness (DB-only CI-safe), Playwright smoke (10 tests), CI wiring. All phase20c/20d/20e/20f/22a harnesses preserved. Phase 22A API harness uses FIXTURE_IDS.
+- Phase 22B ✅ FULL PASS 10/10 — Production-path API harness (8 checks), meta-harness (13 total checks), Playwright smoke (11 tests), CI wiring. Live verified: 8/8 API, 13/13 meta, 11/11 Playwright. 5 bugs found and fixed during live verification (VITE_API_BASE_URL missing /api, AbortSignal.timeout hanging, CORS origin mismatch, localhost vs 127.0.0.1, playwright baseURL). All phase20c/20d/20e/20f/22a harnesses preserved.
 - Phase 23 (E2E & demo) pending
 
 ## What Was True Before Phase 15

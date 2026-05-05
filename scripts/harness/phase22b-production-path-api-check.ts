@@ -73,12 +73,20 @@ interface CheckResult {
   details?: string;
 }
 
+function createTimeoutSignal(ms: number): AbortSignal {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  // Allow the timer to be GC'd when aborted
+  controller.signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
+  return controller.signal;
+}
+
 async function apiGet<T = unknown>(path: string): Promise<{ ok: boolean; status: number; data?: T; error?: string }> {
   try {
     const url = `${API_BASE_URL.replace(/\/$/, '')}${path}`;
     const res = await fetch(url, {
       headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(10_000),
+      signal: createTimeoutSignal(10_000),
     });
     let data: T | undefined;
     const contentType = res.headers.get('content-type') || '';
