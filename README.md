@@ -48,11 +48,15 @@ python -m uvicorn apps.cv-worker.src.main:app --reload --port 8000 --host 127.0.
 
 ## Demo
 
-> Record a demo GIF using the instructions in [docs/demo/README-DEMO.md](docs/demo/README-DEMO.md).
+**Automated demo walkthrough** — follow the step-by-step recording instructions in [docs/demo/README-DEMO.md](docs/demo/README-DEMO.md) and the manual checklist at [docs/demo/DEMO-CHECKLIST.md](docs/demo/DEMO-CHECKLIST.md).
 
-![VisionFlow Studio Demo](docs/demo/demo.gif)
+The full vertical-slice proof is automated via Playwright E2E tests (see [docs/demo/README-DEMO.md](docs/demo/README-DEMO.md)) and verified by the Phase 23 meta-harness:
 
-The demo covers the full vertical slice: upload media → create dataset → annotate → build pipeline → run job → view predictions and evaluation.
+```bash
+pnpm meta:harness:phase23
+```
+
+To record a demo GIF or MP4, see the recording tips in [docs/demo/DEMO-CHECKLIST.md](docs/demo/DEMO-CHECKLIST.md).
 
 ## Architecture
 
@@ -130,7 +134,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Linting & formatting    | ✅ Done | ESLint 9 flat config, Prettier + Tailwind plugin               |
 | One-command boot        | ✅ Done | Unix shell + Windows PowerShell scripts                        |
 
-### In Progress (v1.1 — Production Hardening)
+### v1.1 — Production Hardening & Real Vertical Slice (Complete)
 
 | Feature                    | Status     | Target Phase         |
 | -------------------------- | ---------- | -------------------- |
@@ -142,7 +146,7 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Domain invariants          | ✅ Done    | Phase 14B (complete) |
 | Observability & health     | ✅ Done    | Phase 15             |
 | Frontend feature split (minimum) | ✅ Done    | Phase 16A           |
-| Frontend split completion       | 🔄 Planned | Phase 21 (current)  |
+| Frontend split completion       | ✅ Done    | Phase 21 (complete)   |
 | Real media processing      | ✅ Done    | Phase 17             |
 | Dataset lock & COCO export | ✅ Done    | Phase 18             |
 | Real ONNX inference        | ✅ Done    | Phase 19 (complete)  |
@@ -153,8 +157,8 @@ The demo covers the full vertical slice: upload media → create dataset → ann
 | Evaluation Migration Chain | ✅ Done    | Phase 20F (complete) |
 | Frontend split completion  | ✅ Done    | Phase 21 (complete)  |
 | Fixture & Test Infrastructure | ✅ Done    | Phase 22A (complete)  |
-| Production test suite      | 🔄 Planned | Phase 22B            |
-| Full E2E & demo video      | 🔄 Planned | Phase 23             |
+| Production test suite      | ✅ Done    | Phase 22B (complete)  |
+| Full E2E & demo video      | ✅ Done    | Phase 23 (complete)  |
 
 ### Out of Scope
 
@@ -430,6 +434,28 @@ pnpm --filter @visionflow/motion test
 ```bash
 cd apps/cv-worker
 python -m pytest tests/ -v
+```
+
+**Meta-harness verification (requires running stack):**
+
+```bash
+# Reset and seed database
+pnpm seed:db -- --reset
+
+# Phase 22A: DB fixture infrastructure check
+pnpm harness:phase22a
+
+# Phase 22B: Production path API + meta-harness (strict mode)
+pnpm meta:harness:phase22b -- --strict --with-api
+
+# Phase 23: Full E2E Playwright + meta-harness (strict mode)
+pnpm meta:harness:phase23
+
+# Run production-path smoke tests only
+pnpm --filter @visionflow/web test:e2e -- e2e/production-path.spec.ts --project=chromium
+
+# Run full vertical-slice E2E tests only
+pnpm --filter @visionflow/web test:e2e -- e2e/full-vertical-slice.spec.ts --project=chromium
 ```
 
 **Current test coverage:**

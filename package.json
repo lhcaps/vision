@@ -42,6 +42,7 @@
     "harness:phase22b:api": "pnpm exec tsx scripts/harness/phase22b-production-path-api-check.ts",
     "meta:harness:phase22a": "pnpm exec tsx scripts/harness/phase22a-meta-harness.ts --strict",
     "meta:harness:phase22b": "pnpm exec tsx scripts/harness/phase22b-meta-harness.ts --strict",
+    "meta:harness:phase23": "pnpm exec tsx scripts/harness/phase23-full-e2e-check.ts --strict",
     "migration:eval-report:check": "pnpm exec tsx scripts/migrations/backfill-evaluation-report-integrity.ts --check",
     "migration:eval-report:apply": "pnpm exec tsx scripts/migrations/backfill-evaluation-report-integrity.ts --apply"
   },

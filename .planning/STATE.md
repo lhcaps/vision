@@ -10,9 +10,9 @@ Last updated: 2026-05-05.
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
 
-**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization), Phase 20F (Migration Chain Baseline & Backfill Hardening)
+**v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization), Phase 20F (Migration Chain Baseline & Backfill Hardening), Phase 21 (Frontend Split Completion), Phase 22A (Fixture & Test Infrastructure), Phase 22B (Production Path Test Suite), Phase 23 (Full E2E Playwright & Demo Video)
 
-**v1.1 In Progress:** Phase 23 (Full E2E Playwright & Demo Video)
+**v1.1 Complete — all phases closed.**
 
 - Phase 13 (Security) ✅ Done
 - Phase 14A (Adapter boundary) ✅ Done
@@ -37,7 +37,7 @@ Last updated: 2026-05-05.
 - Phase 21 (Frontend split completion) Phase 21A + 21B + 21C + 21D all complete.
 - Phase 22A ✅ FULL PASS (18/18) — Fixture contract, 18-point fixture harness, meta-harness, CI wiring, deterministic fixture IDs. All phase20c/20d/20e/20f harnesses still pass.
 - Phase 22B ✅ FULL PASS 10/10 — Production-path API harness (8 checks), meta-harness (13 total checks), Playwright smoke (11 tests), CI wiring. Live verified: 8/8 API, 13/13 meta, 11/11 Playwright. 5 bugs found and fixed during live verification (VITE_API_BASE_URL missing /api, AbortSignal.timeout hanging, CORS origin mismatch, localhost vs 127.0.0.1, playwright baseURL). All phase20c/20d/20e/20f/22a harnesses preserved.
-- Phase 23 (E2E & demo) pending
+- Phase 23 ✅ FULL PASS — Full E2E Playwright vertical-slice spec (19 tests), Phase 23 meta-harness (composes 22A+22B+Playwright), demo docs (README-DEMO.md, DEMO-CHECKLIST.md), README portfolio cleanup, all planning artifacts updated.
 
 ## What Was True Before Phase 15
 
@@ -117,16 +117,15 @@ Last updated: 2026-05-05.
 
 ## Active Goals
 
-- Execute Phase 21: Frontend Feature Split Completion.
-- Phase 20F ✅ COMPLETE — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness, all 11 checks pass.
+Phase 23 ✅ COMPLETE — Full E2E Playwright vertical-slice, meta-harness, demo docs, README cleanup, all planning artifacts updated. v1.1 fully closed.
 
 ## Known Partial Areas (v1.1 Focus)
 
-Phase 20 complete. The following areas remain pending:
+v1.1 is complete. All phases closed. The following areas are deferred to future milestones:
 
-- App.tsx is a monolithic file needing continued feature split (Phase 21).
-- No production-path test suite (Phase 22A/B).
-- No real-service E2E test or demo video (Phase 23).
+- App.tsx monolithic structure — further feature hook extraction reserved for v1.2.
+- CV worker real frame extraction — thumbnail only, video frames deferred.
+- Authentication/RBAC — single-user workbench for v1.x.
 
 ## What Is True After Phase 16A (Complete)
 

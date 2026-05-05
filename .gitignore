@@ -17,6 +17,8 @@ venv/
 *.pyc
 infra/minio/data/
 tmp/
+test-results/
+apps/web/playwright-report/
 
 # Local smoke/debug scratch artifacts (Cursor/manual runtime checks)
 # Not using *.py glob to avoid hiding Python files in apps/cv-worker
