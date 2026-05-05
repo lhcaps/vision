@@ -11,6 +11,20 @@ import type {
 
 const REFRESH_INTERVAL_MS = 8_000;
 
+const LOADING_READINESS: RuntimeReadiness = {
+  api: { kind: 'loading' },
+  database: { kind: 'loading' },
+  queue: { kind: 'loading' },
+  cvWorker: { kind: 'loading' },
+};
+
+const UNAVAILABLE_READINESS: RuntimeReadiness = {
+  api: { kind: 'unavailable' },
+  database: { kind: 'unknown' },
+  queue: { kind: 'unknown' },
+  cvWorker: { kind: 'unknown' },
+};
+
 function deriveCvState(data: RuntimeStatusResponse['cvWorker']): CvReadinessState {
   if (!data.configured) {
     return { kind: 'mock-fallback', requestedMode: 'mock' };
@@ -97,6 +111,7 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
     } catch (err) {
       if (signal.aborted) return;
 
+      setRaw(null);
       setError(err instanceof Error ? err.message : 'Failed to fetch runtime status');
     } finally {
       if (!signal.aborted) {
@@ -133,12 +148,9 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
 
   const readiness: RuntimeReadiness = raw
     ? toReadiness(raw)
-    : {
-        api: { kind: 'loading' },
-        database: { kind: 'loading' },
-        queue: { kind: 'loading' },
-        cvWorker: { kind: 'loading' },
-      };
+    : error
+      ? UNAVAILABLE_READINESS
+      : LOADING_READINESS;
 
   return {
     readiness,
