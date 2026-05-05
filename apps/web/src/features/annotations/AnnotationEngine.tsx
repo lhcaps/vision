@@ -13,7 +13,7 @@ import {
   WarningCircleIcon as WarningCircle,
 } from '@phosphor-icons/react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import type { CSSProperties, Dispatch, PointerEvent, SetStateAction } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AnnotationAssetSummary,
@@ -50,12 +50,6 @@ export type AnnotationMediaRow = {
 };
 
 type AnnotationEnginePanelProps = {
-  annotations: AnnotationSummary[];
-  setAnnotations: Dispatch<SetStateAction<AnnotationSummary[]>>;
-  selectedAnnotationId: string;
-  onSelectAnnotation: (id: string) => void;
-  threshold: number;
-  setThreshold: (value: number) => void;
   mediaRows: AnnotationMediaRow[];
 };
 
@@ -94,19 +88,16 @@ export function createSeedAnnotationSummaries(): AnnotationSummary[] {
   });
 }
 
-export function AnnotationEnginePanel({
-  annotations,
-  setAnnotations,
-  selectedAnnotationId,
-  onSelectAnnotation,
-  threshold,
-  setThreshold,
-  mediaRows,
-}: AnnotationEnginePanelProps) {
+export function AnnotationEnginePanel({ mediaRows }: AnnotationEnginePanelProps) {
   const projectId = demoSnapshot.project.id;
   const shouldReduceMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const annotationsRef = useRef(annotations);
+  const annotationsRef = useRef<AnnotationSummary[]>([]);
+  const [annotations, setAnnotations] = useState<AnnotationSummary[]>(() =>
+    createSeedAnnotationSummaries()
+  );
+  const [selectedAnnotationId, setSelectedAnnotationId] = useState('ann_02');
+  const [threshold, setThreshold] = useState(62);
   const [sourceState, setSourceState] = useState<SourceState>('loading');
   const [workspace, setWorkspace] = useState<AnnotationWorkspaceResponse>(() =>
     createFallbackWorkspace(projectId, DEFAULT_ANNOTATION_VERSION_ID, annotations)
@@ -183,9 +174,9 @@ export function AnnotationEnginePanel({
 
   useEffect(() => {
     if (!selectedAnnotation && visibleAnnotations[0]) {
-      onSelectAnnotation(visibleAnnotations[0].id);
+      setSelectedAnnotationId(visibleAnnotations[0].id);
     }
-  }, [onSelectAnnotation, selectedAnnotation, visibleAnnotations]);
+  }, [setSelectedAnnotationId, selectedAnnotation, visibleAnnotations]);
 
   const enqueue = useCallback((operation: AnnotationSaveOperation, label: string) => {
     setQueue((current) => {
@@ -257,7 +248,7 @@ export function AnnotationEnginePanel({
       };
 
       setAnnotations((current) => [annotation, ...current]);
-      onSelectAnnotation(annotation.id);
+      setSelectedAnnotationId(annotation.id);
       enqueue(
         {
           kind: 'create',
@@ -274,7 +265,7 @@ export function AnnotationEnginePanel({
     [
       activeLabel,
       enqueue,
-      onSelectAnnotation,
+      setSelectedAnnotationId,
       selectedAsset,
       setAnnotations,
       workspace.annotationSet,
@@ -376,8 +367,8 @@ export function AnnotationEnginePanel({
     }
 
     const next = visibleAnnotations.find((annotation) => annotation.id !== selectedAnnotation.id);
-    onSelectAnnotation(next?.id ?? '');
-  }, [enqueue, onSelectAnnotation, selectedAnnotation, setAnnotations, visibleAnnotations]);
+    setSelectedAnnotationId(next?.id ?? '');
+  }, [enqueue, setSelectedAnnotationId, selectedAnnotation, setAnnotations, visibleAnnotations]);
 
   const flushQueue = useCallback(async () => {
     const runnable = queue.filter((item) => item.status === 'queued' || item.status === 'failed');
@@ -406,7 +397,7 @@ export function AnnotationEnginePanel({
               )
             );
             if (selectedAnnotationId === operation.clientId) {
-              onSelectAnnotation(created.id);
+              setSelectedAnnotationId(created.id);
             }
           } else if (operation.kind === 'update') {
             const updated = await updateAnnotation(
@@ -444,7 +435,7 @@ export function AnnotationEnginePanel({
       }
     }
   }, [
-    onSelectAnnotation,
+    setSelectedAnnotationId,
     projectId,
     queue,
     selectedAnnotationId,
@@ -649,7 +640,7 @@ export function AnnotationEnginePanel({
                       imageHeight={selectedAsset.height}
                       selected={annotation.id === selectedAnnotationId}
                       reducedMotion={Boolean(shouldReduceMotion)}
-                      onSelect={() => onSelectAnnotation(annotation.id)}
+                      onSelect={() => setSelectedAnnotationId(annotation.id)}
                     />
                   ))}
                 </AnimatePresence>

@@ -1158,12 +1158,14 @@ This patch addresses accumulated traceability drift — several phases completed
 7. README Implementation Status table distinguishes Phase 16A (minimum) from Phase 21 (completion)
 8. README Known Limitations reflects current App.tsx state
 
-## Phase 21, Frontend Feature Split Completion — Phase 21B Done
+## Phase 21, Frontend Feature Split Completion — Phase 21C Done
 
 **Phase 21A commits:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
 **Phase 21B commit:** `3693061` (runtime sync) + finalization commit
+**Phase 21C commit:** pending commit
 **Phase 21A status:** Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal. Full verification gate passed.
 **Phase 21B status:** Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, 3 controllers extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health derives from backend truth. Browser smoke passed. Dev boot text corrected.
+**Phase 21C status:** Done — AppRoutes prop surface reduced from 23 to 17 props (26% reduction). Threshold/annotation/pipeline state moved to feature-local components. JobsPanel owns threshold locally, AnnotationEnginePanel owns all annotation state, ShellHeader cleaned up. All runtime truth invariants preserved. 65/65 tests pass. 21D pending.
 
 **Goal:** Extract App.tsx into a thin composition root. Split feature-specific logic into independently importable feature modules. No UI redesign, no new state model, no visual regression.
 
@@ -1289,6 +1291,16 @@ Acceptance:
 - App remains shell/composition only
 - InspectorRouter has no `demoSnapshot` leakage
 
+**Wave F — AppRoutes Prop Surface Reduction — Done**
+
+- [x] AppRoutes reduced from 23 to 17 props (26% reduction)
+- [x] `threshold` / `setThreshold` state removed from App — owned by JobsPanel locally
+- [x] Annotation state removed from App — owned by AnnotationEnginePanel internally
+- [x] Pipeline state removed from App — owned by PipelinePanel (already self-contained)
+- [x] ShellHeader cleaned — removed unused `threshold` prop
+- [x] OverviewPanel cleaned — removed `pipelineValidation` prop, static text
+- [x] All 65 tests pass, typecheck/build/lint pass
+
 **Depends on:** Phase 20F
 
 **Success criteria:**
@@ -1299,14 +1311,13 @@ Acceptance:
 4. [done] useDatasetsController, useInferenceJobController, useEvaluationController extracted
 5. [done] ReadinessStrip reads real backend state — no more "Mock detector mounted"
 6. [pending] Shared UI components (Panel, EmptyState, ErrorState, ActionHint, DisabledReason) reused in feature modules
-7. [pending] Pipeline and annotation feature extraction (Wave D/E)
+7. [done] AppRoutes prop surface reduced (Wave F) — 23 → 17 props
 8. [done] No circular dependencies exist
 9. [done] Existing visual design preserved — no CSS/JSX changes
-10. [done] Frontend tests still pass (63/63)
+10. [done] Frontend tests still pass (65/65)
 
-**Phase 21C/21D next:**
-- 21C: Pipeline + annotation feature extraction (Wave D/E)
-- 21D: Final circular dependency resolution and shared component extraction
+**Phase 21D next:**
+- 21D: Final closeout — InspectorRouter stub resolution, circular dependency audit, shared component extraction
 
 ## Phase 22A, Fixture & Test Infrastructure — Planned
 

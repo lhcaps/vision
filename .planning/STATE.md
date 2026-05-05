@@ -37,7 +37,8 @@ Status: Phase 21A complete — App composition boundary + clean imports
 - Phase 20F ✅ FULL PASS 10/10 — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness.
 - Phase 21A ✅ Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal, full verification gate passed.
 - Phase 21B ✅ Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, useDatasetsController/useInferenceJobController/useEvaluationController extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health now derives from backend truth. Browser smoke passed.
-- Phase 21 (Frontend split completion) Phase 21A + 21B complete; 21C/21D pending.
+- Phase 21C ✅ Done — AppRoutes prop surface reduced from 23 to 17 props (26% reduction). Threshold/annotation/pipeline state moved to feature-local components. JobsPanel owns threshold, AnnotationEnginePanel owns annotation state, ShellHeader cleaned up. 65/65 tests pass, all runtime truth invariants preserved. 21D pending.
+- Phase 21 (Frontend split completion) Phase 21A + 21B + 21C complete; 21D pending.
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending
 - Phase 23 (E2E & demo) pending

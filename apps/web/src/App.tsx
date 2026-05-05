@@ -4,13 +4,6 @@ import { AppRoutes } from './app/AppRoutes';
 import { NavRail } from './app/NavRail';
 import { ShellHeader } from './app/ShellHeader';
 import { demoSnapshot } from './data/demo';
-import { createSeedAnnotationSummaries } from './features/annotations/AnnotationEngine';
-import type {
-  AnnotationSummary,
-  PipelineDefinition,
-  PipelineValidationResult,
-} from '@visionflow/contracts';
-import { validatePipelineDefinition } from '@visionflow/contracts';
 import type { MediaUploadRow } from './features/media';
 import type { WorkbenchRuntimeState } from './shared/state/workbench-runtime';
 import { canRunInference, canRunEvaluation } from './shared/state/runtime-selectors';
@@ -21,11 +14,8 @@ import { useRuntimeStatus } from './features/runtime/useRuntimeStatus';
 
 export function App() {
   const [section, setSection] = useState<SectionId>('overview');
-  const [threshold, setThreshold] = useState(62);
-  const [selectedAnnotation, setSelectedAnnotation] = useState('ann_02');
-  const [annotationRows, setAnnotationRows] = useState<AnnotationSummary[]>(() =>
-    createSeedAnnotationSummaries()
-  );
+
+  // Media upload state — shared between MediaPanel and DatasetPanel (asset assignment flow)
   const [mediaUploads, setMediaUploads] = useState<MediaUploadRow[]>([]);
 
   // Tracked selection state for contextual inspectors
@@ -105,15 +95,6 @@ export function App() {
     handleRunEvaluation,
   } = useEvaluationController(job);
 
-  // Pipeline selected node — lifted from PipelinePanel so InspectorRouter can access it
-  const [pipelineSelectedNodeId, setPipelineSelectedNodeId] = useState<string>('detector');
-  const [pipelineDefinition, setPipelineDefinition] = useState<PipelineDefinition>(
-    demoSnapshot.pipeline
-  );
-  const [pipelineValidation, setPipelineValidation] = useState<PipelineValidationResult>(
-    validatePipelineDefinition(demoSnapshot.pipeline)
-  );
-
   // Derive runtime state from resolved API data and backend runtime status.
   // Every selector (canRunInference, canRunEvaluation) consumes this state.
   const runtimeState = useMemo((): WorkbenchRuntimeState => {
@@ -163,22 +144,15 @@ export function App() {
         <main className="min-w-0">
           <ShellHeader
             job={job}
-            threshold={threshold}
             onRun={handleRun}
             inferenceEligibility={inferenceEligibility}
           />
           <AppRoutes
             section={section}
             job={job}
-            threshold={threshold}
             onRun={handleRun}
             inferenceEligibility={inferenceEligibility}
             evaluationEligibility={evaluationEligibility}
-            annotationRows={annotationRows}
-            setAnnotationRows={setAnnotationRows}
-            selectedAnnotation={selectedAnnotation}
-            setSelectedAnnotation={setSelectedAnnotation}
-            setThreshold={setThreshold}
             mediaUploads={mediaUploads}
             setMediaUploads={setMediaUploads}
             selectedMediaAssetId={selectedMediaAssetId}
@@ -189,12 +163,6 @@ export function App() {
             onVersionsChange={setDatasetVersions}
             datasetSourceState={datasetSourceState}
             onSourceStateChange={setDatasetSourceState}
-            pipelineSelectedNodeId={pipelineSelectedNodeId}
-            onSelectNode={setPipelineSelectedNodeId}
-            pipelineDefinition={pipelineDefinition}
-            onDefinitionChange={setPipelineDefinition}
-            pipelineValidation={pipelineValidation}
-            onValidationChange={setPipelineValidation}
             evaluationReport={evaluationReport}
             isEvaluating={isEvaluating}
             evaluationError={evaluationError}

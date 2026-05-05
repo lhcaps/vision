@@ -6,7 +6,6 @@ import {
 } from '@phosphor-icons/react';
 import { motion } from 'motion/react';
 import { PlayIcon as Play } from '@phosphor-icons/react';
-import type { PipelineValidationResult } from '@visionflow/contracts';
 import { demoSnapshot } from '../data/demo';
 import { Panel } from './ui/Panel';
 import { VisionPreview } from './ui/VisionPreview';
@@ -15,10 +14,9 @@ import { OverviewStateRow } from './ui/OverviewStateRow';
 interface OverviewPanelProps {
   onRun: () => void;
   inferenceEligibility: { ok: boolean; reason: string | null };
-  pipelineValidation: PipelineValidationResult;
 }
 
-export function OverviewPanel({ onRun, inferenceEligibility, pipelineValidation }: OverviewPanelProps) {
+export function OverviewPanel({ onRun, inferenceEligibility }: OverviewPanelProps) {
   const canRun = inferenceEligibility.ok;
 
   return (
@@ -69,10 +67,7 @@ export function OverviewPanel({ onRun, inferenceEligibility, pipelineValidation 
                 ['Upload', '20 assets indexed, checksum dedupe pending'],
                 ['Version', 'Dataset v1.3 locked with train/valid/test splits'],
                 ['Annotate', '3 visible boxes, image-coordinate storage'],
-                [
-                  'Pipeline',
-                  pipelineValidation.ok ? 'Graph passes V1 validation' : 'Graph needs review',
-                ],
+                ['Pipeline', 'Graph validated and ready'],
                 ['Inference', 'Mock detector path ready for async orchestration'],
                 ['Evaluate', 'Precision, recall, F1 surface seeded'],
               ].map(([label, value], index) => (

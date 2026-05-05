@@ -6,12 +6,11 @@ import { type JobUiState } from '../features/inference/inference.types';
 
 interface ShellHeaderProps {
   job: JobUiState;
-  threshold: number;
   onRun: () => void;
   inferenceEligibility: { ok: boolean; reason: string | null };
 }
 
-export function ShellHeader({ job, threshold, onRun, inferenceEligibility }: ShellHeaderProps) {
+export function ShellHeader({ job, onRun, inferenceEligibility }: ShellHeaderProps) {
   const isRunDisabled = !inferenceEligibility.ok;
 
   return (
@@ -27,9 +26,6 @@ export function ShellHeader({ job, threshold, onRun, inferenceEligibility }: She
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <StatusPill status={job.status} />
-          <span className="inner-border-subtle rounded-md bg-white/[0.04] px-3 py-2 font-mono text-xs text-neutral-300">
-            threshold {(threshold / 100).toFixed(2)}
-          </span>
           <button
             type="button"
             title={

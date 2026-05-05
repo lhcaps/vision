@@ -7,6 +7,7 @@ import {
 } from '@phosphor-icons/react';
 import { motion } from 'motion/react';
 import type { CSSProperties } from 'react';
+import { useState } from 'react';
 import type {
   AnnotationSummary,
   EvaluationReport,
@@ -31,7 +32,6 @@ import { VisionPreview } from './ui/VisionPreview';
 
 function JobsPanel({
   job,
-  threshold,
   onRun,
   evaluationReport,
   isEvaluating,
@@ -44,7 +44,6 @@ function JobsPanel({
   onOpenVersions,
 }: {
   job: JobUiState;
-  threshold: number;
   onRun: () => void;
   evaluationReport: EvaluationReport | null;
   isEvaluating: boolean;
@@ -56,6 +55,7 @@ function JobsPanel({
   inferenceEligibility: { ok: boolean; reason: string | null };
   onOpenVersions: () => void;
 }) {
+  const [threshold, setThreshold] = useState(62);
   const jobFailed = job.status === 'FAILED';
   const jobRunning = job.status === 'RUNNING';
   const showPipelineExecution = job.status === 'RUNNING' || job.status === 'SUCCEEDED';

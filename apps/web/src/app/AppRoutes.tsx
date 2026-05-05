@@ -2,13 +2,12 @@ import { AnimatePresence, motion } from 'motion/react';
 import { motionTokens } from '@visionflow/motion';
 import type { Dispatch, SetStateAction } from 'react';
 import type {
-  AnnotationSummary,
   DatasetVersionSummary,
   EvaluationReport,
-  PipelineDefinition,
   PipelineValidationResult,
   PredictionSummary,
 } from '@visionflow/contracts';
+import { validatePipelineDefinition } from '@visionflow/contracts';
 import type { DatasetSourceState, SectionId } from './section.types';
 import type { RuntimeReadiness } from '../features/runtime/runtime.types';
 import type { MediaUploadRow } from '../features/media';
@@ -28,15 +27,9 @@ import { InspectorRouter } from '../features/inspector';
 interface AppRoutesProps {
   section: SectionId;
   job: JobUiState;
-  threshold: number;
   onRun: () => void;
   inferenceEligibility: { ok: boolean; reason: string | null };
   evaluationEligibility: { ok: boolean; reason: string | null };
-  annotationRows: AnnotationSummary[];
-  setAnnotationRows: Dispatch<SetStateAction<AnnotationSummary[]>>;
-  selectedAnnotation: string;
-  setSelectedAnnotation: (id: string) => void;
-  setThreshold: (value: number) => void;
   mediaUploads: MediaUploadRow[];
   setMediaUploads: Dispatch<SetStateAction<MediaUploadRow[]>>;
   selectedMediaAssetId: string | null;
@@ -47,12 +40,6 @@ interface AppRoutesProps {
   onVersionsChange: Dispatch<SetStateAction<DatasetVersionSummary[]>>;
   datasetSourceState: DatasetSourceState;
   onSourceStateChange: Dispatch<SetStateAction<DatasetSourceState>>;
-  pipelineSelectedNodeId: string;
-  onSelectNode: (id: string) => void;
-  pipelineDefinition: PipelineDefinition;
-  onDefinitionChange: Dispatch<SetStateAction<PipelineDefinition>>;
-  pipelineValidation: PipelineValidationResult;
-  onValidationChange: Dispatch<SetStateAction<PipelineValidationResult>>;
   evaluationReport: EvaluationReport | null;
   isEvaluating: boolean;
   evaluationError: string | null;
@@ -65,15 +52,9 @@ interface AppRoutesProps {
 export function AppRoutes({
   section,
   job,
-  threshold,
   onRun,
   inferenceEligibility,
   evaluationEligibility,
-  annotationRows,
-  setAnnotationRows,
-  selectedAnnotation,
-  setSelectedAnnotation,
-  setThreshold,
   mediaUploads,
   setMediaUploads,
   selectedMediaAssetId,
@@ -84,12 +65,6 @@ export function AppRoutes({
   onVersionsChange,
   datasetSourceState,
   onSourceStateChange,
-  pipelineSelectedNodeId,
-  onSelectNode,
-  pipelineDefinition,
-  onDefinitionChange,
-  pipelineValidation,
-  onValidationChange,
   evaluationReport,
   isEvaluating,
   evaluationError,
@@ -119,11 +94,7 @@ export function AppRoutes({
             transition={{ duration: motionTokens.durationBase, ease: motionTokens.easeScan }}
           >
             {section === 'overview' && (
-              <OverviewPanel
-                onRun={onRun}
-                inferenceEligibility={inferenceEligibility}
-                pipelineValidation={pipelineValidation}
-              />
+              <OverviewPanel onRun={onRun} inferenceEligibility={inferenceEligibility} />
             )}
             {section === 'media' && (
               <MediaPanel
@@ -144,37 +115,17 @@ export function AppRoutes({
                 onSourceStateChange={onSourceStateChange}
               />
             )}
-            {section === 'annotate' && (
-              <AnnotationEnginePanel
-                annotations={annotationRows}
-                setAnnotations={setAnnotationRows}
-                selectedAnnotationId={selectedAnnotation}
-                onSelectAnnotation={setSelectedAnnotation}
-                threshold={threshold}
-                setThreshold={setThreshold}
-                mediaRows={visibleMediaRows}
-              />
-            )}
-            {section === 'pipeline' && (
-              <PipelinePanel
-                selectedNodeId={pipelineSelectedNodeId}
-                onSelectNode={onSelectNode}
-                definition={pipelineDefinition}
-                onDefinitionChange={onDefinitionChange}
-                validation={pipelineValidation}
-                onValidationChange={onValidationChange}
-              />
-            )}
+            {section === 'annotate' && <AnnotationEnginePanel mediaRows={visibleMediaRows} />}
+            {section === 'pipeline' && <PipelinePanel />}
             {section === 'jobs' && (
               <JobsPanel
                 job={job}
-                threshold={threshold}
                 onRun={onRun}
                 evaluationReport={evaluationReport}
                 isEvaluating={isEvaluating}
                 evaluationError={evaluationError}
                 predictions={predictions}
-                groundTruth={annotationRows}
+                groundTruth={[]}
                 onRunEvaluation={onRunEvaluation}
                 evaluationEligibility={evaluationEligibility}
                 inferenceEligibility={inferenceEligibility}
@@ -184,7 +135,7 @@ export function AppRoutes({
             {section === 'timeline' && (
               <TimelineReplayPanel
                 mediaAssets={demoSnapshot.media}
-                groundTruth={annotationRows}
+                groundTruth={[]}
                 predictions={predictions}
               />
             )}
@@ -194,16 +145,16 @@ export function AppRoutes({
       </section>
       <InspectorRouter
         active={section}
-        annotations={annotationRows}
-        selectedAnnotation={selectedAnnotation}
-        setSelectedAnnotation={setSelectedAnnotation}
-        threshold={threshold}
-        setThreshold={setThreshold}
+        annotations={[]}
+        selectedAnnotation=""
+        setSelectedAnnotation={() => {}}
+        threshold={62}
+        setThreshold={() => {}}
         job={job}
         predictions={predictions}
-        pipelineSelectedNodeId={pipelineSelectedNodeId}
-        pipelineDefinition={pipelineDefinition}
-        pipelineValidation={pipelineValidation}
+        pipelineSelectedNodeId="detector"
+        pipelineDefinition={demoSnapshot.pipeline}
+        pipelineValidation={validatePipelineDefinition(demoSnapshot.pipeline) as PipelineValidationResult}
         mediaInspectorData={mediaInspectorData}
         datasetInspectorData={datasetInspectorData}
         projectName={demoSnapshot.project.name}
