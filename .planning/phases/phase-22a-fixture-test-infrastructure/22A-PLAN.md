@@ -70,11 +70,14 @@ Does NOT run `seed:db -- --reset` — that step is handled externally by CI or d
 
 ## Out of Scope
 
-- No production-path tests (Phase 22B)
-- No Docker test-stack.yml (deferred to Phase 22B)
-- No deterministic image/video fixtures (deferred to Phase 22B)
-- No test:integration script (deferred to Phase 22B)
-- No new database schema
+**Phase 22A scope was intentionally narrowed** to establish deterministic fixture/harness foundation only. The following items are Phase 22B scope:
+- Test fixture factory helpers (`create-test-project.ts`, etc.)
+- Docker test-stack.yml
+- Deterministic binary fixtures (image/video)
+- Test database reset scripts
+- `pnpm test:integration` script
+
+Phase 22A does not implement any of the above.
 
 ## Verification
 
@@ -84,7 +87,7 @@ Does NOT run `seed:db -- --reset` — that step is handled externally by CI or d
 | test | `pnpm test` | PASS |
 | build | `pnpm build` | PASS |
 | lint | `pnpm lint` | PASS |
-| fixture harness | `pnpm harness:phase22a` | PASS (19/19) |
+| fixture harness | `pnpm harness:phase22a` | PASS (18/18) |
 | meta harness | `pnpm meta:harness:phase22a` | PASS |
 
 ## Depends On
