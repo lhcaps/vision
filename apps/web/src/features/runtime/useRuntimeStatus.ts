@@ -82,15 +82,21 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
   const [raw, setRaw] = useState<RuntimeStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const controllerRef = useRef<AbortController | null>(null);
 
   const load = useCallback(async (signal: AbortSignal) => {
     try {
       const data = await fetchRuntimeStatus(signal);
+
+      if (signal.aborted) return;
+
       setRaw(data);
       setError(null);
     } catch (err) {
       if (signal.aborted) return;
+
       setError(err instanceof Error ? err.message : 'Failed to fetch runtime status');
     } finally {
       if (!signal.aborted) {
@@ -99,45 +105,46 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
     }
   }, []);
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
+    controllerRef.current?.abort();
+
     const controller = new AbortController();
+    controllerRef.current = controller;
+
     void load(controller.signal);
+  }, [load]);
+
+  useEffect(() => {
+    refresh();
 
     intervalRef.current = setInterval(() => {
-      // Abort the previous in-flight request before starting a new one.
-      controller.abort();
-      // Create a fresh AbortController for the next request.
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const newController = new AbortController();
-      void load(newController.signal);
-      // Replace the interval ref with the new controller so the cleanup uses the right one.
-      intervalRef.current = newController as unknown as ReturnType<typeof setInterval>;
+      refresh();
     }, REFRESH_INTERVAL_MS);
 
     return () => {
-      controller.abort();
+      controllerRef.current?.abort();
+
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [load]);
+  }, [refresh]);
 
   const readiness: RuntimeReadiness = raw
     ? toReadiness(raw)
-    : { api: { kind: 'loading' }, database: { kind: 'loading' }, queue: { kind: 'loading' }, cvWorker: { kind: 'loading' } };
+    : {
+        api: { kind: 'loading' },
+        database: { kind: 'loading' },
+        queue: { kind: 'loading' },
+        cvWorker: { kind: 'loading' },
+      };
 
   return {
     readiness,
     raw,
     loading,
     error,
-    refresh: () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-      }
-      const controller = new AbortController();
-      void load(controller.signal);
-      intervalRef.current = controller as unknown as ReturnType<typeof setInterval>;
-    },
+    refresh,
   };
 }
