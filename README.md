@@ -555,6 +555,8 @@ This is a prototype under active development (v1.1). The following limitations e
 
 For the full roadmap, see [.planning/ROADMAP.md](.planning/ROADMAP.md).
 
+For the final v1.1 closeout status and future development direction, see [docs/PROJECT-CLOSEOUT.md](docs/PROJECT-CLOSEOUT.md).
+
 ## Contributing
 
 1. Fork and clone the repository
