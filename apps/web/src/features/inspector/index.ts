@@ -8,7 +8,5 @@ export type { InspectorRouterProps } from './InspectorRouter';
 export type {
   MediaInspectorData,
   DatasetInspectorData,
-  AnnotationInspectorData,
-  PipelineInspectorData,
   JobInspectorData,
 } from './inspector.types';

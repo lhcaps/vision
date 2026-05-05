@@ -3,18 +3,7 @@
  * These types define what data each contextual inspector receives.
  */
 
-import type { AnnotationSummary, InferenceJobSummary } from '@visionflow/contracts';
-
-// SectionId must be kept in sync with App.tsx
-export type SectionId =
-  | 'overview'
-  | 'media'
-  | 'datasets'
-  | 'annotate'
-  | 'pipeline'
-  | 'jobs'
-  | 'timeline'
-  | 'diff';
+import type { InferenceJobSummary } from '@visionflow/contracts';
 
 export interface MediaInspectorData {
   selectedAssetId: string | null;
@@ -34,20 +23,6 @@ export interface DatasetInspectorData {
   selectedVersionAssetCount: number;
   splitSummary: { train: number; valid: number; test: number; unassigned: number };
   canMutate: boolean;
-}
-
-export interface AnnotationInspectorData {
-  selectedAnnotation: AnnotationSummary | null;
-  canSave: boolean;
-  isDirty: boolean;
-}
-
-export interface PipelineInspectorData {
-  selectedNodeId: string | null;
-  selectedNodeType: string | null;
-  selectedNodeParams: Record<string, unknown> | null;
-  isValid: boolean;
-  validationIssues: Array<{ message: string; severity: string }>;
 }
 
 export interface JobInspectorData {

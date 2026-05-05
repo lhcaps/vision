@@ -6,11 +6,6 @@ Current phase: Phase 21 (Frontend Feature Split Completion)
 
 Last updated: 2026-05-05.
 
-## Current Position
-
-Phase: Phase 21B — FE/BE Runtime Sync and Controller Extraction (done, 10/10)
-Status: Phase 21A complete — App composition boundary + clean imports
-
 ## Accumulated Context
 
 **v1.0 Complete:** Monorepo, Web shell, Media ingestion, Dataset versioning, Bounding-box annotation, Pipeline builder, Job orchestration, CV worker scaffold, Prediction overlay, Evaluation metrics, Timeline replay, CI/CD, Linting, One-command boot
@@ -37,8 +32,9 @@ Status: Phase 21A complete — App composition boundary + clean imports
 - Phase 20F ✅ FULL PASS 10/10 — Baseline migration chain, db:migrate:deploy proven on fresh DB, migration-chain CI job, backfill hardening, Phase 20F harness.
 - Phase 21A ✅ Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal, full verification gate passed.
 - Phase 21B ✅ Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, useDatasetsController/useInferenceJobController/useEvaluationController extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health now derives from backend truth. Browser smoke passed.
-- Phase 21C ✅ Done — AppRoutes prop surface reduced from 23 to 17 props (26% reduction). Threshold/annotation/pipeline state moved to feature-local components. JobsPanel owns threshold, AnnotationEnginePanel owns annotation state, ShellHeader cleaned up. 65/65 tests pass, all runtime truth invariants preserved. 21D pending.
-- Phase 21 (Frontend split completion) Phase 21A + 21B + 21C complete; 21D pending.
+- Phase 21C ✅ Done — AppRoutes prop surface reduced from 23 to 17 props (26% reduction). Threshold/annotation/pipeline state moved to feature-local components. JobsPanel owns threshold, AnnotationEnginePanel owns annotation state, ShellHeader cleaned up. 65/65 tests pass, all runtime truth invariants preserved. groundTruth overlay regression fixed, Overview neutral pipeline text restored. 21D pending.
+- Phase 21D ✅ Done — InspectorRouter props refactored. Fake annotation/pipeline state removed from AppRoutes. AnnotationInspector and PipelineInspector rendered as honest embedded-notice panels for their respective sections. 4 unused types removed from inspector.types.ts. Option A1 chosen (section-owned inspector). Phase 21 fully closed.
+- Phase 21 (Frontend split completion) Phase 21A + 21B + 21C + 21D all complete.
 - Phase 22A (Test harness) pending
 - Phase 22B (Production test suite) pending
 - Phase 23 (E2E & demo) pending

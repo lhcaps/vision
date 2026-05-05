@@ -5,10 +5,8 @@ import type { Dispatch, SetStateAction } from 'react';
 import type {
   DatasetVersionSummary,
   EvaluationReport,
-  PipelineValidationResult,
   PredictionSummary,
 } from '@visionflow/contracts';
-import { validatePipelineDefinition } from '@visionflow/contracts';
 import type { DatasetSourceState, SectionId } from './section.types';
 import type { RuntimeReadiness } from '../features/runtime/runtime.types';
 import type { MediaUploadRow } from '../features/media';
@@ -150,16 +148,8 @@ export function AppRoutes({
       </section>
       <InspectorRouter
         active={section}
-        annotations={[]}
-        selectedAnnotation=""
-        setSelectedAnnotation={() => {}}
-        threshold={62}
-        setThreshold={() => {}}
         job={job}
         predictions={predictions}
-        pipelineSelectedNodeId="detector"
-        pipelineDefinition={demoSnapshot.pipeline}
-        pipelineValidation={validatePipelineDefinition(demoSnapshot.pipeline) as PipelineValidationResult}
         mediaInspectorData={mediaInspectorData}
         datasetInspectorData={datasetInspectorData}
         projectName={demoSnapshot.project.name}
