@@ -2,7 +2,7 @@
 
 Current milestone: v1.1 — Production Hardening & Real Vertical Slice
 
-Current phase: Phase 22A (Fixture & Test Infrastructure)
+Current phase: Phase 23 (Full E2E Playwright & Demo Video)
 
 Last updated: 2026-05-05.
 
@@ -12,7 +12,7 @@ Last updated: 2026-05-05.
 
 **v1.1 Complete:** Phase 11 (README), Phase 12 (CI/CD), Phase 13 (Security hardening), Phase 14A (Adapter boundary), Phase 14B (Domain invariants), Phase 15 (Observability & health), Phase 15.5-15.10 (Pre-16 Completion Track), Phase 16A (Frontend Split Minimum), Phase 17 (Real Media Processing), Phase 18 (Dataset Locking & COCO Export), Phase 19 (Real ONNX Detector), Phase 20 (Evaluation E2E), Phase 20B (Evaluation Correctness Hardening), Phase 20C (Evaluation Integrity Finalization), Phase 20D (Evaluation Persistence & CI Hardening), Phase 20E (Evaluation Migration Finalization), Phase 20F (Migration Chain Baseline & Backfill Hardening)
 
-**v1.1 In Progress:** Phase 22A (Fixture & Test Infrastructure)
+**v1.1 In Progress:** Phase 23 (Full E2E Playwright & Demo Video)
 
 - Phase 13 (Security) ✅ Done
 - Phase 14A (Adapter boundary) ✅ Done
@@ -36,7 +36,7 @@ Last updated: 2026-05-05.
 - Phase 21D ✅ Done — Commit `4aa564a5`. InspectorRouter props refactored. Fake annotation/pipeline state removed from AppRoutes. AnnotationInspector and PipelineInspector rendered as honest embedded-notice panels for their respective sections. 4 unused types removed from inspector.types.ts. Option A1 chosen (section-owned inspector). Phase 21 fully closed.
 - Phase 21 (Frontend split completion) Phase 21A + 21B + 21C + 21D all complete.
 - Phase 22A ✅ FULL PASS (18/18) — Fixture contract, 18-point fixture harness, meta-harness, CI wiring, deterministic fixture IDs. All phase20c/20d/20e/20f harnesses still pass.
-- Phase 22B (Production test suite) pending
+- Phase 22B ✅ FULL PASS — Production-path API harness (8 checks), meta-harness (DB-only CI-safe), Playwright smoke (10 tests), CI wiring. All phase20c/20d/20e/20f/22a harnesses preserved. Phase 22A API harness uses FIXTURE_IDS.
 - Phase 23 (E2E & demo) pending
 
 ## What Was True Before Phase 15

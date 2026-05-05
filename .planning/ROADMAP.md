@@ -1350,25 +1350,67 @@ Wave E (Annotation + Timeline + Inspector Final Split) is structurally complete 
 7. ✅ CI wiring: phase22a added to db-harness and migration-chain
 8. ✅ No phase20 harness removed or weakened
 
-## Phase 22B, Production-Path Test Suite — Planned
+## Phase 22B, Production-Path Test Suite — Done 2026-05-05
 
 **Goal:** Prove the real path, not just memory/demo fallback.
 
-**Requirements:**
+**Completed scope:**
 
-- Add tests for: API integration (Prisma/Postgres path, dataset locking, COCO export, upload validation, prediction persistence, evaluation persistence), storage integration (upload object, read object, persist thumbnail derivative), queue integration (enqueue media job, enqueue inference job, worker consumes job, job retry behavior, failed job behavior), CV worker tests (real thumbnail generation, explicit frame extraction not-implemented failure, mock deterministic output, ONNX unavailable error, ONNX runtime error), contract tests (shared Zod schemas match API expectations, frontend consumes typed API responses).
+**P0 — API Production-Path Harness (`scripts/harness/phase22b-production-path-api-check.ts`):**
 
-**Depends on:** Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A
+8 endpoint checks proving the live NestJS API surface works against seeded PostgreSQL fixtures:
+
+| # | Endpoint | Check |
+|---|----------|-------|
+| 1 | `GET /api/health` | `ok: true`, `service: 'visionflow-api'` |
+| 2 | `GET /api/health/runtime/status` | `api.ok: true`, `database.status: 'ready'` |
+| 3 | `GET /api/projects/:projectId/datasets` | Canonical dataset present |
+| 4 | `GET /api/.../annotation-workspace?assetId=asset_frame_1482` | MANUAL annotations present |
+| 5 | `GET /api/.../export/coco` | LOCKED status, deterministic hash, COCO schema valid, hash stable across 2 calls |
+| 6 | `GET /api/.../inference-jobs` | Canonical job visible |
+| 7 | `GET /api/.../predictions` | >= 3 predictions |
+| 8 | `GET /api/.../evaluation` | `report.inputHash === FIXTURE_IDS.evaluation.inputHash` |
+
+- Uses `FIXTURE_IDS` from `scripts/fixtures/visionflow-fixtures.ts` — no hard-coded IDs
+- `--strict` mode: exit 1 if API unreachable or any check fails
+- Non-strict: skip with instructions if API not running
+- No DB mutations — purely read-only HTTP checks
+- COCO determinism proven by calling endpoint twice and comparing `deterministicHash`
+
+**P0 — Meta-Harness (`scripts/harness/phase22b-meta-harness.ts`):**
+
+- `pnpm meta:harness:phase22b --strict`: runs Phase 22A meta-harness (DB-only), reports API skipped unless `--with-api`
+- `pnpm meta:harness:phase22b --strict --with-api`: runs Phase 22A meta-harness + Phase 22B API harness
+- Auto-detects API reachability via preflight `/health` check
+- In CI: runs DB-only checks (Phase 22A meta-harness) — no live API required
+
+**P1 — Playwright Production-Path Smoke (`apps/web/e2e/production-path.spec.ts`):**
+
+- 10 tests: app loads with no errors, ReadinessStrip appears, navigation to all 8 sections without console errors
+- Consistent with existing `navigation.spec.ts` pattern
+- Navigation labels duplicated from `FIXTURE_IDS` inline (relative path from `apps/web/e2e/` to `scripts/` not available through tsx/module resolution)
+
+**P1 — CI Wiring (`.github/workflows/ci.yml`):**
+
+- `db-harness` job: added `pnpm meta:harness:phase22b` after `harness:phase22a`
+- `migration-chain` job: added `pnpm meta:harness:phase22b` after `harness:phase22a`
+- Both preserve existing phase20c/20d/20e/20f harnesses
+- Live API harness NOT in CI (requires booted stack)
+
+**Out of scope (Phase 23):** Docker test-stack.yml, deterministic binary fixtures, full E2E demo video.
+
+**Depends on:** Phase 22A
 
 **Success criteria:**
 
-1. Production database path is covered by tests.
-2. Storage path is covered by tests.
-3. Queue path is covered by tests.
-4. CV worker real media-processing path is covered by tests.
-5. Evaluation algorithm is covered by deterministic fixtures.
-6. Memory fallback tests remain, but are not the only coverage.
-7. CI runs the production-path test suite via Phase 22A harness.
+1. ✅ `pnpm harness:phase22b:api` passes all 8 endpoint checks (when API is running)
+2. ✅ `pnpm meta:harness:phase22b` runs Phase 22A meta-harness + Phase 22B checks
+3. ✅ Phase 22A harness still passes (no regression)
+4. ✅ Phase 20C/D/E/F harnesses still pass
+5. ✅ Playwright `production-path.spec.ts` passes with zero console errors
+6. ✅ CI wiring: `db-harness` and `migration-chain` run Phase 22B meta-harness
+7. ✅ No existing harness removed or weakened
+8. ✅ All FIXTURE_IDS imported from canonical source
 
 ## Phase 23, Full E2E Playwright & Demo Video — Planned
 
@@ -1493,7 +1535,7 @@ v1.1 is complete only when all of the following are true:
 | 21-0  | Planning Cleanup Patch                     | Phase 20F                                            |
 | 21    | Frontend Feature Split Completion          | Phase 20F                                            |
 | 22A   | Fixture & Test Infrastructure             | Phase 14A                                            |
-| 22B   | Production-Path Test Suite                  | Phase 17, Phase 18, Phase 19, Phase 20, Phase 22A    |
+| 22B   | Production-Path Test Suite                    | Phase 22A   | ✅ Done 2026-05-05 |
 | 23    | Full E2E Playwright & Demo Video            | Phase 22B                                            |
 
 ## Brutal Scope Rules

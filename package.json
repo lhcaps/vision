@@ -39,7 +39,9 @@
     "harness:phase20e": "pnpm exec tsx scripts/harness/phase20e-evaluation-migration-check.ts --strict",
     "harness:phase20f": "pnpm exec tsx scripts/harness/phase20f-migration-chain-check.ts --strict",
     "harness:phase22a": "pnpm exec tsx scripts/harness/phase22a-fixture-infrastructure-check.ts --strict",
+    "harness:phase22b:api": "pnpm exec tsx scripts/harness/phase22b-production-path-api-check.ts",
     "meta:harness:phase22a": "pnpm exec tsx scripts/harness/phase22a-meta-harness.ts --strict",
+    "meta:harness:phase22b": "pnpm exec tsx scripts/harness/phase22b-meta-harness.ts --strict",
     "migration:eval-report:check": "pnpm exec tsx scripts/migrations/backfill-evaluation-report-integrity.ts --check",
     "migration:eval-report:apply": "pnpm exec tsx scripts/migrations/backfill-evaluation-report-integrity.ts --apply"
   },

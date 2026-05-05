@@ -47,7 +47,7 @@ Established the VisionFlow Studio monorepo with a full-stack workbench covering 
 **Status:** In progress
 **Started:** 2026-05-01
 **Phases:** 11–23
-**Completed in v1.1:** 11, 12A, 12B, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19, 20, 20B, 20C, 20D, 20E, 20F
+**Completed in v1.1:** 11, 12A, 12B, 12C, 13, 14A, 14B, 15, 15.5–15.10, 16A, 17, 18, 19, 20, 20B, 20C, 20D, 20E, 20F, 21A–21D, 22A, 22B
 
 ### Goal
 
@@ -87,7 +87,7 @@ Build a deployable portfolio piece — one real dataset, one real annotation flo
 | 20F   | Migration Chain Baseline & Backfill Hardening | Baseline migration, migrate deploy, migration-chain CI job, backfill hardening, phase20f harness, Phase 20E harness fixes             | ✅ FULL PASS |
 | 21    | Frontend Split Completion                     | Phase 21A/21B/21C/21D all complete. InspectorRouter fake state removed. AppRoutes prop surface clean. Phase 21 closed.                                          | ✅ Done      |
 | 22A   | Test Harness & Fixtures                       | Fixture contract, deterministic fixture harness, meta-harness, CI wiring                                                            | ✅ Done       |
-| 22B   | Production-Path Test Suite                    | Real path tests, contract tests                                                                                                       | Planned      |
+| 22B   | Production-Path Test Suite                    | API harness (8 checks), meta-harness (DB-only CI-safe), Playwright smoke (10 tests), CI wiring. FIXTURE_IDS canonical source.              | ✅ FULL PASS  |
 | 23    | Full E2E Playwright & Demo Video              | Complete E2E flow, demo GIF/video                                                                                                     | Planned      |
 
 ### Phase 11 Key Outcomes

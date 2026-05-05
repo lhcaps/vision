@@ -172,6 +172,9 @@ jobs:
       - run: pnpm harness:phase22a
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
+      - run: pnpm meta:harness:phase22b
+        env:
+          DATABASE_URL: postgresql://test:test@localhost:5432/test
       - run: pnpm harness:phase20c
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
@@ -226,6 +229,9 @@ jobs:
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
       - run: pnpm harness:phase22a
+        env:
+          DATABASE_URL: postgresql://test:test@localhost:5432/test
+      - run: pnpm meta:harness:phase22b
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
       - run: pnpm harness:phase20c
