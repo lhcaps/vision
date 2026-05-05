@@ -120,13 +120,6 @@ export function App() {
     const selectedVersion = datasetVersions.find((v) => v.id === selectedDatasetVersionId) ?? null;
     const isLocked = selectedVersion?.status === 'LOCKED' && selectedVersion.assetCount > 0;
 
-    const jobApiHealth: WorkbenchRuntimeState['health']['api'] =
-      job.source === 'loading'
-        ? 'loading'
-        : job.source === 'api'
-          ? 'connected'
-          : 'unavailable';
-
     const jobStatus = job.id ? (job.status as WorkbenchRuntimeState['latestJobStatus']) : 'NONE';
     const jobError = job.error;
 
@@ -141,8 +134,12 @@ export function App() {
       latestJobError: jobError,
       hasPredictions: predictions.length > 0,
       hasEvaluationReport: evaluationReport !== null,
+      // API health derives from the authoritative backend runtime status endpoint.
+      // job.source is the job controller's data source; it must not be used as a
+      // proxy for API health — the backend /api/health/runtime/status endpoint is
+      // the single source of truth.
       health: {
-        api: jobApiHealth,
+        api: runtimeHealth.api,
         database: runtimeHealth.database,
         queue: runtimeHealth.queue,
         worker: runtimeHealth.worker,

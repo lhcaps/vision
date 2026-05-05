@@ -345,5 +345,47 @@ describe('15.10 — UX State Consistency Regression Tests', () => {
       expect(result.ok).toBe(false);
       expect(result.reason).toContain('API');
     });
+
+    // ══════════════════════════════════════════════════════════════════════════════
+    // Regression: backend API connected but job.source is NOT 'api'
+    // Previously runtimeState.health.api derived from job.source (split-brain bug).
+    // Now runtimeState.health.api comes from the backend /api/health/runtime/status
+    // endpoint, so inference should be allowed when the backend is healthy regardless
+    // of what the job controller's data source is.
+    // ══════════════════════════════════════════════════════════════════════════════
+    it('backend API connected + job.source=fallback enables inference (backend truth wins)', () => {
+      const state: WorkbenchRuntimeState = {
+        ...makeState(),
+        mode: 'fallback',
+        health: {
+          api: 'connected', // from backend runtime status — authoritative
+          database: 'connected',
+          queue: 'fallback',
+          worker: 'mock',
+        },
+        lockedDatasetWithAssets: true,
+        latestJobStatus: 'NONE',
+      };
+      const result = canRunInference(state);
+      expect(result.ok).toBe(true);
+      expect(result.reason).toBeNull();
+    });
+
+    it('backend API connected + job.source=loading enables inference once backend reports ready', () => {
+      const state: WorkbenchRuntimeState = {
+        ...makeState(),
+        mode: 'loading',
+        health: {
+          api: 'connected',
+          database: 'connected',
+          queue: 'connected',
+          worker: 'connected',
+        },
+        lockedDatasetWithAssets: true,
+        latestJobStatus: 'NONE',
+      };
+      const result = canRunInference(state);
+      expect(result.ok).toBe(true);
+    });
   });
 });

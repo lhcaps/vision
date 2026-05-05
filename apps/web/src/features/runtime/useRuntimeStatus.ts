@@ -10,7 +10,6 @@ import type {
 } from './runtime.types';
 
 const REFRESH_INTERVAL_MS = 8_000;
-const FETCH_TIMEOUT_MS = 5_000;
 
 function deriveCvState(data: RuntimeStatusResponse['cvWorker']): CvReadinessState {
   if (!data.configured) {
@@ -84,38 +83,39 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cancelledRef = useRef(false);
 
-  const load = useCallback(async () => {
-    if (cancelledRef.current) return;
+  const load = useCallback(async (signal: AbortSignal) => {
     try {
-      const data = await Promise.race([
-        fetchRuntimeStatus(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Runtime status fetch timed out')), FETCH_TIMEOUT_MS)
-        ),
-      ]);
-      if (cancelledRef.current) return;
+      const data = await fetchRuntimeStatus(signal);
       setRaw(data);
       setError(null);
     } catch (err) {
-      if (cancelledRef.current) return;
+      if (signal.aborted) return;
       setError(err instanceof Error ? err.message : 'Failed to fetch runtime status');
     } finally {
-      if (!cancelledRef.current) {
+      if (!signal.aborted) {
         setLoading(false);
       }
     }
   }, []);
 
   useEffect(() => {
-    void load();
+    const controller = new AbortController();
+    void load(controller.signal);
+
     intervalRef.current = setInterval(() => {
-      void load();
+      // Abort the previous in-flight request before starting a new one.
+      controller.abort();
+      // Create a fresh AbortController for the next request.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const newController = new AbortController();
+      void load(newController.signal);
+      // Replace the interval ref with the new controller so the cleanup uses the right one.
+      intervalRef.current = newController as unknown as ReturnType<typeof setInterval>;
     }, REFRESH_INTERVAL_MS);
 
     return () => {
-      cancelledRef.current = true;
+      controller.abort();
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
       }
@@ -131,6 +131,13 @@ export function useRuntimeStatus(): UseRuntimeStatusResult {
     raw,
     loading,
     error,
-    refresh: load,
+    refresh: () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+      const controller = new AbortController();
+      void load(controller.signal);
+      intervalRef.current = controller as unknown as ReturnType<typeof setInterval>;
+    },
   };
 }
