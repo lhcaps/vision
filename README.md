@@ -158,7 +158,7 @@ To record a demo GIF or MP4, see the recording tips in [docs/demo/DEMO-CHECKLIST
 | Frontend split completion  | ✅ Done    | Phase 21 (complete)  |
 | Fixture & Test Infrastructure | ✅ Done    | Phase 22A (complete)  |
 | Production test suite      | ✅ Done    | Phase 22B (complete)  |
-| Full E2E & demo video      | ✅ Done    | Phase 23 (complete)  |
+| Full E2E proof + demo docs | ✅ Done    | Phase 23 (complete, demo media deferred) |
 
 ### Out of Scope
 
@@ -479,9 +479,11 @@ pnpm --filter @visionflow/web test:e2e -- e2e/full-vertical-slice.spec.ts --proj
 | `MINIO_SECRET_KEY`          | `visionflow-secret`                   | MinIO secret key                                |
 | `MINIO_BUCKET`              | `visionflow-artifacts`                | MinIO bucket name                               |
 | `API_PORT`                  | `3000`                                | API server port                                 |
+| `API_BASE_URL`              | `http://localhost:3000/api`           | Harness → API base URL (harnesses use this)    |
 | `CV_WORKER_URL`             | `http://localhost:8000`               | CV Worker URL                                   |
 | `CV_WORKER_DETECTOR_MODE`   | `mock`                                | Detector mode (`mock` or `onnx`)                |
-| `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL                              |
+| `VITE_API_BASE_URL`         | `http://localhost:3000`               | Web → API base URL (no `/api` suffix)          |
+| `VITE_WEB_BASE_URL`         | `http://localhost:5173`               | Playwright baseURL (fallback; Playwright manages its own server in CI) |
 | `WEB_ORIGIN`                | `http://localhost:5173`               | Allowed CORS origins (comma-separated)          |
 | `SIGNED_URL_EXPIRY_SECONDS` | `3600`                                | Signed URL expiry (0 = use API proxy)           |
 | `LOG_LEVEL`                 | `info`                                | Log level: debug, info, warn, error             |
@@ -534,7 +536,7 @@ This is a prototype under active development (v1.1). The following limitations e
 
 ### Frontend
 
-- **App.tsx is the composition root** — Being fully split into feature modules (datasets, annotations, pipelines, jobs, timeline, shell) in Phase 21.
+- **App.tsx is the composition root** — Phase 21 extracted routes and panels, but App.tsx remains the composition root. Further hook-level extraction is deferred to v1.2.
 - **No authentication** — Single-user workbench. Auth/RBAC is out of scope for v1.
 - **No real-time collaboration** — Annotations are single-user.
 

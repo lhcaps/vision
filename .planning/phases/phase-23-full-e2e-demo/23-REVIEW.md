@@ -54,17 +54,18 @@ Files changed during Phase 23:
 
 ---
 
-### Severity: None — Playwright spec
+### Severity: Informational — Playwright spec had unused visibility checks (fixed in patch)
 
 **File:** `apps/web/e2e/full-vertical-slice.spec.ts`
 
-**Assessment:** No issues found. Tests use:
-- Accessible role-based selectors (`getByRole`)
-- Proper wait conditions (`waitForLoadState('networkidle')`)
-- Console error capture via `page.on('console')`
-- Deterministic seeded fixture IDs
-- No screenshots-only assertions
-- No hardcoded sleeps (uses waitForResponse/waitForURL patterns)
+**Finding (original):** Tests used `lockedVisible` and `succeededVisible` as variables but never asserted them, meaning tests could pass without the canonical LOCKED/SUCCEEDED text being visible.
+
+**Fix applied in patch:** Replaced unused variables with direct `expect().toBeVisible()` assertions:
+- `await expect(page.getByText('LOCKED', { exact: false }).first()).toBeVisible()`
+- `await expect(page.getByText('SUCCEEDED', { exact: false }).first()).toBeVisible()`
+- Added assertions for evaluation metric labels: Precision, Recall, F1, Mean IoU, TP, Prediction overlay
+
+**Assessment:** Tests now prove the browser actually renders seeded canonical data. Assertion strength improved from passive observation to active proof.
 
 ---
 

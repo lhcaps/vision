@@ -4,7 +4,7 @@
 **Date:** 2026-05-05
 **Type:** Test Generation + GSD Workflow Execution
 **Depends on:** Phase 22B (completed, 2026-05-05)
-**Commit:** cf3a4aa1
+**Commit:** 61275af5
 
 ---
 
@@ -119,8 +119,10 @@ All previous phase harnesses preserved and verified:
 
 ## v1.1 Final Status
 
-**v1.1 COMPLETE — all 13 phases (11–23) closed.**
+**v1.1: Engineering complete. Portfolio media deferred.**
 
 Product proof: 14/14 criteria met
 Engineering proof: 12/12 criteria met
-Portfolio proof: 7/8 criteria met (demo GIF/video: instructions provided, media artifact pending manual recording)
+Portfolio proof: 6/8 criteria met (demo GIF/video: recording instructions provided in `docs/demo/DEMO-CHECKLIST.md`; media artifact pending manual recording. v1.1 is marked engineering-complete per Phase 23 closeout.)
+
+**Note:** This closeout patch (fixing SHA, assertions, wording) was applied after commit 61275af5.

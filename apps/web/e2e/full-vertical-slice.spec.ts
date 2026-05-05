@@ -23,10 +23,10 @@ import { test, expect } from '@playwright/test';
  * What this test covers:
  *   - App loads with zero console errors
  *   - ReadinessStrip shows real backend state
- *   - All 9 sections load without console errors
- *   - Versions section shows canonical LOCKED dataset version
- *   - Jobs section shows SUCCEEDED canonical inference job
- *   - Jobs section surfaces prediction/evaluation indicators
+ *   - All 8 sections load without console errors
+ *   - Versions section shows canonical LOCKED dataset version (asserted)
+ *   - Jobs section shows SUCCEEDED canonical inference job (asserted)
+ *   - Jobs section surfaces prediction/evaluation indicators (asserted)
  *   - Replay and Diff sections load without errors
  *
  * What this test does NOT cover:
@@ -76,8 +76,6 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // The nav rail (shell header) is always visible once the app loads.
-    // ReadinessStrip shows backend state via ReadinessStrip component.
     const navRail = page.locator('[class*="nav"], [class*="Nav"]').first();
     await expect(navRail).toBeVisible({ timeout: 10_000 });
 
@@ -100,7 +98,6 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await mediaButton.click();
     await page.waitForLoadState('networkidle');
 
-    // Media panel should be visible (the upload area or media grid)
     const main = page.locator('main, [class*="panel"], section').first();
     await expect(main).toBeVisible({ timeout: 5_000 });
 
@@ -110,6 +107,7 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
   /**
    * Test 4: Versions section shows canonical LOCKED dataset version.
    * Phase 22A harness confirmed: dataset_proj_parking_lot_parking_v3 is LOCKED.
+   * The assertion directly proves the seeded LOCKED version is visible in the browser.
    */
   test('Versions section shows LOCKED canonical dataset version', async ({ page }) => {
     const errors: string[] = [];
@@ -124,16 +122,12 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await versionsButton.click();
     await page.waitForLoadState('networkidle');
 
-    // The Versions panel should show at least one status indicator.
-    // The canonical version is LOCKED — look for LOCKED text or a status pill.
-    // This assertion proves the seeded dataset version surfaced correctly.
+    // The Versions panel must render its content surface.
     const panelContent = page.locator('section, main, [class*="panel"]').first();
     await expect(panelContent).toBeVisible({ timeout: 5_000 });
 
-    // Look for "LOCKED" text in the versions panel — confirms canonical version surfaced
-    const lockedText = page.getByText('LOCKED', { exact: false }).first();
-    // It's OK if this is not visible in all states — the panel loading is the primary proof
-    const lockedVisible = await lockedText.isVisible().catch(() => false);
+    // Assert the canonical LOCKED status text is visible — proves Phase 22A fixture surfaced.
+    await expect(page.getByText('LOCKED', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
 
     expect(errors).toHaveLength(0);
   });
@@ -154,7 +148,6 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await annotateButton.click();
     await page.waitForLoadState('networkidle');
 
-    // Annotation panel should render (canvas or inspector)
     const panelContent = page.locator('section, main, [class*="panel"]').first();
     await expect(panelContent).toBeVisible({ timeout: 5_000 });
 
@@ -186,6 +179,7 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
   /**
    * Test 7: Jobs section shows canonical SUCCEEDED inference job.
    * Phase 22A harness confirmed: job_2026_04_28_2036 is SUCCEEDED.
+   * The assertion directly proves the seeded SUCCEEDED job is visible in the browser.
    */
   test('Jobs section shows SUCCEEDED canonical inference job', async ({ page }) => {
     const errors: string[] = [];
@@ -200,21 +194,21 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await jobsButton.click();
     await page.waitForLoadState('networkidle');
 
-    // Jobs panel should be visible
+    // The Jobs panel must render its content surface.
     const panelContent = page.locator('section, main, [class*="panel"]').first();
     await expect(panelContent).toBeVisible({ timeout: 5_000 });
 
-    // Look for SUCCEEDED status — confirms canonical job surfaced
-    // Phase 22A confirmed: job_2026_04_28_2036 is SUCCEEDED
-    const succeededText = page.getByText('SUCCEEDED', { exact: false }).first();
-    const succeededVisible = await succeededText.isVisible().catch(() => false);
+    // Assert the canonical SUCCEEDED status text is visible — proves Phase 22A fixture surfaced.
+    await expect(page.getByText('SUCCEEDED', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
 
     expect(errors).toHaveLength(0);
   });
 
   /**
-   * Test 8: Jobs section surfaces prediction indicators.
-   * Phase 22A harness confirmed: >= 3 predictions exist for the canonical job.
+   * Test 8: Jobs section surfaces prediction and evaluation indicators.
+   * Phase 22A harness confirmed: >= 3 predictions exist for the canonical job,
+   * and an evaluation report exists with car/van/truck per-class metrics.
+   * The assertions prove the seeded production data is rendered in the browser.
    */
   test('Jobs section shows prediction/evaluation indicators', async ({ page }) => {
     const errors: string[] = [];
@@ -229,10 +223,21 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
     await jobsButton.click();
     await page.waitForLoadState('networkidle');
 
-    // Jobs panel should be visible and show some numeric indicators
-    // (predictions count, evaluation metrics, etc.)
     const panelContent = page.locator('section, main, [class*="panel"]').first();
     await expect(panelContent).toBeVisible({ timeout: 5_000 });
+
+    // Assert evaluation metric labels are visible — proves EvaluationMetricsPanel rendered.
+    // Seeded data has precision=1.0, recall=1.0, f1=1.0, meanIoU=1.0.
+    await expect(page.getByText('Precision', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
+    await expect(page.getByText('Recall', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
+    await expect(page.getByText('F1', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
+    await expect(page.getByText('Mean IoU', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
+
+    // Assert TP/FP/FN tiles are visible — seeded data has TP=3, FP=0, FN=0.
+    await expect(page.getByText('TP', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
+
+    // Assert prediction overlay section is present.
+    await expect(page.getByText('Prediction overlay', { exact: false }).first()).toBeVisible({ timeout: 5_000 });
 
     expect(errors).toHaveLength(0);
   });
@@ -283,7 +288,7 @@ test.describe('Full Vertical Slice — Production Path Proof', () => {
 
   /**
    * Test 11: Navigation through all sections without console errors.
-   * This is the combined smoke — covers the full section surface.
+   * This is the combined smoke — covers all 8 section surfaces.
    */
   for (const section of SECTIONS) {
     test(`navigates to ${section.label} section without console errors`, async ({ page }) => {

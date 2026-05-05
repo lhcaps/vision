@@ -1504,7 +1504,7 @@ v1.1 is complete only when all of the following are true:
 - [x] Known limitations are documented.
 - [x] The repo can be shown without verbal explanation.
 
-**v1.1 COMPLETE — all criteria met. Commit SHA: cf3a4aa1 (Phase 23 closeout pending final commit).**
+**v1.1: Engineering-complete. All phases (11–23) closed. Portfolio media (demo GIF/video) deferred to future recording session per Option B wording in Phase 23 closeout.**
 
 ## Recommended Execution Order
 

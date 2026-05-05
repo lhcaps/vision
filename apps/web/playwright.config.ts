@@ -16,6 +16,12 @@ export default defineConfig({
     })(),
     trace: 'on-first-retry',
   },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
   // webServer entries: in CI, these are the authoritative ports (5173/3000).
   // Locally, reuseExistingServer means we may connect to an already-running
   // dev server which may be on 5174 if 5173 was taken. The baseURL fallback
