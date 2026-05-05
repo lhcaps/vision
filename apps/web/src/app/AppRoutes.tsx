@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { motionTokens } from '@visionflow/motion';
+import { useMemo } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type {
   DatasetVersionSummary,
@@ -20,7 +21,10 @@ import { JobsPanel } from './JobsPanel';
 import { MediaPanel, seededMediaRows } from './MediaPanel';
 import { PipelinePanel } from './PipelinePanel';
 import { ReadinessStrip } from './ReadinessStrip';
-import { AnnotationEnginePanel } from '../features/annotations/AnnotationEngine';
+import {
+  AnnotationEnginePanel,
+  createSeedAnnotationSummaries,
+} from '../features/annotations/AnnotationEngine';
 import { DatasetVersionDiff, TimelineReplayPanel } from '../features/timeline';
 import { InspectorRouter } from '../features/inspector';
 
@@ -73,6 +77,7 @@ export function AppRoutes({
   setSection,
   runtimeReadiness,
 }: AppRoutesProps) {
+  const seededGroundTruth = useMemo(() => createSeedAnnotationSummaries(), []);
   const visibleMediaRows = [...mediaUploads, ...seededMediaRows()];
   const mediaInspectorData = buildMediaInspectorData(visibleMediaRows, selectedMediaAssetId);
   const datasetInspectorData = buildDatasetInspectorData(
@@ -125,7 +130,7 @@ export function AppRoutes({
                 isEvaluating={isEvaluating}
                 evaluationError={evaluationError}
                 predictions={predictions}
-                groundTruth={[]}
+                groundTruth={seededGroundTruth}
                 onRunEvaluation={onRunEvaluation}
                 evaluationEligibility={evaluationEligibility}
                 inferenceEligibility={inferenceEligibility}
@@ -135,7 +140,7 @@ export function AppRoutes({
             {section === 'timeline' && (
               <TimelineReplayPanel
                 mediaAssets={demoSnapshot.media}
-                groundTruth={[]}
+                groundTruth={seededGroundTruth}
                 predictions={predictions}
               />
             )}

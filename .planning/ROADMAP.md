@@ -1162,7 +1162,7 @@ This patch addresses accumulated traceability drift — several phases completed
 
 **Phase 21A commits:** `86416bf` (extraction) + `27d78bb` (cleanup round 1) + `2f3a1c4` (cleanup round 2 — leftovers)
 **Phase 21B commit:** `3693061` (runtime sync) + finalization commit
-**Phase 21C commit:** pending commit
+**Phase 21C commit:** d667962e (prop surface cleanup) + fix commit (groundTruth overlay restored, Overview text neutralized)
 **Phase 21A status:** Done — App composition boundary, AppRoutes extraction, panel extractions, import cleanup, dead code removal. Full verification gate passed.
 **Phase 21B status:** Done (10/10) — FE/BE runtime sync, /api/health/runtime/status endpoint, useRuntimeStatus hook, ReadinessStrip reads real state, 3 controllers extracted. App.tsx reduced from 529 to ~144 lines. runtimeState.health derives from backend truth. Browser smoke passed. Dev boot text corrected.
 **Phase 21C status:** Done — AppRoutes prop surface reduced from 23 to 17 props (26% reduction). Threshold/annotation/pipeline state moved to feature-local components. JobsPanel owns threshold locally, AnnotationEnginePanel owns all annotation state, ShellHeader cleaned up. All runtime truth invariants preserved. 65/65 tests pass. 21D pending.

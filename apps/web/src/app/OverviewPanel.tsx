@@ -67,7 +67,7 @@ export function OverviewPanel({ onRun, inferenceEligibility }: OverviewPanelProp
                 ['Upload', '20 assets indexed, checksum dedupe pending'],
                 ['Version', 'Dataset v1.3 locked with train/valid/test splits'],
                 ['Annotate', '3 visible boxes, image-coordinate storage'],
-                ['Pipeline', 'Graph validated and ready'],
+                ['Pipeline', 'Open Pipeline to inspect graph validation'],
                 ['Inference', 'Mock detector path ready for async orchestration'],
                 ['Evaluate', 'Precision, recall, F1 surface seeded'],
               ].map(([label, value], index) => (
