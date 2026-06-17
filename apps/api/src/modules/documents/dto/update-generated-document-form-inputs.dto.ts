@@ -297,9 +297,27 @@ export class UpdateGeneratedDocumentFormInputsDto {
   @IsOptional()
   @IsObject()
   prosecutionExtension?: JsonObject;
+
+  @IsOptional()
+  @IsObject()
+  caseInfo?: JsonObject;
+
+  @IsOptional()
+  @IsObject()
+  content?: JsonObject;
+
+  @IsOptional()
+  @IsObject()
+  payloadOverrides?: JsonObject;
+
+  @IsOptional()
+  @IsObject()
+  renderPayloadOverrides?: JsonObject;
+
   prosecutionCaseSuspension?: JsonObject;
   prosecutionCaseTermination?: JsonObject;
 
+  @IsOptional()
   @IsString()
   updatedByName?: string;
 

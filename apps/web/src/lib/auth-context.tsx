@@ -16,6 +16,7 @@ import {
   logout as apiLogout,
 } from "./auth-client";
 import { cacheCurrentUser } from "./current-user";
+import { installApiFetchDefaults } from "./api-client";
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -28,6 +29,8 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  installApiFetchDefaults();
+
   const [user, setUser] = useState<AuthUser | null>(null);
   const [status, setStatus] = useState<"loading" | "authenticated" | "unauthenticated">(
     "loading",

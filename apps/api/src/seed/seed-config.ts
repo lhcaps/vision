@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
 export type SeedAdminConfig = {
@@ -15,6 +15,7 @@ export type TemplateCatalogEntry = {
   stageNo: string;
   fileName: string;
   sourcePath: string;
+  isImplemented?: boolean;
 };
 
 export type SeedTemplateVersionDefinition = {
@@ -70,6 +71,19 @@ export function discoverImplementedTemplateCodes(componentsDir: string) {
     .sort();
 }
 
+export function discoverImplementedCatalogCodes(
+  catalog: TemplateCatalogEntry[],
+) {
+  return [
+    ...new Set(
+      catalog
+        .filter((item) => item.code && item.isImplemented)
+        .map((item) => item.code)
+        .sort(),
+    ),
+  ];
+}
+
 export function discoverNormalizedDocxByCode(
   normalizedRoot: string,
   repoRoot: string,
@@ -111,6 +125,36 @@ export function discoverOriginalTemplateFilesByCode(
   }
 
   return result;
+}
+
+export function discoverCorpusOriginalTemplateFilesByCode(
+  sourceRoot: string,
+  repoRoot: string,
+) {
+  const result = new Map<string, { path: string; score: number }>();
+  if (!existsSync(sourceRoot)) return new Map<string, string>();
+
+  for (const filePath of walkFiles(sourceRoot)) {
+    const fileName = filePath.split(/[\\/]/).pop() ?? '';
+    if (fileName.startsWith('~$') || !/\.(doc|docx)$/iu.test(fileName))
+      continue;
+
+    const number = fileName.match(/^(\d{1,3})(?=[-.\s]|$)/u)?.[1];
+    if (!number) continue;
+
+    const code = `BM-${number.padStart(3, '0')}`;
+    const portablePath = toPortableRelative(repoRoot, filePath);
+    const score = getCorpusSourceScore(portablePath, fileName);
+    const current = result.get(code);
+
+    if (!current || score > current.score || portablePath < current.path) {
+      result.set(code, { path: portablePath, score });
+    }
+  }
+
+  return new Map(
+    [...result.entries()].map(([code, value]) => [code, value.path]),
+  );
 }
 
 export function buildSeedTemplates(input: {
@@ -158,4 +202,28 @@ export function buildSeedTemplates(input: {
 
 function toPortableRelative(root: string, target: string) {
   return relative(root, target).split(sep).join('/');
+}
+
+function* walkFiles(dir: string): Generator<string> {
+  for (const entry of readdirSync(dir)) {
+    const filePath = join(dir, entry);
+    const stat = statSync(filePath);
+
+    if (stat.isDirectory()) {
+      yield* walkFiles(filePath);
+    } else if (stat.isFile()) {
+      yield filePath;
+    }
+  }
+}
+
+function getCorpusSourceScore(portablePath: string, fileName: string) {
+  let score = 0;
+  if (portablePath.includes('/Full/')) score += 100;
+  if (portablePath.includes('0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC')) {
+    score += 50;
+  }
+  if (portablePath.includes('/Biểu mẫu/Biểu mẫu/')) score += 20;
+  if (fileName.toLowerCase().endsWith('.docx')) score += 5;
+  return score;
 }

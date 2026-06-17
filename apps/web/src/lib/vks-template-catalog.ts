@@ -29,66 +29,219 @@ export const templateCatalogMeta = {
 } as const;
 
 export const implementedTemplateCodes = [
-    "BM-001",
-    "BM-002",
-    "BM-003",
-    "BM-005",
-    "BM-006",
-    "BM-007",
-    "BM-008",
-    "BM-009",
-    "BM-010",
-    "BM-011",
-    "BM-012",
-    "BM-014",
-    "BM-015",
-    "BM-016",
-    "BM-017",
-    "BM-018",
-    "BM-023",
-    "BM-030",
-    "BM-031",
-    "BM-033",
-    "BM-037",
-    "BM-038",
-    "BM-039",
-    "BM-040",
-    "BM-042",
-    "BM-043",
-    "BM-044",
-    "BM-045",
-    "BM-046",
-    "BM-047",
-    "BM-053",
-    "BM-054",
-    "BM-055",
-    "BM-056",
-    "BM-057",
-    "BM-058",
-    "BM-059",
-    "BM-070",
-    "BM-071",
-    "BM-085",
-    "BM-086",
-    "BM-090",
-    "BM-097",
-    "BM-103",
-    "BM-104",
-    "BM-141",
-    "BM-144",
-    "BM-145",
-    "BM-146",
-    "BM-148",
-    "BM-150",
-    "BM-156",
-    "BM-159",
-    "BM-166",
-    "BM-168",
-    "BM-169",
-    "BM-170",
-    "BM-171",
-    "BM-172",
-    "BM-173",
+  "BM-001",
+  "BM-002",
+  "BM-003",
+  "BM-004",
+  "BM-005",
+  "BM-006",
+  "BM-007",
+  "BM-008",
+  "BM-009",
+  "BM-010",
+  "BM-011",
+  "BM-012",
+  "BM-013",
+  "BM-014",
+  "BM-015",
+  "BM-016",
+  "BM-017",
+  "BM-018",
+  "BM-019",
+  "BM-020",
+  "BM-021",
+  "BM-022",
+  "BM-023",
+  "BM-024",
+  "BM-025",
+  "BM-026",
+  "BM-027",
+  "BM-028",
+  "BM-029",
+  "BM-030",
+  "BM-031",
+  "BM-032",
+  "BM-033",
+  "BM-034",
+  "BM-035",
+  "BM-036",
+  "BM-037",
+  "BM-038",
+  "BM-039",
+  "BM-040",
+  "BM-041",
+  "BM-042",
+  "BM-043",
+  "BM-044",
+  "BM-045",
+  "BM-046",
+  "BM-047",
+  "BM-048",
+  "BM-049",
+  "BM-050",
+  "BM-051",
+  "BM-052",
+  "BM-053",
+  "BM-054",
+  "BM-055",
+  "BM-056",
+  "BM-057",
+  "BM-058",
+  "BM-059",
+  "BM-060",
+  "BM-061",
+  "BM-062",
+  "BM-063",
+  "BM-064",
+  "BM-065",
+  "BM-066",
+  "BM-067",
+  "BM-068",
+  "BM-069",
+  "BM-070",
+  "BM-071",
+  "BM-072",
+  "BM-073",
+  "BM-074",
+  "BM-075",
+  "BM-076",
+  "BM-077",
+  "BM-078",
+  "BM-079",
+  "BM-080",
+  "BM-081",
+  "BM-082",
+  "BM-083",
+  "BM-084",
+  "BM-085",
+  "BM-086",
+  "BM-087",
+  "BM-088",
+  "BM-089",
+  "BM-090",
+  "BM-091",
+  "BM-092",
+  "BM-093",
+  "BM-094",
+  "BM-095",
+  "BM-096",
+  "BM-097",
+  "BM-098",
+  "BM-099",
+  "BM-100",
+  "BM-101",
+  "BM-102",
+  "BM-103",
+  "BM-104",
+  "BM-105",
+  "BM-106",
+  "BM-107",
+  "BM-108",
+  "BM-109",
+  "BM-110",
+  "BM-111",
+  "BM-112",
+  "BM-113",
+  "BM-114",
+  "BM-115",
+  "BM-116",
+  "BM-117",
+  "BM-118",
+  "BM-119",
+  "BM-120",
+  "BM-121",
+  "BM-122",
+  "BM-123",
+  "BM-124",
+  "BM-125",
+  "BM-126",
+  "BM-127",
+  "BM-128",
+  "BM-129",
+  "BM-130",
+  "BM-131",
+  "BM-132",
+  "BM-133",
+  "BM-134",
+  "BM-135",
+  "BM-136",
+  "BM-137",
+  "BM-138",
+  "BM-139",
+  "BM-140",
+  "BM-141",
+  "BM-142",
+  "BM-143",
+  "BM-144",
+  "BM-145",
+  "BM-146",
+  "BM-147",
+  "BM-148",
+  "BM-149",
+  "BM-150",
+  "BM-151",
+  "BM-152",
+  "BM-153",
+  "BM-154",
+  "BM-155",
+  "BM-156",
+  "BM-157",
+  "BM-158",
+  "BM-159",
+  "BM-160",
+  "BM-161",
+  "BM-162",
+  "BM-163",
+  "BM-164",
+  "BM-165",
+  "BM-166",
+  "BM-167",
+  "BM-168",
+  "BM-169",
+  "BM-170",
+  "BM-171",
+  "BM-172",
+  "BM-173",
+  "BM-174",
+  "BM-175",
+  "BM-176",
+  "BM-177",
+  "BM-178",
+  "BM-179",
+  "BM-180",
+  "BM-181",
+  "BM-182",
+  "BM-183",
+  "BM-184",
+  "BM-185",
+  "BM-186",
+  "BM-187",
+  "BM-188",
+  "BM-189",
+  "BM-190",
+  "BM-191",
+  "BM-192",
+  "BM-193",
+  "BM-194",
+  "BM-195",
+  "BM-196",
+  "BM-197",
+  "BM-198",
+  "BM-199",
+  "BM-200",
+  "BM-201",
+  "BM-202",
+  "BM-203",
+  "BM-204",
+  "BM-205",
+  "BM-206",
+  "BM-207",
+  "BM-208",
+  "BM-209",
+  "BM-210",
+  "BM-211",
+  "BM-212",
+  "BM-213",
 ] as const;
 
 export const vksTemplateStages = [
@@ -98,7 +251,7 @@ export const vksTemplateStages = [
         "label":  "Tiếp nhận, giải quyết nguồn tin về tội phạm",
         "description":  "Nguồn tin, phân công, kiểm sát tiếp nhận, khởi tố hoặc không khởi tố.",
         "total":  30,
-        "implemented":  18
+        "implemented":  30
     },
     {
         "id":  "stage-02",
@@ -106,7 +259,7 @@ export const vksTemplateStages = [
         "label":  "Biện pháp ngăn chặn, biện pháp cưỡng chế",
         "description":  "Bắt giữ, tạm giữ, tạm giam, cấm đi khỏi nơi cư trú, kê biên, phong tỏa.",
         "total":  39,
-        "implemented":  19
+        "implemented":  39
     },
     {
         "id":  "stage-03",
@@ -114,15 +267,15 @@ export const vksTemplateStages = [
         "label":  "Người có thẩm quyền, người tham gia tố tụng",
         "description":  "Phân công, thay đổi người tiến hành tố tụng, phiên dịch, giám định, định giá.",
         "total":  15,
-        "implemented":  2
+        "implemented":  15
     },
     {
         "id":  "stage-04",
         "order":  4,
         "label":  "Giai đoạn điều tra",
         "description":  "Điều tra, khởi tố bị can, gia hạn điều tra, khám xét, hỏi cung, đối chất.",
-        "total":  57,
-        "implemented":  6
+        "total":  56,
+        "implemented":  56
     },
     {
         "id":  "stage-05",
@@ -130,7 +283,7 @@ export const vksTemplateStages = [
         "label":  "Giai đoạn truy tố",
         "description":  "Truy tố, trả hồ sơ, đình chỉ, phục hồi, cáo trạng, giấy mời, giấy triệu tập.",
         "total":  28,
-        "implemented":  10
+        "implemented":  28
     },
     {
         "id":  "stage-06",
@@ -146,7 +299,7 @@ export const vksTemplateStages = [
         "label":  "Biện pháp điều tra đặc biệt",
         "description":  "Áp dụng, phê chuẩn, gia hạn, hủy bỏ biện pháp điều tra tố tụng đặc biệt.",
         "total":  5,
-        "implemented":  0
+        "implemented":  5
     },
     {
         "id":  "stage-08",
@@ -154,7 +307,7 @@ export const vksTemplateStages = [
         "label":  "Thủ tục đặc biệt",
         "description":  "Bắt buộc chữa bệnh, thủ tục rút gọn, biện pháp bảo vệ.",
         "total":  6,
-        "implemented":  0
+        "implemented":  6
     },
     {
         "id":  "stage-09",
@@ -162,7 +315,7 @@ export const vksTemplateStages = [
         "label":  "Người chưa thành niên",
         "description":  "Thủ tục với người chưa thành niên, xử lý chuyển hướng, giám sát điện tử.",
         "total":  29,
-        "implemented":  0
+        "implemented":  29
     }
 ] as VksTemplateStage[];
 
@@ -221,7 +374,7 @@ export const vksTemplateCatalog = [
         "fileName":  "04-QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/04-QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-005-005",
@@ -347,7 +500,7 @@ export const vksTemplateCatalog = [
         "fileName":  "13-QĐ giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/13-QĐ giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-014-014",
@@ -431,7 +584,7 @@ export const vksTemplateCatalog = [
         "fileName":  "19-Yêu cầu ra QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/19-Yêu cầu ra QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-020-020",
@@ -445,7 +598,7 @@ export const vksTemplateCatalog = [
         "fileName":  "20-Yêu cầu ra QĐ hủy bỏ QĐ khởi tố, QĐ không khởi tố.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/20-Yêu cầu ra QĐ hủy bỏ QĐ khởi tố, QĐ không khởi tố.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-021-021",
@@ -459,7 +612,7 @@ export const vksTemplateCatalog = [
         "fileName":  "21-QĐ không khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/21-QĐ không khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-022-022",
@@ -473,7 +626,7 @@ export const vksTemplateCatalog = [
         "fileName":  "22-QĐ huỷ bỏ QĐ không khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/22-QĐ huỷ bỏ QĐ không khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-023-023",
@@ -504,7 +657,7 @@ export const vksTemplateCatalog = [
         "fileName":  "24-QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/24-QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-025-025",
@@ -518,7 +671,7 @@ export const vksTemplateCatalog = [
         "fileName":  "25-QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/25-QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-026-026",
@@ -532,7 +685,7 @@ export const vksTemplateCatalog = [
         "fileName":  "26-QĐ huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/26-QĐ huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-027-027",
@@ -546,7 +699,7 @@ export const vksTemplateCatalog = [
         "fileName":  "27-Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/27-Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-028-028",
@@ -560,7 +713,7 @@ export const vksTemplateCatalog = [
         "fileName":  "28-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/28-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-029-029",
@@ -574,7 +727,7 @@ export const vksTemplateCatalog = [
         "fileName":  "29-QĐ huỷ bỏ QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/29-QĐ huỷ bỏ QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-030-030",
@@ -616,7 +769,7 @@ export const vksTemplateCatalog = [
         "fileName":  "32-QĐ không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/32-QĐ không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-033-033",
@@ -644,7 +797,7 @@ export const vksTemplateCatalog = [
         "fileName":  "34-QĐ không phê chuẩn QĐ gia hạn tạm giữ.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/34-QĐ không phê chuẩn QĐ gia hạn tạm giữ.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-035-035",
@@ -658,7 +811,7 @@ export const vksTemplateCatalog = [
         "fileName":  "35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-036-036",
@@ -672,7 +825,7 @@ export const vksTemplateCatalog = [
         "fileName":  "36-QĐ trả tự do cho người bị tạm giữ.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/36-QĐ trả tự do cho người bị tạm giữ.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-037-037",
@@ -742,7 +895,7 @@ export const vksTemplateCatalog = [
         "fileName":  "41-QĐ không phê chuẩn Lệnh tạm giam.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/41-QĐ không phê chuẩn Lệnh tạm giam.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-042-042",
@@ -840,7 +993,7 @@ export const vksTemplateCatalog = [
         "fileName":  "48-QĐ huỷ bỏ biện pháp bảo lĩnh.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/48-QĐ huỷ bỏ biện pháp bảo lĩnh.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-049-049",
@@ -854,7 +1007,7 @@ export const vksTemplateCatalog = [
         "fileName":  "49-QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/49-QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-050-050",
@@ -868,7 +1021,7 @@ export const vksTemplateCatalog = [
         "fileName":  "50-QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/50-QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-051-051",
@@ -882,7 +1035,7 @@ export const vksTemplateCatalog = [
         "fileName":  "51-QĐ về việc đặt tiền để bảo đảm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/51-QĐ về việc đặt tiền để bảo đảm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-052-052",
@@ -896,7 +1049,7 @@ export const vksTemplateCatalog = [
         "fileName":  "52-QĐ huỷ bỏ biện pháp đặt tiền để bảo đảm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/52-QĐ huỷ bỏ biện pháp đặt tiền để bảo đảm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-053-053",
@@ -1008,7 +1161,7 @@ export const vksTemplateCatalog = [
         "fileName":  "60-QĐ áp giải bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/60-QĐ áp giải bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-061-061",
@@ -1022,7 +1175,7 @@ export const vksTemplateCatalog = [
         "fileName":  "61-QĐ dẫn giải.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/61-QĐ dẫn giải.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-062-062",
@@ -1036,7 +1189,7 @@ export const vksTemplateCatalog = [
         "fileName":  "62-Lệnh kê biên tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/62-Lệnh kê biên tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-063-063",
@@ -1050,7 +1203,7 @@ export const vksTemplateCatalog = [
         "fileName":  "63-Biên bản kê biên tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/63-Biên bản kê biên tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-064-064",
@@ -1064,7 +1217,7 @@ export const vksTemplateCatalog = [
         "fileName":  "64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-065-065",
@@ -1078,7 +1231,7 @@ export const vksTemplateCatalog = [
         "fileName":  "65. BB về việc thi hành Quyết định hủy bỏ Lệnh kê biên tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/65. BB về việc thi hành Quyết định hủy bỏ Lệnh kê biên tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-066-066",
@@ -1092,7 +1245,7 @@ export const vksTemplateCatalog = [
         "fileName":  "66-Lệnh phong toả tài khoản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/66-Lệnh phong toả tài khoản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-067-067",
@@ -1106,7 +1259,7 @@ export const vksTemplateCatalog = [
         "fileName":  "67-Biên bản phong tỏa tài khoản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/67-Biên bản phong tỏa tài khoản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-068-068",
@@ -1120,7 +1273,7 @@ export const vksTemplateCatalog = [
         "fileName":  "68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-069-069",
@@ -1134,7 +1287,7 @@ export const vksTemplateCatalog = [
         "fileName":  "69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-070-070",
@@ -1176,7 +1329,7 @@ export const vksTemplateCatalog = [
         "fileName":  "72-QĐ thay đổi VT, PVT, KSV, KTV THQCT, KS việc giải quyết vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/72-QĐ thay đổi VT, PVT, KSV, KTV THQCT, KS việc giải quyết vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-073-073",
@@ -1190,7 +1343,7 @@ export const vksTemplateCatalog = [
         "fileName":  "73-Yêu cầu thay đổi Thủ trưởng, PTT, ĐTV cơ quan có thẩm quyền điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/73-Yêu cầu thay đổi Thủ trưởng, PTT, ĐTV cơ quan có thẩm quyền điều tra.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-074-074",
@@ -1204,7 +1357,7 @@ export const vksTemplateCatalog = [
         "fileName":  "74-Yêu cầu cử người phiên dịch, người dịch thuật.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/74-Yêu cầu cử người phiên dịch, người dịch thuật.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-075-075",
@@ -1218,7 +1371,7 @@ export const vksTemplateCatalog = [
         "fileName":  "75-Đề nghị thay đổi người phiên dịch, người dịch thuật.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/75-Đề nghị thay đổi người phiên dịch, người dịch thuật.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-076-076",
@@ -1232,7 +1385,7 @@ export const vksTemplateCatalog = [
         "fileName":  "76-QĐ thay đổi người phiên dịch, người dịch thuật.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/76-QĐ thay đổi người phiên dịch, người dịch thuật.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-077-077",
@@ -1246,7 +1399,7 @@ export const vksTemplateCatalog = [
         "fileName":  "77-Yêu cầu, đề nghị cử người bào chữa.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/77-Yêu cầu, đề nghị cử người bào chữa.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-078-078",
@@ -1260,7 +1413,7 @@ export const vksTemplateCatalog = [
         "fileName":  "78-Thông báo người bào chữa.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/78-Thông báo người bào chữa.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-079-079",
@@ -1274,7 +1427,7 @@ export const vksTemplateCatalog = [
         "fileName":  "79-Thông báo huỷ bỏ việc đăng ký bào chữa.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/79-Thông báo huỷ bỏ việc đăng ký bào chữa.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-080-080",
@@ -1288,7 +1441,7 @@ export const vksTemplateCatalog = [
         "fileName":  "80-Thông báo từ chối việc đăng ký bào chữa.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/80-Thông báo từ chối việc đăng ký bào chữa.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-081-081",
@@ -1302,7 +1455,7 @@ export const vksTemplateCatalog = [
         "fileName":  "81-QĐ thời điểm người bào chữa tham gia tố tụng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/81-QĐ thời điểm người bào chữa tham gia tố tụng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-082-082",
@@ -1316,7 +1469,7 @@ export const vksTemplateCatalog = [
         "fileName":  "82-Thông báo về thời gian, địa điểm tiến hành tố tụng cho người bào chữa.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/82-Thông báo về thời gian, địa điểm tiến hành tố tụng cho người bào chữa.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-083-083",
@@ -1330,7 +1483,7 @@ export const vksTemplateCatalog = [
         "fileName":  "83-Yêu cầu thay đổi người giám định, người định giá tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/83-Yêu cầu thay đổi người giám định, người định giá tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-084-084",
@@ -1344,7 +1497,7 @@ export const vksTemplateCatalog = [
         "fileName":  "84-QĐ thay đổi người giám định, người định giá tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/84-QĐ thay đổi người giám định, người định giá tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-085-127",
@@ -1386,7 +1539,7 @@ export const vksTemplateCatalog = [
         "fileName":  "87-Yêu cầu điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/87-Yêu cầu điều tra.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-088-130",
@@ -1400,7 +1553,7 @@ export const vksTemplateCatalog = [
         "fileName":  "88-QĐ huỷ bỏ QĐ nhập vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/88-QĐ huỷ bỏ QĐ nhập vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-089-131",
@@ -1414,7 +1567,7 @@ export const vksTemplateCatalog = [
         "fileName":  "89-QĐ huỷ bỏ QĐ tách vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/89-QĐ huỷ bỏ QĐ tách vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-090-132",
@@ -1442,7 +1595,7 @@ export const vksTemplateCatalog = [
         "fileName":  "91-QĐ phê chuẩn QĐ thay đổi QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/91-QĐ phê chuẩn QĐ thay đổi QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-092-134",
@@ -1456,7 +1609,7 @@ export const vksTemplateCatalog = [
         "fileName":  "92-QĐ phê chuẩn QĐ bổ sung QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/92-QĐ phê chuẩn QĐ bổ sung QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-093-135",
@@ -1470,7 +1623,7 @@ export const vksTemplateCatalog = [
         "fileName":  "93-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/93-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-094-136",
@@ -1484,7 +1637,7 @@ export const vksTemplateCatalog = [
         "fileName":  "94-QĐ huỷ bỏ QĐ bổ sung QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/94-QĐ huỷ bỏ QĐ bổ sung QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-095-137",
@@ -1498,7 +1651,7 @@ export const vksTemplateCatalog = [
         "fileName":  "95-QĐ huỷ bỏ QĐ huỷ bỏ QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/95-QĐ huỷ bỏ QĐ huỷ bỏ QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-096-138",
@@ -1512,7 +1665,7 @@ export const vksTemplateCatalog = [
         "fileName":  "96-Yêu cầu ra QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/96-Yêu cầu ra QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-097-139",
@@ -1540,7 +1693,7 @@ export const vksTemplateCatalog = [
         "fileName":  "98-Yêu cầu ra QĐ thay đổi quyết định khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/98-Yêu cầu ra QĐ thay đổi quyết định khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-099-141",
@@ -1554,7 +1707,7 @@ export const vksTemplateCatalog = [
         "fileName":  "99-QĐ thay đổi QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/99-QĐ thay đổi QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-100-085",
@@ -1568,7 +1721,7 @@ export const vksTemplateCatalog = [
         "fileName":  "100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-101-086",
@@ -1582,7 +1735,7 @@ export const vksTemplateCatalog = [
         "fileName":  "101-QĐ bổ sung QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/101-QĐ bổ sung QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-102-087",
@@ -1596,7 +1749,7 @@ export const vksTemplateCatalog = [
         "fileName":  "102-QĐ huỷ bỏ QĐ khởi tố bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/102-QĐ huỷ bỏ QĐ khởi tố bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-103-088",
@@ -1638,7 +1791,7 @@ export const vksTemplateCatalog = [
         "fileName":  "105-QĐ không gia hạn thời hạn điều tra VAHS.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/105-QĐ không gia hạn thời hạn điều tra VAHS.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-106-091",
@@ -1652,7 +1805,7 @@ export const vksTemplateCatalog = [
         "fileName":  "106-Yêu cầu truy nã bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/106-Yêu cầu truy nã bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-107-092",
@@ -1666,7 +1819,7 @@ export const vksTemplateCatalog = [
         "fileName":  "107-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/107-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-108-093",
@@ -1680,7 +1833,7 @@ export const vksTemplateCatalog = [
         "fileName":  "108-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/108-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-109-094",
@@ -1694,7 +1847,7 @@ export const vksTemplateCatalog = [
         "fileName":  "109-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/109-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-110-095",
@@ -1708,7 +1861,7 @@ export const vksTemplateCatalog = [
         "fileName":  "110-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/110-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-111-096",
@@ -1722,7 +1875,7 @@ export const vksTemplateCatalog = [
         "fileName":  "111-QĐ huỷ bỏ QĐ đình chỉ điều tra bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/111-QĐ huỷ bỏ QĐ đình chỉ điều tra bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-112-097",
@@ -1736,7 +1889,7 @@ export const vksTemplateCatalog = [
         "fileName":  "112-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/112-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-113-098",
@@ -1750,7 +1903,7 @@ export const vksTemplateCatalog = [
         "fileName":  "113-Yêu cầu phục hồi điều tra VAHS.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/113-Yêu cầu phục hồi điều tra VAHS.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-114-099",
@@ -1764,7 +1917,7 @@ export const vksTemplateCatalog = [
         "fileName":  "114-Yêu cầu phục hồi điều tra bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/114-Yêu cầu phục hồi điều tra bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-115-100",
@@ -1778,7 +1931,7 @@ export const vksTemplateCatalog = [
         "fileName":  "115-Yêu cầu phục hồi điều tra VAHS đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/115-Yêu cầu phục hồi điều tra VAHS đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-116-101",
@@ -1792,7 +1945,7 @@ export const vksTemplateCatalog = [
         "fileName":  "116-QĐ phục hồi điều tra vụ án hình sự.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/116-QĐ phục hồi điều tra vụ án hình sự.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-117-102",
@@ -1806,7 +1959,7 @@ export const vksTemplateCatalog = [
         "fileName":  "117-QĐ phục hồi điều tra bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/117-QĐ phục hồi điều tra bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-118-103",
@@ -1820,7 +1973,7 @@ export const vksTemplateCatalog = [
         "fileName":  "118-QĐ phục hồi điều tra VA đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/118-QĐ phục hồi điều tra VA đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-119-104",
@@ -1834,7 +1987,7 @@ export const vksTemplateCatalog = [
         "fileName":  "119-QĐ phê chuẩn Lệnh khám xét.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/119-QĐ phê chuẩn Lệnh khám xét.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-120-105",
@@ -1848,7 +2001,7 @@ export const vksTemplateCatalog = [
         "fileName":  "120-QĐ không phê chuẩn Lệnh khám xét.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/120-QĐ không phê chuẩn Lệnh khám xét.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-121-106",
@@ -1862,7 +2015,7 @@ export const vksTemplateCatalog = [
         "fileName":  "121-QĐ phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/121-QĐ phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-122-107",
@@ -1876,7 +2029,7 @@ export const vksTemplateCatalog = [
         "fileName":  "122-QĐ không phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/122-QĐ không phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-123-108",
@@ -1890,7 +2043,7 @@ export const vksTemplateCatalog = [
         "fileName":  "123-QĐ thực nghiệm điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/123-QĐ thực nghiệm điều tra.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-124-109",
@@ -1904,7 +2057,7 @@ export const vksTemplateCatalog = [
         "fileName":  "124-Biên bản thực nghiệm điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/124-Biên bản thực nghiệm điều tra.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-125-110",
@@ -1918,7 +2071,7 @@ export const vksTemplateCatalog = [
         "fileName":  "125-Thông báo về việc không chấp nhận đề nghị trưng cầu giám định, định giá tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/125-Thông báo về việc không chấp nhận đề nghị trưng cầu giám định, định giá tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-126-111",
@@ -1932,7 +2085,7 @@ export const vksTemplateCatalog = [
         "fileName":  "126-QĐ trưng cầu giám định.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/126-QĐ trưng cầu giám định.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-127-112",
@@ -1946,7 +2099,7 @@ export const vksTemplateCatalog = [
         "fileName":  "127-Yêu cầu định giá tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/127-Yêu cầu định giá tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-128-113",
@@ -1960,7 +2113,7 @@ export const vksTemplateCatalog = [
         "fileName":  "128-Thông báo nội dung kết luận giám định, định giá tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/128-Thông báo nội dung kết luận giám định, định giá tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-129-114",
@@ -1974,7 +2127,7 @@ export const vksTemplateCatalog = [
         "fileName":  "129-QĐ trưng cầu giám định bổ sung.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/129-QĐ trưng cầu giám định bổ sung.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-130-115",
@@ -1988,7 +2141,7 @@ export const vksTemplateCatalog = [
         "fileName":  "130-QĐ trưng cầu giám định lại.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/130-QĐ trưng cầu giám định lại.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-131-116",
@@ -2002,7 +2155,7 @@ export const vksTemplateCatalog = [
         "fileName":  "131-Yêu cầu định giá lại tài sản.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/131-Yêu cầu định giá lại tài sản.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-132-117",
@@ -2016,7 +2169,7 @@ export const vksTemplateCatalog = [
         "fileName":  "132-QĐ định giá lại tài sản trong trường hợp đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/132-QĐ định giá lại tài sản trong trường hợp đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-133-118",
@@ -2030,7 +2183,7 @@ export const vksTemplateCatalog = [
         "fileName":  "133-QĐ giám định lại trong trường hợp đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/133-QĐ giám định lại trong trường hợp đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-134-119",
@@ -2044,7 +2197,7 @@ export const vksTemplateCatalog = [
         "fileName":  "134-BB ghi lời khai.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/134-BB ghi lời khai.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-135-120",
@@ -2058,7 +2211,7 @@ export const vksTemplateCatalog = [
         "fileName":  "135-BB hỏi cung bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/135-BB hỏi cung bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-136-121",
@@ -2072,7 +2225,7 @@ export const vksTemplateCatalog = [
         "fileName":  "136-BB đối chất.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/136-BB đối chất.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-137-122",
@@ -2086,7 +2239,7 @@ export const vksTemplateCatalog = [
         "fileName":  "137. Biên bản xác minh-làm việc.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/137. Biên bản xác minh-làm việc.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-138-123",
@@ -2100,7 +2253,7 @@ export const vksTemplateCatalog = [
         "fileName":  "138-Yêu cầu cung cấp tài liệu liên quan đến hành vi, QĐ tố tụng có vi phạm pháp luật trong điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/138-Yêu cầu cung cấp tài liệu liên quan đến hành vi, QĐ tố tụng có vi phạm pháp luật trong điều tra.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-139-124",
@@ -2114,21 +2267,7 @@ export const vksTemplateCatalog = [
         "fileName":  "139-Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra.doc",
-        "isImplemented":  false
-    },
-    {
-        "id":  "BM-139-125",
-        "code":  "BM-139",
-        "number":  139,
-        "title":  "Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố",
-        "stageId":  "stage-04",
-        "stageNo":  "04",
-        "stageLabel":  "Giai đoạn điều tra",
-        "stageDescription":  "Điều tra, khởi tố bị can, gia hạn điều tra, khám xét, hỏi cung, đối chất.",
-        "fileName":  "139-Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố.doc",
-        "fileExt":  "doc",
-        "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-140-126",
@@ -2142,7 +2281,7 @@ export const vksTemplateCatalog = [
         "fileName":  "140-Kiến nghị áp dụng biện pháp phòng ngừa tội phạm và vi phạm pháp luật.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/140-Kiến nghị áp dụng biện pháp phòng ngừa tội phạm và vi phạm pháp luật.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-141-142",
@@ -2170,7 +2309,7 @@ export const vksTemplateCatalog = [
         "fileName":  "142-Quyết định nhập vụ án hình sự trong giai đoạn truy tố.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/142-Quyết định nhập vụ án hình sự trong giai đoạn truy tố.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-143-144",
@@ -2184,7 +2323,7 @@ export const vksTemplateCatalog = [
         "fileName":  "143-Quyết định tách vụ án hình sự trong giai đoạn truy tố.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/143-Quyết định tách vụ án hình sự trong giai đoạn truy tố.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-144-145",
@@ -2240,7 +2379,7 @@ export const vksTemplateCatalog = [
         "fileName":  "147-QĐ huỷ bỏ QĐ tạm đình chỉ vụ án.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/147-QĐ huỷ bỏ QĐ tạm đình chỉ vụ án.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-148-149",
@@ -2268,7 +2407,7 @@ export const vksTemplateCatalog = [
         "fileName":  "149-QĐ huỷ bỏ QĐ tạm đình chỉ vụ án đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/149-QĐ huỷ bỏ QĐ tạm đình chỉ vụ án đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-150-151",
@@ -2296,7 +2435,7 @@ export const vksTemplateCatalog = [
         "fileName":  "151-QĐ huỷ bỏ QĐ đình chỉ vụ án.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/151-QĐ huỷ bỏ QĐ đình chỉ vụ án.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-152-153",
@@ -2310,7 +2449,7 @@ export const vksTemplateCatalog = [
         "fileName":  "152-QĐ đình chỉ vụ án đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/152-QĐ đình chỉ vụ án đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-153-154",
@@ -2324,7 +2463,7 @@ export const vksTemplateCatalog = [
         "fileName":  "153-QĐ huỷ bỏ QĐ đình chỉ vụ án đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/153-QĐ huỷ bỏ QĐ đình chỉ vụ án đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-154-155",
@@ -2338,7 +2477,7 @@ export const vksTemplateCatalog = [
         "fileName":  "154-QĐ phục hồi vụ án.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/154-QĐ phục hồi vụ án.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-155-156",
@@ -2352,7 +2491,7 @@ export const vksTemplateCatalog = [
         "fileName":  "155-QĐ phục hồi vụ án đối với bị can.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/155-QĐ phục hồi vụ án đối với bị can.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-156-157",
@@ -2380,7 +2519,7 @@ export const vksTemplateCatalog = [
         "fileName":  "157. Bản kê vật chứng kèm theo Cáo trạng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/157. Bản kê vật chứng kèm theo Cáo trạng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-158-159",
@@ -2394,7 +2533,7 @@ export const vksTemplateCatalog = [
         "fileName":  "158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
         "fileExt":  "docx",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-159-160",
@@ -2422,7 +2561,7 @@ export const vksTemplateCatalog = [
         "fileName":  "160. Biên bản niêm yết công khai văn bản tố tụng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/160. Biên bản niêm yết công khai văn bản tố tụng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-161-162",
@@ -2436,7 +2575,7 @@ export const vksTemplateCatalog = [
         "fileName":  "161. Phiếu yêu cầu trích xuất.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/161. Phiếu yêu cầu trích xuất.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-162-163",
@@ -2450,7 +2589,7 @@ export const vksTemplateCatalog = [
         "fileName":  "162-Giấy mời.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/162-Giấy mời.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-163-164",
@@ -2464,7 +2603,7 @@ export const vksTemplateCatalog = [
         "fileName":  "163-Giấy triệu tập.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/163-Giấy triệu tập.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-164-165",
@@ -2478,7 +2617,7 @@ export const vksTemplateCatalog = [
         "fileName":  "164-BB giao nhận Cáo trạng, QĐ truy tố theo thủ tục rút gọn, QĐ tạm đình chỉ vụ án, đình chỉ vụ án.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/164-BB giao nhận Cáo trạng, QĐ truy tố theo thủ tục rút gọn, QĐ tạm đình chỉ vụ án, đình chỉ vụ án.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-165-166",
@@ -2492,7 +2631,7 @@ export const vksTemplateCatalog = [
         "fileName":  "165-Thông báo về việc vụ án có bị can bị tạm giam.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/165-Thông báo về việc vụ án có bị can bị tạm giam.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-166-167",
@@ -2520,7 +2659,7 @@ export const vksTemplateCatalog = [
         "fileName":  "167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
         "fileExt":  "docx",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-168-169",
@@ -2618,7 +2757,7 @@ export const vksTemplateCatalog = [
         "fileName":  "174-Yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/174-Yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-175-176",
@@ -2632,7 +2771,7 @@ export const vksTemplateCatalog = [
         "fileName":  "175-QĐ phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/175-QĐ phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-176-177",
@@ -2646,7 +2785,7 @@ export const vksTemplateCatalog = [
         "fileName":  "176-QĐ không phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/176-QĐ không phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-177-178",
@@ -2660,7 +2799,7 @@ export const vksTemplateCatalog = [
         "fileName":  "177-QĐ gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/177-QĐ gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-178-179",
@@ -2674,7 +2813,7 @@ export const vksTemplateCatalog = [
         "fileName":  "178-QĐ huỷ bỏ QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/178-QĐ huỷ bỏ QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-179-180",
@@ -2688,7 +2827,7 @@ export const vksTemplateCatalog = [
         "fileName":  "179-QĐ áp dụng biện pháp chữa bệnh.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/179-QĐ áp dụng biện pháp chữa bệnh.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-180-181",
@@ -2702,7 +2841,7 @@ export const vksTemplateCatalog = [
         "fileName":  "180-QĐ đình chỉ thi hành biện pháp bắt buộc chữa bệnh.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/180-QĐ đình chỉ thi hành biện pháp bắt buộc chữa bệnh.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-181-182",
@@ -2716,7 +2855,7 @@ export const vksTemplateCatalog = [
         "fileName":  "181-QĐ áp dụng thủ tục rút gọn.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/181-QĐ áp dụng thủ tục rút gọn.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-182-183",
@@ -2730,7 +2869,7 @@ export const vksTemplateCatalog = [
         "fileName":  "182-QĐ huỷ bỏ QĐ áp dụng thủ tục rút gọn 1.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/182-QĐ huỷ bỏ QĐ áp dụng thủ tục rút gọn 1.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-183-184",
@@ -2744,7 +2883,7 @@ export const vksTemplateCatalog = [
         "fileName":  "183-QĐ truy tố theo thủ tục rút gọn.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/183-QĐ truy tố theo thủ tục rút gọn.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-184-185",
@@ -2758,7 +2897,7 @@ export const vksTemplateCatalog = [
         "fileName":  "184-Đề nghị áp dụng biện pháp bảo vệ.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/184-Đề nghị áp dụng biện pháp bảo vệ.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-185-186",
@@ -2772,7 +2911,7 @@ export const vksTemplateCatalog = [
         "fileName":  "185-Yêu cầu lập Báo cáo điều tra xã hội bổ sung.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/185-Yêu cầu lập Báo cáo điều tra xã hội bổ sung.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-186-187",
@@ -2786,7 +2925,7 @@ export const vksTemplateCatalog = [
         "fileName":  "186-Thông báo áp dụng thủ tục xử lý chuyển hướng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/186-Thông báo áp dụng thủ tục xử lý chuyển hướng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-187-188",
@@ -2800,7 +2939,7 @@ export const vksTemplateCatalog = [
         "fileName":  "187-Yêu cầu NLCTXH xây dựng kế hoạch XLCH hoặc kế hoạch XLCH bổ sung.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/187-Yêu cầu NLCTXH xây dựng kế hoạch XLCH hoặc kế hoạch XLCH bổ sung.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-188-189",
@@ -2814,7 +2953,7 @@ export const vksTemplateCatalog = [
         "fileName":  "188-Đề nghị Tòa án giải quyết vấn đề bồi thường thiệt hại.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/188-Đề nghị Tòa án giải quyết vấn đề bồi thường thiệt hại.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-189-190",
@@ -2828,7 +2967,7 @@ export const vksTemplateCatalog = [
         "fileName":  "189-Yêu cầu CQĐT đề nghị TA xem xét áp dụng biện pháp giáo dục tại trường giáo dưỡng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/189-Yêu cầu CQĐT đề nghị TA xem xét áp dụng biện pháp giáo dục tại trường giáo dưỡng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-190-191",
@@ -2842,7 +2981,7 @@ export const vksTemplateCatalog = [
         "fileName":  "190-Đề nghị Tòa án xem xét, quyết định áp dụng biện pháp giáo dục tại trường giáo dưỡng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/190-Đề nghị Tòa án xem xét, quyết định áp dụng biện pháp giáo dục tại trường giáo dưỡng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-191-192",
@@ -2856,7 +2995,7 @@ export const vksTemplateCatalog = [
         "fileName":  "191-Quyết định áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/191-Quyết định áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-192-193",
@@ -2870,7 +3009,7 @@ export const vksTemplateCatalog = [
         "fileName":  "192-Quyết định không áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/192-Quyết định không áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-193-194",
@@ -2884,7 +3023,7 @@ export const vksTemplateCatalog = [
         "fileName":  "193-Quyết định thay đổi biện pháp xử lý chuyển hướng tại cộng đồng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/193-Quyết định thay đổi biện pháp xử lý chuyển hướng tại cộng đồng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-194-195",
@@ -2898,7 +3037,7 @@ export const vksTemplateCatalog = [
         "fileName":  "194-Quyết định hủy bỏ quyết định áp dụng biện pháp xử lý chuyển hướng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/194-Quyết định hủy bỏ quyết định áp dụng biện pháp xử lý chuyển hướng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-195-196",
@@ -2912,7 +3051,7 @@ export const vksTemplateCatalog = [
         "fileName":  "195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-196-197",
@@ -2926,7 +3065,7 @@ export const vksTemplateCatalog = [
         "fileName":  "196-Quyết định mở phiên họp xem xét, áp dụng biện pháp xử lý chuyển hướng tại cộng đồng - Copy.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/196-Quyết định mở phiên họp xem xét, áp dụng biện pháp xử lý chuyển hướng tại cộng đồng - Copy.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-197-198",
@@ -2940,7 +3079,7 @@ export const vksTemplateCatalog = [
         "fileName":  "197-BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/197-BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-198-199",
@@ -2954,7 +3093,7 @@ export const vksTemplateCatalog = [
         "fileName":  "198-Quyết định hoãn phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng - Copy - Copy.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/198-Quyết định hoãn phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng - Copy - Copy.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-199-200",
@@ -2968,7 +3107,7 @@ export const vksTemplateCatalog = [
         "fileName":  "199-Kiến nghị về quyết định áp dụng BPXLCH của Tòa án - Copy.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/199-Kiến nghị về quyết định áp dụng BPXLCH của Tòa án - Copy.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-200-201",
@@ -2982,7 +3121,7 @@ export const vksTemplateCatalog = [
         "fileName":  "200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-201-202",
@@ -2996,7 +3135,7 @@ export const vksTemplateCatalog = [
         "fileName":  "201- Quyết định giải quyết khiếu nại, kiến nghị.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/201- Quyết định giải quyết khiếu nại, kiến nghị.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-202-203",
@@ -3010,7 +3149,7 @@ export const vksTemplateCatalog = [
         "fileName":  "202-Quyết định đình chỉ việc giải quyết khiếu nại, kiến nghị.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/202-Quyết định đình chỉ việc giải quyết khiếu nại, kiến nghị.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-203-204",
@@ -3024,7 +3163,7 @@ export const vksTemplateCatalog = [
         "fileName":  "203-Thông báo về hoạt động tố tụng.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/203-Thông báo về hoạt động tố tụng.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-204-205",
@@ -3038,7 +3177,7 @@ export const vksTemplateCatalog = [
         "fileName":  "204-QĐ việc tham gia tố tụng của người đại diện, tổ chức.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/204-QĐ việc tham gia tố tụng của người đại diện, tổ chức.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-205-206",
@@ -3052,7 +3191,7 @@ export const vksTemplateCatalog = [
         "fileName":  "205-Thông báo áp dụng biện pháp ngăn chặn đối với NCTN.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/205-Thông báo áp dụng biện pháp ngăn chặn đối với NCTN.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-206-207",
@@ -3066,7 +3205,7 @@ export const vksTemplateCatalog = [
         "fileName":  "206-Quyết định áp dụng biện pháp giám sát điện tử đối với NCTN - Copy.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/206-Quyết định áp dụng biện pháp giám sát điện tử đối với NCTN - Copy.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-207-208",
@@ -3080,7 +3219,7 @@ export const vksTemplateCatalog = [
         "fileName":  "207-Quyết định phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/207-Quyết định phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-208-209",
@@ -3094,7 +3233,7 @@ export const vksTemplateCatalog = [
         "fileName":  "208-Quyết định không phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/208-Quyết định không phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-209-210",
@@ -3108,7 +3247,7 @@ export const vksTemplateCatalog = [
         "fileName":  "209-Quyết định áp dụng biện pháp giám sát bởi người đại diện.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/209-Quyết định áp dụng biện pháp giám sát bởi người đại diện.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-210-211",
@@ -3122,7 +3261,7 @@ export const vksTemplateCatalog = [
         "fileName":  "210-Quyết định thay đổi người đại diện.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/210-Quyết định thay đổi người đại diện.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-211-212",
@@ -3136,7 +3275,7 @@ export const vksTemplateCatalog = [
         "fileName":  "211-Thông báo về việc thụ lý vụ án.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/211-Thông báo về việc thụ lý vụ án.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-212-213",
@@ -3150,7 +3289,7 @@ export const vksTemplateCatalog = [
         "fileName":  "212-Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho người chưa thành niên.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/212-Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho người chưa thành niên.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     },
     {
         "id":  "BM-213-214",
@@ -3164,7 +3303,7 @@ export const vksTemplateCatalog = [
         "fileName":  "213-Yêu cầu áp dụng các biện pháp kỹ thuật để bảo vệ NCTN.doc",
         "fileExt":  "doc",
         "sourcePath":  "0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/213-Yêu cầu áp dụng các biện pháp kỹ thuật để bảo vệ NCTN.doc",
-        "isImplemented":  false
+        "isImplemented":  true
     }
 ] as VksTemplateItem[];
 

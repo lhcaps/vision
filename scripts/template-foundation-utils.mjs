@@ -1,8 +1,9 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join, relative } from 'node:path';
 
 export const SOURCE_DIR_PARTS = ['docs', 'Biểu mẫu', 'Biểu mẫu'];
+export const DOCS_DIR_PARTS = ['docs'];
 export const CATALOG_FILE_PARTS = ['apps', 'web', 'src', 'lib', 'vks-template-catalog.ts'];
 export const COMPONENTS_DIR_PARTS = ['apps', 'web', 'src', 'components', 'documents'];
 export const WORKSPACE_FILE_PARTS = [
@@ -60,6 +61,29 @@ export function buildTemplateFoundationSnapshot(root) {
   };
 }
 
+export function buildTemplateCorpusSnapshot(root) {
+  const sourceDir = join(root, ...DOCS_DIR_PARTS);
+  const catalogFile = join(root, ...CATALOG_FILE_PARTS);
+  const componentsDir = join(root, ...COMPONENTS_DIR_PARTS);
+  const workspaceFile = join(root, ...WORKSPACE_FILE_PARTS);
+  const normalizedDir = join(root, ...NORMALIZED_DIR_PARTS);
+
+  return {
+    root,
+    sourceDir,
+    catalogFile,
+    componentsDir,
+    workspaceFile,
+    normalizedDir,
+    sourceForms: discoverCorpusSourceForms(sourceDir, root),
+    catalog: discoverCatalogState(catalogFile),
+    componentCodes: discoverComponentCodes(componentsDir),
+    workspacePanelCodes: discoverWorkspacePanelCodes(workspaceFile),
+    hasGenericWorkspacePanel: discoverGenericWorkspacePanel(workspaceFile),
+    normalized: discoverNormalizedDocx(normalizedDir, root),
+  };
+}
+
 export function buildTemplateFoundationRows(snapshot) {
   return [...snapshot.sourceForms.values()].sort(compareTemplateForms).map((form) => {
     const normalized = snapshot.normalized.get(form.code) ?? null;
@@ -73,6 +97,40 @@ export function buildTemplateFoundationRows(snapshot) {
       isImplemented: snapshot.catalog.implementedTrueCodes.has(form.code),
       hasComponent: snapshot.componentCodes.has(form.code),
       hasWorkspacePanel: snapshot.workspacePanelCodes.has(form.code),
+      normalizedPath: normalized?.relativePath ?? '',
+      hasNormalizedDocx: Boolean(normalized),
+      docxStatus: normalized?.status ?? 'missing',
+      placeholderCount: normalized?.placeholderCount ?? 0,
+      xmlMojibakeCount: normalized?.mojibakeCount ?? 0,
+    };
+  });
+}
+
+export function buildTemplateCorpusRows(snapshot) {
+  return [...snapshot.sourceForms.values()].sort(compareTemplateForms).map((form) => {
+    const normalized = snapshot.normalized.get(form.code) ?? null;
+    const catalogEntry = snapshot.catalog.entries.get(form.code);
+    const hasSpecificComponent = snapshot.componentCodes.has(form.code);
+    const hasSpecificWorkspacePanel = snapshot.workspacePanelCodes.has(form.code);
+    const hasGenericWorkspacePanel = Boolean(snapshot.hasGenericWorkspacePanel);
+
+    return {
+      code: form.code,
+      title: catalogEntry?.title ?? form.title,
+      stageNo: catalogEntry?.stageNo ?? '',
+      sourcePath: form.relativePath,
+      sourceExt: form.fileExt,
+      sourceVariantCount: form.sourceVariantCount,
+      duplicateSourcePaths: form.duplicateSourcePaths,
+      inCatalog: snapshot.catalog.entries.has(form.code),
+      catalogEntryCount: snapshot.catalog.entryCounts.get(form.code) ?? 0,
+      inImplementedCodes: snapshot.catalog.implementedCodes.has(form.code),
+      isImplemented: snapshot.catalog.implementedTrueCodes.has(form.code),
+      hasSpecificComponent,
+      hasFePanel: hasSpecificComponent || hasGenericWorkspacePanel,
+      hasSpecificWorkspacePanel,
+      hasWorkspacePanel: hasSpecificWorkspacePanel || hasGenericWorkspacePanel,
+      usesGenericWorkspacePanel: !hasSpecificWorkspacePanel && hasGenericWorkspacePanel,
       normalizedPath: normalized?.relativePath ?? '',
       hasNormalizedDocx: Boolean(normalized),
       docxStatus: normalized?.status ?? 'missing',
@@ -112,6 +170,32 @@ export function buildTemplateFoundationFindings(snapshot) {
     }
   }
 
+  return findings;
+}
+
+export function buildTemplateCorpusFindings(snapshot) {
+  const sourceCodes = new Set(snapshot.sourceForms.keys());
+  const rows = buildTemplateCorpusRows(snapshot);
+  const findings = [];
+
+  if (sourceCodes.size === 0) {
+    findings.push(`No source .doc/.docx files found under ${relative(snapshot.root, snapshot.sourceDir)}`);
+  }
+
+  for (const row of rows) {
+    if (!row.inCatalog) findings.push(`${row.code}: missing catalog entry`);
+    if (row.catalogEntryCount !== 1) findings.push(`${row.code}: catalog has ${row.catalogEntryCount} entries`);
+    if (!row.inImplementedCodes) findings.push(`${row.code}: missing implementedTemplateCodes entry`);
+    if (!row.isImplemented) findings.push(`${row.code}: catalog isImplemented is not true`);
+    if (!row.hasFePanel) findings.push(`${row.code}: missing frontend form panel or generic fallback`);
+    if (!row.hasWorkspacePanel) findings.push(`${row.code}: missing BM_PANEL_BY_CODE mapping and generic fallback`);
+    if (!row.hasNormalizedDocx) findings.push(`${row.code}: missing normalized DOCX`);
+    if (row.docxStatus !== 'ok') findings.push(`${row.code}: normalized DOCX status is ${row.docxStatus}`);
+    if (row.xmlMojibakeCount > 0) {
+      findings.push(`${row.code}: normalized DOCX XML contains ${row.xmlMojibakeCount} mojibake marker(s)`);
+    }
+  }
+
   for (const code of snapshot.catalog.implementedCodes) {
     if (!sourceCodes.has(code)) {
       findings.push(`${code}: implementedTemplateCodes entry is not backed by ${relative(snapshot.root, snapshot.sourceDir)}`);
@@ -133,6 +217,60 @@ export function getMojibakeCount(text) {
     count += text.split(marker).length - 1;
   }
   return count;
+}
+
+function discoverCorpusSourceForms(dir, root) {
+  const candidatesByCode = new Map();
+  if (!existsSync(dir)) return candidatesByCode;
+
+  for (const filePath of walkFiles(dir)) {
+    const fileName = filePath.split(/[\\/]/u).pop() ?? '';
+    if (fileName.startsWith('~$') || !/\.(doc|docx)$/iu.test(fileName)) continue;
+
+    const number = fileName.match(/^(\d{1,3})(?=[-.\s]|$)/u)?.[1];
+    if (!number) continue;
+
+    const code = `BM-${number.padStart(3, '0')}`;
+    const fileExt = fileName.toLowerCase().endsWith('.docx') ? 'docx' : 'doc';
+    const relativePath = toPortableRelative(root, filePath);
+    const candidate = {
+      code,
+      fileName,
+      fileExt,
+      title: fileName.replace(/\.(doc|docx)$/iu, ''),
+      relativePath,
+      score: getCorpusSourceScore(relativePath, fileExt),
+    };
+
+    const current = candidatesByCode.get(code) ?? [];
+    current.push(candidate);
+    candidatesByCode.set(code, current);
+  }
+
+  const forms = new Map();
+  for (const [code, candidates] of candidatesByCode) {
+    const sorted = [...candidates].sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      return left.relativePath.localeCompare(right.relativePath);
+    });
+    const primary = sorted[0];
+    forms.set(code, {
+      ...primary,
+      sourceVariantCount: sorted.length,
+      duplicateSourcePaths: sorted.slice(1).map((item) => item.relativePath),
+    });
+  }
+
+  return forms;
+}
+
+function getCorpusSourceScore(relativePath, fileExt) {
+  let score = 0;
+  if (relativePath.includes('/Full/')) score += 100;
+  if (relativePath.includes('0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC')) score += 50;
+  if (relativePath.includes('/Biểu mẫu/Biểu mẫu/')) score += 20;
+  if (fileExt === 'docx') score += 5;
+  return score;
 }
 
 function discoverSourceForms(dir, root) {
@@ -157,9 +295,22 @@ function discoverSourceForms(dir, root) {
   return forms;
 }
 
+function* walkFiles(dir) {
+  for (const entry of readdirSync(dir)) {
+    const filePath = join(dir, entry);
+    const stat = statSync(filePath);
+    if (stat.isDirectory()) {
+      yield* walkFiles(filePath);
+    } else if (stat.isFile()) {
+      yield filePath;
+    }
+  }
+}
+
 function discoverCatalogState(filePath) {
   const state = {
     entries: new Map(),
+    entryCounts: new Map(),
     implementedCodes: new Set(),
     implementedTrueCodes: new Set(),
     stageImplementedCounts: new Map(),
@@ -196,6 +347,7 @@ function discoverCatalogState(filePath) {
       stageNo,
       isImplemented,
     });
+    state.entryCounts.set(code, (state.entryCounts.get(code) ?? 0) + 1);
     if (isImplemented) state.implementedTrueCodes.add(code);
   }
 
@@ -225,6 +377,13 @@ function discoverWorkspacePanelCodes(filePath) {
   }
 
   return codes;
+}
+
+function discoverGenericWorkspacePanel(filePath) {
+  if (!existsSync(filePath)) return false;
+
+  const text = readFileSync(filePath, 'utf8');
+  return /GenericTemplateFormInputsPanel/u.test(text);
 }
 
 function discoverNormalizedDocx(dir, root) {

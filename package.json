@@ -29,8 +29,10 @@
     "lint": "pnpm --filter api lint && pnpm --filter web lint",
     "audit:hardcode": "node scripts/audit-runtime-hardcodes.mjs",
     "audit:templates:foundation": "node scripts/report-template-foundation.mjs",
+    "audit:templates:corpus": "node scripts/report-template-corpus.mjs",
     "audit:templates": "node scripts/audit-template-source-coverage.mjs",
-    "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs"
+    "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs",
+    "normalize:templates:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",

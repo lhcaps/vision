@@ -11,6 +11,38 @@ import { envOrDefault } from './common/env.util';
 loadEnv({ path: resolve(process.cwd(), '..', '..', '.env') });
 loadEnv({ path: resolve(process.cwd(), '.env') });
 
+function buildCorsOrigin() {
+  const configured = envOrDefault('API_CORS_ORIGIN', 'http://localhost:3000');
+  if (configured === '*') {
+    return true;
+  }
+
+  const allowedOrigins = new Set(
+    configured
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+  );
+
+  if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.add('http://localhost:3000');
+    allowedOrigins.add('http://127.0.0.1:3000');
+    allowedOrigins.add('http://[::1]:3000');
+  }
+
+  return (
+    origin: string | undefined,
+    callback: (error: Error | null, allow?: boolean) => void,
+  ) => {
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS origin is not allowed: ${origin}`), false);
+  };
+}
+
 async function bootstrap(): Promise<void> {
   const logger = new Logger('Bootstrap');
 
@@ -19,9 +51,8 @@ async function bootstrap(): Promise<void> {
   });
 
   // --- CORS ---
-  const corsOrigin = envOrDefault('API_CORS_ORIGIN', 'http://localhost:3000');
   app.enableCors({
-    origin: corsOrigin === '*' ? true : corsOrigin.split(','),
+    origin: buildCorsOrigin(),
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [

@@ -132,6 +132,8 @@ import { Bm137FormInputsPanel } from "./bm-137-form-inputs";
 import { Bm139FormInputsPanel } from "./bm-139-form-inputs";
 import { Bm140FormInputsPanel } from "./bm-140-form-inputs";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
+import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
+import { absoluteApiUrl } from "@/lib/api-client";
 
 type GeneratedDocumentWorkspaceProps = {
   documentId: string;
@@ -163,9 +165,6 @@ type RenderPayloadResponse = {
     fullName?: string | null;
   } | null;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const TABS: Array<{
   key: TabKey;
@@ -475,31 +474,6 @@ function getTemplateDescription(templateCode: string | null | undefined) {
       return "Khu vực xử lý dữ liệu biểu mẫu, tạo DOCX/PDF và quản lý tệp đã xuất.";
   }
 }
-function UnsupportedTemplateFormPanel({
-  templateCode,
-  templateName,
-}: {
-  templateCode: string;
-  templateName: string;
-}) {
-  return (
-    <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
-        Chưa có form nhập liệu riêng
-      </p>
-
-      <h2 className="mt-2 text-xl font-bold text-amber-950">
-        {templateCode} — {templateName}
-      </h2>
-
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-amber-900">
-        Biểu mẫu này đã có thể dùng dữ liệu/backend để tạo file nếu template DOCX
-        đã được cấy placeholder, nhưng frontend chưa có form nhập liệu riêng.
-        Không được hiển thị nhầm form BM-053 ở đây.
-      </p>
-    </section>
-  );
-}
 export function GeneratedDocumentWorkspace({
   documentId,
 }: GeneratedDocumentWorkspaceProps) {
@@ -518,7 +492,7 @@ export function GeneratedDocumentWorkspace({
         setPayloadError(null);
 
         const response = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+          absoluteApiUrl(`/documents/generated/${documentId}/render-payload`),
           {
             method: "GET",
             credentials: "include",
@@ -586,8 +560,11 @@ export function GeneratedDocumentWorkspace({
     () => getTemplateDescription(templateCode),
     [templateCode],
   );
+  const isInitialPayloadLoading = isLoadingPayload && !payload;
 
-  const Panel = templateCode ? BM_PANEL_BY_CODE[templateCode] : undefined;
+  const Panel = templateCode
+    ? BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel
+    : GenericTemplateFormInputsPanel;
 
   return (
     <main className="qvks-document-workspace min-h-screen bg-slate-50 px-5 py-7 md:px-10">
@@ -610,10 +587,10 @@ export function GeneratedDocumentWorkspace({
           </div>
 
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
-            {isLoadingPayload ? "Đang tải biểu mẫu..." : canonicalPageTitle}
+            {isInitialPayloadLoading ? "Đang tải biểu mẫu..." : canonicalPageTitle}
           </h1>
 
-          {!isLoadingPayload && headerContextItems.length > 0 ? (
+          {!isInitialPayloadLoading && headerContextItems.length > 0 ? (
             <div className="mt-4 flex flex-wrap gap-2.5">
               {headerContextItems.map((item) => (
                 <span
@@ -680,7 +657,7 @@ export function GeneratedDocumentWorkspace({
 
         {activeTab === "form" ? (
           <>
-            {isLoadingPayload ? (
+            {isInitialPayloadLoading ? (
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <p className="text-sm text-slate-600">
                   Đang tải dữ liệu biểu mẫu...
@@ -688,19 +665,13 @@ export function GeneratedDocumentWorkspace({
               </section>
             ) : null}
 
-            {!isLoadingPayload && Panel ? (
+            {!isInitialPayloadLoading && Panel ? (
               <Panel
                 documentId={documentId}
                 onSaved={() => setRefreshKey((current) => current + 1)}
               />
             ) : null}
 
-            {!isLoadingPayload && !Panel ? (
-              <UnsupportedTemplateFormPanel
-                templateCode={templateCode}
-                templateName={templateName}
-              />
-            ) : null}
           </>
         ) : null}
 

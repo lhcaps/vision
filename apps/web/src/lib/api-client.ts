@@ -18,6 +18,145 @@ export const DEFAULT_API_FETCH_INIT: RequestInit = {
   },
 };
 
+const API_FETCH_DEFAULTS_MARKER = "__qvksApiFetchDefaultsInstalled";
+
+function isLoopbackHost(hostname: string) {
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1" ||
+    hostname === "[::1]"
+  );
+}
+
+function trimTrailingSlash(value: string) {
+  return value.replace(/\/$/, "");
+}
+
+export function getApiBaseUrl(): string {
+  if (typeof window === "undefined") {
+    return trimTrailingSlash(API_BASE_URL);
+  }
+
+  try {
+    const configured = new URL(API_BASE_URL);
+    const pageHost = window.location.hostname;
+
+    if (isLoopbackHost(configured.hostname) && isLoopbackHost(pageHost)) {
+      configured.hostname = pageHost;
+    }
+
+    return trimTrailingSlash(configured.toString());
+  } catch {
+    return trimTrailingSlash(API_BASE_URL);
+  }
+}
+
+function getRequestUrl(input: RequestInfo | URL): string | null {
+  if (typeof input === "string") return input;
+  if (input instanceof URL) return input.toString();
+  if (typeof Request !== "undefined" && input instanceof Request) return input.url;
+  return null;
+}
+
+function hasApiPath(url: URL, apiBase: URL) {
+  return url.pathname.startsWith(apiBase.pathname.replace(/\/$/, ""));
+}
+
+function isSameLoopbackApiOrigin(url: URL, apiBase: URL) {
+  return (
+    isLoopbackHost(url.hostname) &&
+    isLoopbackHost(apiBase.hostname) &&
+    url.protocol === apiBase.protocol &&
+    url.port === apiBase.port
+  );
+}
+
+function isApiRequestUrl(urlText: string) {
+  try {
+    const url = new URL(urlText, typeof window === "undefined" ? API_BASE_URL : window.location.href);
+    const configuredApiBase = new URL(API_BASE_URL);
+    const resolvedApiBase = new URL(getApiBaseUrl());
+
+    return [configuredApiBase, resolvedApiBase].some(
+      (apiBase) =>
+        hasApiPath(url, apiBase) &&
+        (url.origin === apiBase.origin || isSameLoopbackApiOrigin(url, apiBase)),
+    );
+  } catch {
+    return false;
+  }
+}
+
+function rewriteApiRequestHost(urlText: string) {
+  if (typeof window === "undefined") return urlText;
+
+  try {
+    const url = new URL(urlText, window.location.href);
+    if (!isApiRequestUrl(url.toString())) {
+      return urlText;
+    }
+
+    const configuredApiBase = new URL(API_BASE_URL);
+    const apiBase = new URL(getApiBaseUrl());
+    if (isSameLoopbackApiOrigin(url, configuredApiBase)) {
+      url.protocol = apiBase.protocol;
+      url.hostname = apiBase.hostname;
+      url.port = apiBase.port;
+    }
+
+    return url.toString();
+  } catch {
+    return urlText;
+  }
+}
+
+export function withApiFetchDefaults(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): [RequestInfo | URL, RequestInit | undefined] {
+  const requestUrl = getRequestUrl(input);
+  if (!requestUrl || !isApiRequestUrl(requestUrl)) {
+    return [input, init];
+  }
+
+  const nextInit: RequestInit = {
+    ...(init ?? {}),
+    credentials: init?.credentials ?? "include",
+  };
+
+  if (typeof input === "string") {
+    return [rewriteApiRequestHost(input), nextInit];
+  }
+
+  if (input instanceof URL) {
+    return [new URL(rewriteApiRequestHost(input.toString())), nextInit];
+  }
+
+  if (typeof Request !== "undefined" && input instanceof Request) {
+    return [new Request(rewriteApiRequestHost(input.url), input), nextInit];
+  }
+
+  return [input, nextInit];
+}
+
+export function installApiFetchDefaults() {
+  if (typeof window === "undefined") return;
+
+  const target = window as Window & {
+    [API_FETCH_DEFAULTS_MARKER]?: boolean;
+  };
+
+  if (target[API_FETCH_DEFAULTS_MARKER]) return;
+
+  const originalFetch = window.fetch.bind(window);
+  window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+    const [nextInput, nextInit] = withApiFetchDefaults(input, init);
+    return originalFetch(nextInput, nextInit);
+  };
+  target[API_FETCH_DEFAULTS_MARKER] = true;
+}
+
 export function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -49,14 +188,14 @@ export function extractApiError(json: unknown, fallback: string): string {
 
 export function buildUrl(path: string, params?: Record<string, string | number | undefined>): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  if (!params) return `${API_BASE_URL}${cleanPath}`;
+  if (!params) return `${getApiBaseUrl()}${cleanPath}`;
   const usp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
     if (v === undefined || v === null || v === "") continue;
     usp.set(k, String(v));
   }
   const qs = usp.toString();
-  return `${API_BASE_URL}${cleanPath}${qs ? `?${qs}` : ""}`;
+  return `${getApiBaseUrl()}${cleanPath}${qs ? `?${qs}` : ""}`;
 }
 
 /**
@@ -101,7 +240,7 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
     });
   }
 
-  const response = await fetch(`${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`, {
+  const response = await fetch(`${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`, {
     ...rest,
     credentials: "include",
     cache: noStore ? "no-store" : cache,
@@ -131,5 +270,5 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
  * Build URL trỏ thẳng tới backend (dùng cho file download, OAuth, ...).
  */
 export function absoluteApiUrl(path: string): string {
-  return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }

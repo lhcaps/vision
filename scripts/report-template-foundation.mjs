@@ -72,7 +72,7 @@ const lines = [
   '',
   '## Expansion Note',
   '',
-  'This report is scoped to the 60 commonly used forms in `docs/Biểu mẫu/Biểu mẫu`. The remaining TT 03/2026 folders should be audited as a separate expansion phase after this foundation set stays green.',
+  'This report remains scoped to the original 60 commonly used forms in `docs/Biểu mẫu/Biểu mẫu`. Full TT 03/2026 corpus coverage is audited in `docs/templates/TEMPLATE_CORPUS_AUDIT.md`.',
   '',
 ];
 

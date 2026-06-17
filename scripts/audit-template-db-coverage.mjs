@@ -1,6 +1,7 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
+import { buildTemplateCorpusSnapshot } from './template-foundation-utils.mjs';
 
 const repoRoot = findRepoRoot(process.cwd());
 const requireFromApi = createRequire(join(repoRoot, 'apps', 'api', 'package.json'));
@@ -9,8 +10,8 @@ const { PrismaClient } = requireFromApi('@prisma/client');
 loadEnvFile(resolve(repoRoot, '.env'));
 loadEnvFile(resolve(repoRoot, 'apps', 'api', '.env'), true);
 
-const sourceDir = join(repoRoot, 'docs', 'Biểu mẫu', 'Biểu mẫu');
-const sourceCodes = discoverSourceCodes(sourceDir);
+const snapshot = buildTemplateCorpusSnapshot(repoRoot);
+const sourceCodes = [...snapshot.sourceForms.keys()].sort();
 const findings = [];
 
 if (sourceCodes.length === 0) {
@@ -53,8 +54,16 @@ try {
       findings.push(`${code}: missing original_file_path`);
     }
   }
+} catch (error) {
+  console.error('Template DB coverage audit could not query the local database.');
+  console.error(`- ${error instanceof Error ? error.message.split('\n').filter(Boolean).at(-1) : String(error)}`);
+  process.exitCode = 1;
 } finally {
   await prisma.$disconnect();
+}
+
+if (process.exitCode) {
+  process.exit();
 }
 
 if (findings.length) {
@@ -66,22 +75,8 @@ if (findings.length) {
 }
 
 console.log(
-  `Template DB coverage audit passed: ${sourceCodes.length} source forms are seeded with active versions and original paths.`,
+  `Template DB coverage audit passed: ${sourceCodes.length} TT 03/2026 template codes are seeded with active versions and original paths.`,
 );
-
-function discoverSourceCodes(dir) {
-  if (!existsSync(dir)) return [];
-
-  return [
-    ...new Set(
-      readdirSync(dir)
-        .filter((fileName) => /\.(doc|docx)$/iu.test(fileName))
-        .map((fileName) => fileName.match(/^(\d{1,3})/u)?.[1])
-        .filter(Boolean)
-        .map((number) => `BM-${number.padStart(3, '0')}`),
-    ),
-  ].sort();
-}
 
 function loadEnvFile(filePath, override = false) {
   if (!existsSync(filePath)) return;

@@ -1,5 +1,7 @@
 import {
   buildSeedTemplates,
+  discoverCorpusOriginalTemplateFilesByCode,
+  discoverImplementedCatalogCodes,
   discoverOriginalTemplateFilesByCode,
   getSeedAdminConfig,
   type TemplateCatalogEntry,
@@ -73,6 +75,31 @@ describe('seed config', () => {
     ]);
   });
 
+  it('discovers implemented codes from catalog flags only', () => {
+    const catalog: TemplateCatalogEntry[] = [
+      {
+        code: 'BM-001',
+        number: 1,
+        title: 'Ready',
+        stageNo: '01',
+        fileName: '01-ready.doc',
+        sourcePath: 'source/01-ready.doc',
+        isImplemented: true,
+      },
+      {
+        code: 'BM-002',
+        number: 2,
+        title: 'Not ready',
+        stageNo: '01',
+        fileName: '02-not-ready.doc',
+        sourcePath: 'source/02-not-ready.doc',
+        isImplemented: false,
+      },
+    ];
+
+    expect(discoverImplementedCatalogCodes(catalog)).toEqual(['BM-001']);
+  });
+
   it('discovers all original source form files by BM code', () => {
     const repoRoot = mkdirTempRepo();
     const sourceDir = join(repoRoot, 'docs', 'Biểu mẫu', 'Biểu mẫu');
@@ -87,6 +114,38 @@ describe('seed config', () => {
         new Map([
           ['BM-001', 'docs/Biểu mẫu/Biểu mẫu/01-Bien-ban.doc'],
           ['BM-103', 'docs/Biểu mẫu/Biểu mẫu/103-De-nghi-gia-han.docx'],
+        ]),
+      );
+    } finally {
+      rmSync(repoRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('discovers canonical original source files from the full corpus', () => {
+    const repoRoot = mkdirTempRepo();
+    const foundationDir = join(repoRoot, 'docs', 'foundation');
+    const fullDir = join(
+      repoRoot,
+      'docs',
+      'Full',
+      '0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC',
+      '01. STAGE',
+    );
+
+    mkdirSync(foundationDir, { recursive: true });
+    mkdirSync(fullDir, { recursive: true });
+    writeFileSync(join(foundationDir, '04-foundation.doc'), 'foundation');
+    writeFileSync(join(fullDir, '04-full.doc'), 'full');
+    writeFileSync(join(fullDir, '158-full.docx'), 'full-docx');
+
+    try {
+      expect(discoverCorpusOriginalTemplateFilesByCode(join(repoRoot, 'docs'), repoRoot)).toEqual(
+        new Map([
+          ['BM-004', 'docs/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. STAGE/04-full.doc'],
+          [
+            'BM-158',
+            'docs/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. STAGE/158-full.docx',
+          ],
         ]),
       );
     } finally {

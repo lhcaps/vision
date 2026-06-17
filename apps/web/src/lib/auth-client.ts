@@ -25,12 +25,19 @@ export interface AuthUser {
 }
 
 export async function login(username: string, password: string): Promise<AuthUser> {
-  const res = await fetch(absoluteApiUrl("/auth/login"), {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: username.trim(), password }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(absoluteApiUrl("/auth/login"), {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username.trim(), password }),
+    });
+  } catch {
+    throw new Error(
+      "Không kết nối được API đăng nhập. Kiểm tra server API ở cổng 3001 rồi thử lại.",
+    );
+  }
   if (!res.ok) {
     const text = await res.text();
     let msg = "Đăng nhập thất bại.";

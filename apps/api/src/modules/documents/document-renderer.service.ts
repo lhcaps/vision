@@ -151,6 +151,34 @@ function asObject(value: unknown): Record<string, any> {
   return value as Record<string, any>;
 }
 
+function overlayObjectGroups(
+  target: Record<string, any>,
+  source: Record<string, any>,
+): Record<string, any> {
+  const next = { ...target };
+
+  for (const [key, value] of Object.entries(source)) {
+    if (value === undefined) continue;
+
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    ) {
+      next[key] = {
+        ...asObject(next[key]),
+        ...value,
+      };
+      continue;
+    }
+
+    next[key] = value;
+  }
+
+  return next;
+}
+
 function str(value: unknown): string | null {
   if (value === null || value === undefined) return null;
   return String(value);
@@ -1017,6 +1045,12 @@ export class DocumentRendererService {
         : {}),
       ...((dto as any).document
         ? { document: asObject((dto as any).document) }
+        : {}),
+      ...((dto as any).caseInfo
+        ? { caseInfo: asObject((dto as any).caseInfo) }
+        : {}),
+      ...((dto as any).content
+        ? { content: asObject((dto as any).content) }
         : {}),
       ...((dto as any).person ? { person: asObject((dto as any).person) } : {}),
       ...((dto as any).offense
@@ -23526,11 +23560,28 @@ export class DocumentRendererService {
     }
     // BM-156_SYNC_ACCUSER_OFFENSE_V2_END
 
-    const finalRuntimePayload = bm031ApplySavedSnapshotToFinalPayload(
+    const finalRuntimePayloadBase = bm031ApplySavedSnapshotToFinalPayload(
       finalPayload,
       generatedDocument as Record<string, any>,
       template?.template_code ?? null,
     );
+    const finalRuntimePayload = overlayObjectGroups(
+      finalRuntimePayloadBase as Record<string, any>,
+      formInputs,
+    );
+
+    finalRuntimePayload.formInputs = {
+      ...asObject(finalRuntimePayloadBase.formInputs),
+      ...formInputs,
+    };
+    finalRuntimePayload.payloadOverrides = {
+      ...asObject(finalRuntimePayloadBase.payloadOverrides),
+      ...formInputs,
+    };
+    finalRuntimePayload.renderPayloadOverrides = {
+      ...asObject(finalRuntimePayloadBase.renderPayloadOverrides),
+      ...formInputs,
+    };
 
     return sanitizeRenderPayloadRuntimeDefaults(finalRuntimePayload, {
       actorName: actor?.fullName ?? generatedDocument.generated_by_name,

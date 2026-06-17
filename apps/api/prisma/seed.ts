@@ -18,9 +18,10 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { hashPassword } from '../src/modules/auth/password.util';
 import {
   buildSeedTemplates,
+  discoverCorpusOriginalTemplateFilesByCode,
+  discoverImplementedCatalogCodes,
   discoverImplementedTemplateCodes,
   discoverNormalizedDocxByCode,
-  discoverOriginalTemplateFilesByCode,
   getSeedAdminConfig,
 } from '../src/seed/seed-config';
 
@@ -379,15 +380,15 @@ async function seedTemplates(
   groupIds: Record<string, bigint>,
   adminOfficialId: bigint,
 ): Promise<void> {
-  const implementedCodes = discoverImplementedTemplateCodes(
+  const componentImplementedCodes = discoverImplementedTemplateCodes(
     resolve(REPO_ROOT, 'apps', 'web', 'src', 'components', 'documents'),
   );
   const normalizedDocxByCode = discoverNormalizedDocxByCode(
     resolve(REPO_ROOT, 'storage', 'templates', 'normalized-docx'),
     REPO_ROOT,
   );
-  const originalPathByCode = discoverOriginalTemplateFilesByCode(
-    resolve(REPO_ROOT, 'docs', 'Biểu mẫu', 'Biểu mẫu'),
+  const originalPathByCode = discoverCorpusOriginalTemplateFilesByCode(
+    resolve(REPO_ROOT, 'docs'),
     REPO_ROOT,
   );
   const catalogModule = (await import(
@@ -395,6 +396,9 @@ async function seedTemplates(
       resolve(REPO_ROOT, 'apps', 'web', 'src', 'lib', 'vks-template-catalog.ts'),
     ).href
   )) as { vksTemplateCatalog: Parameters<typeof buildSeedTemplates>[0]['catalog'] };
+  const implementedCodes = discoverImplementedCatalogCodes(
+    catalogModule.vksTemplateCatalog,
+  );
   const seedTemplates = buildSeedTemplates({
     implementedCodes,
     catalog: catalogModule.vksTemplateCatalog,
@@ -481,6 +485,7 @@ async function seedTemplates(
 
   console.log(
     `[seed] templates: ${seedTemplates.length} implemented forms ready ` +
+      `(${componentImplementedCodes.length} specific FE panels detected); ` +
       `(${createdTemplateCount} created, ${updatedTemplateCount} updated); ` +
       `${createdVersionCount} versions created, ${updatedVersionCount} versions updated.`,
   );
