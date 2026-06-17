@@ -81,14 +81,17 @@ Current expected result: `BM Production Readiness: NOT READY`.
 Blockers after the render harness fix and Phase 2 central-adapter rollout
 (5th blocker resolved; 4 remain):
 
-1. `case-context-not-consumed` - 84/213 forms consume the shared case payload
-   context. The 17 bespoke BMs wired in batch 2 use the central
-   `BmFormCasePayloadButton` / `BmFlatFormCasePayloadButton` which call
-   `useApplyCasePayloadToForm` / `useApplyCasePayloadToFlatForm` under the hood,
-   so the user-facing "Lấy từ vụ án" path is real even though the panel does
-   not call `useCasePayload()` directly. To count towards this blocker the form
-   must consume `useCasePayload()` directly or be a `GenericTemplateFormInputs`
-   panel. The bespoke BMs deliberately do not.
+1. `case-context-not-consumed` - 104/213 forms consume the shared case
+   payload context (up from 84/213 in batch 1). The 17 bespoke BMs wired
+   in batch 2 use the central `BmFormCasePayloadButton` /
+   `BmFlatFormCasePayloadButton` which call
+   `useApplyCasePayloadToForm` / `useApplyCasePayloadToFlatForm` under
+   the hood. As of the audit detection update, an import of either
+   button is now counted as an "indirect case-context consumer" (the
+   `useApplyCasePayload*` hooks both call `useCasePayload()` internally),
+   so `hasUseCasePayloadCount` rises by the same 20 forms that gained
+   a `take-from-case` button. 109/213 forms still need an equivalent
+   central adapter path.
 2. `take-from-case-missing` - `hasTakeFromCaseButtonCount` is now 104/213
    (up from 84/213 in batch 1; +20 from the batch-2 wire of 13 nested
    bespoke + 4 flat bespoke = 17 forms, plus 3 that the audit re-classified
@@ -319,6 +322,10 @@ Audit update:
   of 17 BMs, plus a 3-form side-effect of the relative-import fix).
 - `hasRegisteredBmFieldMapCount` is 21/213 (5 samples + 16 of the 17
   bespoke; one is counted via the generic panel hook).
+- `hasUseCasePayloadCount` is 104/213 (84 before; +20 from the
+  BmFormCasePayloadButton / BmFlatFormCasePayloadButton import
+  detection update). This drops `case-context-not-consumed` from
+  129 missing to 109 missing, on its own without any further UI work.
 
 Readiness gate impact:
 

@@ -148,7 +148,15 @@ function classifyForm(filePath, statusMap) {
   const hasGenericPanelCaseContext =
     hasGenericPanel && genericPanelText.includes("useCasePayload");
   const hasUseCasePayload =
-    combinedText.includes("useCasePayload") || hasGenericPanelCaseContext;
+    combinedText.includes("useCasePayload") ||
+    hasGenericPanelCaseContext ||
+    // BmFormCasePayloadButton / BmFlatFormCasePayloadButton call
+    // useApplyCasePayloadToForm / useApplyCasePayloadToFlatForm, both
+    // of which call useCasePayload() internally. Treat the button
+    // import as an indirect case-context consumer for the metrics that
+    // derive from `hasUseCasePayload` (e.g. `caseContextForms`,
+    // `case-context-not-consumed`).
+    /\bBm(?:Flat)?FormCasePayloadButton\b/u.test(combinedText);
   const hasCasePayloadImport =
     combinedText.includes("CasePayload") || hasGenericPanelCaseContext;
   const hasUseEffect = text.includes("useEffect");
