@@ -134,12 +134,156 @@ import { Bm140FormInputsPanel } from "./bm-140-form-inputs";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import { absoluteApiUrl } from "@/lib/api-client";
+import {
+  CasePayloadProvider,
+  type CasePayload,
+} from "@/lib/case-payload-context";
 
+import { Bm004FormInputsPanel } from "@/components/documents/bm-004-form-inputs";
+import { Bm013FormInputsPanel } from "@/components/documents/bm-013-form-inputs";
+import { Bm019FormInputsPanel } from "@/components/documents/bm-019-form-inputs";
+import { Bm020FormInputsPanel } from "@/components/documents/bm-020-form-inputs";
+import { Bm021FormInputsPanel } from "@/components/documents/bm-021-form-inputs";
+import { Bm022FormInputsPanel } from "@/components/documents/bm-022-form-inputs";
+import { Bm024FormInputsPanel } from "@/components/documents/bm-024-form-inputs";
+import { Bm025FormInputsPanel } from "@/components/documents/bm-025-form-inputs";
+import { Bm026FormInputsPanel } from "@/components/documents/bm-026-form-inputs";
+import { Bm027FormInputsPanel } from "@/components/documents/bm-027-form-inputs";
+import { Bm028FormInputsPanel } from "@/components/documents/bm-028-form-inputs";
+import { Bm029FormInputsPanel } from "@/components/documents/bm-029-form-inputs";
+import { Bm032FormInputsPanel } from "@/components/documents/bm-032-form-inputs";
+import { Bm034FormInputsPanel } from "@/components/documents/bm-034-form-inputs";
+import { Bm035FormInputsPanel } from "@/components/documents/bm-035-form-inputs";
+import { Bm036FormInputsPanel } from "@/components/documents/bm-036-form-inputs";
+import { Bm041FormInputsPanel } from "@/components/documents/bm-041-form-inputs";
+import { Bm048FormInputsPanel } from "@/components/documents/bm-048-form-inputs";
+import { Bm049FormInputsPanel } from "@/components/documents/bm-049-form-inputs";
+import { Bm050FormInputsPanel } from "@/components/documents/bm-050-form-inputs";
+import { Bm051FormInputsPanel } from "@/components/documents/bm-051-form-inputs";
+import { Bm052FormInputsPanel } from "@/components/documents/bm-052-form-inputs";
+import { Bm060FormInputsPanel } from "@/components/documents/bm-060-form-inputs";
+import { Bm061FormInputsPanel } from "@/components/documents/bm-061-form-inputs";
+import { Bm062FormInputsPanel } from "@/components/documents/bm-062-form-inputs";
+import { Bm063FormInputsPanel } from "@/components/documents/bm-063-form-inputs";
+import { Bm064FormInputsPanel } from "@/components/documents/bm-064-form-inputs";
+import { Bm065FormInputsPanel } from "@/components/documents/bm-065-form-inputs";
+import { Bm066FormInputsPanel } from "@/components/documents/bm-066-form-inputs";
+import { Bm067FormInputsPanel } from "@/components/documents/bm-067-form-inputs";
+import { Bm068FormInputsPanel } from "@/components/documents/bm-068-form-inputs";
+import { Bm069FormInputsPanel } from "@/components/documents/bm-069-form-inputs";
+import { Bm073FormInputsPanel } from "@/components/documents/bm-073-form-inputs";
+import { Bm075FormInputsPanel } from "@/components/documents/bm-075-form-inputs";
+import { Bm077FormInputsPanel } from "@/components/documents/bm-077-form-inputs";
+import { Bm079FormInputsPanel } from "@/components/documents/bm-079-form-inputs";
+import { Bm080FormInputsPanel } from "@/components/documents/bm-080-form-inputs";
+import { Bm082FormInputsPanel } from "@/components/documents/bm-082-form-inputs";
+import { Bm162FormInputsPanel } from "@/components/documents/bm-162-form-inputs";
+import { Bm163FormInputsPanel } from "@/components/documents/bm-163-form-inputs";
+import { Bm164FormInputsPanel } from "@/components/documents/bm-164-form-inputs";
+import { Bm165FormInputsPanel } from "@/components/documents/bm-165-form-inputs";
+import { Bm167FormInputsPanel } from "@/components/documents/bm-167-form-inputs";
+import { Bm174FormInputsPanel } from "@/components/documents/bm-174-form-inputs";
+import { Bm175FormInputsPanel } from "@/components/documents/bm-175-form-inputs";
+import { Bm176FormInputsPanel } from "@/components/documents/bm-176-form-inputs";
+import { Bm177FormInputsPanel } from "@/components/documents/bm-177-form-inputs";
+import { Bm178FormInputsPanel } from "@/components/documents/bm-178-form-inputs";
+import { Bm179FormInputsPanel } from "@/components/documents/bm-179-form-inputs";
+import { Bm180FormInputsPanel } from "@/components/documents/bm-180-form-inputs";
+import { Bm181FormInputsPanel } from "@/components/documents/bm-181-form-inputs";
+import { Bm182FormInputsPanel } from "@/components/documents/bm-182-form-inputs";
+import { Bm183FormInputsPanel } from "@/components/documents/bm-183-form-inputs";
+import { Bm184FormInputsPanel } from "@/components/documents/bm-184-form-inputs";
+import { Bm185FormInputsPanel } from "@/components/documents/bm-185-form-inputs";
+import { Bm186FormInputsPanel } from "@/components/documents/bm-186-form-inputs";
+import { Bm187FormInputsPanel } from "@/components/documents/bm-187-form-inputs";
+import { Bm188FormInputsPanel } from "@/components/documents/bm-188-form-inputs";
+import { Bm189FormInputsPanel } from "@/components/documents/bm-189-form-inputs";
+import { Bm190FormInputsPanel } from "@/components/documents/bm-190-form-inputs";
+import { Bm191FormInputsPanel } from "@/components/documents/bm-191-form-inputs";
+import { Bm192FormInputsPanel } from "@/components/documents/bm-192-form-inputs";
+import { Bm193FormInputsPanel } from "@/components/documents/bm-193-form-inputs";
+import { Bm194FormInputsPanel } from "@/components/documents/bm-194-form-inputs";
+import { Bm195FormInputsPanel } from "@/components/documents/bm-195-form-inputs";
+import { Bm196FormInputsPanel } from "@/components/documents/bm-196-form-inputs";
+import { Bm197FormInputsPanel } from "@/components/documents/bm-197-form-inputs";
+import { Bm198FormInputsPanel } from "@/components/documents/bm-198-form-inputs";
+import { Bm199FormInputsPanel } from "@/components/documents/bm-199-form-inputs";
+import { Bm200FormInputsPanel } from "@/components/documents/bm-200-form-inputs";
+import { Bm201FormInputsPanel } from "@/components/documents/bm-201-form-inputs";
+import { Bm202FormInputsPanel } from "@/components/documents/bm-202-form-inputs";
+import { Bm203FormInputsPanel } from "@/components/documents/bm-203-form-inputs";
+import { Bm204FormInputsPanel } from "@/components/documents/bm-204-form-inputs";
+import { Bm205FormInputsPanel } from "@/components/documents/bm-205-form-inputs";
+import { Bm206FormInputsPanel } from "@/components/documents/bm-206-form-inputs";
+import { Bm207FormInputsPanel } from "@/components/documents/bm-207-form-inputs";
+import { Bm208FormInputsPanel } from "@/components/documents/bm-208-form-inputs";
+import { Bm209FormInputsPanel } from "@/components/documents/bm-209-form-inputs";
+import { Bm210FormInputsPanel } from "@/components/documents/bm-210-form-inputs";
+import { Bm211FormInputsPanel } from "@/components/documents/bm-211-form-inputs";
+import { Bm212FormInputsPanel } from "@/components/documents/bm-212-form-inputs";
+import { Bm213FormInputsPanel } from "@/components/documents/bm-213-form-inputs";
 type GeneratedDocumentWorkspaceProps = {
   documentId: string;
 };
 
 type TabKey = "form" | "files" | "history";
+
+type CasePayloadAgencyWire = {
+  id?: string | null;
+  agencyCode?: string | null;
+  agencyName?: string | null;
+  agencyType?: string | null;
+  parentAgencyId?: string | null;
+  parentAgencyName?: string | null;
+  address?: string | null;
+  phone?: string | null;
+};
+
+type CasePayloadPersonWire = {
+  casePersonId?: string | null;
+  personId?: string | null;
+  roleType?: string | null;
+  legalStatus?: string | null;
+  isPrimary?: boolean;
+  personOrder?: number;
+  fullName?: string | null;
+  birthYear?: number | null;
+  currentAddress?: string | null;
+  residenceAddress?: string | null;
+};
+
+type CasePayloadOffenseWire = {
+  id?: string | null;
+  personId?: string | null;
+  offenseId?: string | null;
+  offenseName?: string | null;
+  offenseCode?: string | null;
+  offenseGroup?: string | null;
+  legalArticle?: string | null;
+  isPrimary?: boolean;
+};
+
+type CasePayloadAssignmentOfficialWire = {
+  id?: string | null;
+  fullName?: string | null;
+  positionTitle?: string | null;
+  rankTitle?: string | null;
+  phone?: string | null;
+};
+
+type CasePayloadAssignmentWire = {
+  id?: string | null;
+  roleType?: string | null;
+  legalStatus?: string | null;
+  isPrimary?: boolean;
+  personOrder?: number;
+  assignedDate?: string | null;
+  endedDate?: string | null;
+  decisionNo?: string | null;
+  decisionDate?: string | null;
+  note?: string | null;
+  official?: CasePayloadAssignmentOfficialWire | null;
+};
 
 type RenderPayloadResponse = {
   document?: {
@@ -160,10 +304,17 @@ type RenderPayloadResponse = {
   case?: {
     caseCode?: string | null;
     caseTitle?: string | null;
+    // Phase 1: optional nested agency summary (see document-renderer.service.ts).
+    agency?: CasePayloadAgencyWire | null;
   } | null;
   person?: {
     fullName?: string | null;
   } | null;
+  // Phase 1: optional lists for "Lấy từ vụ án" UI. The server adds these in
+  // document-renderer.service.ts; older clients can ignore them.
+  people?: CasePayloadPersonWire[] | null;
+  offenses?: CasePayloadOffenseWire[] | null;
+  assignments?: CasePayloadAssignmentWire[] | null;
 };
 
 const TABS: Array<{
@@ -326,6 +477,89 @@ const BM_PANEL_BY_CODE: Record<string, BmPanelComponent> = {
   "BM-171": Bm171FormInputsPanel,
   "BM-172": Bm172FormInputsPanel,
   "BM-173": Bm173FormInputsPanel,
+  "BM-004": Bm004FormInputsPanel,
+  "BM-013": Bm013FormInputsPanel,
+  "BM-019": Bm019FormInputsPanel,
+  "BM-020": Bm020FormInputsPanel,
+  "BM-021": Bm021FormInputsPanel,
+  "BM-022": Bm022FormInputsPanel,
+  "BM-024": Bm024FormInputsPanel,
+  "BM-025": Bm025FormInputsPanel,
+  "BM-026": Bm026FormInputsPanel,
+  "BM-027": Bm027FormInputsPanel,
+  "BM-028": Bm028FormInputsPanel,
+  "BM-029": Bm029FormInputsPanel,
+  "BM-032": Bm032FormInputsPanel,
+  "BM-034": Bm034FormInputsPanel,
+  "BM-035": Bm035FormInputsPanel,
+  "BM-036": Bm036FormInputsPanel,
+  "BM-041": Bm041FormInputsPanel,
+  "BM-048": Bm048FormInputsPanel,
+  "BM-049": Bm049FormInputsPanel,
+  "BM-050": Bm050FormInputsPanel,
+  "BM-051": Bm051FormInputsPanel,
+  "BM-052": Bm052FormInputsPanel,
+  "BM-060": Bm060FormInputsPanel,
+  "BM-061": Bm061FormInputsPanel,
+  "BM-062": Bm062FormInputsPanel,
+  "BM-063": Bm063FormInputsPanel,
+  "BM-064": Bm064FormInputsPanel,
+  "BM-065": Bm065FormInputsPanel,
+  "BM-066": Bm066FormInputsPanel,
+  "BM-067": Bm067FormInputsPanel,
+  "BM-068": Bm068FormInputsPanel,
+  "BM-069": Bm069FormInputsPanel,
+  "BM-073": Bm073FormInputsPanel,
+  "BM-075": Bm075FormInputsPanel,
+  "BM-077": Bm077FormInputsPanel,
+  "BM-079": Bm079FormInputsPanel,
+  "BM-080": Bm080FormInputsPanel,
+  "BM-082": Bm082FormInputsPanel,
+  "BM-162": Bm162FormInputsPanel,
+  "BM-163": Bm163FormInputsPanel,
+  "BM-164": Bm164FormInputsPanel,
+  "BM-165": Bm165FormInputsPanel,
+  "BM-167": Bm167FormInputsPanel,
+  "BM-174": Bm174FormInputsPanel,
+  "BM-175": Bm175FormInputsPanel,
+  "BM-176": Bm176FormInputsPanel,
+  "BM-177": Bm177FormInputsPanel,
+  "BM-178": Bm178FormInputsPanel,
+  "BM-179": Bm179FormInputsPanel,
+  "BM-180": Bm180FormInputsPanel,
+  "BM-181": Bm181FormInputsPanel,
+  "BM-182": Bm182FormInputsPanel,
+  "BM-183": Bm183FormInputsPanel,
+  "BM-184": Bm184FormInputsPanel,
+  "BM-185": Bm185FormInputsPanel,
+  "BM-186": Bm186FormInputsPanel,
+  "BM-187": Bm187FormInputsPanel,
+  "BM-188": Bm188FormInputsPanel,
+  "BM-189": Bm189FormInputsPanel,
+  "BM-190": Bm190FormInputsPanel,
+  "BM-191": Bm191FormInputsPanel,
+  "BM-192": Bm192FormInputsPanel,
+  "BM-193": Bm193FormInputsPanel,
+  "BM-194": Bm194FormInputsPanel,
+  "BM-195": Bm195FormInputsPanel,
+  "BM-196": Bm196FormInputsPanel,
+  "BM-197": Bm197FormInputsPanel,
+  "BM-198": Bm198FormInputsPanel,
+  "BM-199": Bm199FormInputsPanel,
+  "BM-200": Bm200FormInputsPanel,
+  "BM-201": Bm201FormInputsPanel,
+  "BM-202": Bm202FormInputsPanel,
+  "BM-203": Bm203FormInputsPanel,
+  "BM-204": Bm204FormInputsPanel,
+  "BM-205": Bm205FormInputsPanel,
+  "BM-206": Bm206FormInputsPanel,
+  "BM-207": Bm207FormInputsPanel,
+  "BM-208": Bm208FormInputsPanel,
+  "BM-209": Bm209FormInputsPanel,
+  "BM-210": Bm210FormInputsPanel,
+  "BM-211": Bm211FormInputsPanel,
+  "BM-212": Bm212FormInputsPanel,
+  "BM-213": Bm213FormInputsPanel,
 };
 
 function getTemplateDescription(templateCode: string | null | undefined) {
@@ -562,11 +796,95 @@ export function GeneratedDocumentWorkspace({
   );
   const isInitialPayloadLoading = isLoadingPayload && !payload;
 
+  // Phase 1: feed a normalized CasePayload to BM form panels via React context.
+  // Optional fields stay null/[] when BE hasn't sent them yet.
+  const casePayload = useMemo<CasePayload>(() => {
+    const wireCase = payload?.case ?? null;
+    const wireAgency = wireCase?.agency ?? null;
+
+    return {
+      case: wireCase
+        ? {
+            id: null,
+            caseCode: wireCase.caseCode ?? null,
+            nationalCaseCode: null,
+            caseTitle: wireCase.caseTitle ?? null,
+            caseSummary: null,
+            caseType: null,
+            sourceType: null,
+            currentStage: null,
+            currentStatus: null,
+            priority: null,
+            receivedDate: null,
+            acceptedDate: null,
+            prosecutedDate: null,
+            closedDate: null,
+            note: null,
+            agency: wireAgency
+              ? {
+                  id: wireAgency.id ?? null,
+                  agencyCode: wireAgency.agencyCode ?? null,
+                  agencyName: wireAgency.agencyName ?? null,
+                  agencyType: wireAgency.agencyType ?? null,
+                  parentAgencyId: wireAgency.parentAgencyId ?? null,
+                  parentAgencyName: wireAgency.parentAgencyName ?? null,
+                  address: wireAgency.address ?? null,
+                  phone: wireAgency.phone ?? null,
+                }
+              : null,
+          }
+        : null,
+      people: (payload?.people ?? []).map((item) => ({
+        id: item.personId ?? null,
+        fullName: item.fullName ?? null,
+        roleType: item.roleType ?? null,
+        legalStatus: item.legalStatus ?? null,
+        isPrimary: item.isPrimary ?? false,
+        personOrder: item.personOrder ?? 0,
+        birthYear: item.birthYear ?? null,
+        currentAddress: item.currentAddress ?? null,
+        residenceAddress: item.residenceAddress ?? null,
+      })),
+      offenses: (payload?.offenses ?? []).map((item) => ({
+        id: item.id ?? null,
+        personId: item.personId ?? null,
+        offenseId: item.offenseId ?? null,
+        offenseName: item.offenseName ?? null,
+        offenseCode: item.offenseCode ?? null,
+        offenseGroup: item.offenseGroup ?? null,
+        legalArticle: item.legalArticle ?? null,
+        isPrimary: item.isPrimary ?? false,
+      })),
+      assignments: (payload?.assignments ?? []).map((item) => ({
+        id: item.id ?? null,
+        roleType: item.roleType ?? null,
+        legalStatus: item.legalStatus ?? null,
+        isPrimary: item.isPrimary ?? false,
+        personOrder: item.personOrder ?? 0,
+        assignedDate: item.assignedDate ?? null,
+        endedDate: item.endedDate ?? null,
+        decisionNo: item.decisionNo ?? null,
+        decisionDate: item.decisionDate ?? null,
+        note: item.note ?? null,
+        official: item.official
+          ? {
+              id: item.official.id ?? null,
+              fullName: item.official.fullName ?? null,
+              positionTitle: item.official.positionTitle ?? null,
+              rankTitle: item.official.rankTitle ?? null,
+              phone: item.official.phone ?? null,
+            }
+          : null,
+      })),
+    };
+  }, [payload]);
+
   const Panel = templateCode
     ? BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel
     : GenericTemplateFormInputsPanel;
 
   return (
+    <CasePayloadProvider value={casePayload}>
     <main className="qvks-document-workspace min-h-screen bg-slate-50 px-5 py-7 md:px-10">
       <div className="mx-auto w-full max-w-[1500px] space-y-7">
     <header className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
@@ -696,5 +1014,6 @@ export function GeneratedDocumentWorkspace({
         ) : null}
       </div>
     </main>
+    </CasePayloadProvider>
   );
 }

@@ -4109,6 +4109,34 @@ export class DocumentRendererService {
       offenses.map((offense) => [String(offense.id), offense]),
     );
 
+    // Phase 1: expose case_assignments + officials so form panels can populate
+    // "Lấy từ vụ án" UI (KSV phân công, PVT phực hiện quyền công tố, ...).
+    // Active-only because ended_date marks assignments that no longer apply.
+    const caseAssignments = await this.prisma.case_assignments.findMany({
+      where: {
+        case_id: caseItem.id,
+        is_active: true,
+      },
+      orderBy: [{ assigned_date: 'asc' }, { id: 'asc' }],
+    });
+
+    const assignmentOfficialIds = caseAssignments
+      .map((item) => item.official_id)
+      .filter((value): value is bigint => value !== null);
+
+    const assignmentOfficials = assignmentOfficialIds.length
+      ? await this.prisma.officials.findMany({
+          where: {
+            id: { in: assignmentOfficialIds },
+            is_active: true,
+          },
+        })
+      : [];
+
+    const officialById = new Map(
+      assignmentOfficials.map((official) => [String(official.id), official]),
+    );
+
     const primaryCaseOffense = caseOffenses[0] ?? null;
     const primaryOffense = primaryCaseOffense
       ? offenseById.get(String(primaryCaseOffense.offense_id))
@@ -6159,7 +6187,53 @@ export class DocumentRendererService {
         prosecutedDate: formatDate(caseItem.prosecuted_date),
         closedDate: formatDate(caseItem.closed_date),
         note: caseItem.note,
+        // Phase 1: compact agency summary so form panels can read VKS info
+        // directly from payload.case.agency without traversing to payload.agency.
+        agency: agencyFromDb
+          ? {
+              id: toPublicId(agencyFromDb.id),
+              agencyCode: agencyFromDb.agency_code,
+              agencyName: agencyFromDb.agency_name,
+              agencyType: agencyFromDb.agency_type,
+              parentAgencyId: agencyFromDb.parent_agency_id
+                ? toPublicId(agencyFromDb.parent_agency_id)
+                : null,
+              parentAgencyName: agencyParentFromDb?.agency_name ?? null,
+              address: agencyFromDb.address,
+              phone: agencyFromDb.phone,
+            }
+          : null,
       },
+      // Phase 1: list of assignments (KSV, PVT, ...) with resolved official
+      // names so the "Lấy từ vụ án" button can populate fields like
+      // assigned prosecutor, deputy in charge, etc.
+      assignments: caseAssignments.map((item) => {
+        const official = item.official_id
+          ? officialById.get(String(item.official_id))
+          : null;
+
+        return {
+          id: toPublicId(item.id),
+          roleType: item.assignment_role,
+          legalStatus: null as string | null,
+          isPrimary: false,
+          personOrder: 0,
+          assignedDate: formatDate(item.assigned_date),
+          endedDate: formatDate(item.ended_date),
+          decisionNo: item.decision_no,
+          decisionDate: formatDate(item.decision_date),
+          note: item.note,
+          official: official
+            ? {
+                id: toPublicId(official.id),
+                fullName: official.full_name,
+                positionTitle: official.position_title,
+                rankTitle: official.rank_title,
+                phone: official.phone,
+              }
+            : null,
+        };
+      }),
       person:
         selectedPerson || Object.keys(personInput).length > 0
           ? {
