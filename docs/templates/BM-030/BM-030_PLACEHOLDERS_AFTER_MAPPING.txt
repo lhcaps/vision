@@ -1,0 +1,14 @@
+{{agency.name}}
+{{agency.parentName}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{legalBasis.procedureArticlesLine}}
+{{recipients.archiveLine}}
+{{recipients.copyLine}}
+{{recipients.primaryLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{sourceResolutionNotice.agencyActionLine}}
+{{sourceResolutionNotice.noticeRecipientLine}}
+{{sourceResolutionNotice.resolutionResultLine}}
+{{sourceResolutionNotice.sourceInfoLine}}

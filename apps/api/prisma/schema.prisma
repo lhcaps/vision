@@ -1,0 +1,731 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model agencies {
+  id               BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  agency_code      String?     @unique(map: "uq_agencies_code") @db.VarChar(100)
+  agency_name      String      @db.VarChar(255)
+  agency_type      String      @db.VarChar(50)
+  parent_agency_id BigInt?     @db.UnsignedBigInt
+  address          String?     @db.Text
+  phone            String?     @db.VarChar(50)
+  is_active        Boolean     @default(true)
+  created_at       DateTime    @default(now()) @db.DateTime(0)
+  updated_at       DateTime    @default(now()) @db.DateTime(0)
+  agencies         agencies?   @relation("agenciesToagencies", fields: [parent_agency_id], references: [id], onUpdate: NoAction, map: "fk_agencies_parent")
+  other_agencies   agencies[]  @relation("agenciesToagencies")
+  cases            cases[]
+  officials        officials[]
+
+  @@index([parent_agency_id], map: "fk_agencies_parent")
+  @@index([agency_name], map: "idx_agencies_name")
+  @@index([agency_type], map: "idx_agencies_type")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model audit_logs {
+  id             BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  actor_name     String?  @db.VarChar(255)
+  action         String   @db.VarChar(100)
+  entity_type    String   @db.VarChar(100)
+  entity_id      BigInt?  @db.UnsignedBigInt
+  case_id        BigInt?  @db.UnsignedBigInt
+  old_value_json Json?
+  new_value_json Json?
+  ip_address     String?  @db.VarChar(100)
+  user_agent     String?  @db.Text
+  created_at     DateTime @default(now()) @db.DateTime(0)
+  cases          cases?   @relation(fields: [case_id], references: [id], onUpdate: NoAction, map: "fk_audit_logs_case")
+
+  @@index([action], map: "idx_audit_logs_action")
+  @@index([actor_name], map: "idx_audit_logs_actor")
+  @@index([case_id], map: "idx_audit_logs_case")
+  @@index([created_at], map: "idx_audit_logs_created_at")
+  @@index([entity_type, entity_id], map: "idx_audit_logs_entity")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model case_assignments {
+  id              BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id         BigInt     @db.UnsignedBigInt
+  official_id     BigInt?    @db.UnsignedBigInt
+  assignment_role String     @db.VarChar(100)
+  assigned_date   DateTime?  @db.Date
+  ended_date      DateTime?  @db.Date
+  decision_no     String?    @db.VarChar(100)
+  decision_date   DateTime?  @db.Date
+  note            String?    @db.Text
+  is_active       Boolean    @default(true)
+  created_at      DateTime   @default(now()) @db.DateTime(0)
+  updated_at      DateTime   @default(now()) @db.DateTime(0)
+  cases           cases      @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_case_assignments_case")
+  officials       officials? @relation(fields: [official_id], references: [id], onUpdate: NoAction, map: "fk_case_assignments_official")
+
+  @@index([case_id], map: "idx_case_assignments_case")
+  @@index([official_id], map: "idx_case_assignments_official")
+  @@index([assignment_role], map: "idx_case_assignments_role")
+}
+
+model case_events {
+  id                  BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id             BigInt   @db.UnsignedBigInt
+  event_type          String   @db.VarChar(100)
+  event_title         String   @db.VarChar(500)
+  event_description   String?  @db.Text
+  stage_code          String?  @db.VarChar(100)
+  status_before       String?  @db.VarChar(100)
+  status_after        String?  @db.VarChar(100)
+  event_date          DateTime @default(now()) @db.DateTime(0)
+  related_person_id   BigInt?  @db.UnsignedBigInt
+  related_template_id BigInt?  @db.UnsignedBigInt
+  created_by_name     String?  @db.VarChar(255)
+  created_at          DateTime @default(now()) @db.DateTime(0)
+  cases               cases    @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_case_events_case")
+  people              people?  @relation(fields: [related_person_id], references: [id], onUpdate: NoAction, map: "fk_case_events_person")
+
+  @@index([case_id], map: "idx_case_events_case")
+  @@index([event_date], map: "idx_case_events_date")
+  @@index([related_person_id], map: "idx_case_events_person")
+  @@index([event_type], map: "idx_case_events_type")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model case_offenses {
+  id                  BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id             BigInt          @db.UnsignedBigInt
+  person_id           BigInt?         @db.UnsignedBigInt
+  offense_id          BigInt          @db.UnsignedBigInt
+  legal_article_id    BigInt?         @db.UnsignedBigInt
+  offense_description String?         @db.Text
+  is_primary          Boolean         @default(false)
+  is_deleted          Boolean         @default(false)
+  created_at          DateTime        @default(now()) @db.DateTime(0)
+  updated_at          DateTime        @default(now()) @db.DateTime(0)
+  cases               cases           @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_case_offenses_case")
+  legal_articles      legal_articles? @relation(fields: [legal_article_id], references: [id], onUpdate: NoAction, map: "fk_case_offenses_legal_article")
+  offenses            offenses        @relation(fields: [offense_id], references: [id], onUpdate: NoAction, map: "fk_case_offenses_offense")
+  people              people?         @relation(fields: [person_id], references: [id], onUpdate: NoAction, map: "fk_case_offenses_person")
+
+  @@index([case_id], map: "idx_case_offenses_case")
+  @@index([is_deleted], map: "idx_case_offenses_deleted")
+  @@index([legal_article_id], map: "idx_case_offenses_legal_article")
+  @@index([offense_id], map: "idx_case_offenses_offense")
+  @@index([person_id], map: "idx_case_offenses_person")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model case_people {
+  id           BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id      BigInt   @db.UnsignedBigInt
+  person_id    BigInt   @db.UnsignedBigInt
+  role_type    String   @db.VarChar(100)
+  person_order Int      @default(1)
+  legal_status String?  @db.VarChar(100)
+  is_primary   Boolean  @default(false)
+  is_active    Boolean  @default(true)
+  note         String?  @db.Text
+  created_at   DateTime @default(now()) @db.DateTime(0)
+  updated_at   DateTime @default(now()) @db.DateTime(0)
+  cases        cases    @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_case_people_case")
+  people       people   @relation(fields: [person_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_case_people_person")
+
+  @@unique([case_id, person_id, role_type], map: "uq_case_people_unique_role")
+  @@index([case_id], map: "idx_case_people_case")
+  @@index([person_id], map: "idx_case_people_person")
+  @@index([role_type], map: "idx_case_people_role")
+  @@index([legal_status], map: "idx_case_people_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model cases {
+  id                          BigInt                        @id @default(autoincrement()) @db.UnsignedBigInt
+  case_code                   String                        @unique(map: "uq_cases_code") @db.VarChar(100)
+  national_case_code          String?                       @db.VarChar(100)
+  case_title                  String                        @db.VarChar(500)
+  case_summary                String?                       @db.Text
+  case_type                   String                        @default("CRIMINAL_CASE") @db.VarChar(50)
+  source_type                 String?                       @db.VarChar(50)
+  current_stage               String                        @default("RECEPTION") @db.VarChar(100)
+  current_status              String                        @default("DRAFT") @db.VarChar(100)
+  ward_id                     BigInt?                       @db.UnsignedBigInt
+  agency_id                   BigInt?                       @db.UnsignedBigInt
+  received_date               DateTime?                     @db.Date
+  accepted_date               DateTime?                     @db.Date
+  prosecuted_date             DateTime?                     @db.Date
+  closed_date                 DateTime?                     @db.Date
+  priority                    String                        @default("NORMAL") @db.VarChar(50)
+  note                        String?                       @db.Text
+  is_deleted                  Boolean                       @default(false)
+  created_by_name             String?                       @db.VarChar(255)
+  updated_by_name             String?                       @db.VarChar(255)
+  created_at                  DateTime                      @default(now()) @db.DateTime(0)
+  updated_at                  DateTime                      @default(now()) @db.DateTime(0)
+  audit_logs                  audit_logs[]
+  case_assignments            case_assignments[]
+  case_events                 case_events[]
+  case_offenses               case_offenses[]
+  case_people                 case_people[]
+  agencies                    agencies?                     @relation(fields: [agency_id], references: [id], onUpdate: NoAction, map: "fk_cases_agency")
+  wards                       wards?                        @relation(fields: [ward_id], references: [id], onUpdate: NoAction, map: "fk_cases_ward")
+  document_generation_batches document_generation_batches[]
+  evidence_items              evidence_items[]
+  generated_documents         generated_documents[]
+  import_mapping_run_rows     import_mapping_run_rows[]
+
+  @@index([agency_id], map: "idx_cases_agency")
+  @@index([is_deleted], map: "idx_cases_deleted")
+  @@index([received_date], map: "idx_cases_received_date")
+  @@index([current_stage, current_status], map: "idx_cases_stage_status")
+  @@index([case_title], map: "idx_cases_title")
+  @@index([ward_id], map: "idx_cases_ward")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model data_fields {
+  id                       BigInt                     @id @default(autoincrement()) @db.UnsignedBigInt
+  field_key                String                     @unique(map: "uq_data_fields_key") @db.VarChar(255)
+  field_label              String                     @db.VarChar(500)
+  field_group              String                     @db.VarChar(100)
+  data_type                String                     @default("TEXT") @db.VarChar(50)
+  source_path              String                     @db.VarChar(500)
+  description              String?                    @db.Text
+  is_active                Boolean                    @default(true)
+  created_at               DateTime                   @default(now()) @db.DateTime(0)
+  updated_at               DateTime                   @default(now()) @db.DateTime(0)
+  template_required_fields template_required_fields[]
+
+  @@index([is_active], map: "idx_data_fields_active")
+  @@index([field_group], map: "idx_data_fields_group")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model document_generation_batches {
+  id                          BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id                     BigInt                @db.UnsignedBigInt
+  batch_code                  String                @unique(map: "uq_document_batches_code") @db.VarChar(100)
+  requested_formats           Json?
+  selected_templates_snapshot Json?
+  target_selection_snapshot   Json?
+  status                      String                @default("PENDING") @db.VarChar(100)
+  total_documents             Int                   @default(0)
+  success_documents           Int                   @default(0)
+  failed_documents            Int                   @default(0)
+  error_message               String?               @db.Text
+  created_by_name             String?               @db.VarChar(255)
+  created_at                  DateTime              @default(now()) @db.DateTime(0)
+  completed_at                DateTime?             @db.DateTime(0)
+  cases                       cases                 @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_document_batches_case")
+  generated_documents         generated_documents[]
+
+  @@index([case_id], map: "idx_document_batches_case")
+  @@index([created_at], map: "idx_document_batches_created_at")
+  @@index([status], map: "idx_document_batches_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model document_reviews {
+  id                    BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  generated_document_id BigInt              @db.UnsignedBigInt
+  review_action         String              @db.VarChar(100)
+  reviewer_name         String?             @db.VarChar(255)
+  review_note           String?             @db.Text
+  old_status            String?             @db.VarChar(100)
+  new_status            String              @db.VarChar(100)
+  reviewed_at           DateTime            @default(now()) @db.DateTime(0)
+  generated_documents   generated_documents @relation(fields: [generated_document_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_document_reviews_document")
+
+  @@index([review_action], map: "idx_document_reviews_action")
+  @@index([generated_document_id], map: "idx_document_reviews_document")
+  @@index([reviewed_at], map: "idx_document_reviews_reviewed_at")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model evidence_items {
+  id                  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  case_id             BigInt                @db.UnsignedBigInt
+  evidence_code       String?               @db.VarChar(100)
+  evidence_name       String                @db.VarChar(500)
+  evidence_type       String?               @db.VarChar(100)
+  quantity            String?               @db.VarChar(100)
+  unit                String?               @db.VarChar(100)
+  description         String?               @db.Text
+  current_status      String                @default("RECORDED") @db.VarChar(100)
+  storage_location    String?               @db.Text
+  owner_person_id     BigInt?               @db.UnsignedBigInt
+  is_deleted          Boolean               @default(false)
+  created_at          DateTime              @default(now()) @db.DateTime(0)
+  updated_at          DateTime              @default(now()) @db.DateTime(0)
+  cases               cases                 @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_evidence_case")
+  people              people?               @relation(fields: [owner_person_id], references: [id], onUpdate: NoAction, map: "fk_evidence_owner")
+  generated_documents generated_documents[]
+
+  @@index([owner_person_id], map: "fk_evidence_owner")
+  @@index([case_id], map: "idx_evidence_case")
+  @@index([is_deleted], map: "idx_evidence_deleted")
+  @@index([evidence_name], map: "idx_evidence_name")
+  @@index([current_status], map: "idx_evidence_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model generated_document_files {
+  id                    BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  generated_document_id BigInt              @db.UnsignedBigInt
+  stored_file_id        BigInt?             @db.UnsignedBigInt
+  file_format           String              @db.VarChar(20)
+  file_name             String              @db.VarChar(500)
+  file_path             String              @db.Text
+  file_size_bytes       BigInt              @default(0) @db.UnsignedBigInt
+  checksum              String?             @db.VarChar(128)
+  is_final              Boolean             @default(false)
+  created_at            DateTime            @default(now()) @db.DateTime(0)
+  generated_documents   generated_documents @relation(fields: [generated_document_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_generated_document_files_document")
+  stored_files          stored_files?       @relation(fields: [stored_file_id], references: [id], onUpdate: NoAction, map: "fk_generated_document_files_stored_file")
+
+  @@index([stored_file_id], map: "fk_generated_document_files_stored_file")
+  @@index([generated_document_id], map: "idx_generated_document_files_document")
+  @@index([is_final], map: "idx_generated_document_files_final")
+  @@index([file_format], map: "idx_generated_document_files_format")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model generated_documents {
+  id                          BigInt                       @id @default(autoincrement()) @db.UnsignedBigInt
+  batch_id                    BigInt?                      @db.UnsignedBigInt
+  case_id                     BigInt                       @db.UnsignedBigInt
+  template_id                 BigInt                       @db.UnsignedBigInt
+  template_version_id         BigInt?                      @db.UnsignedBigInt
+  document_code               String?                      @db.VarChar(100)
+  document_title              String                       @db.VarChar(500)
+  target_scope                String                       @db.VarChar(100)
+  target_person_id            BigInt?                      @db.UnsignedBigInt
+  target_evidence_id          BigInt?                      @db.UnsignedBigInt
+  target_event_id             BigInt?                      @db.UnsignedBigInt
+  review_status               String                       @default("WAITING_REVIEW") @db.VarChar(100)
+  render_payload_snapshot     Json?
+  validation_result           Json?
+  generated_by_name           String?                      @db.VarChar(255)
+  approved_by_name            String?                      @db.VarChar(255)
+  generated_at                DateTime                     @default(now()) @db.DateTime(0)
+  approved_at                 DateTime?                    @db.DateTime(0)
+  note                        String?                      @db.Text
+  document_reviews            document_reviews[]
+  generated_document_files    generated_document_files[]
+  document_generation_batches document_generation_batches? @relation(fields: [batch_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_batch")
+  cases                       cases                        @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_generated_documents_case")
+  evidence_items              evidence_items?              @relation(fields: [target_evidence_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_evidence")
+  people                      people?                      @relation(fields: [target_person_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_person")
+  templates                   templates                    @relation(fields: [template_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_template")
+  template_versions           template_versions?           @relation(fields: [template_version_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_template_version")
+
+  @@index([target_evidence_id], map: "fk_generated_documents_evidence")
+  @@index([template_version_id], map: "fk_generated_documents_template_version")
+  @@index([batch_id], map: "idx_generated_documents_batch")
+  @@index([case_id], map: "idx_generated_documents_case")
+  @@index([generated_at], map: "idx_generated_documents_generated_at")
+  @@index([target_person_id], map: "idx_generated_documents_person")
+  @@index([review_status], map: "idx_generated_documents_status")
+  @@index([template_id], map: "idx_generated_documents_template")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model import_batches {
+  id                  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  batch_code          String                @unique(map: "uq_import_batches_code") @db.VarChar(100)
+  import_type         String                @db.VarChar(100)
+  source_name         String?               @db.VarChar(500)
+  source_path         String?               @db.Text
+  status              String                @default("PENDING") @db.VarChar(100)
+  total_files         Int                   @default(0)
+  processed_files     Int                   @default(0)
+  failed_files        Int                   @default(0)
+  total_rows          Int                   @default(0)
+  valid_rows          Int                   @default(0)
+  invalid_rows        Int                   @default(0)
+  error_message       String?               @db.Text
+  created_by_name     String?               @db.VarChar(255)
+  created_at          DateTime              @default(now()) @db.DateTime(0)
+  completed_at        DateTime?             @db.DateTime(0)
+  import_files        import_files[]
+  import_mapping_runs import_mapping_runs[]
+
+  @@index([created_at], map: "idx_import_batches_created_at")
+  @@index([status], map: "idx_import_batches_status")
+  @@index([import_type], map: "idx_import_batches_type")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model import_files {
+  id                     BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  batch_id               BigInt                @db.UnsignedBigInt
+  stored_file_id         BigInt?               @db.UnsignedBigInt
+  original_file_name     String                @db.VarChar(500)
+  original_path          String?               @db.Text
+  file_ext               String?               @db.VarChar(20)
+  mime_type              String?               @db.VarChar(255)
+  file_size_bytes        BigInt                @default(0) @db.UnsignedBigInt
+  detected_group_code    String?               @db.VarChar(100)
+  detected_template_code String?               @db.VarChar(100)
+  parse_status           String                @default("PENDING") @db.VarChar(100)
+  raw_text               String?               @db.LongText
+  parsed_json            Json?
+  error_message          String?               @db.Text
+  created_at             DateTime              @default(now()) @db.DateTime(0)
+  parsed_at              DateTime?             @db.DateTime(0)
+  import_batches         import_batches        @relation(fields: [batch_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_import_files_batch")
+  stored_files           stored_files?         @relation(fields: [stored_file_id], references: [id], onUpdate: NoAction, map: "fk_import_files_stored_file")
+  import_mapping_runs    import_mapping_runs[]
+
+  @@index([stored_file_id], map: "fk_import_files_stored_file")
+  @@index([batch_id], map: "idx_import_files_batch")
+  @@index([file_ext], map: "idx_import_files_ext")
+  @@index([original_file_name], map: "idx_import_files_name")
+  @@index([parse_status], map: "idx_import_files_status")
+  @@index([detected_template_code], map: "idx_import_files_template_code")
+}
+
+model import_mapping_profile_columns {
+  id                      BigInt                  @id @default(autoincrement()) @db.UnsignedBigInt
+  profile_id              BigInt                  @db.UnsignedBigInt
+  source_column_name      String                  @db.VarChar(255)
+  source_column_index     Int?
+  target_field_key        String                  @db.VarChar(255)
+  is_required             Boolean                 @default(false)
+  transform_rule          Json?
+  created_at              DateTime                @default(now()) @db.DateTime(0)
+  import_mapping_profiles import_mapping_profiles @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_mapping_profile_columns_profile")
+
+  @@unique([profile_id, source_column_name, target_field_key], map: "uq_mapping_profile_column")
+  @@index([profile_id], map: "idx_mapping_profile_columns_profile")
+  @@index([target_field_key], map: "idx_mapping_profile_columns_target")
+}
+
+model import_mapping_profiles {
+  id                             BigInt                           @id @default(autoincrement()) @db.UnsignedBigInt
+  profile_name                   String                           @db.VarChar(255)
+  source_file_ext                String?                          @db.VarChar(20)
+  sheet_name                     String?                          @db.VarChar(255)
+  header_row_index               Int                              @default(1)
+  data_start_row_index           Int                              @default(2)
+  description                    String?                          @db.Text
+  is_active                      Boolean                          @default(true)
+  created_at                     DateTime                         @default(now()) @db.DateTime(0)
+  updated_at                     DateTime                         @default(now()) @db.DateTime(0)
+  import_mapping_profile_columns import_mapping_profile_columns[]
+  import_mapping_runs            import_mapping_runs[]
+
+  @@index([is_active], map: "idx_mapping_profiles_active")
+  @@index([profile_name], map: "idx_mapping_profiles_name")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model import_mapping_run_rows {
+  id                  BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  run_id              BigInt              @db.UnsignedBigInt
+  row_index           Int
+  raw_row_json        Json?
+  mapped_payload_json Json?
+  validation_status   String              @default("PENDING") @db.VarChar(100)
+  validation_errors   Json?
+  committed_case_id   BigInt?             @db.UnsignedBigInt
+  created_at          DateTime            @default(now()) @db.DateTime(0)
+  cases               cases?              @relation(fields: [committed_case_id], references: [id], onUpdate: NoAction, map: "fk_mapping_run_rows_case")
+  import_mapping_runs import_mapping_runs @relation(fields: [run_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_mapping_run_rows_run")
+
+  @@unique([run_id, row_index], map: "uq_mapping_run_row")
+  @@index([committed_case_id], map: "idx_mapping_run_rows_case")
+  @@index([run_id], map: "idx_mapping_run_rows_run")
+  @@index([validation_status], map: "idx_mapping_run_rows_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model import_mapping_runs {
+  id                      BigInt                    @id @default(autoincrement()) @db.UnsignedBigInt
+  batch_id                BigInt?                   @db.UnsignedBigInt
+  profile_id              BigInt?                   @db.UnsignedBigInt
+  source_file_id          BigInt?                   @db.UnsignedBigInt
+  status                  String                    @default("PENDING") @db.VarChar(100)
+  total_rows              Int                       @default(0)
+  valid_rows              Int                       @default(0)
+  invalid_rows            Int                       @default(0)
+  committed_rows          Int                       @default(0)
+  skipped_rows            Int                       @default(0)
+  failed_rows             Int                       @default(0)
+  preview_json            Json?
+  error_message           String?                   @db.Text
+  created_by_name         String?                   @db.VarChar(255)
+  created_at              DateTime                  @default(now()) @db.DateTime(0)
+  completed_at            DateTime?                 @db.DateTime(0)
+  import_mapping_run_rows import_mapping_run_rows[]
+  import_batches          import_batches?           @relation(fields: [batch_id], references: [id], onUpdate: NoAction, map: "fk_mapping_runs_batch")
+  import_files            import_files?             @relation(fields: [source_file_id], references: [id], onUpdate: NoAction, map: "fk_mapping_runs_file")
+  import_mapping_profiles import_mapping_profiles?  @relation(fields: [profile_id], references: [id], onUpdate: NoAction, map: "fk_mapping_runs_profile")
+
+  @@index([source_file_id], map: "fk_mapping_runs_file")
+  @@index([batch_id], map: "idx_mapping_runs_batch")
+  @@index([created_at], map: "idx_mapping_runs_created_at")
+  @@index([profile_id], map: "idx_mapping_runs_profile")
+  @@index([status], map: "idx_mapping_runs_status")
+}
+
+model legal_articles {
+  id            BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  law_name      String          @default("Bộ luật Hình sự") @db.VarChar(255)
+  law_year      String?         @db.VarChar(50)
+  article_no    String          @db.VarChar(50)
+  clause_no     String?         @db.VarChar(50)
+  point_no      String?         @db.VarChar(50)
+  display_text  String          @db.VarChar(500)
+  description   String?         @db.Text
+  is_active     Boolean         @default(true)
+  created_at    DateTime        @default(now()) @db.DateTime(0)
+  updated_at    DateTime        @default(now()) @db.DateTime(0)
+  case_offenses case_offenses[]
+
+  @@index([article_no], map: "idx_legal_articles_article")
+  @@index([display_text], map: "idx_legal_articles_display")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model offenses {
+  id            BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  offense_code  String?         @unique(map: "uq_offenses_code") @db.VarChar(100)
+  offense_name  String          @db.VarChar(255)
+  offense_group String?         @db.VarChar(255)
+  description   String?         @db.Text
+  is_active     Boolean         @default(true)
+  created_at    DateTime        @default(now()) @db.DateTime(0)
+  updated_at    DateTime        @default(now()) @db.DateTime(0)
+  case_offenses case_offenses[]
+
+  @@index([offense_group], map: "idx_offenses_group")
+  @@index([offense_name], map: "idx_offenses_name")
+}
+
+model officials {
+  id               BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
+  agency_id        BigInt?            @db.UnsignedBigInt
+  full_name        String             @db.VarChar(255)
+  username         String?            @unique(map: "uq_officials_username") @db.VarChar(100)
+  password_hash    String?            @db.VarChar(255)
+  position_title   String?            @db.VarChar(255)
+  rank_title       String?            @db.VarChar(255)
+  phone            String?            @db.VarChar(50)
+  email            String?            @db.VarChar(255)
+  is_active        Boolean            @default(true)
+  role             String             @default("OFFICIAL") @db.VarChar(20)
+  created_at       DateTime           @default(now()) @db.DateTime(0)
+  updated_at       DateTime           @default(now()) @db.DateTime(0)
+  auth_sessions    auth_sessions[]
+  case_assignments case_assignments[]
+  created_template_versions template_versions[] @relation("TemplateVersionCreatedByOfficial")
+  created_templates templates[] @relation("TemplateCreatedByOfficial")
+  agencies         agencies?          @relation(fields: [agency_id], references: [id], onUpdate: NoAction, map: "fk_officials_agency")
+
+  @@index([agency_id], map: "idx_officials_agency")
+  @@index([full_name], map: "idx_officials_name")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model people {
+  id                    BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  full_name             String                @db.VarChar(255)
+  other_name            String?               @db.VarChar(255)
+  gender                String?               @db.VarChar(20)
+  date_of_birth         DateTime?             @db.Date
+  birth_year            Int?                  @db.SmallInt
+  place_of_birth        String?               @db.VarChar(500)
+  identity_no           String?               @db.VarChar(50)
+  identity_issued_date  DateTime?             @db.Date
+  identity_issued_place String?               @db.VarChar(255)
+  nationality           String?               @default("Việt Nam") @db.VarChar(100)
+  ethnicity             String?               @db.VarChar(100)
+  religion              String?               @db.VarChar(100)
+  occupation            String?               @db.VarChar(255)
+  workplace             String?               @db.VarChar(500)
+  permanent_address     String?               @db.Text
+  current_address       String?               @db.Text
+  residence_address     String?               @db.Text
+  phone                 String?               @db.VarChar(50)
+  note                  String?               @db.Text
+  is_deleted            Boolean               @default(false)
+  created_at            DateTime              @default(now()) @db.DateTime(0)
+  updated_at            DateTime              @default(now()) @db.DateTime(0)
+  case_events           case_events[]
+  case_offenses         case_offenses[]
+  case_people           case_people[]
+  evidence_items        evidence_items[]
+  generated_documents   generated_documents[]
+
+  @@index([birth_year], map: "idx_people_birth_year")
+  @@index([is_deleted], map: "idx_people_deleted")
+  @@index([identity_no], map: "idx_people_identity")
+  @@index([full_name], map: "idx_people_name")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model storage_settings {
+  id                        BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  storage_root_path         String   @db.Text
+  max_storage_gb            Int      @default(500)
+  used_storage_bytes        BigInt   @default(0) @db.UnsignedBigInt
+  warning_threshold_percent Int      @default(85)
+  allow_large_upload        Boolean  @default(true)
+  is_active                 Boolean  @default(true)
+  created_at                DateTime @default(now()) @db.DateTime(0)
+  updated_at                DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model stored_files {
+  id                       BigInt                     @id @default(autoincrement()) @db.UnsignedBigInt
+  file_category            String                     @db.VarChar(100)
+  original_file_name       String                     @db.VarChar(500)
+  stored_file_name         String                     @db.VarChar(500)
+  file_ext                 String?                    @db.VarChar(20)
+  mime_type                String?                    @db.VarChar(255)
+  file_size_bytes          BigInt                     @default(0) @db.UnsignedBigInt
+  relative_path            String                     @db.Text
+  absolute_path            String?                    @db.Text
+  checksum                 String?                    @db.VarChar(128)
+  related_entity_type      String?                    @db.VarChar(100)
+  related_entity_id        BigInt?                    @db.UnsignedBigInt
+  created_by_name          String?                    @db.VarChar(255)
+  created_at               DateTime                   @default(now()) @db.DateTime(0)
+  generated_document_files generated_document_files[]
+  import_files             import_files[]
+
+  @@index([file_category], map: "idx_stored_files_category")
+  @@index([created_at], map: "idx_stored_files_created_at")
+  @@index([related_entity_type, related_entity_id], map: "idx_stored_files_related")
+}
+
+model template_groups {
+  id          BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  group_code  String      @unique(map: "uq_template_groups_code") @db.VarChar(100)
+  group_name  String      @db.VarChar(500)
+  group_order Int         @default(1)
+  description String?     @db.Text
+  is_active   Boolean     @default(true)
+  created_at  DateTime    @default(now()) @db.DateTime(0)
+  updated_at  DateTime    @default(now()) @db.DateTime(0)
+  templates   templates[]
+
+  @@index([group_order], map: "idx_template_groups_order")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model template_required_fields {
+  id               BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  template_id      BigInt      @db.UnsignedBigInt
+  data_field_id    BigInt      @db.UnsignedBigInt
+  placeholder_name String?     @db.VarChar(255)
+  is_required      Boolean     @default(true)
+  applies_to_scope String      @default("CASE") @db.VarChar(100)
+  missing_message  String?     @db.VarChar(500)
+  created_at       DateTime    @default(now()) @db.DateTime(0)
+  data_fields      data_fields @relation(fields: [data_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_template_required_fields_data_field")
+  templates        templates   @relation(fields: [template_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_template_required_fields_template")
+
+  @@unique([template_id, data_field_id, placeholder_name], map: "uq_template_required_field")
+  @@index([data_field_id], map: "idx_template_required_fields_data_field")
+  @@index([template_id], map: "idx_template_required_fields_template")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model template_versions {
+  id                   BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  template_id          BigInt                @db.UnsignedBigInt
+  version_no           Int                   @default(1)
+  original_file_path   String?               @db.Text
+  normalized_docx_path String?               @db.Text
+  output_name_pattern  String?               @db.VarChar(500)
+  placeholder_summary  Json?
+  checksum             String?               @db.VarChar(128)
+  is_default           Boolean               @default(false)
+  is_active            Boolean               @default(true)
+  created_by_name      String?               @db.VarChar(255)
+  created_by_official_id BigInt?             @db.UnsignedBigInt
+  created_at           DateTime              @default(now()) @db.DateTime(0)
+  updated_at           DateTime              @default(now()) @db.DateTime(0)
+  generated_documents  generated_documents[]
+  created_by_official   officials?           @relation("TemplateVersionCreatedByOfficial", fields: [created_by_official_id], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "fk_template_versions_created_by_official")
+  templates            templates             @relation(fields: [template_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_template_versions_template")
+
+  @@unique([template_id, version_no], map: "uq_template_version")
+  @@index([created_by_official_id], map: "idx_template_versions_created_by_official")
+  @@index([is_active], map: "idx_template_versions_active")
+  @@index([is_default], map: "idx_template_versions_default")
+  @@index([template_id], map: "idx_template_versions_template")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model templates {
+  id                       BigInt                     @id @default(autoincrement()) @db.UnsignedBigInt
+  template_code            String                     @unique(map: "uq_templates_code") @db.VarChar(100)
+  template_no              String?                    @db.VarChar(50)
+  template_name            String                     @db.VarChar(500)
+  group_id                 BigInt?                    @db.UnsignedBigInt
+  source_file_name         String?                    @db.VarChar(500)
+  original_ext             String?                    @db.VarChar(20)
+  stage_code               String?                    @db.VarChar(100)
+  render_scope             String                     @default("CASE_LEVEL") @db.VarChar(100)
+  output_strategy          String                     @default("ONE_FILE_PER_CASE") @db.VarChar(100)
+  default_output_formats   Json?
+  requires_review          Boolean                    @default(true)
+  description              String?                    @db.Text
+  is_active                Boolean                    @default(true)
+  created_by_official_id   BigInt?                    @db.UnsignedBigInt
+  created_at               DateTime                   @default(now()) @db.DateTime(0)
+  updated_at               DateTime                   @default(now()) @db.DateTime(0)
+  generated_documents      generated_documents[]
+  template_required_fields template_required_fields[]
+  template_versions        template_versions[]
+  created_by_official      officials?                 @relation("TemplateCreatedByOfficial", fields: [created_by_official_id], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "fk_templates_created_by_official")
+  template_groups          template_groups?           @relation(fields: [group_id], references: [id], onUpdate: NoAction, map: "fk_templates_group")
+
+  @@index([is_active], map: "idx_templates_active")
+  @@index([created_by_official_id], map: "idx_templates_created_by_official")
+  @@index([group_id], map: "idx_templates_group")
+  @@index([template_name], map: "idx_templates_name")
+  @@index([render_scope], map: "idx_templates_scope")
+  @@index([stage_code], map: "idx_templates_stage")
+}
+
+model wards {
+  id            BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  ward_code     String?  @unique(map: "uq_wards_code") @db.VarChar(50)
+  ward_name     String   @db.VarChar(255)
+  district_name String?  @db.VarChar(255)
+  province_name String?  @default("Thành phố Hồ Chí Minh") @db.VarChar(255)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now()) @db.DateTime(0)
+  updated_at    DateTime @default(now()) @db.DateTime(0)
+  cases         cases[]
+
+  @@index([ward_name], map: "idx_wards_name")
+}
+
+/// Auth: session cookie. Áp dụng qua prisma/migrations/20260616_add_auth_sessions/auth_sessions.sql.
+model auth_sessions {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  token_hash  String   @unique(map: "uq_auth_sessions_token") @db.Char(64)
+  official_id BigInt   @db.UnsignedBigInt
+  expires_at  DateTime @db.DateTime(0)
+  ip_address  String?  @db.VarChar(100)
+  user_agent  String?  @db.Text
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  updated_at  DateTime @default(now()) @db.DateTime(0)
+  officials   officials @relation(fields: [official_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_auth_sessions_official")
+
+  @@index([official_id], map: "idx_auth_sessions_official")
+  @@index([expires_at], map: "idx_auth_sessions_expires")
+}
+
+

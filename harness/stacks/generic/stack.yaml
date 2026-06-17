@@ -1,0 +1,6 @@
+id: generic
+description: Generic overlay for any project that doesn't match a known stack.
+applies_to_files: []
+skills_provided: []
+rules:
+  - generic.mdc

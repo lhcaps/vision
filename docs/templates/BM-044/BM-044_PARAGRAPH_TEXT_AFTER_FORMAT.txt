@@ -1,0 +1,34 @@
+001: Mẫu số 44/HS(Ban hành theo Thông tư số 03/2026/TT-VKSTCNgày 09/02/2026) Mẫu số 44/HS(Ban hành theo Thông tư số 03/2026/TT-VKSTCNgày 09/02/2026) 
+002: Mẫu số 44/HS
+003: (Ban hành theo Thông tư số 03/2026/TT-VKSTC
+004: Ngày 09/02/2026) 
+005: Mẫu số 44/HS
+006: (Ban hành theo Thông tư số 03/2026/TT-VKSTC
+007: Ngày 09/02/2026) 
+008: {{agency.parentNameUpper}}
+009: {{agency.nameUpper}}
+010: Số: {{document.documentCode}}
+011: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+012: Độc lập - Tự do - Hạnh phúc
+013: {{document.issuePlaceAndDateLine}}
+014: QUYẾT ĐỊNH
+015: THAY THẾ BIỆN PHÁP TẠM GIAM
+016: {{official.issuingAuthorityLine}}
+017: {{legalBasis.procedureArticlesLine}}
+018: {{legalBasis.juvenileJusticeLine}} 
+019: {{detentionReplacement.detentionOrderLegalBasisLine}}
+020: {{detentionReplacement.detentionExtensionLegalBasisLine}}
+021: {{detentionReplacement.proposalLine}}
+022: {{detentionReplacement.reasonLine}}
+023: QUYẾT ĐỊNH:
+024: Điều 1. {{detentionReplacement.article1Line}}
+025: {{detentionReplacement.durationLine}}
+026: Điều 2. {{detentionReplacement.article2Line}}
+027: Nơi nhận:
+028: {{recipients.personLine}}
+029: {{recipients.proposalAgencyLine}}
+030: {{recipients.executionAgencyLine}}
+031: {{recipients.archiveLine}}
+032:  {{signature.signMode}}
+033: {{signature.positionTitle}}
+034: {{signature.signerName}}

@@ -1,0 +1,76 @@
+# Project profile for the meta-harness itself.
+# The agent reads this on every turn.
+
+project:
+  name: harness
+  domain: library
+  one_liner: Personal meta-harness. Copy this folder to bootstrap a new project with Cursor rules, a curated skill registry, and a manifest-driven two-way sync.
+  repo_url: <this-folder>
+
+stack:
+  primary: generic
+  language: js
+  package_manager: npm
+  test_runner: node:test
+  linter: none
+  formatter: none
+  ci: github-actions
+  deploy: none
+
+owner:
+  team: solo
+  primary_contact: <owner>
+
+key_paths:
+  source_root: cli
+  test_root: test
+  config_root: .
+  docs_root: docs
+
+# Constraints the agent must respect.
+constraints:
+  forbidden_dependencies:
+    - js-yaml
+    - commander
+    - chalk
+    - inquirer
+    - lodash
+    - any color library
+    - any prompt library
+  performance_budgets:
+    harness_install_max_files: 50
+    harness_install_max_seconds: 5
+  compliance: []
+
+# Skills customized for this project.
+customized_skills:
+  plan: |
+    Reads .harness/manifest.yaml first. Tags each planned file as
+    (bundle) or (installed). Plan is small: usually 1-3 files.
+  code-review: |
+    Manifest-aware. Adds stop conditions: registry must list new
+    skills, CHANGELOG must be updated, stack overlays must declare
+    stack.yaml.
+  debug: |
+    Includes CLI-specific debug steps: HARNESS_DEBUG=1, exit-code
+    capture, manifest diffing, and Windows path quirks.
+  ai-integration: |
+    Project-specific extension: the model is a router that picks
+    skills for freeform requests. Validated against the registry.
+    Falls back to task-classify on invalid output.
+
+# Skills the agent should NOT load in this project.
+disabled_skills:
+  - image-to-code
+  - motion-design
+  - design-taste
+  - ui-architect
+  - ux-audit
+
+# Notes the agent should keep in mind.
+notes:
+  - "The CLI is dependency-free on purpose. Do not add packages."
+  - "The custom YAML parser in cli/lib/yaml.mjs is intentionally minimal. Extend the parser before extending the config format."
+  - "Every change to bundles/ or stacks/ must be reflected in registry/skills.yaml (if a skill was added) and in CHANGELOG.md (if a user-facing change)."
+  - "All tests live under test/ and use node:test. Run with `node --test test/` or `npm test`."
+  - "The install step self-harnesses the project at ./.ai and ./.harness. Customizations to .ai/skills/ are tracked in the manifest."

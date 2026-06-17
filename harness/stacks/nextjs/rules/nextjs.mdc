@@ -1,0 +1,55 @@
+---
+description: Next.js (App Router) conventions. Stack overlay.
+globs: ["app/**", "src/app/**", "next.config.*"]
+alwaysApply: false
+---
+
+# Next.js Conventions
+
+## Routing
+
+- App Router only. No `pages/`.
+- One `layout.tsx` per route segment. Use a root
+  `app/layout.tsx` for global chrome; nested layouts for
+  section-level chrome.
+- Server Components by default. Add `"use client"` only
+  when you need state, effects, or browser-only APIs.
+- `page.tsx` is the route. `route.ts` is the API.
+- `loading.tsx` and `error.tsx` for streaming and error
+  boundaries. `not-found.tsx` for 404.
+
+## Data
+
+- Server Components fetch on the server. Use `fetch` with
+  `{ cache: 'force-cache' }` for static, `{ cache:
+  'no-store' }` for dynamic, or `revalidate: N` for ISR.
+- Mutations go through Server Actions. Mark with `"use
+  server"` at the top of the file.
+- Forms: use `useFormState` + `useFormStatus` for
+  progressive enhancement. Always provide a non-JS fallback.
+
+## TypeScript
+
+- Strict mode. `"strict": true` in `tsconfig.json`.
+- Page props are typed via `PageProps<TParams, TSearchParams>`.
+- Server Action results are typed; never `any` for the
+  return.
+
+## Performance
+
+- Default to RSC. Client Components are the exception.
+- `next/image` for every image, with explicit width and
+  height (or `fill` with a sized parent).
+- `next/font` for fonts; no `<link rel="stylesheet">` to
+  Google Fonts.
+- Code-split at the route level. Don't lazy-load inside
+  the layout.
+
+## Conventions
+
+- Co-locate component, test, and styles (`*.module.css`)
+  in the same folder.
+- `lib/` for shared utilities. `components/` for shared
+  components. Both at the project root, not inside `app/`.
+- No barrel files (`index.ts` re-exports). Imports should
+  be specific.

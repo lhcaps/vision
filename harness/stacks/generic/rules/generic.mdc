@@ -1,0 +1,28 @@
+---
+description: Generic stack overlay. No specific framework. Provides only the universal rules.
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Generic Stack Overlay
+
+This is the fallback when no other stack is detected. It
+exists so that the agent always has **some** stack-specific
+rule file to read; it just says "follow the universal
+rules".
+
+If your project is detected as `generic` but you actually
+have a stack:
+
+1. Edit `meta.yaml` in the meta-harness and add your stack
+   to `supported_stacks`.
+2. Add a `stacks/<id>/` overlay.
+3. Run `harness update` in the target project.
+
+If you don't want to add a stack to the meta-harness, you
+can also force a specific stack per project by editing
+`.harnessrc`:
+
+```yaml
+stack: nextjs
+```

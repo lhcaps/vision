@@ -1,0 +1,50 @@
+{
+  "name": "quanlyvks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QUANLYVKS - Hệ thống quản lý hồ sơ vụ án và tự động hoá biểu mẫu cho Viện Kiểm sát",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"pnpm dev:api\" \"pnpm dev:web\"",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm build:api && pnpm build:web",
+    "build:api": "pnpm --filter api build",
+    "build:web": "pnpm --filter web build",
+    "start:api": "pnpm --filter api start",
+    "start:web": "pnpm --filter web start",
+    "prisma:pull": "pnpm --filter api exec prisma db pull",
+    "prisma:generate": "pnpm --filter api exec prisma generate",
+    "prisma:studio": "pnpm --filter api exec prisma studio",
+    "prisma:migrate:deploy": "pnpm --filter api migrate:deploy",
+    "prisma:migrate:status": "pnpm --filter api migrate:status",
+    "db:up": "docker compose -f infra/docker-compose.dev.yml up -d",
+    "db:down": "docker compose -f infra/docker-compose.dev.yml down",
+    "db:logs": "docker compose -f infra/docker-compose.dev.yml logs -f",
+    "db:reset": "pnpm prisma:generate && pnpm --filter api exec prisma db push --force-reset --accept-data-loss",
+    "db:seed": "pnpm --filter api seed",
+    "lint": "pnpm --filter api lint && pnpm --filter web lint",
+    "audit:hardcode": "node scripts/audit-runtime-hardcodes.mjs",
+    "audit:templates:foundation": "node scripts/report-template-foundation.mjs",
+    "audit:templates": "node scripts/audit-template-source-coverage.mjs",
+    "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "concurrently": "^9.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+---
+description: FastAPI conventions. Stack overlay.
+globs: ["app/**/*.py", "pyproject.toml"]
+alwaysApply: false
+---
+
+# FastAPI Conventions
+
+## Structure
+
+- `app/main.py` is the FastAPI app. `app/api/` is the
+  router tree. `app/models/` is Pydantic. `app/services/`
+  is business logic. `app/db/` is the persistence layer.
+- Routers are thin: parse, validate, call a service,
+  return a response. No business logic in the route
+  function.
+- Services are pure-ish. They take inputs and return
+  outputs. No FastAPI imports in services; no
+  `Depends()` outside routers.
+
+## Type hints
+
+- Python 3.11+ syntax. `list[X]`, `dict[K, V]`,
+  `X | None` (not `Optional[X]`).
+- Pydantic v2 models for request/response. Field
+  validators for derived values, not constructor logic.
+- `from __future__ import annotations` at the top of
+  every file.
+
+## Async
+
+- `async def` for route handlers. `def` is allowed for
+  sync handlers, but be consistent within a router.
+- Don't call sync I/O in an async handler. Use the async
+  client (httpx.AsyncClient, asyncpg, etc.).
+- Background tasks via `BackgroundTasks` for fire-and-
+  forget. Use a real task queue (Celery, ARQ) for
+  anything that needs retry, monitoring, or > 1 minute.
+
+## Validation
+
+- Every request body is a Pydantic model. No `dict` in
+  the signature.
+- Path and query params are typed. `Query(...)` for
+  defaults and constraints.
+- Response model on every route. Use `response_model`
+  to enforce the shape, even when the return type is
+  correct.
+
+## Errors
+
+- Custom exception classes for domain errors. A single
+  exception handler maps them to HTTP responses.
+- 4xx for caller errors, 5xx for server errors. Don't
+  return 200 with an error body.
+- Errors include a code (machine-readable) and a message
+  (human-readable). No stack traces in production.
+
+## Tests
+
+- `pytest` + `httpx.AsyncClient` for the API surface.
+- `app.dependency_overrides` to swap real services for
+  fakes in tests. No real DB in unit tests.
+- One test file per router. One test per behavior.
+
+## Conventions
+
+- Imports: stdlib, third-party, internal. Three groups
+  separated by blank lines.
+- `from app.x import y` for internal. Avoid deep
+  relative imports.
+- Type checking with `mypy --strict` (or `pyright`).

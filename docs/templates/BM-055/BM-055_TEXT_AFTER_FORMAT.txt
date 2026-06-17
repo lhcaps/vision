@@ -1,0 +1,63 @@
+Mẫu số 55/HS
+(Ban hành theo Thông t
+ư
+ số
+ 03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+Mẫu số 55/HS
+(Ban hành theo Thông t
+ư
+ số
+ 03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+{{agency.parentName}}
+{{agency.name}}
+Số: {{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH 
+HỦY BỎ BIỆN PHÁP CẤM ĐI KHỎI NƠI CƯ TRÚ
+{{official.issuerTitle}}
+Căn cứ các điều 41, 123, 125 và 165 của Bộ luật Tố tụng hình sự; 
+Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên;
+Căn cứ {{measure.preventiveMeasureOrderLegalBasisLine}}
+Căn cứ {{accusedDecision.legalBasisLine}} 
+{{measure.cancelReasonLine}}
+QUYẾT ĐỊNH:
+Điều 1. {{measure.cancellationArticle1Line}}
+Họ tên: {{person.fullName}}                               Giới tính: {{person.genderLabel}}
+Tên gọi khác: {{person.otherName}}
+Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}
+Quốc tịch: {{person.nationality}}; 
+    
+Dân tộc: {{person.ethnicity}}; 
+    
+Tôn giáo: {{person.religion}}
+Nghề nghiệp: {{person.occupation}}
+{{person.identityDocumentLine}}
+Nơi thường trú: {{person.permanentAddress}}
+Nơi tạm trú: {{person.temporaryAddress}}
+Nơi ở hiện tại: {{person.currentAddress}}
+bị khởi tố về tội {{offense.offenseName}} quy định tại {{offense.legalArticle}} của {{offense.criminalCodeText}}
+.
+Điều 2. 
+{{measure.cancellationArticle2Line}}
+Nơi nhận:
+{{recipients.investigationUnitLine}}
+{{recipients.monitoringUnitLine}}
+{{recipients.personLine}}
+{{recipients.archiveLine}}
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

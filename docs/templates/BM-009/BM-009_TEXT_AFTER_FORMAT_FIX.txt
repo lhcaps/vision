@@ -1,0 +1,28 @@
+{{agency.parentName}}
+ 
+{{agency.name}}
+Số: {{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+GIA HẠN THỜI HẠN GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM
+{{official.issuerTitle}}
+{{sourceResolutionExtension.procedureArticlesLine}}
+{{sourceResolutionExtension.receptionLegalBasisLine}}
+{{sourceResolutionExtension.proposalLegalBasisLine}}
+{{sourceResolutionExtension.reasonLine}}
+QUYẾT ĐỊNH:
+{{sourceResolutionExtension.article1Line}}
+ 
+ 
+{{sourceResolutionExtension.article2Line}}
+Nơi nhận
+:
+{{sourceResolutionExtension.requestingAgencyRecipientLine}}
+{{recipients.archiveLine}}
+  
+  
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

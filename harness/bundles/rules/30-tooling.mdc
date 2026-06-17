@@ -1,0 +1,66 @@
+---
+description: Tooling rules. Always on. How to use git, tests, linters, and the harness CLI.
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Tooling Rules
+
+## Git
+
+- One logical change per commit. Multiple files is fine; multiple
+  features is not.
+- Commit messages: imperative mood, subject < 72 chars, blank line,
+  body explains **why** (not what).
+- Branch names: `type/short-kebab-description`.
+  Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`.
+- Never commit to `main` / `master` directly. Always a branch + PR.
+- Never `git push --force` to a shared branch. Use `--force-with-lease`
+  on your own feature branch only.
+
+## Tests
+
+- Run the project's test command **before** declaring success.
+- If a test fails, do not "fix" it by deleting it. Diagnose.
+- Prefer running the smallest meaningful test set during iteration.
+  Full suite at the end.
+
+## Linters / formatters
+
+- Always run the project's linter and formatter before committing.
+- If the project doesn't have one, ask the user before adding one
+  (see safety: dependency change).
+- Never disable a lint rule with an inline comment to make it pass.
+  Fix the underlying issue or configure the rule globally.
+
+## Harness CLI
+
+- Before editing `.harness/manifest.yaml` by hand, run
+  `harness doctor` to see the current state.
+- After editing bundle content (anything under `bundles/` or
+  `stacks/`), run `node --test` and `harness diff` in a test
+  target to verify the change behaves as expected.
+- Never edit a customized file in a target repo "to fix the harness".
+  The customization is the user's. Update the bundle and let
+  `harness diff` show the conflict, or document the customization in
+  the failure log.
+
+## Dependencies
+
+- Pin minor versions exactly. Lockfile is committed.
+- One dependency per concern. Don't add `lodash` for one `get`.
+- Read the README of a new dependency before adding it.
+
+## Search
+
+- Prefer `ripgrep` (`rg`) over `find` / `grep`. Faster and respects
+  `.gitignore`.
+- Search in the smallest scope that has the answer.
+- Don't read files the question doesn't need.
+
+## Documentation
+
+- Every public module gets a one-line summary at the top of its file.
+- Every non-trivial public function gets a docstring with at least
+  one example.
+- Every CHANGELOG entry links to the PR or commit it came from.

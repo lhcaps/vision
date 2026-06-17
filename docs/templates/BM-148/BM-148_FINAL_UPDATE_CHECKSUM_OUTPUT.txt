@@ -1,0 +1,2 @@
+section	id	template_id	template_code	version_no	placeholder_summary	checksum	updated_at
+BM148_TEMPLATE_VERSION_AFTER_FINAL_FORMAT	39	39	BM-148	1	{"notes": ["BM-148 final manual format fixed.", "Placeholders verified before final render.", "Ready for FE/render validation."], "status": "FORMAT_FIXED", "formattedAt": "2026-05-27 16:12:57", "placeholderCount": 30}	5C288714EED53BF8614C437F0C443ED8BD755D30C621F51C8F1B696A5A9EAC43	2026-05-27 16:12:57

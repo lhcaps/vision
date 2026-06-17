@@ -1,0 +1,51 @@
+{{agency.parentName}}
+{{agency.name}}
+Số: {{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+TRỰC TIẾP KIỂM SÁT VIỆC TIẾP NHẬN,
+ 
+GIẢI QUYẾT 
+NGUỒN TIN VỀ TỘI PHẠM
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+QUYẾT ĐỊNH:
+Điều
+ 
+1.
+ 
+{{sourceDirectInspection.article1Line}}
+Điều
+ 
+2.
+ Phân công cho các ông/bà có tên sau đây tổ chức thực hiện Quyết định này:
+ - 
+{{sourceDirectInspection.teamLeaderLine}};
+ - 
+{{sourceDirectInspection.member1Line}};
+ - 
+{{sourceDirectInspection.member2Line}};
+- 
+{{sourceDirectInspection.additionalMembersLine}}
+Điều
+ 3.
+ 
+{{sourceDirectInspection.article3Line}}
+Điều
+ 4.
+ 
+{{sourceDirectInspection.article4Line}}
+Nơi nhận:
+- 
+{{recipients.primaryLine}};
+- 
+{{recipients.teamMembersLine}};
+- 
+{{recipients.archiveLine}}.
+   
+{{signature.signMode}}
+{{signature.positionTitle}}
+  
+{{signature.signerName}}

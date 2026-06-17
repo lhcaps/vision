@@ -1,0 +1,40 @@
+Mẫu số 46/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+Mẫu số 46/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+        
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+KHÔNG PHÊ CHUẨN QUYẾT ĐỊNH VỀ VIỆC BẢO LĨNH
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{legalBasis.juvenileJusticeLine}}
+{{guaranteeNonApproval.caseInitiationLine}}
+{{guaranteeNonApproval.defendantInitiationLine}}
+{{guaranteeNonApproval.proposalReviewLine}}
+{{guaranteeNonApproval.insufficientGroundsLine}}
+QUYẾT ĐỊNH:
+Điều 1.
+ 
+{{guaranteeNonApproval.article1Line}}
+Điều 2.
+ 
+{{guaranteeNonApproval.article2Line}}
+Nơi nhận:
+- {{recipients.investigationAuthorityLine}};
+- {{recipients.defendantRepresentativeLine}};
+- {{recipients.guarantorLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

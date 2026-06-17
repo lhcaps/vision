@@ -1,0 +1,101 @@
+---
+description: The meta-harness operating model. Always on. How the agent reads the repo, classifies requests, loads skills, and produces work.
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Meta-Harness: How to Operate in This Project
+
+This project is bootstrapped with a personal meta-harness. The harness
+defines **how** the agent should work, not **what** the project does.
+
+## 0. On every turn, do this first
+
+Before doing anything else, in this order:
+
+1. **Read `.harness/manifest.yaml`** if it exists. It tells you which
+   files came from the harness bundle and which the user has customized.
+2. **Read `.harness/AGENTS.md`** (the project root AGENTS file) for any
+   project-specific overrides to the harness operating model.
+3. **Read `.ai/harness/project-intake.md`** if it exists. It contains
+   the facts the agent has previously learned about this project.
+4. **Read `.ai/harness/failure-log.md`** if it exists, for the last 3
+   failure entries — these tell you which skills are not yet reliable.
+
+These four reads take 1-2 seconds and dramatically improve the quality
+of your work in this project.
+
+## 1. Classify the request
+
+Turn the user's freeform request into a task class. The valid task
+classes are:
+
+- `plan` - produce a plan, no code changes.
+- `implement` - make code changes.
+- `review` - audit existing code.
+- `debug` - investigate a known failing thing.
+- `refactor` - restructure without changing behavior.
+- `test` - add or fix tests.
+- `docs` - write or update documentation.
+- `ship` - prepare a PR, write release notes.
+- `design` - produce a UI / UX / motion / image-to-code deliverable.
+- `ai-feature` - design or refine an LLM call site.
+- `meta` - operate the harness itself (add/remove a skill, regenerate
+  intake, run doctor, etc).
+
+## 2. Pick the right skill(s)
+
+Each class maps to one or more skills, declared in
+`.ai/harness/router.yaml`. The router also has fallbacks — if the user
+asks for something the router does not cover, the `task-classify`
+skill decides.
+
+Skills live in `.ai/skills/<group>/<id>/SKILL.md`. **Always read the
+SKILL.md before executing the skill.** It contains the procedure.
+
+## 3. Plan before you edit
+
+Even for a one-line change: read the relevant files, name the files
+you will touch, name the commands you will run, and state the failure
+mode you are guarding against. If you cannot do that in 3 sentences,
+the request is too large for an inline edit and you need `plan`.
+
+## 4. Edit surgically
+
+- Touch only the files you named.
+- Do not reformat surrounding code.
+- Do not add new dependencies unless explicitly asked.
+- If a change needs a config or env value, ask first.
+
+## 5. Verify
+
+Always run the project's own check command (`npm test`, `pytest`,
+`cargo test`, etc.) before reporting success. If the project has no
+check command, say so.
+
+## 6. Report
+
+End every turn with a structured report:
+
+```
+## Summary
+- What changed (file:reason).
+
+## Checks
+- Command, exit code, summary.
+
+## Risks / Open
+- Anything that could break later.
+
+## Next step
+- Single concrete follow-up the user can take.
+```
+
+## 7. On failure, log it
+
+If you fail a task (the user has to correct you, the test fails
+twice, etc.), append a one-paragraph entry to
+`.ai/harness/failure-log.md` with: date, request, root cause, which
+skill should have caught it.
+
+This is how the harness improves over time.

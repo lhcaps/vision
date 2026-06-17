@@ -1,0 +1,15 @@
+{{agency.name}}
+{{agency.parentName}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{legalBasis.procedureArticlesLine}}
+{{official.issuerTitle}}
+{{recipients.archiveLine}}
+{{recipients.primaryLine}}
+{{recipients.sourceProviderLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}
+{{sourceSuspensionCancellation.article1Line}}
+{{sourceSuspensionCancellation.article2Line}}
+{{sourceSuspensionCancellation.considerationLine}}

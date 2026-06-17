@@ -1,0 +1,63 @@
+Mẫu số 56/HS
+(Ban hành theo Thông tư số 
+03
+/2026/TT-VKSTC
+ngày 
+09
+/
+02
+/2026)
+{{agency.parentName}}
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+Số: {{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+ 
+TẠM HOÃN XUẤT CẢNH
+{{official.issuerTitle}}
+Căn cứ các điều 41, 124 và 165 của Bộ luật Tố tụng hình sự;
+Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên;
+Xét thấy
+ 
+{{measure.exitPostponementReasonLine}},
+QUYẾT ĐỊNH:
+Điều 1.
+ Tạm hoãn xuất cảnh đối với:
+Họ tên
+:
+ 
+{{person.fullName}}
+          
+ Giới tính:
+ 
+{{person.genderLabel}}
+Tên gọi khác: {{person.otherName}}
+Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}
+Quốc tịch: {{person.nationality}};
+    
+ 
+ 
+Dân tộc: {{person.ethnicity}}; 
+      
+Tôn giáo: {{person.religion}}
+ 
+Nghề nghiệp: {{person.occupation}}
+Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:
+ 
+{{person.identityDocumentLine}}
+Nơi thường trú: {{person.permanentAddress}}
+Nơi tạm trú: {{person.temporaryAddress}}
+Nơi ở hiện tại: {{person.currentAddress}}
+Thời hạn tạm hoãn xuất cảnh {{measure.exitPostponementDurationText}} kể từ {{measure.exitPostponementFromDateText}} đến {{measure.exitPostponementToDateText}}.
+Điều 2.
+ {{measure.exitPostponementArticle2Line}}. 
+Nếu bị can vi phạm, yêu cầu {{measure.immigrationAgencyName}} thông báo ngay cho {{agency.name}} biết để xử lý theo thẩm quyền, điện thoại liên hệ số {{monitoring.phone}}, gặp Kiểm sát viên {{monitoring.prosecutorName}} để giải quyết./.
+Nơi nhận:
+{{recipients.personLine}}
+{{recipients.immigrationUnitLine}}
+{{recipients.archiveLine}}
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

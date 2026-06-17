@@ -1,0 +1,14 @@
+{{agency.name}}
+{{agency.parentName}}
+{{caseInitiationRequest.article1Line}}
+{{caseInitiationRequest.article2Line}}
+{{caseInitiationRequest.assessmentLine}}
+{{caseInitiationRequest.investigationAuthorityRecipientLine}}
+{{caseInitiationRequest.procedureArticlesLine}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{official.issuerTitle}}
+{{recipients.archiveLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}

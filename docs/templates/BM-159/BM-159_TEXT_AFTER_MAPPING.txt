@@ -1,0 +1,55 @@
+{{agency.parentName}}
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+Số
+: 
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+Mẫu số 1
+59
+/HS
+(Ban hành theo Thông tư số      /202
+6
+/TT-VKSTC
+ngày       /     /202
+6
+)
+Mẫu số 1
+59
+/HS
+(Ban hành theo Thông tư số      /202
+6
+/TT-VKSTC
+ngày       /     /202
+6
+)
+QUYẾT ĐỊNH
+P
+hân công
+ Viện kiểm sát cấp dưới 
+thực hành quyền công tố,
+kiểm sát xét xử 
+sở thẩm 
+vụ án hình sự
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{subordinateProcuracyTrialAssignment.indictmentLine}}
+QUYẾT ĐỊNH:
+Điều 1.
+ 
+{{subordinateProcuracyTrialAssignment.article1Line}}
+Điều 2
+. 
+{{subordinateProcuracyTrialAssignment.article2Line}}
+Nơi nhận:
+-
+ 
+{{recipients.assignedProcuracyLine}};
+- 
+{{recipients.courtLine}};
+- 
+{{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

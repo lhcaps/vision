@@ -1,0 +1,2 @@
+section	id	template_id	template_code	version_no	placeholder_summary	checksum	updated_at
+BM166_TEMPLATE_VERSION_AFTER_FINAL_FORMAT	40	40	BM-166	1	{"notes": ["BM-166 final manual format fixed.", "Placeholders verified: 14/14.", "Ready for FE/render validation."], "status": "FORMAT_FIXED", "formattedAt": "2026-05-28 21:26:18", "placeholderCount": 14}	DA576A8778E44927857208CE6070C8086CEA764104FF10806672A4A44BF157D9	2026-05-28 21:26:18

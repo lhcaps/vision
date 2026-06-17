@@ -1,0 +1,29 @@
+﻿{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*", "prisma/seed.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*spec.ts",
+    "storage",
+    "storage/**",
+    "storage/**/*",
+    "./storage",
+    "./storage/**",
+    "./storage/**/*",
+    "../storage",
+    "../storage/**",
+    "../storage/**/*",
+    "../../storage",
+    "../../storage/**",
+    "../../storage/**/*",
+    "**/storage/**",
+    "**/code-backups/**",
+    "../../storage/code-backups/**"
+  ]
+}

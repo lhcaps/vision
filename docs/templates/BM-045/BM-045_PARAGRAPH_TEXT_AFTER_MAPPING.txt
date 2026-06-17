@@ -1,0 +1,25 @@
+001: {{agency.parentNameUpper}} {{agency.nameUpper}}
+002: Số: {{document.documentCode}}
+003: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+004: Độc lập - Tự do - Hạnh phúc
+005: {{document.issuePlaceAndDateLine}}
+006: QUYẾT ĐỊNH 
+007: PHÊ CHUẨN QUYẾT ĐỊNH VỀ VIỆC BẢO LĨNH
+008: {{official.issuingAuthorityLine}}
+009: {{legalBasis.procedureArticlesLine}}
+010: {{legalBasis.juvenileJusticeLine}}
+011: {{bailApproval.caseDecisionLegalBasisLine}} 
+012: {{bailApproval.accusedDecisionLegalBasisLine}} 
+013: {{bailApproval.proposalLine}} 
+014: {{bailApproval.reasonLine}}
+015: QUYẾT ĐỊNH:
+016: Điều 1. {{bailApproval.article1Line}}
+017: Điều 2. {{bailApproval.article2Line}}
+018: Nơi nhận:
+019: {{recipients.executionAgencyLine}}
+020: {{recipients.personRepresentativeLine}}
+021: {{recipients.bailReceiverLine}}
+022: {{recipients.archiveLine}}
+023: {{signature.signMode}}
+024: {{signature.positionTitle}}
+025:    {{signature.signerName}}

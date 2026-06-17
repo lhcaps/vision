@@ -1,0 +1,73 @@
+---
+description: Universal coding-style rules. Always on. Naming, structure, types, error handling, comments.
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Coding Style (Universal)
+
+These rules are non-negotiable across every language in this project.
+Stack overlays may add more specific rules, but never relax these.
+
+## Naming
+
+- Names describe **intent**, not implementation.
+  - `retryBudget` not `maxRetries_3`.
+  - `findUserByEmail` not `lookup1`.
+- Booleans read as predicates: `isReady`, `hasChildren`, `canSubmit`.
+- Acronyms: 2 letters uppercase (`IO`, `DB`), 3+ letters PascalCase (`Url`, `Http`).
+- Files match the dominant export: `UserCard.tsx` exports `UserCard`.
+- One file, one primary export. Helper exports go in `internal.ts` or
+  co-located, not as the file's default.
+
+## Structure
+
+- Functions: small, single responsibility, top-to-bottom readable.
+  - If a function needs a comment, prefer extracting a named function.
+- Files: prefer many small files over few large ones.
+- Modules: explicit public surface; no star exports.
+- Side effects live at the edges (HTTP, DB, FS), not in domain code.
+
+## Types
+
+- Prefer narrow types over loose ones. `string` only when text is
+  really free-form. Use branded types for IDs, emails, paths.
+- Don't use `any`. Use `unknown` and narrow.
+- Prefer union types over enums for closed sets.
+- Functions return explicit shapes, not `Object`.
+
+## Errors
+
+- Errors are values, not surprises. Throw only for truly exceptional
+  conditions, and only at module boundaries.
+- Every thrown error has a message that includes **what failed** and
+  **what the caller can do**.
+- Never swallow errors silently. `catch {}` is a bug.
+
+## Comments
+
+- Comments explain **why**, not **what**. The code shows what.
+- Public APIs get a one-line doc comment.
+- No comments that narrate the next line.
+- No comments that apologize for the code. Fix the code.
+
+## Functions vs classes vs modules
+
+- Default: free function + module.
+- Use a class only when you need stateful lifecycle.
+- Use a module (object of related functions) when grouping static
+  helpers.
+
+## Imports
+
+- Group: stdlib, then third-party, then internal. Blank line between.
+- Sort each group alphabetically.
+- No deep relative imports. If the path goes up 3+ levels, add a path
+  alias.
+
+## Tests
+
+- One assertion focus per test. Name the test after the behavior.
+- Tests are deterministic. No `Date.now()`, no `Math.random()`,
+  no real network. Inject those.
+- A test that always passes is worse than no test.

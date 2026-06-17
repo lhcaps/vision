@@ -1,0 +1,11 @@
+section	id	template_code	template_no	template_name	group_id	stage_code	render_scope	output_strategy	default_output_formats	is_active
+REFERENCE_TEMPLATES	9	BM-057	57	Quyết định hủy bỏ biện pháp tạm hoãn xuất cảnh	2	PREVENTIVE_MEASURES	PERSON_LEVEL	ONE_FILE_PER_PERSON	["DOCX", "PDF"]	1
+REFERENCE_TEMPLATES	20	BM-146	146	Quyết định tạm đình chỉ vụ án	5	PROSECUTION	CASE_LEVEL	ONE_FILE_PER_CASE	["docx", "pdf"]	1
+section	group_id_ref_from_BM146	stage_code_ref_from_BM146	output_strategy_ref_from_BM146	default_output_formats_ref_from_BM146	render_scope_person_ref_from_BM057
+REFERENCE_VALUES	5	PROSECUTION	ONE_FILE_PER_CASE	["docx", "pdf"]	PERSON_LEVEL
+section	template_id_bm148
+BM148_TEMPLATE_ID	39
+section	id	template_code	template_no	template_name	group_id	stage_code	render_scope	output_strategy	default_output_formats	requires_review	is_active	created_at	updated_at
+FINAL_TEMPLATE	39	BM-148	148/HS	Quyết định tạm đình chỉ vụ án hình sự đối với bị can	5	PROSECUTION	PERSON_LEVEL	ONE_FILE_PER_CASE	["docx", "pdf"]	1	1	2026-05-27 13:59:22	2026-05-27 13:59:22
+section	id	template_id	template_code	version_no	original_file_path	normalized_docx_path	output_name_pattern	placeholder_summary	checksum	is_default	is_active	created_by_name	created_at	updated_at
+FINAL_TEMPLATE_VERSION	39	39	BM-148	1	C:\\LUẬT\\QUANLYVKS\\storage\\imports\\template-zips\\extracted\\Biểu mẫu\\148-QĐ tạm đình chỉ vụ án đối với bị can.doc	C:\\LUẬT\\QUANLYVKS\\storage\\templates\\normalized-docx\\BM-148\\BM-148_normalized.docx	BM-148_Quyet-dinh-tam-dinh-chi-vu-an-hinh-su-doi-voi-bi-can_{{caseCode}}_{{personSlug}}_v{{version}}	{"notes": ["Converted from source DOC to normalized DOCX.", "XML parser audit passed: no real XML leak in text nodes.", "Placeholders have not been mapped yet."], "status": "NORMALIZED_ONLY", "mappedAt": null, "placeholderCount": 0}	D4839DD93E9B42775303B64AC8A68ABCA8D3D9925B80F70F30E6EEACD4EFAE85	1	1	ChatGPT	2026-05-27 13:59:22	2026-05-27 13:59:22

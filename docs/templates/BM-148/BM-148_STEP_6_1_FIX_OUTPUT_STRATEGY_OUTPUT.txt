@@ -1,0 +1,4 @@
+section	id	template_code	render_scope	output_strategy	default_output_formats
+BEFORE_FIX	39	BM-148	PERSON_LEVEL	ONE_FILE_PER_CASE	["docx", "pdf"]
+section	id	template_code	render_scope	output_strategy	default_output_formats
+AFTER_FIX	39	BM-148	PERSON_LEVEL	ONE_FILE_PER_PERSON	["DOCX", "PDF"]

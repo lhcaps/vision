@@ -1,0 +1,10 @@
+id: node-express
+description: Node.js with Express overlay.
+applies_to_files:
+  - package.json
+  - src/server.js
+  - src/routes/**
+  - src/middleware/**
+skills_provided: []
+rules:
+  - express.mdc

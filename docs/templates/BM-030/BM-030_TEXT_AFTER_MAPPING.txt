@@ -1,0 +1,35 @@
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+Mẫu số 30/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+Mẫu số 30/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+THÔNG BÁO
+Kết quả giải quyết nguồn tin về tội phạm
+Kính gửi
+: 
+{{recipients.primaryLine}}
+                   
+{{legalBasis.procedureArticlesLine}}
+{{sourceResolutionNotice.agencyActionLine}} thông báo cho
+ 
+{{sourceResolutionNotice.noticeRecipientLine}} biết:
+{{sourceResolutionNotice.sourceInfoLine}}
+ 
+{{sourceResolutionNotice.resolutionResultLine}}
+Nơi nhận
+:
+- {{recipients.copyLine}};
+- {{recipients.archiveLine}}.
+{{signature.positionTitle}}
+{{signature.signerName}}
+ 

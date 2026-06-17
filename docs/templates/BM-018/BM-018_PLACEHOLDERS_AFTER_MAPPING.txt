@@ -1,0 +1,17 @@
+{{agency.name}}
+{{agency.parentName}}
+{{caseInitiationChangeRequest.changeGroundLine}}
+{{caseInitiationChangeRequest.considerationLine}}
+{{caseInitiationChangeRequest.currentOffenseLegalLine}}
+{{caseInitiationChangeRequest.newOffenseLegalLine}}
+{{caseInitiationChangeRequest.requestAuthorityLine}}
+{{caseInitiationChangeRequest.requestChangeDecisionLine}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{legalBasis.procedureArticlesLine}}
+{{official.issuerTitle}}
+{{recipients.archiveLine}}
+{{recipients.primaryLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}

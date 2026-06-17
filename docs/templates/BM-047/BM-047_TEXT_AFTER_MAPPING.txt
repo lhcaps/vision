@@ -1,0 +1,78 @@
+Mẫu số 47/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+Mẫu số 47/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+VỀ VIỆC BẢO LĨNH
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{legalBasis.juvenileJusticeLine}}
+{{guaranteeApproval.caseInitiationLine}}
+{{guaranteeApproval.defendantInitiationLine}}
+{{guaranteeApproval.sufficientGroundsLine}}
+  
+QUYẾT ĐỊNH:
+Điều 1.
+ 
+{{guaranteeApproval.assignmentLine}}
+Họ tên:
+ 
+{{defendant.fullName}}
+    
+ 
+ Giới tính:
+ 
+{{defendant.gender}}
+Tên gọi khác: 
+{{defendant.aliasName}}
+Sinh ngày 
+{{defendant.birthDateLine}} 
+     
+tại: {{defendant.birthPlace}}
+Quốc tịch: 
+{{defendant.nationality}}; 
+     
+Dân tộc: {{defendant.ethnicity}}; 
+    
+Tôn giáo: {{defendant.religion}}
+ 
+Nghề nghiệp:
+ 
+{{defendant.occupation}}
+Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:
+ 
+{{defendant.identityNumber}}
+Cấp ngày
+ 
+{{defendant.identityIssueDateLine}} 
+    
+Nơi cấp: {{defendant.identityIssuePlace}}
+Nơi thường trú:
+ 
+{{defendant.permanentResidence}}
+Nơi tạm trú: 
+{{defendant.temporaryResidence}}
+Nơi ở hiện tại: 
+{{defendant.currentResidence}}
+{{guaranteeApproval.guaranteePeriodLine}}
+Điều 2.
+ 
+{{guaranteeApproval.article2Line}}
+Nơi nhận:
+- {{recipients.defendantLine}};
+- {{recipients.guarantorLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

@@ -1,0 +1,23 @@
+{
+  "name": "harness",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "description": "Personal meta-harness: copy this folder to bootstrap a new project.",
+  "bin": {
+    "harness": "cli/harness.mjs"
+  },
+  "scripts": {
+    "harness": "node cli/harness.mjs",
+    "harness:install": "node cli/harness.mjs install",
+    "harness:diff": "node cli/harness.mjs diff",
+    "harness:update": "node cli/harness.mjs update",
+    "harness:list": "node cli/harness.mjs list",
+    "harness:doctor": "node cli/harness.mjs doctor",
+    "harness:ci": "node cli/harness.mjs doctor && node cli/harness.mjs diff",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

@@ -1,0 +1,30 @@
+001: Mẫu số 45/HS(Ban hành theo Thông tư số 03/2026/TT-VKSTCNgày 09/02/2026) 
+002: Mẫu số 45/HS
+003: (Ban hành theo Thông tư số 03/2026/TT-VKSTC
+004: Ngày 09/02/2026) 
+005: {{agency.parentNameUpper}}
+006: {{agency.nameUpper}}
+007: Số: {{document.documentCode}}
+008: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+009: Độc lập - Tự do - Hạnh phúc
+010: {{document.issuePlaceAndDateLine}}
+011: QUYẾT ĐỊNH
+012: PHÊ CHUẨN QUYẾT ĐỊNH VỀ VIỆC BẢO LĨNH
+013: {{official.issuingAuthorityLine}}
+014: {{legalBasis.procedureArticlesLine}}
+015: {{legalBasis.juvenileJusticeLine}}
+016: {{bailApproval.caseDecisionLegalBasisLine}} 
+017: {{bailApproval.accusedDecisionLegalBasisLine}} 
+018: {{bailApproval.proposalLine}} 
+019: {{bailApproval.reasonLine}}
+020: QUYẾT ĐỊNH:
+021: Điều 1. {{bailApproval.article1Line}}
+022: Điều 2. {{bailApproval.article2Line}}
+023: Nơi nhận:
+024: {{recipients.executionAgencyLine}}
+025: {{recipients.personRepresentativeLine}}
+026: {{recipients.bailReceiverLine}}
+027: {{recipients.archiveLine}}
+028: {{signature.signMode}}
+029: {{signature.positionTitle}}
+030:    {{signature.signerName}}

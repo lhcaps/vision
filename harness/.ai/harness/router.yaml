@@ -1,0 +1,65 @@
+# Router: maps freeform request verbs to skills.
+# This is the meta-harness project's customized version. Other
+# projects get the bundle default unless they customize this.
+
+routes:
+  - match:
+      verbs: [plan, sketch, design, propose, draft, outline]
+      task_class: plan
+    skills: [plan]
+
+  - match:
+      verbs: [implement, build, add, create, write, code, fix bug]
+      task_class: implement
+    skills: [plan, debug]
+    notes: |
+      Most "implement" tasks in this project are bug fixes or
+      small enhancements. Plan first, debug second.
+
+  - match:
+      verbs: [review, audit, check, critique, pr review]
+      task_class: review
+    skills: [code-review]
+
+  - match:
+      verbs: [debug, fix, investigate, diagnose, why, broken]
+      task_class: debug
+    skills: [debug]
+    notes: |
+      The debug skill is project-customized. Read it before
+      any debug task.
+
+  - match:
+      verbs: [refactor, clean, restructure, simplify]
+      task_class: refactor
+    skills: [plan, refactor, test]
+
+  - match:
+      verbs: [test, cover, regression, add test]
+      task_class: test
+    skills: [test]
+
+  - match:
+      verbs: [document, write docs, update readme]
+      task_class: docs
+    skills: [doc]
+
+  - match:
+      verbs: [ship, release, pr, open pr, prepare, finalize, bump version]
+      task_class: ship
+    skills: [ship, code-review]
+
+  - match:
+      verbs: [harness, meta, register, unregister, doctor, add skill, remove skill, update harness]
+      task_class: meta
+    skills: [intake, discover]
+
+  - match:
+      verbs: [ai, llm, prompt, integrate ai, model, smart route, route]
+      task_class: ai-feature
+    skills: [ai-integration, prompt-design, eval-design]
+    notes: |
+      This project has one AI surface: smart routing. The
+      ai-integration skill is project-customized; use it.
+
+fallback_skill: task-classify

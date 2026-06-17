@@ -1,0 +1,50 @@
+Mẫu số 86/HS
+(Ban hành theo Thông t
+ư
+ số      /2026/TT-VKSTC
+ngày       /     /2026)
+Mẫu số 86/HS
+(Ban hành theo Thông t
+ư
+ số      /2026/TT-VKSTC
+ngày       /     /2026)
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+        
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+Chuyển việc thực hiện thẩm quyền thực hành quyền công tố,
+ kiểm sát
+việc giải quyết vụ việc/vụ án hình sự
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{legalBasis.jurisdictionCircularLine}}
+{{prosecutionJurisdictionTransfer.considerationLine}}
+QUYẾT ĐỊNH:
+1.
+ 
+{{prosecutionJurisdictionTransfer.article1Line}}
+2.
+ {{prosecutionJurisdictionTransfer.article2Line}}
+Nơi nhận:
+- 
+{{recipients.sourceProcuracyLine}};
+ 
+- 
+{{recipients.targetProcuracyLine}};
+ 
+- 
+{{recipients.investigationAuthorityLine}};
+ 
+- 
+{{recipients.detentionFacilityLine}};
+ 
+- 
+{{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

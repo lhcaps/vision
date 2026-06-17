@@ -1,0 +1,39 @@
+Mẫu số 07/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC 
+ngày       /     /2026)
+ 
+{{agency.parentName}}
+ 
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+Số: {{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+ 
+YÊU CẦU
+Cung cấp tài liệu để kiểm sát việc giải quyết nguồn tin về tội phạm
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{sourceMaterialRequest.reasonLine}}
+YÊU CẦU:
+1.
+ 
+{{sourceMaterialRequest.article1Line}}
+a) 
+{{sourceMaterialRequest.documentItem1Line}}
+b) 
+{{sourceMaterialRequest.documentItem2Line}}
+c)
+ 
+{{sourceMaterialRequest.documentItem3Line}}
+{{sourceMaterialRequest.additionalDocumentItemsLine}}
+2.
+ 
+{{sourceMaterialRequest.deadlineLine}}
+  
+Nơi nhận:
+- {{recipients.primaryLine}};
+- {{recipients.archiveLine}}.
+{{signature.positionTitle}}
+{{signature.signerName}}
+                

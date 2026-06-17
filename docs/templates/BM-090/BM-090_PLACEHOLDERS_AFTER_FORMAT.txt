@@ -1,0 +1,16 @@
+﻿{{accusedDecision.approvalArticle1Line}}
+{{accusedDecision.investigationRequestLine}}
+{{accusedDecision.requestLine}}
+{{agency.name}}
+{{agency.parentName}}
+{{approval.assessmentLine}}
+{{caseDecision.legalBasisLine}}
+{{document.fullDocumentCode}}
+{{document.issuePlaceDateLine}}
+{{legalBasis.procedureArticlesLine}}
+{{recipients.archiveLine}}
+{{recipients.investigationUnitLine}}
+{{recipients.personLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}

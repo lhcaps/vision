@@ -1,0 +1,50 @@
+001: VIỆN KIỂM SÁT
+002:  
+003: …
+004:  
+005: .................................................
+006: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+007: Độc lập - Tự do - Hạnh phúc
+008:         
+009: BIÊN BẢN 
+010: Mẫu số 168/HS
+011: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+012: ngày       /     /2026)
+013: Mẫu số 168/HS
+014: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+015: ngày       /     /2026)
+016: Giao, nhận hồ sơ vụ việc/vụ án
+017:  
+018:  
+019: Vào 
+020: hồi 
+021: … 
+022: giờ 
+023: … 
+024: phút, 
+025: ngày … tháng … năm … 
+026: tại
+027: Chúng tôi gồm có:
+028: Bên giao:
+029: Chức danh:
+030: Bên nhận:
+031: Chức danh:
+032: Bàn giao hồ sơ vụ việc/vụ án:
+033:         
+034: Lý do bàn giao:
+035: Hồ sơ gồm: … tập, tổng số … bút lục, đánh số từ 01 đến ....
+036: Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):....................
+037: Việc giao, nhận kết thúc 
+038: hồi 
+039: … 
+040: giờ 
+041: … 
+042: phút, 
+043: ngày … tháng … năm ….
+044: Biên bản này đã đọc lại cho bên giao, bên nhận cùng nghe, công nhận đúng và cùng ký tên dưới đây.
+045: Biên bản lập 04 bản, mỗi bên giữ 01 bản, lưu hồ sơ vụ việc/hồ sơ vụ án, hồ sơ kiểm sát./.
+046:                  
+047: NGƯỜI NHẬN
+048: (Ký, ghi rõ họ tên)
+049: NGƯỜI GIAO
+050: (Ký, ghi rõ họ tên)

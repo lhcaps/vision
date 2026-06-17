@@ -1,0 +1,49 @@
+# Project profile. The agent reads this on every turn.
+# Customize during the bootstrap prompt; the bundle ships a blank-ish
+# template, you fill it in for your project.
+
+project:
+  name: <project-name>
+  domain: <web|mobile|backend|library|infra|ai|other>
+  one_liner: <one-line description>
+  repo_url: <git-url>
+
+stack:
+  primary: <nextjs|python-fastapi|node-express|generic>
+  language: <ts|js|py|rs|go|...>
+  package_manager: <npm|pnpm|yarn|uv|pip|cargo|...>
+  test_runner: <jest|vitest|pytest|...>
+  linter: <eslint|ruff|...>
+  formatter: <prettier|black|...>
+  ci: <github-actions|circleci|none|...>
+  deploy: <vercel|fly|aws|none|...>
+
+owner:
+  team: <team-or-empty>
+  primary_contact: <handle>
+
+# Paths the agent should know about. Default values are good defaults
+# but override for monorepos or unusual layouts.
+key_paths:
+  source_root: src
+  test_root: test
+  config_root: .
+  docs_root: docs
+
+# Constraints the agent should respect. Add only ones that are
+# actually enforced; stale constraints cause over-engineering.
+constraints:
+  forbidden_dependencies: []
+  performance_budgets: {}
+  compliance: []
+
+# Skills the user has customized for this project. Each entry is
+# 1-2 sentences on what's different from the bundle version.
+customized_skills: {}
+
+# Skills the agent should NOT load in this project (e.g. UI skills
+# for a backend project).
+disabled_skills: []
+
+# Notes the agent should keep in mind.
+notes: []

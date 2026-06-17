@@ -1,0 +1,80 @@
+﻿name: quanlyvks
+
+services:
+  mysql:
+    image: mariadb:11
+    container_name: quanlyvks-mysql
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Ho_Chi_Minh
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+07:00
+      - --max_allowed_packet=256M
+    ports:
+      - "${MYSQL_HOST_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$${MARIADB_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    container_name: quanlyvks-api
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      TZ: Asia/Ho_Chi_Minh
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?connection_limit=10
+      STORAGE_ROOT_PATH: /app/storage
+      LIBREOFFICE_PATH: /usr/bin/libreoffice
+    command: >
+      sh -lc "fc-cache -f >/tmp/fontcache.log 2>&1 || true; node dist/main.js"
+    ports:
+      - "${API_PORT}:3001"
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+      - C:/Windows/Fonts:/usr/share/fonts/truetype/windows:ro
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+    container_name: quanlyvks-web
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      TZ: Asia/Ho_Chi_Minh
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+    ports:
+      - "${WEB_PORT}:3000"
+    depends_on:
+      - api
+
+volumes:
+  mysql_data:
+
+

@@ -1,0 +1,32 @@
+﻿name: harness
+version: 0.1.2
+schema_version: 1
+description: >
+  Personal meta-harness. Copy this folder to bootstrap a new project with
+  Cursor rules, a curated skill registry, prompts, and a manifest-driven
+  two-way sync so customizations survive future updates.
+defaults:
+  stack: generic
+  install:
+    cursor_rules: .cursor/rules
+    ai_dir: .ai
+    manifest_dir: .harness
+  rules_always_on:
+    - 00-meta
+    - 10-coding-style
+    - 20-safety
+    - 30-tooling
+supported_stacks:
+  - id: generic
+    description: No stack-specific rules. Use as a fallback.
+  - id: nextjs
+    description: Next.js (App Router, TypeScript, RSC).
+    detect_files: [package.json, next.config.{js,mjs,ts}]
+  - id: python-fastapi
+    description: Python 3.11+ with FastAPI.
+    detect_files: [pyproject.toml, requirements.txt]
+    detect_marker: fastapi
+  - id: node-express
+    description: Node.js with Express.
+    detect_files: [package.json]
+    detect_marker: express

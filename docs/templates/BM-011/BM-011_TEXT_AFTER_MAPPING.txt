@@ -1,0 +1,30 @@
+{{agency.parentName}}
+ 
+{{agency.name}}
+Số: {{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+HỦY BỎ QUYẾT ĐỊNH TẠM ĐÌNH CHỈ
+VIỆC GIẢI QUYẾT 
+NGUỒN TIN VỀ TỘI PHẠM
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{sourceSuspensionCancellation.considerationLine}}
+QUYẾT ĐỊNH:
+Điều 1.
+ 
+{{sourceSuspensionCancellation.article1Line}}
+Điều
+ 2.
+ 
+{{sourceSuspensionCancellation.article2Line}}
+Nơi nhận
+:
+- {{recipients.primaryLine}};
+- {{recipients.sourceProviderLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

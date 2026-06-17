@@ -1,0 +1,63 @@
+Mẫu số 54/HS
+(Ban hành theo Thông t
+ư
+ số
+ 03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+{{agency.parentName}}
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do – Hạnh phúc
+Số: 
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+              
+THÔNG BÁO 
+Về việc áp dụng biện pháp cấm đi khỏi nơi cư trú
+Kính gửi:
+ 
+{{monitoring.unitName}}
+{{agency.name}}
+ thông báo cho
+ 
+{{monitoring.unitName}}
+ 
+về việc áp dụng biện pháp cấm đi khỏi nơi cư trú đối với bị can:
+Họ tên:
+ 
+{{person.fullName}} 
+ Giới tính:
+ 
+{{person.genderLabel}}
+Tên gọi khác: 
+{{person.otherName}}
+Sinh ngày: {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}
+Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}
+ 
+Nghề nghiệp:
+ 
+{{person.occupation}}
+{{person.identityDocumentLine}}
+Nơi thường trú: {{person.permanentAddress}}
+Nơi tạm trú: {{person.temporaryAddress}}
+Nơi ở hiện tại: {{person.currentAddress}}
+bị khởi tố về tội 
+{{offense.offenseName}}
+ quy định tại 
+{{offense.legalArticle}}
+ 
+của {{offense.criminalCodeText}}.
+{{notification.preventiveMeasureOrderLine}}
+Giao bị can cho {{monitoring.unitName}} để quản lý, theo dõi. Nếu bị can vi phạm nghĩa vụ cam đoan, yêu cầu {{monitoring.unitName}} thông báo ngay cho {{agency.name}} biết để xử lý theo thẩm quyền, điện thoại liên hệ số {{monitoring.phone}}, gặp Kiểm sát viên {{official.prosecutorName}} để giải quyết./.
+ 
+    
+Nơi nhận: 
+{{recipients.personLine}}
+{{recipients.archiveLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}

@@ -1,0 +1,62 @@
+---
+description: Node.js + Express conventions. Stack overlay.
+globs: ["src/**/*.js", "src/**/*.ts", "package.json"]
+alwaysApply: false
+---
+
+# Express Conventions
+
+## Structure
+
+- `src/server.js` boots the app. `src/app.js` builds it.
+- `src/routes/` is the route tree. `src/middleware/` is
+  cross-cutting concerns. `src/services/` is business
+  logic. `src/db/` is persistence.
+- Routes are thin: parse, validate, call a service,
+  respond. No business logic in route handlers.
+- No `app.use((req, res, next) => ...)` "kitchen sink"
+  middleware. Each middleware does one thing.
+
+## Async
+
+- Express 4 doesn't await async handlers. Wrap with
+  `asyncHandler(fn)` or use Express 5.
+- Never call `next()` after sending a response.
+- Never use `res.send` twice in the same handler.
+
+## Validation
+
+- Validate at the boundary. `zod` or `joi` schema for
+  every body, every query, every params.
+- Reject unknown fields (`zod.strict()` or equivalent).
+  Loose input is a security issue.
+
+## Errors
+
+- Centralized error handler. Routes throw or `next(err)`;
+  the handler formats the response.
+- Custom `AppError` class with a status and a code.
+- 4xx for caller errors, 5xx for server errors.
+- No stack traces in production responses.
+
+## Security
+
+- Helmet for headers. `cors` with an explicit allowlist.
+- Rate limit on auth and write endpoints.
+- `express.json({ limit: '...' })` to bound body size.
+- `express-mongo-sanitize` if MongoDB. `pg` parameterizes
+  for you; don't string-concat.
+
+## Tests
+
+- `supertest` for the HTTP surface. `jest` or `vitest` for
+  unit. `nock` or `msw` for outbound HTTP.
+- No real network, no real DB. Inject everything.
+
+## Conventions
+
+- ESM. `"type": "module"` in package.json.
+- `import` everywhere, no `require`.
+- Strict mode by default in tsconfig (for TypeScript
+  projects).
+- Lint with eslint + prettier. Lint-staged on commit.

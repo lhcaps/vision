@@ -1,0 +1,2 @@
+section	id	template_id	template_code	version_no	placeholder_summary	checksum	updated_at
+BM148_TEMPLATE_VERSION_AFTER_CHECKSUM_UPDATE	39	39	BM-148	1	{"notes": ["BM-148 MVP placeholders manually pasted and formatted in normalized DOCX.", "Backend BM-148 payload overlay is available.", "Ready for DOCX/PDF render test."], "status": "PLACEHOLDERS_MAPPED", "mappedAt": "2026-05-27 14:40:36", "placeholderCount": 30}	FCADF5F02D210E978C25FCE4F44D4D47D1A689923B8A7DC24EC101614FF2BAEF	2026-05-27 14:40:36

@@ -1,0 +1,4 @@
+section	id	template_code	template_no	template_name	group_id	stage_code	render_scope	output_strategy	default_output_formats	is_active
+REFERENCE_BM166	40	BM-166	166/HS	Quyết định trả hồ sơ vụ án để điều tra lại	5	PROSECUTION	CASE_LEVEL	ONE_FILE_PER_CASE	["DOCX", "PDF"]	1
+section	id	template_code	template_no	template_name	group_id	stage_code	render_scope	output_strategy	default_output_formats	is_active
+REFERENCE_BM156	5	BM-156	156	Cáo trạng	5	PROSECUTION	CASE_LEVEL	ONE_FILE_PER_CASE	["DOCX", "PDF"]	1

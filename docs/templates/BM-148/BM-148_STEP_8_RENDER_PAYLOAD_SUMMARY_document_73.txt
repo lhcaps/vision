@@ -1,0 +1,283 @@
+﻿============================================================
+BM-148 STEP 8 RENDER PAYLOAD SUMMARY
+============================================================
+DocumentId: 73
+PayloadJson: C:\LUẬT\QUANLYVKS\docs\templates\BM-148\BM-148_STEP_8_RENDER_PAYLOAD_document_73.json
+
+TOP LEVEL PROPS:
+- case
+- person
+- people
+- offense
+- offenses
+- document
+- caseDecision
+- accusedDecision
+- legalBasis
+- assignment
+- approval
+- investigation
+- investigationRecovery
+- investigationExtension
+- proposal
+- measure
+- monitoring
+- notification
+- recipients
+- signature
+- delivery
+- caseJoinder
+- caseRecovery
+- investigationConclusion
+- prosecutionSupplementReturn
+- prosecutionCaseSuspension
+- prosecutionCaseTermination
+- prosecutionExtension
+- prosecutionTransfer
+- indictment
+- attachments
+- reception
+- receiver
+- informant
+- crimeReport
+- sourceVerification
+- template
+- agency
+- official
+
+GROUP PROPS:
+
+[document]
+- id = 73
+- documentNo = BM-148-1779865341
+- documentCode = BM-148-1779865341
+- fullDocumentCode = BM-148-1779865341BM-148-1779865341
+- documentTitle = Quyết định tạm đình chỉ vụ án hình sự đối với bị can
+- targetScope = PERSON_LEVEL
+- reviewStatus = DRAFT
+- generatedAt = 27/05/2026
+- approvedAt = NULL
+- issueDate = 27/05/2026
+- issueDay = 27
+- issueMonth = 05
+- issueYear = 2026
+- issueDateText = 27/5/2026
+- issuePlaceAndDateLine = TP. Hồ Chí Minh, ngày 27 tháng 5 năm 2026
+- issuePlaceDateLine = TP. Hồ Chí Minh, ngày 27 tháng 5 năm 2026
+
+[agency]
+- parentName = VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH
+- name = VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7
+- shortName = VKSKV7
+- issuePlace = TP. Hồ Chí Minh
+- phone = 0988027788
+- monitoringUnitName = NULL
+
+[case]
+- id = 2
+- caseCode = VKS-2026-0001
+- nationalCaseCode = NULL
+- caseTitle = Vụ án đánh bạc tại phường Trung Mỹ Tây
+- caseSummary = Hồ sơ demo phục vụ kiểm thử luồng tạo hồ sơ, thêm bị can, thêm tội danh và sinh biểu mẫu.
+- caseType = CRIMINAL_CASE
+- sourceType = NULL
+- currentStage = RECEPTION
+- currentStatus = DRAFT
+- priority = NORMAL
+- receivedDate = 06/05/2026
+- acceptedDate = NULL
+- prosecutedDate = NULL
+- closedDate = NULL
+- note = NULL
+
+[person]
+- id = 2
+- fullName = Đoàn Văn Dũng
+- otherName = Không có
+- gender = MALE
+- genderLabel = Nam
+- dateOfBirth = 08/09/1985
+- birthDay = 08
+- birthMonth = 09
+- birthYear = 1985
+- dateOfBirthText = 08/9/1985
+- placeOfBirth = tỉnh Quảng Ngãi
+- birthInfoLine = Sinh ngày: 08 tháng 9 năm 1985 tại: tỉnh Quảng Ngãi
+- identityType = Thẻ CCCD
+- identityNo = 051080000314
+- identityIssuedDate = 22/12/2021
+- identityIssuedDay = 22
+- identityIssuedMonth = 12
+- identityIssuedYear = 2021
+- identityIssuedDateText = 22/12/2021
+- identityIssuedPlace = Cục Cảnh sát Quản lý hành chính về trật tự xã hội
+- identityDocumentLine = Thẻ CCCD: 051080000314, Cấp ngày 22/12/2021, Nơi cấp: Cục Cảnh sát Quản lý hành chính về trật tự xã hội
+- occupation = Kinh doanh
+- permanentAddress = số 49/37, đường TCH 16, Khu phố 45, phường Trung Mỹ Tây, Thành phố Hồ Chí Minh
+- temporaryAddress = NULL
+- currentAddress = số 13/4A, Ấp 107, xã Đông Thạnh, Thành phố Hồ Chí Minh
+- residenceAddress = 
+- criminalRecordLine = Không
+- nationality = Việt Nam
+- ethnicity = Kinh
+- religion = Không
+- note = Bị can demo BM-058 - Đoàn Văn Dũng
+
+[accused] MISSING OR EMPTY
+
+[legalBasis]
+- procedureArticlesLine = Căn cứ các điều 41, 165 và 179 của Bộ luật Tố tụng hình sự;
+- assignmentProcedureArticlesLine = 
+- staffAssignmentProcedureArticlesLine = Căn cứ các điều 41, 42, 43, 165 và 236 của Bộ luật Tố tụng hình sự;
+- legalEntityArticleLine = 
+- juvenileJusticeLine = 
+
+[caseDecision]
+- decisionNo = VKS-2026-0001
+- issueDate = 06/05/2026
+- issueDay = 06
+- issueMonth = 05
+- issueYear = 2026
+- issueDateText = 06/5/2026
+- issuedBy = NULL
+- legalBasisLine = Quyết định khởi tố vụ án hình sự số VKS-2026-0001 ngày 06/5/2026 về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự của Bộ luật Hình sự năm 2015, sửa đổi, bổ sung năm ...
+- caseProsecutionDecisionLine = 
+- prosecutionDecisionLegalBasisLine = Căn cứ Quyết định khởi tố vụ án hình sự số VKS-2026-0001 ngày 06 tháng 5 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh về tội “Đánh bạc” quy định tại khoản 1...
+- prosecutionDecisionSummaryLine = Quyết định khởi tố vụ án hình sự số VKS-2026-0001 ngày 06 tháng 5 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh về tội “Đánh bạc” quy định tại khoản 1 Điều 3...
+
+[accusedDecision]
+- decisionNo = VKS-2026-0001
+- issueDate = 06/05/2026
+- issueDay = 06
+- issueMonth = 05
+- issueYear = 2026
+- issueDateText = 06/5/2026
+- issuedBy = NULL
+- legalBasisLine = Quyết định khởi tố bị can số VKS-2026-0001 ngày 06/5/2026 đối với Đoàn Văn Dũng, về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự của Bộ luật Hình sự năm 2015, sửa đ...
+- requestLine = Xét hồ sơ đề nghị phê chuẩn Quyết định khởi tố bị can số VKS-2026-0001 ngày 06 tháng 5 năm 2026 đối với Đoàn Văn Dũng về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình s...
+- approvalArticle1Line = Phê chuẩn Quyết định khởi tố bị can số VKS-2026-0001 ngày 06 tháng 5 năm 2026 đối với Đoàn Văn Dũng về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự của Bộ luật Hình...
+- investigationRequestLine = Yêu cầu cơ quan, người có thẩm quyền ra Quyết định khởi tố bị can tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự.
+- sufficientGroundsLine = Sau khi nghiên cứu tài liệu trong hồ sơ vụ án, xét thấy có đủ căn cứ xác định:
+- article1Line = Khởi tố bị can đối với Đoàn Văn Dũng về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự của Bộ luật Hình sự năm 2015, sửa đổi, bổ sung năm 2025.
+- article2Line = Yêu cầu cơ quan, người có thẩm quyền điều tra tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự
+
+[suspension] MISSING OR EMPTY
+
+[measure]
+- durationText = NULL
+- fromDate = 27/05/2026
+- fromDay = 27
+- fromMonth = 05
+- fromYear = 2026
+- fromDateText = 27/5/2026
+- toDate = NULL
+- toDay = NULL
+- toMonth = NULL
+- toYear = NULL
+- toDateText = 
+- residencePlace = 
+- article2Line = Bị can không được phép đi khỏi nơi cư trú kể từ ngày 27/5/2026
+- orderDocumentCode = 12/LCCT-VKS
+- orderIssueDate = 27/05/2026
+- orderIssueDateText = ngày 27 tháng 5 năm 2026
+- preventiveMeasureOrderLegalBasisLine = Lệnh cấm đi khỏi nơi cư trú số 12/LCCT-VKS ngày 27 tháng 5 năm 2026 của Viện kiểm sát nhân dân khu vực 7;
+- cancelReasonLine = Xét thấy có đủ căn cứ, điều kiện hủy bỏ biện pháp cấm đi khỏi nơi cư trú đối với bị can Đoàn Văn Dũng,
+- cancellationArticle1Line = Hủy bỏ biện pháp cấm đi khỏi nơi cư trú đối với bị can Đoàn Văn Dũng.
+- cancellationArticle2Line = Yêu cầu cơ quan, tổ chức có liên quan thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự.
+- exitPostponementReasonLine = có đủ căn cứ, điều kiện áp dụng biện pháp tạm hoãn xuất cảnh đối với bị can Đoàn Văn Dũng,
+- exitPostponementArticle1Line = Tạm hoãn xuất cảnh đối với bị can Đoàn Văn Dũng.
+- exitPostponementArticle2Line = Cơ quan quản lý xuất, nhập cảnh Bộ Công an, người bị tạm hoãn xuất cảnh nêu tại Điều 1 có trách nhiệm thi hành Quyết định này.
+- exitPostponementDurationText = 
+- exitPostponementFromDateText = 27/5/2026
+- exitPostponementToDateText = 
+- immigrationAgencyName = Cơ quan quản lý xuất, nhập cảnh Bộ Công an
+- exitPostponementDecisionCode = 15/QĐ-VKSKV7
+- exitPostponementDecisionIssueDate = 27/05/2026
+- exitPostponementDecisionIssueDateText = ngày 27 tháng 5 năm 2026
+- exitPostponementDecisionLegalBasisLine = Quyết định tạm hoãn xuất cảnh số 15/QĐ-VKSKV7 ngày 27 tháng 5 năm 2026 của VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 đối với Đoàn Văn Dũng;
+- exitPostponementCancelReasonLine = không còn cần thiết tiếp tục áp dụng biện pháp tạm hoãn xuất cảnh đối với bị can Đoàn Văn Dũng,
+- exitPostponementCancellationArticle1Line = Hủy bỏ biện pháp tạm hoãn xuất cảnh đối với bị can Đoàn Văn Dũng.
+- exitPostponementCancellationArticle2Line = Yêu cầu Cơ quan quản lý xuất, nhập cảnh Bộ Công an thực hiện Quyết định này theo quy định của pháp luật.
+- detentionDurationText = 02 tháng
+- detentionFromDateText = 27/5/2026
+- detentionToDateText = 
+- detentionReasonLine = việc tạm giam đối với bị can Đoàn Văn Dũng là có căn cứ và cần thiết,
+- detentionArticle1Line = Tạm giam đối với bị can Đoàn Văn Dũng.
+- detentionArticle2Line = Yêu cầu Cơ quan thi hành án hình sự Công an Thành phố Hồ Chí Minh thi hành Lệnh này theo quy định của Bộ luật Tố tụng hình sự.
+- detentionExecutionUnitName = Cơ quan thi hành án hình sự Công an Thành phố Hồ Chí Minh
+- detentionOrderCode = 17/LTG-VKSKV7
+- detentionOrderIssueDate = 27/05/2026
+- detentionOrderIssueDateText = ngày 27 tháng 5 năm 2026
+- detentionOrderLegalBasisLine = Lệnh bắt bị can để tạm giam/Lệnh tạm giam số 17/LTG-VKSKV7 ngày 27 tháng 5 năm 2026 của VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7;
+- prosecutionExtensionDecisionCode = 03/QĐ-VKSKV7
+- prosecutionExtensionDecisionIssueDate = 27/05/2026
+- prosecutionExtensionDecisionIssueDateText = ngày 27 tháng 5 năm 2026
+- prosecutionExtensionDecisionLegalBasisLine = Quyết định gia hạn thời hạn quyết định việc truy tố số 03/QĐ-VKSKV7 ngày 27 tháng 5 năm 2026 của VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 đối với Đoàn Văn Dũng;
+- detentionExtensionDurationText = 15 ngày
+- detentionExtensionFromDateText = 27/5/2026
+- detentionExtensionToDateText = 
+- detentionExtensionReasonLine = việc gia hạn thời hạn tạm giam để quyết định việc truy tố đối với bị can Đoàn Văn Dũng là có căn cứ và cần thiết,
+- detentionExtensionArticle1Line = Gia hạn tạm giam đối với bị can Đoàn Văn Dũng.
+- detentionExtensionArticle2Line = Yêu cầu Cơ quan thi hành án hình sự Công an Thành phố Hồ Chí Minh thi hành Quyết định này theo quy định của Bộ luật Tố tụng hình sự.
+
+[investigation]
+- investigationUnitName = NULL
+- article2Line = Yêu cầu cơ quan, người có thẩm quyền điều tra tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự
+
+[recipients]
+- superiorProcuracyName = VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH
+- courtLine = - Tòa án nhân dân có thẩm quyền;
+- accusedLine = - Đoàn Văn Dũng;
+- superiorProcuracyLine = 
+- otherRecipientsLine = 
+- investigationAuthorityLine = 
+- investigatingAgencyLine = Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh
+- assignedPersonLine = 
+- investigationUnitLine = NULL
+- detentionExecutionUnitLine = - Cơ quan thi hành án hình sự Công an Thành phố Hồ Chí Minh;
+- immigrationUnitLine = - Cơ quan quản lý xuất, nhập cảnh Bộ Công an;
+- monitoringUnitLine = NULL
+- personLine = - Đoàn Văn Dũng;
+- archiveLine = - Lưu: HSVA, HSKS, VP.
+- noteLine = NULL
+
+[official]
+- fullName = Trần Thanh Nam
+- positionTitle = VIỆN TRƯỞNG
+- issuerTitle = VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7
+- prosecutorName = Trần Thanh Nam
+
+[signature]
+- signMode = KT. VIỆN TRƯỞNG
+- positionTitle = PHÓ VIỆN TRƯỞNG
+- signerName = Trần Thanh Nam
+
+EXPECTED BM-148 PATH CHECK:
+OK: document.documentCode = BM-148-1779865341
+OK: document.issuePlaceAndDateLine = TP. Hồ Chí Minh, ngày 27 tháng 5 năm 2026
+OK: agency.parentName = VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH
+OK: agency.name = VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7
+OK: legalBasis.procedureArticlesLine = Căn cứ các điều 41, 165 và 179 của Bộ luật Tố tụng hình sự;
+MISSING/EMPTY: legalBasis.juvenileJusticeLine
+OK: caseDecision.prosecutionDecisionLegalBasisLine = Căn cứ Quyết định khởi tố vụ án hình sự số VKS-2026-0001 ngày 06 tháng 5 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh về tội “Đánh bạc” ...
+MISSING/EMPTY: accusedDecision.prosecutionDecisionLegalBasisLine
+OK: person.fullName = Đoàn Văn Dũng
+OK: person.gender = MALE
+OK: person.otherName = Không có
+MISSING/EMPTY: person.birthDateLine
+MISSING/EMPTY: person.nationalityEthnicityReligionLine
+OK: person.occupation = Kinh doanh
+OK: person.identityDocumentLine = Thẻ CCCD: 051080000314, Cấp ngày 22/12/2021, Nơi cấp: Cục Cảnh sát Quản lý hành chính về trật tự xã hội
+MISSING/EMPTY: person.identityIssueLine
+MISSING/EMPTY: person.permanentResidence
+MISSING/EMPTY: person.temporaryResidence
+MISSING/EMPTY: person.currentResidence
+MISSING/EMPTY: suspension.reasonLine
+MISSING/EMPTY: suspension.article2ActionLine
+MISSING/EMPTY: suspension.executionRequestLine
+MISSING/EMPTY: recipients.line1
+MISSING/EMPTY: recipients.line2
+OK: recipients.archiveLine = - Lưu: HSVA, HSKS, VP.
+OK: signature.signMode = KT. VIỆN TRƯỞNG
+OK: signature.positionTitle = PHÓ VIỆN TRƯỞNG
+OK: signature.signerName = Trần Thanh Nam

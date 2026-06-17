@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* QUANLYVKS UI scale */
+  --qvks-font-size-base: 16px;
+  --qvks-font-size-label: 15px;
+  --qvks-font-size-input: 16px;
+  --qvks-input-height: 46px;
+  --qvks-button-height: 42px;
+  --qvks-card-radius: 18px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================================
+   QUANLYVKS - Senior friendly base UI
+   Áp dụng nhẹ toàn hệ thống để khách lớn tuổi dễ nhìn hơn.
+   ========================================================= */
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  font-size: var(--qvks-font-size-input);
+}
+
+button {
+  font-size: 15px;
+}
+
+/* =========================================================
+   QUANLYVKS - Generated document workspace
+   Dùng chung cho tất cả màn hình biểu mẫu BM-xxx.
+   Gắn class qvks-document-workspace ở wrapper cha.
+   ========================================================= */
+
+.qvks-document-workspace {
+  width: 100%;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-size: var(--qvks-font-size-base);
+}
+
+.qvks-document-workspace label,
+.qvks-document-workspace .form-label {
+  font-size: var(--qvks-font-size-label);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.qvks-document-workspace input,
+.qvks-document-workspace select,
+.qvks-document-workspace textarea {
+  min-height: var(--qvks-input-height);
+  font-size: var(--qvks-font-size-input);
+  line-height: 1.5;
+}
+
+.qvks-document-workspace textarea {
+  min-height: 96px;
+}
+
+.qvks-document-workspace button {
+  min-height: var(--qvks-button-height);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.qvks-document-workspace h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.qvks-document-workspace h2 {
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.qvks-document-workspace h3 {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.qvks-document-workspace p,
+.qvks-document-workspace span,
+.qvks-document-workspace div {
+  line-height: 1.5;
+}
+
+.qvks-document-workspace .qvks-card {
+  border-radius: var(--qvks-card-radius);
+}
+
+.qvks-document-workspace .qvks-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.qvks-document-workspace .qvks-muted-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.qvks-document-workspace .qvks-form-grid {
+  gap: 20px;
+}
+
+.qvks-document-workspace .qvks-action-bar {
+  min-height: 56px;
+}
+
+/* Màn hình lớn: nới workspace rộng hơn */
+@media (min-width: 1280px) {
+  .qvks-document-workspace {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Màn hình nhỏ: tránh tràn ngang */
+@media (max-width: 768px) {
+  .qvks-document-workspace {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .qvks-document-workspace h1 {
+    font-size: 24px;
+  }
+
+  .qvks-document-workspace h2 {
+    font-size: 20px;
+  }
+}
+/* ============================================================
+   QUANLYVKS - Bigger date/select controls for legal form inputs
+   Safe UI-only patch. Does not change saved data.
+   ============================================================ */
+input[type="date"],
+input[type="datetime-local"],
+select {
+  min-height: 44px;
+  font-size: 16px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   QUANLYVKS - ẨN NÚT "ĐIỀN DỮ LIỆU MẪU" trong form nghiệp vụ
+   Lý do: nút này chứa data giả (, , , ...)
+   nên user có thể vô tình submit dữ liệu demo thay vì dữ liệu thật.
+
+   CSS selector match:
+   - button có data-qvks-action="fill-sample"
+   - button có title chứa "mẫu" (defensive)
+   - button chứa text bắt đầu bằng "Điền" + "mẫu" (CSS :has pseudo - không phổ biến)
+   ========================================================= */
+button[data-qvks-action="fill-sample"],
+button[title="Điền dữ liệu mẫu"],
+button[title="Điền thông tin mẫu"] {
+  display: none !important;
+}

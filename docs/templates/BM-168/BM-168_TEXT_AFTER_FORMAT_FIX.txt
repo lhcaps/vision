@@ -1,0 +1,61 @@
+Mẫu số 168/HS
+(Ban hành theo Thông tư số 
+03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+Mẫu số 168/HS
+(Ban hành theo Thông tư số 
+03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+{{agency.parentName}}
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+        
+BIÊN BẢN
+Giao, nhận hồ sơ vụ việc/vụ án
+ 
+{{caseFileHandover.startedAtLine}}
+Chúng tôi gồm có:
+Bên giao:
+ 
+{{caseFileHandover.giverName}}
+Chức danh:
+ 
+{{caseFileHandover.giverPositionTitle}}
+Bên nhận:
+ 
+{{caseFileHandover.receiverName}}
+Chức danh:
+ 
+{{caseFileHandover.receiverPositionTitle}}
+Bàn giao hồ sơ vụ việc/vụ án:
+ 
+{{caseFileHandover.caseFileTitle}}
+        Lý do bàn giao:
+ 
+{{caseFileHandover.handoverReasonLine}}
+Hồ sơ gồm: 
+{{caseFileHandover.fileStatsLine}}
+Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):
+ 
+{{caseFileHandover.evidenceLine}}
+{{caseFileHandover.endedAtLine}}
+Biên bản này đã đọc lại cho bên giao, bên nhận cùng nghe, công nhận đúng và cùng ký tên dưới đây.
+Biên bản lập 04 bản, mỗi bên giữ 01 bản, lưu hồ sơ vụ việc/hồ sơ vụ án, hồ sơ kiểm sát./.
+                 
+NGƯỜI NHẬN
+(Ký, ghi rõ họ tên)
+{{caseFileHandover.receiverSignerName}}
+NGƯỜI GIAO
+(Ký, ghi rõ họ tên)
+{{caseFileHandover.giverSignerName}}

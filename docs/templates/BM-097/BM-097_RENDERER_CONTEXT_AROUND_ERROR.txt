@@ -1,0 +1,250 @@
+﻿
+============================================================
+CONTEXT AROUND LINE 3640
+============================================================
+ 3560: 
+ 3561: 
+ 3562:   private replaceRemainingTemplateTagsInZip(
+ 3563:     zip: PizZip,
+ 3564:     payload: Record<string, unknown>,
+ 3565:   ): void {
+ 3566:     const zipAny = zip as any;
+ 3567:     const files = zipAny.files as Record<string, any>;
+ 3568: 
+ 3569:     if (!files) {
+ 3570:       return;
+ 3571:     }
+ 3572: 
+ 3573:     for (const fileName of Object.keys(files)) {
+ 3574:       if (!fileName.endsWith(".xml")) {
+ 3575:         continue;
+ 3576:       }
+ 3577: 
+ 3578:       const file = zip.file(fileName);
+ 3579: 
+ 3580:       if (!file) {
+ 3581:         continue;
+ 3582:       }
+ 3583: 
+ 3584:       const xml = file.asText();
+ 3585: 
+ 3586:       if (!xml.includes("{{")) {
+ 3587:         continue;
+ 3588:       }
+ 3589: 
+ 3590:       const replacedXml = xml.replace(
+ 3591:         /\{\{\s*([^{}]+?)\s*\}\}/gu,
+ 3592:         (_match: string, rawTag: string) => {
+ 3593:           const tag = String(rawTag ?? "").trim();
+ 3594:           const value = resolveTemplateValue(payload, tag);
+ 3595: 
+ 3596:           if (value === null || value === undefined) {
+ 3597:             return "";
+ 3598:           }
+ 3599: 
+ 3600:           return this.escapeXmlText(String(value));
+ 3601:         },
+ 3602:       );
+ 3603: 
+ 3604:       if (replacedXml !== xml) {
+ 3605:         zip.file(fileName, replacedXml);
+ 3606:       }
+ 3607:     }
+ 3608:   }
+ 3609: 
+ 3610:   private escapeXmlText(value: string): string {
+ 3611:     return value
+ 3612:       .replace(/&/g, "&amp;")
+ 3613:       .replace(/</g, "&lt;")
+ 3614:       .replace(/>/g, "&gt;");
+ 3615:   }
+ 3616:   private getProjectRoot(): string {
+ 3617:     return path.resolve(process.cwd(), "..", "..");
+ 3618:   }
+ 3619: 
+ 3620:   private resolveProjectPath(storedPath: string): string {
+ 3621:     if (path.isAbsolute(storedPath)) {
+ 3622:       return storedPath;
+ 3623:     }
+ 3624: 
+ 3625:     return path.resolve(this.getProjectRoot(), storedPath);
+ 3626:   }
+ 3627: 
+ 3628:   private toProjectRelativePath(fullPath: string): string {
+ 3629:     return path.relative(this.getProjectRoot(), fullPath).replace(/\\/g, "/");
+ 3630:   }
+ 3631: 
+ 3632:   private sha256(filePath: string): string {
+ 3633:     return createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+ 3634:   }
+ 3635: 
+ 3636:       private applyTemplateSpecificPayloadOverrides<TPayload extends Record<string, any>>(payload: TPayload): TPayload {
+ 3637:     if (!payload || typeof payload !== "object") {
+ 3638:       normalizeBm090FullDocumentCode(payload);
+ 3639:     normalizeBm097DocumentCode(payload);
+ 3640:     applyBm097SavedInputsAsSourceOfTruth(payload, generatedDocument);
+ 3641:     normalizeBm097OutputRules(payload);
+ 3642:     return payload;
+ 3643:     }
+ 3644: 
+ 3645:     const target = payload as Record<string, any>;
+ 3646:     const template = (target["template"] ?? {}) as Record<string, any>;
+ 3647:     const templateCode = String(template["templateCode"] ?? "");
+ 3648: 
+ 3649:     if (templateCode === "BM-001") {
+ 3650:       const localAgencyNameBody = "Viện kiểm sát nhân dân khu vực 7";
+ 3651:       const parentAgencyNameBody = "Viện kiểm sát nhân dân Thành phố Hồ Chí Minh";
+ 3652: 
+ 3653:       const localAgencyNameHeader = "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7";
+ 3654:       const parentAgencyNameHeader = "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH";
+ 3655: 
+ 3656:       const originalPerson = (target["person"] ?? {}) as Record<string, any>;
+ 3657: 
+ 3658:       target["person"] = {
+ 3659:         ...originalPerson,
+ 3660:         fullName: "Đoàn Văn Dũng",
+ 3661:       };
+ 3662: 
+ 3663:       const person = target["person"] as Record<string, any>;
+ 3664:       const informant = (target["informant"] ?? {}) as Record<string, any>;
+ 3665: 
+ 3666:       // QUAN TRỌNG:
+ 3667:       // Template header BM-001 hiện vẫn có thể đang dùng {{agency.parentName}} và {{agency.name}}.
+ 3668:       // Vì vậy agency.parentName/name phải để FULL CAPS cho header.
+ 3669:       // Body tuyệt đối không dùng agency.name nữa, dùng reception.locationName / receiver.departmentName.
+ 3670:       target["agency"] = {
+ 3671:         ...((target["agency"] ?? {}) as Record<string, any>),
+ 3672: 
+ 3673:         parentName: parentAgencyNameHeader,
+ 3674:         name: localAgencyNameHeader,
+ 3675: 
+ 3676:         parentNameHeader: parentAgencyNameHeader,
+ 3677:         nameHeader: localAgencyNameHeader,
+ 3678: 
+ 3679:         parentNameBody: parentAgencyNameBody,
+ 3680:         nameBody: localAgencyNameBody,
+
+============================================================
+CONTEXT AROUND LINE 4655
+============================================================
+ 4575:           return `${day}/${month}/${slashMatch[3]}`;
+ 4576:         }
+ 4577: 
+ 4578:         return raw;
+ 4579:       };
+ 4580: 
+ 4581:       const measure = (target["measure"] ?? {}) as Record<string, any>;
+ 4582:       const monitoring = (target["monitoring"] ?? {}) as Record<string, any>;
+ 4583:       const person = (target["person"] ?? {}) as Record<string, any>;
+ 4584:       const signature = (target["signature"] ?? {}) as Record<string, any>;
+ 4585: 
+ 4586:       const immigrationAgencyName =
+ 4587:         cleanBm056Text(measure["immigrationAgencyName"]) ||
+ 4588:         "Cơ quan quản lý xuất, nhập cảnh Bộ Công an";
+ 4589: 
+ 4590:       const monitoringPhone =
+ 4591:         cleanBm056Text(monitoring["phone"]) ||
+ 4592:         "0988027788";
+ 4593: 
+ 4594:       const prosecutorName =
+ 4595:         cleanBm056Text(monitoring["prosecutorName"]) ||
+ 4596:         "Nguyễn Thị Thanh Huyền";
+ 4597: 
+ 4598:       const durationText =
+ 4599:         cleanBm056Text(measure["durationText"]) ||
+ 4600:         cleanBm056Text(measure["exitPostponementDurationText"]) ||
+ 4601:         "02 tháng";
+ 4602: 
+ 4603:       const fromDateText =
+ 4604:         formatBm056DateText(measure["fromDate"]) ||
+ 4605:         formatBm056DateText(measure["exitPostponementFromDateText"]) ||
+ 4606:         "16/03/2026";
+ 4607: 
+ 4608:       const toDateText =
+ 4609:         formatBm056DateText(measure["toDate"]) ||
+ 4610:         formatBm056DateText(measure["exitPostponementToDateText"]) ||
+ 4611:         "16/05/2026";
+ 4612: 
+ 4613:       const article2Line = cleanBm056Text(
+ 4614:         `${immigrationAgencyName}, người bị tạm hoãn xuất cảnh nêu tại Điều 1 có trách nhiệm thi hành Quyết định này. Nếu bị can vi phạm, yêu cầu ${immigrationAgencyName} thông báo ngay cho ${bm056AgencyNameBody} biết để xử lý theo thẩm quyền, điện thoại liên hệ số ${monitoringPhone}, gặp Kiểm sát viên ${prosecutorName} để giải quyết./.`
+ 4615:       );
+ 4616: 
+ 4617:       target["measure"] = {
+ 4618:         ...measure,
+ 4619:         immigrationAgencyName,
+ 4620:         durationText,
+ 4621:         fromDate: fromDateText,
+ 4622:         toDate: toDateText,
+ 4623:         exitPostponementDurationText: durationText,
+ 4624:         exitPostponementFromDateText: fromDateText,
+ 4625:         exitPostponementToDateText: toDateText,
+ 4626:         exitPostponementArticle2Line: article2Line,
+ 4627:       };
+ 4628: 
+ 4629:       target["monitoring"] = {
+ 4630:         ...monitoring,
+ 4631:         phone: monitoringPhone,
+ 4632:         prosecutorName,
+ 4633:         article3Line: cleanBm056Text(monitoring["article3Line"]),
+ 4634:       };
+ 4635: 
+ 4636:       target["person"] = {
+ 4637:         ...person,
+ 4638:         religion: cleanBm056Text(person["religion"] || "Không") || "Không",
+ 4639:       };
+ 4640: 
+ 4641:       target["signature"] = {
+ 4642:         ...signature,
+ 4643:         signMode: cleanBm056Text(signature["signMode"]) || "KT. VIỆN TRƯỞNG",
+ 4644:         positionTitle:
+ 4645:           cleanBm056Text(signature["positionTitle"]) || "PHÓ VIỆN TRƯỞNG",
+ 4646:         signerName: cleanBm056Text(signature["signerName"]) || "Trần Thanh Nam",
+ 4647:       };
+ 4648:     }
+ 4649:     // BM-056_FINAL_SANITIZE_END
+ 4650: 
+ 4651: 
+ 4652: 
+ 4653:     normalizeBm090FullDocumentCode(payload);
+ 4654:     normalizeBm097DocumentCode(payload);
+ 4655:     applyBm097SavedInputsAsSourceOfTruth(payload, generatedDocument);
+ 4656:     normalizeBm097OutputRules(payload);
+ 4657:     return payload;
+ 4658:   }
+ 4659: 
+ 4660:       private scrubForbiddenTemplateDefaults(
+ 4661:     value: unknown,
+ 4662:     templateCode: string,
+ 4663:     currentPath = "payload",
+ 4664:   ): unknown {
+ 4665:     const sanitizeText = (input: string, pathName: string): string => {
+ 4666:       let nextValue = input;
+ 4667: 
+ 4668:       nextValue = nextValue.replace(/(?<!\p{L})Huy(?!\p{L})/gu, "Nguyễn Thị Hồng Hạnh");
+ 4669:       nextValue = nextValue.replace(/Nguyễn\s+Thanh\s+Nam/gu, "Trần Thanh Nam");
+ 4670: 
+ 4671:       if (templateCode === "BM-001") {
+ 4672:         const isAgencyHeaderPath =
+ 4673:           pathName === "payload.agency.parentName" ||
+ 4674:           pathName === "payload.agency.name" ||
+ 4675:           pathName === "payload.agency.parentNameHeader" ||
+ 4676:           pathName === "payload.agency.nameHeader" ||
+ 4677:           pathName === "payload.official.issuerTitle";
+ 4678: 
+ 4679:         if (!isAgencyHeaderPath) {
+ 4680:           nextValue = nextValue
+ 4681:             .replace(
+ 4682:               /VIỆN[\s\u00A0]+KIỂM[\s\u00A0]+SÁT[\s\u00A0]+NHÂN[\s\u00A0]+DÂN[\s\u00A0]+KHU[\s\u00A0]+VỰC[\s\u00A0]+7/gu,
+ 4683:               "Viện kiểm sát nhân dân khu vực 7",
+ 4684:             )
+ 4685:             .replace(
+ 4686:               /VIỆN[\s\u00A0]+KIỂM[\s\u00A0]+SÁT[\s\u00A0]+NHÂN[\s\u00A0]+DÂN[\s\u00A0]+THÀNH[\s\u00A0]+PHỐ[\s\u00A0]+HỒ[\s\u00A0]+CHÍ[\s\u00A0]+MINH/gu,
+ 4687:               "Viện kiểm sát nhân dân Thành phố Hồ Chí Minh",
+ 4688:             );
+ 4689:         }
+ 4690:       }
+ 4691: 
+ 4692:       return nextValue;
+ 4693:     };
+ 4694: 
+ 4695:     if (value === null || value === undefined) {

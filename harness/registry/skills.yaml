@@ -1,0 +1,144 @@
+# Skill registry. The harness CLI consults this file to know which skills
+# exist, where they live in the bundle, and what they do.
+#
+# `group` must match the directory under bundles/skills/.
+# `requires` lists skill-ids that should be installed together (informational).
+
+groups:
+  - id: core
+    summary: Universal software-engineering skills.
+  - id: frontend
+    summary: UI / design / motion / image-to-code skills.
+  - id: ai
+    summary: LLM / AI integration skills.
+  - id: quality
+    summary: Audit and review skills (security, perf, UX).
+  - id: workflow
+    summary: Meta-skills for operating the harness itself.
+
+skills:
+  - id: plan
+    group: core
+    summary: Plan the smallest safe change before editing.
+    requires: []
+
+  - id: code-review
+    group: core
+    summary: Review staged and unstaged changes for quality, risk, and adherence.
+    requires: []
+
+  - id: debug
+    group: core
+    summary: Systematic debugging with a hypothesis log.
+    requires: []
+
+  - id: refactor
+    group: core
+    summary: Refactor while preserving behavior. Locks tests first.
+    requires: [test]
+
+  - id: test
+    group: core
+    summary: Add or fix tests for a specific surface.
+    requires: []
+
+  - id: doc
+    group: core
+    summary: Generate or update documentation aligned with the code.
+    requires: []
+
+  - id: ship
+    group: core
+    summary: Pre-merge checklist, PR description, release notes.
+    requires: [code-review, test]
+
+  - id: ui-architect
+    group: frontend
+    summary: Design a component tree, state model, and data flow before coding.
+    requires: [plan]
+
+  - id: motion-design
+    group: frontend
+    summary: Add motion that respects duration, easing, and reduced-motion.
+    requires: [ui-architect]
+
+  - id: design-taste
+    group: frontend
+    summary: Apply visual hierarchy, type scale, and spacing discipline.
+    requires: [ui-architect]
+
+  - id: image-to-code
+    group: frontend
+    summary: Convert a reference image into idiomatic UI for the current stack.
+    requires: [ui-architect, design-taste]
+
+  - id: ai-integration
+    group: ai
+    summary: Design an LLM call site: prompt, schema, guardrails, eval.
+    requires: [plan]
+
+  - id: smart-routing
+    group: ai
+    summary: Use the model as a router to pick skills for freeform requests.
+    requires: [ai-integration, task-classify]
+    notes: |
+      This is a meta-harness-specific skill. It complements
+      task-classify: the static router handles obvious verb
+      matches, the model handles the rest.
+
+  - id: prompt-design
+    group: ai
+    summary: Tighten a prompt and a system message for a known failure mode.
+    requires: [ai-integration]
+
+  - id: eval-design
+    group: ai
+    summary: Build a reference set and rubrics for an AI feature.
+    requires: [ai-integration]
+
+  - id: security-audit
+    group: quality
+    summary: Audit a surface for OWASP Top 10 and stack-specific risks.
+    requires: [code-review]
+
+  - id: perf-audit
+    group: quality
+    summary: Profile a hot path, then propose a targeted fix.
+    requires: [code-review]
+
+  - id: ux-audit
+    group: quality
+    summary: Audit flows for clarity, error states, and accessibility.
+    requires: [code-review]
+
+  - id: intake
+    group: workflow
+    summary: Run the project intake conversation and fill profile.yaml.
+    requires: []
+
+  - id: discover
+    group: workflow
+    summary: Scan the repo and emit a structured understanding (architecture, risks).
+    requires: []
+
+  - id: task-classify
+    group: workflow
+    summary: Classify a freeform request into a skill (or sequence of skills).
+    requires: []
+
+  - id: failure-log
+    group: workflow
+    summary: Record a failure and update the skill that should have caught it.
+    requires: []
+
+  - id: nextjs-conventions
+    group: core
+    summary: Next.js (App Router) conventions for routing, data, and server actions.
+    requires: [ui-architect]
+    stack: nextjs
+
+  - id: fastapi-conventions
+    group: core
+    summary: FastAPI conventions for routing, validation, dependencies, and tests.
+    requires: []
+    stack: python-fastapi

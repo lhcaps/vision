@@ -1,0 +1,19 @@
+# Manifest template. The CLI writes a real one on install; this is documentation.
+# A real manifest looks like:
+
+# schema_version: 1
+# harness_version: 0.1.1
+# installed_at: 2026-06-16
+# stack: nextjs
+# files:
+#   - path: AGENTS.md
+#     source: bundles/harness/AGENTS.md
+#     source_hash: sha256:abc...
+#     installed_hash: sha256:def...
+#     status: pristine
+#   - path: .ai/skills/core/plan/SKILL.md
+#     source: bundles/skills/core/plan/SKILL.md
+#     source_hash: sha256:...
+#     installed_hash: sha256:...
+#     status: customized
+#     customized_hash: sha256:...

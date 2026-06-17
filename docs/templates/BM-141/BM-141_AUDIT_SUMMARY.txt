@@ -1,0 +1,29 @@
+﻿BM-141 AUDIT SUMMARY
+
+DocumentId:
+40
+
+TemplatePath:
+storage/templates/normalized-docx/BM-141/BM-141_normalized.docx
+
+PlaceholdersPath:
+C:\LUẬT\QUANLYVKS\docs\templates\BM-141\BM-141_TEMPLATE_PLACEHOLDERS.txt
+
+PayloadPath:
+C:\LUẬT\QUANLYVKS\docs\templates\BM-141\BM-141_DOCUMENT_40_RENDER_PAYLOAD_CHECK.json
+
+Expected FE form:
+C:\LUẬT\QUANLYVKS\apps\web\src\components\documents\bm-141-form-inputs.tsx
+
+Workspace:
+C:\LUẬT\QUANLYVKS\apps\web\src\components\documents\generated-document-workspace.tsx
+
+Next checks:
+1. PDF có còn {{...}} không.
+2. PDF có dính Nguyễn Thanh Nam / Huy / Trần Thanh Nam test không.
+3. Dòng cơ quan body có bị CAPS sai không.
+4. Các dòng Căn cứ có bị cách dòng thừa không.
+5. Điều 1 có bị lỗi './.' hoặc dấu câu kép không.
+6. Nơi nhận có dính dòng không.
+7. FE form có lưu formInputs/payloadOverrides/renderPayloadOverrides không.
+8. Sau save FE có force render DOCX/PDF không.

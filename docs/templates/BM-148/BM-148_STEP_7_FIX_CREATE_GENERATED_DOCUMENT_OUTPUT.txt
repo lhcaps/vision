@@ -1,0 +1,12 @@
+section	CONSTRAINT_NAME	CHECK_CLAUSE
+CHECK_CONSTRAINTS	chk_generated_documents_scope	(`target_scope` in (_utf8mb4\\'CASE_LEVEL\\',_utf8mb4\\'PERSON_LEVEL\\',_utf8mb4\\'SELECTED_PERSONS\\',_utf8mb4\\'EVIDENCE_LEVEL\\',_utf8mb4\\'EVENT_LEVEL\\'))
+CHECK_CONSTRAINTS	chk_generated_documents_review_status	(`review_status` in (_utf8mb4\\'DRAFT\\',_utf8mb4\\'GENERATED\\',_utf8mb4\\'WAITING_REVIEW\\',_utf8mb4\\'APPROVED\\',_utf8mb4\\'NEEDS_REVISION\\',_utf8mb4\\'FINAL_EXPORTED\\',_utf8mb4\\'CANCELLED\\'))
+section	target_scope	count_rows
+EXISTING_TARGET_SCOPE_VALUES	CASE_LEVEL	34
+EXISTING_TARGET_SCOPE_VALUES	PERSON_LEVEL	38
+section	template_id	template_version_id	template_code	render_scope	output_strategy	version_no	is_default	is_active
+BM148_TEMPLATE_VERSION	39	39	BM-148	PERSON_LEVEL	ONE_FILE_PER_PERSON	1	1	1
+section	template_id	template_version_id	target_scope_should_be_PERSON_LEVEL
+BM148_INSERT_VALUES	39	39	PERSON_LEVEL
+section	id	case_id	template_id	template_version_id	template_code	document_code	document_title	target_scope	target_person_id	review_status	generated_by_name	generated_at	note
+BM148_GENERATED_DOCUMENT	73	2	39	39	BM-148	BM-148-1779865341	Quyết định tạm đình chỉ vụ án hình sự đối với bị can	PERSON_LEVEL	2	DRAFT	Trần Thanh Nam	2026-05-27 14:02:21	BM-148 test document for placeholder mapping and render-payload audit.

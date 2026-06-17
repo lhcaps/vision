@@ -1,0 +1,14 @@
+{{agency.name}}
+{{agency.parentName}}
+{{caseFileHandover.caseFileTitle}}
+{{caseFileHandover.endedAtLine}}
+{{caseFileHandover.evidenceLine}}
+{{caseFileHandover.fileStatsLine}}
+{{caseFileHandover.giverName}}
+{{caseFileHandover.giverPositionTitle}}
+{{caseFileHandover.giverSignerName}}
+{{caseFileHandover.handoverReasonLine}}
+{{caseFileHandover.receiverName}}
+{{caseFileHandover.receiverPositionTitle}}
+{{caseFileHandover.receiverSignerName}}
+{{caseFileHandover.startedAtLine}}

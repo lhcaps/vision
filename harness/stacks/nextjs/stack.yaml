@@ -1,0 +1,10 @@
+id: nextjs
+description: Next.js (App Router, TypeScript, RSC) overlay.
+applies_to_files:
+  - next.config.*
+  - app/**
+  - src/app/**
+skills_provided:
+  - nextjs-conventions
+rules:
+  - nextjs.mdc

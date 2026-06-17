@@ -1,0 +1,73 @@
+# Maps freeform user request verbs to skills. The `task-classify`
+# skill is the fallback when the verbs don't match.
+
+routes:
+  - match:
+      verbs: [plan, sketch, design, propose, draft, outline]
+      task_class: plan
+    skills: [plan]
+
+  - match:
+      verbs: [implement, build, add, create, write, code]
+      task_class: implement
+    skills: [plan]
+    notes: |
+      Plan first; then load the relevant group skill (e.g. ui-architect
+      for UI work, ai-integration for AI features).
+
+  - match:
+      verbs: [review, audit, check, critique]
+      task_class: review
+    skills: [code-review]
+
+  - match:
+      verbs: [debug, fix, investigate, diagnose, why]
+      task_class: debug
+    skills: [debug]
+
+  - match:
+      verbs: [refactor, clean, restructure, simplify]
+      task_class: refactor
+    skills: [plan, refactor, test]
+
+  - match:
+      verbs: [test, cover, regression]
+      task_class: test
+    skills: [test]
+
+  - match:
+      verbs: [document, document, write docs, update readme]
+      task_class: docs
+    skills: [doc]
+
+  - match:
+      verbs: [ship, release, pr, open pr, prepare, finalize]
+      task_class: ship
+    skills: [ship]
+
+  - match:
+      verbs: [design, design ui, design screen, design component]
+      task_class: design
+    skills: [ui-architect, design-taste]
+
+  - match:
+      verbs: [animate, motion, transition, gsap]
+      task_class: design
+    skills: [motion-design]
+
+  - match:
+      verbs: [image to code, screenshot, design from image, clone this]
+      task_class: design
+    skills: [image-to-code, ui-architect]
+
+  - match:
+      verbs: [ai, llm, prompt, integrate ai, model]
+      task_class: ai-feature
+    skills: [ai-integration]
+
+  - match:
+      verbs: [harness, meta, register, unregister, doctor, add skill]
+      task_class: meta
+    skills: [intake, discover]
+
+fallback_skill: task-classify

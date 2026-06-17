@@ -1,0 +1,11 @@
+id: python-fastapi
+description: Python 3.11+ with FastAPI overlay.
+applies_to_files:
+  - pyproject.toml
+  - app/main.py
+  - app/api/**
+  - tests/**
+skills_provided:
+  - fastapi-conventions
+rules:
+  - fastapi.mdc

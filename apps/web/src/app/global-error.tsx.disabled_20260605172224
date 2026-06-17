@@ -1,0 +1,126 @@
+﻿"use client";
+
+type GlobalErrorProps = {
+  error: Error & { digest?: string };
+  reset?: () => void;
+  unstable_retry?: () => void;
+};
+
+export default function GlobalError({
+  error,
+  reset,
+  unstable_retry,
+}: GlobalErrorProps) {
+  const retry = reset ?? unstable_retry;
+
+  return (
+    <html lang="vi">
+      <body
+        style={{
+          margin: 0,
+          minHeight: "100vh",
+          background: "#f8fafc",
+          color: "#0f172a",
+          fontFamily:
+            'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        }}
+      >
+        <main
+          style={{
+            minHeight: "100vh",
+            display: "grid",
+            placeItems: "center",
+            padding: 24,
+          }}
+        >
+          <section
+            style={{
+              width: "min(720px, 100%)",
+              border: "1px solid #e2e8f0",
+              borderRadius: 24,
+              background: "#ffffff",
+              padding: 32,
+              boxShadow: "0 24px 80px rgba(15, 23, 42, 0.12)",
+            }}
+          >
+            <p
+              style={{
+                margin: "0 0 8px",
+                fontSize: 12,
+                fontWeight: 800,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#dc2626",
+              }}
+            >
+              Global Error
+            </p>
+
+            <h1
+              style={{
+                margin: "0 0 12px",
+                fontSize: 28,
+                lineHeight: 1.2,
+                fontWeight: 800,
+              }}
+            >
+              Ứng dụng gặp lỗi khi tải trang
+            </h1>
+
+            <p
+              style={{
+                margin: "0 0 20px",
+                fontSize: 15,
+                lineHeight: 1.7,
+                color: "#475569",
+              }}
+            >
+              Trang lỗi toàn cục đã được tách khỏi provider/layout để tránh lỗi
+              React context trong quá trình build hoặc prerender.
+            </p>
+
+            {retry ? (
+              <button
+                type="button"
+                onClick={() => retry()}
+                style={{
+                  border: 0,
+                  borderRadius: 12,
+                  background: "#1d4ed8",
+                  color: "#ffffff",
+                  padding: "10px 16px",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  boxShadow: "0 10px 24px rgba(29, 78, 216, 0.28)",
+                }}
+              >
+                Thử lại
+              </button>
+            ) : null}
+
+            {process.env.NODE_ENV === "development" ? (
+              <pre
+                style={{
+                  marginTop: 20,
+                  maxHeight: 260,
+                  overflow: "auto",
+                  borderRadius: 12,
+                  background: "#020617",
+                  color: "#e2e8f0",
+                  padding: 16,
+                  fontSize: 12,
+                  lineHeight: 1.6,
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {error?.message || "Unknown error"}
+                {error?.digest ? `\nDigest: ${error.digest}` : ""}
+              </pre>
+            ) : null}
+          </section>
+        </main>
+      </body>
+    </html>
+  );
+}

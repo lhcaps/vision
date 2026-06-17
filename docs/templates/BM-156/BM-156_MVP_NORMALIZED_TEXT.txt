@@ -1,0 +1,67 @@
+﻿{{agency.parentName}}
+{{agency.name}}
+
+Số: {{document.documentCode}}
+
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+
+{{document.issuePlaceAndDateLine}}
+
+CÁO TRẠNG
+
+{{official.issuerTitle}}
+
+{{legalBasis.procedureArticlesLine}}
+{{caseDecision.prosecutionDecisionLegalBasisLine}}
+{{accusedDecision.prosecutionDecisionLegalBasisLine}}
+{{investigationConclusion.legalBasisLine}}
+
+Trên cơ sở kết quả điều tra đã xác định được như sau:
+
+{{indictment.investigationResultLine}}
+
+{{indictment.evidenceHandlingLine}}
+
+Căn cứ vào các tình tiết và chứng cứ nêu trên,
+
+KẾT LUẬN
+
+{{indictment.conclusionLine}}
+
+{{indictment.defendantIdentityLine}}
+
+{{indictment.criminalRecordLine}}
+
+{{indictment.preventiveMeasureLine}}
+
+{{indictment.crimeConclusionLine}}
+
+{{indictment.aggravatingMitigatingLine}}
+
+Bởi các lẽ trên,
+
+QUYẾT ĐỊNH
+
+1. {{indictment.article1Line}}
+
+{{indictment.replacementLine}}
+
+2. Kèm theo Cáo trạng có:
+
+{{indictment.caseFileLine}}
+{{indictment.evidenceListLine}}
+{{indictment.summonedPersonsLine}}
+
+{{indictment.closingLine}}
+
+Nơi nhận:
+{{recipients.courtLine}}
+{{recipients.accusedLine}}
+{{recipients.investigatingAgencyLine}}
+{{recipients.archiveLine}}
+
+{{signature.signMode}}
+{{signature.positionTitle}}
+
+{{signature.signerName}}

@@ -1,0 +1,46 @@
+001: {{agency.parentNameUpper}}
+002: {{agency.nameUpper}}
+003: Số: {{document.documentCode}}
+004: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAMMẫu số 39/HS(Ban hành theo Thông tư số      /2026/TT-VKSTCngày       /     /2026) Mẫu số 39/HS(Ban hành theo Thông tư số      /2026/TT-VKSTCngày       /     /2026) 
+005: Mẫu số 39/HS
+006: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+007: ngày       /     /2026) 
+008: Mẫu số 39/HS
+009: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+010: ngày       /     /2026) 
+011: Độc lập - Tự do - Hạnh phúc
+012: {{document.issuePlaceAndDateLine}}
+013: LỆNH
+014: BẮT BỊ CAN ĐỂ TẠM GIAM
+015: {{official.issuingAuthorityLine}}
+016: {{legalBasis.procedureArticlesLine}}
+017: {{legalBasis.juvenileJusticeLine}}
+018: {{detentionArrest.caseDecisionLegalBasisLine}}
+019: {{detentionArrest.accusedDecisionLegalBasisLine}}
+020: {{detentionArrest.reasonLine}}
+021: RA LỆNH:
+022: Điều 1. Bắt để tạm giam đối với bị can
+023: Họ tên: {{detentionArrest.accusedName}}    Giới tính: {{detentionArrest.genderLabel}}
+024: Tên gọi khác: {{detentionArrest.otherName}}
+025: Sinh ngày {{detentionArrest.birthDay}} tháng {{detentionArrest.birthMonth}} năm {{detentionArrest.birthYear}} tại: {{detentionArrest.placeOfBirth}}
+026: Quốc tịch: {{detentionArrest.nationality}};       Dân tộc: {{detentionArrest.ethnicity}};       Tôn giáo: {{detentionArrest.religion}}
+027: Nghề nghiệp: {{detentionArrest.occupation}}
+028: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{detentionArrest.identityNo}}
+029: Cấp ngày {{detentionArrest.identityIssuedDay}} tháng {{detentionArrest.identityIssuedMonth}} năm {{detentionArrest.identityIssuedYear}}     Nơi cấp: {{detentionArrest.identityIssuedPlace}}
+030: Nơi thường trú: {{detentionArrest.permanentAddress}}
+031: Nơi tạm trú: {{detentionArrest.temporaryAddress}}
+032: Nơi ở hiện tại: {{detentionArrest.currentAddress}}
+033: Thời hạn tạm giam {{detentionArrest.detentionDurationText}}, kể từ ngày bắt được bị can {{detentionArrest.detentionToDateLine}}
+034: Điều 2. Yêu cầu {{detentionArrest.detentionExecutionUnitName}} thi hành Lệnh này theo quy định của Bộ luật Tố tụng hình sự.
+035: Điều 3. Yêu cầu {{detentionArrest.detentionFacilityName}} tạm giam bị can {{detentionArrest.accusedName}} cho đến khi có Lệnh/Quyết định mới./.
+036: Nơi nhận:
+037: {{recipients.executionAgencyLine}}
+038: {{recipients.detentionFacilityLine}}
+039: {{recipients.personLine}}
+040: {{recipients.archiveLine}}
+041: {{signature.signMode}}
+042: {{signature.positionTitle}}
+043: {{signature.signerName}}
+044: 13 Ghi tên cơ quan, người có trách nhiệm thực hiện Lệnh bắt bị can để tạm giam
+045: 14 Ghi tên cơ sở giam giữ
+046: 15 Ghi chức danh người ký

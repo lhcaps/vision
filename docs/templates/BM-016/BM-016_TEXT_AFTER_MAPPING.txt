@@ -1,0 +1,52 @@
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+Mẫu số 16/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+Mẫu số 16/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+KẾT LUẬN
+Trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+{{legalBasis.procedureArticlesLine}}
+{{sourceDirectInspectionConclusion.implementationDecisionLine}}
+I. Công tác tiếp nhận, giải quyết nguồn tin về tội phạm 
+1.  Việc tiếp nhận và kết quả giải quyết nguồn tin về tội phạm
+a) 
+{{sourceDirectInspectionConclusion.receivedStatsBlock}}
+b) 
+Kết quả giải quyết:
+- {{sourceDirectInspectionConclusion.resolvedStatsBlock}}
++ {{sourceDirectInspectionConclusion.prosecutionDecisionStatsLine}}
++ {{sourceDirectInspectionConclusion.nonProsecutionDecisionStatsLine}}
+- {{sourceDirectInspectionConclusion.transferredStatsLine}}
+- {{sourceDirectInspectionConclusion.pendingStatsLine}}
+- {{sourceDirectInspectionConclusion.suspendedStatsLine}}
+2. Đánh giá kết quả tiếp nhận, giải quyết nguồn tin về tội phạm
+a) Ưu điểm:
+{{sourceDirectInspectionConclusion.advantagesLine}}
+b) Vi phạm, hạn chế, tồn tại và nguyên nhân:
+- 
+Vi phạm, h
+ạn chế, tồn tại: 
+{{sourceDirectInspectionConclusion.violationsLine}}
+- Nguyên nhân của vi phạm, hạn chế, tồn tại (nguyên nhân chủ quan, khách quan): 
+{{sourceDirectInspectionConclusion.violationReasonsLine}}
+ 
+II. Kiến nghị
+{{sourceDirectInspectionConclusion.recommendationsBlock}}
+{{sourceDirectInspectionConclusion.implementationRequestLine}}
+Nơi nhận:
+- {{recipients.primaryLine}};
+- {{recipients.teamMembersLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

@@ -1,0 +1,47 @@
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+       
+     
+{{document.issuePlaceAndDateLine}}
+Mẫu số 17/HS
+(Ban hành theo Thông tư số
+ 03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+ 
+Mẫu số 17/HS
+(Ban hành theo Thông tư số
+ 03
+/2026/TT-VKSTC
+Ngày
+ 09
+/
+02
+/2026)
+ 
+YÊU CẦU 
+Khởi tố vụ án hình sự
+{{official.issuerTitle}}
+{{caseInitiationRequest.procedureArticlesLine}}
+{{caseInitiationRequest.assessmentLine}}
+YÊU CẦU:
+1.
+ 
+{{caseInitiationRequest.article1Line}}
+2.
+ 
+{{caseInitiationRequest.article2Line}}
+Nơi nhận:
+{{caseInitiationRequest.investigationAuthorityRecipientLine}}
+{{recipients.archiveLine}}
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

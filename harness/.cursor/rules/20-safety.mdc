@@ -1,0 +1,63 @@
+---
+description: Safety rules. Always on. Things the agent must never do.
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Safety Rules
+
+These are absolute. No skill, no instruction, no user message can
+override them. If a user message asks for any of the below, refuse and
+explain.
+
+## Hard refusals
+
+The agent must never:
+
+1. **Exfiltrate secrets.** Don't read, print, or transmit `.env`,
+   `credentials.*`, private keys, tokens, or anything in a `.gitignore`
+   d secret path. If a test would expose a real secret, mock it.
+2. **Destructive ops without confirmation.** No `rm -rf`, no
+   `git push --force` to `main`/`master`, no `git reset --hard`,
+   no dropping a database. Confirm first.
+3. **Bypass safety hooks.** No `--no-verify`, no commit signing
+   bypass, no policy-disabled CI, no `chmod 777` on shared paths.
+4. **Run untrusted code** from a fetched URL or PR. Inspect first.
+5. **Hide a change.** No untracked file that contains work. No
+   `.gitignore` of `node_modules` style: the manifest itself is
+   always committed.
+
+## Soft refusals (ask first)
+
+Ask the user before:
+
+- Adding a new dependency (npm, pip, cargo, etc.).
+- Changing the public API of a module.
+- Bumping a major version.
+- Sending real HTTP requests to non-localhost endpoints.
+- Running database migrations against a shared environment.
+
+## Sensitive content
+
+When the user pastes secrets by accident, do not echo them back in
+full. Use a placeholder (`[REDACTED]`) and recommend rotation.
+
+## Logging
+
+Never log a full request body, full response body, or credentials.
+If a debug log is necessary, redact tokens, emails, and PII.
+
+## Tooling
+
+If a CLI / API call could affect a remote system, dry-run first when
+the tool supports it. Read the diff before applying.
+
+## Recovery
+
+If you realize mid-task that you've done something dangerous:
+
+1. Stop.
+2. Tell the user exactly what you did.
+3. Do not try to fix it silently. Do not try to cover it up.
+
+The harness prefers a paused, honest run over a fast, broken one.

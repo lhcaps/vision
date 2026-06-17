@@ -1,0 +1,1 @@
+﻿OK: Không phát hiện lỗi placeholder/rác XML rõ ràng.

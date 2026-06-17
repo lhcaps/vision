@@ -1,0 +1,82 @@
+﻿Mẫu số 172/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+Mẫu số 172/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+     
+      
+ 
+{{document.issuePlaceAndDateLine}}
+QUYẾT ĐỊNH
+HỦY BỎ QUYẾT ĐỊNH TRẢ LẠI TÀI SẢN
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+{{propertyReturnCancellation.caseInitiationLine}}
+{{propertyReturnCancellation.defendantInitiationLine}}
+{{propertyReturnCancellation.propertyReturnDecisionReviewLine}}
+{{propertyReturnCancellation.unlawfulReasonLine}}
+ 
+QUYẾT ĐỊNH:
+Điều
+ 
+1.
+ 
+{{propertyReturnCancellation.article1Line}}
+Điều
+ 
+2.
+ 
+{{propertyReturnCancellation.article2Line}}
+Điều 3.
+ 
+{{propertyReturnCancellation.article3RequestLine}}
+    
+ 
+Giới tính:
+ 
+{{propertyRecipient.gender}}
+Tên gọi khác: 
+{{propertyRecipient.aliasName}}
+Sinh ngày 
+{{propertyRecipient.birthDateLine}}
+    
+ tại: {{propertyRecipient.birthPlace}}
+Quốc tịch: 
+{{propertyRecipient.nationality}}; 
+    
+Dân tộc: {{propertyRecipient.ethnicity}};
+    
+ Tôn giáo: {{propertyRecipient.religion}}
+Nghề nghiệp:
+ 
+{{propertyRecipient.occupation}}
+Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:
+{{propertyRecipient.identityNumber}}
+Cấp ngày
+ 
+{{propertyRecipient.identityIssueDateLine}}
+ 
+ Nơi cấp: {{propertyRecipient.identityIssuePlace}}
+Nơi thường trú:
+ 
+{{propertyRecipient.permanentResidence}}
+Nơi tạm trú: 
+{{propertyRecipient.temporaryResidence}}
+Nơi ở hiện tại: 
+{{propertyRecipient.currentResidence}}
+{{propertyReturnCancellation.article3ExecutionLine}}
+Nơi nhận
+:
+- {{recipients.primaryLine}};
+- {{recipients.propertyRecipientLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

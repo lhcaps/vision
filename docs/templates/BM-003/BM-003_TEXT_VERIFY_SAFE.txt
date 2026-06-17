@@ -1,0 +1,32 @@
+{{agency.parentName}}
+ 
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+Số: {{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+ 
+QUYẾT ĐỊNH
+Phân công thực hành quyền công tố, kiểm sát 
+việc tiếp nhận, giải quyết nguồn tin về tội phạm
+{{official.issuerTitle}}
+{{legalBasis.procedureArticlesLine}}
+QUYẾT ĐỊNH:
+          
+Điều 1.
+ 
+{{sourceAssignment.article1Line}}
+Điều 2
+.
+ 
+{{sourceAssignment.article2Line}}
+Điều 3.
+ 
+{{sourceAssignment.article3Line}}
+Nơi nhận:
+- {{recipients.primaryLine}};
+- Như Điều 3;
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

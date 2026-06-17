@@ -1,0 +1,77 @@
+Mẫu số 15/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+Mẫu số 15/HS
+(Ban hành theo Thông tư số      /2026/TT-VKSTC
+ngày       /     /2026)
+ 
+{{agency.parentName}}
+{{agency.name}}
+Số: 
+{{document.documentCode}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do – Hạnh phúc
+{{document.issuePlaceAndDateLine}}
+KẾ HOẠCH
+Trực tiếp kiểm sát việc
+ 
+tiếp nhận,
+ 
+giải quyết nguồn tin về tội p
+hạm
+{{sourceDirectInspectionPlan.attachedDecisionLine}}
+I. Mục đích, yêu cầu
+1. 
+{{sourceDirectInspectionPlan.purposeLine1}}
+2.
+ 
+{{sourceDirectInspectionPlan.purposeLine2}}
+3.
+ 
+{{sourceDirectInspectionPlan.purposeLine3}}
+II. Nội dung kiểm sát
+1. Kết quả tiếp nhận nguồn tin về tội phạm
+{{sourceDirectInspectionPlan.receivedStatsBlock}}
+2. Kết quả giải quyết nguồn tin về tội phạm
+2.1. 
+{{sourceDirectInspectionPlan.resolvedStatsBlock}}
+- {{sourceDirectInspectionPlan.prosecutionDecisionStatsLine}}
+- {{sourceDirectInspectionPlan.nonProsecutionDecisionStatsLine}}
+2.2. 
+{{sourceDirectInspectionPlan.transferredStatsLine}}
+2.3. 
+{{sourceDirectInspectionPlan.pendingStatsLine}}
+2.4. 
+{{sourceDirectInspectionPlan.suspendedStatsLine}}
+3. Đánh giá công tác 
+tiếp nhận, 
+giải quyết
+ 
+nguồn tin về tội phạm
+3.1. Ưu điểm  
+{{sourceDirectInspectionPlan.advantagesLine}}
+3.2. Hạn chế, tồn tại và
+ 
+nguyên nhân
+{{sourceDirectInspectionPlan.limitationsLine}}
+3.3.  Kiến nghị, đề xuất
+{{sourceDirectInspectionPlan.recommendationsLine}}
+III. Thời gian, thời điểm và phương pháp kiểm sát
+1. Thời gian kiểm sát: 
+{{sourceDirectInspectionPlan.inspectionTimeLine}}
+2. Thời điểm kiểm sát 
+(
+thời điểm lấy số liệu
+): 
+{{sourceDirectInspectionPlan.dataPeriodLine}}
+3. Phương pháp kiểm sát
+{{sourceDirectInspectionPlan.methodsBlock}}
+{{sourceDirectInspectionPlan.requestPreparationLine}}
+Nơi nhận:
+- {{recipients.primaryLine}};
+- {{recipients.teamMembersLine}};
+- {{recipients.archiveLine}}.
+{{signature.signMode}}
+{{signature.positionTitle}}
+{{signature.signerName}}

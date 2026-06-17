@@ -1,0 +1,15 @@
+{{agency.name}}
+{{agency.parentName}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{legalBasis.procedureArticlesLine}}
+{{official.issuerTitle}}
+{{recipients.archiveLine}}
+{{recipients.assignedProcuracyLine}}
+{{recipients.courtLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}
+{{subordinateProcuracyTrialAssignment.article1Line}}
+{{subordinateProcuracyTrialAssignment.article2Line}}
+{{subordinateProcuracyTrialAssignment.indictmentLine}}

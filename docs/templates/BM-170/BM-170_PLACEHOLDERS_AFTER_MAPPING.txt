@@ -1,0 +1,17 @@
+{{agency.name}}
+{{agency.parentName}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{evidenceHandlingCancellation.article1Line}}
+{{evidenceHandlingCancellation.article2Line}}
+{{evidenceHandlingCancellation.caseInitiationLine}}
+{{evidenceHandlingCancellation.defendantInitiationLine}}
+{{evidenceHandlingCancellation.evidenceHandlingDecisionReviewLine}}
+{{evidenceHandlingCancellation.unlawfulReasonLine}}
+{{legalBasis.procedureArticlesLine}}
+{{official.issuerTitle}}
+{{recipients.archiveLine}}
+{{recipients.primaryLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}

@@ -1,0 +1,27 @@
+{{agency.parentName}}
+ 
+{{agency.name}}
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do - Hạnh phúc
+Số: {{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+ 
+YÊU CẦU 
+Kiểm tra, xác minh nguồn tin về tội phạm
+{{sourceVerification.requestRoundText}}
+{{agency.name}}
+{{sourceVerification.procedureArticlesLine}}
+{{sourceVerification.reasonLine}}
+YÊU CẦU:
+{{sourceVerification.requestedAuthorityLine}}
+{{sourceVerification.issue1Line}}
+{{sourceVerification.issue2Line}}
+{{sourceVerification.issue3Line}}
+          
+{{sourceVerification.additionalIssuesLine}}
+{{sourceVerification.resultSubmissionLine}}
+Nơi nhận:
+{{recipients.investigatingAgencyLine}}
+{{recipients.archiveLine}}
+KIỂM SÁT VIÊN
+{{signature.signerName}}

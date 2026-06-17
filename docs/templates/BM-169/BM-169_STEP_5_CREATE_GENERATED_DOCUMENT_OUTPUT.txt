@@ -1,0 +1,4 @@
+section	template_id	template_version_id
+BM169_TEMPLATE_VERSION	41	41
+section	id	case_id	template_id	template_version_id	template_code	document_code	document_title	target_scope	target_person_id	review_status	generated_by_name	generated_at	note
+BM169_GENERATED_DOCUMENT	76	2	41	41	BM-169	BM-169-1780034789	Quyết định xử lý vật chứng	CASE_LEVEL	NULL	DRAFT	Trần Thanh Nam	2026-05-29 13:06:29	BM-169 test document for render-payload audit.

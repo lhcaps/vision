@@ -1,0 +1,20 @@
+section	COLUMN_NAME
+TEMPLATE_VERSION_COLUMNS	id
+TEMPLATE_VERSION_COLUMNS	template_id
+TEMPLATE_VERSION_COLUMNS	version_no
+TEMPLATE_VERSION_COLUMNS	original_file_path
+TEMPLATE_VERSION_COLUMNS	normalized_docx_path
+TEMPLATE_VERSION_COLUMNS	output_name_pattern
+TEMPLATE_VERSION_COLUMNS	placeholder_summary
+TEMPLATE_VERSION_COLUMNS	checksum
+TEMPLATE_VERSION_COLUMNS	is_default
+TEMPLATE_VERSION_COLUMNS	is_active
+TEMPLATE_VERSION_COLUMNS	created_by_name
+TEMPLATE_VERSION_COLUMNS	created_at
+TEMPLATE_VERSION_COLUMNS	updated_at
+section	template_id
+BEFORE_FIX	40
+section	id	template_code	template_no	template_name	group_id	stage_code	render_scope	output_strategy	default_output_formats	requires_review	is_active	created_at	updated_at
+FINAL_TEMPLATE	40	BM-166	166/HS	Quyết định trả hồ sơ vụ án để điều tra lại	5	PROSECUTION	CASE_LEVEL	ONE_FILE_PER_CASE	["DOCX", "PDF"]	1	1	2026-05-28 19:44:13	2026-05-28 19:47:43
+section	id	template_id	template_code	version_no	original_file_path	normalized_docx_path	output_name_pattern	placeholder_summary	checksum	is_default	is_active	created_by_name	created_at	updated_at
+FINAL_TEMPLATE_VERSION	40	40	BM-166	1	C:\\LUẬT\\QUANLYVKS\\storage\\imports\\template-zips\\extracted\\Biểu mẫu\\166-QĐ trả hồ sơ vụ án để điều tra lại.doc	C:\\LUẬT\\QUANLYVKS\\storage\\templates\\normalized-docx\\BM-166\\BM-166_normalized.docx	BM-166_Quyet-dinh-tra-ho-so-vu-an-de-dieu-tra-lai_{{caseCode}}_v{{version}}	{"notes": ["BM-166 converted from source DOC to normalized DOCX.", "MVP placeholders manually mapped.", "Scope CASE_LEVEL / ONE_FILE_PER_CASE.", "Fixed insert script because template_versions has no template_code column."], "status": "PLACEHOLDERS_MAPPED", "mappedAt": "2026-05-28 19:47:43", "placeholderCount": 14}	50F4F4BF431AB67121FD722D234D6B20EEAD15FC8CCED364C77BA64B1530B30F	1	1	ChatGPT	2026-05-28 19:47:43	2026-05-28 19:47:43

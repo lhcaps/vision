@@ -1,0 +1,17 @@
+﻿{{agency.name}}
+{{agency.parentName}}
+{{document.documentCode}}
+{{document.issuePlaceAndDateLine}}
+{{official.issuerTitle}}
+{{prosecutionExtension.accusedDecisionLegalBasisLine}}
+{{prosecutionExtension.article1Line}}
+{{prosecutionExtension.caseDecisionLegalBasisLine}}
+{{prosecutionExtension.investigationConclusionLegalBasisLine}}
+{{prosecutionExtension.procedureArticlesLine}}
+{{prosecutionExtension.reasonLine}}
+{{recipients.accusedLine}}
+{{recipients.archiveLine}}
+{{recipients.investigatingAgencyLine}}
+{{signature.positionTitle}}
+{{signature.signerName}}
+{{signature.signMode}}
