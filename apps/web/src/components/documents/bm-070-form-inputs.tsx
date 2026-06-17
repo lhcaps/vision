@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type Bm070FormInputsPanelProps = {
   documentId: string;
@@ -1020,6 +1021,7 @@ export function Bm070FormInputsPanel({
 
   return (
     <section className="space-y-5">
+      <BmFlatFormCasePayloadButton templateCode="BM-070" form={formState} onApply={(next) => setFormState(next as unknown as typeof formState)} />
       <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-2 border-b border-slate-100 pb-4">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-700">

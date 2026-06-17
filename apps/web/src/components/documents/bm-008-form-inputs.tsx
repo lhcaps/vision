@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL =
@@ -720,6 +721,7 @@ export function Bm008FormInputsPanel({
 
   return (
     <div className="grid gap-4">
+      <BmFormCasePayloadButton templateCode="BM-008" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-white shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>

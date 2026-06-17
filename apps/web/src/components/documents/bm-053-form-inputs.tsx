@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   type Bm053FormInputs,
   EMPTY_BM053_FORM_INPUTS,
@@ -932,6 +933,7 @@ function handleSelectSigner(optionId: string) {
 
   return (
     <div className="space-y-5">
+      <BmFormCasePayloadButton templateCode="BM-053" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>

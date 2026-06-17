@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import * as React from "react";
+import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
 
@@ -597,6 +598,7 @@ export function Bm172FormInputs({
 
   return (
     <div className="grid gap-5">
+      <BmFlatFormCasePayloadButton templateCode="BM-172" form={state} onApply={(next) => setState(next as unknown as typeof state)} />
       <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-950">
         <div className="font-bold">BM-172 — Quyết định hủy bỏ Quyết định trả lại tài sản</div>
         <div>

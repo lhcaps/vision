@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type Section = Record<string, string>;
 
@@ -1006,6 +1007,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
 
   return (
     <div className="space-y-4">
+      <BmFormCasePayloadButton templateCode="BM-156" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
         <h2 className="text-lg font-semibold text-blue-950">BM-156</h2>
         <p className="mt-1 text-sm text-blue-900">
