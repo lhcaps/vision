@@ -42,7 +42,7 @@ services:
       STORAGE_ROOT_PATH: /app/storage
       LIBREOFFICE_PATH: /usr/bin/libreoffice
     command: >
-      sh -lc "fc-cache -f >/tmp/fontcache.log 2>&1 || true; node dist/main.js"
+      sh -lc "fc-cache -f >/tmp/fontcache.log 2>&1 || true; node apps/api/dist/src/main.js"
     ports:
       - "${API_PORT}:3001"
     volumes:

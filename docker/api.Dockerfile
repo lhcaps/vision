@@ -78,11 +78,7 @@ COPY --from=builder /app/apps/api/scripts ./apps/api/scripts
 # Smoke test: nếu Prisma client chưa được generate thì build fail ngay tại đây,
 # không để tới runtime mới crash.
 WORKDIR /app/apps/api
-RUN node -e "console.log('resolved=', require.resolve('@prisma/client')); require('@prisma/client'); console.log('[OK] Prisma client is available from apps/api')"
-
-WORKDIR /app/apps/api
-
-# QUANLYVKS POWERSHELL EXE WRAPPER
+CMD ["node", "dist/src/main.js"]
 # Linux Docker không có powershell.exe / Word COM.
 # Backend vẫn gọi powershell.exe, nên wrapper này bắt lệnh đó và convert DOCX -> PDF bằng LibreOffice.
 RUN cat > /usr/local/bin/powershell.exe <<'SH'
@@ -167,10 +163,10 @@ exit 0
 SH
 
 RUN chmod +x /usr/local/bin/powershell.exe
-RUN which powershell.exe
 
 EXPOSE 3001
-CMD ["node", "dist/main.js"]
+WORKDIR /app
+CMD ["node", "apps/api/dist/src/main.js"]
 
 
 

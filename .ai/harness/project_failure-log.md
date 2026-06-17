@@ -14,8 +14,8 @@
 -->
 
 ## 2026-06-17
-**Request**: User phàn nàn dự án "1 cái vỏ" - UI render nhưng báo "Chưa có hồ sơ" dù tính năng đã code đầy đủ.
-**What I tried**: Đọc schema, seed.ts, schema.prisma, smoke test API + 7 trang web qua Playwright.
-**Root cause**: `seed.ts` chỉ tạo agency + admin + 2 wards + 30 offenses + 4 template_groups + N templates đã implement. Không seed cases/people/assignments/evidence/generated_documents. Do đó `/cases` (0), `/document-review-queue` (0), `/templates` chỉ có 0 document nên báo "Không có biểu mẫu phù hợp". Code UI đúng, không có lỗi.
-**Skill that should have caught it**: `intake` không tồn tại (file `.ai/harness/project-intake.md` không được tạo), `debug` cũng không vì request thật ra là audit thay vì fix bug.
-**Fix**: Viết `apps/api/prisma/seed-demo-cases.ts` (idempotent, dữ liệu thật cho 5 vụ án trải đủ 3 giai đoạn + 10 people + 11 documents) và `tests/e2e/verify-after-seed.spec.ts` (Playwright test assert UI render đúng). Tạo `.ai/harness/project-intake.md` để intake thật cho project này, tránh quên lần sau.
+**Request**: Audit brutal report: document-renderer.service.ts rỗng, Docker entrypoint dist/main.js sai path, Swagger không có guard production.
+**What I tried**: Verified actual file contents and build output.
+**Root cause**: (1) document-renderer.service.ts có 33,599 dòng — audit báo rỗng là nhầm. (2) Dockerfile CMD và docker-compose.prod.yml command cùng dùng dist/main.js trong khi tsconfig outDir=dist + rootDir=. tạo output dist/src/main.js. (3) SwaggerModule.setup() không có production guard.
+**Skill that should have caught it**: audit — cần verify bằng build thực thay vì chỉ grep.
+**Fix**: (1) Xác nhận service không rỗng, không cần restore. (2) Sửa Dockerfile CMD thành dist/src/main.js, docker-compose.prod.yml command thành apps/api/dist/src/main.js. (3) Thêm production guard cho Swagger (chỉ bật khi NODE_ENV != production hoặc SWAGGER_ENABLED=true). (4) Thêm production fail-fast cho AUTH_COOKIE_SECURE, SEED_ADMIN_PASSWORD, API_CORS_ORIGIN. (5) Hoist port declaration trước Swagger log. Build+lint+test đều pass.

@@ -46,6 +46,22 @@ function buildCorsOrigin() {
 async function bootstrap(): Promise<void> {
   const logger = new Logger('Bootstrap');
 
+  if (process.env.NODE_ENV === 'production') {
+    if (envOrDefault('AUTH_COOKIE_SECURE', 'false').toLowerCase() !== 'true') {
+      throw new Error(
+        'AUTH_COOKIE_SECURE must be "true" when NODE_ENV=production',
+      );
+    }
+    if (envOrDefault('SEED_ADMIN_PASSWORD', '') === 'admin123') {
+      throw new Error(
+        'SEED_ADMIN_PASSWORD="admin123" is forbidden in production — change it before deploying',
+      );
+    }
+    if (envOrDefault('API_CORS_ORIGIN', '') === '*') {
+      throw new Error('API_CORS_ORIGIN="*" is forbidden in production');
+    }
+  }
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: false,
   });
@@ -88,7 +104,12 @@ async function bootstrap(): Promise<void> {
     .setVersion('0.1.0')
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/docs', app, swaggerDocument);
+  const swaggerEnabled =
+    process.env.NODE_ENV !== 'production' ||
+    process.env.SWAGGER_ENABLED === 'true';
+  if (swaggerEnabled) {
+    SwaggerModule.setup('api/docs', app, swaggerDocument);
+  }
 
   const port = Number(envOrDefault('API_PORT', '3001'));
   await app.listen(port);
@@ -96,7 +117,6 @@ async function bootstrap(): Promise<void> {
   logger.log(
     `QUANLYVKS API is running on http://localhost:${port}/${globalPrefix}`,
   );
-  logger.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 
 void bootstrap();
