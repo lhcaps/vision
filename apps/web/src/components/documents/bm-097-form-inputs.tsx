@@ -3,6 +3,14 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
+import {
   type Bm097FormInputs,
   EMPTY_BM097_FORM_INPUTS,
   getBm097RenderPayload,
@@ -77,90 +85,7 @@ function getFieldValue(
   return sectionValue[field] ?? "";
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  type = "text",
-  placeholder,
-  multiline,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-  type?: "text" | "date";
-  placeholder?: string;
-  multiline?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
 
-      {multiline ? (
-        <textarea
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          rows={3}
-          className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      ) : (
-        <input
-          type={type}
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      )}
-    </label>
-  );
-}
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-  required,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Array<{ value: string; label: string }>;
-  required?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-      >
-        <option value="">-- Chọn --</option>
-        {options.map((option) => (
-          <option key={`${option.value}-${option.label}`} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
 
 
 const BM097_DAY_OPTIONS = Array.from({ length: 31 }, (_, index) => String(index + 1));
@@ -303,45 +228,6 @@ function DateSelectField({
   );
 }
 
-function CheckboxField({
-  label,
-  checked,
-  onChange,
-  description,
-  className = "",
-}: {
-  label: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  description?: string;
-  className?: string;
-}) {
-  return (
-    <label
-      className={
-        "flex gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 " +
-        className
-      }
-    >
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-        className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-950 focus:ring-slate-500"
-      />
-      <span>
-        <span className="block text-sm font-semibold text-slate-800">
-          {label}
-        </span>
-        {description ? (
-          <span className="mt-1 block text-xs leading-5 text-slate-500">
-            {description}
-          </span>
-        ) : null}
-      </span>
-    </label>
-  );
-}
 
 function PreviewBox({
   title,
@@ -383,28 +269,6 @@ function PreviewBox({
         )}
       </div>
     </div>
-  );
-}
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm text-slate-500">{description}</p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
   );
 }
 
@@ -1128,8 +992,8 @@ export function Bm097FormInputsPanel({
         </div>
       </div>
 
-      <SectionCard title="1. Cơ quan ban hành">
-        <SelectField
+      <BmFormSection title="1. Cơ quan ban hành">
+        <BmFieldSelect
           label="Chọn nhanh cơ quan"
           value=""
           onChange={handleSelectAgency}
@@ -1137,35 +1001,35 @@ export function Bm097FormInputsPanel({
             value: option.id,
             label: option.label,
           }))}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field
+        <BmFieldText
           label="Cơ quan cấp trên"
           required
           value={form.agency.parentName}
           onChange={(value) => updateField("agency", "parentName", value)}
         />
-        <Field
+        <BmFieldText
           label="Cơ quan ban hành"
           required
           value={form.agency.name}
           onChange={(value) => updateField("agency", "name", value)}
         />
-        <Field
+        <BmFieldText
           label="Tên viết tắt"
           value={form.agency.shortName}
           onChange={(value) => updateField("agency", "shortName", value)}
         />
-        <Field
+        <BmFieldText
           label="Địa danh ban hành"
           required
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Thông tin văn bản">
-        <Field
+      <BmFormSection title="2. Thông tin văn bản">
+        <BmFieldText
           label="Số/ký hiệu quyết định"
           required
           value={form.document.documentCode}
@@ -1178,16 +1042,15 @@ export function Bm097FormInputsPanel({
           value={form.document.issueDate}
           onChange={(value) => updateField("document", "issueDate", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="3. Căn cứ khởi tố"
         description="Nhập đủ 3 dòng căn cứ. Dòng Luật Tư pháp người chưa thành niên chỉ xuất khi tick."
       >
-        <Field
+        <BmFieldTextarea
           label="Căn cứ Bộ luật Tố tụng hình sự"
           required
-          multiline
           value={
             getAnyFormField("legalBasis", "procedureArticlesLine") ||
             "Căn cứ các điều 41, 165 và 179 của Bộ luật Tố tụng hình sự;"
@@ -1195,21 +1058,19 @@ export function Bm097FormInputsPanel({
           onChange={(value) =>
             updateAnyField("legalBasis", "procedureArticlesLine", value)
           }
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <CheckboxField
+        <BmFieldCheckbox
           label="Bị can là người chưa thành niên"
           checked={isJuvenileChecked}
           onChange={toggleJuvenileBasis}
           description="Tick mục này để thêm căn cứ: Căn cứ Điều 2 của Luật Tư pháp người chưa thành niên."
-          className="md:col-span-2"
         />
 
         {isJuvenileChecked ? (
-          <Field
+          <BmFieldTextarea
             label="Căn cứ Luật Tư pháp người chưa thành niên"
-            multiline
             value={
               getAnyFormField("legalBasis", "juvenileJusticeLine") ||
               "Căn cứ Điều 2 của Luật Tư pháp người chưa thành niên;"
@@ -1217,11 +1078,11 @@ export function Bm097FormInputsPanel({
             onChange={(value) =>
               updateAnyField("legalBasis", "juvenileJusticeLine", value)
             }
-            className="md:col-span-2"
+            fullWidth
           />
         ) : null}
 
-        <Field
+        <BmFieldText
           label="Số quyết định khởi tố vụ án"
           required
           value={form.caseDecision.decisionNo}
@@ -1235,26 +1096,25 @@ export function Bm097FormInputsPanel({
           onChange={(value) => updateField("caseDecision", "issueDate", value)}
         />
 
-        <Field
+        <BmFieldText
           label="Cơ quan ra quyết định khởi tố vụ án"
           required
           value={form.caseDecision.issuedBy}
           onChange={(value) => updateField("caseDecision", "issuedBy", value)}
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <Field
+        <BmFieldTextarea
           label="Quyết định thay đổi/bổ sung nếu có"
-          multiline
           value={getAnyFormField("caseDecision", "additionalDecisionText")}
           onChange={(value) =>
             updateAnyField("caseDecision", "additionalDecisionText", value)
           }
           placeholder="Ví dụ: Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án số ..."
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <SelectField
+        <BmFieldSelect
           label="Chọn nhanh tội danh"
           value=""
           onChange={handleSelectOffense}
@@ -1262,29 +1122,29 @@ export function Bm097FormInputsPanel({
             value: option.id,
             label: option.label,
           }))}
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <Field
+        <BmFieldText
           label="Tội danh"
           required
           value={form.offense.offenseName}
           onChange={(value) => updateField("offense", "offenseName", value)}
         />
 
-        <Field
+        <BmFieldText
           label="Điều khoản áp dụng"
           required
           value={form.offense.legalArticle}
           onChange={(value) => updateField("offense", "legalArticle", value)}
         />
 
-        <Field
+        <BmFieldText
           label="Bộ luật áp dụng"
           required
           value={form.offense.criminalCodeText}
           onChange={(value) => updateField("offense", "criminalCodeText", value)}
-          className="md:col-span-2"
+          fullWidth
         />
 
         <PreviewBox
@@ -1292,23 +1152,23 @@ export function Bm097FormInputsPanel({
           description="Đây là 3 dòng căn cứ sẽ dùng trước phần thông tin bị can."
           lines={basisPreviewLines}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Thông tin bị can">
-        <Field
+      <BmFormSection title="4. Thông tin bị can">
+        <BmFieldText
           label="Họ tên bị can"
           required
           value={form.person.fullName}
           onChange={(value) => updateField("person", "fullName", value)}
         />
-        <SelectField
+        <BmFieldSelect
           label="Giới tính"
           required
           value={form.person.genderLabel}
           onChange={(value) => updateField("person", "genderLabel", value)}
           options={BM097_GENDER_OPTIONS}
         />
-        <Field
+        <BmFieldText
           label="Tên gọi khác"
           required
           value={form.person.otherName}
@@ -1319,43 +1179,43 @@ export function Bm097FormInputsPanel({
           value={form.person.dateOfBirth}
           onChange={(value) => updateField("person", "dateOfBirth", value)}
         />
-        <Field
+        <BmFieldText
           label="Nơi sinh"
           required
           value={form.person.placeOfBirth}
           onChange={(value) => updateField("person", "placeOfBirth", value)}
         />
-        <Field
+        <BmFieldText
           label="Quốc tịch"
           required
           value={form.person.nationality}
           onChange={(value) => updateField("person", "nationality", value)}
         />
-        <Field
+        <BmFieldText
           label="Dân tộc"
           required
           value={form.person.ethnicity}
           onChange={(value) => updateField("person", "ethnicity", value)}
         />
-        <Field
+        <BmFieldText
           label="Tôn giáo"
           required
           value={form.person.religion}
           onChange={(value) => updateField("person", "religion", value)}
         />
-        <Field
+        <BmFieldText
           label="Nghề nghiệp"
           required
           value={form.person.occupation}
           onChange={(value) => updateField("person", "occupation", value)}
         />
-        <SelectField
+        <BmFieldSelect
           label="Loại giấy tờ"
           value={form.person.identityType}
           onChange={(value) => updateField("person", "identityType", value)}
           options={BM097_IDENTITY_TYPE_OPTIONS}
         />
-        <Field
+        <BmFieldText
           label="Số CMND/CCCD/Hộ chiếu"
           required
           value={form.person.identityNo}
@@ -1367,83 +1227,77 @@ export function Bm097FormInputsPanel({
           value={form.person.identityIssuedDate}
           onChange={(value) => updateField("person", "identityIssuedDate", value)}
         />
-        <Field
+        <BmFieldText
           label="Nơi cấp giấy tờ"
           required
           value={form.person.identityIssuedPlace}
           onChange={(value) => updateField("person", "identityIssuedPlace", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field
+        <BmFieldTextarea
           label="Nơi thường trú"
           required
-          multiline
           value={form.person.permanentAddress}
           onChange={(value) => updateField("person", "permanentAddress", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field
+        <BmFieldTextarea
           label="Nơi tạm trú"
-          multiline
           value={form.person.temporaryAddress}
           onChange={(value) => updateField("person", "temporaryAddress", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field
+        <BmFieldTextarea
           label="Nơi ở hiện tại"
           required
-          multiline
           value={form.person.currentAddress}
           onChange={(value) => updateField("person", "currentAddress", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field
+        <BmFieldText
           label="Tiền án, tiền sự"
           required
           value={form.person.criminalRecordLine}
           onChange={(value) => updateField("person", "criminalRecordLine", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Hành vi, Điều 1 và Điều 2">
-        <Field
+      <BmFormSection title="5. Hành vi, Điều 1 và Điều 2">
+        <BmFieldTextarea
           label="Hành vi phạm tội / lý do khởi tố"
           required
-          multiline
           value={form.offense.actDescriptionLine}
           onChange={(value) => updateField("offense", "actDescriptionLine", value)}
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <Field
+        <BmFieldText
           label="Cơ quan, người có thẩm quyền điều tra"
           required
           value={form.accusedDecision.issuedBy}
           onChange={(value) => updateField("accusedDecision", "issuedBy", value)}
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <Field
+        <BmFieldTextarea
           label="Dòng Điều 1"
-          multiline
           value={getAnyFormField("accusedDecision", "article1Line")}
           onChange={(value) =>
             updateAnyField("accusedDecision", "article1Line", value)
           }
           placeholder="Để trống nếu muốn hệ thống tự tạo từ họ tên, tội danh và điều khoản."
-          className="md:col-span-2"
+          fullWidth
         />
 
-        <Field
+        <BmFieldTextarea
           label="Dòng Điều 2"
-          multiline
           value={getAnyFormField("accusedDecision", "article2Line")}
           onChange={(value) =>
             updateAnyField("accusedDecision", "article2Line", value)
           }
           placeholder="Để trống nếu muốn hệ thống tự tạo từ cơ quan điều tra."
-          className="md:col-span-2"
+          fullWidth
         />
 
         <PreviewBox
@@ -1451,16 +1305,16 @@ export function Bm097FormInputsPanel({
           description="Kiểm nhanh từ dòng nghiên cứu hồ sơ đến hết Điều 1, Điều 2, nơi nhận và chữ ký."
           lines={bodyPreviewLines}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="6. Nơi nhận">
-        <Field
+      <BmFormSection title="6. Nơi nhận">
+        <BmFieldText
           label="Dòng bị can"
           required
           value={form.recipients.personLine}
           onChange={(value) => updateField("recipients", "personLine", value)}
         />
-        <Field
+        <BmFieldText
           label="Dòng cơ quan điều tra"
           required
           value={form.recipients.investigationUnitLine}
@@ -1468,21 +1322,21 @@ export function Bm097FormInputsPanel({
             updateField("recipients", "investigationUnitLine", value)
           }
         />
-        <Field
+        <BmFieldText
           label="Dòng lưu hồ sơ"
           required
           value={form.recipients.archiveLine}
           onChange={(value) => updateField("recipients", "archiveLine", value)}
         />
-        <Field
+        <BmFieldText
           label="Ghi chú lưu / người soạn"
           value={form.recipients.noteLine}
           onChange={(value) => updateField("recipients", "noteLine", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="7. Chữ ký">
-        <SelectField
+      <BmFormSection title="7. Chữ ký">
+        <BmFieldSelect
           label="Chọn nhanh người ký"
           value=""
           onChange={handleSelectSigner}
@@ -1490,30 +1344,30 @@ export function Bm097FormInputsPanel({
             value: option.id,
             label: option.label,
           }))}
-          className="md:col-span-2"
+          fullWidth
         />
-        <SelectField
+        <BmFieldSelect
           label="Hình thức ký"
           required
           value={form.signature.signMode}
           onChange={(value) => updateField("signature", "signMode", value)}
           options={BM097_SIGN_MODE_OPTIONS}
         />
-        <SelectField
+        <BmFieldSelect
           label="Chức vụ ký"
           required
           value={form.signature.positionTitle}
           onChange={(value) => updateField("signature", "positionTitle", value)}
           options={BM097_POSITION_OPTIONS}
         />
-        <Field
+        <BmFieldText
           label="Người ký"
           required
           value={form.signature.signerName}
           onChange={(value) => updateField("signature", "signerName", value)}
-          className="md:col-span-2"
+          fullWidth
         />
-      </SectionCard>
+      </BmFormSection>
 
       <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
