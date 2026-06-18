@@ -1,4 +1,12 @@
 "use client";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
 
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -672,27 +680,6 @@ function PreviewArea({
   );
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
 
 export function Bm045FormInputsPanel({
   documentId,
@@ -869,115 +856,115 @@ export function Bm045FormInputsPanel({
         ) : null}
       </div>
 
-      <SectionCard title="1. Tùy chọn dòng điều kiện">
+      <BmFormSection title="1. Tùy chọn dòng điều kiện">
         <CheckboxInput
           label="Áp dụng căn cứ Luật Tư pháp người chưa thành niên"
           checked={form.bailApproval.includeJuvenileJusticeLine}
           onChange={updateBailBoolean}
           description="Không tick thì không render dòng Căn cứ Điều 135."
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Văn bản / cơ quan">
-        <TextInput
+      <BmFormSection title="2. Văn bản / cơ quan">
+        <BmFieldText
           label="Cơ quan cấp trên"
           value={form.agency.parentNameUpper}
           onChange={(value) => updateField("agency", "parentNameUpper", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           value={form.agency.nameUpper}
           onChange={(value) => updateField("agency", "nameUpper", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Số quyết định"
           value={form.document.documentCode}
           onChange={(value) => updateField("document", "documentCode", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Ngày ban hành"
           value={form.document.issueDate}
           onChange={(value) => updateField("document", "issueDate", value)}
           placeholder="26/05/2026"
         />
-        <TextInput
+        <BmFieldText
           label="Địa danh"
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. Bị can / tội danh">
-        <TextInput
+      <BmFormSection title="3. Bị can / tội danh">
+        <BmFieldText
           label="Họ tên bị can"
           value={form.bailApproval.accusedName}
           onChange={(value) => updateField("bailApproval", "accusedName", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Tên tội"
           value={form.bailApproval.offenseName}
           onChange={(value) => updateField("bailApproval", "offenseName", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Điều luật"
           value={form.bailApproval.legalArticle}
           onChange={(value) => updateField("bailApproval", "legalArticle", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Cơ quan điều tra / cơ quan đề nghị"
           value={form.bailApproval.investigationAgency}
           onChange={(value) => updateField("bailApproval", "investigationAgency", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Quyết định khởi tố">
-        <TextInput
+      <BmFormSection title="4. Quyết định khởi tố">
+        <BmFieldText
           label="Số Quyết định khởi tố vụ án"
           value={form.bailApproval.caseDecisionCode}
           onChange={(value) => updateField("bailApproval", "caseDecisionCode", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Ngày Quyết định khởi tố vụ án"
           value={form.bailApproval.caseDecisionIssueDateText}
           onChange={(value) =>
             updateField("bailApproval", "caseDecisionIssueDateText", value)
           }
         />
-        <TextInput
+        <BmFieldText
           label="Số Quyết định khởi tố bị can"
           value={form.bailApproval.accusedDecisionCode}
           onChange={(value) => updateField("bailApproval", "accusedDecisionCode", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Ngày Quyết định khởi tố bị can"
           value={form.bailApproval.accusedDecisionIssueDateText}
           onChange={(value) =>
             updateField("bailApproval", "accusedDecisionIssueDateText", value)
           }
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Quyết định bảo lĩnh">
-        <TextInput
+      <BmFormSection title="5. Quyết định bảo lĩnh">
+        <BmFieldText
           label="Số Quyết định bảo lĩnh"
           value={form.bailApproval.bailDecisionCode}
           onChange={(value) => updateField("bailApproval", "bailDecisionCode", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Ngày Quyết định bảo lĩnh"
           value={form.bailApproval.bailDecisionIssueDateText}
           onChange={(value) =>
             updateField("bailApproval", "bailDecisionIssueDateText", value)
           }
         />
-        <TextInput
+        <BmFieldText
           label="Cơ quan ra Quyết định bảo lĩnh"
           value={form.bailApproval.bailDecisionAgencyName}
           onChange={(value) =>
@@ -985,14 +972,14 @@ export function Bm045FormInputsPanel({
           }
           required
         />
-        <TextArea
+        <BmFieldTextarea
           label="Dòng nơi nhận người/cơ quan nhận bảo lĩnh"
           value={form.bailApproval.bailReceiverLine}
           onChange={(value) => updateField("bailApproval", "bailReceiverLine", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="6. Preview dòng sẽ render">
+      <BmFormSection title="6. Preview dòng sẽ render">
         <PreviewArea
           label="Căn cứ BLTTHS"
           value={syncedForm.legalBasis.procedureArticlesLine}
@@ -1027,9 +1014,9 @@ export function Bm045FormInputsPanel({
           label="Điều 2"
           value={syncedForm.bailApproval.article2Line}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="7. Nơi nhận / chữ ký">
+      <BmFormSection title="7. Nơi nhận / chữ ký">
         <PreviewArea
           label="Nơi nhận - cơ quan ra quyết định"
           value={syncedForm.recipients.executionAgencyLine}
@@ -1042,30 +1029,30 @@ export function Bm045FormInputsPanel({
           label="Nơi nhận - người nhận bảo lĩnh"
           value={syncedForm.recipients.bailReceiverLine}
         />
-        <TextInput
+        <BmFieldText
           label="Nơi nhận - lưu"
           value={form.recipients.archiveLine}
           onChange={(value) => updateField("recipients", "archiveLine", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Chế độ ký"
           value={form.signature.signMode}
           onChange={(value) => updateField("signature", "signMode", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Chức danh"
           value={form.signature.positionTitle}
           onChange={(value) => updateField("signature", "positionTitle", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Người ký"
           value={form.signature.signerName}
           onChange={(value) => updateField("signature", "signerName", value)}
           required
         />
-      </SectionCard>
+      </BmFormSection>
     </section>
   );
 }
