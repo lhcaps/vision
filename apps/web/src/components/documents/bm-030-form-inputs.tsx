@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 const API_BASE_URL =
@@ -717,79 +724,6 @@ function buildFormFromPayload(payload: unknown): Bm030Form {
   });
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <input
-        className={inputClass}
-        value={value}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function TextAreaField({
-  label,
-  value,
-  onChange,
-  rows = 4,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  rows?: number;
-  placeholder?: string;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <textarea
-        className={textareaClass}
-        rows={rows}
-        value={value}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
 function StatusMessage({
   status,
   message,
@@ -1057,37 +991,37 @@ export function Bm030FormInputsPanel({
         </div>
       </section>
 
-      <SectionCard
+      <BmFormSection
         title="1. Cơ quan / văn bản"
         description="Ngày nhập theo DD/MM/YYYY để tránh lỗi đảo năm-tháng-ngày."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Cơ quan cấp trên"
             value={form.agency.parentName}
             onChange={(value) => updateAgency("parentName", value)}
           />
-          <Field
+          <BmFieldText
             label="Viện kiểm sát ban hành"
             value={form.agency.name}
             onChange={(value) => updateAgency("name", value)}
           />
-          <Field
+          <BmFieldText
             label="Tên cơ quan trong thân văn bản"
             value={form.agency.bodyName}
             onChange={(value) => updateAgency("bodyName", value)}
           />
-          <Field
+          <BmFieldText
             label="Tên viết tắt"
             value={form.agency.shortName}
             onChange={(value) => updateAgency("shortName", value)}
           />
-          <Field
+          <BmFieldText
             label="Số thông báo"
             value={form.document.documentCode}
             onChange={(value) => updateDocument("documentCode", value)}
           />
-          <Field
+          <BmFieldText
             label="Địa danh"
             value={form.document.issuePlace}
             onChange={(value) => updateDocument("issuePlace", value)}
@@ -1105,17 +1039,17 @@ export function Bm030FormInputsPanel({
             </p>
           </div>
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Căn cứ / người nhận thông báo">
+      <BmFormSection title="2. Căn cứ / người nhận thông báo">
         <div className="grid gap-4">
-          <TextAreaField
+          <BmFieldTextarea
             label="Căn cứ"
             value={form.legalBasis.procedureArticlesLine}
             onChange={(value) => updateLegalBasis("procedureArticlesLine", value)}
             rows={2}
           />
-          <Field
+          <BmFieldText
             label="Kính gửi"
             value={form.recipients.primaryLine}
             onChange={(value) => {
@@ -1124,14 +1058,14 @@ export function Bm030FormInputsPanel({
             }}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="3. Thông tin nguồn tin"
         description="Sửa các ô ngắn rồi bấm 'Tự sinh lại nội dung nguồn tin / kết quả' để cập nhật dòng dài."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Người/cơ quan cung cấp nguồn tin"
             value={form.sourceResolutionNotice.sourceProviderName}
             onChange={(value) =>
@@ -1155,13 +1089,13 @@ export function Bm030FormInputsPanel({
               {preview.sourceResolutionNotice.sourceProvidedDateLine}
             </p>
           </div>
-          <TextAreaField
+          <BmFieldTextarea
             label="Tóm tắt vụ việc"
             value={form.sourceResolutionNotice.caseSummary}
             onChange={(value) => updateNotice("caseSummary", value, true)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Quyết định/kết quả giải quyết"
             value={form.sourceResolutionNotice.resolutionDecisionLine}
             onChange={(value) =>
@@ -1170,61 +1104,61 @@ export function Bm030FormInputsPanel({
             rows={3}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Nội dung thông báo">
+      <BmFormSection title="4. Nội dung thông báo">
         <div className="grid gap-4">
-          <Field
+          <BmFieldText
             label="Viện kiểm sát thông báo"
             value={form.sourceResolutionNotice.agencyActionLine}
             onChange={(value) => updateNotice("agencyActionLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Thông báo cho"
             value={form.sourceResolutionNotice.noticeRecipientLine}
             onChange={(value) => updateNotice("noticeRecipientLine", value)}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Dòng nguồn tin"
             value={form.sourceResolutionNotice.sourceInfoLine}
             onChange={(value) => updateNotice("sourceInfoLine", value)}
             rows={4}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Dòng kết quả giải quyết"
             value={form.sourceResolutionNotice.resolutionResultLine}
             onChange={(value) => updateNotice("resolutionResultLine", value)}
             rows={4}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Nơi nhận / chữ ký">
+      <BmFormSection title="5. Nơi nhận / chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Nơi nhận"
             value={form.recipients.copyLine}
             onChange={(value) => updateRecipients("copyLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Lưu hồ sơ"
             value={form.recipients.archiveLine}
             onChange={(value) => updateRecipients("archiveLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Chức vụ người ký"
             value={form.signature.positionTitle}
             onChange={(value) => updateSignature("positionTitle", value)}
           />
-          <Field
+          <BmFieldText
             label="Người ký"
             value={form.signature.signerName}
             onChange={(value) => updateSignature("signerName", value)}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="Preview dữ liệu sẽ lưu">
+      <BmFormSection title="Preview dữ liệu sẽ lưu">
         <div className="space-y-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p>
             <span className="font-bold">Số:</span> {preview.document.documentCode}
@@ -1250,7 +1184,7 @@ export function Bm030FormInputsPanel({
             {preview.signature.positionTitle} / {preview.signature.signerName}
           </p>
         </div>
-      </SectionCard>
+      </BmFormSection>
     </div>
   );
 }

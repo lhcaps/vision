@@ -1,6 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -713,123 +720,6 @@ async function saveFormInputs(
   }
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  placeholder,
-  multiline,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-  placeholder?: string;
-  multiline?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-
-      {multiline ? (
-        <textarea
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          rows={3}
-          className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      ) : (
-        <input
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      )}
-    </label>
-  );
-}
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-  required,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Option[];
-  required?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-      >
-        <option value="">-- Chọn --</option>
-        {options.map((option) => (
-          <option key={`${option.value}-${option.label}`} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-function QuickSelectField({
-  label,
-  onSelect,
-  options,
-  className = "",
-}: {
-  label: string;
-  onSelect: (value: string) => void;
-  options: Option[];
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">{label}</span>
-
-      <select
-        value=""
-        onChange={(event) => {
-          if (event.target.value) {
-            onSelect(event.target.value);
-          }
-        }}
-        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-      >
-        <option value="">-- Chọn --</option>
-        {options.map((option) => (
-          <option key={`${option.value}-${option.label}`} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
 function DateSelectField({
   label,
   value,
@@ -902,29 +792,6 @@ function DateSelectField({
         </select>
       </div>
     </div>
-  );
-}
-
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
   );
 }
 
@@ -1240,43 +1107,44 @@ export function Bm071FormInputsPanel({
         </div>
       </section>
 
-      <SectionCard title="1. Cơ quan ban hành">
-        <QuickSelectField
+      <BmFormSection title="1. Cơ quan ban hành">
+        <BmFieldSelect
           label="Chọn nhanh cơ quan"
           options={AGENCY_PRESETS.map((item, index) => ({
             label: item.label,
             value: String(index),
           }))}
-          onSelect={applyAgencyPreset}
-          className="md:col-span-2"
+          onChange={applyAgencyPreset}
+          value=""
+
         />
-        <Field
+        <BmFieldText
           required
           label="Cơ quan cấp trên"
           value={formState.agencyParentName}
           onChange={(value) => updateField("agencyParentName", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Cơ quan ban hành"
           value={formState.agencyName}
           onChange={(value) => updateField("agencyName", value)}
         />
-        <Field
+        <BmFieldText
           label="Tên viết tắt"
           value={formState.agencyShortName}
           onChange={(value) => updateField("agencyShortName", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Địa danh ban hành"
           value={formState.agencyIssuePlace}
           onChange={(value) => updateField("agencyIssuePlace", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Thông tin văn bản">
-        <Field
+      <BmFormSection title="2. Thông tin văn bản">
+        <BmFieldText
           required
           label="Số quyết định"
           value={formState.documentCode}
@@ -1288,30 +1156,28 @@ export function Bm071FormInputsPanel({
           value={formState.documentIssueDate}
           onChange={(value) => updateField("documentIssueDate", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Chủ thể ban hành"
           value={formState.officialIssuerTitle}
           onChange={(value) => updateField("officialIssuerTitle", value)}
-          className="md:col-span-2"
-        />
-      </SectionCard>
 
-      <SectionCard
+        />
+      </BmFormSection>
+
+      <BmFormSection
         title="3. Căn cứ pháp lý và quyết định khởi tố vụ án"
         description="Các dòng này sẽ in ở phần căn cứ trước chữ QUYẾT ĐỊNH."
       >
-        <Field
+        <BmFieldTextarea
           required
-          multiline
           label="Căn cứ pháp lý BLTTHS"
           value={formState.staffAssignmentProcedureArticlesLine}
           onChange={(value) =>
             updateField("staffAssignmentProcedureArticlesLine", value)
           }
-          className="md:col-span-2"
-        />
-        <Field
+
+        fullWidth/>        <BmFieldText
           required
           label="Số quyết định khởi tố"
           value={formState.caseDecisionNo}
@@ -1323,155 +1189,151 @@ export function Bm071FormInputsPanel({
           value={formState.caseDecisionIssueDate}
           onChange={(value) => updateField("caseDecisionIssueDate", value)}
         />
-        <Field
+        <BmFieldText
           label="Cơ quan ban hành quyết định khởi tố"
           value={formState.caseDecisionIssuedBy}
           onChange={(value) => updateField("caseDecisionIssuedBy", value)}
-          className="md:col-span-2"
+
         />
-        <Field
+        <BmFieldText
           label="Tội danh"
           value={formState.offenseName}
           onChange={(value) => updateField("offenseName", value)}
         />
-        <Field
+        <BmFieldText
           label="Điều khoản áp dụng"
           value={formState.legalArticle}
           onChange={(value) => updateField("legalArticle", value)}
         />
-        <Field
+        <BmFieldText
           label="Bộ luật áp dụng"
           value={formState.criminalCodeText}
           onChange={(value) => updateField("criminalCodeText", value)}
-          className="md:col-span-2"
+
         />
-        <Field
-          multiline
+        <BmFieldTextarea
           label="Preview dòng căn cứ quyết định khởi tố"
           value={readyState.caseProsecutionDecisionLine}
           onChange={() => undefined}
-          className="md:col-span-2"
-        />
-      </SectionCard>
 
-      <SectionCard
+        fullWidth/>      </BmFormSection>
+
+      <BmFormSection
         title="4. Điều 1 - Người được phân công"
         description="Nội dung này tương ứng Điều 1 trong mẫu: Phân công ông/bà... chức danh... của Viện kiểm sát..."
       >
-        <SelectField
+        <BmFieldSelect
           required
           label="Vai trò được phân công"
           value={formState.assignedRoleText}
           options={ROLE_OPTIONS}
           onChange={(value) => updateField("assignedRoleText", value)}
         />
-        <QuickSelectField
+        <BmFieldSelect
           label="Chọn nhanh cán bộ"
           options={OFFICER_PRESETS.map((item, index) => ({
             label: item.label,
             value: String(index),
           }))}
-          onSelect={applyOfficerPreset}
+          onChange={applyOfficerPreset}
+          value=""
         />
-        <Field
+        <BmFieldText
           required
           label="Họ tên người được phân công"
           value={formState.assignedOfficerName}
           onChange={(value) => updateField("assignedOfficerName", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Chức danh người được phân công"
           value={formState.assignedOfficerTitle}
           onChange={(value) => updateField("assignedOfficerTitle", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Đơn vị người được phân công"
           value={formState.assignedOfficerAgencyName}
           onChange={(value) => updateField("assignedOfficerAgencyName", value)}
-          className="md:col-span-2"
-        />
-      </SectionCard>
 
-      <SectionCard
+        />
+      </BmFormSection>
+
+      <BmFormSection
         title="5. Dòng phân công bổ sung"
         description="Dòng này nằm sau Điều 1 theo mẫu. Có thể để trống nếu không phân công thêm người phối hợp."
       >
-        <QuickSelectField
+        <BmFieldSelect
           label="Chọn nhanh dòng phân công bổ sung"
           options={ADDITIONAL_ASSIGNMENT_OPTIONS}
-          onSelect={applyAdditionalAssignment}
-          className="md:col-span-2"
+          onChange={applyAdditionalAssignment}
+          value=""
         />
-        <Field
-          multiline
+        <BmFieldTextarea
           label="Dòng “Phân công...”"
           value={formState.additionalAssignedOfficersLine}
           onChange={(value) => updateField("additionalAssignedOfficersLine", value)}
-          className="md:col-span-2"
-        />
-      </SectionCard>
 
-      <SectionCard title="6. Điều 2 - Nhiệm vụ, quyền hạn, trách nhiệm">
-        <Field
+        fullWidth/>      </BmFormSection>
+
+      <BmFormSection title="6. Điều 2 - Nhiệm vụ, quyền hạn, trách nhiệm">
+        <BmFieldTextarea
           required
-          multiline
           label="Dòng nhiệm vụ, quyền hạn, trách nhiệm"
           value={formState.responsibilityLine}
           onChange={(value) => updateField("responsibilityLine", value)}
-          className="md:col-span-2"
-        />
-      </SectionCard>
 
-      <SectionCard title="7. Nơi nhận">
-        <Field
+        fullWidth/>      </BmFormSection>
+
+      <BmFormSection title="7. Nơi nhận">
+        <BmFieldText
           label="Dòng cơ quan điều tra"
           value={formState.investigationAuthorityLine}
           onChange={(value) => updateField("investigationAuthorityLine", value)}
-          className="md:col-span-2"
+
         />
-        <Field
+        <BmFieldText
           label="Dòng người được phân công"
           value={formState.assignedPersonLine}
           onChange={(value) => updateField("assignedPersonLine", value)}
         />
-        <Field
+        <BmFieldText
           label="Dòng lưu hồ sơ"
           value={formState.archiveLine}
           onChange={(value) => updateField("archiveLine", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="8. Chữ ký">
-        <QuickSelectField
+      <BmFormSection title="8. Chữ ký">
+        <BmFieldSelect
           label="Chọn nhanh người ký"
           options={SIGNER_PRESETS.map((item, index) => ({
             label: item.label,
             value: String(index),
           }))}
-          onSelect={applySignerPreset}
-          className="md:col-span-2"
+          onChange={applySignerPreset}
+          value=""
+
         />
-        <Field
+        <BmFieldText
           label="Hình thức ký"
           value={formState.signMode}
           onChange={(value) => updateField("signMode", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Chức vụ ký"
           value={formState.positionTitle}
           onChange={(value) => updateField("positionTitle", value)}
         />
-        <Field
+        <BmFieldText
           required
           label="Người ký"
           value={formState.signerName}
           onChange={(value) => updateField("signerName", value)}
-          className="md:col-span-2"
+
         />
-      </SectionCard>
+      </BmFormSection>
 
       <PreviewBlock state={formState} />
 

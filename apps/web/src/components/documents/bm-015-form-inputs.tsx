@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 const API_BASE_URL =
@@ -1097,79 +1104,6 @@ function buildFormFromPayload(payload: unknown): Bm015Form {
   });
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <input
-        className={inputClass}
-        value={value}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function TextAreaField({
-  label,
-  value,
-  onChange,
-  rows = 4,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  rows?: number;
-  placeholder?: string;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <textarea
-        className={textareaClass}
-        rows={rows}
-        value={value}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
 function StatusMessage({
   status,
   message,
@@ -1430,37 +1364,37 @@ export function Bm015FormInputsPanel({
         </div>
       </section>
 
-      <SectionCard
+      <BmFormSection
         title="1. Cơ quan / văn bản"
         description="Ngày nhập theo DD/MM/YYYY. Nếu chưa có dữ liệu đã lưu, form tự lấy ngày hôm nay."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Cơ quan cấp trên"
             value={form.agency.parentName}
             onChange={(value) => updateAgency("parentName", value)}
           />
-          <Field
+          <BmFieldText
             label="Viện kiểm sát ban hành"
             value={form.agency.name}
             onChange={(value) => updateAgency("name", value)}
           />
-          <Field
+          <BmFieldText
             label="Tên cơ quan trong thân văn bản"
             value={form.agency.bodyName}
             onChange={(value) => updateAgency("bodyName", value)}
           />
-          <Field
+          <BmFieldText
             label="Tên viết tắt"
             value={form.agency.shortName}
             onChange={(value) => updateAgency("shortName", value)}
           />
-          <Field
+          <BmFieldText
             label="Số kế hoạch"
             value={form.document.documentCode}
             onChange={(value) => updateDocument("documentCode", value)}
           />
-          <Field
+          <BmFieldText
             label="Địa danh"
             value={form.document.issuePlace}
             onChange={(value) => updateDocument("issuePlace", value)}
@@ -1478,16 +1412,16 @@ export function Bm015FormInputsPanel({
             </p>
           </div>
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Quyết định kèm theo / đơn vị kiểm sát">
+      <BmFormSection title="2. Quyết định kèm theo / đơn vị kiểm sát">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Đơn vị được kiểm sát"
             value={form.sourceDirectInspectionPlan.inspectedAgency}
             onChange={(value) => updatePlan("inspectedAgency", value, true)}
           />
-          <Field
+          <BmFieldText
             label="Số quyết định kèm theo"
             value={form.sourceDirectInspectionPlan.attachedDecisionCode}
             onChange={(value) => updatePlan("attachedDecisionCode", value, true)}
@@ -1509,112 +1443,112 @@ export function Bm015FormInputsPanel({
               {preview.sourceDirectInspectionPlan.attachedDecisionDateLine}
             </p>
           </div>
-          <TextAreaField
+          <BmFieldTextarea
             label="Dòng ban hành kèm theo"
             value={form.sourceDirectInspectionPlan.attachedDecisionLine}
             onChange={(value) => updatePlan("attachedDecisionLine", value)}
             rows={3}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. I. Mục đích, yêu cầu">
+      <BmFormSection title="3. I. Mục đích, yêu cầu">
         <div className="grid gap-4">
-          <TextAreaField
+          <BmFieldTextarea
             label="Mục đích/yêu cầu 1"
             value={form.sourceDirectInspectionPlan.purposeLine1}
             onChange={(value) => updatePlan("purposeLine1", value)}
             rows={4}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Mục đích/yêu cầu 2"
             value={form.sourceDirectInspectionPlan.purposeLine2}
             onChange={(value) => updatePlan("purposeLine2", value)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Mục đích/yêu cầu 3"
             value={form.sourceDirectInspectionPlan.purposeLine3}
             onChange={(value) => updatePlan("purposeLine3", value)}
             rows={2}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. II. Nội dung kiểm sát - thống kê">
+      <BmFormSection title="4. II. Nội dung kiểm sát - thống kê">
         <div className="grid gap-4">
-          <TextAreaField
+          <BmFieldTextarea
             label="Kết quả tiếp nhận nguồn tin"
             value={form.sourceDirectInspectionPlan.receivedStatsBlock}
             onChange={(value) => updatePlan("receivedStatsBlock", value)}
             rows={7}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Số đã giải quyết"
             value={form.sourceDirectInspectionPlan.resolvedStatsBlock}
             onChange={(value) => updatePlan("resolvedStatsBlock", value)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Quyết định khởi tố"
             value={form.sourceDirectInspectionPlan.prosecutionDecisionStatsLine}
             onChange={(value) => updatePlan("prosecutionDecisionStatsLine", value)}
             rows={2}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Quyết định không khởi tố"
             value={form.sourceDirectInspectionPlan.nonProsecutionDecisionStatsLine}
             onChange={(value) => updatePlan("nonProsecutionDecisionStatsLine", value)}
             rows={2}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Chuyển thẩm quyền"
             value={form.sourceDirectInspectionPlan.transferredStatsLine}
             onChange={(value) => updatePlan("transferredStatsLine", value)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Đang giải quyết"
             value={form.sourceDirectInspectionPlan.pendingStatsLine}
             onChange={(value) => updatePlan("pendingStatsLine", value)}
             rows={2}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Tạm đình chỉ"
             value={form.sourceDirectInspectionPlan.suspendedStatsLine}
             onChange={(value) => updatePlan("suspendedStatsLine", value)}
             rows={3}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Đánh giá / kiến nghị">
+      <BmFormSection title="5. Đánh giá / kiến nghị">
         <div className="grid gap-4">
-          <TextAreaField
+          <BmFieldTextarea
             label="Ưu điểm"
             value={form.sourceDirectInspectionPlan.advantagesLine}
             onChange={(value) => updatePlan("advantagesLine", value)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Hạn chế, tồn tại và nguyên nhân"
             value={form.sourceDirectInspectionPlan.limitationsLine}
             onChange={(value) => updatePlan("limitationsLine", value)}
             rows={3}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Kiến nghị, đề xuất"
             value={form.sourceDirectInspectionPlan.recommendationsLine}
             onChange={(value) => updatePlan("recommendationsLine", value)}
             rows={3}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="6. III. Thời gian / phương pháp">
+      <BmFormSection title="6. III. Thời gian / phương pháp">
         <div className="grid gap-4">
           <div className="grid gap-4 md:grid-cols-3">
-            <Field
+            <BmFieldText
               label="Số ngày kiểm sát"
               value={form.sourceDirectInspectionPlan.inspectionDurationLine}
               onChange={(value) =>
@@ -1680,57 +1614,57 @@ export function Bm015FormInputsPanel({
           <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
             {preview.sourceDirectInspectionPlan.dataPeriodLine}
           </p>
-          <TextAreaField
+          <BmFieldTextarea
             label="Phương pháp kiểm sát"
             value={form.sourceDirectInspectionPlan.methodsBlock}
             onChange={(value) => updatePlan("methodsBlock", value)}
             rows={5}
           />
-          <TextAreaField
+          <BmFieldTextarea
             label="Dòng yêu cầu chuẩn bị"
             value={form.sourceDirectInspectionPlan.requestPreparationLine}
             onChange={(value) => updatePlan("requestPreparationLine", value)}
             rows={4}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="7. Nơi nhận / chữ ký">
+      <BmFormSection title="7. Nơi nhận / chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
+          <BmFieldText
             label="Nơi nhận chính"
             value={form.recipients.primaryLine}
             onChange={(value) => updateRecipients("primaryLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Thành viên Đoàn kiểm sát"
             value={form.recipients.teamMembersLine}
             onChange={(value) => updateRecipients("teamMembersLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Lưu hồ sơ"
             value={form.recipients.archiveLine}
             onChange={(value) => updateRecipients("archiveLine", value)}
           />
-          <Field
+          <BmFieldText
             label="Chế độ ký"
             value={form.signature.signMode}
             onChange={(value) => updateSignature("signMode", value)}
           />
-          <Field
+          <BmFieldText
             label="Chức vụ người ký"
             value={form.signature.positionTitle}
             onChange={(value) => updateSignature("positionTitle", value)}
           />
-          <Field
+          <BmFieldText
             label="Người ký"
             value={form.signature.signerName}
             onChange={(value) => updateSignature("signerName", value)}
           />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="Preview dữ liệu sẽ lưu">
+      <BmFormSection title="Preview dữ liệu sẽ lưu">
         <div className="space-y-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p>
             <span className="font-bold">Số:</span> {preview.document.documentCode}
@@ -1757,7 +1691,7 @@ export function Bm015FormInputsPanel({
             {preview.signature.signerName}
           </p>
         </div>
-      </SectionCard>
+      </BmFormSection>
     </div>
   );
 }

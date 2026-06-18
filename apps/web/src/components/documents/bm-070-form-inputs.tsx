@@ -1,6 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type Bm070FormInputsPanelProps = {
@@ -1077,8 +1084,8 @@ export function Bm070FormInputsPanel({
         ) : null}
       </div>
 
-      <FormSection title="1. Cơ quan ban hành">
-        <SelectField
+      <BmFormSection title="1. Cơ quan ban hành">
+        <BmFieldSelect
           label="Chọn nhanh cơ quan"
           value=""
           onChange={applyAgencyOption}
@@ -1087,32 +1094,32 @@ export function Bm070FormInputsPanel({
             value: String(index),
           }))}
           placeholder="-- Chọn --"
-          className="lg:col-span-2"
+
         />
-        <Field
+        <BmFieldText
           label="Cơ quan cấp trên"
           value={formState.agencyParentName}
           onChange={(value) => updateField("agencyParentName", value)}
         />
-        <Field
+        <BmFieldText
           label="Cơ quan ban hành"
           value={formState.agencyName}
           onChange={(value) => updateField("agencyName", value)}
         />
-        <Field
+        <BmFieldText
           label="Tên viết tắt"
           value={formState.agencyShortName}
           onChange={(value) => updateField("agencyShortName", value)}
         />
-        <Field
+        <BmFieldText
           label="Địa danh ban hành"
           value={formState.agencyIssuePlace}
           onChange={(value) => updateField("agencyIssuePlace", value)}
         />
-      </FormSection>
+      </BmFormSection>
 
-      <FormSection title="2. Thông tin văn bản">
-        <Field
+      <BmFormSection title="2. Thông tin văn bản">
+        <BmFieldText
           label="Số quyết định"
           value={formState.documentCode}
           onChange={(value) => updateField("documentCode", value)}
@@ -1123,18 +1130,18 @@ export function Bm070FormInputsPanel({
           value={formState.documentIssueDate}
           onChange={(value) => updateField("documentIssueDate", value)}
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Căn cứ pháp lý BLTTHS"
           value={formState.assignmentProcedureArticlesLine}
           onChange={(value) =>
             updateField("assignmentProcedureArticlesLine", value)
           }
-          className="lg:col-span-2"
-        />
-      </FormSection>
 
-      <FormSection title="3. Quyết định khởi tố vụ án">
-        <Field
+        />
+      </BmFormSection>
+
+      <BmFormSection title="3. Quyết định khởi tố vụ án">
+        <BmFieldText
           label="Số quyết định khởi tố vụ án"
           value={formState.caseDecisionNo}
           onChange={(value) => updateField("caseDecisionNo", value)}
@@ -1145,13 +1152,13 @@ export function Bm070FormInputsPanel({
           value={formState.caseDecisionIssueDate}
           onChange={(value) => updateField("caseDecisionIssueDate", value)}
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Cơ quan ban hành quyết định khởi tố"
           value={formState.caseDecisionIssuedBy}
           onChange={(value) => updateField("caseDecisionIssuedBy", value)}
-          className="lg:col-span-2"
+
         />
-        <SelectField
+        <BmFieldSelect
           label="Chọn nhanh tội danh"
           value=""
           onChange={applyOffenseOption}
@@ -1160,29 +1167,29 @@ export function Bm070FormInputsPanel({
             value: String(index),
           }))}
           placeholder="-- Chọn --"
-          className="lg:col-span-2"
+
         />
-        <Field
+        <BmFieldText
           label="Tội danh"
           value={formState.offenseName}
           onChange={(value) => updateField("offenseName", value)}
         />
-        <Field
+        <BmFieldText
           label="Điều khoản áp dụng"
           value={formState.legalArticle}
           onChange={(value) => updateField("legalArticle", value)}
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Bộ luật áp dụng"
           value={formState.criminalCodeText}
           onChange={(value) => updateField("criminalCodeText", value)}
-          className="lg:col-span-2"
+
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Dòng căn cứ quyết định khởi tố vụ án"
           value={formState.caseProsecutionDecisionLine}
           onChange={(value) => updateField("caseProsecutionDecisionLine", value)}
-          className="lg:col-span-2"
+
         />
         <div className="lg:col-span-2">
           <button
@@ -1193,7 +1200,7 @@ export function Bm070FormInputsPanel({
             Tạo lại dòng căn cứ từ dữ liệu bên trên
           </button>
         </div>
-      </FormSection>
+      </BmFormSection>
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <h3 className="text-base font-semibold text-slate-950">
           Preview trước khi xuất
@@ -1239,8 +1246,8 @@ export function Bm070FormInputsPanel({
 
 
 
-      <FormSection title="4. Người được phân công">
-        <SelectField
+      <BmFormSection title="4. Người được phân công">
+        <BmFieldSelect
           label="Chọn nhanh Phó Viện trưởng"
           value=""
           onChange={applyOfficerOption}
@@ -1249,28 +1256,28 @@ export function Bm070FormInputsPanel({
             value: String(index),
           }))}
           placeholder="-- Chọn --"
-          className="lg:col-span-2"
+
         />
-        <Field
+        <BmFieldText
           label="Họ tên Phó Viện trưởng"
           value={formState.deputyChiefName}
           onChange={(value) => updateField("deputyChiefName", value)}
         />
-        <Field
+        <BmFieldText
           label="Chức danh"
           value={formState.deputyChiefTitle}
           onChange={(value) => updateField("deputyChiefTitle", value)}
         />
-        <Field
+        <BmFieldText
           label="Đơn vị"
           value={formState.deputyChiefAgencyName}
           onChange={(value) => updateField("deputyChiefAgencyName", value)}
-          className="lg:col-span-2"
-        />
-      </FormSection>
 
-      <FormSection title="5. Nhiệm vụ / Điều 2">
-        <SelectField
+        />
+      </BmFormSection>
+
+      <BmFormSection title="5. Nhiệm vụ / Điều 2">
+        <BmFieldSelect
           label="Chọn nhanh dòng nhiệm vụ"
           value=""
           onChange={applyResponsibilityOption}
@@ -1279,37 +1286,37 @@ export function Bm070FormInputsPanel({
             value: String(index),
           }))}
           placeholder="-- Chọn --"
-          className="lg:col-span-2"
+
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Dòng nhiệm vụ, quyền hạn, trách nhiệm"
           value={formState.responsibilityLine}
           onChange={(value) => updateField("responsibilityLine", value)}
-          className="lg:col-span-2"
-        />
-      </FormSection>
 
-      <FormSection title="6. Nơi nhận">
-        <TextareaField
+        />
+      </BmFormSection>
+
+      <BmFormSection title="6. Nơi nhận">
+        <BmFieldTextarea
           label="Dòng cơ quan điều tra"
           value={formState.investigationAuthorityLine}
           onChange={(value) => updateField("investigationAuthorityLine", value)}
-          className="lg:col-span-2"
+
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Dòng người được phân công"
           value={formState.assignedPersonLine}
           onChange={(value) => updateField("assignedPersonLine", value)}
         />
-        <TextareaField
+        <BmFieldTextarea
           label="Dòng lưu hồ sơ"
           value={formState.archiveLine}
           onChange={(value) => updateField("archiveLine", value)}
         />
-      </FormSection>
+      </BmFormSection>
 
-      <FormSection title="7. Chữ ký">
-        <SelectField
+      <BmFormSection title="7. Chữ ký">
+        <BmFieldSelect
           label="Chọn nhanh người ký"
           value=""
           onChange={applySignerOption}
@@ -1318,9 +1325,9 @@ export function Bm070FormInputsPanel({
             value: String(index),
           }))}
           placeholder="-- Chọn --"
-          className="lg:col-span-2"
+
         />
-        <SelectField
+        <BmFieldSelect
           label="Hình thức ký"
           value={formState.signMode}
           onChange={(value) => updateField("signMode", value)}
@@ -1330,7 +1337,7 @@ export function Bm070FormInputsPanel({
             { label: "Không ghi hình thức ký", value: "" },
           ]}
         />
-        <SelectField
+        <BmFieldSelect
           label="Chức vụ ký"
           value={formState.positionTitle}
           onChange={(value) => updateField("positionTitle", value)}
@@ -1340,13 +1347,13 @@ export function Bm070FormInputsPanel({
             { label: "KIỂM SÁT VIÊN", value: "KIỂM SÁT VIÊN" },
           ]}
         />
-        <Field
+        <BmFieldText
           label="Người ký"
           value={formState.signerName}
           onChange={(value) => updateField("signerName", value)}
-          className="lg:col-span-2"
+
         />
-      </FormSection>
+      </BmFormSection>
 
       <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -1380,85 +1387,4 @@ type CommonFieldProps = {
   onChange: (value: string) => void;
   className?: string;
 };
-
-function FormSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h3 className="mb-4 text-lg font-bold text-slate-950">{title}</h3>
-      <div className="grid gap-4 lg:grid-cols-2">{children}</div>
-    </section>
-  );
-}
-
-function Field({ label, value, onChange, className }: CommonFieldProps) {
-  return (
-    <label className={className}>
-      <span className="mb-1 block text-sm font-semibold text-slate-700">
-        {label}
-      </span>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-      />
-    </label>
-  );
-}
-
-function TextareaField({ label, value, onChange, className }: CommonFieldProps) {
-  return (
-    <label className={className}>
-      <span className="mb-1 block text-sm font-semibold text-slate-700">
-        {label}
-      </span>
-      <textarea
-        value={value}
-        rows={3}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-      />
-    </label>
-  );
-}
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-  placeholder,
-  className,
-}: CommonFieldProps & {
-  options: Option[];
-  placeholder?: string;
-}) {
-  return (
-    <label className={className}>
-      <span className="mb-1 block text-sm font-semibold text-slate-700">
-        {label}
-      </span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-      >
-        {placeholder ? <option value="">{placeholder}</option> : null}
-        {options.map((option) => (
-          <option key={`${option.value}-${option.label}`} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-
-
 
