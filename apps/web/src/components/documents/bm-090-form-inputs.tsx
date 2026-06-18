@@ -1,8 +1,38 @@
 "use client";
 
+/**
+ * BM-090 — Quyết định phê chuẩn Quyết định khởi tố bị can
+ * Stage: TRUY_TO (Truy tố), Group: G03
+ *
+ * BESPOKE form theo docs/BM_CANONICAL_SPEC.md + docs/templates/BM-090/BM-090_PLACEHOLDER_CONTRACT.md.
+ * Section thực tế dùng (8 sections, theo contract):
+ *   1. agency + document (Cơ quan ban hành + Số/ngày văn bản)
+ *   2. legalBasis (Căn cứ BLTTHS + tuỳ chọn căn cứ NCN)
+ *   3. caseDecision (QĐ khởi tố vụ án)
+ *   4. accusedDecision (QĐ khởi tố bị can cần phê chuẩn)
+ *   5. person + offense (Bị can và tội danh)
+ *   6. approval (Xét hồ sơ + nhận thấy + Điều 1 + Điều 2 - dạng derived)
+ *   7. recipients (Nơi nhận)
+ *   8. signature (Chữ ký)
+ *
+ * State: flat (Bm090FormState). Dùng BmFlatFormCasePayloadButton (flat variant).
+ *
+ * Refactor note (2026-06-19): chuyển từ CUSTOM_LOCAL (Field/SectionCard/DateSelectField
+ * local) sang primitive BESPOKE (BmFormSection/BmFieldText/BmFieldTextarea/BmFieldSelect).
+ * Helper (cleanText, ensureEnd, toIsoDate, legalDate, buildXxxLine, prepareState,
+ * buildPayloadFromState) giữ nguyên 100% — chỉ đổi UI primitive.
+ */
 import type { ReactNode } from "react";
-import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
+import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type Bm090FormInputsPanelProps = {
   documentId: string;
@@ -517,18 +547,26 @@ function buildPayloadFromState(rawState: Bm090FormState): JsonRecord {
       issueDate: state.accusedDecisionIssueDate,
       decisionDate: state.accusedDecisionIssueDate,
       issuedBy: state.accusedDecisionIssuedBy,
-      accusedName: state.accusedName,
       requestLine: state.accusedDecisionRequestLine,
       approvalArticle1Line: state.approvalArticle1Line,
       investigationRequestLine: state.investigationRequestLine,
+    },
+    person: {
+      fullName: state.accusedName,
+      accusedName: state.accusedName,
     },
     offense: {
       offenseName: state.offenseName,
       legalArticle: state.legalArticle,
       criminalCodeText: state.criminalCodeText,
+      legalBasisText: state.offenseName
+        ? `tội ${state.offenseName} quy định tại ${state.legalArticle} của ${state.criminalCodeText}`
+        : "",
     },
     approval: {
       assessmentLine: state.approvalAssessmentLine,
+      article1Prefix: state.approvalArticle1Line,
+      article2Prefix: state.investigationRequestLine,
     },
     recipients: {
       investigationUnitLine: state.investigationUnitLine,
@@ -539,29 +577,29 @@ function buildPayloadFromState(rawState: Bm090FormState): JsonRecord {
       signMode: state.signMode,
       positionTitle: state.positionTitle,
       signerName: state.signerName,
+      signerBlockTitle: [state.signMode, state.positionTitle]
+        .filter(Boolean)
+        .join("\n"),
+    },
+    template: {
+      code: "BM-090",
+      formNo: "Mẫu số 90/HS",
+      circularText: "Ban hành theo Thông tư số .../2026/TT-VKSTC",
     },
   };
 }
 
 function buildStateFromPayload(payload: unknown): Bm090FormState {
-  const root = asRecord(payload);
-  const stateCandidate = asRecord(root.bm090FormState);
-  const formStateCandidate = asRecord(root.formState);
-  const savedState =
-    Object.keys(stateCandidate).length > 0 ? stateCandidate : formStateCandidate;
-
-  if (Object.keys(savedState).length > 0) {
-    return prepareState({
-      ...DEFAULT_FORM_STATE,
-      ...(savedState as Partial<Bm090FormState>),
-      includeJuvenileJusticeBasis:
-        typeof savedState.includeJuvenileJusticeBasis === "boolean"
-          ? savedState.includeJuvenileJusticeBasis
-          : savedState.includeJuvenileJusticeBasis === "true",
-    });
-  }
-
-  const juvenileLine = getString(payload, ["legalBasis", "juvenileJusticeLine"]);
+  const includeJuvenile = getBoolean(
+    payload,
+    ["legalBasis", "includeJuvenileJusticeBasis"],
+    false,
+  );
+  const juvenileLine = getString(
+    payload,
+    ["legalBasis", "juvenileJusticeLine"],
+    "",
+  );
 
   return prepareState({
     agencyParentName: getString(
@@ -583,8 +621,8 @@ function buildStateFromPayload(payload: unknown): Bm090FormState {
 
     documentCode: getString(
       payload,
-      ["document", "fullDocumentCode"],
-      getString(payload, ["document", "documentCode"], DEFAULT_FORM_STATE.documentCode),
+      ["document", "documentCode", "documentNo", "fullDocumentCode"],
+      DEFAULT_FORM_STATE.documentCode,
     ),
     documentIssueDate: getString(
       payload,
@@ -598,8 +636,7 @@ function buildStateFromPayload(payload: unknown): Bm090FormState {
       DEFAULT_FORM_STATE.procedureArticlesLine,
     ),
     includeJuvenileJusticeBasis:
-      getBoolean(payload, ["legalBasis", "includeJuvenileJusticeBasis"], false) ||
-      Boolean(juvenileLine),
+      includeJuvenile || Boolean(juvenileLine),
     juvenileJusticeLine: juvenileLine || DEFAULT_FORM_STATE.juvenileJusticeLine,
 
     caseDecisionNo: getString(
@@ -751,97 +788,16 @@ async function saveFormInputs(
   }
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  placeholder,
-  multiline,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-  placeholder?: string;
-  multiline?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-
-      {multiline ? (
-        <textarea
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          rows={3}
-          className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      ) : (
-        <input
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      )}
-    </label>
-  );
-}
-
-function QuickSelectField({
-  label,
-  onSelect,
-  options,
-  className = "",
-}: {
-  label: string;
-  onSelect: (value: string) => void;
-  options: Option[];
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">{label}</span>
-
-      <select
-        value=""
-        onChange={(event) => {
-          if (event.target.value) {
-            onSelect(event.target.value);
-          }
-        }}
-        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-      >
-        <option value="">-- Chọn --</option>
-        {options.map((option) => (
-          <option key={`${option.value}-${option.label}`} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
 function DateSelectField({
   label,
   value,
   onChange,
   required,
-  className = "",
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
-  className?: string;
 }) {
   const parts = getDateParts(value);
 
@@ -855,17 +811,22 @@ function DateSelectField({
   }
 
   return (
-    <div className={`space-y-1.5 ${className}`}>
-      <span className="block text-sm font-medium text-slate-700">
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 flex items-center gap-1">
         {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
+        {required ? (
+          <span className="text-rose-600 font-bold" aria-hidden>
+            *
+          </span>
+        ) : null}
+      </label>
 
       <div className="grid grid-cols-3 gap-2">
         <select
           value={parts.day}
           onChange={(event) => updateDate("day", event.target.value)}
-          className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+          aria-label={`${label} - ngày`}
+          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
         >
           <option value="">Ngày</option>
           {DAY_OPTIONS.map((day) => (
@@ -878,7 +839,8 @@ function DateSelectField({
         <select
           value={parts.month}
           onChange={(event) => updateDate("month", event.target.value)}
-          className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+          aria-label={`${label} - tháng`}
+          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
         >
           <option value="">Tháng</option>
           {MONTH_OPTIONS.map((month) => (
@@ -891,7 +853,8 @@ function DateSelectField({
         <select
           value={parts.year}
           onChange={(event) => updateDate("year", event.target.value)}
-          className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+          aria-label={`${label} - năm`}
+          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
         >
           <option value="">Năm</option>
           {YEAR_OPTIONS.map((year) => (
@@ -902,29 +865,6 @@ function DateSelectField({
         </select>
       </div>
     </div>
-  );
-}
-
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
   );
 }
 
@@ -997,7 +937,8 @@ export function Bm090FormInputsPanel({
   const [initialSnapshot, setInitialSnapshot] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [savedAt, setSavedAt] = useState<Date | null>(null);
 
   const readyState = useMemo(() => prepareState(formState), [formState]);
@@ -1005,12 +946,15 @@ export function Bm090FormInputsPanel({
   const isDirty = currentSnapshot !== initialSnapshot;
 
   const missingFields = useMemo(() => {
-    return REQUIRED_FIELDS.filter((item) => !cleanText(String(readyState[item.key] ?? "")));
+    return REQUIRED_FIELDS.filter(
+      (item) => !cleanText(String(readyState[item.key] ?? "")),
+    );
   }, [readyState]);
 
   const loadForm = useCallback(async () => {
     setIsLoading(true);
-    setErrorMessage("");
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const payload = await getRenderPayload(documentId);
@@ -1019,6 +963,7 @@ export function Bm090FormInputsPanel({
       setFormState(nextState);
       setInitialSnapshot(JSON.stringify(nextState));
       setSavedAt(null);
+      setSuccessMessage("Đã tải lại dữ liệu BM-090.");
     } catch (error) {
       setErrorMessage(
         error instanceof Error
@@ -1117,7 +1062,8 @@ export function Bm090FormInputsPanel({
 
   async function handleSave() {
     setIsSaving(true);
-    setErrorMessage("");
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const formToSave = prepareState(formState);
@@ -1127,6 +1073,7 @@ export function Bm090FormInputsPanel({
       setFormState(formToSave);
       setInitialSnapshot(JSON.stringify(formToSave));
       setSavedAt(new Date());
+      setSuccessMessage("Đã lưu dữ liệu BM-090. Có thể render lại DOCX/PDF.");
       onSaved?.();
     } catch (error) {
       setErrorMessage(
@@ -1139,211 +1086,276 @@ export function Bm090FormInputsPanel({
     }
   }
 
-  if (isLoading) {
-    return (
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-600">Đang tải dữ liệu BM-090...</p>
-      </section>
-    );
-  }
-
   return (
     <div className="space-y-5">
-      <BmFlatFormCasePayloadButton templateCode="BM-090" form={formState} onApply={(next) => setFormState(next as unknown as typeof formState)} />
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              BM-090
-            </p>
-            <h2 className="mt-1 text-xl font-bold text-slate-950">
-              Dữ liệu biểu mẫu Quyết định phê chuẩn Quyết định khởi tố bị can
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              Form nhập đúng trình tự mẫu: căn cứ pháp lý, quyết định khởi tố vụ án,
-              hồ sơ đề nghị phê chuẩn khởi tố bị can, Điều 1, Điều 2, nơi nhận và chữ ký.
-            </p>
-          </div>
-
-          <div className="flex shrink-0 flex-col items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm md:items-end">
-            <span
-              className={
-                isDirty
-                  ? "font-semibold text-amber-700"
-                  : "font-semibold text-emerald-700"
-              }
+      <BmFormMetaBar
+        templateCode="BM-090"
+        title="Quyết định phê chuẩn Quyết định khởi tố bị can"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Stage: TRUY_TO (Truy tố) · Group: G03 · Render scope: PERSON_LEVEL · Một file / bị can."
+        isDirty={isDirty}
+        isLoading={isLoading}
+        isSaving={isSaving}
+        savedAt={savedAt}
+        errorMessage={errorMessage}
+        successMessage={successMessage}
+        warningMessage={
+          missingFields.length > 0
+            ? `Còn thiếu ${missingFields.length} trường quan trọng: ${missingFields.map((item) => item.label).join(", ")}`
+            : null
+        }
+        primaryLabel="Lưu dữ liệu BM-090"
+        onPrimary={() => void handleSave()}
+        primaryDisabled={isSaving}
+        secondaryLabel="Tải lại từ backend"
+        onSecondary={() => void loadForm()}
+        extraActions={
+          <>
+            <BmFlatFormCasePayloadButton
+              templateCode="BM-090"
+              form={formState}
+              onApply={(next) => setFormState(next as Bm090FormState)}
+            />
+            <button
+              type="button"
+              onClick={fillSample}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 text-sm font-semibold text-amber-800 transition hover:bg-amber-100"
             >
-              {isDirty ? "Có thay đổi chưa lưu" : "Đã đồng bộ"}
-            </span>
+              Điền dữ liệu mẫu
+            </button>
+          </>
+        }
+      />
 
-            {savedAt ? (
-              <span className="text-xs text-slate-500">
-                Lưu lúc {savedAt.toLocaleTimeString("vi-VN")}
-              </span>
-            ) : null}
-          </div>
-        </div>
-
-        {errorMessage ? (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {errorMessage}
-          </div>
-        ) : null}
-
-        {missingFields.length > 0 ? (
-          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-            <p className="text-sm font-semibold text-amber-800">
-              Còn thiếu {missingFields.length} trường quan trọng:
-            </p>
-            <p className="mt-1 text-sm text-amber-700">
-              {missingFields.map((item) => item.label).join(", ")}
-            </p>
-          </div>
-        ) : (
-          <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
-            Các trường quan trọng của BM-090 đã được nhập đủ.
-          </div>
-        )}
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={fillSample}
-            className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 transition hover:bg-amber-100"
-          >
-            Điền dữ liệu mẫu BM-090
-          </button>
-
-          <button
-            type="button"
-            onClick={loadForm}
-            disabled={isSaving}
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Tải lại từ backend
-          </button>
-        </div>
-      </section>
-
-      <SectionCard title="1. Cơ quan ban hành">
-        <QuickSelectField
+      <BmFormSection
+        title="1. Cơ quan ban hành"
+        description="Chọn nhanh cơ quan nếu dùng preset, hoặc nhập trực tiếp."
+        requiredCount={4}
+      >
+        <BmFieldSelect
           label="Chọn nhanh cơ quan"
+          value=""
+          onChange={applyAgencyPreset}
           options={AGENCY_PRESETS.map((item, index) => ({
-            label: item.label,
             value: String(index),
+            label: item.label,
           }))}
-          onSelect={applyAgencyPreset}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field required label="Cơ quan cấp trên" value={formState.agencyParentName} onChange={(value) => updateField("agencyParentName", value)} />
-        <Field required label="Cơ quan ban hành" value={formState.agencyName} onChange={(value) => updateField("agencyName", value)} />
-        <Field label="Tên viết tắt" value={formState.agencyShortName} onChange={(value) => updateField("agencyShortName", value)} />
-        <Field required label="Địa danh ban hành" value={formState.agencyIssuePlace} onChange={(value) => updateField("agencyIssuePlace", value)} />
-      </SectionCard>
+        <BmFieldText
+          label="Cơ quan cấp trên"
+          value={formState.agencyParentName}
+          onChange={(v) => updateField("agencyParentName", v)}
+          required
+        />
+        <BmFieldText
+          label="Cơ quan ban hành"
+          value={formState.agencyName}
+          onChange={(v) => updateField("agencyName", v)}
+          required
+        />
+        <BmFieldText
+          label="Tên viết tắt"
+          value={formState.agencyShortName}
+          onChange={(v) => updateField("agencyShortName", v)}
+        />
+        <BmFieldText
+          label="Địa danh ban hành"
+          value={formState.agencyIssuePlace}
+          onChange={(v) => updateField("agencyIssuePlace", v)}
+          required
+          fullWidth
+        />
+      </BmFormSection>
 
-      <SectionCard title="2. Thông tin văn bản">
-        <Field required label="Số/ký hiệu văn bản" value={formState.documentCode} onChange={(value) => updateField("documentCode", value)} />
-        <DateSelectField required label="Ngày ban hành" value={formState.documentIssueDate} onChange={(value) => updateField("documentIssueDate", value)} />
-      </SectionCard>
+      <BmFormSection title="2. Thông tin văn bản" requiredCount={2}>
+        <BmFieldText
+          label="Số/ký hiệu văn bản"
+          value={formState.documentCode}
+          onChange={(v) => updateField("documentCode", v)}
+          required
+        />
+        <DateSelectField
+          label="Ngày ban hành"
+          value={formState.documentIssueDate}
+          onChange={(v) => updateField("documentIssueDate", v)}
+          required
+        />
+      </BmFormSection>
 
-      <SectionCard title="3. Căn cứ pháp lý">
-        <Field required multiline label="Căn cứ 1 - các điều BLTTHS" value={formState.procedureArticlesLine} onChange={(value) => updateField("procedureArticlesLine", value)} className="md:col-span-2" />
+      <BmFormSection
+        title="3. Căn cứ pháp lý"
+        description="Tick nếu áp dụng căn cứ Luật Tư pháp người chưa thành niên."
+        requiredCount={1}
+      >
+        <BmFieldTextarea
+          label="Căn cứ 1 - các điều BLTTHS"
+          value={formState.procedureArticlesLine}
+          onChange={(v) => updateField("procedureArticlesLine", v)}
+          required
+          rows={3}
+          fullWidth
+        />
+        <BmFieldCheckbox
+          label="Áp dụng căn cứ người chưa thành niên"
+          description="Nếu tick, file xuất sẽ thêm dòng căn cứ Luật Tư pháp người chưa thành niên."
+          checked={formState.includeJuvenileJusticeBasis}
+          onChange={(checked) => updateField("includeJuvenileJusticeBasis", checked)}
+        />
+        <BmFieldTextarea
+          label="Căn cứ 2 - Luật Tư pháp người chưa thành niên"
+          value={formState.juvenileJusticeLine}
+          onChange={(v) => updateField("juvenileJusticeLine", v)}
+          rows={2}
+          fullWidth
+        />
+      </BmFormSection>
 
-        <label className="md:col-span-2 flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-          <input
-            type="checkbox"
-            checked={formState.includeJuvenileJusticeBasis}
-            onChange={(event) =>
-              updateField("includeJuvenileJusticeBasis", event.target.checked)
-            }
-            className="mt-1 h-4 w-4 rounded border-slate-300"
-          />
-          <span>
-            <span className="block text-sm font-semibold text-slate-900">
-              Áp dụng căn cứ người chưa thành niên
-            </span>
-            <span className="mt-1 block text-sm text-slate-600">
-              Nếu tick, file xuất sẽ thêm dòng: “Căn cứ Điều 2 của Luật Tư pháp người chưa thành niên;”.
-              Nếu không tick, dòng này không xuất hiện.
-            </span>
-          </span>
-        </label>
+      <BmFormSection
+        title="4. Quyết định khởi tố vụ án"
+        requiredCount={2}
+      >
+        <BmFieldText
+          label="Số quyết định khởi tố vụ án"
+          value={formState.caseDecisionNo}
+          onChange={(v) => updateField("caseDecisionNo", v)}
+          required
+        />
+        <DateSelectField
+          label="Ngày quyết định khởi tố vụ án"
+          value={formState.caseDecisionIssueDate}
+          onChange={(v) => updateField("caseDecisionIssueDate", v)}
+          required
+        />
+        <BmFieldSelect
+          label="Chọn nhanh cơ quan ban hành"
+          value=""
+          onChange={applyIssuerPreset}
+          options={ISSUER_PRESETS}
+          fullWidth
+        />
+        <BmFieldText
+          label="Cơ quan ban hành quyết định khởi tố vụ án"
+          value={formState.caseDecisionIssuedBy}
+          onChange={(v) => updateField("caseDecisionIssuedBy", v)}
+          fullWidth
+        />
+      </BmFormSection>
 
-        <Field multiline label="Căn cứ 2 - Luật Tư pháp người chưa thành niên" value={formState.juvenileJusticeLine} onChange={(value) => updateField("juvenileJusticeLine", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection
+        title="5. Quyết định khởi tố bị can cần phê chuẩn"
+        requiredCount={2}
+      >
+        <BmFieldText
+          label="Số quyết định khởi tố bị can"
+          value={formState.accusedDecisionNo}
+          onChange={(v) => updateField("accusedDecisionNo", v)}
+          required
+        />
+        <DateSelectField
+          label="Ngày quyết định khởi tố bị can"
+          value={formState.accusedDecisionIssueDate}
+          onChange={(v) => updateField("accusedDecisionIssueDate", v)}
+          required
+        />
+        <BmFieldText
+          label="Cơ quan điều tra đề nghị phê chuẩn"
+          value={formState.accusedDecisionIssuedBy}
+          onChange={(v) => updateField("accusedDecisionIssuedBy", v)}
+          fullWidth
+        />
+      </BmFormSection>
 
-      <SectionCard title="4. Quyết định khởi tố vụ án">
-        <Field required label="Số quyết định khởi tố vụ án" value={formState.caseDecisionNo} onChange={(value) => updateField("caseDecisionNo", value)} />
-        <DateSelectField required label="Ngày quyết định khởi tố vụ án" value={formState.caseDecisionIssueDate} onChange={(value) => updateField("caseDecisionIssueDate", value)} />
-        <QuickSelectField label="Chọn nhanh cơ quan ban hành" options={ISSUER_PRESETS} onSelect={applyIssuerPreset} className="md:col-span-2" />
-        <Field label="Cơ quan ban hành quyết định khởi tố vụ án" value={formState.caseDecisionIssuedBy} onChange={(value) => updateField("caseDecisionIssuedBy", value)} className="md:col-span-2" />
-      </SectionCard>
-
-      <SectionCard title="5. Quyết định khởi tố bị can cần phê chuẩn">
-        <Field required label="Số quyết định khởi tố bị can" value={formState.accusedDecisionNo} onChange={(value) => updateField("accusedDecisionNo", value)} />
-        <DateSelectField required label="Ngày quyết định khởi tố bị can" value={formState.accusedDecisionIssueDate} onChange={(value) => updateField("accusedDecisionIssueDate", value)} />
-        <Field label="Cơ quan điều tra đề nghị phê chuẩn" value={formState.accusedDecisionIssuedBy} onChange={(value) => updateField("accusedDecisionIssuedBy", value)} className="md:col-span-2" />
-      </SectionCard>
-
-      <SectionCard title="6. Bị can và tội danh">
-        <Field required label="Họ tên bị can" value={formState.accusedName} onChange={(value) => updateField("accusedName", value)} />
-        <QuickSelectField
+      <BmFormSection
+        title="6. Bị can và tội danh"
+        description="Chọn nhanh tội danh phổ biến, hoặc nhập điều khoản áp dụng."
+        requiredCount={3}
+      >
+        <BmFieldText
+          label="Họ tên bị can"
+          value={formState.accusedName}
+          onChange={(v) => updateField("accusedName", v)}
+          required
+        />
+        <BmFieldSelect
           label="Chọn nhanh tội danh"
+          value=""
+          onChange={applyOffensePreset}
           options={OFFENSE_PRESETS.map((item, index) => ({
-            label: item.label,
             value: String(index),
+            label: item.label,
           }))}
-          onSelect={applyOffensePreset}
         />
-        <Field required label="Tội danh" value={formState.offenseName} onChange={(value) => updateField("offenseName", value)} />
-        <Field required label="Điều khoản áp dụng" value={formState.legalArticle} onChange={(value) => updateField("legalArticle", value)} />
-        <Field label="Bộ luật áp dụng" value={formState.criminalCodeText} onChange={(value) => updateField("criminalCodeText", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText
+          label="Tội danh"
+          value={formState.offenseName}
+          onChange={(v) => updateField("offenseName", v)}
+          required
+        />
+        <BmFieldText
+          label="Điều khoản áp dụng"
+          value={formState.legalArticle}
+          onChange={(v) => updateField("legalArticle", v)}
+          required
+        />
+        <BmFieldText
+          label="Bộ luật áp dụng"
+          value={formState.criminalCodeText}
+          onChange={(v) => updateField("criminalCodeText", v)}
+          fullWidth
+        />
+      </BmFormSection>
 
-      <SectionCard title="7. Nơi nhận">
-        <Field label="Dòng cơ quan điều tra" value={formState.investigationUnitLine} onChange={(value) => updateField("investigationUnitLine", value)} className="md:col-span-2" />
-        <Field label="Dòng bị can" value={formState.personLine} onChange={(value) => updateField("personLine", value)} />
-        <Field label="Dòng lưu hồ sơ" value={formState.archiveLine} onChange={(value) => updateField("archiveLine", value)} />
-      </SectionCard>
+      <BmFormSection title="7. Nơi nhận">
+        <BmFieldText
+          label="Dòng cơ quan điều tra"
+          value={formState.investigationUnitLine}
+          onChange={(v) => updateField("investigationUnitLine", v)}
+          fullWidth
+        />
+        <BmFieldText
+          label="Dòng bị can"
+          value={formState.personLine}
+          onChange={(v) => updateField("personLine", v)}
+        />
+        <BmFieldText
+          label="Dòng lưu hồ sơ"
+          value={formState.archiveLine}
+          onChange={(v) => updateField("archiveLine", v)}
+        />
+      </BmFormSection>
 
-      <SectionCard title="8. Chữ ký">
-        <QuickSelectField
+      <BmFormSection title="8. Chữ ký" requiredCount={2}>
+        <BmFieldSelect
           label="Chọn nhanh người ký"
+          value=""
+          onChange={applySignerPreset}
           options={SIGNER_PRESETS.map((item, index) => ({
-            label: item.label,
             value: String(index),
+            label: item.label,
           }))}
-          onSelect={applySignerPreset}
-          className="md:col-span-2"
+          fullWidth
         />
-        <Field label="Hình thức ký" value={formState.signMode} onChange={(value) => updateField("signMode", value)} />
-        <Field required label="Chức vụ ký" value={formState.positionTitle} onChange={(value) => updateField("positionTitle", value)} />
-        <Field required label="Người ký" value={formState.signerName} onChange={(value) => updateField("signerName", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText
+          label="Hình thức ký"
+          value={formState.signMode}
+          onChange={(v) => updateField("signMode", v)}
+        />
+        <BmFieldText
+          label="Chức vụ ký"
+          value={formState.positionTitle}
+          onChange={(v) => updateField("positionTitle", v)}
+          required
+        />
+        <BmFieldText
+          label="Người ký"
+          value={formState.signerName}
+          onChange={(v) => updateField("signerName", v)}
+          required
+          fullWidth
+        />
+      </BmFormSection>
 
       <PreviewBlock state={formState} />
-
-      <section className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-sm font-semibold text-slate-900">
-              Lưu dữ liệu BM-090
-            </p>
-            <p className="text-sm text-slate-500">
-              Sau khi lưu, chuyển sang tab Tệp đã xuất để render DOCX/PDF.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isSaving}
-            className="rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-090"}
-          </button>
-        </div>
-      </section>
     </div>
   );
 }
