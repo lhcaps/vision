@@ -1,252 +1,452 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+/**
+ * BM-139 — QĐ áp dụng biện pháp bảo lĩnh
+ * Stage: DIEU_TRA, Group: G04. TT 03/2026-VKSTC, Mẫu số 139/HS.
+ *
+ * Căn cứ: Điều 41, 120 BLTTHS 2015.
+ */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { useEffect, useMemo, useState } from "react";
+
+import {
+  BmFieldDate,
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormActions,
+  BmFormMetaBar,
+  BmFormSection,
+  BmFormStatus,
+  issuePlaceDateLine,
+} from "@/components/documents/bm-form";
+
+type AgencyForm = { parentName: string; name: string };
+type DocumentForm = { documentCode: string; issuePlace: string; issueDateIso: string };
+type OfficialForm = { issuerTitle: string };
+type SuretyForm = {
+  accusedName: string;
+  caseTitle: string;
+  offenseName: string;
+  guarantorName: string;
+  bondAmount: string;
+  reasonLine: string;
+};
+type RecipientsForm = { archiveLine: string };
+type SignatureForm = { signMode: string; positionTitle: string; signerName: string };
 
 type Bm139Form = {
-  agency: { parentName: string; name: string };
-  document: { documentCode: string; issuePlace: string; issueDateIso: string };
-  official: { issuerTitle: string };
-  suggestion: {
-    procedureArticlesLine: string;
-    caseTitle: string;
-    offenseName: string;
-    recipientAgency: string;
-    violationDescription: string;
-    legalBasis: string;
-    suggestedMeasure: string;
-    deadlineLine: string;
-    reasonLine: string;
-  };
-  recipients: { archiveLine: string };
-  signature: { signMode: string; positionTitle: string; signerName: string };
+  agency: AgencyForm;
+  document: DocumentForm;
+  official: OfficialForm;
+  surety: SuretyForm;
+  recipients: RecipientsForm;
+  signature: SignatureForm;
 };
 
-const EMPTY: Bm139Form = {
-  agency: { parentName: "", name: "" },
-  document: { documentCode: "", issuePlace: "", issueDateIso: "" },
-  official: { issuerTitle: "" },
-  suggestion: {
-    procedureArticlesLine: "", caseTitle: "", offenseName: "", recipientAgency: "",
-    violationDescription: "", legalBasis: "", suggestedMeasure: "", deadlineLine: "", reasonLine: "",
+type RenderPayload = Record<string, any>;
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+
+const EMPTY_FORM: Bm139Form = {
+  agency: {
+    parentName: "VIỆN KIỂM SÁT NHÂN DÂN CẤP CAO TẠI TP. HỒ CHÍ MINH",
+    name: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
   },
-  recipients: { archiveLine: "" },
-  signature: { signMode: "handwritten", positionTitle: "Kiểm sát viên", signerName: "" },
+  document: { documentCode: "139/QĐ-VKSKV7", issuePlace: "TP. Hồ Chí Minh", issueDateIso: "" },
+  official: { issuerTitle: "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7" },
+  surety: {
+accusedName: "",
+    caseTitle: "",
+    offenseName: "",
+    guarantorName: "",
+    bondAmount: "",
+    reasonLine: ""
+  },
+  recipients: { archiveLine: "- Lưu: HSVA, HSKS, VP." },
+  signature: { signMode: "KT. VIỆN TRƯỞNG", positionTitle: "PHÓ VIỆN TRƯỞNG", signerName: "" },
 };
 
-function cleanText(raw: string): string {
-  return raw.replace(/\s+/g, " ").trim();
+function cleanText(v: unknown): string {
+  return v == null ? "" : String(v).trim();
 }
 
-function parseDateToIso(val: string): string {
-  if (!val) return "";
-  const d = new Date(val);
-  return isNaN(d.getTime()) ? "" : d.toISOString();
+function nested(payload: RenderPayload | null, path: string): string {
+  if (!payload) return "";
+  const parts = path.split(".").filter(Boolean);
+  let cur: any = payload;
+  for (const p of parts) {
+    if (!cur || typeof cur !== "object") return "";
+    cur = cur[p];
+  }
+  return cleanText(cur);
+}
+
+function parseDateToIso(v: string): string {
+  const raw = cleanText(v);
+  if (!raw) return "";
+  const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (iso) return raw;
+  const slash = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (slash) return `${slash[3]}-${slash[2].padStart(2, "0")}-${slash[1].padStart(2, "0")}`;
+  return "";
 }
 
 function toVietnameseDateText(isoDate: string): string {
-  if (!isoDate) return "";
-  const d = new Date(isoDate);
-  if (isNaN(d.getTime())) return "";
-  return `Ngày ${d.getDate()} tháng ${d.getMonth() + 1} năm ${d.getFullYear()}`;
+  const m = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return isoDate || "";
+  return `ngày ${Number(m[3])} tháng ${Number(m[2])} năm ${m[1]}`;
 }
 
-function normalizeFormInputs(form: Bm139Form): Bm139Form {
+function toSlashDateText(isoDate: string): string {
+  const m = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return isoDate || "";
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
+function buildIssuePlaceAndDateLine(form: Bm139Form): string {
+  return issuePlaceDateLine(form.document.issuePlace, form.document.issueDateIso);
+}
+
+
+
+function normalizeFormInputs(payload: RenderPayload | null): Bm139Form {
+  const f = EMPTY_FORM;
   return {
-    ...form,
-    document: { ...form.document, issueDateIso: parseDateToIso(form.document.issueDateIso as unknown as string) },
+    agency: {
+      parentName: nested(payload, "agency.parentName") || f.agency.parentName,
+      name: nested(payload, "agency.name") || f.agency.name,
+    },
+    document: {
+      documentCode: nested(payload, "document.documentCode") || f.document.documentCode,
+      issuePlace:
+        nested(payload, "document.issuePlace") ||
+        nested(payload, "agency.issuePlace") ||
+        f.document.issuePlace,
+      issueDateIso:
+        parseDateToIso(nested(payload, "document.issueDate")) ||
+        f.document.issueDateIso,
+    },
+    official: {
+      issuerTitle: nested(payload, "official.issuerTitle") || f.official.issuerTitle,
+    },
+    surety: {
+      accusedName: nested(payload, "surety.accusedName") || "",
+      caseTitle: nested(payload, "surety.caseTitle") || "",
+      offenseName: nested(payload, "surety.offenseName") || "",
+      guarantorName: nested(payload, "surety.guarantorName") || "",
+      bondAmount: nested(payload, "surety.bondAmount") || "",
+      reasonLine: nested(payload, "surety.reasonLine") || "",
+    },
+    recipients: {
+      archiveLine: nested(payload, "recipients.archiveLine") || f.recipients.archiveLine,
+    },
+    signature: {
+      signMode: nested(payload, "signature.signMode") || f.signature.signMode,
+      positionTitle: nested(payload, "signature.positionTitle") || f.signature.positionTitle,
+      signerName: nested(payload, "signature.signerName") || "",
+    },
   };
 }
 
+function lookupValue(form: Bm139Form, path: string): string {
+  const parts = path.split(".").filter(Boolean);
+  let cur: any = form;
+  for (const p of parts) {
+    if (!cur || typeof cur !== "object") return "";
+    cur = cur[p];
+  }
+  return cleanText(cur);
+}
+
+const REQUIRED_FIELDS: ReadonlyArray<[string, string]> = [
+  ["Viện kiểm sát cấp trên", "agency.parentName"],
+  ["Viện kiểm sát ban hành", "agency.name"],
+  ["Số quyết định", "document.documentCode"],
+  ["Địa danh", "document.issuePlace"],
+  ["Ngày ban hành", "document.issueDateIso"],
+  ["Chủ thể ban hành", "official.issuerTitle"],
+  ["Chế độ ký", "signature.signMode"],
+  ["Chức vụ ký", "signature.positionTitle"],
+  ["Người ký", "signature.signerName"],
+];
+
 function validateForm(form: Bm139Form): string[] {
-  const errors: string[] = [];
-  if (!form.agency.parentName) errors.push("Tên Viện kiểm sát (cấp trên) là bắt buộc.");
-  if (!form.agency.name) errors.push("Tên Viện kiểm sát là bắt buộc.");
-  if (!form.document.documentCode) errors.push("Số kiến nghị là bắt buộc.");
-  if (!form.document.issueDateIso) errors.push("Ngày ban hành là bắt buộc.");
-  if (!form.suggestion.caseTitle) errors.push("Tên vụ án là bắt buộc.");
-  if (!form.suggestion.recipientAgency) errors.push("Cơ quan nhận kiến nghị là bắt buộc.");
-  if (!form.signature.signerName) errors.push("Tên người ký là bắt buộc.");
-  return errors;
+  return REQUIRED_FIELDS.filter(([, p]) => !lookupValue(form, p)).map(([l]) => l);
 }
 
-function buildSaveBody(form: Bm139Form, documentId: string) {
-  return { documentId, formData: normalizeFormInputs(form) };
+function buildSaveBody(form: Bm139Form) {
+  return {
+    agency: {
+      parentName: form.agency.parentName,
+      name: form.agency.name,
+      issuePlace: form.document.issuePlace,
+    },
+    document: {
+      documentCode: form.document.documentCode,
+      issueDate: toSlashDateText(form.document.issueDateIso),
+      issueDateText: toVietnameseDateText(form.document.issueDateIso).replace(/^ngày\s+/iu, ""),
+      issuePlaceAndDateLine: buildIssuePlaceAndDateLine(form),
+    },
+    official: { issuerTitle: form.official.issuerTitle },
+    surety: {
+      accusedName: form.surety.accusedName,
+      caseTitle: form.surety.caseTitle,
+      offenseName: form.surety.offenseName,
+      guarantorName: form.surety.guarantorName,
+      bondAmount: form.surety.bondAmount,
+
+    },
+    recipients: { archiveLine: form.recipients.archiveLine },
+    signature: {
+      signMode: form.signature.signMode,
+      positionTitle: form.signature.positionTitle,
+      signerName: form.signature.signerName || "",
+    },
+    formInputs: {},
+    payloadOverrides: {},
+    renderPayloadOverrides: {},
+  };
 }
 
-function SectionCard({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="mb-6 rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
-        <h3 className="text-sm font-semibold text-slate-700">{title}</h3>
-      </div>
-      <div className="space-y-4 p-4">{children}</div>
-    </div>
-  );
-}
+export function Bm139FormInputsPanel({
+  documentId,
+  onSaved,
+}: {
+  documentId: string | number;
+  onSaved?: () => void | Promise<void>;
+}) {
+  const [form, setForm] = useState<Bm139Form>(EMPTY_FORM);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return <div className="flex flex-col gap-1.5"><label className="text-xs font-medium text-slate-600">{label}</label>{children}</div>;
-}
+  const validation = useMemo(() => validateForm(form), [form]);
 
-function Input({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
-  return (
-    <input type="text" value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-  );
-}
+  const patch = <S extends keyof Bm139Form, K extends keyof Bm139Form[S]>(
+    section: S,
+    key: K,
+    value: Bm139Form[S][K],
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      [section]: { ...(prev[section] as Record<string, unknown>), [key]: value },
+    }));
+  };
 
-type RenderPayload = Record<string, any>;
-type Bm139Props = { documentId: string; onSaved?: () => void | Promise<void> };
-
-export function Bm139FormInputsPanel({ documentId, onSaved }: Bm139Props) {
-  const [form, setForm] = useState<Bm139Form>(EMPTY);
-  const [errors, setErrors] = useState<string[]>([]);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!documentId || isLoaded) return;
-    fetch(`${API_BASE_URL}/documents/${documentId}/render-payload`)
-      .then((r) => r.json())
-      .then((payload: RenderPayload) => {
-        const d = payload?.data;
-        if (d?.agency) setForm((f) => ({ ...f, agency: d.agency }));
-        if (d?.document) setForm((f) => ({ ...f, document: d.document }));
-        if (d?.official) setForm((f) => ({ ...f, official: d.official }));
-        if (d?.suggestion) setForm((f) => ({ ...f, suggestion: { ...f.suggestion, ...d.suggestion } }));
-        if (d?.recipients) setForm((f) => ({ ...f, recipients: d.recipients }));
-        if (d?.signature) setForm((f) => ({ ...f, signature: d.signature }));
-        setIsLoaded(true);
-      })
-      .catch(() => {})
-      .finally(() => setIsLoaded(false));
-  }, [documentId, isLoaded]);
-
-  const handleChange = useMemo(
-    () => (path: string, value: string) => {
-      setForm((f) => {
-        const next = { ...f };
-        const parts = path.split(".");
-        let cur: Record<string, any> = next;
-        for (let i = 0; i < parts.length - 1; i++) { cur[parts[i]] = { ...cur[parts[i]] }; cur = cur[parts[i]]; }
-        cur[parts[parts.length - 1]] = value;
-        return next;
-      });
-    }, []);
-
-  const fillSample = () => {
-    setForm({
-      agency: { parentName: "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH", name: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7" },
-      document: { documentCode: "139/KN-VKSKV7", issuePlace: "Thành phố Hồ Chí Minh", issueDateIso: "2026-06-15" },
-      official: { issuerTitle: "Viện trưởng" },
-      suggestion: {
-        procedureArticlesLine: "Điều 36, Điều 37 Luật Tổ chức Viện kiểm sát nhân dân; Điều 147 Bộ luật Tố tụng hình sự",
-        caseTitle: "Vụ án hình sự ",
-        offenseName: "Tội Cướp tài sản",
-        recipientAgency: "Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh",
-        violationDescription: "Trong quá trình điều tra vụ án, Cơ quan Cảnh sát điều tra đã không thực hiện đúng quy định về thời hạn điều tra. Thời hạn điều tra theo Điều 173 Bộ luật Tố tụng hình sự đã hết nhưng vụ án chưa được kết thúc điều tra và chuyển hồ sơ sang Viện kiểm sát.",
-        legalBasis: "Điều 147 Bộ luật Tố tụng hình sự quy định về thẩm quyền và trách nhiệm của Viện kiểm sát trong việc kiểm sát hoạt động điều tra. Điều 36 Luật Tổ chức Viện kiểm sát nhân dân quy định về quyền hạn của Viện kiểm sát trong việc kiến nghị cơ quan điều tra khắc phục vi phạm.",
-        suggestedMeasure: "Yêu cầu Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh khẩn trương hoàn thành điều tra, đảm bảo tuân thủ đúng quy định về thời hạn theo Bộ luật Tố tụng hình sự. Nếu chưa thể kết thúc điều tra, yêu cầu gia hạn điều tra đúng thủ tục.",
-        deadlineLine: "Yêu cầu báo cáo kết quả thực hiện kiến nghị trong thời hạn 15 ngày kể từ ngày nhận được kiến nghị này.",
-        reasonLine: "Nhằm đảm bảo việc điều tra được tiến hành đúng quy định pháp luật, bảo vệ quyền và lợi ích hợp pháp của các đương sự, và đẩy nhanh tiến độ giải quyết vụ án.",
-      },
-      recipients: { archiveLine: "Lưu hồ sơ vụ án" },
-      signature: { signMode: "handwritten", positionTitle: "Kiểm sát viên", signerName: "" },
-    });
+  const reloadFromBackend = async () => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+        { cache: "no-store" },
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setForm(normalizeFormInputs((await res.json()) as RenderPayload));
+      setMessage("Đã tải dữ liệu BM-139 từ backend.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi khi tải.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSave = async () => {
     const errs = validateForm(form);
-    if (errs.length > 0) { setErrors(errs); return; }
-    setErrors([]);
-    setIsSaving(true);
+    if (errs.length > 0) {
+      setValidationErrors(errs);
+      setError(`Thiếu: ${errs.join(", ")}`);
+      return;
+    }
+    setValidationErrors([]);
+    setSaving(true);
+    setError(null);
+    setMessage(null);
     try {
-      await fetch(`${API_BASE_URL}/documents/${documentId}/form-inputs`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(buildSaveBody(form, documentId)) });
-      onSaved?.();
-    } catch { setErrors(["Lưu thất bại. Vui lòng thử lại."]); }
-    finally { setIsSaving(false); }
+      const res = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(buildSaveBody(form)),
+        },
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await reloadFromBackend();
+      setMessage("Đã lưu BM-139 thành công.");
+      await onSaved?.();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi khi lưu.");
+    } finally {
+      setSaving(false);
+    }
   };
 
+  useEffect(() => {
+    void reloadFromBackend();
+  }, [documentId]);
+
+  const status = (() => {
+    if (loading) return { kind: "loading" as const, text: "Đang tải..." };
+    if (saving) return { kind: "loading" as const, text: "Đang lưu..." };
+    if (validationErrors.length > 0)
+      return {
+        kind: "warning" as const,
+        text: `Còn thiếu: ${validationErrors.join(", ")}`,
+      };
+    if (error) return { kind: "error" as const, text: error };
+    if (message) return { kind: "success" as const, text: message };
+    return { kind: "idle" as const, text: "" };
+  })();
+
   return (
-    <div className="space-y-4 p-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-slate-800">BM-139: Kiến nghị khắc phục, xử lý vi phạm</h2>
-          <p className="text-xs text-slate-500">Nhập dữ liệu cho biểu mẫu Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra</p>
-        </div>
-        <button onClick={fillSample} className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-100">Điền mẫu</button>
-      </div>
-      {errors.length > 0 && <div className="rounded-lg border border-red-200 bg-red-50 p-3">{errors.map((e, i) => <p key={i} className="text-xs text-red-600">{e}</p>)}</div>}
+    <div className="space-y-5">
+      <BmFormMetaBar
+        templateCode="BM-139"
+        title="Dữ liệu biểu mẫu QĐ áp dụng biện pháp bảo lĩnh"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 139/HS · Căn cứ Điều 41, 120 BLTTHS 2015."
+        isDirty={false}
+        isLoading={loading}
+        isSaving={saving}
+        savedAt={null}
+        errorMessage={error ?? undefined}
+        warningMessage={validationErrors.length > 0 ? `Còn thiếu: ${validationErrors.join(", ")}` : undefined}
+        successMessage={status.kind === "success" ? status.text : undefined}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-139"}
+        onPrimary={handleSave}
+        primaryDisabled={saving || loading}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+        onSecondary={reloadFromBackend}
+      />
 
-      <SectionCard title="Cơ quan ban hành">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Field label="Tên Viện kiểm sát (cấp trên)"><Input value={form.agency.parentName} onChange={(v) => handleChange("agency.parentName", v)} placeholder="VIỆN KIỂM SÁT NHÂN DÂN..." /></Field>
-          <Field label="Tên Viện kiểm sát"><Input value={form.agency.name} onChange={(v) => handleChange("agency.name", v)} placeholder="VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC..." /></Field>
-        </div>
-      </SectionCard>
+      {status.kind === "idle" ? null : (
+        <BmFormStatus kind={status.kind}>{status.text}</BmFormStatus>
+      )}
 
-      <SectionCard title="Thông tin kiến nghị">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Field label="Số kiến nghị"><Input value={form.document.documentCode} onChange={(v) => handleChange("document.documentCode", v)} placeholder="139/KN-VKSKV7" /></Field>
-          <Field label="Nơi ban hành"><Input value={form.document.issuePlace} onChange={(v) => handleChange("document.issuePlace", v)} placeholder="Thành phố Hồ Chí Minh" /></Field>
-          <Field label="Ngày ban hành">
-            <input type="date" value={form.document.issueDateIso?.slice(0, 10) ?? ""} onChange={(e) => handleChange("document.issueDateIso", e.target.value)}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-          </Field>
-          <Field label="Chức vụ người ký"><Input value={form.official.issuerTitle} onChange={(v) => handleChange("official.issuerTitle", v)} placeholder="Viện trưởng" /></Field>
-        </div>
-      </SectionCard>
+      <BmFormSection title="1. Header biểu mẫu" requiredCount={6}>
+        <BmFieldText
+          label="Viện kiểm sát cấp trên"
+          required
+          value={form.agency.parentName}
+          onChange={(v) => patch("agency", "parentName", v)}
+        />
+        <BmFieldText
+          label="Viện kiểm sát ban hành"
+          required
+          value={form.agency.name}
+          onChange={(v) => patch("agency", "name", v)}
+        />
+        <BmFieldText
+          label="Số quyết định"
+          required
+          value={form.document.documentCode}
+          onChange={(v) => patch("document", "documentCode", v)}
+        />
+        <BmFieldText
+          label="Địa danh"
+          required
+          value={form.document.issuePlace}
+          onChange={(v) => patch("document", "issuePlace", v)}
+        />
+        <BmFieldDate
+          label="Ngày ban hành"
+          required
+          value={form.document.issueDateIso}
+          onChange={(v) => patch("document", "issueDateIso", v)}
+        />
+        <BmFieldText
+          label="Dòng địa danh/ngày tự sinh"
+          value={buildIssuePlaceAndDateLine(form)}
+          readOnly
+          onChange={() => undefined}
+        />
+        <BmFieldText
+          label="Chủ thể ban hành"
+          required
+          fullWidth
+          value={form.official.issuerTitle}
+          onChange={(v) => patch("official", "issuerTitle", v)}
+        />
+      </BmFormSection>
 
-      <SectionCard title="Nội dung kiến nghị">
-        <Field label="Điều khoản căn cứ pháp luật"><Input value={form.suggestion.procedureArticlesLine} onChange={(v) => handleChange("suggestion.procedureArticlesLine", v)} placeholder="Điều 36, Điều 37 Luật Tổ chức Viện kiểm sát..." /></Field>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Field label="Tên vụ án"><Input value={form.suggestion.caseTitle} onChange={(v) => handleChange("suggestion.caseTitle", v)} placeholder="Vụ án hình sự " /></Field>
-          <Field label="Tội danh"><Input value={form.suggestion.offenseName} onChange={(v) => handleChange("suggestion.offenseName", v)} placeholder="Tội Cướp tài sản" /></Field>
-        </div>
-        <Field label="Cơ quan nhận kiến nghị"><Input value={form.suggestion.recipientAgency} onChange={(v) => handleChange("suggestion.recipientAgency", v)} placeholder="Cơ quan Cảnh sát điều tra Công an TP.HCM" /></Field>
-        <Field label="Mô tả vi phạm">
-          <textarea value={form.suggestion.violationDescription} onChange={(e) => handleChange("suggestion.violationDescription", e.target.value)} rows={4}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Trong quá trình điều tra vụ án, Cơ quan Cảnh sát điều tra đã không thực hiện đúng quy định..." />
-        </Field>
-        <Field label="Căn cứ pháp lý">
-          <textarea value={form.suggestion.legalBasis} onChange={(e) => handleChange("suggestion.legalBasis", e.target.value)} rows={3}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Điều 147 Bộ luật Tố tụng hình sự..." />
-        </Field>
-        <Field label="Biện pháp kiến nghị">
-          <textarea value={form.suggestion.suggestedMeasure} onChange={(e) => handleChange("suggestion.suggestedMeasure", e.target.value)} rows={3}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Yêu cầu Cơ quan Cảnh sát điều tra khẩn trương hoàn thành điều tra..." />
-        </Field>
-        <Field label="Thời hạn thực hiện"><Input value={form.suggestion.deadlineLine} onChange={(v) => handleChange("suggestion.deadlineLine", v)} placeholder="Yêu cầu báo cáo kết quả trong thời hạn 15 ngày..." /></Field>
-        <Field label="Lý do kiến nghị"><Input value={form.suggestion.reasonLine} onChange={(v) => handleChange("suggestion.reasonLine", v)} placeholder="Nhằm đảm bảo việc điều tra được tiến hành đúng quy định pháp luật..." /></Field>
-      </SectionCard>
+      <BmFormSection title="2. Áp dụng biện pháp bảo lĩnh" description="Thông tin biện pháp bảo lĩnh được áp dụng." requiredCount={2}>
+        <BmFieldText
+          label="Tên bị can/bị cáo"
+          required
+          value={form.surety.accusedName}
+          onChange={(v) => patch("surety", "accusedName", v)}
+        />
+        <BmFieldText
+          label="Tên vụ án"
+          required
+          value={form.surety.caseTitle}
+          onChange={(v) => patch("surety", "caseTitle", v)}
+        />
+        <BmFieldText
+          label="Tội danh"
+          value={form.surety.offenseName}
+          onChange={(v) => patch("surety", "offenseName", v)}
+        />
+        <BmFieldText
+          label="Người bảo lĩnh"
+          required
+          value={form.surety.guarantorName}
+          onChange={(v) => patch("surety", "guarantorName", v)}
+        />
+        <BmFieldText
+          label="Số tiền bảo lĩnh"
+          value={form.surety.bondAmount}
+          onChange={(v) => patch("surety", "bondAmount", v)}
+        />
+        <BmFieldTextarea
+          label="Lý do áp dụng"
+          required
+          fullWidth
+          value={form.surety.reasonLine}
+          onChange={(v) => patch("surety", "reasonLine", v)}
+          rows={3}
+        />
 
-      <SectionCard title="Nơi nhận">
-        <Field label="Dòng lưu"><Input value={form.recipients.archiveLine} onChange={(v) => handleChange("recipients.archiveLine", v)} placeholder="Lưu hồ sơ vụ án" /></Field>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="Chữ ký">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Field label="Hình thức ký">
-            <select value={form.signature.signMode} onChange={(e) => handleChange("signature.signMode", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-              <option value="handwritten">Chữ ký tay</option>
-              <option value="digital">Chữ ký số</option>
-            </select>
-          </Field>
-          <Field label="Chức danh"><Input value={form.signature.positionTitle} onChange={(v) => handleChange("signature.positionTitle", v)} placeholder="Kiểm sát viên" /></Field>
-          <Field label="Tên người ký"><Input value={form.signature.signerName} onChange={(v) => handleChange("signature.signerName", v)} placeholder="" /></Field>
-        </div>
-      </SectionCard>
+      <BmFormSection title="3. Nơi nhận và chữ ký" requiredCount={3}>
+        <BmFieldText
+          label="Lưu hồ sơ"
+          fullWidth
+          value={form.recipients.archiveLine}
+          onChange={(v) => patch("recipients", "archiveLine", v)}
+        />
+        <BmFieldText
+          label="Chế độ ký"
+          required
+          value={form.signature.signMode}
+          onChange={(v) => patch("signature", "signMode", v)}
+        />
+        <BmFieldText
+          label="Chức vụ ký"
+          required
+          value={form.signature.positionTitle}
+          onChange={(v) => patch("signature", "positionTitle", v)}
+        />
+        <BmFieldText
+          label="Người ký"
+          required
+          value={form.signature.signerName}
+          onChange={(v) => patch("signature", "signerName", v)}
+        />
+      </BmFormSection>
 
-      <div className="flex justify-end gap-3">
-        <button onClick={handleSave} disabled={isSaving} className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-700 disabled:opacity-50">
-          {isSaving ? "Đang lưu..." : "Lưu biểu mẫu"}
-        </button>
-      </div>
+      <BmFormActions
+        onPrimary={handleSave}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-139"}
+        primaryDisabled={saving || loading}
+        onSecondary={reloadFromBackend}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+      />
     </div>
   );
 }
