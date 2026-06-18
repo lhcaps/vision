@@ -2,6 +2,11 @@
 
 import * as React from "react";
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
 
@@ -652,7 +657,7 @@ export function Bm172FormInputs({
         ) : null}
       </div>
 
-      <Section title="1. Thông tin văn bản">
+      <BmFormSection title="1. Thông tin văn bản">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField label="Số quyết định" value={state.documentCode} disabled={disabled} onChange={(v) => update("documentCode", v)} />
           <DateField label="Ngày ban hành" value={state.issueDate} disabled={disabled} onChange={(v) => update("issueDate", v)} />
@@ -660,9 +665,9 @@ export function Bm172FormInputs({
           <TextField label="Viện kiểm sát cấp trên" value={state.issuingAgencyParent} disabled={disabled} onChange={(v) => update("issuingAgencyParent", v)} />
           <TextField label="Viện kiểm sát ban hành" value={state.issuingAgency} disabled={disabled} onChange={(v) => update("issuingAgency", v)} />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="2. Căn cứ khởi tố vụ án">
+      <BmFormSection title="2. Căn cứ khởi tố vụ án">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField label="Số QĐ khởi tố vụ án" value={state.caseInitiationNumber} disabled={disabled} onChange={(v) => update("caseInitiationNumber", v)} />
           <DateField label="Ngày QĐ khởi tố vụ án" value={state.caseInitiationDate} disabled={disabled} onChange={(v) => update("caseInitiationDate", v)} />
@@ -671,18 +676,18 @@ export function Bm172FormInputs({
           <TextField label="Khoản" value={state.crimeClause} disabled={disabled} onChange={(v) => update("crimeClause", v)} />
           <TextField label="Điều" value={state.crimeArticle} disabled={disabled} onChange={(v) => update("crimeArticle", v)} />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="3. Căn cứ khởi tố bị can">
+      <BmFormSection title="3. Căn cứ khởi tố bị can">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField label="Số QĐ khởi tố bị can" value={state.defendantInitiationNumber} disabled={disabled} onChange={(v) => update("defendantInitiationNumber", v)} />
           <DateField label="Ngày QĐ khởi tố bị can" value={state.defendantInitiationDate} disabled={disabled} onChange={(v) => update("defendantInitiationDate", v)} />
           <TextAreaField label="Cơ quan ra QĐ khởi tố bị can" value={state.defendantInitiationAgency} disabled={disabled} onChange={(v) => update("defendantInitiationAgency", v)} />
           <TextField label="Tên bị can / người liên quan" value={state.defendantName} disabled={disabled} onChange={(v) => update("defendantName", v)} />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="4. Quyết định trả lại tài sản bị hủy bỏ">
+      <BmFormSection title="4. Quyết định trả lại tài sản bị hủy bỏ">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField label="Số QĐ trả lại tài sản" value={state.propertyReturnDecisionNumber} disabled={disabled} onChange={(v) => update("propertyReturnDecisionNumber", v)} />
           <DateField label="Ngày QĐ trả lại tài sản" value={state.propertyReturnDecisionDate} disabled={disabled} onChange={(v) => update("propertyReturnDecisionDate", v)} />
@@ -690,9 +695,9 @@ export function Bm172FormInputs({
           <TextAreaField label="Tài sản cần thu hồi" value={state.propertyName} disabled={disabled} onChange={(v) => update("propertyName", v)} />
           <TextAreaField label="Cơ quan có trách nhiệm thu hồi tài sản" value={state.propertyRecoveryAgency} disabled={disabled} onChange={(v) => update("propertyRecoveryAgency", v)} />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="5. Người/cơ quan được trả lại tài sản">
+      <BmFormSection title="5. Người/cơ quan được trả lại tài sản">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField label="Họ tên người được trả lại tài sản" value={state.propertyRecipientName} disabled={disabled} onChange={(v) => update("propertyRecipientName", v)} />
           <SelectField label="Giới tính" value={state.propertyRecipientGender} disabled={disabled} options={["Nam", "Nữ", "Khác"]} onChange={(v) => update("propertyRecipientGender", v)} />
@@ -711,9 +716,9 @@ export function Bm172FormInputs({
         <TextAreaField label="Nơi thường trú" value={state.propertyRecipientPermanentResidence} disabled={disabled} onChange={(v) => update("propertyRecipientPermanentResidence", v)} />
         <TextAreaField label="Nơi tạm trú" value={state.propertyRecipientTemporaryResidence} disabled={disabled} onChange={(v) => update("propertyRecipientTemporaryResidence", v)} />
         <TextAreaField label="Nơi ở hiện tại" value={state.propertyRecipientCurrentResidence} disabled={disabled} onChange={(v) => update("propertyRecipientCurrentResidence", v)} />
-      </Section>
+      </BmFormSection>
 
-      <Section title="6. Nơi nhận và chữ ký">
+      <BmFormSection title="6. Nơi nhận và chữ ký">
         <TextAreaField label="Nơi nhận chính" value={state.recipientsPrimaryLine} disabled={disabled} onChange={(v) => update("recipientsPrimaryLine", v)} />
         <TextAreaField label="Người/cơ quan được trả lại tài sản" value={state.recipientsPropertyRecipientLine} disabled={disabled} onChange={(v) => update("recipientsPropertyRecipientLine", v)} />
         <TextField label="Lưu" value={state.recipientsArchiveLine} disabled={disabled} onChange={(v) => update("recipientsArchiveLine", v)} />
@@ -723,7 +728,7 @@ export function Bm172FormInputs({
           <TextField label="Chức danh" value={state.positionTitle} disabled={disabled} onChange={(v) => update("positionTitle", v)} />
           <TextField label="Người ký" value={state.signerName} disabled={disabled} onChange={(v) => update("signerName", v)} />
         </div>
-      </Section>
+      </BmFormSection>
 
       <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm">
         <summary className="cursor-pointer font-semibold">Xem payload render BM-172</summary>

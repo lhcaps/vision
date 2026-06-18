@@ -2,6 +2,11 @@
 
 import type { ReactNode } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
 import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL =
@@ -805,27 +810,17 @@ export function Bm012FormInputsPanel({
         ) : null}
       </div>
 
-      <Section title="Cơ quan / số quyết định">
+      <BmFormSection title="Cơ quan / số quyết định">
         <div className="grid gap-3 md:grid-cols-2">
-          <Field label="Cơ quan cấp trên">
-            <input className={inputClass} value={form.agency.parentName} onChange={(e) => updateGroup("agency", "parentName", e.target.value)} />
-          </Field>
+          <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateGroup("agency", "parentName", value)} fullWidth />
 
-          <Field label="Viện kiểm sát">
-            <input className={inputClass} value={form.agency.name} onChange={(e) => updateGroup("agency", "name", e.target.value)} />
-          </Field>
+          <BmFieldText label="Viện kiểm sát" value={form.agency.name} onChange={(value) => updateGroup("agency", "name", value)} fullWidth />
 
-          <Field label="Tên trong thân văn bản">
-            <input className={inputClass} value={form.agency.bodyName} onChange={(e) => updateGroup("agency", "bodyName", e.target.value)} />
-          </Field>
+          <BmFieldText label="Tên trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateGroup("agency", "bodyName", value)} fullWidth />
 
-          <Field label="Số quyết định">
-            <input className={inputClass} value={form.document.documentCode} onChange={(e) => updateGroup("document", "documentCode", e.target.value)} />
-          </Field>
+          <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateGroup("document", "documentCode", value)} fullWidth />
 
-          <Field label="Địa danh">
-            <input className={inputClass} value={form.document.issuePlace} onChange={(e) => updateGroup("document", "issuePlace", e.target.value)} />
-          </Field>
+          <BmFieldText label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateGroup("document", "issuePlace", value)} fullWidth />
 
           <Field label="Ngày ban hành">
             <Bm012DateSelectField
@@ -837,17 +832,13 @@ export function Bm012FormInputsPanel({
             </p>
           </Field>
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="Nội dung phục hồi">
+      <BmFormSection title="Nội dung phục hồi">
         <div className="grid gap-3 md:grid-cols-2">
-          <Field label="Chủ thể ban hành">
-            <input className={inputClass} value={form.official.issuerTitle} onChange={(e) => updateGroup("official", "issuerTitle", e.target.value)} />
-          </Field>
+          <BmFieldText label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateGroup("official", "issuerTitle", value)} fullWidth />
 
-          <Field label="Số QĐ tạm đình chỉ">
-            <input className={inputClass} value={form.sourceRecovery.suspensionDecisionCode} onChange={(e) => updateGroup("sourceRecovery", "suspensionDecisionCode", e.target.value)} />
-          </Field>
+          <BmFieldText label="Số QĐ tạm đình chỉ" value={form.sourceRecovery.suspensionDecisionCode} onChange={(value) => updateGroup("sourceRecovery", "suspensionDecisionCode", value)} fullWidth />
 
           <Field label="Ngày QĐ tạm đình chỉ">
             <Bm012DateSelectField
@@ -861,43 +852,29 @@ export function Bm012FormInputsPanel({
             </p>
           </Field>
 
-          <Field label="Cơ quan ban hành QĐ tạm đình chỉ">
-            <input className={inputClass} value={form.sourceRecovery.suspensionDecisionIssuedBy} onChange={(e) => updateGroup("sourceRecovery", "suspensionDecisionIssuedBy", e.target.value)} />
-          </Field>
+          <BmFieldText label="Cơ quan ban hành QĐ tạm đình chỉ" value={form.sourceRecovery.suspensionDecisionIssuedBy} onChange={(value) => updateGroup("sourceRecovery", "suspensionDecisionIssuedBy", value)} fullWidth />
         </div>
 
         <div className="mt-3 grid gap-3">
-          <Field label="Lý do phục hồi">
-            <textarea className={textareaClass} value={form.sourceRecovery.reasonLine} onChange={(e) => updateGroup("sourceRecovery", "reasonLine", e.target.value)} />
-          </Field>
+          <BmFieldTextarea label="Lý do phục hồi" value={form.sourceRecovery.reasonLine} onChange={(value) => updateGroup("sourceRecovery", "reasonLine", value)} fullWidth />
 
-          <Field label="Vụ việc">
-            <textarea className={textareaClass} value={form.sourceRecovery.caseSummary} onChange={(e) => updateGroup("sourceRecovery", "caseSummary", e.target.value)} />
-          </Field>
+          <BmFieldTextarea label="Vụ việc" value={form.sourceRecovery.caseSummary} onChange={(value) => updateGroup("sourceRecovery", "caseSummary", value)} fullWidth />
 
-          <Field label="Nơi nhận chính">
-            <input className={inputClass} value={form.recipients.primaryLine} onChange={(e) => updateGroup("recipients", "primaryLine", e.target.value)} />
-          </Field>
+          <BmFieldText label="Nơi nhận chính" value={form.recipients.primaryLine} onChange={(value) => updateGroup("recipients", "primaryLine", value)} fullWidth />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="Ký tên">
+      <BmFormSection title="Ký tên">
         <div className="grid gap-3 md:grid-cols-3">
-          <Field label="Ký thay">
-            <input className={inputClass} value={form.signature.signMode} onChange={(e) => updateGroup("signature", "signMode", e.target.value)} />
-          </Field>
+          <BmFieldText label="Ký thay" value={form.signature.signMode} onChange={(value) => updateGroup("signature", "signMode", value)} fullWidth />
 
-          <Field label="Chức danh">
-            <input className={inputClass} value={form.signature.positionTitle} onChange={(e) => updateGroup("signature", "positionTitle", e.target.value)} />
-          </Field>
+          <BmFieldText label="Chức danh" value={form.signature.positionTitle} onChange={(value) => updateGroup("signature", "positionTitle", value)} fullWidth />
 
-          <Field label="Người ký">
-            <input className={inputClass} value={form.signature.signerName} onChange={(e) => updateGroup("signature", "signerName", e.target.value)} />
-          </Field>
+          <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateGroup("signature", "signerName", value)} fullWidth />
         </div>
-      </Section>
+      </BmFormSection>
 
-      <Section title="Preview dữ liệu dài">
+      <BmFormSection title="Preview dữ liệu dài">
         <div className="grid gap-2 text-sm text-slate-700">
           <p>
             <span className="font-semibold">Ngày ban hành:</span>{" "}
@@ -923,7 +900,7 @@ export function Bm012FormInputsPanel({
             {readyForm.signature.signMode} — {readyForm.signature.positionTitle} — {readyForm.signature.signerName}
           </p>
         </div>
-      </Section>
+      </BmFormSection>
     </div>
   );
 }

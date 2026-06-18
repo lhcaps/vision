@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
 type AgencyForm = {
   parentName: string;
   name: string;
@@ -842,34 +847,14 @@ export function Bm009FormInputsPanel({
       ) : null}
 
       <SectionCard title="1. Header biểu mẫu">
-        <Field
-          label="Viện kiểm sát cấp trên"
-          required
-          value={form.agency.parentName}
-          onChange={(value) => patch("agency", "parentName", value)}
-        />
+        <BmFieldText label="Viện kiểm sát cấp trên" value={form.agency.parentName} onChange={(value) => patch("agency", "parentName", value)} fullWidth />
 
-        <Field
-          label="Viện kiểm sát ban hành"
-          required
-          value={form.agency.name}
-          onChange={(value) => patch("agency", "name", value)}
-        />
+        <BmFieldText label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => patch("agency", "name", value)} fullWidth />
 
         <div className="grid gap-4 md:grid-cols-3">
-          <Field
-            label="Số quyết định"
-            required
-            value={form.document.documentCode}
-            onChange={(value) => patch("document", "documentCode", value)}
-          />
+          <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => patch("document", "documentCode", value)} fullWidth />
 
-          <Field
-            label="Địa danh ban hành"
-            required
-            value={form.document.issuePlace}
-            onChange={(value) => patch("document", "issuePlace", value)}
-          />
+          <BmFieldText label="Địa danh ban hành" value={form.document.issuePlace} onChange={(value) => patch("document", "issuePlace", value)} fullWidth />
 
           <Bm009DateSelectField
             label="Ngày ban hành"
@@ -885,45 +870,24 @@ export function Bm009FormInputsPanel({
           readOnly
         />
 
-        <Field
-          label="Chủ thể ban hành"
-          required
-          value={form.official.issuerTitle}
-          onChange={(value) => patch("official", "issuerTitle", value)}
-        />
+        <BmFieldText label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => patch("official", "issuerTitle", value)} fullWidth />
       </SectionCard>
 
       <SectionCard
         title="2. Căn cứ và lý do gia hạn"
         description="Chọn ngày/cơ quan/vụ việc, hệ thống tự sinh câu căn cứ."
       >
-        <Field
-          label="Căn cứ tố tụng"
-          required
-          multiline
-          value={form.sourceResolutionExtension.procedureArticlesLine}
-          onChange={(value) =>
+        <BmFieldText label="Căn cứ tố tụng" value={form.sourceResolutionExtension.procedureArticlesLine} onChange={(value) =>
             patch("sourceResolutionExtension", "procedureArticlesLine", value)
-          }
-        />
+          } fullWidth />
 
-        <Field
-          label="Cơ quan điều tra"
-          required
-          value={form.sourceResolutionExtension.investigatingAgencyName}
-          onChange={(value) =>
+        <BmFieldText label="Cơ quan điều tra" value={form.sourceResolutionExtension.investigatingAgencyName} onChange={(value) =>
             patch("sourceResolutionExtension", "investigatingAgencyName", value)
-          }
-        />
+          } fullWidth />
 
-        <Field
-          label="Vụ việc / nguồn tin"
-          required
-          value={form.sourceResolutionExtension.caseSummary}
-          onChange={(value) =>
+        <BmFieldText label="Vụ việc / nguồn tin" value={form.sourceResolutionExtension.caseSummary} onChange={(value) =>
             patch("sourceResolutionExtension", "caseSummary", value)
-          }
-        />
+          } fullWidth />
 
         <div className="grid gap-4 md:grid-cols-3">
           <Bm009DateSelectField
@@ -935,14 +899,9 @@ export function Bm009FormInputsPanel({
             }
           />
 
-          <Field
-            label="Số văn bản đề nghị"
-            required
-            value={form.sourceResolutionExtension.proposalNo}
-            onChange={(value) =>
+          <BmFieldText label="Số văn bản đề nghị" value={form.sourceResolutionExtension.proposalNo} onChange={(value) =>
               patch("sourceResolutionExtension", "proposalNo", value)
-            }
-          />
+            } fullWidth />
 
           <Bm009DateSelectField
             label="Ngày văn bản đề nghị"
@@ -968,15 +927,9 @@ export function Bm009FormInputsPanel({
           value={buildProposalLegalBasisLine(form)}
         />
 
-        <Field
-          label="Nhận định gia hạn"
-          required
-          multiline
-          value={form.sourceResolutionExtension.reasonLine}
-          onChange={(value) =>
+        <BmFieldText label="Nhận định gia hạn" value={form.sourceResolutionExtension.reasonLine} onChange={(value) =>
             patch("sourceResolutionExtension", "reasonLine", value)
-          }
-        />
+          } fullWidth />
       </SectionCard>
 
       <SectionCard
@@ -984,14 +937,9 @@ export function Bm009FormInputsPanel({
         description="Không nhập lại chữ Điều 1 hoặc Điều 2. Hai dòng dưới được tự sinh."
       >
         <div className="grid gap-4 md:grid-cols-3">
-          <Field
-            label="Thời hạn"
-            required
-            value={form.sourceResolutionExtension.durationText}
-            onChange={(value) =>
+          <BmFieldText label="Thời hạn" value={form.sourceResolutionExtension.durationText} onChange={(value) =>
               patch("sourceResolutionExtension", "durationText", value)
-            }
-          />
+            } fullWidth />
 
           <Bm009DateSelectField
             label="Từ ngày"
@@ -1034,37 +982,17 @@ export function Bm009FormInputsPanel({
           readOnly
         />
 
-        <Field
-          label="Lưu hồ sơ"
-          required
-          value={form.recipients.archiveLine}
-          onChange={(value) => patch("recipients", "archiveLine", value)}
-        />
+        <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => patch("recipients", "archiveLine", value)} fullWidth />
       </SectionCard>
 
       <SectionCard title="5. Chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Chế độ ký"
-            required
-            value={form.signature.signMode}
-            onChange={(value) => patch("signature", "signMode", value)}
-          />
+          <BmFieldText label="Chế độ ký" value={form.signature.signMode} onChange={(value) => patch("signature", "signMode", value)} fullWidth />
 
-          <Field
-            label="Chức vụ ký"
-            required
-            value={form.signature.positionTitle}
-            onChange={(value) => patch("signature", "positionTitle", value)}
-          />
+          <BmFieldText label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => patch("signature", "positionTitle", value)} fullWidth />
         </div>
 
-        <Field
-          label="Người ký"
-          required
-          value={form.signature.signerName}
-          onChange={(value) => patch("signature", "signerName", value)}
-        />
+        <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => patch("signature", "signerName", value)} fullWidth />
       </SectionCard>
     </div>
   );

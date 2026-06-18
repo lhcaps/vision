@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
@@ -1031,39 +1036,15 @@ export function Bm023FormInputsPanel({
         title="1. Cơ quan, văn bản và thẩm quyền"
         description="BM-023 chỉ có ngày ban hành ở header. Không có ngày quyết định khởi tố cũ."
       >
-        <Field
-          label="Cơ quan cấp trên"
-          value={form.agency.parentName}
-          onChange={(value) => updateField("agency", "parentName", value)}
-          required
-        />
+        <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} fullWidth />
 
-        <Field
-          label="Cơ quan ban hành"
-          value={form.agency.name}
-          onChange={(value) => updateField("agency", "name", value)}
-          required
-        />
+        <BmFieldText label="Cơ quan ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} fullWidth />
 
-        <Field
-          label="Tên viết tắt cơ quan"
-          value={form.agency.shortName}
-          onChange={(value) => updateField("agency", "shortName", value)}
-        />
+        <BmFieldText label="Tên viết tắt cơ quan" value={form.agency.shortName} onChange={(value) => updateField("agency", "shortName", value)} fullWidth />
 
-        <Field
-          label="Địa danh"
-          value={form.agency.issuePlace}
-          onChange={(value) => updateField("agency", "issuePlace", value)}
-          required
-        />
+        <BmFieldText label="Địa danh" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} fullWidth />
 
-        <Field
-          label="Số quyết định"
-          value={form.document.documentCode}
-          onChange={(value) => updateField("document", "documentCode", value)}
-          required
-        />
+        <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} fullWidth />
 
         <div className="space-y-1.5">
           <Bm023DateSelectField
@@ -1077,113 +1058,47 @@ export function Bm023FormInputsPanel({
           </p>
         </div>
 
-        <Field
-          label="Thẩm quyền ban hành"
-          value={form.official.issuerTitle}
-          onChange={(value) => updateField("official", "issuerTitle", value)}
-          required
-          className="md:col-span-2"
-        />
+        <BmFieldText label="Thẩm quyền ban hành" value={form.official.issuerTitle} onChange={(value) => updateField("official", "issuerTitle", value)} fullWidth />
       </SectionCard>
 
       <SectionCard
         title="2. Căn cứ, vụ việc và tội danh"
         description="BM-023 chỉ có một tội danh và một điều khoản Bộ luật Hình sự."
       >
-        <Field
-          label="Căn cứ pháp lý"
-          value={form.legalBasis.procedureArticlesLine}
-          onChange={(value) =>
+        <BmFieldText label="Căn cứ pháp lý" value={form.legalBasis.procedureArticlesLine} onChange={(value) =>
             updateField("legalBasis", "procedureArticlesLine", value)
-          }
-          required
-          multiline
-          className="md:col-span-2"
-        />
+          } fullWidth />
 
-        <Field
-          label="Nội dung vụ việc"
-          value={form.crimeReport.content}
-          onChange={(value) => updateField("crimeReport", "content", value)}
-          required
-          multiline
-          className="md:col-span-2"
-        />
+        <BmFieldText label="Nội dung vụ việc" value={form.crimeReport.content} onChange={(value) => updateField("crimeReport", "content", value)} fullWidth />
 
-        <Field
-          label="Tên vụ việc"
-          value={form.case.caseTitle}
-          onChange={(value) => updateField("case", "caseTitle", value)}
-          required
-        />
+        <BmFieldText label="Tên vụ việc" value={form.case.caseTitle} onChange={(value) => updateField("case", "caseTitle", value)} fullWidth />
 
-        <Field
-          label="Tội danh"
-          value={form.offense.offenseName}
-          onChange={(value) => updateField("offense", "offenseName", value)}
-          required
-        />
+        <BmFieldText label="Tội danh" value={form.offense.offenseName} onChange={(value) => updateField("offense", "offenseName", value)} fullWidth />
 
-        <Field
-          label="Điều khoản Bộ luật Hình sự"
-          value={form.offense.legalArticle}
-          onChange={(value) => updateField("offense", "legalArticle", value)}
-          required
-        />
+        <BmFieldText label="Điều khoản Bộ luật Hình sự" value={form.offense.legalArticle} onChange={(value) => updateField("offense", "legalArticle", value)} fullWidth />
 
-        <Field
-          label="Ghi chú Bộ luật Hình sự"
-          value={form.offense.criminalCodeText}
-          onChange={(value) => updateField("offense", "criminalCodeText", value)}
-        />
+        <BmFieldText label="Ghi chú Bộ luật Hình sự" value={form.offense.criminalCodeText} onChange={(value) => updateField("offense", "criminalCodeText", value)} fullWidth />
       </SectionCard>
 
       <SectionCard
         title="3. Yêu cầu điều tra và nơi nhận"
         description="Điều 2 và nơi nhận theo đúng mẫu gốc BM-023."
       >
-        <Field
-          label="Cơ quan điều tra"
-          value={form.investigation.investigationUnitName}
-          onChange={(value) =>
+        <BmFieldText label="Cơ quan điều tra" value={form.investigation.investigationUnitName} onChange={(value) =>
             updateField("investigation", "investigationUnitName", value)
-          }
-          required
-        />
+          } fullWidth />
 
-        <Field
-          label="Nơi nhận - cơ quan điều tra"
-          value={form.recipients.investigationUnitLine}
-          onChange={(value) =>
+        <BmFieldText label="Nơi nhận - cơ quan điều tra" value={form.recipients.investigationUnitLine} onChange={(value) =>
             updateField("recipients", "investigationUnitLine", value)
-          }
-          required
-        />
+          } fullWidth />
 
-        <Field
-          label="Nội dung Điều 2"
-          value={form.investigation.article2Line}
-          onChange={(value) => updateField("investigation", "article2Line", value)}
-          required
-          multiline
-          className="md:col-span-2"
-        />
+        <BmFieldText label="Nội dung Điều 2" value={form.investigation.article2Line} onChange={(value) => updateField("investigation", "article2Line", value)} fullWidth />
 
-        <Field
-          label="Nơi nhận - Viện kiểm sát cấp trên"
-          value={form.recipients.superiorProcuracyLine}
-          onChange={(value) =>
+        <BmFieldText label="Nơi nhận - Viện kiểm sát cấp trên" value={form.recipients.superiorProcuracyLine} onChange={(value) =>
             updateField("recipients", "superiorProcuracyLine", value)
-          }
-          required
-        />
+          } fullWidth />
 
-        <Field
-          label="Nơi nhận - lưu"
-          value={form.recipients.archiveLine}
-          onChange={(value) => updateField("recipients", "archiveLine", value)}
-          required
-        />
+        <BmFieldText label="Nơi nhận - lưu" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} fullWidth />
       </SectionCard>
 
       <SectionCard title="4. Chữ ký">
@@ -1201,12 +1116,7 @@ export function Bm023FormInputsPanel({
           options={POSITION_OPTIONS}
         />
 
-        <Field
-          label="Người ký"
-          value={form.signature.signerName}
-          onChange={(value) => updateField("signature", "signerName", value)}
-          required
-        />
+        <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} fullWidth />
       </SectionCard>
 
       <SectionCard

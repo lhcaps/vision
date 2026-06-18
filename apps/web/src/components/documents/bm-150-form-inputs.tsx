@@ -3,6 +3,12 @@
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3001/api/v1';
 
@@ -430,7 +436,7 @@ export function Bm150FormInputsPanel({
         </div>
       ) : (
         <div className="grid gap-6">
-          <Section title="Thông tin bắt buộc">
+          <BmFormSection title="Thông tin bắt buộc">
             <TextareaField
               label="Căn cứ điều luật"
               value={form.procedureArticlesLine}
@@ -439,62 +445,31 @@ export function Bm150FormInputsPanel({
             />
 
             <div className="grid gap-4 md:grid-cols-3">
-              <Field label="Số quyết định khởi tố vụ án">
-                <input
-                  className={inputClass}
-                  value={form.caseDecisionNo}
-                  onChange={(event) =>
-                    updateField('caseDecisionNo', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Số quyết định khởi tố vụ án" value={form.caseDecisionNo} onChange={(value) =>
+                    updateField('caseDecisionNo', value)
+                  } fullWidth />
 
-              <Field label="Ngày quyết định khởi tố vụ án">
-                <input
-                  type="date"
-                  className={inputClass}
-                  value={form.caseDecisionDate}
-                  onChange={(event) =>
-                    updateField('caseDecisionDate', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Ngày quyết định khởi tố vụ án" value={form.caseDecisionDate} onChange={(value) =>
+                    updateField('caseDecisionDate', value)
+                  } fullWidth />
 
-              <Field label="Cơ quan ban hành">
-                <input
-                  className={inputClass}
-                  value={form.caseDecisionIssuedBy}
-                  onChange={(event) =>
-                    updateField('caseDecisionIssuedBy', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Cơ quan ban hành" value={form.caseDecisionIssuedBy} onChange={(value) =>
+                    updateField('caseDecisionIssuedBy', value)
+                  } fullWidth />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Tội danh">
-                <input
-                  className={inputClass}
-                  value={form.offenseName}
-                  onChange={(event) =>
-                    updateField('offenseName', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Tội danh" value={form.offenseName} onChange={(value) =>
+                    updateField('offenseName', value)
+                  } fullWidth />
 
-              <Field label="Điều luật">
-                <input
-                  className={inputClass}
-                  value={form.legalArticle}
-                  onChange={(event) =>
-                    updateField('legalArticle', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Điều luật" value={form.legalArticle} onChange={(value) =>
+                    updateField('legalArticle', value)
+                  } fullWidth />
             </div>
-          </Section>
+          </BmFormSection>
 
-          <Section title="Thông tin tùy chọn nếu có">
+          <BmFormSection title="Thông tin tùy chọn nếu có">
             <CheckboxField
               checked={form.hasCaseDecisionChange}
               label="Có Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án"
@@ -505,52 +480,27 @@ export function Bm150FormInputsPanel({
 
             {form.hasCaseDecisionChange ? (
               <div className="grid gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-2">
-                <Field label="Số quyết định thay đổi/bổ sung vụ án">
-                  <input
-                    className={inputClass}
-                    value={form.caseDecisionChangeNo}
-                    onChange={(event) =>
-                      updateField('caseDecisionChangeNo', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Số quyết định thay đổi/bổ sung vụ án" value={form.caseDecisionChangeNo} onChange={(value) =>
+                      updateField('caseDecisionChangeNo', value)
+                    } fullWidth />
 
-                <Field label="Ngày quyết định">
-                  <input
-                    type="date"
-                    className={inputClass}
-                    value={form.caseDecisionChangeDate}
-                    onChange={(event) =>
-                      updateField('caseDecisionChangeDate', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Ngày quyết định" value={form.caseDecisionChangeDate} onChange={(value) =>
+                      updateField('caseDecisionChangeDate', value)
+                    } fullWidth />
 
-                <Field label="Cơ quan ban hành">
-                  <input
-                    className={inputClass}
-                    value={form.caseDecisionChangeIssuedBy}
-                    onChange={(event) =>
+                <BmFieldText label="Cơ quan ban hành" value={form.caseDecisionChangeIssuedBy} onChange={(value) =>
                       updateField(
                         'caseDecisionChangeIssuedBy',
-                        event.target.value,
+                        value,
                       )
-                    }
-                  />
-                </Field>
+                    } fullWidth />
 
-                <Field label="Nội dung thay đổi/bổ sung">
-                  <input
-                    className={inputClass}
-                    value={form.caseDecisionChangeContent}
-                    onChange={(event) =>
+                <BmFieldText label="Nội dung thay đổi/bổ sung" value={form.caseDecisionChangeContent} onChange={(value) =>
                       updateField(
                         'caseDecisionChangeContent',
-                        event.target.value,
+                        value,
                       )
-                    }
-                  />
-                </Field>
+                    } fullWidth />
               </div>
             ) : null}
 
@@ -562,46 +512,21 @@ export function Bm150FormInputsPanel({
 
             {form.hasAccusedDecision ? (
               <div className="grid gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-2">
-                <Field label="Số quyết định khởi tố bị can">
-                  <input
-                    className={inputClass}
-                    value={form.accusedDecisionNo}
-                    onChange={(event) =>
-                      updateField('accusedDecisionNo', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Số quyết định khởi tố bị can" value={form.accusedDecisionNo} onChange={(value) =>
+                      updateField('accusedDecisionNo', value)
+                    } fullWidth />
 
-                <Field label="Ngày quyết định">
-                  <input
-                    type="date"
-                    className={inputClass}
-                    value={form.accusedDecisionDate}
-                    onChange={(event) =>
-                      updateField('accusedDecisionDate', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Ngày quyết định" value={form.accusedDecisionDate} onChange={(value) =>
+                      updateField('accusedDecisionDate', value)
+                    } fullWidth />
 
-                <Field label="Cơ quan ban hành">
-                  <input
-                    className={inputClass}
-                    value={form.accusedDecisionIssuedBy}
-                    onChange={(event) =>
-                      updateField('accusedDecisionIssuedBy', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Cơ quan ban hành" value={form.accusedDecisionIssuedBy} onChange={(value) =>
+                      updateField('accusedDecisionIssuedBy', value)
+                    } fullWidth />
 
-                <Field label="Tên bị can">
-                  <input
-                    className={inputClass}
-                    value={form.accusedName}
-                    onChange={(event) =>
-                      updateField('accusedName', event.target.value)
-                    }
-                  />
-                </Field>
+                <BmFieldText label="Tên bị can" value={form.accusedName} onChange={(value) =>
+                      updateField('accusedName', value)
+                    } fullWidth />
 
                 <div className="md:col-span-2">
                   <CheckboxField
@@ -615,58 +540,33 @@ export function Bm150FormInputsPanel({
 
                 {form.hasAccusedDecisionChange ? (
                   <>
-                    <Field label="Số quyết định thay đổi/bổ sung bị can">
-                      <input
-                        className={inputClass}
-                        value={form.accusedDecisionChangeNo}
-                        onChange={(event) =>
+                    <BmFieldText label="Số quyết định thay đổi/bổ sung bị can" value={form.accusedDecisionChangeNo} onChange={(value) =>
                           updateField(
                             'accusedDecisionChangeNo',
-                            event.target.value,
+                            value,
                           )
-                        }
-                      />
-                    </Field>
+                        } fullWidth />
 
-                    <Field label="Ngày quyết định">
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={form.accusedDecisionChangeDate}
-                        onChange={(event) =>
+                    <BmFieldText label="Ngày quyết định" value={form.accusedDecisionChangeDate} onChange={(value) =>
                           updateField(
                             'accusedDecisionChangeDate',
-                            event.target.value,
+                            value,
                           )
-                        }
-                      />
-                    </Field>
+                        } fullWidth />
 
-                    <Field label="Cơ quan ban hành">
-                      <input
-                        className={inputClass}
-                        value={form.accusedDecisionChangeIssuedBy}
-                        onChange={(event) =>
+                    <BmFieldText label="Cơ quan ban hành" value={form.accusedDecisionChangeIssuedBy} onChange={(value) =>
                           updateField(
                             'accusedDecisionChangeIssuedBy',
-                            event.target.value,
+                            value,
                           )
-                        }
-                      />
-                    </Field>
+                        } fullWidth />
 
-                    <Field label="Nội dung thay đổi/bổ sung">
-                      <input
-                        className={inputClass}
-                        value={form.accusedDecisionChangeContent}
-                        onChange={(event) =>
+                    <BmFieldText label="Nội dung thay đổi/bổ sung" value={form.accusedDecisionChangeContent} onChange={(value) =>
                           updateField(
                             'accusedDecisionChangeContent',
-                            event.target.value,
+                            value,
                           )
-                        }
-                      />
-                    </Field>
+                        } fullWidth />
                   </>
                 ) : null}
               </div>
@@ -692,9 +592,9 @@ export function Bm150FormInputsPanel({
                 Không tick: Điều 2 sẽ xuất “Không có.”
               </div>
             )}
-          </Section>
+          </BmFormSection>
 
-          <Section title="Nội dung quyết định">
+          <BmFormSection title="Nội dung quyết định">
             <TextareaField
               label="Xét thấy"
               value={form.reasonLine}
@@ -722,9 +622,9 @@ export function Bm150FormInputsPanel({
               onChange={(value) => updateField('article4Line', value)}
               className={textAreaClass}
             />
-          </Section>
+          </BmFormSection>
 
-          <Section title="Nơi nhận">
+          <BmFormSection title="Nơi nhận">
             <div className="grid gap-4 md:grid-cols-2">
               <TextareaField
                 label="VKS cấp trên"
@@ -776,41 +676,23 @@ export function Bm150FormInputsPanel({
                 className={textAreaClass}
               />
             </div>
-          </Section>
+          </BmFormSection>
 
-          <Section title="Chữ ký">
+          <BmFormSection title="Chữ ký">
             <div className="grid gap-4 md:grid-cols-3">
-              <Field label="Ký thay">
-                <input
-                  className={inputClass}
-                  value={form.signMode}
-                  onChange={(event) =>
-                    updateField('signMode', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Ký thay" value={form.signMode} onChange={(value) =>
+                    updateField('signMode', value)
+                  } fullWidth />
 
-              <Field label="Chức vụ">
-                <input
-                  className={inputClass}
-                  value={form.positionTitle}
-                  onChange={(event) =>
-                    updateField('positionTitle', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Chức vụ" value={form.positionTitle} onChange={(value) =>
+                    updateField('positionTitle', value)
+                  } fullWidth />
 
-              <Field label="Người ký">
-                <input
-                  className={inputClass}
-                  value={form.signerName}
-                  onChange={(event) =>
-                    updateField('signerName', event.target.value)
-                  }
-                />
-              </Field>
+              <BmFieldText label="Người ký" value={form.signerName} onChange={(value) =>
+                    updateField('signerName', value)
+                  } fullWidth />
             </div>
-          </Section>
+          </BmFormSection>
         </div>
       )}
     </section>

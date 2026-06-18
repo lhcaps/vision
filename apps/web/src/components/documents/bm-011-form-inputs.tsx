@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
@@ -1090,36 +1095,12 @@ export function Bm011FormInputsPanel({
         description="Ngày nhập theo DD/MM/YYYY để tránh lỗi đảo năm-tháng-ngày."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Cơ quan cấp trên"
-            value={form.agency.parentName}
-            onChange={(value) => updateAgency("parentName", value)}
-          />
-          <Field
-            label="Viện kiểm sát ban hành"
-            value={form.agency.name}
-            onChange={(value) => updateAgency("name", value)}
-          />
-          <Field
-            label="Tên cơ quan trong thân văn bản"
-            value={form.agency.bodyName}
-            onChange={(value) => updateAgency("bodyName", value)}
-          />
-          <Field
-            label="Tên viết tắt"
-            value={form.agency.shortName}
-            onChange={(value) => updateAgency("shortName", value)}
-          />
-          <Field
-            label="Số quyết định"
-            value={form.document.documentCode}
-            onChange={(value) => updateDocument("documentCode", value)}
-          />
-          <Field
-            label="Địa danh"
-            value={form.document.issuePlace}
-            onChange={(value) => updateDocument("issuePlace", value)}
-          />
+          <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateAgency("parentName", value)} fullWidth />
+          <BmFieldText label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateAgency("name", value)} fullWidth />
+          <BmFieldText label="Tên cơ quan trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateAgency("bodyName", value)} fullWidth />
+          <BmFieldText label="Tên viết tắt" value={form.agency.shortName} onChange={(value) => updateAgency("shortName", value)} fullWidth />
+          <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateDocument("documentCode", value)} fullWidth />
+          <BmFieldText label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateDocument("issuePlace", value)} fullWidth />
           <div className="space-y-1.5">
             <Bm011DateSelectField
               label="Ngày ban hành"
@@ -1137,11 +1118,7 @@ export function Bm011FormInputsPanel({
 
       <SectionCard title="2. Chủ thể / căn cứ tố tụng">
         <div className="grid gap-4">
-          <Field
-            label="Chủ thể ban hành"
-            value={form.official.issuerTitle}
-            onChange={(value) => updateOfficial("issuerTitle", value)}
-          />
+          <BmFieldText label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateOfficial("issuerTitle", value)} fullWidth />
           <TextAreaField
             label="Căn cứ tố tụng"
             value={form.legalBasis.procedureArticlesLine}
@@ -1156,13 +1133,9 @@ export function Bm011FormInputsPanel({
         description="Sửa các ô ngắn rồi bấm 'Tự sinh lại xét thấy / Điều 1 / Điều 2' nếu muốn cập nhật lại dòng dài."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Số quyết định tạm đình chỉ"
-            value={form.sourceSuspensionCancellation.suspensionDecisionCode}
-            onChange={(value) =>
+          <BmFieldText label="Số quyết định tạm đình chỉ" value={form.sourceSuspensionCancellation.suspensionDecisionCode} onChange={(value) =>
               updateCancellation("suspensionDecisionCode", value, true)
-            }
-          />
+            } fullWidth />
           <div className="space-y-1.5">
             <Bm011DateSelectField
               label="Ngày quyết định tạm đình chỉ"
@@ -1180,18 +1153,10 @@ export function Bm011FormInputsPanel({
               {form.sourceSuspensionCancellation.suspensionDecisionIssueDateLine}
             </p>
           </div>
-          <Field
-            label="Cơ quan đã ban hành quyết định tạm đình chỉ"
-            value={form.sourceSuspensionCancellation.suspensionDecisionIssuedBy}
-            onChange={(value) =>
+          <BmFieldText label="Cơ quan đã ban hành quyết định tạm đình chỉ" value={form.sourceSuspensionCancellation.suspensionDecisionIssuedBy} onChange={(value) =>
               updateCancellation("suspensionDecisionIssuedBy", value, true)
-            }
-          />
-          <Field
-            label="Cơ quan được yêu cầu tiếp tục giải quyết"
-            value={form.sourceSuspensionCancellation.sourceProvider}
-            onChange={(value) => updateCancellation("sourceProvider", value, true)}
-          />
+            } fullWidth />
+          <BmFieldText label="Cơ quan được yêu cầu tiếp tục giải quyết" value={form.sourceSuspensionCancellation.sourceProvider} onChange={(value) => updateCancellation("sourceProvider", value, true)} fullWidth />
         </div>
 
         <div className="mt-4">
@@ -1229,36 +1194,12 @@ export function Bm011FormInputsPanel({
 
       <SectionCard title="5. Nơi nhận / chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Nơi nhận chính"
-            value={form.recipients.primaryLine}
-            onChange={(value) => updateRecipients("primaryLine", value)}
-          />
-          <Field
-            label="Người/cơ quan cung cấp nguồn tin"
-            value={form.recipients.sourceProviderLine}
-            onChange={(value) => updateRecipients("sourceProviderLine", value)}
-          />
-          <Field
-            label="Lưu hồ sơ"
-            value={form.recipients.archiveLine}
-            onChange={(value) => updateRecipients("archiveLine", value)}
-          />
-          <Field
-            label="Chế độ ký"
-            value={form.signature.signMode}
-            onChange={(value) => updateSignature("signMode", value)}
-          />
-          <Field
-            label="Chức vụ người ký"
-            value={form.signature.positionTitle}
-            onChange={(value) => updateSignature("positionTitle", value)}
-          />
-          <Field
-            label="Người ký"
-            value={form.signature.signerName}
-            onChange={(value) => updateSignature("signerName", value)}
-          />
+          <BmFieldText label="Nơi nhận chính" value={form.recipients.primaryLine} onChange={(value) => updateRecipients("primaryLine", value)} fullWidth />
+          <BmFieldText label="Người/cơ quan cung cấp nguồn tin" value={form.recipients.sourceProviderLine} onChange={(value) => updateRecipients("sourceProviderLine", value)} fullWidth />
+          <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateRecipients("archiveLine", value)} fullWidth />
+          <BmFieldText label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateSignature("signMode", value)} fullWidth />
+          <BmFieldText label="Chức vụ người ký" value={form.signature.positionTitle} onChange={(value) => updateSignature("positionTitle", value)} fullWidth />
+          <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateSignature("signerName", value)} fullWidth />
         </div>
       </SectionCard>
 

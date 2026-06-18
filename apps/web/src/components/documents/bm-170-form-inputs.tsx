@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "./bm-form";
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
@@ -1006,68 +1012,52 @@ export function Bm170FormInputsPanel({
             <p className="mb-3 text-sm font-bold text-blue-950">
               Cơ quan điều tra / cơ quan thực hiện quyết định - đồng bộ toàn biểu mẫu
             </p>
-            <Field
-              label="Cơ quan điều tra"
-              value={form.evidenceHandlingCancellation.investigationAuthority}
-              onChange={(value) =>
+            <BmFieldText label="Cơ quan điều tra" value={form.evidenceHandlingCancellation.investigationAuthority} onChange={(value) =>
                 updateCancellation("investigationAuthority", value, true)
-              }
-            />
+              } fullWidth />
           </div>
 
-          <Field
-            label="Số Quyết định xử lý vật chứng bị hủy"
-            value={form.evidenceHandlingCancellation.evidenceHandlingDecisionCode}
-            onChange={(value) =>
+          <BmFieldText label="Số Quyết định xử lý vật chứng bị hủy" value={form.evidenceHandlingCancellation.evidenceHandlingDecisionCode} onChange={(value) =>
               updateCancellation("evidenceHandlingDecisionCode", value, true)
-            }
-          />
-          <Field
-            label="Ngày Quyết định xử lý vật chứng"
-            value={form.evidenceHandlingCancellation.evidenceHandlingDecisionDateLine}
-            onChange={(value) =>
+            } fullWidth />
+          <BmFieldText label="Ngày Quyết định xử lý vật chứng" value={form.evidenceHandlingCancellation.evidenceHandlingDecisionDateLine} onChange={(value) =>
               updateCancellation("evidenceHandlingDecisionDateLine", value, true)
-            }
-          />
+            } fullWidth />
           <div className="md:col-span-2">
-            <Field
-              label="Cơ quan ban hành Quyết định xử lý vật chứng"
-              value={form.evidenceHandlingCancellation.evidenceHandlingDecisionIssuedBy}
-              onChange={updateEvidenceDecisionIssuedBy}
-            />
+            <BmFieldText label="Cơ quan ban hành Quyết định xử lý vật chứng" value={form.evidenceHandlingCancellation.evidenceHandlingDecisionIssuedBy} onChange={updateEvidenceDecisionIssuedBy} fullWidth />
           </div>
         </div>
       </SectionCard>
 
       <SectionCard title="2. Cơ quan / văn bản">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateAgency("parentName", value)} />
-          <Field label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateAgency("name", value)} />
-          <Field label="Tên cơ quan trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateAgency("bodyName", value)} />
-          <Field label="Tên viết tắt" value={form.agency.shortName} onChange={(value) => updateAgency("shortName", value)} />
-          <Field label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateDocument("documentCode", value)} />
-          <Field label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateDocument("issuePlace", value)} />
-          <Field label="Ngày ban hành DD/MM/YYYY" value={form.document.issueDateText} onChange={(value) => updateDocument("issueDateText", value)} />
-          <Field label="Dòng địa danh, ngày tháng" value={form.document.issuePlaceAndDateLine} onChange={(value) => updateDocument("issuePlaceAndDateLine", value)} />
+          <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateAgency("parentName", value)} fullWidth />
+          <BmFieldText label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateAgency("name", value)} fullWidth />
+          <BmFieldText label="Tên cơ quan trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateAgency("bodyName", value)} fullWidth />
+          <BmFieldText label="Tên viết tắt" value={form.agency.shortName} onChange={(value) => updateAgency("shortName", value)} fullWidth />
+          <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateDocument("documentCode", value)} fullWidth />
+          <BmFieldText label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateDocument("issuePlace", value)} fullWidth />
+          <BmFieldText label="Ngày ban hành DD/MM/YYYY" value={form.document.issueDateText} onChange={(value) => updateDocument("issueDateText", value)} fullWidth />
+          <BmFieldText label="Dòng địa danh, ngày tháng" value={form.document.issuePlaceAndDateLine} onChange={(value) => updateDocument("issuePlaceAndDateLine", value)} fullWidth />
         </div>
       </SectionCard>
 
       <SectionCard title="3. Chủ thể ban hành / căn cứ">
         <div className="grid gap-4">
-          <Field label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateOfficial("issuerTitle", value)} />
+          <BmFieldText label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateOfficial("issuerTitle", value)} fullWidth />
           <TextAreaField label="Căn cứ BLTTHS" value={form.legalBasis.procedureArticlesLine} onChange={(value) => updateLegalBasis("procedureArticlesLine", value)} rows={2} />
         </div>
       </SectionCard>
 
       <SectionCard title="4. Thông tin vụ án / bị can">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Bị can" value={form.evidenceHandlingCancellation.defendantName} onChange={(value) => updateCancellation("defendantName", value, true)} />
-          <Field label="Tội danh" value={form.evidenceHandlingCancellation.offenseName} onChange={(value) => updateCancellation("offenseName", value, true)} />
-          <Field label="Điều luật tội danh" value={form.evidenceHandlingCancellation.offenseLegalLine} onChange={(value) => updateCancellation("offenseLegalLine", value, true)} />
-          <Field label="Số QĐ khởi tố vụ án" value={form.evidenceHandlingCancellation.caseInitiationCode} onChange={(value) => updateCancellation("caseInitiationCode", value, true)} />
-          <Field label="Ngày QĐ khởi tố vụ án" value={form.evidenceHandlingCancellation.caseInitiationDateLine} onChange={(value) => updateCancellation("caseInitiationDateLine", value, true)} />
-          <Field label="Số QĐ khởi tố bị can" value={form.evidenceHandlingCancellation.defendantInitiationCode} onChange={(value) => updateCancellation("defendantInitiationCode", value, true)} />
-          <Field label="Ngày QĐ khởi tố bị can" value={form.evidenceHandlingCancellation.defendantInitiationDateLine} onChange={(value) => updateCancellation("defendantInitiationDateLine", value, true)} />
+          <BmFieldText label="Bị can" value={form.evidenceHandlingCancellation.defendantName} onChange={(value) => updateCancellation("defendantName", value, true)} fullWidth />
+          <BmFieldText label="Tội danh" value={form.evidenceHandlingCancellation.offenseName} onChange={(value) => updateCancellation("offenseName", value, true)} fullWidth />
+          <BmFieldText label="Điều luật tội danh" value={form.evidenceHandlingCancellation.offenseLegalLine} onChange={(value) => updateCancellation("offenseLegalLine", value, true)} fullWidth />
+          <BmFieldText label="Số QĐ khởi tố vụ án" value={form.evidenceHandlingCancellation.caseInitiationCode} onChange={(value) => updateCancellation("caseInitiationCode", value, true)} fullWidth />
+          <BmFieldText label="Ngày QĐ khởi tố vụ án" value={form.evidenceHandlingCancellation.caseInitiationDateLine} onChange={(value) => updateCancellation("caseInitiationDateLine", value, true)} fullWidth />
+          <BmFieldText label="Số QĐ khởi tố bị can" value={form.evidenceHandlingCancellation.defendantInitiationCode} onChange={(value) => updateCancellation("defendantInitiationCode", value, true)} fullWidth />
+          <BmFieldText label="Ngày QĐ khởi tố bị can" value={form.evidenceHandlingCancellation.defendantInitiationDateLine} onChange={(value) => updateCancellation("defendantInitiationDateLine", value, true)} fullWidth />
         </div>
       </SectionCard>
 
@@ -1084,11 +1074,11 @@ export function Bm170FormInputsPanel({
 
       <SectionCard title="6. Nơi nhận / chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Nơi nhận chính" value={form.recipients.primaryLine} onChange={(value) => updateRecipients("primaryLine", value)} />
-          <Field label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateRecipients("archiveLine", value)} />
-          <Field label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateSignature("signMode", value)} />
-          <Field label="Chức vụ người ký" value={form.signature.positionTitle} onChange={(value) => updateSignature("positionTitle", value)} />
-          <Field label="Người ký" value={form.signature.signerName} onChange={(value) => updateSignature("signerName", value)} />
+          <BmFieldText label="Nơi nhận chính" value={form.recipients.primaryLine} onChange={(value) => updateRecipients("primaryLine", value)} fullWidth />
+          <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateRecipients("archiveLine", value)} fullWidth />
+          <BmFieldText label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateSignature("signMode", value)} fullWidth />
+          <BmFieldText label="Chức vụ người ký" value={form.signature.positionTitle} onChange={(value) => updateSignature("positionTitle", value)} fullWidth />
+          <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateSignature("signerName", value)} fullWidth />
         </div>
       </SectionCard>
 
