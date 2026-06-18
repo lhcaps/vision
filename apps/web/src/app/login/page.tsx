@@ -59,7 +59,7 @@ function LoginContent() {
       <div className="grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
         <section className="relative hidden min-h-screen flex-col justify-between overflow-hidden px-12 py-10 text-white lg:flex">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_32%),radial-gradient(circle_at_80%_70%,rgba(14,165,233,0.18),transparent_30%)]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950 to-blue-950/70" />
+          <div className="absolute inset-0 bg-linear-to-br from-slate-950 via-slate-950 to-blue-950/70" />
 
           <div className="relative z-10">
             <div className="inline-flex h-10 items-center rounded-xl border border-white/15 bg-white/5 px-4 text-xs font-black tracking-[0.22em] shadow-2xl shadow-blue-950/30 backdrop-blur">
@@ -172,7 +172,7 @@ function LoginContent() {
 
 function StatusTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-xl shadow-black/20 backdrop-blur">
+    <div className="rounded-2xl border border-white/10 bg-white/6 p-4 shadow-xl shadow-black/20 backdrop-blur">
       <div className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
         {label}
       </div>
