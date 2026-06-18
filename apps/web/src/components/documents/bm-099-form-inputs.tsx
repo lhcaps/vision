@@ -92,11 +92,11 @@ const REQUIRED_FIELDS: ReadonlyArray<[keyof Bm099Form, string, string]> = [
   ["document", "issuePlace", "Địa danh ban hành"],
   ["document", "issueDateIso", "Ngày ban hành"],
   ["official", "issuerTitle", "Chủ thể ban hành"],
-  ["decisionAmendmentApproval", "procedureArticlesLine", "Căn cứ tố tụng"],
-  ["decisionAmendmentApproval", "oldDecisionInfoLine", "Quyết định cũ"],
-  ["decisionAmendmentApproval", "reasonLine", "Lý do thay đổi"],
-  ["decisionAmendmentApproval", "personName", "Tên bị can"],
-  ["decisionAmendmentApproval", "offenseName", "Tội danh"],
+  ["decisionChange", "procedureArticlesLine", "Căn cứ tố tụng"],
+  ["decisionChange", "oldDecisionInfoLine", "Quyết định cũ"],
+  ["decisionChange", "reasonLine", "Lý do thay đổi"],
+  ["decisionChange", "personName", "Tên bị can"],
+  ["decisionChange", "offenseName", "Tội danh"],
   ["recipients", "archiveLine", "Lưu hồ sơ"],
   ["signature", "signMode", "Chế độ ký"],
   ["signature", "positionTitle", "Chức vụ ký"],
@@ -153,7 +153,7 @@ function buildIssuePlaceAndDateLine(form: Bm099Form): string {
 }
 
 function buildReasonLine(form: Bm099Form): string {
-  const data = form.decisionAmendmentApproval;
+  const data = form.decisionChange;
   if (!data.reasonLine.trim()) {
     return `Xét thấy việc thay đổi quyết định khởi tố bị can là cần thiết.`;
   }
@@ -161,7 +161,7 @@ function buildReasonLine(form: Bm099Form): string {
 }
 
 function buildNewDecisionLine(form: Bm099Form): string {
-  const data = form.decisionAmendmentApproval;
+  const data = form.decisionChange;
   if (!data.newDecisionLine.trim()) {
     return `Thay đổi Quyết định khởi tố bị can đối với ${data.personName.trim()} về tội "${data.offenseName.trim()}".`;
   }
@@ -256,7 +256,7 @@ function buildSaveBody(form: Bm099Form) {
     issuerTitle: form.official.issuerTitle,
   };
 
-  const decisionAmendmentApproval = {
+  const decisionChange = {
     procedureArticlesLine: form.decisionChange.procedureArticlesLine,
     oldDecisionInfoLine: form.decisionChange.oldDecisionInfoLine,
     reasonLine: buildReasonLine(form),
@@ -279,7 +279,7 @@ function buildSaveBody(form: Bm099Form) {
     agency,
     document,
     official,
-    decisionAmendmentApproval,
+    decisionChange,
     recipients,
     signature,
   };
@@ -350,7 +350,7 @@ export function Bm099FormInputsPanel({
       agency: { ...EMPTY_FORM.agency },
       document: { ...EMPTY_FORM.document },
       official: { ...EMPTY_FORM.official },
-      decisionChange: { ...EMPTY_FORM.decisionAmendmentApproval },
+      decisionChange: { ...EMPTY_FORM.decisionChange },
       recipients: { ...EMPTY_FORM.recipients },
       signature: { ...EMPTY_FORM.signature },
     });
@@ -516,38 +516,38 @@ export function Bm099FormInputsPanel({
           label="Căn cứ tố tụng"
           required
           value={form.decisionChange.procedureArticlesLine}
-          onChange={(v) => patch("decisionAmendmentApproval", "procedureArticlesLine", v)}
+          onChange={(v) => patch("decisionChange", "procedureArticlesLine", v)}
           rows={2}
         />
         <BmFieldText
           label="Quyết định khởi tố bị can cũ"
           required
           value={form.decisionChange.oldDecisionInfoLine}
-          onChange={(v) => patch("decisionAmendmentApproval", "oldDecisionInfoLine", v)}
+          onChange={(v) => patch("decisionChange", "oldDecisionInfoLine", v)}
         />
         <BmFieldTextarea
           label="Lý do thay đổi"
           required
           value={form.decisionChange.reasonLine}
-          onChange={(v) => patch("decisionAmendmentApproval", "reasonLine", v)}
+          onChange={(v) => patch("decisionChange", "reasonLine", v)}
           rows={3}
         />
         <BmFieldText
           label="Tên bị can"
           required
           value={form.decisionChange.personName}
-          onChange={(v) => patch("decisionAmendmentApproval", "personName", v)}
+          onChange={(v) => patch("decisionChange", "personName", v)}
         />
         <BmFieldText
           label="Tội danh"
           required
           value={form.decisionChange.offenseName}
-          onChange={(v) => patch("decisionAmendmentApproval", "offenseName", v)}
+          onChange={(v) => patch("decisionChange", "offenseName", v)}
         />
         <BmFieldTextarea
           label="Nội dung quyết định thay đổi (tự sinh nếu trống)"
           value={form.decisionChange.newDecisionLine}
-          onChange={(v) => patch("decisionAmendmentApproval", "newDecisionLine", v)}
+          onChange={(v) => patch("decisionChange", "newDecisionLine", v)}
           rows={3}
         />
       </BmFormSection>
