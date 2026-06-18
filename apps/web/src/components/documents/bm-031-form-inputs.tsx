@@ -3,11 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
-
-const DEFAULT_SIGNER_NAME = '';
-const DEFAULT_JUVENILE_LINE = "Căn cứ Điều 135 và Điều 138 của Luật Tư pháp người chưa thành niên;";
+import { absoluteApiUrl, readApi } from "@/lib/api-client";
 
 type TextRecord = Record<string, string>;
 
@@ -293,8 +289,8 @@ function buildVietnameseDateLine(day: string, month: string, year: string): stri
 function normalizeDisplayDate(value: string): string {
   const raw = toText(value);
 
-  if (!raw || raw.includes("...") || raw === "22/05/2026") {
-    return todayDisplayDate();
+  if (!raw || raw.includes("...")) {
+    return "";
   }
 
   const parts = parseDateParts(raw);
@@ -305,10 +301,8 @@ function normalizeDisplayDate(value: string): string {
 function normalizeVietnameseDateLine(value: string): string {
   const raw = toText(value);
 
-  if (!raw || raw.includes("...") || raw === "ngày 22 tháng 5 năm 2026") {
-    const parts = parseDateParts(todayDisplayDate());
-
-    return buildVietnameseDateLine(parts.day, parts.month, parts.year);
+  if (!raw || raw.includes("...")) {
+    return "";
   }
 
   const parts = parseDateParts(raw);
@@ -317,10 +311,16 @@ function normalizeVietnameseDateLine(value: string): string {
 }
 
 function buildIssuePlaceAndDateLine(issuePlace: string, issueDate: string): string {
-  const place = toText(issuePlace) || "TP. Hồ Chí Minh";
-  const parts = parseDateParts(issueDate || todayDisplayDate());
+  const place = toText(issuePlace);
+  const parts = parseDateParts(issueDate);
+  const dateText = parts.day && parts.month && parts.year
+    ? buildVietnameseDateLine(parts.day, parts.month, parts.year)
+    : "";
 
-  return `${place}, ${buildVietnameseDateLine(parts.day, parts.month, parts.year)}`;
+  if (!place && !dateText) return "";
+  if (!place) return dateText;
+  if (!dateText) return place;
+  return `${place}, ${dateText}`;
 }
 
 function stripRecipientLine(value: string): string {
@@ -336,7 +336,7 @@ function recipientLine(value: string): string {
 function archiveLine(value: string): string {
   const raw = stripRecipientLine(value);
 
-  if (!raw) return "- Lưu: HSVV, HSKS, VP.";
+  if (!raw) return "";
 
   return raw.toLocaleLowerCase("vi-VN").startsWith("lưu:")
     ? `- ${raw}.`
@@ -379,7 +379,7 @@ function buildGeneratedLines(form: Bm031FormInputs): Pick<
   return {
     juvenileLegalBasisLine:
       form.legalBasis.isJuvenile === "true"
-        ? toText(form.legalBasis.juvenileLegalBasisLine) || DEFAULT_JUVENILE_LINE
+        ? toText(form.legalBasis.juvenileLegalBasisLine)
         : "",
     requestApprovalLine,
     reasonLine,
@@ -394,18 +394,15 @@ function buildGeneratedLines(form: Bm031FormInputs): Pick<
 function normalizeFormInputs(payload: Record<string, unknown>): Bm031FormInputs {
   const root = sourceRoot(payload);
 
-  const issuePlace =
-    pickText(root, "agency.issuePlace") ||
-    "TP. Hồ Chí Minh";
+  const issuePlace = pickText(root, "agency.issuePlace");
 
-  const documentCode =
-    pickText(
-      root,
-      "document.documentCodeLine",
-      "document.documentCode",
-      "document.documentNo",
-      "document.fullDocumentCode",
-    ) || "31/QĐ-VKSKV7";
+  const documentCode = pickText(
+    root,
+    "document.documentCodeLine",
+    "document.documentCode",
+    "document.documentNo",
+    "document.fullDocumentCode",
+  );
 
   const issueDate = normalizeDisplayDate(
     pickText(root, "document.issueDate") ||
@@ -415,8 +412,7 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm031FormInputs 
 
   const authority =
     pickText(root, "principal.investigationAuthorityName") ||
-    stripRecipientLine(pickText(root, "recipients.investigationUnitLine")) ||
-    "Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh";
+    stripRecipientLine(pickText(root, "recipients.investigationUnitLine"));
 
   const personName =
     pickText(
@@ -432,18 +428,12 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm031FormInputs 
       "arrestee.fullName",
       "arrestee.name",
     ) ||
-    stripRecipientLine(pickText(root, "recipients.personLine", "recipients.accusedLine")) ||
-    "";
+    stripRecipientLine(pickText(root, "recipients.personLine", "recipients.accusedLine"));
 
-  const offenseName =
-    pickText(root, "offense.offenseName") ||
-    "Đánh bạc";
+  const offenseName = pickText(root, "offense.offenseName");
+  const legalArticle = pickText(root, "offense.legalArticle");
 
-  const legalArticle =
-    pickText(root, "offense.legalArticle") ||
-    "khoản 1 Điều 321 Bộ luật Hình sự";
-
-    const rawJuvenile = pickText(root, "legalBasis.isJuvenile");
+  const rawJuvenile = pickText(root, "legalBasis.isJuvenile");
   const existingJuvenileLine = pickText(
     root,
     "legalBasis.juvenileLegalBasisLine",
@@ -464,14 +454,10 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm031FormInputs 
         : existingJuvenileLine
           ? "true"
           : "false";
-const baseForm: Bm031FormInputs = {
+  const baseForm: Bm031FormInputs = {
     agency: {
-      parentName:
-        pickText(root, "agency.parentName") ||
-        "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
-      name:
-        pickText(root, "agency.name") ||
-        "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      parentName: pickText(root, "agency.parentName"),
+      name: pickText(root, "agency.name"),
       issuePlace,
       phone: pickText(root, "agency.phone"),
     },
@@ -485,10 +471,7 @@ const baseForm: Bm031FormInputs = {
     },
     legalBasis: {
       isJuvenile,
-      juvenileLegalBasisLine:
-        isJuvenile === "true"
-          ? existingJuvenileLine || DEFAULT_JUVENILE_LINE
-          : "",
+      juvenileLegalBasisLine: isJuvenile === "true" ? existingJuvenileLine : "",
       requestApprovalLine: pickText(root, "legalBasis.requestApprovalLine"),
     },
     principal: {
@@ -498,19 +481,16 @@ const baseForm: Bm031FormInputs = {
     offense: {
       offenseName,
       legalArticle,
-      criminalCodeText:
-        pickText(root, "offense.criminalCodeText") ||
-        "Bộ luật Hình sự năm 2015, sửa đổi, bổ sung năm 2025",
+      criminalCodeText: pickText(root, "offense.criminalCodeText"),
     },
     measure: {
-      emergencyArrestOrderCode:
-        pickText(
-          root,
-          "measure.emergencyArrestOrderCode",
-          "measure.arrestOrderCode",
-          "measure.detentionOrderCode",
-          "measure.orderDocumentCode",
-        ) || "17/LTG-VKSKV7",
+      emergencyArrestOrderCode: pickText(
+        root,
+        "measure.emergencyArrestOrderCode",
+        "measure.arrestOrderCode",
+        "measure.detentionOrderCode",
+        "measure.orderDocumentCode",
+      ),
       emergencyArrestOrderIssueDateText: normalizeVietnameseDateLine(
         pickText(
           root,
@@ -530,9 +510,9 @@ const baseForm: Bm031FormInputs = {
       archiveLine: pickText(root, "recipients.archiveLine"),
     },
     signature: {
-      signMode: pickText(root, "signature.signMode") || "KT. VIỆN TRƯỞNG",
-      positionTitle: pickText(root, "signature.positionTitle") || "PHÓ VIỆN TRƯỞNG",
-      signerName: pickText(root, "signature.signerName") || DEFAULT_SIGNER_NAME,
+      signMode: pickText(root, "signature.signMode"),
+      positionTitle: pickText(root, "signature.positionTitle"),
+      signerName: pickText(root, "signature.signerName"),
     },
   };
 
@@ -576,7 +556,7 @@ function regenerateFromMainFields(form: Bm031FormInputs): Bm031FormInputs {
       ...form.legalBasis,
       juvenileLegalBasisLine:
         form.legalBasis.isJuvenile === "true"
-          ? form.legalBasis.juvenileLegalBasisLine || DEFAULT_JUVENILE_LINE
+          ? form.legalBasis.juvenileLegalBasisLine
           : "",
     },
     measure: {
@@ -620,20 +600,10 @@ function regenerateFromMainFields(form: Bm031FormInputs): Bm031FormInputs {
 async function getBm031RenderPayload(
   documentId: string | number,
 ): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/bm031-direct-render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
+  return readApi<Record<string, unknown>>(
+    `/documents/generated/${documentId}/bm031-direct-render-payload`,
+    { noStore: true },
   );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-031. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
 }
 
 async function requestSave(
@@ -646,9 +616,12 @@ async function requestSave(
   text: string;
 }> {
   const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/bm031-direct-form-inputs`,
+    absoluteApiUrl(
+      `/documents/generated/${documentId}/bm031-direct-form-inputs`,
+    ),
     {
       method,
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json; charset=utf-8",
@@ -673,7 +646,7 @@ function buildBm031SavePayload(ready: Bm031FormInputs): Record<string, unknown> 
 
   const isJuvenile = ready.legalBasis.isJuvenile === "true";
   const juvenileLine = isJuvenile
-    ? ready.legalBasis.juvenileLegalBasisLine || DEFAULT_JUVENILE_LINE
+    ? toText(ready.legalBasis.juvenileLegalBasisLine)
     : "";
 
   const personName = toText(ready.principal.personName);
@@ -819,7 +792,7 @@ function buildBm031DirectSavePayload(form: Bm031FormInputs): Record<string, unkn
   const isJuvenile = form.legalBasis.isJuvenile === "true";
 
   const juvenileLine = isJuvenile
-    ? toText(form.legalBasis.juvenileLegalBasisLine) || DEFAULT_JUVENILE_LINE
+    ? toText(form.legalBasis.juvenileLegalBasisLine)
     : "";
 
   const personName = toText(form.principal.personName);
@@ -1106,8 +1079,7 @@ async function saveBm031FormInputs(
     },
   } as unknown as Bm031FormInputs;
 
-  const signerName =
-    pickText(savePayload, "signature.signerName") || DEFAULT_SIGNER_NAME;
+  const signerName = pickText(savePayload, "signature.signerName");
 
   const body = {
     ...(savePayload as unknown as Record<string, unknown>),
@@ -1145,9 +1117,12 @@ async function saveBm031FormInputs(
   };
 
   const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/bm031-direct-form-inputs`,
+    absoluteApiUrl(
+      `/documents/generated/${documentId}/bm031-direct-form-inputs`,
+    ),
     {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         Accept: "application/json",
@@ -1451,10 +1426,7 @@ export function Bm031FormInputsPanel({
         next.legalBasis = {
           ...next.legalBasis,
           isJuvenile: value,
-          juvenileLegalBasisLine:
-            value === "true"
-              ? next.legalBasis.juvenileLegalBasisLine || DEFAULT_JUVENILE_LINE
-              : "",
+          juvenileLegalBasisLine: value === "true" ? next.legalBasis.juvenileLegalBasisLine : "",
         };
 
         return normalizeFormInputs(next as unknown as Record<string, unknown>);
@@ -1485,63 +1457,6 @@ export function Bm031FormInputsPanel({
 
       return next;
     });
-  }
-
-  function fillCustomerSample() {
-    const today = todayDisplayDate();
-    const orderDate = normalizeVietnameseDateLine(today);
-
-    const sample: Bm031FormInputs = {
-      agency: {
-        parentName: "",
-        name: "",
-        issuePlace: "TP. Hồ Chí Minh",
-        phone: "",
-      },
-      document: {
-        documentCodeLine: "31/QĐ-VKSKV7",
-        documentCode: "31/QĐ-VKSKV7",
-        documentNo: "31/QĐ-VKSKV7",
-        fullDocumentCode: "31/QĐ-VKSKV7",
-        issueDate: today,
-        issuePlaceAndDateLine: buildIssuePlaceAndDateLine("TP. Hồ Chí Minh", today),
-      },
-      legalBasis: {
-        isJuvenile: "true",
-        juvenileLegalBasisLine: DEFAULT_JUVENILE_LINE,
-        requestApprovalLine: "",
-      },
-      principal: {
-        investigationAuthorityName:
-          "Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh",
-        personName: "",
-      },
-      offense: {
-        offenseName: "",
-        legalArticle: "khoản 1 Điều 321 Bộ luật Hình sự",
-        criminalCodeText: "Bộ luật Hình sự năm 2015, sửa đổi, bổ sung năm 2025",
-      },
-      measure: {
-        emergencyArrestOrderCode: "17/LTG-VKSKV7",
-        emergencyArrestOrderIssueDateText: orderDate,
-        reasonLine: "",
-        article1Line: "",
-        article2Line: "",
-      },
-      recipients: {
-        investigationUnitLine:
-          "- Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
-        personLine: "- ;",
-        archiveLine: "- Lưu: HSVV, HSKS, VP.",
-      },
-      signature: {
-        signMode: "KT. VIỆN TRƯỞNG",
-        positionTitle: "PHÓ VIỆN TRƯỞNG",
-        signerName: DEFAULT_SIGNER_NAME,
-      },
-    };
-
-    setForm(regenerateFromMainFields(sample));
   }
 
   async function handleSave() {
@@ -1633,15 +1548,6 @@ export function Bm031FormInputsPanel({
         ) : null}
 
         <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={fillCustomerSample}
-            disabled={isSaving}
-            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Điền dữ liệu mẫu BM-031
-          </button>
-
           <button
             type="button"
             onClick={loadForm}

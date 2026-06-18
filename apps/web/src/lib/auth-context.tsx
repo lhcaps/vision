@@ -29,7 +29,9 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  installApiFetchDefaults();
+  useEffect(() => {
+    installApiFetchDefaults();
+  }, []);
 
   const [user, setUser] = useState<AuthUser | null>(null);
   const [status, setStatus] = useState<"loading" | "authenticated" | "unauthenticated">(

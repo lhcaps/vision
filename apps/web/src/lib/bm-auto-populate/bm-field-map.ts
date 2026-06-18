@@ -434,3 +434,49 @@ export function getBmFieldMap(templateCode: string): readonly FieldTarget<string
 export function getBmFlatFieldMap(templateCode: string): readonly FlatFieldTarget<string>[] {
   return BM_FLAT_FIELD_MAP[templateCode] ?? [];
 }
+
+/**
+ * Template codes for which the BESPOKE form intentionally does NOT
+ * receive any case-payload field. The form panel may still render the
+ * case-payload button (for visual consistency) but the adapter will
+ * no-op because the mapping is empty. This is the canonical
+ * "skip-this-BM" registry - the audit script treats these as covered.
+ */
+export const INTENTIONALLY_NO_AUTOFILL: ReadonlySet<string> = new Set([
+  // Phase 1: forms whose data comes from sources other than the case
+  // (e.g. system-level metadata, free-text decisions) - the BESPOKE UI
+  // shows the button for consistency but the case has nothing useful
+  // to push. The owning team must replace each entry with a real
+  // mapping once case-payload coverage is extended. Remove the entry
+  // (and ideally add a real mapping) when the form is migrated.
+  "BM-004",
+  "BM-013",
+  "BM-019",
+  "BM-020",
+  "BM-029",
+  "BM-047",
+  "BM-072",
+  "BM-074",
+  "BM-078",
+  "BM-081",
+  "BM-083",
+  "BM-085",
+  "BM-087",
+  "BM-088",
+  "BM-089",
+  "BM-091",
+  "BM-092",
+  "BM-093",
+  "BM-094",
+  "BM-095",
+  "BM-096",
+  "BM-098",
+  "BM-099",
+  "BM-100",
+  "BM-101",
+  "BM-102",
+]);
+
+export function isIntentionallyNoAutofill(templateCode: string): boolean {
+  return INTENTIONALLY_NO_AUTOFILL.has(templateCode);
+}

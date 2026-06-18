@@ -1,4 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import {
   bm031CleanApplySavedBody,
@@ -214,11 +219,13 @@ export class Bm031DirectService {
 
     const existing = rows?.[0];
     if (!existing) {
-      return { ok: false, message: 'Document not found' };
+      throw new NotFoundException(`Document not found: id=${documentId}`);
     }
 
     if (existing.template_code !== 'BM-031') {
-      return { ok: false, message: 'Not a BM-031 document' };
+      throw new BadRequestException(
+        `Document ${documentId} is not a BM-031 document.`,
+      );
     }
 
     const previous = bm031ParseSnapshot(existing.render_payload_snapshot);

@@ -22,7 +22,11 @@ import {
   type ApplyCasePayloadResult,
   type ApplyCasePayloadToFlatResult,
 } from "./apply-case-payload-to-form";
-import { getBmFieldMap, getBmFlatFieldMap } from "./bm-field-map";
+import {
+  getBmFieldMap,
+  getBmFlatFieldMap,
+  isIntentionallyNoAutofill,
+} from "./bm-field-map";
 
 export type UseApplyCasePayloadResult<TForm> = readonly [
   apply: (form: TForm, options?: { overwrite?: boolean }) => ApplyCasePayloadResult<TForm>,
@@ -53,7 +57,7 @@ export function useApplyCasePayloadToForm<TForm>(
     [casePayload, targets],
   );
 
-  return [apply, casePayload != null] as const;
+  return [apply, casePayload != null && targets.length > 0 && !isIntentionallyNoAutofill(templateCode)] as const;
 }
 
 export function useApplyCasePayloadToFlatForm(
@@ -74,5 +78,5 @@ export function useApplyCasePayloadToFlatForm(
     [casePayload, targets],
   );
 
-  return [apply, casePayload != null] as const;
+  return [apply, casePayload != null && targets.length > 0 && !isIntentionallyNoAutofill(templateCode)] as const;
 }

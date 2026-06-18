@@ -1,4 +1,4 @@
-import { ValidationPipe, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { config as loadEnv } from 'dotenv';
 import { resolve } from 'node:path';
 import { AppModule } from './app.module';
+import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { envOrDefault } from './common/env.util';
 
 loadEnv({ path: resolve(process.cwd(), '..', '..', '.env') });
@@ -87,13 +88,7 @@ async function bootstrap(): Promise<void> {
   app.setGlobalPrefix(globalPrefix);
 
   // --- Validation ---
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      forbidUnknownValues: false,
-    }),
-  );
+  app.useGlobalPipes(createGlobalValidationPipe());
 
   // --- Swagger ---
   const swaggerConfig = new DocumentBuilder()

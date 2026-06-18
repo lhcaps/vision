@@ -14,52 +14,20 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Bm031DirectService } from './bm031-direct.service';
 
 /**
- * Controller cho các BM-031 direct routes.
- * Thay thế legacy Express handlers trong main.ts.
- *
- * Routes:
- *  - GET  /api/v1/documents/generated/:documentId
- *  - GET  /api/v1/documents/generated/:id/render-payload
- *  - POST /api/v1/documents/generated/:id/bm031-direct-form-inputs
- *  - GET  /api/v1/documents/generated/:id/bm031-direct-render-payload
+ * Controller for BM-031 specific override routes. All endpoints live
+ * under a dedicated `/bm031-direct/*` namespace to avoid colliding with
+ * the standard `documents/generated/:documentId/*` routes defined in
+ * `DocumentRendererController`. Previously this controller also
+ * registered bare `:documentId` and `:id/render-payload` paths, which
+ * silently shadowed the standard document routes and made the router
+ * order-dependent.
  */
 @ApiTags('BM-031 Direct')
-@Controller({ path: 'documents/generated' })
+@Controller({ path: 'documents/generated', version: undefined })
 export class Bm031DirectController {
   private readonly logger = new Logger(Bm031DirectController.name);
 
   constructor(private readonly service: Bm031DirectService) {}
-
-  /**
-   * GET detail document (kèm BM-031 normalize).
-   * Không raise 404 khi không phải BM-031: trả về null để client fallback về standard detail.
-   */
-  @Get(':documentId')
-  @ApiOperation({
-    summary: 'Lấy document detail (BM-031 normalized nếu áp dụng)',
-  })
-  async getDetail(@Param('documentId') documentId: string): Promise<unknown> {
-    const id = await this.service.resolveDocumentId(documentId);
-    const detail = await this.service.getDocumentDetail(id);
-    if (!detail) {
-      // Không phải BM-031 hoặc không tồn tại: trả về null cho client tự xử lý.
-      return null;
-    }
-    return detail;
-  }
-
-  @Get(':id/render-payload')
-  @ApiOperation({ summary: 'Lấy render payload (BM-031 override)' })
-  async getRenderPayload(@Param('id') id: string): Promise<unknown> {
-    const documentId = await this.service.resolveDocumentId(id);
-    const payload = await this.service.getRenderPayloadOverride(documentId);
-    if (!payload) {
-      throw new NotFoundException(
-        'Render payload không tồn tại hoặc không phải BM-031.',
-      );
-    }
-    return payload;
-  }
 
   @Get(':id/bm031-direct-render-payload')
   @ApiOperation({ summary: 'Lấy BM-031 direct render payload' })
