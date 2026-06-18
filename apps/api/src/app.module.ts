@@ -1,5 +1,7 @@
 ﻿import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -15,6 +17,15 @@ import { TemplatesModule } from './modules/templates/templates.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          name: 'default',
+          ttl: 60_000,
+          limit: 60,
+        },
+      ],
+    }),
     PrismaModule,
     AuthModule,
     TemplatesModule,
@@ -24,6 +35,6 @@ import { TemplatesModule } from './modules/templates/templates.module';
     Bm031DirectModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

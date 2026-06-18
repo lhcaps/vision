@@ -12,6 +12,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { IsNotEmpty, IsString } from 'class-validator';
 import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -42,6 +43,7 @@ export class AuthController {
   ) {}
 
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
