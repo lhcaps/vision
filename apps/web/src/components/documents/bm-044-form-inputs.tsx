@@ -1,6 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL =
@@ -777,28 +783,6 @@ function PreviewArea({
   );
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
-
 export function Bm044FormInputsPanel({
   documentId,
   onSaved,
@@ -922,6 +906,7 @@ export function Bm044FormInputsPanel({
 
   return (
     <section className="space-y-5">
+      <BmFormCasePayloadButton templateCode="BM-044" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
           BM-044
@@ -977,7 +962,7 @@ export function Bm044FormInputsPanel({
         ) : null}
       </div>
 
-      <SectionCard
+      <BmFormSection
         title="1. Tùy chọn dòng điều kiện"
         description="Không tick thì không render dòng đó. Preview phía dưới cũng tự ẩn."
       >
@@ -995,129 +980,129 @@ export function Bm044FormInputsPanel({
           }
           description="Không tick thì bỏ hẳn dòng căn cứ gia hạn."
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Văn bản / cơ quan">
-        <TextInput
+      <BmFormSection title="2. Văn bản / cơ quan">
+        <BmFieldText
           label="Cơ quan cấp trên"
           value={form.agency.parentNameUpper}
           onChange={(value) => updateField("agency", "parentNameUpper", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           value={form.agency.nameUpper}
           onChange={(value) => updateField("agency", "nameUpper", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Tên Viện kiểm sát trong thân văn bản"
           value={form.detentionReplacement.procuracyBodyName}
           onChange={(value) => updateField("detentionReplacement", "procuracyBodyName", value)}
           placeholder="Viện kiểm sát nhân dân khu vực 7"
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Số quyết định"
           value={form.document.documentCode}
           onChange={(value) => updateField("document", "documentCode", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Ngày ban hành"
           value={form.document.issueDate}
           onChange={(value) => updateField("document", "issueDate", value)}
           placeholder="26/05/2026"
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Địa danh"
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value)}
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard title="3. Bị can / tội danh">
-        <TextInput
+      <BmFormSection title="3. Bị can / tội danh">
+        <BmFieldText
           label="Họ tên bị can"
           value={form.detentionReplacement.accusedName}
           onChange={(value) => updateField("detentionReplacement", "accusedName", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Tên tội"
           value={form.detentionReplacement.offenseName}
           onChange={(value) => updateField("detentionReplacement", "offenseName", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Điều luật"
           value={form.detentionReplacement.legalArticle}
           onChange={(value) => updateField("detentionReplacement", "legalArticle", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Cơ quan đề nghị"
           value={form.detentionReplacement.investigationAgency}
           onChange={(value) =>
             updateField("detentionReplacement", "investigationAgency", value)
           }
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Cơ quan thực hiện quyết định"
           value={form.detentionReplacement.executionAgencyName}
           onChange={(value) =>
             updateField("detentionReplacement", "executionAgencyName", value)
           }
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard title="4. Căn cứ tạm giam / gia hạn">
-        <TextInput
+      <BmFormSection title="4. Căn cứ tạm giam / gia hạn">
+        <BmFieldText
           label="Số Lệnh tạm giam / Lệnh bắt bị can để tạm giam"
           value={form.detentionReplacement.detentionOrderCode}
           onChange={(value) =>
             updateField("detentionReplacement", "detentionOrderCode", value)
           }
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Ngày Lệnh tạm giam"
           value={form.detentionReplacement.detentionOrderIssueDateText}
           onChange={(value) =>
             updateField("detentionReplacement", "detentionOrderIssueDateText", value)
           }
-        />
+         />
 
         {form.detentionReplacement.includeDetentionExtensionLegalBasis ? (
           <>
-            <TextInput
+            <BmFieldText
               label="Lần gia hạn"
               value={form.detentionReplacement.extensionDecisionRoundText}
               onChange={(value) =>
                 updateField("detentionReplacement", "extensionDecisionRoundText", value)
               }
-            />
-            <TextInput
+             />
+            <BmFieldText
               label="Số Quyết định gia hạn"
               value={form.detentionReplacement.extensionDecisionCode}
               onChange={(value) =>
                 updateField("detentionReplacement", "extensionDecisionCode", value)
               }
-            />
-            <TextInput
+             />
+            <BmFieldText
               label="Ngày Quyết định gia hạn"
               value={form.detentionReplacement.extensionDecisionIssueDateText}
               onChange={(value) =>
                 updateField("detentionReplacement", "extensionDecisionIssueDateText", value)
               }
-            />
+             />
           </>
         ) : null}
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Biện pháp thay thế / thời hạn">
-        <TextInput
+      <BmFormSection title="5. Biện pháp thay thế / thời hạn">
+        <BmFieldText
           label="Biện pháp thay thế"
           value={form.detentionReplacement.replacementMeasureName}
           onChange={(value) =>
@@ -1125,34 +1110,34 @@ export function Bm044FormInputsPanel({
           }
           placeholder="cấm đi khỏi nơi cư trú"
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Thời hạn áp dụng"
           value={form.detentionReplacement.replacementDurationText}
           onChange={(value) =>
             updateField("detentionReplacement", "replacementDurationText", value)
           }
           placeholder="02 tháng"
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Từ ngày"
           value={form.detentionReplacement.replacementFromDateText}
           onChange={(value) =>
             updateField("detentionReplacement", "replacementFromDateText", value)
           }
           placeholder="26/05/2026"
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Đến ngày"
           value={form.detentionReplacement.replacementToDateText}
           onChange={(value) =>
             updateField("detentionReplacement", "replacementToDateText", value)
           }
           placeholder="26/07/2026"
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="6. Preview dòng sẽ render"
         description="Dòng không tick sẽ không hiển thị ở preview và khi lưu sẽ gửi rỗng về backend."
       >
@@ -1194,9 +1179,9 @@ export function Bm044FormInputsPanel({
           label="Điều 2"
           value={syncedForm.detentionReplacement.article2Line}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="7. Nơi nhận / chữ ký">
+      <BmFormSection title="7. Nơi nhận / chữ ký">
         <PreviewArea
           label="Nơi nhận - bị can"
           value={syncedForm.recipients.personLine}
@@ -1209,30 +1194,30 @@ export function Bm044FormInputsPanel({
           label="Nơi nhận - cơ quan thực hiện"
           value={syncedForm.recipients.executionAgencyLine}
         />
-        <TextInput
+        <BmFieldText
           label="Nơi nhận - lưu"
           value={form.recipients.archiveLine}
           onChange={(value) => updateField("recipients", "archiveLine", value)}
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Chế độ ký"
           value={form.signature.signMode}
           onChange={(value) => updateField("signature", "signMode", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Chức danh"
           value={form.signature.positionTitle}
           onChange={(value) => updateField("signature", "positionTitle", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Người ký"
           value={form.signature.signerName}
           onChange={(value) => updateField("signature", "signerName", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
     </section>
   );
 }

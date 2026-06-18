@@ -1,6 +1,12 @@
-﻿"use client";
+"use client";
 
 import type { ReactNode } from "react";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL =
@@ -869,27 +875,6 @@ function getMissingFields(form: Bm038FormInputs): RequiredField[] {
   });
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 border-b border-slate-100 pb-3">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">{children}</div>
-    </section>
-  );
-}
-
 function TextInput({
   label,
   value,
@@ -1211,6 +1196,7 @@ export function Bm038FormInputsPanel({
 
   return (
     <section className="space-y-5">
+      <BmFormCasePayloadButton templateCode="BM-038" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
           BM-038
@@ -1273,85 +1259,85 @@ export function Bm038FormInputsPanel({
         ) : null}
       </div>
 
-      <SectionCard title="1. Cơ quan / thông tin quyết định">
-        <TextInput
+      <BmFormSection title="1. Cơ quan / thông tin quyết định">
+        <BmFieldText
           label="Cơ quan cấp trên"
           value={form.agency.parentNameUpper}
           onChange={(value) => updateField("agency", "parentNameUpper", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           value={form.agency.nameUpper}
           onChange={(value) => updateField("agency", "nameUpper", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Số quyết định"
           value={form.document.documentCode}
           onChange={(value) => updateField("document", "documentCode", value)}
           required
-        />
+         />
         <DateTriplet
           label="Ngày ban hành"
           value={form.document.issueDate}
           onChange={(value) => updateField("document", "issueDate", value, { syncAuto: true })}
         />
-        <TextInput
+        <BmFieldText
           label="Địa danh"
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value, { syncAuto: true })}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Địa danh, ngày tháng năm"
           value={buildIssuePlaceAndDateLine(form.agency.issuePlace, form.document.issueDate)}
           onChange={(value) => updateField("document", "issuePlaceAndDateLine", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="2. Dữ liệu nguồn"
         description="Sửa các ô chính rồi bấm đồng bộ lại dòng render nếu muốn hệ thống tự sinh lại nội dung."
       >
-        <TextInput
+        <BmFieldText
           label="Tên bị can"
           value={form.person.fullName}
           onChange={(value) => updateField("person", "fullName", value, { syncAuto: true })}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Tên tội"
           value={form.offense.offenseName}
           onChange={(value) => updateField("offense", "offenseName", value, { syncAuto: true })}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Điều luật"
           value={form.offense.legalArticle}
           onChange={(value) => updateField("offense", "legalArticle", value, { syncAuto: true })}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Cơ quan điều tra / cơ quan đề nghị"
           value={form.investigation.agencyName}
           onChange={(value) =>
             updateField("investigation", "agencyName", value, { syncAuto: true })
           }
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard title="3. Số/ngày quyết định liên quan">
-        <TextInput
+      <BmFormSection title="3. Số/ngày quyết định liên quan">
+        <BmFieldText
           label="Số quyết định khởi tố vụ án"
           value={form.arrestNonApproval.caseDecisionCode}
           onChange={(value) =>
             updateField("arrestNonApproval", "caseDecisionCode", value, { syncAuto: true })
           }
           required
-        />
+         />
         <DateTriplet
           label="Ngày quyết định khởi tố vụ án"
           value={form.arrestNonApproval.caseDecisionDateText}
@@ -1362,7 +1348,7 @@ export function Bm038FormInputsPanel({
             })
           }
         />
-        <TextInput
+        <BmFieldText
           label="Số quyết định khởi tố bị can"
           value={form.arrestNonApproval.accusedDecisionCode}
           onChange={(value) =>
@@ -1371,7 +1357,7 @@ export function Bm038FormInputsPanel({
             })
           }
           required
-        />
+         />
         <DateTriplet
           label="Ngày quyết định khởi tố bị can"
           value={form.arrestNonApproval.accusedDecisionDateText}
@@ -1382,14 +1368,14 @@ export function Bm038FormInputsPanel({
             })
           }
         />
-        <TextInput
+        <BmFieldText
           label="Số lệnh bắt bị can để tạm giam"
           value={form.arrestNonApproval.arrestOrderCode}
           onChange={(value) =>
             updateField("arrestNonApproval", "arrestOrderCode", value, { syncAuto: true })
           }
           required
-        />
+         />
         <DateTriplet
           label="Ngày lệnh bắt bị can để tạm giam"
           value={form.arrestNonApproval.arrestOrderDateText}
@@ -1400,15 +1386,15 @@ export function Bm038FormInputsPanel({
             })
           }
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Căn cứ pháp lý / nội dung quyết định">
-        <TextArea
+      <BmFormSection title="4. Căn cứ pháp lý / nội dung quyết định">
+        <BmFieldTextarea
           label="Căn cứ Bộ luật Tố tụng hình sự"
           value={form.legalBasis.procedureArticlesLine}
           onChange={(value) => updateField("legalBasis", "procedureArticlesLine", value)}
           required
-        />
+         />
 
         <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
           <label className="flex items-center gap-3 text-sm font-semibold text-slate-800">
@@ -1436,15 +1422,15 @@ export function Bm038FormInputsPanel({
         </div>
 
         {form.legalBasis.includeJuvenileJusticeLine ? (
-          <TextArea
+          <BmFieldTextarea
             label="Căn cứ Luật Tư pháp người chưa thành niên"
             value={form.legalBasis.juvenileJusticeLine}
             onChange={(value) => updateField("legalBasis", "juvenileJusticeLine", value)}
             required
-          />
+           />
         ) : null}
 
-        <TextArea
+        <BmFieldTextarea
           label="Căn cứ quyết định khởi tố vụ án"
           value={form.arrestNonApproval.caseDecisionLegalBasisLine}
           onChange={(value) =>
@@ -1452,8 +1438,8 @@ export function Bm038FormInputsPanel({
           }
           required
           rows={4}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Căn cứ quyết định khởi tố bị can"
           value={form.arrestNonApproval.accusedDecisionLegalBasisLine}
           onChange={(value) =>
@@ -1461,82 +1447,82 @@ export function Bm038FormInputsPanel({
           }
           required
           rows={4}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Xét hồ sơ đề nghị phê chuẩn"
           value={form.arrestNonApproval.proposalLine}
           onChange={(value) => updateField("arrestNonApproval", "proposalLine", value)}
           required
           rows={3}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Cơ quan đề nghị và bị can"
           value={form.arrestNonApproval.proposalAgencyLine}
           onChange={(value) => updateField("arrestNonApproval", "proposalAgencyLine", value)}
           required
           rows={3}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Nhận thấy / lý do không phê chuẩn"
           value={form.arrestNonApproval.reasonLine}
           onChange={(value) => updateField("arrestNonApproval", "reasonLine", value)}
           required
           rows={3}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Điều 1"
           value={form.arrestNonApproval.article1Line}
           onChange={(value) => updateField("arrestNonApproval", "article1Line", value)}
           required
           rows={4}
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Điều 2"
           value={form.arrestNonApproval.article2Line}
           onChange={(value) => updateField("arrestNonApproval", "article2Line", value)}
           required
           rows={4}
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard title="5. Nơi nhận / chữ ký">
-        <TextInput
+      <BmFormSection title="5. Nơi nhận / chữ ký">
+        <BmFieldText
           label="Nơi nhận - cơ quan thực hiện"
           value={form.recipients.executionAgencyLine}
           onChange={(value) => updateField("recipients", "executionAgencyLine", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Nơi nhận - bị can"
           value={form.recipients.personLine}
           onChange={(value) => updateField("recipients", "personLine", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Nơi nhận - lưu"
           value={form.recipients.archiveLine}
           onChange={(value) => updateField("recipients", "archiveLine", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Chế độ ký"
           value={form.signature.signMode}
           onChange={(value) => updateField("signature", "signMode", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Chức danh"
           value={form.signature.positionTitle}
           onChange={(value) => updateField("signature", "positionTitle", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Người ký"
           value={form.signature.signerName}
           onChange={(value) => updateField("signature", "signerName", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
     </section>
   );
 }

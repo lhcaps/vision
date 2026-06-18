@@ -1,7 +1,13 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormSection,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
@@ -766,26 +772,6 @@ function getValue(form: Bm040FormInputs, section: SectionKey, field: string): st
   return form[section]?.[field] ?? "";
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p> : null}
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </div>
-  );
-}
-
 function TextInput({
   label,
   value,
@@ -1065,6 +1051,7 @@ export function Bm040FormInputsPanel({
 
   return (
     <section className="space-y-5">
+      <BmFormCasePayloadButton templateCode="BM-040" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
           BM-040
@@ -1120,39 +1107,39 @@ export function Bm040FormInputsPanel({
         ) : null}
       </div>
 
-      <SectionCard
+      <BmFormSection
         title="1. Văn bản / cơ quan"
         description="Ngày ban hành dùng dropdown ngày - tháng - năm. Dòng địa danh ngày tháng tự format."
       >
-        <TextInput
+        <BmFieldText
           label="Cơ quan cấp trên"
           value={form.agency.parentName}
           onChange={(value) => updateField("agency", "parentName", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           value={form.agency.name}
           onChange={(value) => updateField("agency", "name", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Số quyết định"
           value={form.document.documentCodeLine}
           onChange={(value) => updateField("document", "documentCodeLine", value)}
           required
-        />
+         />
         <DateSelectField
           label="Ngày ban hành"
           value={form.document.issueDate || getTodayDisplayDate()}
           onChange={(value) => updateField("document", "issueDate", value)}
           required
         />
-        <TextInput
+        <BmFieldText
           label="Địa danh"
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value)}
-        />
+         />
         <div className="block">
           <span className="text-sm font-semibold text-slate-700">
             Địa danh, ngày tháng năm <span className="text-red-600">*</span>
@@ -1161,48 +1148,47 @@ export function Bm040FormInputsPanel({
             {syncedForm.document.issuePlaceAndDateLine}
           </p>
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="2. Thông tin chính"
         description="Hai ô chính Tên bị can và Tội danh không giới hạn ký tự, nhập được dấu cách bình thường."
       >
-        <TextInput
+        <BmFieldText
           label="Tên bị can"
           value={form.principal.accusedName}
           onChange={(value) => updateField("principal", "accusedName", value)}
           required
           placeholder="Ví dụ: "
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Tội danh"
           value={form.offense.offenseName}
           onChange={(value) => updateField("offense", "offenseName", value)}
           required
           placeholder="Ví dụ: Trộm cắp tài sản"
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Điều luật"
           value={form.offense.legalArticle}
           onChange={(value) => updateField("offense", "legalArticle", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Cơ quan điều tra"
           value={form.offense.investigationAgencyName}
           onChange={(value) => updateField("offense", "investigationAgencyName", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard title="3. Căn cứ / Lệnh tạm giam">
-        <TextArea
+      <BmFormSection title="3. Căn cứ / Lệnh tạm giam">
+        <BmFieldTextarea
           label="Căn cứ Bộ luật Tố tụng hình sự"
           value={form.legalBasis.baseProcedureLine}
           onChange={(value) => updateField("legalBasis", "baseProcedureLine", value)}
-          required
-          className="md:col-span-2"
-        />
+          required fullWidth
+         />
 
         <div className="md:col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
           <label className="flex items-center gap-3 text-sm font-semibold text-slate-800">
@@ -1219,7 +1205,7 @@ export function Bm040FormInputsPanel({
 
           {form.legalBasis.isJuvenile === "true" ? (
             <div className="mt-4">
-              <TextArea
+              <BmFieldTextarea
                 label="Căn cứ người chưa thành niên"
                 value={
                   form.legalBasis.juvenileLegalBasisLine ||
@@ -1227,87 +1213,82 @@ export function Bm040FormInputsPanel({
                 }
                 onChange={(value) => updateField("legalBasis", "juvenileLegalBasisLine", value)}
                 rows={3}
-              />
+               />
             </div>
           ) : null}
         </div>
 
-        <TextInput
+        <BmFieldText
           label="Số quyết định khởi tố vụ án"
           value={form.caseDecision.decisionCode}
           onChange={(value) => updateField("caseDecision", "decisionCode", value)}
-        />
+         />
         <DateSelectField
           label="Ngày quyết định khởi tố vụ án"
           value={form.caseDecision.decisionDateText}
           onChange={(value) => updateField("caseDecision", "decisionDateText", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Số quyết định khởi tố bị can"
           value={form.accusedDecision.decisionCode}
           onChange={(value) => updateField("accusedDecision", "decisionCode", value)}
-        />
+         />
         <DateSelectField
           label="Ngày quyết định khởi tố bị can"
           value={form.accusedDecision.decisionDateText}
           onChange={(value) => updateField("accusedDecision", "decisionDateText", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Số Lệnh tạm giam"
           value={form.measure.detentionOrderCode}
           onChange={(value) => updateField("measure", "detentionOrderCode", value)}
-        />
+         />
         <DateSelectField
           label="Ngày Lệnh tạm giam"
           value={form.measure.detentionOrderIssueDateText}
           onChange={(value) => updateField("measure", "detentionOrderIssueDateText", value)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Nội dung quyết định">
-        <TextArea
+      <BmFormSection title="4. Nội dung quyết định">
+        <BmFieldTextarea
           label="Căn cứ quyết định khởi tố vụ án"
           value={syncedForm.caseDecision.legalBasisLine}
           onChange={(value) => updateField("caseDecision", "legalBasisLine", value)}
-          required
-          className="md:col-span-2"
-        />
-        <TextArea
+          required fullWidth
+         />
+        <BmFieldTextarea
           label="Căn cứ quyết định khởi tố bị can"
           value={syncedForm.accusedDecision.legalBasisLine}
           onChange={(value) => updateField("accusedDecision", "legalBasisLine", value)}
-          required
-          className="md:col-span-2"
-        />
-        <TextArea
+          required fullWidth
+         />
+        <BmFieldTextarea
           label="Xét hồ sơ đề nghị phê chuẩn"
           value={syncedForm.legalBasis.requestApprovalLine}
           onChange={(value) => updateField("legalBasis", "requestApprovalLine", value)}
-          required
-          className="md:col-span-2"
-        />
-        <TextArea
+          required fullWidth
+         />
+        <BmFieldTextarea
           label="Nhận thấy"
           value={syncedForm.measure.reasonLine}
           onChange={(value) => updateField("measure", "reasonLine", value)}
-          required
-          className="md:col-span-2"
-        />
-        <TextArea
+          required fullWidth
+         />
+        <BmFieldTextarea
           label="Điều 1"
           value={syncedForm.measure.article1Line}
           onChange={(value) => updateField("measure", "article1Line", value)}
           required
-          rows={4}
-          className="md:col-span-2"
-        />
-        <TextInput
+          rows={4} fullWidth
+         />
+        <BmFieldText
           label="Thời hạn tạm giam"
           value={form.measure.detentionDurationText}
           onChange={(value) => updateField("measure", "detentionDurationText", value)}
           required
           placeholder="Ví dụ: 02 tháng"
-        />
+         />
         <DateSelectField
           label="Từ ngày tạm giam"
           value={form.measure.detentionStartDateText}
@@ -1323,44 +1304,43 @@ export function Bm040FormInputsPanel({
         <div className="md:col-span-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm font-semibold leading-6 text-slate-800">
           {syncedForm.measure.detentionDurationLine}
         </div>
-        <TextInput
+        <BmFieldText
           label="Cơ quan thực hiện quyết định"
           value={form.measure.detentionExecutionUnitName}
           onChange={(value) => updateField("measure", "detentionExecutionUnitName", value)}
           required
-        />
-        <TextArea
+         />
+        <BmFieldTextarea
           label="Điều 2"
           value={syncedForm.measure.article2Line}
           onChange={(value) => updateField("measure", "article2Line", value)}
           required
-          rows={3}
-          className="md:col-span-2"
-        />
-      </SectionCard>
+          rows={3} fullWidth
+         />
+      </BmFormSection>
 
-      <SectionCard title="5. Nơi nhận">
-        <TextInput
+      <BmFormSection title="5. Nơi nhận">
+        <BmFieldText
           label="Cơ quan thực hiện quyết định"
           value={syncedForm.recipients.detentionExecutionUnitLine}
           onChange={(value) => updateField("recipients", "detentionExecutionUnitLine", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Bị can"
           value={syncedForm.recipients.personLine}
           onChange={(value) => updateField("recipients", "personLine", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Lưu"
           value={form.recipients.archiveLine}
           onChange={(value) => updateField("recipients", "archiveLine", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="Preview trước khi in"
         description="Xem nhanh các dòng chính sẽ render ra DOCX/PDF."
       >
@@ -1400,28 +1380,28 @@ export function Bm040FormInputsPanel({
             },
           ]}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="6. Chữ ký">
-        <TextInput
+      <BmFormSection title="6. Chữ ký">
+        <BmFieldText
           label="Chế độ ký"
           value={form.signature.signMode}
           onChange={(value) => updateField("signature", "signMode", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Chức vụ"
           value={form.signature.positionTitle}
           onChange={(value) => updateField("signature", "positionTitle", value)}
           required
-        />
-        <TextInput
+         />
+        <BmFieldText
           label="Người ký"
           value={form.signature.signerName}
           onChange={(value) => updateField("signature", "signerName", value)}
           required
-        />
-      </SectionCard>
+         />
+      </BmFormSection>
 
       <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
