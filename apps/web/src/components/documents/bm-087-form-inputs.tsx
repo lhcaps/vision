@@ -1,6 +1,28 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+/**
+ * BM-087 — Yêu cầu điều tra
+ * Stage: KHoi_TO, Group: G02 (BP_NGAN_CHAN). TT 03/2026-VKSTC, Mẫu số 87/HS.
+ *
+ * Căn cứ: Điều 36, 37 BLTTHS 2015 — yêu cầu điều tra giữa VKS và Cơ quan điều tra.
+ * Nghiệp vụ: VKS yêu cầu Cơ quan Cảnh sát điều tra điều tra vụ án theo thẩm quyền.
+ */
+import { useEffect, useMemo, useState } from "react";
+import {
+  BmFormSection,
+  BmFieldText,
+  BmFieldDate,
+  BmFieldTextarea,
+  BmFormActions,
+  BmFormStatus,
+  BmFormMetaBar,
+  defaultArchiveLine,
+  issuePlaceDateLine,
+  isoDateToVnSlash,
+  vnDateLine,
+  todayIsoDate,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type AgencyForm = {
   parentName: string;
@@ -11,6 +33,7 @@ type DocumentForm = {
   documentCode: string;
   issuePlace: string;
   issueDateIso: string;
+  issuePlaceAndDateLine: string;
 };
 
 type OfficialForm = {
@@ -55,6 +78,48 @@ const API_BASE_URL =
 
 const DEFAULT_SIGNER_NAME = "";
 
+function cleanText(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  return String(value).trim();
+}
+
+function nested(payload: RenderPayload | null, path: string): string {
+  if (!payload) return "";
+  const parts = path.split(".").filter(Boolean);
+  let current: any = payload;
+  for (const part of parts) {
+    if (!current || typeof current !== "object") return "";
+    current = current[part];
+  }
+  return cleanText(current);
+}
+
+function normalizeIsoDate(value: string): string {
+  const raw = cleanText(value);
+  if (!raw) return "";
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+  if (iso) return raw;
+  const slash = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(raw);
+  if (slash) {
+    const day = slash[1].padStart(2, "0");
+    const month = slash[2].padStart(2, "0");
+    return `${slash[3]}-${month}-${day}`;
+  }
+  const vn = /ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})/iu.exec(raw);
+  if (vn) {
+    const day = vn[1].padStart(2, "0");
+    const month = vn[2].padStart(2, "0");
+    return `${vn[3]}-${month}-${day}`;
+  }
+  return "";
+}
+
+function issuePlaceFromLine(value: string): string {
+  const raw = cleanText(value);
+  const index = raw.toLowerCase().indexOf(", ngày");
+  return index > 0 ? raw.slice(0, index).trim() : "";
+}
+
 const EMPTY_FORM: Bm087Form = {
   agency: {
     parentName: "",
@@ -63,7 +128,8 @@ const EMPTY_FORM: Bm087Form = {
   document: {
     documentCode: "87/YCDT-VKSKV7",
     issuePlace: "TP. Hồ Chí Minh",
-    issueDateIso: "2026-05-26",
+    issueDateIso: todayIsoDate(),
+    issuePlaceAndDateLine: issuePlaceDateLine("TP. Hồ Chí Minh", todayIsoDate()),
   },
   official: {
     issuerTitle: "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
@@ -76,7 +142,7 @@ const EMPTY_FORM: Bm087Form = {
     offenseName: "",
   },
   recipients: {
-    archiveLine: "- Lưu: HSVA, HSKS, VP.",
+    archiveLine: defaultArchiveLine(),
   },
   signature: {
     signMode: "KT. VIỆN TRƯỞNG",
@@ -85,82 +151,42 @@ const EMPTY_FORM: Bm087Form = {
   },
 };
 
-function cleanText(value: unknown): string {
-  if (value === null || value === undefined) return "";
-  return String(value).trim();
-}
-
-function nested(payload: RenderPayload | null, path: string): string {
-  if (!payload) return "";
-
-  const parts = path.split(".").filter(Boolean);
-  let current: any = payload;
-
-  for (const part of parts) {
-    if (!current || typeof current !== "object") return "";
-    current = current[part];
-  }
-
-  return cleanText(current);
-}
-
-function pad2(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
-function parseDateToIso(value: string): string {
-  const raw = cleanText(value);
-
-  if (!raw) return "";
-
-  const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (iso) return raw;
-
-  const slash = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if (slash) {
-    return `${slash[3]}-${pad2(Number(slash[2]))}-${pad2(Number(slash[1]))}`;
-  }
-
-  const vn = raw.match(
-    /ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})/iu,
-  );
-  if (vn) {
-    return `${vn[3]}-${pad2(Number(vn[2]))}-${pad2(Number(vn[1]))}`;
-  }
-
-  return "";
-}
-
-function toVietnameseDateText(isoDate: string): string {
-  const match = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return isoDate || "";
-
-  return `ngày ${Number(match[3])} tháng ${Number(match[2])} năm ${match[1]}`;
-}
-
-function toSlashDateText(isoDate: string): string {
-  const match = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return isoDate || "";
-
-  return `${match[3]}/${match[2]}/${match[1]}`;
-}
-
-function issuePlaceFromLine(value: string): string {
-  const raw = cleanText(value);
-  const index = raw.toLowerCase().indexOf(", ngày");
-  return index > 0 ? raw.slice(0, index).trim() : "";
-}
-
-function buildIssuePlaceAndDateLine(form: Bm087Form): string {
-  const place = form.document.issuePlace.trim();
-  const dateText = toVietnameseDateText(form.document.issueDateIso);
-
-  return place ? `${place}, ${dateText}` : dateText;
-}
+const REQUIRED_FIELDS: Array<{
+  path:
+    | "agency.parentName"
+    | "agency.name"
+    | "document.documentCode"
+    | "document.issuePlace"
+    | "document.issueDateIso"
+    | "official.issuerTitle"
+    | "investigationRequest.procedureArticlesLine"
+    | "investigationRequest.requestedAuthorityName"
+    | "investigationRequest.caseTitle"
+    | "investigationRequest.offenseName"
+    | "recipients.archiveLine"
+    | "signature.signMode"
+    | "signature.positionTitle"
+    | "signature.signerName";
+  label: string;
+}> = [
+  { path: "agency.parentName", label: "Viện kiểm sát cấp trên" },
+  { path: "agency.name", label: "Viện kiểm sát ban hành" },
+  { path: "document.documentCode", label: "Số quyết định" },
+  { path: "document.issuePlace", label: "Địa danh ban hành" },
+  { path: "document.issueDateIso", label: "Ngày ban hành" },
+  { path: "official.issuerTitle", label: "Chủ thể ban hành" },
+  { path: "investigationRequest.procedureArticlesLine", label: "Căn cứ tố tụng" },
+  { path: "investigationRequest.requestedAuthorityName", label: "Cơ quan được yêu cầu" },
+  { path: "investigationRequest.caseTitle", label: "Tên vụ án" },
+  { path: "investigationRequest.offenseName", label: "Tội danh" },
+  { path: "recipients.archiveLine", label: "Lưu hồ sơ" },
+  { path: "signature.signMode", label: "Chế độ ký" },
+  { path: "signature.positionTitle", label: "Chức vụ ký" },
+  { path: "signature.signerName", label: "Người ký" },
+];
 
 function buildRequestContentLine(form: Bm087Form): string {
   const data = form.investigationRequest;
-
   return `Yêu cầu ${data.requestedAuthorityName.trim()} tiến hành điều tra vụ án ${data.caseTitle.trim()} về tội ${data.offenseName.trim()} theo thẩm quyền.`;
 }
 
@@ -169,6 +195,17 @@ function normalizeFormInputs(payload: RenderPayload | null): Bm087Form {
 
   const signerName =
     nested(payload, "signature.signerName") || DEFAULT_SIGNER_NAME;
+
+  const issuePlace =
+    nested(payload, "agency.issuePlace") ||
+    issuePlaceFromLine(issuePlaceAndDateLine) ||
+    EMPTY_FORM.document.issuePlace;
+
+  const issueDateIso =
+    normalizeIsoDate(nested(payload, "document.issueDate")) ||
+    normalizeIsoDate(nested(payload, "document.issueDateText")) ||
+    normalizeIsoDate(issuePlaceAndDateLine) ||
+    EMPTY_FORM.document.issueDateIso;
 
   return {
     agency: {
@@ -180,15 +217,9 @@ function normalizeFormInputs(payload: RenderPayload | null): Bm087Form {
       documentCode:
         nested(payload, "document.documentCode") ||
         EMPTY_FORM.document.documentCode,
-      issuePlace:
-        nested(payload, "agency.issuePlace") ||
-        issuePlaceFromLine(issuePlaceAndDateLine) ||
-        EMPTY_FORM.document.issuePlace,
-      issueDateIso:
-        parseDateToIso(nested(payload, "document.issueDate")) ||
-        parseDateToIso(nested(payload, "document.issueDateText")) ||
-        parseDateToIso(issuePlaceAndDateLine) ||
-        EMPTY_FORM.document.issueDateIso,
+      issuePlace,
+      issueDateIso,
+      issuePlaceAndDateLine: issuePlaceDateLine(issuePlace, issueDateIso),
     },
     official: {
       issuerTitle:
@@ -199,17 +230,14 @@ function normalizeFormInputs(payload: RenderPayload | null): Bm087Form {
       procedureArticlesLine:
         nested(payload, "investigationRequest.procedureArticlesLine") ||
         EMPTY_FORM.investigationRequest.procedureArticlesLine,
-
       requestedAuthorityName:
         nested(payload, "investigationRequest.requestedAuthorityName") ||
         nested(payload, "recipients.investigatingAgencyLine") ||
         EMPTY_FORM.investigationRequest.requestedAuthorityName,
-
       caseTitle:
         nested(payload, "investigationRequest.caseTitle") ||
         nested(payload, "case.caseTitle") ||
         EMPTY_FORM.investigationRequest.caseTitle,
-
       offenseName:
         nested(payload, "investigationRequest.offenseName") ||
         nested(payload, "offense.offenseName") ||
@@ -232,32 +260,52 @@ function normalizeFormInputs(payload: RenderPayload | null): Bm087Form {
   };
 }
 
-function validateForm(form: Bm087Form): string[] {
-  const required = [
-    ["Viện kiểm sát cấp trên", form.agency.parentName],
-    ["Viện kiểm sát ban hành", form.agency.name],
-    ["Số quyết định", form.document.documentCode],
-    ["Địa danh ban hành", form.document.issuePlace],
-    ["Ngày ban hành", form.document.issueDateIso],
-    ["Chủ thể ban hành", form.official.issuerTitle],
-    ["Căn cứ tố tụng", form.investigationRequest.procedureArticlesLine],
-    ["Cơ quan được yêu cầu", form.investigationRequest.requestedAuthorityName],
-    ["Tên vụ án", form.investigationRequest.caseTitle],
-    ["Tội danh", form.investigationRequest.offenseName],
-    ["Lưu hồ sơ", form.recipients.archiveLine],
-    ["Chế độ ký", form.signature.signMode],
-    ["Chức vụ ký", form.signature.positionTitle],
-    ["Người ký", form.signature.signerName],
-  ];
+function fillCustomerSample(): Bm087Form {
+  return {
+    agency: { ...EMPTY_FORM.agency },
+    document: { ...EMPTY_FORM.document },
+    official: { ...EMPTY_FORM.official },
+    investigationRequest: { ...EMPTY_FORM.investigationRequest },
+    recipients: { ...EMPTY_FORM.recipients },
+    signature: { ...EMPTY_FORM.signature, signerName: "Nguyễn Văn A" },
+  };
+}
 
-  return required
-    .filter(([, value]) => !String(value ?? "").trim())
-    .map(([label]) => label);
+function validateForm(form: Bm087Form): string[] {
+  const errors: string[] = [];
+  for (const item of REQUIRED_FIELDS) {
+    let value = "";
+    if (item.path === "agency.parentName") value = form.agency.parentName;
+    else if (item.path === "agency.name") value = form.agency.name;
+    else if (item.path === "document.documentCode") value = form.document.documentCode;
+    else if (item.path === "document.issuePlace") value = form.document.issuePlace;
+    else if (item.path === "document.issueDateIso") value = form.document.issueDateIso;
+    else if (item.path === "official.issuerTitle") value = form.official.issuerTitle;
+    else if (item.path === "investigationRequest.procedureArticlesLine")
+      value = form.investigationRequest.procedureArticlesLine;
+    else if (item.path === "investigationRequest.requestedAuthorityName")
+      value = form.investigationRequest.requestedAuthorityName;
+    else if (item.path === "investigationRequest.caseTitle")
+      value = form.investigationRequest.caseTitle;
+    else if (item.path === "investigationRequest.offenseName")
+      value = form.investigationRequest.offenseName;
+    else if (item.path === "recipients.archiveLine") value = form.recipients.archiveLine;
+    else if (item.path === "signature.signMode") value = form.signature.signMode;
+    else if (item.path === "signature.positionTitle")
+      value = form.signature.positionTitle;
+    else if (item.path === "signature.signerName") value = form.signature.signerName;
+    if (!String(value ?? "").trim()) errors.push(item.label);
+  }
+  return errors;
 }
 
 function buildSaveBody(form: Bm087Form) {
   const signerName = form.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-  const issuePlaceAndDateLine = buildIssuePlaceAndDateLine(form);
+  const issueDateIso = form.document.issueDateIso;
+  const issuePlaceAndDateLine = issuePlaceDateLine(
+    form.document.issuePlace,
+    issueDateIso,
+  );
 
   const agency = {
     parentName: form.agency.parentName,
@@ -268,11 +316,9 @@ function buildSaveBody(form: Bm087Form) {
   const document = {
     documentCode: form.document.documentCode,
     documentNo: form.document.documentCode,
-    issueDate: toSlashDateText(form.document.issueDateIso),
-    issueDateText: toVietnameseDateText(form.document.issueDateIso).replace(
-      /^ngày\s+/iu,
-      "",
-    ),
+    issueDate: isoDateToVnSlash(issueDateIso),
+    issueDateText: vnDateLine(issueDateIso).replace(/^ngày\s+/iu, ""),
+    issueDateIso,
     issuePlaceAndDateLine,
     issuePlaceDateLine: issuePlaceAndDateLine,
   };
@@ -282,10 +328,8 @@ function buildSaveBody(form: Bm087Form) {
   };
 
   const investigationRequest = {
-    procedureArticlesLine:
-      form.investigationRequest.procedureArticlesLine,
-    requestedAuthorityName:
-      form.investigationRequest.requestedAuthorityName,
+    procedureArticlesLine: form.investigationRequest.procedureArticlesLine,
+    requestedAuthorityName: form.investigationRequest.requestedAuthorityName,
     caseTitle: form.investigationRequest.caseTitle,
     offenseName: form.investigationRequest.offenseName,
     requestContentLine: buildRequestContentLine(form),
@@ -319,81 +363,6 @@ function buildSaveBody(form: Bm087Form) {
   };
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-sm font-bold uppercase tracking-[0.12em] text-slate-800">
-          {title}
-        </h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      <div className="grid gap-4">{children}</div>
-    </section>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  multiline,
-  type = "text",
-  readOnly,
-}: {
-  label: string;
-  value: string;
-  onChange?: (value: string) => void;
-  required?: boolean;
-  multiline?: boolean;
-  type?: "text" | "date";
-  readOnly?: boolean;
-}) {
-  const cls =
-    "rounded-xl border border-slate-300 px-3 py-2.5 text-sm leading-6 text-slate-950 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100";
-
-  return (
-    <label className="grid gap-1.5">
-      <span className="text-sm font-semibold text-slate-700">
-        {label}
-        {required ? <span className="text-red-500"> *</span> : null}
-      </span>
-
-      {multiline ? (
-        <textarea
-          className={`${cls} min-h-[88px] ${
-            readOnly ? "bg-slate-100 text-slate-700" : "bg-white"
-          }`}
-          value={value}
-          readOnly={readOnly}
-          onChange={(event) => onChange?.(event.target.value)}
-        />
-      ) : (
-        <input
-          className={`${cls} ${
-            readOnly ? "bg-slate-100 text-slate-700" : "bg-white"
-          }`}
-          value={value}
-          type={type}
-          readOnly={readOnly}
-          onChange={(event) => onChange?.(event.target.value)}
-        />
-      )}
-    </label>
-  );
-}
-
 export function Bm087FormInputsPanel({
   documentId,
   onSaved,
@@ -405,18 +374,62 @@ export function Bm087FormInputsPanel({
   const [error, setError] = useState<string | null>(null);
 
   const validationErrors = useMemo(() => validateForm(form), [form]);
+  const requestContentLine = useMemo(() => buildRequestContentLine(form), [form]);
 
-  const patch = <T extends keyof Bm087Form>(
-    section: T,
-    key: keyof Bm087Form[T],
+  const patchAgency = (key: keyof AgencyForm, value: string) => {
+    setForm((current) => ({
+      ...current,
+      agency: { ...current.agency, [key]: value },
+    }));
+  };
+
+  const patchDocument = (key: keyof DocumentForm, value: string) => {
+    setForm((current) => {
+      const document = { ...current.document, [key]: value };
+      return {
+        ...current,
+        document: {
+          ...document,
+          issuePlaceAndDateLine: issuePlaceDateLine(
+            document.issuePlace,
+            document.issueDateIso,
+          ),
+        },
+      };
+    });
+  };
+
+  const patchOfficial = (key: keyof OfficialForm, value: string) => {
+    setForm((current) => ({
+      ...current,
+      official: { ...current.official, [key]: value },
+    }));
+  };
+
+  const patchInvestigationRequest = (
+    key: keyof InvestigationRequestForm,
     value: string,
   ) => {
     setForm((current) => ({
       ...current,
-      [section]: {
-        ...(current[section] as Record<string, string>),
+      investigationRequest: {
+        ...current.investigationRequest,
         [key]: value,
       },
+    }));
+  };
+
+  const patchRecipients = (key: keyof RecipientsForm, value: string) => {
+    setForm((current) => ({
+      ...current,
+      recipients: { ...current.recipients, [key]: value },
+    }));
+  };
+
+  const patchSignature = (key: keyof SignatureForm, value: string) => {
+    setForm((current) => ({
+      ...current,
+      signature: { ...current.signature, [key]: value },
     }));
   };
 
@@ -449,23 +462,13 @@ export function Bm087FormInputsPanel({
   };
 
   const handleFillSample = () => {
-    setForm({
-      agency: { ...EMPTY_FORM.agency },
-      document: { ...EMPTY_FORM.document },
-      official: { ...EMPTY_FORM.official },
-      investigationRequest: {
-        ...EMPTY_FORM.investigationRequest,
-      },
-      recipients: { ...EMPTY_FORM.recipients },
-      signature: { ...EMPTY_FORM.signature },
-    });
+    setForm(fillCustomerSample());
     setError(null);
     setMessage("Đã điền dữ liệu mẫu BM-087.");
   };
 
   const handleSave = async () => {
     const errors = validateForm(form);
-
     if (errors.length > 0) {
       setError(`Thiếu dữ liệu bắt buộc: ${errors.join(", ")}`);
       setMessage(null);
@@ -505,213 +508,222 @@ export function Bm087FormInputsPanel({
 
   useEffect(() => {
     void reloadFromBackend();
-     
   }, [documentId]);
 
+  const status = error
+    ? { kind: "error" as const, text: error }
+    : message
+      ? { kind: "success" as const, text: message }
+      : validationErrors.length > 0
+        ? {
+            kind: "warning" as const,
+            text: `Thiếu dữ liệu bắt buộc: ${validationErrors.join(", ")}.`,
+          }
+        : { kind: "idle" as const, text: "" };
+
   return (
-    <div className="space-y-5 rounded-3xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-start md:justify-between">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">
-            BM-087
-          </p>
-          <h2 className="mt-1 text-xl font-bold text-slate-950">
-            Yêu cầu điều tra
-          </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-            Form gom dữ liệu chính thành vài ô nhập. Các dòng tự sinh từ các ô
-            cơ bản giúp nhập liệu nhanh, tránh lặp lại.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-5">
+      <BmFormMetaBar
+        templateCode="BM-087"
+        title="Dữ liệu biểu mẫu Yêu cầu điều tra"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 87/HS · Stage KHOI_TO (G02 BP_NGAN_CHAN). Căn cứ Điều 36, 37 BLTTHS 2015."
+        isDirty={Boolean(message) || validationErrors.length > 0}
+        isLoading={loading}
+        isSaving={saving}
+        savedAt={null}
+        errorMessage={error ?? undefined}
+        warningMessage={status.kind === "warning" ? status.text : undefined}
+        successMessage={status.kind === "success" ? status.text : undefined}
+        primaryLabel="Lưu dữ liệu BM-087"
+        onPrimary={handleSave}
+        primaryDisabled={saving || loading}
+        secondaryLabel="Tải lại từ backend"
+        onSecondary={reloadFromBackend}
+        extraActions={
+          <BmFormCasePayloadButton<Bm087Form>
+            templateCode="BM-087"
+            form={form}
+            onApply={(next) => setForm(next)}
+          />
+        }
+        meta={
           <button
             type="button"
-            className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-60"
-            onClick={reloadFromBackend}
-            disabled={loading || saving}
-          >
-            {loading ? "Đang tải..." : "Tải lại từ backend"}
-          </button>
-
-          <button
-            type="button"
-            className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm hover:bg-blue-100 disabled:opacity-60"
+            className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2 text-xs font-semibold text-blue-700 shadow-sm hover:bg-blue-100 disabled:opacity-60"
             onClick={handleFillSample}
             disabled={loading || saving}
           >
             Điền dữ liệu mẫu
           </button>
+        }
+      />
 
-          <button
-            type="button"
-            className="rounded-xl bg-blue-600 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
-            onClick={handleSave}
-            disabled={loading || saving}
-          >
-            {saving ? "Đang lưu..." : "Lưu dữ liệu"}
-          </button>
-        </div>
-      </div>
+      {status.kind === "idle" ? null : (
+        <BmFormStatus
+          kind={status.kind}
+          title={
+            status.kind === "success"
+              ? "Thành công"
+              : status.kind === "error"
+                ? "Lỗi"
+                : status.kind === "warning"
+                  ? "Thiếu dữ liệu"
+                  : undefined
+          }
+        >
+          {status.text}
+        </BmFormStatus>
+      )}
 
-      {message ? (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
-          {message}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-          {error}
-        </div>
-      ) : null}
-
-      {validationErrors.length > 0 ? (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
-          Còn thiếu: {validationErrors.join(", ")}
-        </div>
-      ) : null}
-
-      <SectionCard title="1. Header biểu mẫu">
-        <Field
+      <BmFormSection
+        title="1. Header biểu mẫu"
+        description="Nhóm header dùng để render phần đầu BM-087."
+      >
+        <BmFieldText
           label="Viện kiểm sát cấp trên"
           required
           value={form.agency.parentName}
-          onChange={(value) => patch("agency", "parentName", value)}
+          onChange={(value) => patchAgency("parentName", value)}
         />
 
-        <Field
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           required
           value={form.agency.name}
-          onChange={(value) => patch("agency", "name", value)}
+          onChange={(value) => patchAgency("name", value)}
         />
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <Field
-            label="Số quyết định"
-            required
-            value={form.document.documentCode}
-            onChange={(value) => patch("document", "documentCode", value)}
-          />
+        <BmFieldText
+          label="Số quyết định"
+          required
+          value={form.document.documentCode}
+          onChange={(value) => patchDocument("documentCode", value)}
+        />
 
-          <Field
-            label="Địa danh ban hành"
-            required
-            value={form.document.issuePlace}
-            onChange={(value) => patch("document", "issuePlace", value)}
-          />
+        <BmFieldText
+          label="Địa danh ban hành"
+          required
+          value={form.document.issuePlace}
+          onChange={(value) => patchDocument("issuePlace", value)}
+        />
 
-          <Field
-            label="Ngày ban hành"
-            required
-            type="date"
-            value={form.document.issueDateIso}
-            onChange={(value) => patch("document", "issueDateIso", value)}
-          />
+        <BmFieldDate
+          label="Ngày ban hành"
+          required
+          value={form.document.issueDateIso}
+          onChange={(value) => patchDocument("issueDateIso", value)}
+        />
+
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700">
+          {form.document.issuePlaceAndDateLine}
         </div>
 
-        <Field
-          label="Dòng địa danh/ngày tháng tự sinh"
-          value={buildIssuePlaceAndDateLine(form)}
-          readOnly
-        />
-
-        <Field
+        <BmFieldText
           label="Chủ thể ban hành"
           required
           value={form.official.issuerTitle}
-          onChange={(value) => patch("official", "issuerTitle", value)}
+          onChange={(value) => patchOfficial("issuerTitle", value)}
+          fullWidth
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="2. Nội dung yêu cầu điều tra"
         description="Chỉ nhập thông tin cốt lõi. Các dòng dài trong văn bản sẽ tự sinh."
+        fullWidth
       >
-        <Field
+        <BmFieldTextarea
           label="Căn cứ tố tụng"
           required
-          multiline
+          rows={2}
           value={form.investigationRequest.procedureArticlesLine}
           onChange={(value) =>
-            patch("investigationRequest", "procedureArticlesLine", value)
+            patchInvestigationRequest("procedureArticlesLine", value)
           }
+          fullWidth
         />
 
-        <Field
+        <BmFieldText
           label="Cơ quan được yêu cầu điều tra"
           required
           value={form.investigationRequest.requestedAuthorityName}
           onChange={(value) =>
-            patch("investigationRequest", "requestedAuthorityName", value)
+            patchInvestigationRequest("requestedAuthorityName", value)
           }
+          fullWidth
         />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Tên vụ án"
-            required
-            value={form.investigationRequest.caseTitle}
-            onChange={(value) =>
-              patch("investigationRequest", "caseTitle", value)
-            }
-          />
+        <BmFieldText
+          label="Tên vụ án"
+          required
+          value={form.investigationRequest.caseTitle}
+          onChange={(value) => patchInvestigationRequest("caseTitle", value)}
+        />
 
-          <Field
-            label="Tội danh"
-            required
-            value={form.investigationRequest.offenseName}
-            onChange={(value) =>
-              patch("investigationRequest", "offenseName", value)
-            }
-          />
-        </div>
-      </SectionCard>
+        <BmFieldText
+          label="Tội danh"
+          required
+          value={form.investigationRequest.offenseName}
+          onChange={(value) => patchInvestigationRequest("offenseName", value)}
+        />
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="3. Nội dung tự sinh"
         description="Các dòng này không cần nhập tay. Đổi ô chính ở trên thì nội dung dưới đổi theo."
+        fullWidth
       >
-        <Field
+        <BmFieldTextarea
           label="Dòng yêu cầu tự sinh"
-          multiline
           readOnly
-          value={buildRequestContentLine(form)}
+          rows={3}
+          value={requestContentLine}
+          onChange={() => undefined}
+          fullWidth
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Nơi nhận và chữ ký">
-        <Field
+      <BmFormSection
+        title="4. Nơi nhận và chữ ký"
+        fullWidth
+      >
+        <BmFieldText
           label="Lưu hồ sơ"
           required
           value={form.recipients.archiveLine}
-          onChange={(value) => patch("recipients", "archiveLine", value)}
+          onChange={(value) => patchRecipients("archiveLine", value)}
+          fullWidth
         />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <Field
-            label="Chế độ ký"
-            required
-            value={form.signature.signMode}
-            onChange={(value) => patch("signature", "signMode", value)}
-          />
+        <BmFieldText
+          label="Chế độ ký"
+          required
+          value={form.signature.signMode}
+          onChange={(value) => patchSignature("signMode", value)}
+        />
 
-          <Field
-            label="Chức vụ ký"
-            required
-            value={form.signature.positionTitle}
-            onChange={(value) => patch("signature", "positionTitle", value)}
-          />
-        </div>
+        <BmFieldText
+          label="Chức vụ ký"
+          required
+          value={form.signature.positionTitle}
+          onChange={(value) => patchSignature("positionTitle", value)}
+        />
 
-        <Field
+        <BmFieldText
           label="Người ký"
           required
           value={form.signature.signerName}
-          onChange={(value) => patch("signature", "signerName", value)}
+          onChange={(value) => patchSignature("signerName", value)}
         />
-      </SectionCard>
+      </BmFormSection>
+
+      <BmFormActions
+        onPrimary={handleSave}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-087"}
+        primaryDisabled={saving || loading}
+        onSecondary={reloadFromBackend}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+      />
     </div>
   );
 }
