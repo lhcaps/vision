@@ -2,6 +2,14 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -784,28 +792,6 @@ function DateSelectField({
   );
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm text-slate-500">{description}</p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
 
 export function Bm148FormInputsPanel({
   documentId,
@@ -1134,73 +1120,73 @@ export function Bm148FormInputsPanel({
         </div>
       </section>
 
-      <SectionCard title="1. Cơ quan / quyết định">
-        <Field required label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
-        <Field required label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
-        <Field required label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
-        <Field required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
+      <BmFormSection title="1. Cơ quan / quyết định">
+        <BmFieldText required label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
+        <BmFieldText required label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
+        <BmFieldText required label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
+        <BmFieldText required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
         <DateSelectField required label="Ngày quyết định" value={form.document.issueDate} onChange={(value) => updateField("document", "issueDate", value)} />
-        <Field required label="Dòng thẩm quyền" value={form.official.issuerTitle} onChange={(value) => updateField("official", "issuerTitle", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText required label="Dòng thẩm quyền" value={form.official.issuerTitle} onChange={(value) => updateField("official", "issuerTitle", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard
+      <BmFormSection
         title="2. Dữ liệu đồng bộ"
         description="Tên bị can, tên tội, ngày tháng và cơ quan điều tra là dữ liệu nguồn. Sửa ở đây thì các dòng căn cứ, Điều 1, Điều 3 và nơi nhận tự cập nhật."
       >
-        <Field required label="Họ tên bị can" value={form.person.fullName} onChange={(value) => updateField("person", "fullName", value)} />
-        <Field required label="Tên tội" value={form.helper.offenseName} onChange={(value) => updateField("helper", "offenseName", value)} />
-        <Field label="Khoản" value={form.helper.legalClause} onChange={(value) => updateField("helper", "legalClause", value)} />
-        <Field required label="Điều luật BLHS" value={form.helper.legalArticle} onChange={(value) => updateField("helper", "legalArticle", value)} />
-        <Field label="Tên vụ án" value={form.helper.caseTitle} onChange={(value) => updateField("helper", "caseTitle", value)} className="md:col-span-2" />
-        <Field required label="Cơ quan điều tra" value={form.helper.investigationAgencyName} onChange={(value) => updateField("helper", "investigationAgencyName", value)} className="md:col-span-2" />
-        <Field label="Số QĐ khởi tố vụ án" value={form.helper.caseDecisionCode} onChange={(value) => updateField("helper", "caseDecisionCode", value)} />
+        <BmFieldText required label="Họ tên bị can" value={form.person.fullName} onChange={(value) => updateField("person", "fullName", value)} />
+        <BmFieldText required label="Tên tội" value={form.helper.offenseName} onChange={(value) => updateField("helper", "offenseName", value)} />
+        <BmFieldText label="Khoản" value={form.helper.legalClause} onChange={(value) => updateField("helper", "legalClause", value)} />
+        <BmFieldText required label="Điều luật BLHS" value={form.helper.legalArticle} onChange={(value) => updateField("helper", "legalArticle", value)} />
+        <BmFieldText label="Tên vụ án" value={form.helper.caseTitle} onChange={(value) => updateField("helper", "caseTitle", value)} fullWidth />
+        <BmFieldText required label="Cơ quan điều tra" value={form.helper.investigationAgencyName} onChange={(value) => updateField("helper", "investigationAgencyName", value)} fullWidth />
+        <BmFieldText label="Số QĐ khởi tố vụ án" value={form.helper.caseDecisionCode} onChange={(value) => updateField("helper", "caseDecisionCode", value)} />
         <DateSelectField label="Ngày QĐ khởi tố vụ án" value={form.helper.caseDecisionDate} onChange={(value) => updateField("helper", "caseDecisionDate", value)} />
-        <Field label="Số QĐ khởi tố bị can" value={form.helper.accusedDecisionCode} onChange={(value) => updateField("helper", "accusedDecisionCode", value)} />
+        <BmFieldText label="Số QĐ khởi tố bị can" value={form.helper.accusedDecisionCode} onChange={(value) => updateField("helper", "accusedDecisionCode", value)} />
         <DateSelectField label="Ngày QĐ khởi tố bị can" value={form.helper.accusedDecisionDate} onChange={(value) => updateField("helper", "accusedDecisionDate", value)} />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. Căn cứ tố tụng">
-        <Field required multiline label="Căn cứ BLTTHS" value={form.legalBasis.procedureArticlesLine} onChange={(value) => updateField("legalBasis", "procedureArticlesLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Căn cứ Luật Tư pháp người chưa thành niên" value={form.legalBasis.juvenileJusticeLine} onChange={(value) => updateField("legalBasis", "juvenileJusticeLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Căn cứ khởi tố vụ án" value={form.caseDecision.prosecutionDecisionLegalBasisLine} onChange={(value) => updateField("caseDecision", "prosecutionDecisionLegalBasisLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Căn cứ khởi tố bị can" value={form.accusedDecision.prosecutionDecisionLegalBasisLine} onChange={(value) => updateField("accusedDecision", "prosecutionDecisionLegalBasisLine", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="3. Căn cứ tố tụng">
+        <BmFieldTextarea required label="Căn cứ BLTTHS" value={form.legalBasis.procedureArticlesLine} onChange={(value) => updateField("legalBasis", "procedureArticlesLine", value)} fullWidth />
+        <BmFieldTextarea required label="Căn cứ Luật Tư pháp người chưa thành niên" value={form.legalBasis.juvenileJusticeLine} onChange={(value) => updateField("legalBasis", "juvenileJusticeLine", value)} fullWidth />
+        <BmFieldTextarea required label="Căn cứ khởi tố vụ án" value={form.caseDecision.prosecutionDecisionLegalBasisLine} onChange={(value) => updateField("caseDecision", "prosecutionDecisionLegalBasisLine", value)} fullWidth />
+        <BmFieldTextarea required label="Căn cứ khởi tố bị can" value={form.accusedDecision.prosecutionDecisionLegalBasisLine} onChange={(value) => updateField("accusedDecision", "prosecutionDecisionLegalBasisLine", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="4. Nội dung tạm đình chỉ">
-        <Field required multiline label="Lý do xét thấy" value={form.suspension.reasonLine} onChange={(value) => updateField("suspension", "reasonLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Điều 1" value={form.suspension.article1Line} onChange={(value) => updateField("suspension", "article1Line", value)} className="md:col-span-2" />
-        <Field required multiline label="Điều 2" value={form.suspension.article2ActionLine} onChange={(value) => updateField("suspension", "article2ActionLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Điều 3" value={form.suspension.executionRequestLine} onChange={(value) => updateField("suspension", "executionRequestLine", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="4. Nội dung tạm đình chỉ">
+        <BmFieldTextarea required label="Lý do xét thấy" value={form.suspension.reasonLine} onChange={(value) => updateField("suspension", "reasonLine", value)} fullWidth />
+        <BmFieldTextarea required label="Điều 1" value={form.suspension.article1Line} onChange={(value) => updateField("suspension", "article1Line", value)} fullWidth />
+        <BmFieldTextarea required label="Điều 2" value={form.suspension.article2ActionLine} onChange={(value) => updateField("suspension", "article2ActionLine", value)} fullWidth />
+        <BmFieldTextarea required label="Điều 3" value={form.suspension.executionRequestLine} onChange={(value) => updateField("suspension", "executionRequestLine", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="5. Lý lịch bị can">
-        <SelectField required label="Giới tính" value={form.person.genderText} onChange={(value) => updateField("person", "genderText", value)} options={GENDER_OPTIONS} />
-        <Field label="Tên gọi khác" value={form.person.otherName} onChange={(value) => updateField("person", "otherName", value)} />
+      <BmFormSection title="5. Lý lịch bị can">
+        <BmFieldSelect required label="Giới tính" value={form.person.genderText} onChange={(value) => updateField("person", "genderText", value)} options={GENDER_OPTIONS} />
+        <BmFieldText label="Tên gọi khác" value={form.person.otherName} onChange={(value) => updateField("person", "otherName", value)} />
         <DateSelectField required label="Ngày sinh" value={form.person.dateOfBirth} onChange={(value) => updateField("person", "dateOfBirth", value)} />
-        <Field label="Nơi sinh" value={form.person.placeOfBirth} onChange={(value) => updateField("person", "placeOfBirth", value)} />
-        <Field label="Quốc tịch" value={form.person.nationality} onChange={(value) => updateField("person", "nationality", value)} />
-        <Field label="Dân tộc" value={form.person.ethnicity} onChange={(value) => updateField("person", "ethnicity", value)} />
-        <Field label="Tôn giáo" value={form.person.religion} onChange={(value) => updateField("person", "religion", value)} />
-        <Field label="Nghề nghiệp" value={form.person.occupation} onChange={(value) => updateField("person", "occupation", value)} />
-        <Field required label="Số CMND/CCCD/Hộ chiếu" value={form.person.identityNo} onChange={(value) => updateField("person", "identityNo", value)} />
+        <BmFieldText label="Nơi sinh" value={form.person.placeOfBirth} onChange={(value) => updateField("person", "placeOfBirth", value)} />
+        <BmFieldText label="Quốc tịch" value={form.person.nationality} onChange={(value) => updateField("person", "nationality", value)} />
+        <BmFieldText label="Dân tộc" value={form.person.ethnicity} onChange={(value) => updateField("person", "ethnicity", value)} />
+        <BmFieldText label="Tôn giáo" value={form.person.religion} onChange={(value) => updateField("person", "religion", value)} />
+        <BmFieldText label="Nghề nghiệp" value={form.person.occupation} onChange={(value) => updateField("person", "occupation", value)} />
+        <BmFieldText required label="Số CMND/CCCD/Hộ chiếu" value={form.person.identityNo} onChange={(value) => updateField("person", "identityNo", value)} />
         <DateSelectField required label="Ngày cấp" value={form.person.identityIssuedDate} onChange={(value) => updateField("person", "identityIssuedDate", value)} />
-        <Field required label="Nơi cấp" value={form.person.identityIssuedPlace} onChange={(value) => updateField("person", "identityIssuedPlace", value)} className="md:col-span-2" />
-        <Field required multiline label="Nơi thường trú" value={form.person.permanentResidence} onChange={(value) => updateField("person", "permanentResidence", value)} className="md:col-span-2" />
-        <Field multiline label="Nơi tạm trú" value={form.person.temporaryResidence} onChange={(value) => updateField("person", "temporaryResidence", value)} className="md:col-span-2" />
-        <Field required multiline label="Nơi ở hiện tại" value={form.person.currentResidence} onChange={(value) => updateField("person", "currentResidence", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText required label="Nơi cấp" value={form.person.identityIssuedPlace} onChange={(value) => updateField("person", "identityIssuedPlace", value)} fullWidth />
+        <BmFieldTextarea required label="Nơi thường trú" value={form.person.permanentResidence} onChange={(value) => updateField("person", "permanentResidence", value)} fullWidth />
+        <BmFieldTextarea label="Nơi tạm trú" value={form.person.temporaryResidence} onChange={(value) => updateField("person", "temporaryResidence", value)} fullWidth />
+        <BmFieldTextarea required label="Nơi ở hiện tại" value={form.person.currentResidence} onChange={(value) => updateField("person", "currentResidence", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="6. Nơi nhận">
-        <Field required label="Nơi nhận dòng 1" value={form.recipients.line1} onChange={(value) => updateField("recipients", "line1", value)} />
-        <Field required label="Nơi nhận dòng 2" value={form.recipients.line2} onChange={(value) => updateField("recipients", "line2", value)} />
-        <Field label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="6. Nơi nhận">
+        <BmFieldText required label="Nơi nhận dòng 1" value={form.recipients.line1} onChange={(value) => updateField("recipients", "line1", value)} />
+        <BmFieldText required label="Nơi nhận dòng 2" value={form.recipients.line2} onChange={(value) => updateField("recipients", "line2", value)} />
+        <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="7. Chữ ký">
-        <SelectField label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
-        <SelectField required label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
-        <Field required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
-      </SectionCard>
+      <BmFormSection title="7. Chữ ký">
+        <BmFieldSelect label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
+        <BmFieldSelect required label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
+        <BmFieldText required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
+      </BmFormSection>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

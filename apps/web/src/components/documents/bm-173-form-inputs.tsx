@@ -2,6 +2,14 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -574,25 +582,6 @@ function DateSelectField({
   );
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
 
 export function Bm173FormInputsPanel({ documentId, onSaved }: Props) {
   const [form, setForm] = useState<Bm173FormInputs>(EMPTY_FORM);
@@ -798,42 +787,42 @@ export function Bm173FormInputsPanel({ documentId, onSaved }: Props) {
         </div>
       </section>
 
-      <SectionCard title="1. Thông tin quyết định">
-        <Field required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
+      <BmFormSection title="1. Thông tin quyết định">
+        <BmFieldText required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
         <DateSelectField required label="Ngày quyết định" value={form.document.issueDate} onChange={(value) => updateField("document", "issueDate", value)} />
-        <Field label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
-        <Field label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
-        <Field label="Tên cơ quan trong nội dung" value={form.evidenceTransfer.agencyBodyName} onChange={(value) => updateField("evidenceTransfer", "agencyBodyName", value)} />
-        <Field label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
-      </SectionCard>
+        <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
+        <BmFieldText label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
+        <BmFieldText label="Tên cơ quan trong nội dung" value={form.evidenceTransfer.agencyBodyName} onChange={(value) => updateField("evidenceTransfer", "agencyBodyName", value)} />
+        <BmFieldText label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
+      </BmFormSection>
 
-      <SectionCard title="2. Truy tố / vụ án" description="Tội danh nhập một lần, tên vụ án tự đồng bộ nhưng vẫn cho sửa tay.">
-        <Field required label="Tội danh" value={form.evidenceTransfer.offenseName} onChange={(value) => updateField("evidenceTransfer", "offenseName", value)} />
-        <Field label="Địa điểm vụ án" value={form.evidenceTransfer.caseLocation} onChange={(value) => updateField("evidenceTransfer", "caseLocation", value)} />
-        <Field required label="Tên vụ án" value={form.evidenceTransfer.caseTitle} onChange={(value) => updateField("evidenceTransfer", "caseTitle", value)} className="md:col-span-2" />
-        <Field required label="Loại văn bản truy tố" value={form.evidenceTransfer.prosecutionDecisionType} onChange={(value) => updateField("evidenceTransfer", "prosecutionDecisionType", value)} />
-        <Field required label="Số cáo trạng/quyết định truy tố" value={form.evidenceTransfer.prosecutionDecisionCode} onChange={(value) => updateField("evidenceTransfer", "prosecutionDecisionCode", value)} />
+      <BmFormSection title="2. Truy tố / vụ án" description="Tội danh nhập một lần, tên vụ án tự đồng bộ nhưng vẫn cho sửa tay.">
+        <BmFieldText required label="Tội danh" value={form.evidenceTransfer.offenseName} onChange={(value) => updateField("evidenceTransfer", "offenseName", value)} />
+        <BmFieldText label="Địa điểm vụ án" value={form.evidenceTransfer.caseLocation} onChange={(value) => updateField("evidenceTransfer", "caseLocation", value)} />
+        <BmFieldText required label="Tên vụ án" value={form.evidenceTransfer.caseTitle} onChange={(value) => updateField("evidenceTransfer", "caseTitle", value)} fullWidth />
+        <BmFieldText required label="Loại văn bản truy tố" value={form.evidenceTransfer.prosecutionDecisionType} onChange={(value) => updateField("evidenceTransfer", "prosecutionDecisionType", value)} />
+        <BmFieldText required label="Số cáo trạng/quyết định truy tố" value={form.evidenceTransfer.prosecutionDecisionCode} onChange={(value) => updateField("evidenceTransfer", "prosecutionDecisionCode", value)} />
         <DateSelectField required label="Ngày cáo trạng/quyết định truy tố" value={form.evidenceTransfer.prosecutionDecisionDate} onChange={(value) => updateField("evidenceTransfer", "prosecutionDecisionDate", value)} />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. Chuyển vật chứng">
-        <Field required multiline label="Danh sách vật chứng" value={form.evidenceTransfer.evidenceListLine} onChange={(value) => updateField("evidenceTransfer", "evidenceListLine", value)} className="md:col-span-2" />
-        <Field required label="Từ cơ quan/người đang giữ" value={form.evidenceTransfer.fromAgencyName} onChange={(value) => updateField("evidenceTransfer", "fromAgencyName", value)} />
-        <Field required label="Đến cơ quan nhận" value={form.evidenceTransfer.toAgencyName} onChange={(value) => updateField("evidenceTransfer", "toAgencyName", value)} />
-      </SectionCard>
+      <BmFormSection title="3. Chuyển vật chứng">
+        <BmFieldTextarea required label="Danh sách vật chứng" value={form.evidenceTransfer.evidenceListLine} onChange={(value) => updateField("evidenceTransfer", "evidenceListLine", value)} fullWidth />
+        <BmFieldText required label="Từ cơ quan/người đang giữ" value={form.evidenceTransfer.fromAgencyName} onChange={(value) => updateField("evidenceTransfer", "fromAgencyName", value)} />
+        <BmFieldText required label="Đến cơ quan nhận" value={form.evidenceTransfer.toAgencyName} onChange={(value) => updateField("evidenceTransfer", "toAgencyName", value)} />
+      </BmFormSection>
 
-      <SectionCard title="4. Nội dung quyết định" description="Có thể để trống để hệ thống tự sinh, hoặc sửa trực tiếp theo ý khách.">
-        <Field multiline label="Xét thấy" value={derivedForm.evidenceTransfer.considerationLine} onChange={(value) => updateField("evidenceTransfer", "considerationLine", value)} className="md:col-span-2" />
-        <Field required multiline label="Điều 1" value={derivedForm.evidenceTransfer.article1Line} onChange={(value) => updateField("evidenceTransfer", "article1Line", value)} className="md:col-span-2" />
-        <Field required multiline label="Điều 2" value={derivedForm.evidenceTransfer.article2Line} onChange={(value) => updateField("evidenceTransfer", "article2Line", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="4. Nội dung quyết định" description="Có thể để trống để hệ thống tự sinh, hoặc sửa trực tiếp theo ý khách.">
+        <BmFieldTextarea label="Xét thấy" value={derivedForm.evidenceTransfer.considerationLine} onChange={(value) => updateField("evidenceTransfer", "considerationLine", value)} fullWidth />
+        <BmFieldTextarea required label="Điều 1" value={derivedForm.evidenceTransfer.article1Line} onChange={(value) => updateField("evidenceTransfer", "article1Line", value)} fullWidth />
+        <BmFieldTextarea required label="Điều 2" value={derivedForm.evidenceTransfer.article2Line} onChange={(value) => updateField("evidenceTransfer", "article2Line", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="5. Chữ ký">
-        <SelectField label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
-        <SelectField label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
-        <Field required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
-        <Field label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} />
-      </SectionCard>
+      <BmFormSection title="5. Chữ ký">
+        <BmFieldSelect label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
+        <BmFieldSelect label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
+        <BmFieldText required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
+        <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} />
+      </BmFormSection>
 
       <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
         <details open>

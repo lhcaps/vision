@@ -2,6 +2,14 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -762,26 +770,6 @@ function DateSelectField({
   );
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
 
 export function Bm171FormInputsPanel({ documentId, onSaved }: Props) {
   const [form, setForm] = useState<Bm171FormInputs>(EMPTY_FORM);
@@ -1018,88 +1006,88 @@ export function Bm171FormInputsPanel({ documentId, onSaved }: Props) {
         </div>
       </section>
 
-      <SectionCard title="1. Quyết định">
-        <Field required label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
-        <Field required label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
-        <Field required label="Tên cơ quan trong nội dung" value={text(form.assetReturn.agencyBodyName)} onChange={(value) => updateField("assetReturn", "agencyBodyName", value)} />
-        <Field required label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
-        <Field required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
+      <BmFormSection title="1. Quyết định">
+        <BmFieldText required label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateField("agency", "parentName", value)} />
+        <BmFieldText required label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateField("agency", "name", value)} />
+        <BmFieldText required label="Tên cơ quan trong nội dung" value={text(form.assetReturn.agencyBodyName)} onChange={(value) => updateField("assetReturn", "agencyBodyName", value)} />
+        <BmFieldText required label="Địa danh ban hành" value={form.agency.issuePlace} onChange={(value) => updateField("agency", "issuePlace", value)} />
+        <BmFieldText required label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateField("document", "documentCode", value)} />
         <DateSelectField required label="Ngày quyết định" value={form.document.issueDate} onChange={(value) => updateField("document", "issueDate", value)} />
-        <Field required label="Dòng thẩm quyền" value={form.official.issuerTitle} onChange={(value) => updateField("official", "issuerTitle", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText required label="Dòng thẩm quyền" value={form.official.issuerTitle} onChange={(value) => updateField("official", "issuerTitle", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="2. Vụ án / tội danh">
-        <Field required label="Tên tội" value={text(form.assetReturn.offenseName)} onChange={(value) => updateField("assetReturn", "offenseName", value)} />
-        <Field required label="Khoản" value={text(form.assetReturn.legalClause)} onChange={(value) => updateField("assetReturn", "legalClause", value)} />
-        <Field required label="Điều luật BLHS" value={text(form.assetReturn.legalArticle)} onChange={(value) => updateField("assetReturn", "legalArticle", value)} />
-        <Field required label="Bị can" value={text(form.assetReturn.accusedName)} onChange={(value) => updateField("assetReturn", "accusedName", value)} />
-        <Field required label="Cơ quan điều tra" value={text(form.assetReturn.investigationAgencyName)} onChange={(value) => updateField("assetReturn", "investigationAgencyName", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="2. Vụ án / tội danh">
+        <BmFieldText required label="Tên tội" value={text(form.assetReturn.offenseName)} onChange={(value) => updateField("assetReturn", "offenseName", value)} />
+        <BmFieldText required label="Khoản" value={text(form.assetReturn.legalClause)} onChange={(value) => updateField("assetReturn", "legalClause", value)} />
+        <BmFieldText required label="Điều luật BLHS" value={text(form.assetReturn.legalArticle)} onChange={(value) => updateField("assetReturn", "legalArticle", value)} />
+        <BmFieldText required label="Bị can" value={text(form.assetReturn.accusedName)} onChange={(value) => updateField("assetReturn", "accusedName", value)} />
+        <BmFieldText required label="Cơ quan điều tra" value={text(form.assetReturn.investigationAgencyName)} onChange={(value) => updateField("assetReturn", "investigationAgencyName", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="3. Căn cứ">
-        <Field required label="Số QĐ khởi tố vụ án" value={form.caseDecision.decisionCode} onChange={(value) => updateField("caseDecision", "decisionCode", value)} />
+      <BmFormSection title="3. Căn cứ">
+        <BmFieldText required label="Số QĐ khởi tố vụ án" value={form.caseDecision.decisionCode} onChange={(value) => updateField("caseDecision", "decisionCode", value)} />
         <DateSelectField required label="Ngày QĐ khởi tố vụ án" value={form.caseDecision.decisionDate} onChange={(value) => updateField("caseDecision", "decisionDate", value)} />
-        <Field required label="Số bản kết luận điều tra" value={text(form.assetReturn.investigationConclusionCode)} onChange={(value) => updateField("assetReturn", "investigationConclusionCode", value)} />
+        <BmFieldText required label="Số bản kết luận điều tra" value={text(form.assetReturn.investigationConclusionCode)} onChange={(value) => updateField("assetReturn", "investigationConclusionCode", value)} />
         <DateSelectField required label="Ngày bản kết luận điều tra" value={text(form.assetReturn.investigationConclusionDate)} onChange={(value) => updateField("assetReturn", "investigationConclusionDate", value)} />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Dòng nếu có">
+      <BmFormSection title="4. Dòng nếu có">
         <div className="md:col-span-2 grid gap-3">
-          <CheckboxField label="Có căn cứ Quyết định khởi tố bị can" checked={Boolean(form.assetReturn.includeAccusedDecisionLine)} onChange={(value) => updateBool("includeAccusedDecisionLine", value)} />
+          <BmFieldCheckbox label="Có căn cứ Quyết định khởi tố bị can" checked={Boolean(form.assetReturn.includeAccusedDecisionLine)} onChange={(value) => updateBool("includeAccusedDecisionLine", value)} />
           {form.assetReturn.includeAccusedDecisionLine ? (
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Số QĐ khởi tố bị can" value={form.accusedDecision.decisionCode} onChange={(value) => updateField("accusedDecision", "decisionCode", value)} />
+              <BmFieldText label="Số QĐ khởi tố bị can" value={form.accusedDecision.decisionCode} onChange={(value) => updateField("accusedDecision", "decisionCode", value)} />
               <DateSelectField label="Ngày QĐ khởi tố bị can" value={form.accusedDecision.decisionDate} onChange={(value) => updateField("accusedDecision", "decisionDate", value)} />
             </div>
           ) : null}
 
-          <CheckboxField label="Có căn cứ Quyết định đình chỉ/tạm đình chỉ vụ án" checked={Boolean(form.assetReturn.includeCaseSuspensionDecisionLine)} onChange={(value) => updateBool("includeCaseSuspensionDecisionLine", value)} />
+          <BmFieldCheckbox label="Có căn cứ Quyết định đình chỉ/tạm đình chỉ vụ án" checked={Boolean(form.assetReturn.includeCaseSuspensionDecisionLine)} onChange={(value) => updateBool("includeCaseSuspensionDecisionLine", value)} />
           {form.assetReturn.includeCaseSuspensionDecisionLine ? (
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Số QĐ đình chỉ/tạm đình chỉ vụ án" value={text(form.assetReturn.caseSuspensionDecisionCode)} onChange={(value) => updateField("assetReturn", "caseSuspensionDecisionCode", value)} />
+              <BmFieldText label="Số QĐ đình chỉ/tạm đình chỉ vụ án" value={text(form.assetReturn.caseSuspensionDecisionCode)} onChange={(value) => updateField("assetReturn", "caseSuspensionDecisionCode", value)} />
               <DateSelectField label="Ngày QĐ đình chỉ/tạm đình chỉ vụ án" value={text(form.assetReturn.caseSuspensionDecisionDate)} onChange={(value) => updateField("assetReturn", "caseSuspensionDecisionDate", value)} />
             </div>
           ) : null}
 
-          <CheckboxField label="Có căn cứ Quyết định đình chỉ/tạm đình chỉ đối với bị can" checked={Boolean(form.assetReturn.includeAccusedSuspensionDecisionLine)} onChange={(value) => updateBool("includeAccusedSuspensionDecisionLine", value)} />
+          <BmFieldCheckbox label="Có căn cứ Quyết định đình chỉ/tạm đình chỉ đối với bị can" checked={Boolean(form.assetReturn.includeAccusedSuspensionDecisionLine)} onChange={(value) => updateBool("includeAccusedSuspensionDecisionLine", value)} />
           {form.assetReturn.includeAccusedSuspensionDecisionLine ? (
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Số QĐ đình chỉ/tạm đình chỉ đối với bị can" value={text(form.assetReturn.accusedSuspensionDecisionCode)} onChange={(value) => updateField("assetReturn", "accusedSuspensionDecisionCode", value)} />
+              <BmFieldText label="Số QĐ đình chỉ/tạm đình chỉ đối với bị can" value={text(form.assetReturn.accusedSuspensionDecisionCode)} onChange={(value) => updateField("assetReturn", "accusedSuspensionDecisionCode", value)} />
               <DateSelectField label="Ngày QĐ đình chỉ/tạm đình chỉ đối với bị can" value={text(form.assetReturn.accusedSuspensionDecisionDate)} onChange={(value) => updateField("assetReturn", "accusedSuspensionDecisionDate", value)} />
             </div>
           ) : null}
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Tài sản trả lại">
-        <Field required multiline label="Tài sản trả lại" value={text(form.assetReturn.assetListLine)} onChange={(value) => updateField("assetReturn", "assetListLine", value)} className="md:col-span-2" />
-        <Field multiline label="Lý do xét thấy" value={text(form.assetReturn.considerationLine)} onChange={(value) => updateField("assetReturn", "considerationLine", value)} className="md:col-span-2" />
-      </SectionCard>
+      <BmFormSection title="5. Tài sản trả lại">
+        <BmFieldTextarea required label="Tài sản trả lại" value={text(form.assetReturn.assetListLine)} onChange={(value) => updateField("assetReturn", "assetListLine", value)} fullWidth />
+        <BmFieldTextarea label="Lý do xét thấy" value={text(form.assetReturn.considerationLine)} onChange={(value) => updateField("assetReturn", "considerationLine", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="6. Người nhận tài sản">
-        <Field required label="Họ tên" value={form.assetOwner.fullName} onChange={(value) => updateField("assetOwner", "fullName", value)} />
-        <Field label="Giới tính" value={form.assetOwner.genderText} onChange={(value) => updateField("assetOwner", "genderText", value)} />
-        <Field label="Tên gọi khác" value={form.assetOwner.otherName} onChange={(value) => updateField("assetOwner", "otherName", value)} />
+      <BmFormSection title="6. Người nhận tài sản">
+        <BmFieldText required label="Họ tên" value={form.assetOwner.fullName} onChange={(value) => updateField("assetOwner", "fullName", value)} />
+        <BmFieldText label="Giới tính" value={form.assetOwner.genderText} onChange={(value) => updateField("assetOwner", "genderText", value)} />
+        <BmFieldText label="Tên gọi khác" value={form.assetOwner.otherName} onChange={(value) => updateField("assetOwner", "otherName", value)} />
         <DateSelectField label="Ngày sinh" value={form.assetOwner.dateOfBirth} onChange={(value) => updateField("assetOwner", "dateOfBirth", value)} />
-        <Field label="Nơi sinh" value={form.assetOwner.placeOfBirth} onChange={(value) => updateField("assetOwner", "placeOfBirth", value)} />
-        <Field label="Quốc tịch" value={form.assetOwner.nationality} onChange={(value) => updateField("assetOwner", "nationality", value)} />
-        <Field label="Dân tộc" value={form.assetOwner.ethnicity} onChange={(value) => updateField("assetOwner", "ethnicity", value)} />
-        <Field label="Tôn giáo" value={form.assetOwner.religion} onChange={(value) => updateField("assetOwner", "religion", value)} />
-        <Field label="Nghề nghiệp" value={form.assetOwner.occupation} onChange={(value) => updateField("assetOwner", "occupation", value)} />
-        <Field required label="Số CCCD/CMND/Hộ chiếu" value={form.assetOwner.identityNo} onChange={(value) => updateField("assetOwner", "identityNo", value)} />
+        <BmFieldText label="Nơi sinh" value={form.assetOwner.placeOfBirth} onChange={(value) => updateField("assetOwner", "placeOfBirth", value)} />
+        <BmFieldText label="Quốc tịch" value={form.assetOwner.nationality} onChange={(value) => updateField("assetOwner", "nationality", value)} />
+        <BmFieldText label="Dân tộc" value={form.assetOwner.ethnicity} onChange={(value) => updateField("assetOwner", "ethnicity", value)} />
+        <BmFieldText label="Tôn giáo" value={form.assetOwner.religion} onChange={(value) => updateField("assetOwner", "religion", value)} />
+        <BmFieldText label="Nghề nghiệp" value={form.assetOwner.occupation} onChange={(value) => updateField("assetOwner", "occupation", value)} />
+        <BmFieldText required label="Số CCCD/CMND/Hộ chiếu" value={form.assetOwner.identityNo} onChange={(value) => updateField("assetOwner", "identityNo", value)} />
         <DateSelectField label="Ngày cấp" value={form.assetOwner.identityIssuedDate} onChange={(value) => updateField("assetOwner", "identityIssuedDate", value)} />
-        <Field label="Nơi cấp" value={form.assetOwner.identityIssuedPlace} onChange={(value) => updateField("assetOwner", "identityIssuedPlace", value)} />
-        <Field label="Nơi thường trú" value={form.assetOwner.permanentResidence} onChange={(value) => updateField("assetOwner", "permanentResidence", value)} className="md:col-span-2" />
-        <Field label="Nơi tạm trú" value={form.assetOwner.temporaryResidence} onChange={(value) => updateField("assetOwner", "temporaryResidence", value)} className="md:col-span-2" />
-        <Field label="Nơi ở hiện tại" value={form.assetOwner.currentResidence} onChange={(value) => updateField("assetOwner", "currentResidence", value)} className="md:col-span-2" />
-      </SectionCard>
+        <BmFieldText label="Nơi cấp" value={form.assetOwner.identityIssuedPlace} onChange={(value) => updateField("assetOwner", "identityIssuedPlace", value)} />
+        <BmFieldText label="Nơi thường trú" value={form.assetOwner.permanentResidence} onChange={(value) => updateField("assetOwner", "permanentResidence", value)} fullWidth />
+        <BmFieldText label="Nơi tạm trú" value={form.assetOwner.temporaryResidence} onChange={(value) => updateField("assetOwner", "temporaryResidence", value)} fullWidth />
+        <BmFieldText label="Nơi ở hiện tại" value={form.assetOwner.currentResidence} onChange={(value) => updateField("assetOwner", "currentResidence", value)} fullWidth />
+      </BmFormSection>
 
-      <SectionCard title="7. Chữ ký">
-        <SelectField label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
-        <SelectField required label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
-        <Field required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
-        <Field label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} />
-      </SectionCard>
+      <BmFormSection title="7. Chữ ký">
+        <BmFieldSelect label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateField("signature", "signMode", value)} options={SIGN_MODE_OPTIONS} />
+        <BmFieldSelect required label="Chức vụ ký" value={form.signature.positionTitle} onChange={(value) => updateField("signature", "positionTitle", value)} options={POSITION_OPTIONS} />
+        <BmFieldText required label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} />
+        <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateField("recipients", "archiveLine", value)} />
+      </BmFormSection>
 
       <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
         <details>
