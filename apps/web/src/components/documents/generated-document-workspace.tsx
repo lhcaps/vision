@@ -134,10 +134,11 @@ import { Bm140FormInputsPanel } from "./bm-140-form-inputs";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import { absoluteApiUrl } from "@/lib/api-client";
+import { CasePayloadProvider } from "@/lib/case-payload-context";
 import {
-  CasePayloadProvider,
-  type CasePayload,
-} from "@/lib/case-payload-context";
+  buildCasePayloadFromRenderPayload,
+  type RenderPayloadForCaseContext,
+} from "@/lib/case-payload-normalizer";
 
 import { Bm004FormInputsPanel } from "@/components/documents/bm-004-form-inputs";
 import { Bm013FormInputsPanel } from "@/components/documents/bm-013-form-inputs";
@@ -228,64 +229,7 @@ type GeneratedDocumentWorkspaceProps = {
 
 type TabKey = "form" | "files" | "history";
 
-type CasePayloadAgencyWire = {
-  id?: string | null;
-  agencyCode?: string | null;
-  agencyName?: string | null;
-  agencyType?: string | null;
-  parentAgencyId?: string | null;
-  parentAgencyName?: string | null;
-  address?: string | null;
-  phone?: string | null;
-};
-
-type CasePayloadPersonWire = {
-  casePersonId?: string | null;
-  personId?: string | null;
-  roleType?: string | null;
-  legalStatus?: string | null;
-  isPrimary?: boolean;
-  personOrder?: number;
-  fullName?: string | null;
-  birthYear?: number | null;
-  currentAddress?: string | null;
-  residenceAddress?: string | null;
-};
-
-type CasePayloadOffenseWire = {
-  id?: string | null;
-  personId?: string | null;
-  offenseId?: string | null;
-  offenseName?: string | null;
-  offenseCode?: string | null;
-  offenseGroup?: string | null;
-  legalArticle?: string | null;
-  isPrimary?: boolean;
-};
-
-type CasePayloadAssignmentOfficialWire = {
-  id?: string | null;
-  fullName?: string | null;
-  positionTitle?: string | null;
-  rankTitle?: string | null;
-  phone?: string | null;
-};
-
-type CasePayloadAssignmentWire = {
-  id?: string | null;
-  roleType?: string | null;
-  legalStatus?: string | null;
-  isPrimary?: boolean;
-  personOrder?: number;
-  assignedDate?: string | null;
-  endedDate?: string | null;
-  decisionNo?: string | null;
-  decisionDate?: string | null;
-  note?: string | null;
-  official?: CasePayloadAssignmentOfficialWire | null;
-};
-
-type RenderPayloadResponse = {
+type RenderPayloadResponse = RenderPayloadForCaseContext & {
   document?: {
     id?: string | null;
     documentTitle?: string | null;
@@ -301,20 +245,9 @@ type RenderPayloadResponse = {
     renderScope?: string | null;
     outputStrategy?: string | null;
   } | null;
-  case?: {
-    caseCode?: string | null;
-    caseTitle?: string | null;
-    // Phase 1: optional nested agency summary (see document-renderer.service.ts).
-    agency?: CasePayloadAgencyWire | null;
-  } | null;
   person?: {
     fullName?: string | null;
   } | null;
-  // Phase 1: optional lists for "Lấy từ vụ án" UI. The server adds these in
-  // document-renderer.service.ts; older clients can ignore them.
-  people?: CasePayloadPersonWire[] | null;
-  offenses?: CasePayloadOffenseWire[] | null;
-  assignments?: CasePayloadAssignmentWire[] | null;
 };
 
 const TABS: Array<{
@@ -796,88 +729,10 @@ export function GeneratedDocumentWorkspace({
   );
   const isInitialPayloadLoading = isLoadingPayload && !payload;
 
-  // Phase 1: feed a normalized CasePayload to BM form panels via React context.
-  // Optional fields stay null/[] when BE hasn't sent them yet.
-  const casePayload = useMemo<CasePayload>(() => {
-    const wireCase = payload?.case ?? null;
-    const wireAgency = wireCase?.agency ?? null;
-
-    return {
-      case: wireCase
-        ? {
-            id: null,
-            caseCode: wireCase.caseCode ?? null,
-            nationalCaseCode: null,
-            caseTitle: wireCase.caseTitle ?? null,
-            caseSummary: null,
-            caseType: null,
-            sourceType: null,
-            currentStage: null,
-            currentStatus: null,
-            priority: null,
-            receivedDate: null,
-            acceptedDate: null,
-            prosecutedDate: null,
-            closedDate: null,
-            note: null,
-            agency: wireAgency
-              ? {
-                  id: wireAgency.id ?? null,
-                  agencyCode: wireAgency.agencyCode ?? null,
-                  agencyName: wireAgency.agencyName ?? null,
-                  agencyType: wireAgency.agencyType ?? null,
-                  parentAgencyId: wireAgency.parentAgencyId ?? null,
-                  parentAgencyName: wireAgency.parentAgencyName ?? null,
-                  address: wireAgency.address ?? null,
-                  phone: wireAgency.phone ?? null,
-                }
-              : null,
-          }
-        : null,
-      people: (payload?.people ?? []).map((item) => ({
-        id: item.personId ?? null,
-        fullName: item.fullName ?? null,
-        roleType: item.roleType ?? null,
-        legalStatus: item.legalStatus ?? null,
-        isPrimary: item.isPrimary ?? false,
-        personOrder: item.personOrder ?? 0,
-        birthYear: item.birthYear ?? null,
-        currentAddress: item.currentAddress ?? null,
-        residenceAddress: item.residenceAddress ?? null,
-      })),
-      offenses: (payload?.offenses ?? []).map((item) => ({
-        id: item.id ?? null,
-        personId: item.personId ?? null,
-        offenseId: item.offenseId ?? null,
-        offenseName: item.offenseName ?? null,
-        offenseCode: item.offenseCode ?? null,
-        offenseGroup: item.offenseGroup ?? null,
-        legalArticle: item.legalArticle ?? null,
-        isPrimary: item.isPrimary ?? false,
-      })),
-      assignments: (payload?.assignments ?? []).map((item) => ({
-        id: item.id ?? null,
-        roleType: item.roleType ?? null,
-        legalStatus: item.legalStatus ?? null,
-        isPrimary: item.isPrimary ?? false,
-        personOrder: item.personOrder ?? 0,
-        assignedDate: item.assignedDate ?? null,
-        endedDate: item.endedDate ?? null,
-        decisionNo: item.decisionNo ?? null,
-        decisionDate: item.decisionDate ?? null,
-        note: item.note ?? null,
-        official: item.official
-          ? {
-              id: item.official.id ?? null,
-              fullName: item.official.fullName ?? null,
-              positionTitle: item.official.positionTitle ?? null,
-              rankTitle: item.official.rankTitle ?? null,
-              phone: item.official.phone ?? null,
-            }
-          : null,
-      })),
-    };
-  }, [payload]);
+  const casePayload = useMemo(
+    () => buildCasePayloadFromRenderPayload(payload),
+    [payload],
+  );
 
   const Panel = templateCode
     ? BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel

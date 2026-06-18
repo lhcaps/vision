@@ -1,7 +1,9 @@
-﻿"use client";
+"use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { applyCasePayloadToBm039Form } from "@/lib/bm-auto-populate/bm039-case-defaults";
+import { useCasePayload } from "@/lib/case-payload-context";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -1319,6 +1321,7 @@ export function Bm039FormInputsPanel({
   documentId,
   onSaved,
 }: Bm039FormInputsPanelProps) {
+  const casePayload = useCasePayload();
   const [form, setForm] = useState<Bm039FormInputs>(EMPTY_FORM);
   const [initialSnapshot, setInitialSnapshot] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -1328,12 +1331,48 @@ export function Bm039FormInputsPanel({
 
   const syncedForm = useMemo(() => buildSyncedForm(form), [form]);
   const isDirty = JSON.stringify(syncedForm) !== initialSnapshot;
+  const hasCasePayloadData = Boolean(
+    casePayload?.case ||
+      casePayload?.people.length ||
+      casePayload?.offenses.length ||
+      casePayload?.assignments.length,
+  );
 
   const missingFields = useMemo(() => {
     return REQUIRED_FIELDS.filter((item) => {
       return !getValue(syncedForm, item.section, item.field).trim();
     });
   }, [syncedForm]);
+
+  const applyCasePayloadDefaults = useCallback(
+    (
+      sourceForm: Bm039FormInputs,
+      overwrite = false,
+    ): {
+      form: Bm039FormInputs;
+      appliedFields: string[];
+    } => {
+      const result = applyCasePayloadToBm039Form({
+        form: sourceForm,
+        casePayload,
+        defaultForm: EMPTY_FORM,
+        overwrite,
+      });
+
+      if (result.appliedFields.length === 0) {
+        return {
+          form: sourceForm,
+          appliedFields: result.appliedFields,
+        };
+      }
+
+      return {
+        form: syncAutoFieldsAfterMainChange(sourceForm, result.form),
+        appliedFields: result.appliedFields,
+      };
+    },
+    [casePayload],
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -1345,14 +1384,21 @@ export function Bm039FormInputsPanel({
 
       try {
         const payload = await getBm039RenderPayload(documentId);
-        const nextForm = normalizeFormInputs(payload);
+        const normalizedForm = normalizeFormInputs(payload);
+        const caseApplied = applyCasePayloadDefaults(normalizedForm);
 
         if (!isMounted) {
           return;
         }
 
-        setForm(nextForm);
-        setInitialSnapshot(JSON.stringify(buildSyncedForm(nextForm)));
+        setForm(caseApplied.form);
+        setInitialSnapshot(JSON.stringify(buildSyncedForm(normalizedForm)));
+
+        if (caseApplied.appliedFields.length > 0) {
+          setSuccessMessage(
+            `Đã tự lấy ${caseApplied.appliedFields.length} trường từ vụ án. Bấm lưu để ghi vào backend.`,
+          );
+        }
       } catch (error) {
         if (!isMounted) {
           return;
@@ -1371,7 +1417,7 @@ export function Bm039FormInputsPanel({
     return () => {
       isMounted = false;
     };
-  }, [documentId]);
+  }, [applyCasePayloadDefaults, documentId]);
 
   function updateField<TSection extends SectionName>(
     sectionName: TSection,
@@ -1419,6 +1465,22 @@ export function Bm039FormInputsPanel({
     setErrorMessage("");
   }
 
+  function fillFromCasePayload() {
+    const caseApplied = applyCasePayloadDefaults(form);
+
+    if (caseApplied.appliedFields.length === 0) {
+      setSuccessMessage("Không có trường trống/default nào để lấy thêm từ vụ án.");
+      setErrorMessage("");
+      return;
+    }
+
+    setForm(caseApplied.form);
+    setSuccessMessage(
+      `Đã lấy ${caseApplied.appliedFields.length} trường từ vụ án. Bấm lưu để ghi vào backend.`,
+    );
+    setErrorMessage("");
+  }
+
   async function handleSave() {
     setIsSaving(true);
     setErrorMessage("");
@@ -1462,6 +1524,15 @@ export function Bm039FormInputsPanel({
         </p>
 
         <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={fillFromCasePayload}
+            disabled={!hasCasePayloadData}
+            className="rounded-lg border border-sky-300 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            Lấy từ vụ án
+          </button>
+
           <button
             type="button"
             onClick={fillCustomerSample}

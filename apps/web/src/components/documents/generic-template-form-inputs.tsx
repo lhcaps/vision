@@ -3,10 +3,15 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { absoluteApiUrl, extractApiError, isJsonObject } from "@/lib/api-client";
+import {
+  applyCasePayloadToGenericForm,
+  type GenericCaseFormInputs,
+} from "@/lib/bm-auto-populate/generic-case-defaults";
+import { useCasePayload } from "@/lib/case-payload-context";
 
 type TextSection = Record<string, string>;
 
-type GenericTemplateFormInputs = {
+type GenericTemplateFormInputs = GenericCaseFormInputs & {
   agency: TextSection;
   document: TextSection;
   caseInfo: TextSection;
@@ -203,6 +208,7 @@ export function GenericTemplateFormInputsPanel({
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const isDirtyRef = useRef(false);
+  const casePayload = useCasePayload();
 
   function patch(sectionKey: keyof GenericTemplateFormInputs, field: string, value: string) {
     isDirtyRef.current = true;
@@ -286,6 +292,28 @@ export function GenericTemplateFormInputsPanel({
     }
   }
 
+  function handleApplyCasePayload() {
+    if (!casePayload) {
+      setError("Chưa có dữ liệu vụ án để điền vào biểu mẫu.");
+      return;
+    }
+
+    const result = applyCasePayloadToGenericForm({
+      form,
+      casePayload,
+    });
+
+    if (result.appliedFields.length === 0) {
+      setMessage("Không có trường trống phù hợp để lấy từ vụ án.");
+      return;
+    }
+
+    isDirtyRef.current = true;
+    setForm(result.form);
+    setError(null);
+    setMessage(`Đã lấy ${result.appliedFields.length} trường dữ liệu từ vụ án.`);
+  }
+
   useEffect(() => {
     void reload();
   }, [documentId]);
@@ -302,6 +330,14 @@ export function GenericTemplateFormInputsPanel({
           </h2>
         </div>
         <div className="flex gap-2">
+          <button
+            type="button"
+            className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
+            onClick={handleApplyCasePayload}
+            disabled={!casePayload}
+          >
+            Lấy từ vụ án
+          </button>
           <button
             type="button"
             className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"

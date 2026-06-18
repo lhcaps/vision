@@ -49,3 +49,6 @@ agent-tools/
 # Harness local state
 .harness/
 .harnessrc
+
+# Generated test artifacts (do not commit)
+storage/generated/

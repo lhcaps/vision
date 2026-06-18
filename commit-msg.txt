@@ -1,8 +1,0 @@
-fix: P0 blockers — Docker entrypoint path, Swagger guard, production fail-fast
-
-- Fix API Dockerfile CMD: dist/main.js -> dist/src/main.js (matches tsconfig outDir)
-- Fix docker-compose.prod.yml command path and placement (was nested in environment block)
-- Add production guards in bootstrap(): fail-fast if AUTH_COOKIE_SECURE,
-  SEED_ADMIN_PASSWORD=admin123, or API_CORS_ORIGIN=*
-- Swagger only enabled when NODE_ENV!=production or SWAGGER_ENABLED=true
-- Log failure entry for root cause tracking

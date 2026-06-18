@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-verification:
+    name: Static verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: API tests
+        run: pnpm --filter api test -- --runInBand
+
+      - name: Runtime hardcode audit
+        run: pnpm audit:hardcode
+
+      - name: Template audit
+        run: pnpm audit:templates
+
+      - name: Encoding audit
+        run: pnpm audit:encoding
+
+  docker-production-build:
+    name: Docker production build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare production env
+        run: |
+          cp .env.docker.example .env.docker
+          cat >> .env.docker <<'ENV'
+          AUTH_COOKIE_SECURE=true
+          SEED_ADMIN_PASSWORD=ci-not-admin123
+          API_CORS_ORIGIN=http://localhost:3000
+          ENV
+
+      - name: Build production stack
+        run: docker compose --env-file .env.docker -f docker-compose.prod.yml build --no-cache

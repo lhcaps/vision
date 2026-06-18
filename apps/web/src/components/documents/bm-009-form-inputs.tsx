@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 type AgencyForm = {
   parentName: string;
   name: string;
@@ -776,6 +777,7 @@ export function Bm009FormInputsPanel({
 
   return (
     <div className="space-y-5 rounded-3xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+      <BmFormCasePayloadButton templateCode="BM-009" form={form} onApply={(next) => setForm(next as typeof form)} />
       <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">

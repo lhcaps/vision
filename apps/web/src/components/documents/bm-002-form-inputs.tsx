@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -839,6 +840,11 @@ export function Bm002FormInputsPanel({ documentId }: Bm002FormInputsPanelProps) 
           </div>
 
           <div className="flex gap-2">
+            <BmFormCasePayloadButton<Bm002Form>
+              templateCode="BM-002"
+              form={form}
+              onApply={(next) => setForm(next)}
+            />
             <button
               type="button"
               onClick={handleSave}

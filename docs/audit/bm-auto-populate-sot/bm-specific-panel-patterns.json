@@ -1,0 +1,3201 @@
+{
+  "summary": {
+    "generatedAt": "2026-06-18T10:33:06.062Z",
+    "total": 213,
+    "specificCount": 130,
+    "genericWrapperCount": 83,
+    "autoWireCandidateCount": 112,
+    "alreadyHasCasePathCount": 1,
+    "noDefaultButtonCount": 61,
+    "blockedSpecificCount": 17,
+    "autoWireCandidates": [
+      "BM-003",
+      "BM-005",
+      "BM-006",
+      "BM-007",
+      "BM-009",
+      "BM-011",
+      "BM-014",
+      "BM-015",
+      "BM-016",
+      "BM-017",
+      "BM-018",
+      "BM-023",
+      "BM-030",
+      "BM-031",
+      "BM-033",
+      "BM-037",
+      "BM-038",
+      "BM-040",
+      "BM-042",
+      "BM-043",
+      "BM-044",
+      "BM-045",
+      "BM-046",
+      "BM-047",
+      "BM-054",
+      "BM-055",
+      "BM-056",
+      "BM-057",
+      "BM-058",
+      "BM-059",
+      "BM-072",
+      "BM-074",
+      "BM-076",
+      "BM-078",
+      "BM-081",
+      "BM-083",
+      "BM-084",
+      "BM-085",
+      "BM-086",
+      "BM-087",
+      "BM-088",
+      "BM-089",
+      "BM-091",
+      "BM-092",
+      "BM-093",
+      "BM-094",
+      "BM-095",
+      "BM-096",
+      "BM-098",
+      "BM-099",
+      "BM-100",
+      "BM-101",
+      "BM-102",
+      "BM-103",
+      "BM-104",
+      "BM-105",
+      "BM-106",
+      "BM-107",
+      "BM-108",
+      "BM-109",
+      "BM-110",
+      "BM-111",
+      "BM-112",
+      "BM-113",
+      "BM-114",
+      "BM-115",
+      "BM-116",
+      "BM-117",
+      "BM-118",
+      "BM-119",
+      "BM-120",
+      "BM-121",
+      "BM-122",
+      "BM-123",
+      "BM-124",
+      "BM-125",
+      "BM-126",
+      "BM-127",
+      "BM-128",
+      "BM-129",
+      "BM-130",
+      "BM-131",
+      "BM-132",
+      "BM-133",
+      "BM-134",
+      "BM-135",
+      "BM-136",
+      "BM-137",
+      "BM-138",
+      "BM-139",
+      "BM-140",
+      "BM-141",
+      "BM-142",
+      "BM-143",
+      "BM-144",
+      "BM-145",
+      "BM-146",
+      "BM-147",
+      "BM-149",
+      "BM-150",
+      "BM-151",
+      "BM-152",
+      "BM-153",
+      "BM-154",
+      "BM-155",
+      "BM-157",
+      "BM-158",
+      "BM-159",
+      "BM-160",
+      "BM-161",
+      "BM-168",
+      "BM-170"
+    ],
+    "blockedSpecific": [
+      {
+        "code": "BM-001",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-002",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-008",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-010",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-012",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-053",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-070",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-071",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-090",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-097",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-148",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-156",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-166",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-169",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-171",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-172",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      },
+      {
+        "code": "BM-173",
+        "risks": [
+          "missing form state variable named form"
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "path": "apps/web/src/components/documents/bm-001-form-inputs.tsx",
+      "code": "BM-001",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "draft",
+      "setterName": "setDraft",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-002-form-inputs.tsx",
+      "code": "BM-002",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "draft",
+      "setterName": "setDraft",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-003-form-inputs.tsx",
+      "code": "BM-003",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-004-form-inputs.tsx",
+      "code": "BM-004",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-005-form-inputs.tsx",
+      "code": "BM-005",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-006-form-inputs.tsx",
+      "code": "BM-006",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-007-form-inputs.tsx",
+      "code": "BM-007",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-008-form-inputs.tsx",
+      "code": "BM-008",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "draft",
+      "setterName": "setDraft",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-009-form-inputs.tsx",
+      "code": "BM-009",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-010-form-inputs.tsx",
+      "code": "BM-010",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "draft",
+      "setterName": "setDraft",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-011-form-inputs.tsx",
+      "code": "BM-011",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-012-form-inputs.tsx",
+      "code": "BM-012",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "draft",
+      "setterName": "setDraft",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-013-form-inputs.tsx",
+      "code": "BM-013",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-014-form-inputs.tsx",
+      "code": "BM-014",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-015-form-inputs.tsx",
+      "code": "BM-015",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-016-form-inputs.tsx",
+      "code": "BM-016",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-017-form-inputs.tsx",
+      "code": "BM-017",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-018-form-inputs.tsx",
+      "code": "BM-018",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-019-form-inputs.tsx",
+      "code": "BM-019",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-020-form-inputs.tsx",
+      "code": "BM-020",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-021-form-inputs.tsx",
+      "code": "BM-021",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-022-form-inputs.tsx",
+      "code": "BM-022",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-023-form-inputs.tsx",
+      "code": "BM-023",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-024-form-inputs.tsx",
+      "code": "BM-024",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-025-form-inputs.tsx",
+      "code": "BM-025",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-026-form-inputs.tsx",
+      "code": "BM-026",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-027-form-inputs.tsx",
+      "code": "BM-027",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-028-form-inputs.tsx",
+      "code": "BM-028",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-029-form-inputs.tsx",
+      "code": "BM-029",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-030-form-inputs.tsx",
+      "code": "BM-030",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-031-form-inputs.tsx",
+      "code": "BM-031",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-032-form-inputs.tsx",
+      "code": "BM-032",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-033-form-inputs.tsx",
+      "code": "BM-033",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-034-form-inputs.tsx",
+      "code": "BM-034",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-035-form-inputs.tsx",
+      "code": "BM-035",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-036-form-inputs.tsx",
+      "code": "BM-036",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-037-form-inputs.tsx",
+      "code": "BM-037",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-038-form-inputs.tsx",
+      "code": "BM-038",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-039-form-inputs.tsx",
+      "code": "BM-039",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": true,
+      "hasTakeFromCase": true,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-040-form-inputs.tsx",
+      "code": "BM-040",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-041-form-inputs.tsx",
+      "code": "BM-041",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-042-form-inputs.tsx",
+      "code": "BM-042",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-043-form-inputs.tsx",
+      "code": "BM-043",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-044-form-inputs.tsx",
+      "code": "BM-044",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-045-form-inputs.tsx",
+      "code": "BM-045",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-046-form-inputs.tsx",
+      "code": "BM-046",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-047-form-inputs.tsx",
+      "code": "BM-047",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-048-form-inputs.tsx",
+      "code": "BM-048",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-049-form-inputs.tsx",
+      "code": "BM-049",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-050-form-inputs.tsx",
+      "code": "BM-050",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-051-form-inputs.tsx",
+      "code": "BM-051",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-052-form-inputs.tsx",
+      "code": "BM-052",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-053-form-inputs.tsx",
+      "code": "BM-053",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "parts",
+      "setterName": "setParts",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-054-form-inputs.tsx",
+      "code": "BM-054",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-055-form-inputs.tsx",
+      "code": "BM-055",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-056-form-inputs.tsx",
+      "code": "BM-056",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-057-form-inputs.tsx",
+      "code": "BM-057",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-058-form-inputs.tsx",
+      "code": "BM-058",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-059-form-inputs.tsx",
+      "code": "BM-059",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-060-form-inputs.tsx",
+      "code": "BM-060",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-061-form-inputs.tsx",
+      "code": "BM-061",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-062-form-inputs.tsx",
+      "code": "BM-062",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-063-form-inputs.tsx",
+      "code": "BM-063",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-064-form-inputs.tsx",
+      "code": "BM-064",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-065-form-inputs.tsx",
+      "code": "BM-065",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-066-form-inputs.tsx",
+      "code": "BM-066",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-067-form-inputs.tsx",
+      "code": "BM-067",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-068-form-inputs.tsx",
+      "code": "BM-068",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-069-form-inputs.tsx",
+      "code": "BM-069",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-070-form-inputs.tsx",
+      "code": "BM-070",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "formState",
+      "setterName": "setFormState",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-071-form-inputs.tsx",
+      "code": "BM-071",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "formState",
+      "setterName": "setFormState",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-072-form-inputs.tsx",
+      "code": "BM-072",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-073-form-inputs.tsx",
+      "code": "BM-073",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-074-form-inputs.tsx",
+      "code": "BM-074",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-075-form-inputs.tsx",
+      "code": "BM-075",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-076-form-inputs.tsx",
+      "code": "BM-076",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-077-form-inputs.tsx",
+      "code": "BM-077",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-078-form-inputs.tsx",
+      "code": "BM-078",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-079-form-inputs.tsx",
+      "code": "BM-079",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-080-form-inputs.tsx",
+      "code": "BM-080",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-081-form-inputs.tsx",
+      "code": "BM-081",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-082-form-inputs.tsx",
+      "code": "BM-082",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-083-form-inputs.tsx",
+      "code": "BM-083",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-084-form-inputs.tsx",
+      "code": "BM-084",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-085-form-inputs.tsx",
+      "code": "BM-085",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-086-form-inputs.tsx",
+      "code": "BM-086",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-087-form-inputs.tsx",
+      "code": "BM-087",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-088-form-inputs.tsx",
+      "code": "BM-088",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-089-form-inputs.tsx",
+      "code": "BM-089",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-090-form-inputs.tsx",
+      "code": "BM-090",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "formState",
+      "setterName": "setFormState",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-091-form-inputs.tsx",
+      "code": "BM-091",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-092-form-inputs.tsx",
+      "code": "BM-092",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-093-form-inputs.tsx",
+      "code": "BM-093",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-094-form-inputs.tsx",
+      "code": "BM-094",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-095-form-inputs.tsx",
+      "code": "BM-095",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-096-form-inputs.tsx",
+      "code": "BM-096",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-097-form-inputs.tsx",
+      "code": "BM-097",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "parts",
+      "setterName": "setParts",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-098-form-inputs.tsx",
+      "code": "BM-098",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-099-form-inputs.tsx",
+      "code": "BM-099",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-100-form-inputs.tsx",
+      "code": "BM-100",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-101-form-inputs.tsx",
+      "code": "BM-101",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-102-form-inputs.tsx",
+      "code": "BM-102",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-103-form-inputs.tsx",
+      "code": "BM-103",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-104-form-inputs.tsx",
+      "code": "BM-104",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-105-form-inputs.tsx",
+      "code": "BM-105",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-106-form-inputs.tsx",
+      "code": "BM-106",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-107-form-inputs.tsx",
+      "code": "BM-107",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-108-form-inputs.tsx",
+      "code": "BM-108",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-109-form-inputs.tsx",
+      "code": "BM-109",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-110-form-inputs.tsx",
+      "code": "BM-110",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-111-form-inputs.tsx",
+      "code": "BM-111",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-112-form-inputs.tsx",
+      "code": "BM-112",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-113-form-inputs.tsx",
+      "code": "BM-113",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-114-form-inputs.tsx",
+      "code": "BM-114",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-115-form-inputs.tsx",
+      "code": "BM-115",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-116-form-inputs.tsx",
+      "code": "BM-116",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-117-form-inputs.tsx",
+      "code": "BM-117",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-118-form-inputs.tsx",
+      "code": "BM-118",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-119-form-inputs.tsx",
+      "code": "BM-119",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-120-form-inputs.tsx",
+      "code": "BM-120",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-121-form-inputs.tsx",
+      "code": "BM-121",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-122-form-inputs.tsx",
+      "code": "BM-122",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-123-form-inputs.tsx",
+      "code": "BM-123",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-124-form-inputs.tsx",
+      "code": "BM-124",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-125-form-inputs.tsx",
+      "code": "BM-125",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-126-form-inputs.tsx",
+      "code": "BM-126",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-127-form-inputs.tsx",
+      "code": "BM-127",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-128-form-inputs.tsx",
+      "code": "BM-128",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-129-form-inputs.tsx",
+      "code": "BM-129",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-130-form-inputs.tsx",
+      "code": "BM-130",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-131-form-inputs.tsx",
+      "code": "BM-131",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-132-form-inputs.tsx",
+      "code": "BM-132",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-133-form-inputs.tsx",
+      "code": "BM-133",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-134-form-inputs.tsx",
+      "code": "BM-134",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-135-form-inputs.tsx",
+      "code": "BM-135",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-136-form-inputs.tsx",
+      "code": "BM-136",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-137-form-inputs.tsx",
+      "code": "BM-137",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-138-form-inputs.tsx",
+      "code": "BM-138",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-139-form-inputs.tsx",
+      "code": "BM-139",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-140-form-inputs.tsx",
+      "code": "BM-140",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-141-form-inputs.tsx",
+      "code": "BM-141",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-142-form-inputs.tsx",
+      "code": "BM-142",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-143-form-inputs.tsx",
+      "code": "BM-143",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-144-form-inputs.tsx",
+      "code": "BM-144",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-145-form-inputs.tsx",
+      "code": "BM-145",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-146-form-inputs.tsx",
+      "code": "BM-146",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-147-form-inputs.tsx",
+      "code": "BM-147",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-148-form-inputs.tsx",
+      "code": "BM-148",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "day",
+      "setterName": "setDay",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-149-form-inputs.tsx",
+      "code": "BM-149",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-150-form-inputs.tsx",
+      "code": "BM-150",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-151-form-inputs.tsx",
+      "code": "BM-151",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-152-form-inputs.tsx",
+      "code": "BM-152",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-153-form-inputs.tsx",
+      "code": "BM-153",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-154-form-inputs.tsx",
+      "code": "BM-154",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-155-form-inputs.tsx",
+      "code": "BM-155",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-156-form-inputs.tsx",
+      "code": "BM-156",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "parts",
+      "setterName": "setParts",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-157-form-inputs.tsx",
+      "code": "BM-157",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-158-form-inputs.tsx",
+      "code": "BM-158",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-159-form-inputs.tsx",
+      "code": "BM-159",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-160-form-inputs.tsx",
+      "code": "BM-160",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-161-form-inputs.tsx",
+      "code": "BM-161",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": false,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-162-form-inputs.tsx",
+      "code": "BM-162",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-163-form-inputs.tsx",
+      "code": "BM-163",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-164-form-inputs.tsx",
+      "code": "BM-164",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-165-form-inputs.tsx",
+      "code": "BM-165",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-166-form-inputs.tsx",
+      "code": "BM-166",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "day",
+      "setterName": "setDay",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-167-form-inputs.tsx",
+      "code": "BM-167",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-168-form-inputs.tsx",
+      "code": "BM-168",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-169-form-inputs.tsx",
+      "code": "BM-169",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "day",
+      "setterName": "setDay",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-170-form-inputs.tsx",
+      "code": "BM-170",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": true,
+      "stateVariable": "form",
+      "setterName": "setForm",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": []
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-171-form-inputs.tsx",
+      "code": "BM-171",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "day",
+      "setterName": "setDay",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-172-form-inputs.tsx",
+      "code": "BM-172",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": null,
+      "setterName": null,
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-173-form-inputs.tsx",
+      "code": "BM-173",
+      "kind": "specific",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "day",
+      "setterName": "setDay",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": true,
+      "hasDefaultButton": true,
+      "risks": [
+        "missing form state variable named form"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-174-form-inputs.tsx",
+      "code": "BM-174",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-175-form-inputs.tsx",
+      "code": "BM-175",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-176-form-inputs.tsx",
+      "code": "BM-176",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-177-form-inputs.tsx",
+      "code": "BM-177",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-178-form-inputs.tsx",
+      "code": "BM-178",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-179-form-inputs.tsx",
+      "code": "BM-179",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-180-form-inputs.tsx",
+      "code": "BM-180",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-181-form-inputs.tsx",
+      "code": "BM-181",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-182-form-inputs.tsx",
+      "code": "BM-182",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-183-form-inputs.tsx",
+      "code": "BM-183",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-184-form-inputs.tsx",
+      "code": "BM-184",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-185-form-inputs.tsx",
+      "code": "BM-185",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-186-form-inputs.tsx",
+      "code": "BM-186",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-187-form-inputs.tsx",
+      "code": "BM-187",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-188-form-inputs.tsx",
+      "code": "BM-188",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-189-form-inputs.tsx",
+      "code": "BM-189",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-190-form-inputs.tsx",
+      "code": "BM-190",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-191-form-inputs.tsx",
+      "code": "BM-191",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-192-form-inputs.tsx",
+      "code": "BM-192",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-193-form-inputs.tsx",
+      "code": "BM-193",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-194-form-inputs.tsx",
+      "code": "BM-194",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-195-form-inputs.tsx",
+      "code": "BM-195",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-196-form-inputs.tsx",
+      "code": "BM-196",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-197-form-inputs.tsx",
+      "code": "BM-197",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-198-form-inputs.tsx",
+      "code": "BM-198",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-199-form-inputs.tsx",
+      "code": "BM-199",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-200-form-inputs.tsx",
+      "code": "BM-200",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-201-form-inputs.tsx",
+      "code": "BM-201",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-202-form-inputs.tsx",
+      "code": "BM-202",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-203-form-inputs.tsx",
+      "code": "BM-203",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-204-form-inputs.tsx",
+      "code": "BM-204",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-205-form-inputs.tsx",
+      "code": "BM-205",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-206-form-inputs.tsx",
+      "code": "BM-206",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-207-form-inputs.tsx",
+      "code": "BM-207",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-208-form-inputs.tsx",
+      "code": "BM-208",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-209-form-inputs.tsx",
+      "code": "BM-209",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-210-form-inputs.tsx",
+      "code": "BM-210",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-211-form-inputs.tsx",
+      "code": "BM-211",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-212-form-inputs.tsx",
+      "code": "BM-212",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    },
+    {
+      "path": "apps/web/src/components/documents/bm-213-form-inputs.tsx",
+      "code": "BM-213",
+      "kind": "generic-wrapper",
+      "canAutoWireGenericCaseAdapter": false,
+      "stateVariable": "payload",
+      "setterName": "setPayload",
+      "hasUseCasePayload": false,
+      "hasTakeFromCase": false,
+      "hasButton": false,
+      "hasDefaultButton": false,
+      "risks": [
+        "generic wrapper is handled by GenericTemplateFormInputsPanel"
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
@@ -831,6 +832,7 @@ export function Bm007FormInputsPanel({
 
   return (
     <div className="space-y-5">
+      <BmFormCasePayloadButton templateCode="BM-007" form={form} onApply={(next) => setForm(next as typeof form)} />
       <section className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700">
           Dữ liệu biểu mẫu BM-007
