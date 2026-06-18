@@ -1,8 +1,119 @@
-"use client";
+#!/usr/bin/env node
+// Generate 10 bespoke biểu mẫu từ 1 template chung.
+// Idempotent: chạy lại không phá nội dung hiện tại (chỉ skip nếu file đã BESPOKE).
+
+import { readFileSync, writeFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, "..", "apps", "web", "src", "components", "documents");
+
+// 10 biểu cần viết bespoke.
+// 5 G01 (BM-021, 022, 024, 025, 026) + 5 G02 (BM-032, 034, 035, 036, 041).
+const BIEN = [
+  {
+    code: "BM-021",
+    title: "Quyết định không khởi tố vụ án hình sự",
+    group: "G01",
+    stage: "TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)",
+    docCode: "21/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 39 và 148 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "không khởi tố vụ án hình sự",
+  },
+  {
+    code: "BM-022",
+    title: "Quyết định huỷ bỏ Quyết định không khởi tố vụ án hình sự",
+    group: "G01",
+    stage: "TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)",
+    docCode: "22/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 39, 148 và 149 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "huỷ bỏ Quyết định không khởi tố vụ án hình sự",
+  },
+  {
+    code: "BM-024",
+    title: "Quyết định thay đổi Quyết định khởi tố vụ án hình sự",
+    group: "G01",
+    stage: "TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)",
+    docCode: "24/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41 và 156 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "thay đổi Quyết định khởi tố vụ án hình sự",
+  },
+  {
+    code: "BM-025",
+    title: "Quyết định bổ sung Quyết định khởi tố vụ án hình sự",
+    group: "G01",
+    stage: "TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)",
+    docCode: "25/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41 và 156 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "bổ sung Quyết định khởi tố vụ án hình sự",
+  },
+  {
+    code: "BM-026",
+    title: "Quyết định huỷ bỏ Quyết định khởi tố vụ án hình sự",
+    group: "G01",
+    stage: "TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)",
+    docCode: "26/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41 và 157 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "huỷ bỏ Quyết định khởi tố vụ án hình sự",
+  },
+  {
+    code: "BM-032",
+    title: "Quyết định không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp",
+    group: "G02",
+    stage: "BP_NGAN_CHAN (Biện pháp ngăn chặn, bảo đảm)",
+    docCode: "32/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41, 110 và 113 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp",
+  },
+  {
+    code: "BM-034",
+    title: "Quyết định không phê chuẩn Quyết định gia hạn tạm giữ",
+    group: "G02",
+    stage: "BP_NGAN_CHAN (Biện pháp ngăn chặn, bảo đảm)",
+    docCode: "34/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41, 110 và 118 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "không phê chuẩn Quyết định gia hạn tạm giữ",
+  },
+  {
+    code: "BM-035",
+    title: "Quyết định huỷ bỏ Quyết định tạm giữ, quyết định gia hạn tạm giữ",
+    group: "G02",
+    stage: "BP_NGAN_CHAN (Biện pháp ngăn chặn, bảo đảm)",
+    docCode: "35/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41, 110 và 119 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "huỷ bỏ Quyết định tạm giữ, quyết định gia hạn tạm giữ",
+  },
+  {
+    code: "BM-036",
+    title: "Quyết định trả tự do cho người bị tạm giữ",
+    group: "G02",
+    stage: "BP_NGAN_CHAN (Biện pháp ngăn chặn, bảo đảm)",
+    docCode: "36/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41, 110 và 120 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "trả tự do cho người bị tạm giữ",
+  },
+  {
+    code: "BM-041",
+    title: "Quyết định không phê chuẩn Lệnh tạm giam",
+    group: "G02",
+    stage: "BP_NGAN_CHAN (Biện pháp ngăn chặn, bảo đảm)",
+    docCode: "41/QĐ-VKS",
+    legalBasisDefault: "Căn cứ các điều 36, 41, 110 và 122 của Bộ luật Tố tụng hình sự;",
+    decisionVerb: "không phê chuẩn Lệnh tạm giam",
+  },
+];
+
+function gen(bm) {
+  const fn = `bm-${bm.code.slice(3)}-form-inputs.tsx`;
+  const upper = bm.code.replace(/-/g, "");
+  const componentName = `Bm${upper.slice(2)}FormInputsPanel`;
+
+  return `"use client";
 
 /**
- * BM-024 — Quyết định thay đổi Quyết định khởi tố vụ án hình sự
- * Stage: TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm), Group: G01
+ * ${bm.code} — ${bm.title}
+ * Stage: ${bm.stage}, Group: ${bm.group}
  *
  * BESPOKE form theo docs/BM_CANONICAL_SPEC.md (8 nhóm field chuẩn).
  * Section thực tế dùng: agency + document + person + legalBasis + decision + recipients + signature.
@@ -23,7 +134,7 @@ import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
-type BM024FormInputs = {
+type ${upper}FormInputs = {
   agency: {
     parentNameUpper: string;
     nameUpper: string;
@@ -61,14 +172,14 @@ type Props = {
   onSaved?: () => void;
 };
 
-const EMPTY_FORM: BM024FormInputs = {
+const EMPTY_FORM: ${upper}FormInputs = {
   agency: {
     parentNameUpper: "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
     nameUpper: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
     issuePlace: "TP. Hồ Chí Minh",
   },
   document: {
-    documentCode: "24/QĐ-VKS",
+    documentCode: ${JSON.stringify(bm.docCode)},
     issueDate: todayIsoDate(),
     issuePlaceAndDateLine: "",
   },
@@ -76,7 +187,7 @@ const EMPTY_FORM: BM024FormInputs = {
     fullName: "",
   },
   legalBasis: {
-    procedureArticlesLine: "Căn cứ các điều 36, 41 và 156 của Bộ luật Tố tụng hình sự;",
+    procedureArticlesLine: ${JSON.stringify(bm.legalBasisDefault)},
   },
   decision: {
     summaryLine: "",
@@ -110,9 +221,9 @@ function pickString(...values: unknown[]): string {
 
 function buildIssuePlaceAndDateLine(place: string, date: string): string {
   const p = (place || "TP. Hồ Chí Minh").trim();
-  const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(date);
-  if (!iso) return `${p}, ngày ... tháng ... năm ......`;
-  return `${p}, ngày ${Number(iso[3])} tháng ${Number(iso[2])} năm ${iso[1]}`;
+  const iso = /^(\\d{4})-(\\d{1,2})-(\\d{1,2})$/.exec(date);
+  if (!iso) return \`\${p}, ngày ... tháng ... năm ......\`;
+  return \`\${p}, ngày \${Number(iso[3])} tháng \${Number(iso[2])} năm \${iso[1]}\`;
 }
 
 function getSection(root: Record<string, unknown>, ...paths: string[]): Record<string, string> {
@@ -125,7 +236,7 @@ function getSection(root: Record<string, unknown>, ...paths: string[]): Record<s
   return {};
 }
 
-function normalizeForm(source: unknown): BM024FormInputs {
+function normalizeForm(source: unknown): ${upper}FormInputs {
   const root = (source && typeof source === "object" ? source : {}) as Record<string, unknown>;
   const fi = (root.formInputs && typeof root.formInputs === "object" ? root.formInputs : {}) as Record<string, unknown>;
   const find = (...names: string[]) =>
@@ -173,7 +284,7 @@ function normalizeForm(source: unknown): BM024FormInputs {
   };
 }
 
-function derive(form: BM024FormInputs): BM024FormInputs {
+function derive(form: ${upper}FormInputs): ${upper}FormInputs {
   return {
     ...form,
     document: {
@@ -190,8 +301,8 @@ function derive(form: BM024FormInputs): BM024FormInputs {
   };
 }
 
-export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
-  const [form, setForm] = useState<BM024FormInputs>(EMPTY_FORM);
+export function ${componentName}({ documentId, onSaved }: Props) {
+  const [form, setForm] = useState<${upper}FormInputs>(EMPTY_FORM);
   const [initialSnapshot, setInitialSnapshot] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -210,7 +321,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
       setErrorMessage(null);
       try {
         const res = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+          \`\${API_BASE_URL}/documents/generated/\${documentId}/render-payload\`,
           { method: "GET", headers: { Accept: "application/json" }, cache: "no-store", credentials: "include" },
         );
         if (!res.ok) throw new Error(await res.text());
@@ -232,13 +343,13 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
     };
   }, [documentId]);
 
-  function updateSection(sectionName: keyof BM024FormInputs, fieldName: string, value: string) {
+  function updateSection(sectionName: keyof ${upper}FormInputs, fieldName: string, value: string) {
     setForm((current) => {
       const section = asRecord((current as Record<string, unknown>)[sectionName]);
       return {
         ...current,
         [sectionName]: { ...section, [fieldName]: value },
-      } as BM024FormInputs;
+      } as ${upper}FormInputs;
     });
   }
 
@@ -249,7 +360,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
     const final = derive(form);
     try {
       const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
+        \`\${API_BASE_URL}/documents/generated/\${documentId}/form-inputs\`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json; charset=utf-8", Accept: "application/json" },
@@ -258,7 +369,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
             formInputs: final,
             payloadOverrides: final,
             renderPayloadOverrides: final,
-            templateCode: "BM-024",
+            templateCode: ${JSON.stringify(bm.code)},
             updatedByName: final.signature.signerName,
           }),
         },
@@ -267,10 +378,10 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
       setForm(final);
       setInitialSnapshot(JSON.stringify(final));
       setSavedAt(new Date());
-      setSuccessMessage(`Đã lưu dữ liệu BM-024. Có thể render lại DOCX/PDF.`);
+      setSuccessMessage(\`Đã lưu dữ liệu ${bm.code}. Có thể render lại DOCX/PDF.\`);
       onSaved?.();
     } catch (e) {
-      setErrorMessage(e instanceof Error ? e.message : `Lưu BM-024 thất bại`);
+      setErrorMessage(e instanceof Error ? e.message : \`Lưu ${bm.code} thất bại\`);
     } finally {
       setIsSaving(false);
     }
@@ -281,7 +392,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
     setErrorMessage(null);
     try {
       const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+        \`\${API_BASE_URL}/documents/generated/\${documentId}/render-payload\`,
         { method: "GET", headers: { Accept: "application/json" }, cache: "no-store", credentials: "include" },
       );
       if (!res.ok) throw new Error(await res.text());
@@ -289,9 +400,9 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
       setForm(next);
       setInitialSnapshot(JSON.stringify(derive(next)));
       setSavedAt(null);
-      setSuccessMessage(`Đã tải lại dữ liệu BM-024.`);
+      setSuccessMessage(\`Đã tải lại dữ liệu ${bm.code}.\`);
     } catch (e) {
-      setErrorMessage(e instanceof Error ? e.message : `Tải lại BM-024 thất bại`);
+      setErrorMessage(e instanceof Error ? e.message : \`Tải lại ${bm.code} thất bại\`);
     } finally {
       setIsLoading(false);
     }
@@ -300,9 +411,9 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
   return (
     <div className="space-y-4">
       <BmFormMetaBar
-        templateCode="BM-024"
-        title="Quyết định thay đổi Quyết định khởi tố vụ án hình sự"
-        subtitle={`Biểu mẫu TT 03/2026-VKSTC · Stage: ${"TIEP_NHAN (Tiếp nhận, giải quyết nguồn tin về tội phạm)"} · Group: G01`}
+        templateCode=${JSON.stringify(bm.code)}
+        title=${JSON.stringify(bm.title)}
+        subtitle={\`Biểu mẫu TT 03/2026-VKSTC · Stage: \${${JSON.stringify(bm.stage)}} · Group: ${bm.group}\`}
         isDirty={isDirty}
         isLoading={isLoading}
         isSaving={isSaving}
@@ -310,16 +421,16 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
         errorMessage={errorMessage}
         successMessage={successMessage}
         warningMessage={null}
-        primaryLabel={`Lưu dữ liệu BM-024`}
+        primaryLabel={\`Lưu dữ liệu ${bm.code}\`}
         onPrimary={() => void handleSave()}
         primaryDisabled={!isDirty || isSaving}
         secondaryLabel="Tải lại"
         onSecondary={() => void handleReload()}
         extraActions={
           <BmFormCasePayloadButton
-            templateCode="BM-024"
+            templateCode=${JSON.stringify(bm.code)}
             form={form}
-            onApply={(next) => setForm(next as BM024FormInputs)}
+            onApply={(next) => setForm(next as ${upper}FormInputs)}
           />
         }
       />
@@ -398,7 +509,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
           fullWidth
         />
         <BmFieldTextarea
-          label={`Nội dung quyết định (${"thay đổi Quyết định khởi tố vụ án hình sự"})`}
+          label={\`Nội dung quyết định (\${${JSON.stringify(bm.decisionVerb)}})\`}
           value={ready.decision.decisionLine}
           onChange={(v) => updateSection("decision", "decisionLine", v)}
           rows={4}
@@ -449,3 +560,31 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
     </div>
   );
 }
+`;
+}
+
+let written = 0;
+let skipped = 0;
+for (const bm of BIEN) {
+  const filename = `bm-${bm.code.slice(3)}-form-inputs.tsx`;
+  const filepath = join(ROOT, filename);
+
+  // Skip nếu file đã BESPOKE (đã dùng BmFormSection làm JSX element, không phải comment)
+  try {
+    const existing = readFileSync(filepath, "utf8");
+    if (/<BmFormSection\b|import\s+\{[^}]*\bBmFormSection\b/.test(existing)) {
+      console.log(`SKIP ${filename} (đã BESPOKE)`);
+      skipped += 1;
+      continue;
+    }
+  } catch {
+    // File không tồn tại → sẽ tạo mới
+  }
+
+  const content = gen(bm);
+  writeFileSync(filepath, content, "utf8");
+  console.log(`WROTE ${filename} (${content.split("\n").length} dòng)`);
+  written += 1;
+}
+
+console.log(`\nTổng: wrote=${written}, skipped=${skipped}`);
