@@ -1,13 +1,30 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+/**
+ * BM-078 — Thông báo người bào chữa
+ * Stage: KHoi_TO, Group: G02 (BP_NGAN_CHAN). TT 03/2026-VKSTC, Mẫu số 78/HS.
+ *
+ * Căn cứ: Điều 76 BLTTHS 2015 — thông báo về việc người bào chữa đăng ký bào chữa.
+ * Nghiệp vụ: VKS thông báo cho cơ quan tố tụng về việc người bào chữa đăng ký
+ * tham gia bào chữa cho bị can trong vụ án hình sự.
+ */
+import { useEffect, useMemo, useState } from "react";
+import {
+  BmFormSection,
+  BmFieldText,
+  BmFieldDate,
+  BmFieldTextarea,
+  BmFieldSelect,
+  BmFormActions,
+  BmFormStatus,
+  BmFormMetaBar,
+  defaultArchiveLine,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type TextRecord = Record<string, string>;
 
-type Bm078FormInputs = {
+type Bm078Form = {
   agency: TextRecord;
   document: TextRecord;
   notification: TextRecord;
@@ -15,7 +32,7 @@ type Bm078FormInputs = {
   signature: TextRecord;
 };
 
-type SectionKey = keyof Bm078FormInputs;
+type SectionKey = keyof Bm078Form;
 
 type RequiredField = {
   section: SectionKey;
@@ -25,10 +42,17 @@ type RequiredField = {
 
 type Bm078FormInputsPanelProps = {
   documentId: string | number;
-  onSaved?: () => void;
+  onSaved?: () => void | Promise<void>;
 };
 
-const EMPTY_FORM: Bm078FormInputs = {
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+
+const DEFAULT_DOCUMENT_CODE = "78/TB-VKSKV7";
+const DEFAULT_SIGN_MODE = "KT. VIỆN TRƯỞNG";
+const DEFAULT_POSITION_TITLE = "PHÓ VIỆN TRƯỞNG";
+
+const EMPTY_FORM: Bm078Form = {
   agency: {
     parentName: "",
     name: "",
@@ -36,9 +60,8 @@ const EMPTY_FORM: Bm078FormInputs = {
     phone: "",
   },
   document: {
-    documentCode: "78/TB-VKSKV7",
+    documentCode: DEFAULT_DOCUMENT_CODE,
     issueDate: "",
-    issuePlaceAndDateLine: "",
   },
   notification: {
     caseNo: "",
@@ -51,11 +74,11 @@ const EMPTY_FORM: Bm078FormInputs = {
   },
   recipients: {
     primaryLine: "",
-    archiveLine: "- Lưu: HSVV, HSKS, VP.",
+    archiveLine: defaultArchiveLine(),
   },
   signature: {
-    signMode: "KT. VIỆN TRƯỞNG",
-    positionTitle: "PHÓ VIỆN TRƯỞNG",
+    signMode: DEFAULT_SIGN_MODE,
+    positionTitle: DEFAULT_POSITION_TITLE,
     signerName: "",
   },
 };
@@ -85,15 +108,13 @@ const POSITION_OPTIONS = [
   { value: "KIỂM SÁT VIÊN", label: "KIỂM SÁT VIÊN" },
 ];
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+function text(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  return String(value);
 }
 
-function text(value: unknown): string {
-  if (value === null || value === undefined) {
-    return "";
-  }
-  return String(value);
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function section(payload: Record<string, unknown>, key: string): Record<string, unknown> {
@@ -113,11 +134,12 @@ function toDateInput(value: unknown): string {
   return "";
 }
 
-function getValue(form: Bm078FormInputs, sectionKey: SectionKey, field: string): string {
+function getValue(form: Bm078Form, sectionKey: SectionKey, field: string): string {
   return form[sectionKey][field] ?? "";
 }
 
-function normalizeFormInputs(payload: Record<string, unknown>): Bm078FormInputs {
+function normalizeFormInputs(payload: Record<string, unknown> | null): Bm078Form {
+  if (!payload) return EMPTY_FORM;
   const agency = section(payload, "agency");
   const document = section(payload, "document");
   const notification = section(payload, "notification");
@@ -132,9 +154,10 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm078FormInputs 
       phone: text(agency.phone),
     },
     document: {
-      documentCode: text(document.documentCode || document.documentNo || document.fullDocumentCode || "78/TB-VKSKV7"),
+      documentCode:
+        text(document.documentCode || document.documentNo || document.fullDocumentCode) ||
+        DEFAULT_DOCUMENT_CODE,
       issueDate: toDateInput(document.issueDate),
-      issuePlaceAndDateLine: text(document.issuePlaceAndDateLine),
     },
     notification: {
       caseNo: text(notification.caseNo || notification.caseDecisionNo),
@@ -142,282 +165,382 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm078FormInputs 
       defendantName: text(notification.defendantName || notification.accusedName),
       defenseLawyerName: text(notification.defenseLawyerName),
       defenseLawyerLicenseNo: text(notification.defenseLawyerLicenseNo),
-      registrationDate: toDateInput(notification.registrationDate || notification.issueDate),
+      registrationDate: toDateInput(
+        notification.registrationDate || notification.issueDate,
+      ),
       content: text(notification.content),
     },
     recipients: {
       primaryLine: text(recipients.primaryLine || recipients.investigationUnitLine),
-      archiveLine: text(recipients.archiveLine) || "- Lưu: HSVV, HSKS, VP.",
+      archiveLine: text(recipients.archiveLine) || defaultArchiveLine(),
     },
     signature: {
-      signMode: text(signature.signMode) || "KT. VIỆN TRƯỞNG",
-      positionTitle: text(signature.positionTitle) || "PHÓ VIỆN TRƯỞNG",
+      signMode: text(signature.signMode) || DEFAULT_SIGN_MODE,
+      positionTitle: text(signature.positionTitle) || DEFAULT_POSITION_TITLE,
       signerName: text(signature.signerName),
     },
   };
 }
 
-async function getBm078RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    { method: "GET", headers: { Accept: "application/json" }, cache: "no-store" }
-  );
-  if (!response.ok) {
-    throw new Error(`Không tải được payload BM-078. HTTP ${response.status}`);
-  }
-  return (await response.json()) as Record<string, unknown>;
+function fillCustomerSample(): Bm078Form {
+  return {
+    agency: { ...EMPTY_FORM.agency, parentName: "VIỆN KIỂM SÁT NHÂN DÂN CẤP CAO TẠI TP. HỒ CHÍ MINH", name: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7", issuePlace: "TP. Hồ Chí Minh" },
+    document: { ...EMPTY_FORM.document },
+    notification: { ...EMPTY_FORM.notification },
+    recipients: { ...EMPTY_FORM.recipients },
+    signature: { ...EMPTY_FORM.signature, signerName: "Nguyễn Văn A" },
+  };
 }
 
-async function saveBm078FormInputs(
-  documentId: string | number,
-  form: Bm078FormInputs,
-): Promise<void> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8", Accept: "application/json" },
-      body: JSON.stringify({ ...form, updatedByName: form.signature.signerName }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`Không lưu được BM-078. HTTP ${response.status}`);
-  }
+function validateForm(form: Bm078Form): string[] {
+  return REQUIRED_FIELDS.filter(
+    (item) => !getValue(form, item.section, item.field).trim(),
+  ).map((item) => item.label);
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  type = "text",
-  multiline,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-  type?: "text" | "date";
-  multiline?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-      {multiline ? (
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          rows={3}
-          className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      ) : (
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      )}
-    </label>
-  );
+function buildSaveBody(form: Bm078Form) {
+  return {
+    ...form,
+    updatedByName: form.signature.signerName.trim(),
+  };
 }
 
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-  required,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Array<{ value: string; label: string }>;
-  required?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block space-y-1.5 ${className}`}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-      >
-        <option value="">-- Chọn --</option>
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-function SectionCard({ title, description, children }: { title: string; description?: string; children: ReactNode }) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
-
-export function Bm078FormInputsPanel({ documentId, onSaved }: Bm078FormInputsPanelProps) {
-  const [form, setForm] = useState<Bm078FormInputs>(EMPTY_FORM);
-  const [initialSnapshot, setInitialSnapshot] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+export function Bm078FormInputsPanel({
+  documentId,
+  onSaved,
+}: Bm078FormInputsPanelProps) {
+  const [form, setForm] = useState<Bm078Form>(EMPTY_FORM);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [savedAt, setSavedAt] = useState<Date | null>(null);
 
-  const currentSnapshot = useMemo(() => JSON.stringify(form), [form]);
-  const isDirty = currentSnapshot !== initialSnapshot;
+  const validationErrors = useMemo(() => validateForm(form), [form]);
 
-  const missingFields = useMemo(() => {
-    return REQUIRED_FIELDS.filter((item) => {
-      return !getValue(form, item.section, item.field).trim();
-    });
-  }, [form]);
+  const reloadFromBackend = async () => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
 
-  function loadForm() {
-    setIsLoading(true);
-    setErrorMessage("");
-    getBm078RenderPayload(documentId)
-      .then((payload) => {
-        const nextForm = normalizeFormInputs(payload);
-        setForm(nextForm);
-        setInitialSnapshot(JSON.stringify(nextForm));
-        setSavedAt(null);
-      })
-      .catch((err) => setErrorMessage(err instanceof Error ? err.message : "Không tải được BM-078"))
-      .finally(() => setIsLoading(false));
-  }
-
-  useEffect(() => { void loadForm(); }, [documentId]);
-
-  function updateField(sectionKey: SectionKey, field: string, value: string) {
-    setForm((current) => {
-      const next: Bm078FormInputs = {
-        ...current,
-        [sectionKey]: {
-          ...current[sectionKey],
-          [field]: value,
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+        {
+          method: "GET",
+          headers: { Accept: "application/json" },
+          cache: "no-store",
         },
-      };
-      return next;
-    });
-  }
+      );
 
-  function handleSave() {
-    setIsSaving(true);
-    setErrorMessage("");
-    saveBm078FormInputs(documentId, form)
-      .then(() => {
-        setInitialSnapshot(currentSnapshot);
-        setSavedAt(new Date());
-        onSaved?.();
-      })
-      .catch((err) => setErrorMessage(err instanceof Error ? err.message : "Không lưu được BM-078"))
-      .finally(() => setIsSaving(false));
-  }
+      if (!response.ok) {
+        const bodyText = await response.text();
+        throw new Error(
+          bodyText || `Không tải được payload BM-078. HTTP ${response.status}`,
+        );
+      }
 
-  if (isLoading) {
-    return (
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-600">Đang tải dữ liệu BM-078...</p>
-      </section>
-    );
-  }
+      const payload = (await response.json()) as Record<string, unknown>;
+      setForm(normalizeFormInputs(payload));
+      setSavedAt(null);
+      setMessage("Đã tải lại dữ liệu BM-078 từ backend.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Không tải được BM-078.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFillSample = () => {
+    setForm(fillCustomerSample());
+    setMessage("Đã điền dữ liệu mẫu BM-078.");
+    setError(null);
+  };
+
+  const handleSave = async () => {
+    const errors = validateForm(form);
+    if (errors.length > 0) {
+      setError(`Thiếu dữ liệu bắt buộc: ${errors.join(", ")}`);
+      setMessage(null);
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(buildSaveBody(form)),
+        },
+      );
+
+      if (!response.ok) {
+        const bodyText = await response.text();
+        throw new Error(
+          bodyText || `Không lưu được BM-078. HTTP ${response.status}`,
+        );
+      }
+
+      setSavedAt(new Date());
+      setMessage(
+        "Đã lưu dữ liệu BM-078. Dữ liệu vừa nhập đã được đồng bộ lên backend.",
+      );
+
+      await onSaved?.();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Không lưu được BM-078.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  useEffect(() => {
+    void reloadFromBackend();
+  }, [documentId]);
+
+  const updateField = (sectionKey: SectionKey, field: string, value: string) => {
+    setForm((current) => ({
+      ...current,
+      [sectionKey]: {
+        ...current[sectionKey],
+        [field]: value,
+      },
+    }));
+  };
+
+  const status = error
+    ? { kind: "error" as const, text: error }
+    : message
+      ? { kind: "success" as const, text: message }
+      : validationErrors.length > 0
+        ? {
+            kind: "warning" as const,
+            text: `Thiếu dữ liệu bắt buộc: ${validationErrors.join(", ")}.`,
+          }
+        : { kind: "idle" as const, text: "" };
 
   return (
     <div className="space-y-5">
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">BM-078</p>
-            <h2 className="mt-1 text-xl font-bold text-slate-950">Thông báo người bào chữa</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              Form nhập dữ liệu cho Thông báo về việc người bào chữa đăng ký bào chữa.
-              Dữ liệu gồm thông tin người bào chữa, bị can và nội dung thông báo.
-            </p>
-          </div>
-          <div className="flex shrink-0 flex-col items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm md:items-end">
-            <span className={isDirty ? "font-semibold text-amber-700" : "font-semibold text-emerald-700"}>
-              {isDirty ? "Có thay đổi chưa lưu" : "Đã đồng bộ"}
-            </span>
-            {savedAt ? <span className="text-xs text-slate-500">Lưu lúc {savedAt.toLocaleTimeString("vi-VN")}</span> : null}
-          </div>
-        </div>
-        {errorMessage ? (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</div>
-        ) : null}
-        {missingFields.length > 0 ? (
-          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-            <p className="text-sm font-semibold text-amber-800">Còn thiếu {missingFields.length} trường quan trọng: {missingFields.map((item) => item.label).join(", ")}</p>
-          </div>
-        ) : null}
-      </section>
-
-      <SectionCard title="1. Cơ quan ban hành">
-        <Field required label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(v) => updateField("agency", "parentName", v)} />
-        <Field required label="Cơ quan ban hành" value={form.agency.name} onChange={(v) => updateField("agency", "name", v)} />
-        <Field label="Địa danh" value={form.agency.issuePlace} onChange={(v) => updateField("agency", "issuePlace", v)} />
-        <Field label="Điện thoại" value={form.agency.phone} onChange={(v) => updateField("agency", "phone", v)} />
-      </SectionCard>
-
-      <SectionCard title="2. Thông tin quyết định">
-        <Field required label="Số thông báo" value={form.document.documentCode} onChange={(v) => updateField("document", "documentCode", v)} />
-        <Field required type="date" label="Ngày ban hành" value={form.document.issueDate} onChange={(v) => updateField("document", "issueDate", v)} />
-      </SectionCard>
-
-      <SectionCard title="3. Nội dung thông báo">
-        <Field required label="Số vụ án" value={form.notification.caseNo} onChange={(v) => updateField("notification", "caseNo", v)} />
-        <Field label="Số QĐ khởi tố vụ án" value={form.notification.caseDecisionNo} onChange={(v) => updateField("notification", "caseDecisionNo", v)} />
-        <Field required label="Tên bị can" value={form.notification.defendantName} onChange={(v) => updateField("notification", "defendantName", v)} />
-        <Field required label="Tên người bào chữa" value={form.notification.defenseLawyerName} onChange={(v) => updateField("notification", "defenseLawyerName", v)} />
-        <Field required label="Số GCN bào chữa" value={form.notification.defenseLawyerLicenseNo} onChange={(v) => updateField("notification", "defenseLawyerLicenseNo", v)} />
-        <Field type="date" label="Ngày đăng ký bào chữa" value={form.notification.registrationDate} onChange={(v) => updateField("notification", "registrationDate", v)} />
-        <Field multiline className="md:col-span-2" label="Nội dung thông báo" value={form.notification.content} onChange={(v) => updateField("notification", "content", v)} />
-      </SectionCard>
-
-      <SectionCard title="4. Nơi nhận">
-        <Field multiline className="md:col-span-2" label="Nơi nhận" value={form.recipients.primaryLine} onChange={(v) => updateField("recipients", "primaryLine", v)} />
-        <Field className="md:col-span-2" label="Lưu" value={form.recipients.archiveLine} onChange={(v) => updateField("recipients", "archiveLine", v)} />
-      </SectionCard>
-
-      <SectionCard title="5. Chữ ký">
-        <SelectField label="Chế độ ký" value={form.signature.signMode} onChange={(v) => updateField("signature", "signMode", v)} options={SIGN_MODE_OPTIONS} />
-        <SelectField label="Chức vụ" value={form.signature.positionTitle} onChange={(v) => updateField("signature", "positionTitle", v)} options={POSITION_OPTIONS} />
-        <Field required label="Người ký" value={form.signature.signerName} onChange={(v) => updateField("signature", "signerName", v)} />
-      </SectionCard>
-
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-slate-600">
-            {savedAt ? <span>Đã lưu lúc <strong>{savedAt.toLocaleTimeString("vi-VN")}</strong></span> : <span>Chưa lưu thay đổi.</span>}
-          </p>
+      <BmFormMetaBar
+        templateCode="BM-078"
+        title="Dữ liệu biểu mẫu Thông báo người bào chữa"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 78/HS · Stage KHOI_TO (G02 BP_NGAN_CHAN). Căn cứ Điều 76 BLTTHS 2015."
+        isDirty={Boolean(message) || validationErrors.length > 0}
+        isLoading={loading}
+        isSaving={saving}
+        savedAt={savedAt}
+        errorMessage={error ?? undefined}
+        warningMessage={status.kind === "warning" ? status.text : undefined}
+        successMessage={status.kind === "success" ? status.text : undefined}
+        primaryLabel="Lưu dữ liệu BM-078"
+        onPrimary={handleSave}
+        primaryDisabled={saving || loading}
+        secondaryLabel="Tải lại từ backend"
+        onSecondary={reloadFromBackend}
+        extraActions={
+          <BmFormCasePayloadButton<Bm078Form>
+            templateCode="BM-078"
+            form={form}
+            onApply={(next) => setForm(next)}
+          />
+        }
+        meta={
           <button
             type="button"
-            onClick={handleSave}
-            disabled={isSaving || !isDirty}
-            className="rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2 text-xs font-semibold text-blue-700 shadow-sm hover:bg-blue-100 disabled:opacity-60"
+            onClick={handleFillSample}
+            disabled={loading || saving}
           >
-            {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-078"}
+            Điền dữ liệu mẫu
           </button>
-        </div>
-      </div>
+        }
+      />
+
+      {status.kind === "idle" ? null : (
+        <BmFormStatus
+          kind={status.kind}
+          title={
+            status.kind === "success"
+              ? "Thành công"
+              : status.kind === "error"
+                ? "Lỗi"
+                : status.kind === "warning"
+                  ? "Thiếu dữ liệu"
+                  : undefined
+          }
+        >
+          {status.text}
+        </BmFormStatus>
+      )}
+
+      <BmFormSection
+        title="1. Cơ quan ban hành"
+        description="Thông tin Viện kiểm sát ban hành thông báo."
+      >
+        <BmFieldText
+          label="Cơ quan cấp trên"
+          required
+          value={form.agency.parentName}
+          onChange={(v) => updateField("agency", "parentName", v)}
+        />
+
+        <BmFieldText
+          label="Cơ quan ban hành"
+          required
+          value={form.agency.name}
+          onChange={(v) => updateField("agency", "name", v)}
+        />
+
+        <BmFieldText
+          label="Địa danh"
+          required
+          value={form.agency.issuePlace}
+          onChange={(v) => updateField("agency", "issuePlace", v)}
+        />
+
+        <BmFieldText
+          label="Điện thoại"
+          value={form.agency.phone}
+          onChange={(v) => updateField("agency", "phone", v)}
+        />
+      </BmFormSection>
+
+      <BmFormSection
+        title="2. Thông tin thông báo"
+        description="Số hiệu và ngày ban hành thông báo."
+      >
+        <BmFieldText
+          label="Số thông báo"
+          required
+          value={form.document.documentCode}
+          onChange={(v) => updateField("document", "documentCode", v)}
+        />
+
+        <BmFieldDate
+          label="Ngày ban hành"
+          required
+          value={form.document.issueDate}
+          onChange={(v) => updateField("document", "issueDate", v)}
+        />
+      </BmFormSection>
+
+      <BmFormSection
+        title="3. Nội dung thông báo"
+        description="Thông tin người bào chữa, bị can và nội dung thông báo."
+        fullWidth
+      >
+        <BmFieldText
+          label="Số vụ án"
+          required
+          value={form.notification.caseNo}
+          onChange={(v) => updateField("notification", "caseNo", v)}
+        />
+
+        <BmFieldText
+          label="Số QĐ khởi tố vụ án"
+          value={form.notification.caseDecisionNo}
+          onChange={(v) => updateField("notification", "caseDecisionNo", v)}
+        />
+
+        <BmFieldText
+          label="Tên bị can"
+          required
+          value={form.notification.defendantName}
+          onChange={(v) => updateField("notification", "defendantName", v)}
+        />
+
+        <BmFieldText
+          label="Tên người bào chữa"
+          required
+          value={form.notification.defenseLawyerName}
+          onChange={(v) => updateField("notification", "defenseLawyerName", v)}
+        />
+
+        <BmFieldText
+          label="Số GCN bào chữa"
+          required
+          value={form.notification.defenseLawyerLicenseNo}
+          onChange={(v) => updateField("notification", "defenseLawyerLicenseNo", v)}
+        />
+
+        <BmFieldDate
+          label="Ngày đăng ký bào chữa"
+          value={form.notification.registrationDate}
+          onChange={(v) => updateField("notification", "registrationDate", v)}
+        />
+
+        <BmFieldTextarea
+          label="Nội dung thông báo"
+          rows={3}
+          value={form.notification.content}
+          onChange={(v) => updateField("notification", "content", v)}
+          fullWidth
+        />
+      </BmFormSection>
+
+      <BmFormSection
+        title="4. Nơi nhận"
+        fullWidth
+      >
+        <BmFieldTextarea
+          label="Nơi nhận"
+          rows={2}
+          value={form.recipients.primaryLine}
+          onChange={(v) => updateField("recipients", "primaryLine", v)}
+          fullWidth
+        />
+
+        <BmFieldText
+          label="Lưu"
+          value={form.recipients.archiveLine}
+          onChange={(v) => updateField("recipients", "archiveLine", v)}
+          fullWidth
+        />
+      </BmFormSection>
+
+      <BmFormSection
+        title="5. Chữ ký"
+        description="Chế độ ký, chức vụ và người ký thông báo."
+      >
+        <BmFieldSelect
+          label="Chế độ ký"
+          value={form.signature.signMode}
+          onChange={(v) => updateField("signature", "signMode", v)}
+          options={SIGN_MODE_OPTIONS}
+          placeholder="-- Chọn --"
+        />
+
+        <BmFieldSelect
+          label="Chức vụ"
+          value={form.signature.positionTitle}
+          onChange={(v) => updateField("signature", "positionTitle", v)}
+          options={POSITION_OPTIONS}
+          placeholder="-- Chọn --"
+        />
+
+        <BmFieldText
+          label="Người ký"
+          required
+          value={form.signature.signerName}
+          onChange={(v) => updateField("signature", "signerName", v)}
+        />
+      </BmFormSection>
+
+      <BmFormActions
+        onPrimary={handleSave}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-078"}
+        primaryDisabled={saving || loading}
+        onSecondary={reloadFromBackend}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+      />
     </div>
   );
 }
