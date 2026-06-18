@@ -1,6 +1,22 @@
-﻿"use client";
+"use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+/**
+ * BM-047 — Quyết định về việc bảo lĩnh
+ * Stage: BP_NGAN_CHAN, Group: G02. TT 03/2026-VKSTC, Mẫu số 47/HS.
+ *
+ * Căn cứ: Điều 41, 121, 236 và 241 BLTTHS; Điều 135 Luật Tư pháp NCTVN.
+ * Nghiệp vụ: VKS phê duyệt đề nghị áp dụng biện pháp bảo lĩnh do CQĐT trình,
+ * xác định thời hạn bảo lĩnh, nghĩa vụ của bị can và người nhận bảo lĩnh.
+ */
+import { useEffect, useMemo, useState } from "react";
+import {
+  BmFormSection,
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormStatus,
+  BmFormMetaBar,
+} from "@/components/documents/bm-form";
+import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -101,14 +117,6 @@ type Bm047FormInputsPanelProps = {
   documentId: string | number;
   onSaved?: () => void | Promise<void>;
 };
-
-const inputClass =
-  "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200";
-
-const textareaClass =
-  "min-h-[96px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200";
-
-const labelClass = "text-xs font-semibold text-slate-600";
 
 function pad2(value: number): string {
   return String(value).padStart(2, "0");
@@ -700,96 +708,6 @@ function buildFormFromPayload(payload: unknown): Bm047Form {
   });
 }
 
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <input
-        className={inputClass}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function TextAreaField({
-  label,
-  value,
-  onChange,
-  rows = 4,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  rows?: number;
-}) {
-  return (
-    <label className="space-y-1.5">
-      <span className={labelClass}>{label}</span>
-      <textarea
-        className={textareaClass}
-        rows={rows}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function StatusMessage({
-  status,
-  message,
-}: {
-  status: "idle" | "loading" | "saving" | "success" | "error";
-  message: string;
-}) {
-  if (!message) return null;
-
-  const className =
-    status === "error"
-      ? "border-red-200 bg-red-50 text-red-800"
-      : status === "success"
-        ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-        : "border-slate-200 bg-slate-50 text-slate-700";
-
-  return (
-    <div className={`rounded-xl border px-4 py-3 text-sm font-medium ${className}`}>
-      {message}
-    </div>
-  );
-}
-
 export function Bm047FormInputsPanel({
   documentId,
   onSaved,
@@ -1086,52 +1004,58 @@ export function Bm047FormInputsPanel({
 
   return (
     <div className="space-y-5">
-      <section className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700">
-          Dữ liệu biểu mẫu BM-047
-        </p>
-        <h2 className="mt-2 text-xl font-bold text-blue-950">
-          Quyết định về việc bảo lĩnh
-        </h2>
-        <p className="mt-2 max-w-4xl text-sm leading-6 text-blue-900">
-          Form này chỉ phục vụ BM-047. Hai trường quan trọng nhất là{" "}
-          <span className="font-semibold">Tên bị can</span> và{" "}
-          <span className="font-semibold">Người nhận bảo lĩnh</span>. Khi đổi hai
-          trường này, các dòng Điều 1, Điều 2, nơi nhận và căn cứ liên quan sẽ
-          tự đồng bộ.
-        </p>
+      <BmFormMetaBar
+        templateCode="BM-047"
+        title="Quyết định về việc bảo lĩnh"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 47/HS · Stage BP_NGAN_CHAN (G02). Căn cứ Điều 41, 121, 236 và 241 BLTTHS; Điều 135 Luật Tư pháp NCTVN. Hai trường quan trọng nhất: Tên bị can và Người nhận bảo lĩnh — các dòng Điều 1, Điều 2, nơi nhận sẽ tự đồng bộ."
+        isDirty={false}
+        isLoading={status === "loading"}
+        isSaving={status === "saving"}
+        savedAt={null}
+        errorMessage={status === "error" && message ? message : undefined}
+        warningMessage={
+          status === "saving"
+            ? "Đang lưu formInputs BM-047..."
+            : undefined
+        }
+        successMessage={status === "success" ? message : undefined}
+        primaryLabel="Lưu dữ liệu BM-047"
+        onPrimary={handleSave}
+        primaryDisabled={status === "saving" || status === "loading"}
+        secondaryLabel={undefined}
+        onSecondary={undefined}
+        extraActions={
+          <>
+            <BmFormCasePayloadButton<Bm047Form>
+              templateCode="BM-047"
+              form={form}
+              onApply={(next) => setForm(next)}
+            />
+            <button
+              type="button"
+              onClick={regenerateLines}
+              className="rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+            >
+              Tự sinh lại căn cứ / Điều 1 / Điều 2
+            </button>
+            <button
+              type="button"
+              onClick={fillCustomerSample}
+              className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2 text-xs font-semibold text-blue-700 shadow-sm hover:bg-blue-100"
+            >
+              Điền dữ liệu mẫu
+            </button>
+          </>
+        }
+      />
 
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={fillCustomerSample}
-            className="rounded-xl border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-800 shadow-sm hover:bg-blue-100"
-          >
-            Điền dữ liệu mẫu BM-047
-          </button>
-          <button
-            type="button"
-            onClick={regenerateLines}
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-100"
-          >
-            Tự sinh lại căn cứ / Điều 1 / Điều 2
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={status === "saving" || status === "loading"}
-            className="rounded-xl bg-slate-950 px-5 py-2 text-sm font-bold text-white shadow-sm hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {status === "saving" ? "Đang lưu..." : "Lưu dữ liệu BM-047"}
-          </button>
-        </div>
+      {status === "error" && message ? (
+        <BmFormStatus kind="error" title="Lỗi">
+          {message}
+        </BmFormStatus>
+      ) : null}
 
-        <div className="mt-4">
-          <StatusMessage status={status} message={message} />
-        </div>
-      </section>
-
-      <SectionCard
+      <BmFormSection
         title="1. Dữ liệu đồng bộ chính"
         description="Nhập tên ở đây. Hệ thống tự đồng bộ sang các dòng liên quan trong mẫu."
       >
@@ -1140,7 +1064,7 @@ export function Bm047FormInputsPanel({
             <p className="mb-3 text-sm font-bold text-blue-950">
               Tên bị can - đồng bộ toàn biểu mẫu
             </p>
-            <Field
+            <BmFieldText
               label="Tên bị can"
               value={form.defendant.fullName}
               onChange={(value) => updateDefendant("fullName", value)}
@@ -1151,93 +1075,93 @@ export function Bm047FormInputsPanel({
             <p className="mb-3 text-sm font-bold text-emerald-950">
               Người nhận bảo lĩnh - đồng bộ Điều 1, Điều 2, nơi nhận
             </p>
-            <Field
+            <BmFieldText
               label="Người nhận bảo lĩnh"
               value={form.guaranteeApproval.guarantorName}
               onChange={updateGuarantorName}
             />
           </div>
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Cơ quan / văn bản">
+      <BmFormSection title="2. Cơ quan / văn bản">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateAgency("parentName", value)} />
-          <Field label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateAgency("name", value)} />
-          <Field label="Tên cơ quan trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateAgency("bodyName", value)} />
-          <Field label="Tên viết tắt" value={form.agency.shortName} onChange={(value) => updateAgency("shortName", value)} />
-          <Field label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateDocument("documentCode", value)} />
-          <Field label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateDocument("issuePlace", value)} />
-          <Field label="Ngày ban hành DD/MM/YYYY" value={form.document.issueDateText} onChange={(value) => updateDocument("issueDateText", value)} />
-          <Field label="Dòng địa danh, ngày tháng" value={form.document.issuePlaceAndDateLine} onChange={(value) => updateDocument("issuePlaceAndDateLine", value)} />
+          <BmFieldText label="Cơ quan cấp trên" value={form.agency.parentName} onChange={(value) => updateAgency("parentName", value)} />
+          <BmFieldText label="Viện kiểm sát ban hành" value={form.agency.name} onChange={(value) => updateAgency("name", value)} />
+          <BmFieldText label="Tên cơ quan trong thân văn bản" value={form.agency.bodyName} onChange={(value) => updateAgency("bodyName", value)} />
+          <BmFieldText label="Tên viết tắt" value={form.agency.shortName} onChange={(value) => updateAgency("shortName", value)} />
+          <BmFieldText label="Số quyết định" value={form.document.documentCode} onChange={(value) => updateDocument("documentCode", value)} />
+          <BmFieldText label="Địa danh" value={form.document.issuePlace} onChange={(value) => updateDocument("issuePlace", value)} />
+          <BmFieldText label="Ngày ban hành DD/MM/YYYY" value={form.document.issueDateText} onChange={(value) => updateDocument("issueDateText", value)} />
+          <BmFieldText label="Dòng địa danh, ngày tháng" value={form.document.issuePlaceAndDateLine} onChange={(value) => updateDocument("issuePlaceAndDateLine", value)} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. Chủ thể ban hành / căn cứ">
+      <BmFormSection title="3. Chủ thể ban hành / căn cứ">
         <div className="grid gap-4">
-          <Field label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateOfficial("issuerTitle", value)} />
-          <TextAreaField label="Căn cứ BLTTHS" value={form.legalBasis.procedureArticlesLine} onChange={(value) => updateLegalBasis("procedureArticlesLine", value)} rows={2} />
-          <TextAreaField label="Căn cứ Luật Tư pháp người chưa thành niên" value={form.legalBasis.juvenileJusticeLine} onChange={(value) => updateLegalBasis("juvenileJusticeLine", value)} rows={2} />
+          <BmFieldText label="Chủ thể ban hành" value={form.official.issuerTitle} onChange={(value) => updateOfficial("issuerTitle", value)} />
+          <BmFieldTextarea label="Căn cứ BLTTHS" value={form.legalBasis.procedureArticlesLine} onChange={(value) => updateLegalBasis("procedureArticlesLine", value)} rows={2} />
+          <BmFieldTextarea label="Căn cứ Luật Tư pháp người chưa thành niên" value={form.legalBasis.juvenileJusticeLine} onChange={(value) => updateLegalBasis("juvenileJusticeLine", value)} rows={2} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="4. Thông tin vụ án / bảo lĩnh">
+      <BmFormSection title="4. Thông tin vụ án / bảo lĩnh">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Cơ quan điều tra" value={form.guaranteeApproval.investigationAuthority} onChange={(value) => updateGuarantee("investigationAuthority", value, true)} />
-          <Field label="Tội danh" value={form.guaranteeApproval.offenseName} onChange={(value) => updateGuarantee("offenseName", value, true)} />
-          <Field label="Điều luật tội danh" value={form.guaranteeApproval.offenseLegalLine} onChange={(value) => updateGuarantee("offenseLegalLine", value, true)} />
-          <Field label="Số QĐ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationCode} onChange={(value) => updateGuarantee("caseInitiationCode", value, true)} />
-          <Field label="Ngày QĐ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationDateLine} onChange={(value) => updateGuarantee("caseInitiationDateLine", value, true)} />
-          <Field label="Số QĐ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationCode} onChange={(value) => updateGuarantee("defendantInitiationCode", value, true)} />
-          <Field label="Ngày QĐ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationDateLine} onChange={(value) => updateGuarantee("defendantInitiationDateLine", value, true)} />
-          <Field label="Thời hạn bảo lĩnh" value={form.guaranteeApproval.guaranteeDuration} onChange={(value) => updateGuarantee("guaranteeDuration", value, true)} />
-          <Field label="Từ ngày" value={form.guaranteeApproval.guaranteeStartDateLine} onChange={(value) => updateGuarantee("guaranteeStartDateLine", value, true)} />
-          <Field label="Đến ngày" value={form.guaranteeApproval.guaranteeEndDateLine} onChange={(value) => updateGuarantee("guaranteeEndDateLine", value, true)} />
+          <BmFieldText label="Cơ quan điều tra" value={form.guaranteeApproval.investigationAuthority} onChange={(value) => updateGuarantee("investigationAuthority", value, true)} />
+          <BmFieldText label="Tội danh" value={form.guaranteeApproval.offenseName} onChange={(value) => updateGuarantee("offenseName", value, true)} />
+          <BmFieldText label="Điều luật tội danh" value={form.guaranteeApproval.offenseLegalLine} onChange={(value) => updateGuarantee("offenseLegalLine", value, true)} />
+          <BmFieldText label="Số QĐ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationCode} onChange={(value) => updateGuarantee("caseInitiationCode", value, true)} />
+          <BmFieldText label="Ngày QĐ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationDateLine} onChange={(value) => updateGuarantee("caseInitiationDateLine", value, true)} />
+          <BmFieldText label="Số QĐ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationCode} onChange={(value) => updateGuarantee("defendantInitiationCode", value, true)} />
+          <BmFieldText label="Ngày QĐ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationDateLine} onChange={(value) => updateGuarantee("defendantInitiationDateLine", value, true)} />
+          <BmFieldText label="Thời hạn bảo lĩnh" value={form.guaranteeApproval.guaranteeDuration} onChange={(value) => updateGuarantee("guaranteeDuration", value, true)} />
+          <BmFieldText label="Từ ngày" value={form.guaranteeApproval.guaranteeStartDateLine} onChange={(value) => updateGuarantee("guaranteeStartDateLine", value, true)} />
+          <BmFieldText label="Đến ngày" value={form.guaranteeApproval.guaranteeEndDateLine} onChange={(value) => updateGuarantee("guaranteeEndDateLine", value, true)} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="5. Thông tin bị can">
+      <BmFormSection title="5. Thông tin bị can">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Giới tính" value={form.defendant.gender} onChange={(value) => updateDefendant("gender", value)} />
-          <Field label="Tên gọi khác" value={form.defendant.aliasName} onChange={(value) => updateDefendant("aliasName", value)} />
-          <Field label="Sinh ngày" value={form.defendant.birthDateLine} onChange={(value) => updateDefendant("birthDateLine", value)} />
-          <Field label="Nơi sinh" value={form.defendant.birthPlace} onChange={(value) => updateDefendant("birthPlace", value)} />
-          <Field label="Quốc tịch" value={form.defendant.nationality} onChange={(value) => updateDefendant("nationality", value)} />
-          <Field label="Dân tộc" value={form.defendant.ethnicity} onChange={(value) => updateDefendant("ethnicity", value)} />
-          <Field label="Tôn giáo" value={form.defendant.religion} onChange={(value) => updateDefendant("religion", value)} />
-          <Field label="Nghề nghiệp" value={form.defendant.occupation} onChange={(value) => updateDefendant("occupation", value)} />
-          <Field label="Số CMND/CCCD/Hộ chiếu" value={form.defendant.identityNumber} onChange={(value) => updateDefendant("identityNumber", value)} />
-          <Field label="Ngày cấp" value={form.defendant.identityIssueDateLine} onChange={(value) => updateDefendant("identityIssueDateLine", value)} />
-          <Field label="Nơi cấp" value={form.defendant.identityIssuePlace} onChange={(value) => updateDefendant("identityIssuePlace", value)} />
-          <Field label="Nơi thường trú" value={form.defendant.permanentResidence} onChange={(value) => updateDefendant("permanentResidence", value)} />
-          <Field label="Nơi tạm trú" value={form.defendant.temporaryResidence} onChange={(value) => updateDefendant("temporaryResidence", value)} />
-          <Field label="Nơi ở hiện tại" value={form.defendant.currentResidence} onChange={(value) => updateDefendant("currentResidence", value)} />
+          <BmFieldText label="Giới tính" value={form.defendant.gender} onChange={(value) => updateDefendant("gender", value)} />
+          <BmFieldText label="Tên gọi khác" value={form.defendant.aliasName} onChange={(value) => updateDefendant("aliasName", value)} />
+          <BmFieldText label="Sinh ngày" value={form.defendant.birthDateLine} onChange={(value) => updateDefendant("birthDateLine", value)} />
+          <BmFieldText label="Nơi sinh" value={form.defendant.birthPlace} onChange={(value) => updateDefendant("birthPlace", value)} />
+          <BmFieldText label="Quốc tịch" value={form.defendant.nationality} onChange={(value) => updateDefendant("nationality", value)} />
+          <BmFieldText label="Dân tộc" value={form.defendant.ethnicity} onChange={(value) => updateDefendant("ethnicity", value)} />
+          <BmFieldText label="Tôn giáo" value={form.defendant.religion} onChange={(value) => updateDefendant("religion", value)} />
+          <BmFieldText label="Nghề nghiệp" value={form.defendant.occupation} onChange={(value) => updateDefendant("occupation", value)} />
+          <BmFieldText label="Số CMND/CCCD/Hộ chiếu" value={form.defendant.identityNumber} onChange={(value) => updateDefendant("identityNumber", value)} />
+          <BmFieldText label="Ngày cấp" value={form.defendant.identityIssueDateLine} onChange={(value) => updateDefendant("identityIssueDateLine", value)} />
+          <BmFieldText label="Nơi cấp" value={form.defendant.identityIssuePlace} onChange={(value) => updateDefendant("identityIssuePlace", value)} />
+          <BmFieldText label="Nơi thường trú" value={form.defendant.permanentResidence} onChange={(value) => updateDefendant("permanentResidence", value)} />
+          <BmFieldText label="Nơi tạm trú" value={form.defendant.temporaryResidence} onChange={(value) => updateDefendant("temporaryResidence", value)} />
+          <BmFieldText label="Nơi ở hiện tại" value={form.defendant.currentResidence} onChange={(value) => updateDefendant("currentResidence", value)} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="6. Nội dung quyết định">
+      <BmFormSection title="6. Nội dung quyết định">
         <div className="grid gap-4">
-          <TextAreaField label="Căn cứ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationLine} onChange={(value) => updateGuarantee("caseInitiationLine", value)} rows={3} />
-          <TextAreaField label="Căn cứ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationLine} onChange={(value) => updateGuarantee("defendantInitiationLine", value)} rows={3} />
-          <TextAreaField label="Xét thấy đủ căn cứ" value={form.guaranteeApproval.sufficientGroundsLine} onChange={(value) => updateGuarantee("sufficientGroundsLine", value)} rows={2} />
-          <TextAreaField label="Điều 1 - giao bảo lĩnh" value={form.guaranteeApproval.assignmentLine} onChange={(value) => updateGuarantee("assignmentLine", value)} rows={2} />
-          <TextAreaField label="Thời hạn bảo lĩnh" value={form.guaranteeApproval.guaranteePeriodLine} onChange={(value) => updateGuarantee("guaranteePeriodLine", value)} rows={2} />
-          <TextAreaField label="Điều 2" value={form.guaranteeApproval.article2Line} onChange={(value) => updateGuarantee("article2Line", value)} rows={4} />
+          <BmFieldTextarea label="Căn cứ khởi tố vụ án" value={form.guaranteeApproval.caseInitiationLine} onChange={(value) => updateGuarantee("caseInitiationLine", value)} rows={3} />
+          <BmFieldTextarea label="Căn cứ khởi tố bị can" value={form.guaranteeApproval.defendantInitiationLine} onChange={(value) => updateGuarantee("defendantInitiationLine", value)} rows={3} />
+          <BmFieldTextarea label="Xét thấy đủ căn cứ" value={form.guaranteeApproval.sufficientGroundsLine} onChange={(value) => updateGuarantee("sufficientGroundsLine", value)} rows={2} />
+          <BmFieldTextarea label="Điều 1 - giao bảo lĩnh" value={form.guaranteeApproval.assignmentLine} onChange={(value) => updateGuarantee("assignmentLine", value)} rows={2} />
+          <BmFieldTextarea label="Thời hạn bảo lĩnh" value={form.guaranteeApproval.guaranteePeriodLine} onChange={(value) => updateGuarantee("guaranteePeriodLine", value)} rows={2} />
+          <BmFieldTextarea label="Điều 2" value={form.guaranteeApproval.article2Line} onChange={(value) => updateGuarantee("article2Line", value)} rows={4} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="7. Nơi nhận / chữ ký">
+      <BmFormSection title="7. Nơi nhận / chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Bị can" value={form.recipients.defendantLine} onChange={(value) => updateRecipients("defendantLine", value)} />
-          <Field label="Người nhận bảo lĩnh" value={form.recipients.guarantorLine} onChange={(value) => updateRecipients("guarantorLine", value)} />
-          <Field label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateRecipients("archiveLine", value)} />
-          <Field label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateSignature("signMode", value)} />
-          <Field label="Chức vụ người ký" value={form.signature.positionTitle} onChange={(value) => updateSignature("positionTitle", value)} />
-          <Field label="Người ký" value={form.signature.signerName} onChange={(value) => updateSignature("signerName", value)} />
+          <BmFieldText label="Bị can" value={form.recipients.defendantLine} onChange={(value) => updateRecipients("defendantLine", value)} />
+          <BmFieldText label="Người nhận bảo lĩnh" value={form.recipients.guarantorLine} onChange={(value) => updateRecipients("guarantorLine", value)} />
+          <BmFieldText label="Lưu hồ sơ" value={form.recipients.archiveLine} onChange={(value) => updateRecipients("archiveLine", value)} />
+          <BmFieldText label="Chế độ ký" value={form.signature.signMode} onChange={(value) => updateSignature("signMode", value)} />
+          <BmFieldText label="Chức vụ người ký" value={form.signature.positionTitle} onChange={(value) => updateSignature("positionTitle", value)} />
+          <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateSignature("signerName", value)} />
         </div>
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="Preview dữ liệu sẽ lưu">
+      <BmFormSection title="Preview dữ liệu sẽ lưu">
         <div className="space-y-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p><span className="font-bold">Số:</span> {preview.document.documentCode}</p>
           <p><span className="font-bold">Ngày:</span> {preview.document.issuePlaceAndDateLine}</p>
@@ -1247,7 +1171,7 @@ export function Bm047FormInputsPanel({
           <p><span className="font-bold">Điều 2:</span> {preview.guaranteeApproval.article2Line}</p>
           <p><span className="font-bold">Chữ ký:</span> {preview.signature.signMode} / {preview.signature.positionTitle} / {preview.signature.signerName}</p>
         </div>
-      </SectionCard>
+      </BmFormSection>
     </div>
   );
 }
