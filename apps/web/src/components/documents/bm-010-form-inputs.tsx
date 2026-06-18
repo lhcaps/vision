@@ -1,8 +1,22 @@
 "use client";
 
-import type { ReactNode } from "react";
+/**
+ * BM-010 — Quyết định tạm đình chỉ giải quyết nguồn tin về tội phạm
+ * Stage: TIEP_NHAN, Group: G01. TT 03/2026-VKSTC, Mẫu số 10/HS.
+ *
+ * Căn cứ: Điều 41, 42 và 160 BLTTHS.
+ * Nghiệp vụ: Tạm đình chỉ giải quyết nguồn tin khi chưa có đủ kết quả giám định,
+ * định giá hoặc tài liệu cần thiết để làm căn cứ khởi tố / không khởi tố.
+ */
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  BmFormSection,
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormMetaBar,
+  BmFormStatus,
+} from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -50,14 +64,6 @@ type Bm010FormInputsPanelProps = {
   documentId: string | number;
   onSaved?: () => void;
 };
-
-const inputClass =
-  "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200";
-
-const textareaClass =
-  "min-h-[88px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200";
-
-const labelClass = "text-xs font-medium text-slate-600";
 
 function asRecord(value: unknown): JsonObject {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -111,103 +117,6 @@ function pickString(
   return fallback;
 }
 
-
-function isoDateToDisplayDate(value: string): string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-
-  if (!match) return "";
-
-  return `${match[3]}/${match[2]}/${match[1]}`;
-}
-
-function displayDateToIsoDate(value: string): string | null {
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value.trim());
-
-  if (!match) return null;
-
-  const day = Number(match[1]);
-  const month = Number(match[2]);
-  const year = Number(match[3]);
-
-  if (year < 1900 || year > 2100) return null;
-  if (month < 1 || month > 12) return null;
-
-  const maxDay = new Date(year, month, 0).getDate();
-  if (day < 1 || day > maxDay) return null;
-
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
-function normalizeDisplayDateInput(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 8);
-
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-
-  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
-}
-
-function DateTextField({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  const [draft, setDraft] = useState(() => isoDateToDisplayDate(value));
-
-  useEffect(() => {
-    setDraft(isoDateToDisplayDate(value));
-  }, [value]);
-
-  return (
-    <input
-      className={inputClass}
-      inputMode="numeric"
-      placeholder="dd/mm/yyyy"
-      value={draft}
-      onChange={(event) => {
-        const nextDisplayValue = normalizeDisplayDateInput(event.target.value);
-        setDraft(nextDisplayValue);
-
-        const nextIsoDate = displayDateToIsoDate(nextDisplayValue);
-        if (nextIsoDate) {
-          onChange(nextIsoDate);
-        }
-      }}
-      onBlur={() => {
-        const nextIsoDate = displayDateToIsoDate(draft);
-
-        if (nextIsoDate) {
-          onChange(nextIsoDate);
-          setDraft(isoDateToDisplayDate(nextIsoDate));
-          return;
-        }
-
-        setDraft(isoDateToDisplayDate(value));
-      }}
-    />
-  );
-}
-
-function dateToVietnameseLine(value: string): string {
-  const normalized = normalizeBm010DateForDisplay(value);
-  if (!normalized) return "";
-
-  const display = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(normalized);
-  if (display) {
-    return `${Number(display[1])} tháng ${Number(display[2])} năm ${display[3]}`;
-  }
-
-  const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(normalized);
-  if (iso) {
-    return `${Number(iso[3])} tháng ${Number(iso[2])} năm ${iso[1]}`;
-  }
-
-  return normalized;
-}
-
-
 function getBm010TodayDisplayDate(): string {
   const now = new Date();
   const day = String(now.getDate()).padStart(2, "0");
@@ -224,8 +133,7 @@ function normalizeBm010DateForDisplay(value: string): string {
     return getBm010TodayDisplayDate();
   }
 
-  // Seed/demo cũ của dữ liệu mẫu. Khi mở biểu mẫu cũ mà chưa sửa ngày,
-  // không được giữ 30/05/2026 nữa.
+  // Demo seed cũ. Khi mở document cũ mà chưa sửa ngày, UI phải dùng ngày hiện tại.
   if (raw === "2026-05-30" || raw === "30/05/2026") {
     return getBm010TodayDisplayDate();
   }
@@ -250,8 +158,6 @@ function normalizeBm010IssueDateFromBackend(value: string): string {
     return getBm010TodayDisplayDate();
   }
 
-  // Demo seed cũ. Khi mở document cũ mà chưa sửa ngày ban hành,
-  // UI phải đưa về ngày hiện tại thay vì giữ 30/05/2026.
   if (raw === "2026-05-30" || raw === "30/05/2026") {
     return getBm010TodayDisplayDate();
   }
@@ -309,6 +215,23 @@ function buildBm010DisplayDate(day: string, month: string, year: string): string
   return `${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`;
 }
 
+function dateToVietnameseLine(value: string): string {
+  const normalized = normalizeBm010DateForDisplay(value);
+  if (!normalized) return "";
+
+  const display = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(normalized);
+  if (display) {
+    return `${Number(display[1])} tháng ${Number(display[2])} năm ${display[3]}`;
+  }
+
+  const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(normalized);
+  if (iso) {
+    return `${Number(iso[3])} tháng ${Number(iso[2])} năm ${iso[1]}`;
+  }
+
+  return normalized;
+}
+
 function buildBm010IssuePlaceAndDateLine(issuePlace: string, issueDateText: string): string {
   const place = String(issuePlace ?? "").trim() || "TP. Hồ Chí Minh";
   const parts = parseBm010DisplayDateParts(issueDateText || getBm010TodayDisplayDate());
@@ -320,6 +243,10 @@ function buildBm010IssuePlaceAndDateLine(issuePlace: string, issueDateText: stri
   return `${place}, ngày ${Number(parts.day)} tháng ${Number(parts.month)} năm ${parts.year}`;
 }
 
+/**
+ * Bm010DateSelectField — 3 select day/month/year giúp nhập nhanh ngày tháng.
+ * Giữ nguyên local để giữ UX cũ (BM-010 yêu cầu ngày slash DD/MM/YYYY ở mọi nơi).
+ */
 function Bm010DateSelectField({
   value,
   onChange,
@@ -577,7 +504,7 @@ function buildSaveBody(form: Bm010Form): JsonObject {
   };
 }
 
-function Section({
+function PreviewSection({
   title,
   children,
 }: {
@@ -585,25 +512,10 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <h3 className="mb-3 text-sm font-semibold text-slate-900">{title}</h3>
-      {children}
+    <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 shadow-sm">
+      <h3 className="mb-2 text-sm font-semibold text-slate-900">{title}</h3>
+      <div className="grid gap-2">{children}</div>
     </section>
-  );
-}
-
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <label className="grid gap-1.5">
-      <span className={labelClass}>{label}</span>
-      {children}
-    </label>
   );
 }
 
@@ -616,6 +528,7 @@ export function Bm010FormInputsPanel({
   const [isSaving, setIsSaving] = useState(false);
   const [isRendering, setIsRendering] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
 
   const readyForm = useMemo(() => buildDerivedFields(form), [form]);
@@ -644,6 +557,7 @@ export function Bm010FormInputsPanel({
     async function load() {
       setIsLoading(true);
       setMessage("");
+      setError(null);
 
       try {
         const response = await fetch(
@@ -669,13 +583,13 @@ export function Bm010FormInputsPanel({
           setIsDirty(false);
           setMessage("Đã tải dữ liệu BM-010.");
         }
-      } catch (error) {
+      } catch (loadError) {
         if (!cancelled) {
           setForm(defaultForm());
           setIsDirty(true);
-          setMessage(
-            error instanceof Error
-              ? error.message
+          setError(
+            loadError instanceof Error
+              ? loadError.message
               : "Không tải được dữ liệu BM-010.",
           );
         }
@@ -693,6 +607,7 @@ export function Bm010FormInputsPanel({
 
   async function handleSave(): Promise<Bm010Form> {
     setIsSaving(true);
+    setError(null);
     setMessage("");
 
     const finalForm = buildDerivedFields(form);
@@ -724,9 +639,11 @@ export function Bm010FormInputsPanel({
       onSaved?.();
 
       return finalForm;
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Không lưu được BM-010.");
-      throw error;
+    } catch (saveError) {
+      setError(
+        saveError instanceof Error ? saveError.message : "Không lưu được BM-010.",
+      );
+      throw saveError;
     } finally {
       setIsSaving(false);
     }
@@ -734,6 +651,7 @@ export function Bm010FormInputsPanel({
 
   async function handleRender() {
     setIsRendering(true);
+    setError(null);
     setMessage("");
 
     try {
@@ -778,9 +696,11 @@ export function Bm010FormInputsPanel({
       }
 
       setMessage("Đã lưu và xuất lại DOCX/PDF BM-010.");
-    } catch (error) {
-      setMessage(
-        error instanceof Error ? error.message : "Không xuất được BM-010.",
+    } catch (renderError) {
+      setError(
+        renderError instanceof Error
+          ? renderError.message
+          : "Không xuất được BM-010.",
       );
     } finally {
       setIsRendering(false);
@@ -795,230 +715,234 @@ export function Bm010FormInputsPanel({
     );
   }
 
+  const status = error
+    ? { kind: "error" as const, text: error }
+    : message
+      ? { kind: "success" as const, text: message }
+      : isDirty
+        ? {
+            kind: "warning" as const,
+            text: "Có thay đổi chưa lưu. Nhấn Lưu hoặc Lưu & xuất để đồng bộ.",
+          }
+        : { kind: "idle" as const, text: "" };
+
   return (
-    <div className="grid gap-4">
-      <BmFormCasePayloadButton templateCode="BM-010" form={form} onApply={(next) => setForm(next as typeof form)} />
-      <div className="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-white shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-300">
-              BM-010
-            </p>
-            <h2 className="mt-1 text-lg font-semibold">
-              Quyết định tạm đình chỉ giải quyết nguồn tin
-            </h2>
-          </div>
+    <div className="space-y-5">
+      <BmFormMetaBar
+        templateCode="BM-010"
+        title="Quyết định tạm đình chỉ giải quyết nguồn tin về tội phạm"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 10/HS · Stage TIEP_NHAN (G01). Căn cứ Điều 41, 42 và 160 BLTTHS."
+        isDirty={isDirty}
+        isLoading={isLoading}
+        isSaving={isSaving}
+        savedAt={null}
+        errorMessage={error ?? undefined}
+        warningMessage={status.kind === "warning" ? status.text : undefined}
+        successMessage={status.kind === "success" ? status.text : undefined}
+        primaryLabel="Lưu dữ liệu BM-010"
+        onPrimary={handleSave}
+        primaryDisabled={isSaving || isRendering || !isDirty}
+        secondaryLabel="Lưu & xuất DOCX/PDF"
+        onSecondary={handleRender}
+        extraActions={
+          <BmFormCasePayloadButton
+            templateCode="BM-010"
+            form={form}
+            onApply={(next) => {
+              setForm(next as typeof form);
+              setIsDirty(true);
+            }}
+          />
+        }
+      />
 
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={isSaving || !isDirty}
-              className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:bg-slate-500 disabled:text-slate-300"
-            >
-              {isSaving ? "Đang lưu..." : "Lưu"}
-            </button>
+      {status.kind === "idle" ? null : (
+        <BmFormStatus
+          kind={status.kind}
+          title={
+            status.kind === "success"
+              ? "Thành công"
+              : status.kind === "error"
+                ? "Lỗi"
+                : status.kind === "warning"
+                  ? "Cảnh báo"
+                  : undefined
+          }
+        >
+          {status.text}
+        </BmFormStatus>
+      )}
 
-            <button
-              type="button"
-              onClick={handleRender}
-              disabled={isSaving || isRendering}
-              className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-slate-500"
-            >
-              {isRendering ? "Đang xuất..." : "Lưu & xuất"}
-            </button>
-          </div>
-        </div>
+      <BmFormSection
+        title="1. Cơ quan / số quyết định"
+        description="Phần header: cơ quan ban hành, số quyết định, địa danh, ngày ban hành."
+      >
+        <BmFieldText
+          label="Cơ quan cấp trên"
+          value={form.agency.parentName}
+          onChange={(v) => updateGroup("agency", "parentName", v)}
+        />
 
-        {message ? (
-          <p className="mt-3 rounded-xl bg-white/10 px-3 py-2 text-sm text-slate-100">
-            {message}
-          </p>
-        ) : null}
-      </div>
+        <BmFieldText
+          label="Viện kiểm sát"
+          value={form.agency.name}
+          onChange={(v) => updateGroup("agency", "name", v)}
+        />
 
-      <Section title="Cơ quan / số quyết định">
-        <div className="grid gap-3 md:grid-cols-2">
-          <Field label="Cơ quan cấp trên">
-            <input
-              className={inputClass}
-              value={form.agency.parentName}
-              onChange={(e) => updateGroup("agency", "parentName", e.target.value)}
-            />
-          </Field>
+        <BmFieldText
+          label="Tên trong thân văn bản"
+          value={form.agency.bodyName}
+          onChange={(v) => updateGroup("agency", "bodyName", v)}
+        />
 
-          <Field label="Viện kiểm sát">
-            <input
-              className={inputClass}
-              value={form.agency.name}
-              onChange={(e) => updateGroup("agency", "name", e.target.value)}
-            />
-          </Field>
+        <BmFieldText
+          label="Số quyết định"
+          value={form.document.documentCode}
+          onChange={(v) => updateGroup("document", "documentCode", v)}
+        />
 
-          <Field label="Tên trong thân văn bản">
-            <input
-              className={inputClass}
-              value={form.agency.bodyName}
-              onChange={(e) => updateGroup("agency", "bodyName", e.target.value)}
-            />
-          </Field>
+        <BmFieldText
+          label="Địa danh"
+          value={form.document.issuePlace}
+          onChange={(v) => updateGroup("document", "issuePlace", v)}
+        />
 
-          <Field label="Số quyết định">
-            <input
-              className={inputClass}
-              value={form.document.documentCode}
-              onChange={(e) => updateGroup("document", "documentCode", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Địa danh">
-            <input
-              className={inputClass}
-              value={form.document.issuePlace}
-              onChange={(e) => updateGroup("document", "issuePlace", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Ngày ban hành">
-            <Bm010DateSelectField
-              value={form.document.issueDate || getBm010TodayDisplayDate()}
-              onChange={(value) => updateGroup("document", "issueDate", value)}
-            />
-            <p className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
-              {buildBm010IssuePlaceAndDateLine(form.document.issuePlace, form.document.issueDate || getBm010TodayDisplayDate()) || "Chưa có dòng địa danh, ngày tháng"}
-            </p>
-          </Field>
-        </div>
-      </Section>
-
-      <Section title="Nội dung tạm đình chỉ">
-        <div className="grid gap-3 md:grid-cols-2">
-          <Field label="Chủ thể ban hành">
-            <input
-              className={inputClass}
-              value={form.official.issuerTitle}
-              onChange={(e) => updateGroup("official", "issuerTitle", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Ngày tiếp nhận nguồn tin">
-            <Bm010DateSelectField
-              value={form.sourceSuspension.receivedDate || getBm010TodayDisplayDate()}
-              onChange={(value) => updateGroup("sourceSuspension", "receivedDate", value)}
-            />
-            <p className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
-              {`ngày ${dateToVietnameseLine(form.sourceSuspension.receivedDate || getBm010TodayDisplayDate())}`}
-            </p>
-          </Field>
-        </div>
-
-        <div className="mt-3 grid gap-3">
-          <Field label="Lý do xét thấy">
-            <textarea
-              className={textareaClass}
-              value={form.sourceSuspension.reasonLine}
-              onChange={(e) => updateGroup("sourceSuspension", "reasonLine", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Vụ việc">
-            <textarea
-              className={textareaClass}
-              value={form.sourceSuspension.caseSummary}
-              onChange={(e) => updateGroup("sourceSuspension", "caseSummary", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Điều 2">
-            <textarea
-              className={textareaClass}
-              value={form.sourceSuspension.article2Line}
-              onChange={(e) => updateGroup("sourceSuspension", "article2Line", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Điều 3">
-            <textarea
-              className={textareaClass}
-              value={form.sourceSuspension.article3Line}
-              onChange={(e) => updateGroup("sourceSuspension", "article3Line", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Nơi nhận chính">
-            <input
-              className={inputClass}
-              value={form.recipients.primaryLine}
-              onChange={(e) => updateGroup("recipients", "primaryLine", e.target.value)}
-            />
-          </Field>
-        </div>
-      </Section>
-
-      <Section title="Ký tên">
-        <div className="grid gap-3 md:grid-cols-3">
-          <Field label="Ký thay">
-            <input
-              className={inputClass}
-              value={form.signature.signMode}
-              onChange={(e) => updateGroup("signature", "signMode", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Chức danh">
-            <input
-              className={inputClass}
-              value={form.signature.positionTitle}
-              onChange={(e) => updateGroup("signature", "positionTitle", e.target.value)}
-            />
-          </Field>
-
-          <Field label="Người ký">
-            <input
-              className={inputClass}
-              value={form.signature.signerName}
-              onChange={(e) => updateGroup("signature", "signerName", e.target.value)}
-            />
-          </Field>
-        </div>
-      </Section>
-
-      <Section title="Preview dữ liệu dài">
-        <div className="grid gap-2 text-sm text-slate-700">
-          <p>
-            <span className="font-semibold">Ngày ban hành:</span>{" "}
-            {readyForm.document.issuePlaceAndDateLine}
-          </p>
-
-          <p>
-            <span className="font-semibold">Xét thấy:</span>{" "}
-            Xét thấy {readyForm.sourceSuspension.reasonLine},
-          </p>
-
-          <p>
-            <span className="font-semibold">Điều 1:</span>{" "}
-            Tạm đình chỉ việc giải quyết nguồn tin về tội phạm đối với vụ việc{" "}
-            {readyForm.sourceSuspension.caseSummary} do {readyForm.agency.bodyName} tiếp nhận{" "}
-            {readyForm.sourceSuspension.receivedDateLine}.
-          </p>
-
-          <p>
-            <span className="font-semibold">Điều 2:</span>{" "}
-            {readyForm.sourceSuspension.article2Line}
-          </p>
-
-          <p>
-            <span className="font-semibold">Điều 3:</span>{" "}
-            {readyForm.sourceSuspension.article3Line}
-          </p>
-
-          <p>
-            <span className="font-semibold">Chữ ký:</span>{" "}
-            {readyForm.signature.signMode} — {readyForm.signature.positionTitle} — {readyForm.signature.signerName}
+        <div className="space-y-1.5">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+            Ngày ban hành
+          </span>
+          <Bm010DateSelectField
+            value={form.document.issueDate || getBm010TodayDisplayDate()}
+            onChange={(v) => updateGroup("document", "issueDate", v)}
+          />
+          <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
+            {buildBm010IssuePlaceAndDateLine(
+              form.document.issuePlace,
+              form.document.issueDate || getBm010TodayDisplayDate(),
+            ) || "Chưa có dòng địa danh, ngày tháng"}
           </p>
         </div>
-      </Section>
+      </BmFormSection>
+
+      <BmFormSection
+        title="2. Nội dung tạm đình chỉ"
+        description="Lý do xét thấy, vụ việc, ngày tiếp nhận, Điều 2/3, nơi nhận chính."
+        fullWidth
+      >
+        <BmFieldText
+          label="Chủ thể ban hành"
+          value={form.official.issuerTitle}
+          onChange={(v) => updateGroup("official", "issuerTitle", v)}
+        />
+
+        <div className="space-y-1.5">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+            Ngày tiếp nhận nguồn tin
+          </span>
+          <Bm010DateSelectField
+            value={form.sourceSuspension.receivedDate || getBm010TodayDisplayDate()}
+            onChange={(v) => updateGroup("sourceSuspension", "receivedDate", v)}
+          />
+          <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
+            {`ngày ${dateToVietnameseLine(form.sourceSuspension.receivedDate || getBm010TodayDisplayDate())}`}
+          </p>
+        </div>
+
+        <BmFieldTextarea
+          label="Lý do xét thấy"
+          rows={2}
+          value={form.sourceSuspension.reasonLine}
+          onChange={(v) => updateGroup("sourceSuspension", "reasonLine", v)}
+          fullWidth
+        />
+
+        <BmFieldTextarea
+          label="Vụ việc"
+          rows={2}
+          value={form.sourceSuspension.caseSummary}
+          onChange={(v) => updateGroup("sourceSuspension", "caseSummary", v)}
+          fullWidth
+        />
+
+        <BmFieldTextarea
+          label="Điều 2"
+          rows={2}
+          value={form.sourceSuspension.article2Line}
+          onChange={(v) => updateGroup("sourceSuspension", "article2Line", v)}
+          fullWidth
+        />
+
+        <BmFieldTextarea
+          label="Điều 3"
+          rows={2}
+          value={form.sourceSuspension.article3Line}
+          onChange={(v) => updateGroup("sourceSuspension", "article3Line", v)}
+          fullWidth
+        />
+
+        <BmFieldText
+          label="Nơi nhận chính"
+          value={form.recipients.primaryLine}
+          onChange={(v) => updateGroup("recipients", "primaryLine", v)}
+          fullWidth
+        />
+      </BmFormSection>
+
+      <BmFormSection title="3. Ký tên">
+        <BmFieldText
+          label="Ký thay"
+          value={form.signature.signMode}
+          onChange={(v) => updateGroup("signature", "signMode", v)}
+        />
+
+        <BmFieldText
+          label="Chức danh"
+          value={form.signature.positionTitle}
+          onChange={(v) => updateGroup("signature", "positionTitle", v)}
+        />
+
+        <BmFieldText
+          label="Người ký"
+          value={form.signature.signerName}
+          onChange={(v) => updateGroup("signature", "signerName", v)}
+        />
+      </BmFormSection>
+
+      <PreviewSection title="Preview dữ liệu dài">
+        <p>
+          <span className="font-semibold">Ngày ban hành:</span>{" "}
+          {readyForm.document.issuePlaceAndDateLine || "(trống)"}
+        </p>
+
+        <p>
+          <span className="font-semibold">Xét thấy:</span> Xét thấy{" "}
+          {readyForm.sourceSuspension.reasonLine || "(trống)"},
+        </p>
+
+        <p>
+          <span className="font-semibold">Điều 1:</span> Tạm đình chỉ việc giải
+          quyết nguồn tin về tội phạm đối với vụ việc{" "}
+          {readyForm.sourceSuspension.caseSummary || "(trống)"} do{" "}
+          {readyForm.agency.bodyName} tiếp nhận{" "}
+          {readyForm.sourceSuspension.receivedDateLine || "(trống)"}.
+        </p>
+
+        <p>
+          <span className="font-semibold">Điều 2:</span>{" "}
+          {readyForm.sourceSuspension.article2Line || "(trống)"}
+        </p>
+
+        <p>
+          <span className="font-semibold">Điều 3:</span>{" "}
+          {readyForm.sourceSuspension.article3Line || "(trống)"}
+        </p>
+
+        <p>
+          <span className="font-semibold">Chữ ký:</span>{" "}
+          {readyForm.signature.signMode} — {readyForm.signature.positionTitle} —{" "}
+          {readyForm.signature.signerName || "(trống)"}
+        </p>
+      </PreviewSection>
     </div>
   );
 }
-
