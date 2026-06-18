@@ -1,0 +1,18 @@
+docs(planning): add PLAN-hoan-thien-213-BM.md
+
+Plan tổng thể để hoàn thiện 213 biểu mẫu, bao gồm:
+
+- Phát hiện mới: BM-156 EMPTY thực ra là bug logic trong audit
+  (file 56KB/1500 dòng đầy đủ, nhưng dùng component local TextInput/
+  TextArea/SectionBox không match cả LEGACY pattern lẫn BESPOKE
+  pattern, nên rơi vào EMPTY). Cần sửa audit thành CUSTOM_LOCAL.
+- 9 phase theo 9 nhóm SPEC (BP_NGAN_CHAN, NGUOI_THAM_GIA, DIEU_TRA,
+  TRUY_TO, VAT_CHUNG, DIEU_TRA_DAC_BIET, THU_TUC_DAC_BIET,
+  NGUOI_CHUA_THANH_NIEN).
+- Hướng 2 wire nút "Lấy từ vụ án" cho 154 form còn lại.
+- Hướng 3 template nội dung mẫu (căn cứ + điều luật) cần user
+  review từng entry theo TT 03/2026-VKSTC.
+- Timeline 13 tuần 1 người fulltime cho 113 biểu còn lại.
+- 5 câu hỏi gate cần user trả lời trước khi bắt đầu.
+
+Không bao gồm code — plan-only.
