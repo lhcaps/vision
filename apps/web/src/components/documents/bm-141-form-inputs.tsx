@@ -1,796 +1,562 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+/**
+ * BM-141 — QĐ chuyển hồ sơ vụ án để truy tố
+ * Stage: TRUY_TO, Group: G05. TT 03/2026-VKSTC, Mẫu số 141/HS.
+ *
+ * Căn cứ: Điều 41, 245, 267 BLTTHS 2015.
+ * Nghiệp vụ: VKS chuyển hồ sơ VAHS đã kết thúc điều tra sang VKS cấp trên để truy tố.
+ */
 
-type JsonObject = Record<string, unknown>;
-type TextGroup = Record<string, string>;
+import { useEffect, useMemo, useState } from "react";
 
-type Bm141FormState = {
-  agency: TextGroup;
-  document: TextGroup;
-  official: TextGroup;
-  prosecutionTransfer: TextGroup;
-  recipients: TextGroup;
-  signature: TextGroup;
+import {
+  BmFieldDate,
+  BmFieldText,
+  BmFieldTextarea,
+  BmFormActions,
+  BmFormMetaBar,
+  BmFormSection,
+  BmFormStatus,
+  issuePlaceDateLine,
+} from "@/components/documents/bm-form";
+
+type AgencyForm = { parentName: string; name: string; shortName: string; issuePlace: string };
+type DocumentForm = { documentCode: string; issueDate: string; issuePlaceAndDateLine: string };
+type OfficialForm = { issuerTitle: string };
+type TransferForm = {
+  procedureArticlesLine: string;
+  caseDecisionLegalBasisLine: string;
+  accusedDecisionLegalBasisLine: string;
+  investigationConclusionLegalBasisLine: string;
+  fromProcuracyName: string;
+  toProcuracyName: string;
+  toProcuracyRecipientLine: string;
+  detentionFacilityRecipientLine: string;
+  transferReasonLine: string;
+  article1Line: string;
+};
+type RecipientsForm = {
+  investigatingAgencyLine: string;
+  accusedLine: string;
+  archiveLine: string;
+};
+type SignatureForm = { signMode: string; positionTitle: string; signerName: string };
+
+type Bm141Form = {
+  agency: AgencyForm;
+  document: DocumentForm;
+  official: OfficialForm;
+  prosecutionTransfer: TransferForm;
+  recipients: RecipientsForm;
+  signature: SignatureForm;
 };
 
-type SectionKey = keyof Bm141FormState;
-
-type Bm141FormInputsPanelProps = {
-  documentId: string | number;
-  onSaved?: () => void;
-};
+type RenderPayload = Record<string, any>;
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
-const EMPTY_FORM: Bm141FormState = {
+const EMPTY_FORM: Bm141Form = {
   agency: {
-    parentName: "",
-    name: "",
-    shortName: "",
-    issuePlace: "",
+    parentName: "VIỆN KIỂM SÁT NHÂN DÂN CẤP CAO TẠI TP. HỒ CHÍ MINH",
+    name: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+    shortName: "VKSKV7",
+    issuePlace: "TP. Hồ Chí Minh",
   },
   document: {
-    documentCode: "",
+    documentCode: "141/QĐ-VKSKV7",
     issueDate: "",
     issuePlaceAndDateLine: "",
   },
-  official: {
-    issuerTitle: "",
-  },
+  official: { issuerTitle: "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7" },
   prosecutionTransfer: {
-    procedureArticlesLine: "",
+    procedureArticlesLine: "Căn cứ các điều 41, 245 và 267 của Bộ luật Tố tụng hình sự;",
     caseDecisionLegalBasisLine: "",
     accusedDecisionLegalBasisLine: "",
     investigationConclusionLegalBasisLine: "",
-    fromProcuracyName: "",
-    toProcuracyName: "",
+    fromProcuracyName: "Viện kiểm sát nhân dân khu vực 7",
+    toProcuracyName: "Viện kiểm sát nhân dân Thành phố Hồ Chí Minh",
     toProcuracyRecipientLine: "",
     detentionFacilityRecipientLine: "",
     transferReasonLine: "",
     article1Line: "",
   },
   recipients: {
-    investigatingAgencyLine: "",
-    accusedLine: "",
-    archiveLine: "",
+    investigatingAgencyLine: "- Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
+    accusedLine: "- Bị can;",
+    archiveLine: "- Lưu: HSVA, HSKS, VP.",
   },
   signature: {
-    signMode: "",
-    positionTitle: "",
+    signMode: "KT. VIỆN TRƯỞNG",
+    positionTitle: "PHÓ VIỆN TRƯỞNG",
     signerName: "",
   },
 };
 
-const REQUIRED_FIELDS = [
-  "agency.name",
-  "document.documentCode",
-  "official.issuerTitle",
-  "prosecutionTransfer.procedureArticlesLine",
-  "prosecutionTransfer.caseDecisionLegalBasisLine",
-  "prosecutionTransfer.accusedDecisionLegalBasisLine",
-  "prosecutionTransfer.investigationConclusionLegalBasisLine",
-  "prosecutionTransfer.toProcuracyName",
-  "prosecutionTransfer.transferReasonLine",
-  "prosecutionTransfer.article1Line",
-  "recipients.archiveLine",
-  "signature.positionTitle",
-  "signature.signerName",
+const REQUIRED_FIELDS: ReadonlyArray<[string, string]> = [
+  ["Tên VKS", "agency.name"],
+  ["Số QĐ", "document.documentCode"],
+  ["Chủ thể ban hành", "official.issuerTitle"],
+  ["Căn cứ BLTTHS", "prosecutionTransfer.procedureArticlesLine"],
+  ["Căn cứ QĐ khởi tố", "prosecutionTransfer.caseDecisionLegalBasisLine"],
+  ["Căn cứ QĐ bị can", "prosecutionTransfer.accusedDecisionLegalBasisLine"],
+  ["Căn cứ KLĐT", "prosecutionTransfer.investigationConclusionLegalBasisLine"],
+  ["VKS nhận hồ sơ", "prosecutionTransfer.toProcuracyName"],
+  ["Lý do chuyển", "prosecutionTransfer.transferReasonLine"],
+  ["Điều 1", "prosecutionTransfer.article1Line"],
+  ["Lưu hồ sơ", "recipients.archiveLine"],
+  ["Chức vụ ký", "signature.positionTitle"],
+  ["Người ký", "signature.signerName"],
 ];
 
-function asObject(value: unknown): JsonObject {
+function cleanText(v: unknown): string {
+  return v == null ? "" : String(v).trim();
+}
+
+function asObject(value: unknown): Record<string, any> {
   return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as JsonObject)
+    ? (value as Record<string, any>)
     : {};
 }
 
-function asText(value: unknown): string {
-  if (typeof value === "string") return value;
-  if (value === null || value === undefined) return "";
-  return String(value);
-}
-
-function pick(source: JsonObject, key: string): string {
-  return asText(source[key]);
+function pick(source: Record<string, any>, key: string): string {
+  return cleanText(source[key]);
 }
 
 function toDateInput(value: unknown): string {
-  const text = asText(value).trim();
-
-  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
-    return text;
-  }
-
+  const text = cleanText(value);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
   const match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if (!match) return text;
-
-  const day = match[1].padStart(2, "0");
-  const month = match[2].padStart(2, "0");
-  const year = match[3];
-
-  return year + "-" + month + "-" + day;
+  return `${match[3]}-${match[2].padStart(2, "0")}-${match[1].padStart(2, "0")}`;
 }
 
-function normalizeFormInputs(payload: JsonObject): Bm141FormState {
-  const agency = asObject(payload.agency);
-  const document = asObject(payload.document);
-  const official = asObject(payload.official);
-  const prosecutionTransfer = asObject(payload.prosecutionTransfer);
-  const recipients = asObject(payload.recipients);
-  const signature = asObject(payload.signature);
+function toVietnameseDateText(value: string): string {
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return value || "";
+  return `ngày ${Number(m[3])} tháng ${Number(m[2])} năm ${m[1]}`;
+}
 
+function toSlashDateText(value: string): string {
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return value || "";
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
+function buildIssuePlaceAndDateLine(form: Bm141Form): string {
+  return issuePlaceDateLine(form.agency.issuePlace, form.document.issueDate);
+}
+
+function normalizeFormInputs(payload: RenderPayload | null): Bm141Form {
+  const obj = (payload as any) ?? {};
+  const agency = asObject(obj.agency);
+  const document = asObject(obj.document);
+  const official = asObject(obj.official);
+  const prosecutionTransfer = asObject(obj.prosecutionTransfer);
+  const recipients = asObject(obj.recipients);
+  const signature = asObject(obj.signature);
   return {
     agency: {
-      parentName: pick(agency, "parentName"),
-      name: pick(agency, "name"),
-      shortName: pick(agency, "shortName"),
-      issuePlace: pick(agency, "issuePlace"),
+      parentName: pick(agency, "parentName") || EMPTY_FORM.agency.parentName,
+      name: pick(agency, "name") || EMPTY_FORM.agency.name,
+      shortName: pick(agency, "shortName") || EMPTY_FORM.agency.shortName,
+      issuePlace: pick(agency, "issuePlace") || EMPTY_FORM.agency.issuePlace,
     },
     document: {
-      documentCode: pick(document, "documentCode"),
+      documentCode: pick(document, "documentCode") || EMPTY_FORM.document.documentCode,
       issueDate: toDateInput(document.issueDate),
       issuePlaceAndDateLine: pick(document, "issuePlaceAndDateLine"),
     },
     official: {
-      issuerTitle: pick(official, "issuerTitle"),
+      issuerTitle: pick(official, "issuerTitle") || EMPTY_FORM.official.issuerTitle,
     },
     prosecutionTransfer: {
-      procedureArticlesLine: pick(prosecutionTransfer, "procedureArticlesLine"),
-      caseDecisionLegalBasisLine: pick(
-        prosecutionTransfer,
-        "caseDecisionLegalBasisLine",
-      ),
-      accusedDecisionLegalBasisLine: pick(
-        prosecutionTransfer,
-        "accusedDecisionLegalBasisLine",
-      ),
+      procedureArticlesLine:
+        pick(prosecutionTransfer, "procedureArticlesLine") || EMPTY_FORM.prosecutionTransfer.procedureArticlesLine,
+      caseDecisionLegalBasisLine: pick(prosecutionTransfer, "caseDecisionLegalBasisLine"),
+      accusedDecisionLegalBasisLine: pick(prosecutionTransfer, "accusedDecisionLegalBasisLine"),
       investigationConclusionLegalBasisLine: pick(
         prosecutionTransfer,
         "investigationConclusionLegalBasisLine",
       ),
-      fromProcuracyName: pick(prosecutionTransfer, "fromProcuracyName"),
-      toProcuracyName: pick(prosecutionTransfer, "toProcuracyName"),
-      toProcuracyRecipientLine: pick(
-        prosecutionTransfer,
-        "toProcuracyRecipientLine",
-      ),
-      detentionFacilityRecipientLine: pick(
-        prosecutionTransfer,
-        "detentionFacilityRecipientLine",
-      ),
+      fromProcuracyName:
+        pick(prosecutionTransfer, "fromProcuracyName") || EMPTY_FORM.prosecutionTransfer.fromProcuracyName,
+      toProcuracyName:
+        pick(prosecutionTransfer, "toProcuracyName") || EMPTY_FORM.prosecutionTransfer.toProcuracyName,
+      toProcuracyRecipientLine: pick(prosecutionTransfer, "toProcuracyRecipientLine"),
+      detentionFacilityRecipientLine: pick(prosecutionTransfer, "detentionFacilityRecipientLine"),
       transferReasonLine: pick(prosecutionTransfer, "transferReasonLine"),
       article1Line: pick(prosecutionTransfer, "article1Line"),
     },
     recipients: {
       investigatingAgencyLine: pick(recipients, "investigatingAgencyLine"),
       accusedLine: pick(recipients, "accusedLine"),
-      archiveLine: pick(recipients, "archiveLine"),
+      archiveLine: pick(recipients, "archiveLine") || EMPTY_FORM.recipients.archiveLine,
     },
     signature: {
-      signMode: pick(signature, "signMode"),
-      positionTitle: pick(signature, "positionTitle"),
+      signMode: pick(signature, "signMode") || EMPTY_FORM.signature.signMode,
+      positionTitle:
+        pick(signature, "positionTitle") || EMPTY_FORM.signature.positionTitle,
       signerName: pick(signature, "signerName"),
     },
   };
 }
 
-function getNestedValue(form: Bm141FormState, path: string): string {
-  const [section, field] = path.split(".") as [SectionKey, string];
-  return form[section]?.[field] ?? "";
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  placeholder,
-  type = "text",
-  multiline,
-  rows = 3,
-  className = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-  placeholder?: string;
-  type?: "text" | "date";
-  multiline?: boolean;
-  rows?: number;
-  className?: string;
-}) {
-  return (
-    <label className={"block space-y-1.5 " + className}>
-      <span className="text-sm font-medium text-slate-700">
-        {label}
-        {required ? <span className="ml-1 text-red-600">*</span> : null}
-      </span>
-
-      {multiline ? (
-        <textarea
-          value={value}
-          placeholder={placeholder}
-          rows={rows}
-          onChange={(event) => onChange(event.target.value)}
-          className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      ) : (
-        <input
-          type={type}
-          value={value}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
-        />
-      )}
-    </label>
-  );
-}
-
-function SectionCard({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-5">
-        <h3 className="text-base font-semibold text-slate-950">{title}</h3>
-        {description ? (
-          <p className="mt-1 text-sm text-slate-500">{description}</p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">{children}</div>
-    </section>
-  );
-}
-
-function buildBm141RenderReadyForm(form: Bm141FormState): Bm141FormState {
-  return {
-    ...form,
-    signature: {
-      ...form.signature,
-      signMode: form.signature.signMode || "KT. VIỆN TRƯỞNG",
-      positionTitle: form.signature.positionTitle || "PHÓ VIỆN TRƯỞNG",
-      signerName: form.signature.signerName || "",
-    },
-  };
-}
-
-function getBm141ApiBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ??
-    "http://localhost:3001/api/v1"
-  );
-}
-
-async function postBm141Json(
-  url: string,
-  body: Record<string, unknown>,
-): Promise<void> {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const message = await response.text().catch(() => "");
-    throw new Error(message || "Không gọi được API BM-141.");
+function lookupValue(form: Bm141Form, path: string): string {
+  const parts = path.split(".").filter(Boolean);
+  let cur: any = form;
+  for (const p of parts) {
+    if (!cur || typeof cur !== "object") return "";
+    cur = cur[p];
   }
+  return cleanText(cur);
 }
 
-async function forceRenderBm141Files(documentId: string | number): Promise<void> {
-  const apiBase = getBm141ApiBaseUrl();
+function validateForm(form: Bm141Form): string[] {
+  return REQUIRED_FIELDS.filter(([, p]) => !lookupValue(form, p)).map(([l]) => l);
+}
 
-  await postBm141Json(
-    apiBase + "/documents/generated/" + documentId + "/render-docx",
-    {
-      force: true,
-      renderedByName: "",
+function buildSaveBody(form: Bm141Form) {
+  return {
+    agency: {
+      parentName: form.agency.parentName,
+      name: form.agency.name,
+      shortName: form.agency.shortName,
+      issuePlace: form.agency.issuePlace,
     },
-  );
-
-  await postBm141Json(
-    apiBase + "/documents/generated/" + documentId + "/convert-pdf",
-    {
-      force: true,
-      convertedByName: "",
+    document: {
+      documentCode: form.document.documentCode,
+      issueDate: toSlashDateText(form.document.issueDate),
+      issueDateText: toVietnameseDateText(form.document.issueDate).replace(/^ngày\s+/iu, ""),
+      issuePlaceAndDateLine: buildIssuePlaceAndDateLine(form),
     },
-  );
+    official: { issuerTitle: form.official.issuerTitle },
+    prosecutionTransfer: {
+      procedureArticlesLine: form.prosecutionTransfer.procedureArticlesLine,
+      caseDecisionLegalBasisLine: form.prosecutionTransfer.caseDecisionLegalBasisLine,
+      accusedDecisionLegalBasisLine: form.prosecutionTransfer.accusedDecisionLegalBasisLine,
+      investigationConclusionLegalBasisLine:
+        form.prosecutionTransfer.investigationConclusionLegalBasisLine,
+      fromProcuracyName: form.prosecutionTransfer.fromProcuracyName,
+      toProcuracyName: form.prosecutionTransfer.toProcuracyName,
+      toProcuracyRecipientLine: form.prosecutionTransfer.toProcuracyRecipientLine,
+      detentionFacilityRecipientLine: form.prosecutionTransfer.detentionFacilityRecipientLine,
+      transferReasonLine: form.prosecutionTransfer.transferReasonLine,
+      article1Line: form.prosecutionTransfer.article1Line,
+    },
+    recipients: {
+      investigatingAgencyLine: form.recipients.investigatingAgencyLine,
+      accusedLine: form.recipients.accusedLine,
+      archiveLine: form.recipients.archiveLine,
+    },
+    signature: {
+      signMode: form.signature.signMode,
+      positionTitle: form.signature.positionTitle,
+      signerName: form.signature.signerName,
+    },
+    officialProxy: {
+      fullName: form.signature.signerName,
+      prosecutorName: form.signature.signerName,
+    },
+    formInputs: {},
+    payloadOverrides: {},
+    renderPayloadOverrides: {},
+  };
 }
 
 export function Bm141FormInputsPanel({
   documentId,
   onSaved,
-}: Bm141FormInputsPanelProps) {
-  const [form, setForm] = useState<Bm141FormState>(EMPTY_FORM);
-  const [initialSnapshot, setInitialSnapshot] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+}: {
+  documentId: string | number;
+  onSaved?: () => void | Promise<void>;
+}) {
+  const [form, setForm] = useState<Bm141Form>(EMPTY_FORM);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-  const currentSnapshot = useMemo(() => JSON.stringify(form), [form]);
-  const isDirty = currentSnapshot !== initialSnapshot;
+  const patch = <S extends keyof Bm141Form, K extends keyof Bm141Form[S]>(
+    section: S,
+    key: K,
+    value: Bm141Form[S][K],
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      [section]: { ...(prev[section] as Record<string, unknown>), [key]: value },
+    }));
+  };
 
-  const missingFields = useMemo(() => {
-    return REQUIRED_FIELDS.filter((path) => !getNestedValue(form, path).trim());
-  }, [form]);
-
-  const canSave = missingFields.length === 0 && !isSaving && isDirty;
-
-  async function loadPayload() {
-    setIsLoading(true);
-    setMessage("");
-    setErrorMessage("");
-
+  const reloadFromBackend = async () => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
     try {
-      const response = await fetch(
-        API_BASE_URL + "/documents/generated/" + documentId + "/render-payload",
-        {
-          method: "GET",
-          cache: "no-store",
-        },
+      const res = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
+        { cache: "no-store" },
       );
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(
-          body || "Không tải được render-payload BM-141: " + response.status,
-        );
-      }
-
-      const payload = (await response.json()) as JsonObject;
-      const nextForm = normalizeFormInputs(payload);
-
-      setForm(nextForm);
-      setInitialSnapshot(JSON.stringify(nextForm));
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Không tải được dữ liệu biểu mẫu BM-141.",
-      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setForm(normalizeFormInputs((await res.json()) as RenderPayload));
+      setMessage("Đã tải dữ liệu BM-141 từ backend.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi khi tải.");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-  }
+  };
 
-  useEffect(() => {
-    void loadPayload();
-     
-  }, [documentId]);
-
-  function updateField(section: SectionKey, field: string, value: string) {
-    setForm((current) => {
-      const next: Bm141FormState = {
-        ...current,
-        [section]: {
-          ...current[section],
-          [field]: value,
-        },
-      };
-
-      return next;
-    });
-
-    setMessage("");
-    setErrorMessage("");
-  }
-
-  function fillSample() {
-    const sample: Bm141FormState = {
-      agency: {
-        parentName: "",
-        name: "",
-        shortName: "VKSKV7",
-        issuePlace: "TP. Hồ Chí Minh",
-      },
-      document: {
-        documentCode: "141/QĐ-VKSKV7",
-        issueDate: "2026-05-15",
-        issuePlaceAndDateLine: "TP. Hồ Chí Minh, ngày 15 tháng 5 năm 2026",
-      },
-      official: {
-        issuerTitle: "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
-      },
-      prosecutionTransfer: {
-        procedureArticlesLine:
-          "Căn cứ các điều 41, 236 và 239 của Bộ luật Tố tụng hình sự;",
-        caseDecisionLegalBasisLine:
-          "Căn cứ Quyết định khởi tố vụ án hình sự số  ngày 06 tháng 5 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự;",
-        accusedDecisionLegalBasisLine:
-          "Căn cứ Quyết định khởi tố bị can số  ngày 06 tháng 5 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh đối với  về tội “Đánh bạc” quy định tại khoản 1 Điều 321 Bộ luật Hình sự;",
-        investigationConclusionLegalBasisLine:
-          "Căn cứ Bản kết luận điều tra vụ án hình sự đề nghị truy tố của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
-        fromProcuracyName: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
-        toProcuracyName: "Viện kiểm sát có thẩm quyền",
-        toProcuracyRecipientLine: "- Viện kiểm sát có thẩm quyền;",
-        detentionFacilityRecipientLine: "- Cơ sở giam giữ (nếu có);",
-        transferReasonLine:
-          "Xét thấy vụ án không thuộc thẩm quyền truy tố của VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 mà thuộc thẩm quyền truy tố của Viện kiểm sát có thẩm quyền,",
-        article1Line:
-          "Chuyển vụ án Vụ án đánh bạc tại phường Trung Mỹ Tây đến Viện kiểm sát có thẩm quyền để truy tố theo thẩm quyền./.",
-      },
-      recipients: {
-        investigatingAgencyLine:
-          "Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh",
-        accusedLine: "- ;",
-        archiveLine: "- Lưu: HSVA, HSKS, VP.",
-      },
-      signature: {
-        signMode: "KT. VIỆN TRƯỞNG",
-        positionTitle: "PHÓ VIỆN TRƯỞNG",
-        signerName: "",
-      },
-    };
-
-    setForm(sample);
-    setMessage("Đã điền dữ liệu mẫu BM-141.");
-    setErrorMessage("");
-  }
-
-  async function handleSave() {
-    const renderReadyForm = buildBm141RenderReadyForm(form);
-
-    setIsSaving(true);
-    setMessage("");
-    setErrorMessage("");
-
+  const handleSave = async () => {
+    const errs = validateForm(form);
+    if (errs.length > 0) {
+      setValidationErrors(errs);
+      setError(`Thiếu: ${errs.join(", ")}`);
+      return;
+    }
+    setValidationErrors([]);
+    setSaving(true);
+    setError(null);
+    setMessage(null);
     try {
-      const response = await fetch(
-        API_BASE_URL + "/documents/generated/" + documentId + "/form-inputs",
+      const res = await fetch(
+        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify({
-            ...renderReadyForm,
-            formInputs: renderReadyForm,
-            payloadOverrides: renderReadyForm,
-            renderPayloadOverrides: renderReadyForm,
-            updatedByName: "",
-          }),
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(buildSaveBody(form)),
         },
       );
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(
-          body || "Không lưu được dữ liệu BM-141: " + response.status,
-        );
-      }
-
-      const nextSnapshot = JSON.stringify(form);
-
-      setInitialSnapshot(nextSnapshot);
-      setMessage(
-        "Đã lưu dữ liệu BM-141. Có thể render lại DOCX/PDF từ tab File đã xuất.",
-      );
-
-      
-      await forceRenderBm141Files(documentId);
-      setForm(renderReadyForm);
-onSaved?.();
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Không lưu được dữ liệu BM-141.",
-      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await reloadFromBackend();
+      setMessage("Đã lưu BM-141 thành công.");
+      await onSaved?.();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Lỗi khi lưu.");
     } finally {
-      setIsSaving(false);
+      setSaving(false);
     }
-  }
+  };
 
-  if (isLoading) {
-    return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600 shadow-sm">
-        Đang tải dữ liệu biểu mẫu BM-141...
-      </div>
-    );
-  }
+  useEffect(() => {
+    void reloadFromBackend();
+  }, [documentId]);
+
+  const status = (() => {
+    if (loading) return { kind: "loading" as const, text: "Đang tải..." };
+    if (saving) return { kind: "loading" as const, text: "Đang lưu..." };
+    if (validationErrors.length > 0)
+      return { kind: "warning" as const, text: `Còn thiếu: ${validationErrors.join(", ")}` };
+    if (error) return { kind: "error" as const, text: error };
+    if (message) return { kind: "success" as const, text: message };
+    return { kind: "idle" as const, text: "" };
+  })();
 
   return (
-    <div className="grid gap-5">
-      <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-blue-950">
-              Dữ liệu biểu mẫu BM-141
-            </h2>
-            <p className="mt-1 text-sm text-blue-800">
-              Quyết định chuyển vụ án hình sự để truy tố theo thẩm quyền.
-            </p>
-          </div>
+    <div className="space-y-5">
+      <BmFormMetaBar
+        templateCode="BM-141"
+        title="Dữ liệu biểu mẫu QĐ chuyển hồ sơ vụ án để truy tố"
+        subtitle="Biểu mẫu TT 03/2026-VKSTC · Mẫu số 141/HS · Căn cứ Điều 41, 245, 267 BLTTHS 2015."
+        isDirty={false}
+        isLoading={loading}
+        isSaving={saving}
+        savedAt={null}
+        errorMessage={error ?? undefined}
+        warningMessage={
+          validationErrors.length > 0
+            ? `Còn thiếu: ${validationErrors.join(", ")}`
+            : undefined
+        }
+        successMessage={status.kind === "success" ? status.text : undefined}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-141"}
+        onPrimary={handleSave}
+        primaryDisabled={saving || loading}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+        onSecondary={reloadFromBackend}
+      />
 
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="rounded-xl border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
-              onClick={fillSample}
-            >
-              Điền dữ liệu mẫu BM-141
-            </button>
+      {status.kind === "idle" ? null : (
+        <BmFormStatus kind={status.kind}>{status.text}</BmFormStatus>
+      )}
 
-            <button
-              type="button"
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-              onClick={() => void loadPayload()}
-            >
-              Tải lại từ backend
-            </button>
-
-            <button
-              type="button"
-              className="rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
-              disabled={!canSave}
-              onClick={() => void handleSave()}
-            >
-              {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-141"}
-            </button>
-          </div>
-        </div>
-
-        {missingFields.length > 0 ? (
-          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-            Còn thiếu {missingFields.length} trường bắt buộc. Hãy điền đủ trước
-            khi lưu.
-          </div>
-        ) : null}
-
-        {message ? (
-          <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
-            {message}
-          </div>
-        ) : null}
-
-        {errorMessage ? (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-            {errorMessage}
-          </div>
-        ) : null}
-      </div>
-
-      <SectionCard
-        title="1. Thông tin văn bản / cơ quan"
-        description="Các trường này ảnh hưởng phần đầu quyết định."
-      >
-        <Field
-          label="Số quyết định"
-          required
-          value={form.document.documentCode}
-          onChange={(value) => updateField("document", "documentCode", value)}
-        />
-        <Field
-          label="Ngày ban hành"
-          type="date"
-          value={form.document.issueDate}
-          onChange={(value) => updateField("document", "issueDate", value)}
-        />
-        <Field
-          label="Cơ quan cấp trên"
+      <BmFormSection title="1. Header biểu mẫu" requiredCount={3}>
+        <BmFieldText
+          label="Viện kiểm sát cấp trên"
           value={form.agency.parentName}
-          onChange={(value) => updateField("agency", "parentName", value)}
+          onChange={(v) => patch("agency", "parentName", v)}
         />
-        <Field
+        <BmFieldText
           label="Viện kiểm sát ban hành"
           required
           value={form.agency.name}
-          onChange={(value) => updateField("agency", "name", value)}
+          onChange={(v) => patch("agency", "name", v)}
         />
-        <Field
+        <BmFieldText
+          label="Tên viết tắt"
+          value={form.agency.shortName}
+          onChange={(v) => patch("agency", "shortName", v)}
+        />
+        <BmFieldText
           label="Địa danh"
           value={form.agency.issuePlace}
-          onChange={(value) => updateField("agency", "issuePlace", value)}
+          onChange={(v) => patch("agency", "issuePlace", v)}
         />
-        <Field
+        <BmFieldText
+          label="Số QĐ"
+          required
+          value={form.document.documentCode}
+          onChange={(v) => patch("document", "documentCode", v)}
+        />
+        <BmFieldDate
+          label="Ngày ban hành"
+          value={form.document.issueDate}
+          onChange={(v) => patch("document", "issueDate", v)}
+        />
+        <BmFieldText
+          label="Dòng địa danh/ngày tự sinh"
+          fullWidth
+          readOnly
+          value={buildIssuePlaceAndDateLine(form)}
+          onChange={() => undefined}
+        />
+        <BmFieldText
           label="Chủ thể ban hành"
           required
+          fullWidth
           value={form.official.issuerTitle}
-          onChange={(value) => updateField("official", "issuerTitle", value)}
+          onChange={(v) => patch("official", "issuerTitle", v)}
         />
-        <Field
-          label="Dòng ngày tháng đã format"
-          value={form.document.issuePlaceAndDateLine}
-          onChange={(value) =>
-            updateField("document", "issuePlaceAndDateLine", value)
-          }
-          className="md:col-span-2"
-        />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="2. Căn cứ pháp lý">
-        <Field
-          label="Điều luật tố tụng"
+      <BmFormSection title="2. Căn cứ pháp lý" requiredCount={5}>
+        <BmFieldTextarea
+          label="Căn cứ BLTTHS"
           required
+          fullWidth
           value={form.prosecutionTransfer.procedureArticlesLine}
-          onChange={(value) =>
-            updateField("prosecutionTransfer", "procedureArticlesLine", value)
-          }
-          className="md:col-span-2"
+          onChange={(v) => patch("prosecutionTransfer", "procedureArticlesLine", v)}
+          rows={2}
         />
-        <Field
-          label="Căn cứ quyết định khởi tố vụ án"
+        <BmFieldTextarea
+          label="Căn cứ QĐ khởi tố vụ án"
           required
-          multiline
-          rows={4}
+          fullWidth
           value={form.prosecutionTransfer.caseDecisionLegalBasisLine}
-          onChange={(value) =>
-            updateField(
-              "prosecutionTransfer",
-              "caseDecisionLegalBasisLine",
-              value,
-            )
-          }
-          className="md:col-span-2"
+          onChange={(v) => patch("prosecutionTransfer", "caseDecisionLegalBasisLine", v)}
+          rows={2}
         />
-        <Field
-          label="Căn cứ quyết định khởi tố bị can"
+        <BmFieldTextarea
+          label="Căn cứ QĐ khởi tố bị can"
           required
-          multiline
-          rows={4}
+          fullWidth
           value={form.prosecutionTransfer.accusedDecisionLegalBasisLine}
-          onChange={(value) =>
-            updateField(
-              "prosecutionTransfer",
-              "accusedDecisionLegalBasisLine",
-              value,
-            )
-          }
-          className="md:col-span-2"
+          onChange={(v) => patch("prosecutionTransfer", "accusedDecisionLegalBasisLine", v)}
+          rows={2}
         />
-        <Field
-          label="Căn cứ bản kết luận điều tra"
+        <BmFieldTextarea
+          label="Căn cứ Bản KLĐT"
           required
-          multiline
-          rows={3}
-          value={
-            form.prosecutionTransfer.investigationConclusionLegalBasisLine
-          }
-          onChange={(value) =>
-            updateField(
-              "prosecutionTransfer",
-              "investigationConclusionLegalBasisLine",
-              value,
-            )
-          }
-          className="md:col-span-2"
+          fullWidth
+          value={form.prosecutionTransfer.investigationConclusionLegalBasisLine}
+          onChange={(v) => patch("prosecutionTransfer", "investigationConclusionLegalBasisLine", v)}
+          rows={2}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <SectionCard title="3. Nội dung chuyển vụ án">
-        <Field
-          label="Viện kiểm sát đang xử lý"
+      <BmFormSection title="3. Nội dung chuyển hồ sơ" requiredCount={2}>
+        <BmFieldText
+          label="VKS gửi hồ sơ"
           value={form.prosecutionTransfer.fromProcuracyName}
-          onChange={(value) =>
-            updateField("prosecutionTransfer", "fromProcuracyName", value)
-          }
+          onChange={(v) => patch("prosecutionTransfer", "fromProcuracyName", v)}
         />
-        <Field
-          label="Viện kiểm sát nhận hồ sơ"
+        <BmFieldText
+          label="VKS nhận hồ sơ"
           required
           value={form.prosecutionTransfer.toProcuracyName}
-          onChange={(value) =>
-            updateField("prosecutionTransfer", "toProcuracyName", value)
-          }
+          onChange={(v) => patch("prosecutionTransfer", "toProcuracyName", v)}
         />
-        <Field
-          label="Dòng xét thấy / lý do chuyển"
-          required
-          multiline
-          rows={3}
-          value={form.prosecutionTransfer.transferReasonLine}
-          onChange={(value) =>
-            updateField("prosecutionTransfer", "transferReasonLine", value)
-          }
-          className="md:col-span-2"
-        />
-        <Field
-          label="Điều 1 - Nội dung chuyển vụ án"
-          required
-          multiline
-          rows={3}
-          value={form.prosecutionTransfer.article1Line}
-          onChange={(value) =>
-            updateField("prosecutionTransfer", "article1Line", value)
-          }
-          className="md:col-span-2"
-        />
-      </SectionCard>
-
-      <SectionCard title="4. Nơi nhận">
-        <Field
-          label="Cơ quan điều tra"
-          value={form.recipients.investigatingAgencyLine}
-          onChange={(value) =>
-            updateField("recipients", "investigatingAgencyLine", value)
-          }
-          className="md:col-span-2"
-        />
-        <Field
-          label="Bị can / người liên quan"
-          value={form.recipients.accusedLine}
-          onChange={(value) => updateField("recipients", "accusedLine", value)}
-        />
-        <Field
-          label="Viện kiểm sát nhận hồ sơ"
+        <BmFieldText
+          label="Nơi nhận VKS cấp trên"
+          fullWidth
           value={form.prosecutionTransfer.toProcuracyRecipientLine}
-          onChange={(value) =>
-            updateField(
-              "prosecutionTransfer",
-              "toProcuracyRecipientLine",
-              value,
-            )
-          }
+          onChange={(v) => patch("prosecutionTransfer", "toProcuracyRecipientLine", v)}
         />
-        <Field
-          label="Cơ sở giam giữ"
+        <BmFieldText
+          label="Nơi nhận trại tạm giam"
+          fullWidth
           value={form.prosecutionTransfer.detentionFacilityRecipientLine}
-          onChange={(value) =>
-            updateField(
-              "prosecutionTransfer",
-              "detentionFacilityRecipientLine",
-              value,
-            )
-          }
+          onChange={(v) => patch("prosecutionTransfer", "detentionFacilityRecipientLine", v)}
         />
-        <Field
-          label="Dòng lưu"
+        <BmFieldTextarea
+          label="Lý do chuyển"
           required
-          value={form.recipients.archiveLine}
-          onChange={(value) => updateField("recipients", "archiveLine", value)}
+          fullWidth
+          value={form.prosecutionTransfer.transferReasonLine}
+          onChange={(v) => patch("prosecutionTransfer", "transferReasonLine", v)}
+          rows={2}
         />
-      </SectionCard>
+        <BmFieldTextarea
+          label="Điều 1"
+          required
+          fullWidth
+          value={form.prosecutionTransfer.article1Line}
+          onChange={(v) => patch("prosecutionTransfer", "article1Line", v)}
+          rows={2}
+        />
+      </BmFormSection>
 
-      <SectionCard title="5. Chữ ký">
-        <Field
+      <BmFormSection title="4. Nơi nhận" requiredCount={1}>
+        <BmFieldText
+          label="Nơi nhận CQĐT"
+          fullWidth
+          value={form.recipients.investigatingAgencyLine}
+          onChange={(v) => patch("recipients", "investigatingAgencyLine", v)}
+        />
+        <BmFieldText
+          label="Nơi nhận bị can"
+          fullWidth
+          value={form.recipients.accusedLine}
+          onChange={(v) => patch("recipients", "accusedLine", v)}
+        />
+        <BmFieldText
+          label="Lưu hồ sơ"
+          required
+          fullWidth
+          value={form.recipients.archiveLine}
+          onChange={(v) => patch("recipients", "archiveLine", v)}
+        />
+      </BmFormSection>
+
+      <BmFormSection title="5. Chữ ký" requiredCount={2}>
+        <BmFieldText
           label="Chế độ ký"
           value={form.signature.signMode}
-          onChange={(value) => updateField("signature", "signMode", value)}
+          onChange={(v) => patch("signature", "signMode", v)}
         />
-        <Field
-          label="Chức vụ"
+        <BmFieldText
+          label="Chức vụ ký"
           required
           value={form.signature.positionTitle}
-          onChange={(value) => updateField("signature", "positionTitle", value)}
+          onChange={(v) => patch("signature", "positionTitle", v)}
         />
-        <Field
+        <BmFieldText
           label="Người ký"
           required
           value={form.signature.signerName}
-          onChange={(value) => updateField("signature", "signerName", value)}
-          className="md:col-span-2"
+          onChange={(v) => patch("signature", "signerName", v)}
         />
-      </SectionCard>
+      </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="text-sm text-slate-600">
-            Sau khi lưu, qua tab File đã xuất để render lại DOCX/PDF cho BM-141.
-          </div>
-
-          <button
-            type="button"
-            onClick={() => void handleSave()}
-            disabled={!canSave}
-            className="rounded-lg bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
-          >
-            {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-141"}
-          </button>
-        </div>
-      </div>
+      <BmFormActions
+        onPrimary={handleSave}
+        primaryLabel={saving ? "Đang lưu..." : "Lưu dữ liệu BM-141"}
+        primaryDisabled={saving || loading}
+        onSecondary={reloadFromBackend}
+        secondaryLabel={loading ? "Đang tải..." : "Tải lại từ backend"}
+      />
     </div>
   );
 }
