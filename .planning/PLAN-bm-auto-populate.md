@@ -229,6 +229,13 @@ Mỗi BM bespoke được "wire" = có 2 dòng surgical trong `bm-XXX-form-input
 - **0 BESPOKE đúng SPEC** (audit strict).
 - **1 EMPTY** (file lỗi — TBD).
 
+**Cập nhật 2026-06-18 (sau 2 batch pilot):**
+- **6 BESPOKE** (BM-004, BM-013, BM-017, BM-019, BM-020, BM-029) ✓
+- **78 WRAPPER** (còn 78 stub)
+- **128 LEGACY** (BM-017 refactored từ LEGACY → BESPOKE)
+- **1 EMPTY**
+- PRs: #1 (3 biểu đầu), #2 (3 biểu tiếp theo)
+
 → **"Formstub" theo nghĩa ảnh user gửi = 83 WRAPPER cần biến thành bespoke thật dùng `BmFormSection/BmField*`.**
 
 ### Mục tiêu
@@ -254,7 +261,7 @@ Mỗi BM bespoke được "wire" = có 2 dòng surgical trong `bm-XXX-form-input
 
 | Phase | Nhóm | Số stub | BM đầu tiên pilot |
 |---|---|---|---|
-| 5.1 | G01 TIEP_NHAN | 8 | BM-029, BM-013, BM-017 |
+| 5.1 | G01 TIEP_NHAN | 8 → 3 (đang làm: 004, 013, 017, 019, 020, 029 ✓ 6 BESPOKE) | BM-004, BM-013, BM-017, BM-019, BM-020, BM-029 |
 | 5.2 | G02 BP_NGAN_CHAN | 17 | (chọn sau) |
 | 5.3 | G03 NGUOI_THAM_GIA | 3 | (chọn sau) |
 | 5.4 | G04 DIEU_TRA | 15 | (chọn sau) |
