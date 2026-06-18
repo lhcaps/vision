@@ -2,6 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  BmFieldText,
+  BmFieldTextarea,
+  BmFieldCheckbox,
+  BmFormSection,
+  BmFormMetaBar,
+} from "./bm-form";
 
 type Section = Record<string, string>;
 
@@ -748,7 +755,7 @@ function OptionalTextArea(props: {
 
       {props.checked ? (
         <div className="mt-3">
-          <TextArea
+          <BmFieldTextarea
             label="Nội dung"
             value={props.value}
             rows={props.rows ?? 2}
@@ -910,9 +917,16 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
   }, [props]);
 
   const [form, setForm] = useState<Bm156FormState>(SAMPLE_FORM);
+  const [initialForm, setInitialForm] = useState<Bm156FormState>(SAMPLE_FORM);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const isDirty = useMemo(
+    () => JSON.stringify(form) !== JSON.stringify(initialForm),
+    [form, initialForm],
+  );
 
   const apiBase = getApiBaseUrl();
 
@@ -932,12 +946,13 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
 
   async function loadFromBackend(): Promise<void> {
     if (!documentId) {
-      setMessage("Không xác định được documentId BM-156.");
+      setErrorMessage("Không xác định được documentId BM-156.");
       return;
     }
 
     setIsLoading(true);
-    setMessage("");
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const response = await fetch(
@@ -949,10 +964,14 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
       }
 
       const payload = await response.json();
-      setForm(normalizePayloadToForm(payload));
-      setMessage("Đã tải dữ liệu BM-156 từ backend.");
+      const next = normalizePayloadToForm(payload);
+      setForm(next);
+      setInitialForm(next);
+      setSuccessMessage("Đã tải dữ liệu BM-156 từ backend.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Không tải được dữ liệu BM-156.");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Không tải được dữ liệu BM-156.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -960,14 +979,15 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
 
   async function handleSave(): Promise<void> {
     if (!documentId) {
-      setMessage("Không xác định được documentId BM-156.");
+      setErrorMessage("Không xác định được documentId BM-156.");
       return;
     }
 
     const renderReadyForm = buildRenderReadyForm(form);
 
     setIsSaving(true);
-    setMessage("");
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       await postJson(`${apiBase}/documents/generated/${documentId}/form-inputs`, {
@@ -989,10 +1009,13 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
       });
 
       setForm(renderReadyForm);
+      setInitialForm(renderReadyForm);
       props.onSaved?.();
-      setMessage("Đã lưu và render lại DOCX/PDF BM-156.");
+      setSuccessMessage("Đã lưu và render lại DOCX/PDF BM-156.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Lưu BM-156 thất bại.");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Lưu BM-156 thất bại.",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -1008,77 +1031,62 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
   return (
     <div className="space-y-4">
       <BmFormCasePayloadButton templateCode="BM-156" form={form} onApply={(next) => setForm(next as typeof form)} />
-      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-        <h2 className="text-lg font-semibold text-blue-950">BM-156</h2>
-        <p className="mt-1 text-sm text-blue-900">
-          Form Cáo trạng theo MVP normalized mới. Mỗi ô bên dưới map đúng một
-          placeholder trong BM-156, không dùng form cũ gộp sai dữ liệu.
-        </p>
+      <BmFormMetaBar
+        templateCode="BM-156"
+        title="Cáo trạng"
+        subtitle="Biểu mẫu Cáo trạng - render scope: CASE_LEVEL · 1 file / vụ án. Mỗi ô bên dưới map đúng 1 placeholder trong BM-156, không dùng form cũ gộp sai dữ liệu."
+        isDirty={isDirty}
+        isLoading={isLoading}
+        isSaving={isSaving}
+        errorMessage={errorMessage}
+        successMessage={successMessage}
+        primaryLabel="Lưu và render BM-156"
+        onPrimary={() => void handleSave()}
+        primaryDisabled={isSaving}
+        secondaryLabel="Tải lại từ backend"
+        onSecondary={() => void loadFromBackend()}
+        extraActions={
+          <>
+            <button
+              type="button"
+              onClick={() => setForm(SAMPLE_FORM)}
+              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+            >
+              Điền dữ liệu mẫu BM-156
+            </button>
+          </>
+        }
+      />
 
-        {message ? (
-          <p className="mt-3 rounded-lg bg-white px-3 py-2 text-sm text-slate-700">
-            {message}
-          </p>
-        ) : null}
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setForm(SAMPLE_FORM)}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
-          >
-            Điền dữ liệu mẫu BM-156
-          </button>
-
-          <button
-            type="button"
-            onClick={() => void loadFromBackend()}
-            disabled={isLoading}
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 disabled:opacity-60"
-          >
-            {isLoading ? "Đang tải..." : "Tải lại từ backend"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => void handleSave()}
-            disabled={isSaving}
-            className="rounded-lg bg-blue-700 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
-          >
-            {isSaving ? "Đang lưu..." : "Lưu và render BM-156"}
-          </button>
-        </div>
-      </div>
-
-      <SectionBox
+      <BmFormSection
         title="1. Cơ quan / thông tin cáo trạng"
         description="Các trường này ảnh hưởng phần đầu cáo trạng."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <TextInput
+          <BmFieldText
             label="Cơ quan cấp trên"
             required
             value={form.agency.parentName}
             onChange={(value) => updateSection("agency", "parentName", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Viện kiểm sát ban hành"
             required
             value={form.agency.name}
             onChange={(value) => updateSection("agency", "name", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Tên viết tắt"
             value={form.agency.shortName}
             onChange={(value) => updateSection("agency", "shortName", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Địa danh"
             required
             value={form.agency.issuePlace}
             onChange={(value) => updateSection("agency", "issuePlace", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Số cáo trạng"
             required
             value={form.document.documentCode}
@@ -1090,13 +1098,13 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             value={form.document.issueDate || getBm156TodayIso()}
             onChange={(value) => updateSection("document", "issueDate", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Tên bị can"
             required
             value={form.caseInfo.accusedName}
             onChange={(value) => updateSection("caseInfo", "accusedName", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Tên tội"
             required
             value={form.caseInfo.offenseName}
@@ -1104,24 +1112,24 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           />
         </div>
 
-        <TextInput
+        <BmFieldText
           label="Chủ thể ban hành"
           required
           value={form.official.issuerTitle}
           onChange={(value) => updateSection("official", "issuerTitle", value)}
         />
 
-        <TextInput
+        <BmFieldText
           label="Dòng ngày tháng sẽ render"
           value={renderPreview.document.issuePlaceAndDateLine}
           onChange={(value) =>
             updateSection("document", "issuePlaceAndDateLine", value)
           }
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="2. Sáu dòng căn cứ tố tụng">
-        <TextArea
+      <BmFormSection title="2. Sáu dòng căn cứ tố tụng">
+        <BmFieldTextarea
           label="1. Căn cứ các điều BLTTHS"
           required
           value={form.legalBasis.procedureArticlesLine}
@@ -1129,7 +1137,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("legalBasis", "procedureArticlesLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="2. Căn cứ quyết định khởi tố vụ án"
           required
           value={form.caseDecision.prosecutionDecisionLegalBasisLine}
@@ -1137,7 +1145,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("caseDecision", "prosecutionDecisionLegalBasisLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="3. Căn cứ quyết định khởi tố bị can"
           required
           value={form.accusedDecision.prosecutionDecisionLegalBasisLine}
@@ -1167,7 +1175,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           }
           onChange={(value) => updateSection("caseRecovery", "legalBasisLine", value)}
         />
-        <TextArea
+        <BmFieldTextarea
           label="6. Căn cứ bản kết luận điều tra"
           required
           value={form.investigationConclusion.legalBasisLine}
@@ -1175,7 +1183,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("investigationConclusion", "legalBasisLine", value)
           }
         />
-      </SectionBox>
+      </BmFormSection>
 
       <PreviewBox
         title="Preview căn cứ trước khi render"
@@ -1200,8 +1208,8 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
         ]}
       />
 
-      <SectionBox title="3. Kết quả điều tra / diễn biến hành vi">
-        <TextArea
+      <BmFormSection title="3. Kết quả điều tra / diễn biến hành vi">
+        <BmFieldTextarea
           label="Diễn biến hành vi phạm tội"
           required
           rows={5}
@@ -1210,7 +1218,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "criminalActDescriptionLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Phân tích tình tiết tăng nặng, giảm nhẹ"
           required
           rows={3}
@@ -1219,7 +1227,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "aggravatingMitigatingAnalysisLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Việc thu giữ, xử lý vật chứng"
           required
           rows={3}
@@ -1237,15 +1245,15 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           }
           onChange={(value) => updateSection("indictment", "civilLiabilityLine", value)}
         />
-        <TextArea
+        <BmFieldTextarea
           label="Các vấn đề khác"
           value={form.indictment.otherFactsLine}
           onChange={(value) => updateSection("indictment", "otherFactsLine", value)}
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="4. Kết luận truy tố">
-        <TextArea
+      <BmFormSection title="4. Kết luận truy tố">
+        <BmFieldTextarea
           label="Tổng hợp kết luận hành vi phạm tội"
           required
           rows={4}
@@ -1269,7 +1277,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "absentAccusedNoteLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Lý lịch bị can"
           required
           rows={4}
@@ -1278,7 +1286,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "defendantIdentityLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Quan hệ gia đình"
           rows={3}
           value={form.indictment.familyBackgroundLine}
@@ -1295,21 +1303,21 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           }
           onChange={(value) => updateSection("indictment", "specialStatusLine", value)}
         />
-        <TextArea
+        <BmFieldTextarea
           label="Tiền sự"
           value={form.indictment.administrativeViolationLine}
           onChange={(value) =>
             updateSection("indictment", "administrativeViolationLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Tiền án"
           value={form.indictment.criminalRecordLine}
           onChange={(value) =>
             updateSection("indictment", "criminalRecordLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Biện pháp ngăn chặn/cưỡng chế"
           rows={3}
           value={form.indictment.preventiveMeasureLine}
@@ -1317,7 +1325,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "preventiveMeasureLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Khẳng định tội danh"
           required
           rows={3}
@@ -1326,7 +1334,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "crimeConclusionLine", value)
           }
         />
-        <TextArea
+        <BmFieldTextarea
           label="Tình tiết tăng nặng, giảm nhẹ áp dụng"
           rows={3}
           value={form.indictment.aggravatingMitigatingLine}
@@ -1349,10 +1357,10 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "separatedCaseHandlingLine", value)
           }
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="5. Quyết định truy tố">
-        <TextArea
+      <BmFormSection title="5. Quyết định truy tố">
+        <BmFieldTextarea
           label="Điều 1 - Quyết định truy tố"
           required
           rows={4}
@@ -1368,10 +1376,10 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           }
           onChange={(value) => updateSection("indictment", "replacementLine", value)}
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="6. Hồ sơ kèm theo">
-        <TextArea
+      <BmFormSection title="6. Hồ sơ kèm theo">
+        <BmFieldTextarea
           label="Hồ sơ vụ án"
           required
           value={form.indictment.caseFileLine}
@@ -1386,7 +1394,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
           }
           onChange={(value) => updateSection("indictment", "evidenceListLine", value)}
         />
-        <TextArea
+        <BmFieldTextarea
           label="Danh sách triệu tập"
           required
           value={form.indictment.summonedPersonsLine}
@@ -1394,16 +1402,16 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("indictment", "summonedPersonsLine", value)
           }
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="7. Nơi nhận">
-        <TextInput
+      <BmFormSection title="7. Nơi nhận">
+        <BmFieldText
           label="Tòa án"
           required
           value={form.recipients.courtLine}
           onChange={(value) => updateSection("recipients", "courtLine", value)}
         />
-        <TextInput
+        <BmFieldText
           label="Bị can / người đại diện"
           required
           value={form.recipients.accusedLine}
@@ -1425,7 +1433,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("recipients", "defenseCounselLine", value)
           }
         />
-        <TextInput
+        <BmFieldText
           label="Cơ quan điều tra"
           required
           value={form.recipients.investigatingAgencyLine}
@@ -1449,51 +1457,36 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
             updateSection("recipients", "otherRecipientLine", value)
           }
         />
-        <TextInput
+        <BmFieldText
           label="Dòng lưu"
           required
           value={form.recipients.archiveLine}
           onChange={(value) => updateSection("recipients", "archiveLine", value)}
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <SectionBox title="8. Chữ ký">
+      <BmFormSection title="8. Chữ ký">
         <div className="grid gap-4 md:grid-cols-2">
-          <TextInput
+          <BmFieldText
             label="Chế độ ký"
             value={form.signature.signMode}
             onChange={(value) => updateSection("signature", "signMode", value)}
           />
-          <TextInput
+          <BmFieldText
             label="Chức vụ"
             required
             value={form.signature.positionTitle}
             onChange={(value) => updateSection("signature", "positionTitle", value)}
           />
         </div>
-        <TextInput
+        <BmFieldText
           label="Người ký"
           required
           value={form.signature.signerName}
           onChange={(value) => updateSection("signature", "signerName", value)}
         />
-      </SectionBox>
+      </BmFormSection>
 
-      <div className="sticky bottom-4 rounded-xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-slate-600">
-            Lưu sẽ ghi đúng từng placeholder BM-156 và render lại DOCX/PDF.
-          </p>
-          <button
-            type="button"
-            onClick={() => void handleSave()}
-            disabled={isSaving}
-            className="rounded-lg bg-blue-700 px-5 py-2 text-sm font-semibold text-white disabled:opacity-60"
-          >
-            {isSaving ? "Đang lưu..." : "Lưu và render BM-156"}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
