@@ -1,0 +1,346 @@
+{
+  "templateCode": "BM-139",
+  "fileName": "139-Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố.doc",
+  "group": "docs",
+  "detectedTitle": "Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố",
+  "sha256": "9795f14f931cbc4ac76f5c13f1da5971882e06e641176a21dbde9ba14df9ac8b",
+  "sizeBytes": 74752,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 89 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2090,
+      "paragraphCount": 49,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "/KN-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "KIẾN NGHỊ",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "Khắc phục vi phạm pháp luật/Xử lý người tham gia tố tụng vi phạm pháp luật",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "trong hoạt động tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra/truy tố",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Kính gửi:",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "..............................................",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 41 và Điều 160/Điều 161/Điều 166/Điều 237 của Bộ luật Tố tụng hình sự,",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "1. Qua kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra/truy tố vụ án (hoặc các vụ án) hình sự, Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "nhận thấy trong quá trình giải quyết vụ việc/vụ án, cơ quan, người có thẩm quyền5",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "/người tham gia tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "đã có vi phạm (hoặc một số vi phạm) như sau:",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "1.1. Các vi phạm cụ thể (viện dẫn điều luật và các văn bản hướng dẫn cụ thể):",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "....",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "1.2. Đánh giá về tính chất, mức độ, hậu quả của vi phạm:",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "....",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "1.3. Đánh giá nguyên nhân vi phạm, trách nhiệm để xảy ra vi phạm",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "....",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "2. Để bảo đảm việc tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra được thực hiện theo đúng quy định của pháp luật, Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "kiến nghị5",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "thực hiện các nội dung sau đây:",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "2.1. Thực hiện các biện pháp sau đây để khắc phục/xử lý kịp thời những vi phạm nêu trên (nêu cụ thể các biện pháp khắc phục/ xử lý):",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "2.2. Trả lời bằng văn bản cho Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "về kết quả thực hiện Kiến nghị này trong thời hạn",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "ngày, kể từ ngày5",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "nhận được Kiến nghị./.",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "- Như trên;",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVV/HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra bị kiến nghị",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người tham gia tố tụng có vi phạm",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "Cơ quan, tổ chức, cá nhân có thẩm quyền xử lý vi phạm",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "Mẫu số 139/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "EMBED Excel.Chart.8 \\s",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": ".............................................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "...."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "...."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "...."
+    }
+  ],
+  "extractedAt": "2026-06-19T00:17:43.095Z"
+}

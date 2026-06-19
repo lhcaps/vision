@@ -69,7 +69,7 @@ const API_BASE_URL =
 
 const GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE: Record<string, string> = {};
 
-type AvailableTemplate = {
+type DbTemplate = {
   id: string;
   templateCode: string;
   templateNo: string | null;
@@ -78,7 +78,6 @@ type AvailableTemplate = {
   outputStrategy: string;
   stageCode: string | null;
   requiresReview: boolean;
-  targetMode: string;
   group: {
     id: string;
     groupCode: string;
@@ -87,35 +86,15 @@ type AvailableTemplate = {
   } | null;
 };
 
-type AvailableTemplatesResponse = {
-  case: {
-    id: string;
-    caseCode: string;
-    caseTitle: string;
-    currentStage: string;
-    currentStatus: string;
-  };
-  targets: {
-    people: Array<{
-      casePersonId: string;
-      personId: string;
-      roleType: string;
-      legalStatus: string;
-      isPrimary: boolean;
-      personOrder: number;
-      fullName: string | null;
-      birthYear: number | null;
-      residenceAddress: string | null;
-    }>;
-  };
-  templates: AvailableTemplate[];
-};
+type DbTemplatesResponse = DbTemplate[];
 
 type CaseListResponse = {
   items: Array<{
     id: string;
     caseCode: string;
     caseTitle: string;
+    currentStage: string | null;
+    currentStatus: string | null;
   }>;
 };
 
@@ -152,9 +131,8 @@ type SuggestInput = {
 
 type Candidate = VksTemplateItem & {
   dbTemplateId: string | null;
-  backendTemplateName: string | null;
+  dbTemplateName: string | null;
   renderScope: string | null;
-  targetMode: string | null;
   canCreate: boolean;
   score: number;
   reasons: string[];
@@ -268,7 +246,7 @@ function TemplateStatusBadge({ item }: { item: Candidate }) {
 function scoreTemplate(
   item: VksTemplateItem,
   input: SuggestInput,
-  availableTemplate: AvailableTemplate | undefined,
+  dbTemplate: DbTemplate | undefined,
 ): Candidate {
   const corpus = normalizeSearchText(
     [
@@ -279,8 +257,7 @@ function scoreTemplate(
       item.stageDescription,
       item.fileName,
       item.sourcePath,
-      availableTemplate?.templateName,
-      availableTemplate?.targetMode,
+      dbTemplate?.templateName,
     ].join(" "),
   );
 
@@ -297,7 +274,7 @@ function scoreTemplate(
   const ruleEvaluation = evaluateRecommendationRule(
     recommendationRule,
     input,
-    Boolean(availableTemplate),
+    Boolean(dbTemplate),
   );
 
   score += ruleEvaluation.score;
@@ -329,7 +306,7 @@ function scoreTemplate(
   }
 
   if (personWords.length > 0) {
-    if (availableTemplate?.renderScope === "PERSON_LEVEL" || availableTemplate?.renderScope === "SELECTED_PERSONS") {
+    if (dbTemplate?.renderScope === "PERSON_LEVEL" || dbTemplate?.renderScope === "SELECTED_PERSONS") {
       score += 10;
       reasons.push("Biểu mẫu cấp người liên quan/bị can");
     }
@@ -345,7 +322,7 @@ function scoreTemplate(
     score += 6;
   }
 
-  if (availableTemplate) {
+  if (dbTemplate) {
     score += 12;
     reasons.push("Đã có trong DB, có thể mở hoặc tạo document đơn");
   }
@@ -374,16 +351,15 @@ function scoreTemplate(
   }
 
   if (!input.quickText.trim() && !input.offenseName.trim() && !input.legalArticle.trim() && !input.processNeed.trim() && !input.stageId) {
-    score = availableTemplate ? 10 : item.isImplemented ? 6 : 1;
+    score = dbTemplate ? 10 : item.isImplemented ? 6 : 1;
   }
 
   return {
     ...item,
-    dbTemplateId: availableTemplate?.id ?? null,
-    backendTemplateName: availableTemplate?.templateName ?? null,
-    renderScope: availableTemplate?.renderScope ?? null,
-    targetMode: availableTemplate?.targetMode ?? null,
-    canCreate: Boolean(availableTemplate),
+    dbTemplateId: dbTemplate?.id ?? null,
+    dbTemplateName: dbTemplate?.templateName ?? null,
+    renderScope: dbTemplate?.renderScope ?? null,
+    canCreate: Boolean(dbTemplate),
     score,
     reasons: reasons.length ? reasons : ["Hiển thị theo danh mục biểu mẫu"],
   };
@@ -399,14 +375,22 @@ function formatStageLabel(stageId: string) {
   return `${stage.order}. ${stage.label}`;
 }
 
-function shouldAttachTargetPerson(item: Candidate) {
-  return item.renderScope === "PERSON_LEVEL" || item.renderScope === "SELECTED_PERSONS";
-}
-
 export function TemplateSelectorWorkspace() {
   const router = useRouter();
-  const [availableData, setAvailableData] = useState<AvailableTemplatesResponse | null>(null);
+  const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [openingTemplateCode, setOpeningTemplateCode] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showFullCatalog, setShowFullCatalog] = useState(true);
+
   const [currentCaseId, setCurrentCaseId] = useState<string | null>(null);
+  const [casePickerOpen, setCasePickerOpen] = useState(false);
+  const [caseOptions, setCaseOptions] = useState<CaseListResponse["items"]>([]);
+  const [casePickerLoading, setCasePickerLoading] = useState(false);
+  const [casePickerError, setCasePickerError] = useState("");
+  const [pendingTemplate, setPendingTemplate] = useState<Candidate | null>(null);
+  const [caseSearch, setCaseSearch] = useState("");
+
   const [input, setInput] = useState<SuggestInput>({
     quickText: "",
     offenseName: "",
@@ -416,67 +400,33 @@ export function TemplateSelectorWorkspace() {
     stageId: "",
     onlyCreatable: true,
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [openingTemplateCode, setOpeningTemplateCode] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showFullCatalog, setShowFullCatalog] = useState(true);
 
-  async function loadAvailableTemplates() {
+  async function loadDbTemplates() {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      let selectedCaseId = currentCaseId;
-
-      if (!selectedCaseId) {
-        const casesResponse = await fetch(`${API_BASE_URL}/cases?pageSize=1`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-          },
-          cache: "no-store",
-        });
-
-        if (!casesResponse.ok) {
-          const body = await casesResponse.text();
-          throw new Error(body || `Không tải được danh sách hồ sơ. HTTP ${casesResponse.status}`);
-        }
-
-        const casesData = (await casesResponse.json()) as CaseListResponse;
-        selectedCaseId = casesData.items[0]?.id ?? null;
-        setCurrentCaseId(selectedCaseId);
-      }
-
-      if (!selectedCaseId) {
-        setAvailableData(null);
-        throw new Error("Chưa có hồ sơ nào. Hãy tạo hồ sơ trước khi chọn biểu mẫu.");
-      }
-
-      const response = await fetch(
-        `${API_BASE_URL}/documents/cases/${selectedCaseId}/available-templates`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-          },
-          cache: "no-store",
+      const response = await fetch(`${API_BASE_URL}/templates`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
         },
-      );
+        cache: "no-store",
+      });
 
       if (!response.ok) {
         const body = await response.text();
         throw new Error(body || `Không tải được danh sách biểu mẫu. HTTP ${response.status}`);
       }
 
-      const data = (await response.json()) as AvailableTemplatesResponse;
-      setAvailableData(data);
+      const data = (await response.json()) as DbTemplatesResponse;
+      setDbTemplates(data);
     } catch (error) {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Không tải được danh sách biểu mẫu có thể mở.",
+          : "Không tải được danh sách biểu mẫu.",
       );
     } finally {
       setIsLoading(false);
@@ -484,22 +434,22 @@ export function TemplateSelectorWorkspace() {
   }
 
   useEffect(() => {
-    void loadAvailableTemplates();
+    void loadDbTemplates();
   }, []);
 
-  const availableByCode = useMemo(() => {
-    const map = new Map<string, AvailableTemplate>();
+  const dbTemplateByCode = useMemo(() => {
+    const map = new Map<string, DbTemplate>();
 
-    for (const item of availableData?.templates ?? []) {
+    for (const item of dbTemplates) {
       map.set(item.templateCode, item);
     }
 
     return map;
-  }, [availableData]);
+  }, [dbTemplates]);
 
   const candidates = useMemo(() => {
     return vksTemplateCatalog
-      .map((item) => scoreTemplate(item, input, availableByCode.get(item.code)))
+      .map((item) => scoreTemplate(item, input, dbTemplateByCode.get(item.code)))
       .filter((item) => {
         const hasDirectDocument = Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code]);
 
@@ -526,7 +476,7 @@ export function TemplateSelectorWorkspace() {
 
         return a.number - b.number;
       });
-  }, [availableByCode, input]);
+  }, [dbTemplateByCode, input]);
 
   const topCandidates = candidates.slice(0, 40);
 
@@ -568,7 +518,7 @@ export function TemplateSelectorWorkspace() {
               .map((template) => candidateById.get(template.id))
               .filter((item): item is Candidate => Boolean(item))
           : stage.items.map((template) =>
-              scoreTemplate(template, input, availableByCode.get(template.code)),
+              scoreTemplate(template, input, dbTemplateByCode.get(template.code)),
             );
 
         return {
@@ -577,13 +527,93 @@ export function TemplateSelectorWorkspace() {
         };
       })
       .filter((stage) => stage.items.length > 0);
-  }, [availableByCode, candidates, groupedCatalog, hasActiveSuggestionFilter, input]);
+  }, [dbTemplateByCode, candidates, groupedCatalog, hasActiveSuggestionFilter, input]);
 
   function updateInput<Key extends keyof SuggestInput>(key: Key, value: SuggestInput[Key]) {
     setInput((current) => ({
       ...current,
       [key]: value,
     }));
+  }
+
+  async function loadCaseOptions() {
+    setCasePickerError("");
+    setCasePickerLoading(true);
+    setCasePickerOpen(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/cases?pageSize=100`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        const body = await response.text();
+        throw new Error(body || `Không tải được danh sách hồ sơ. HTTP ${response.status}`);
+      }
+
+      const data = (await response.json()) as CaseListResponse;
+      setCaseOptions(data.items);
+    } catch (error) {
+      setCasePickerError(
+        error instanceof Error ? error.message : "Không tải được danh sách hồ sơ.",
+      );
+    } finally {
+      setCasePickerLoading(false);
+    }
+  }
+
+  async function openCasePickerForTemplate(item: Candidate) {
+    setPendingTemplate(item);
+    await loadCaseOptions();
+  }
+
+  async function createBatchForCase(caseId: string, item: Candidate) {
+    const response = await fetch(
+      `${API_BASE_URL}/documents/cases/${caseId}/batches`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          templateIds: item.dbTemplateId ? [item.dbTemplateId] : [],
+          targetPersonIds: [],
+          formats: ["DOCX", "PDF"],
+          note: `Tạo document đơn từ màn hình chọn biểu mẫu. Template: ${item.code}. Hồ sơ: ${caseId}. Dữ liệu đầu vào: ${[
+            input.offenseName,
+            input.legalArticle,
+            input.personName,
+            input.processNeed,
+            input.quickText,
+          ]
+            .filter(Boolean)
+            .join(" | ")}`,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(body || `Không tạo được document cho ${item.code}. HTTP ${response.status}`);
+    }
+
+    const data = (await response.json()) as SingleCreateResult;
+    const generatedDocument =
+      data.documents.find((document) => document.templateCode === item.code) ??
+      data.documents[0];
+
+    if (!generatedDocument?.id) {
+      throw new Error(`Backend không trả về document id cho ${item.code}.`);
+    }
+
+    router.push(`/documents/${generatedDocument.id}`);
   }
 
   async function openTemplate(item: Candidate) {
@@ -598,62 +628,21 @@ export function TemplateSelectorWorkspace() {
 
     if (!item.canCreate || !item.dbTemplateId) {
       setErrorMessage(
-        `${item.code} chưa có documentId cố định hoặc DB template để mở trực tiếp. Cần tạo/mapping document cho biểu mẫu này trước.`,
+        `${item.code} chưa có DB template để mở trực tiếp. Cần seed/mapping biểu mẫu này vào DB trước.`,
       );
+      return;
+    }
+
+    if (!currentCaseId) {
+      setPendingTemplate(item);
+      await openCasePickerForTemplate(item);
       return;
     }
 
     setOpeningTemplateCode(item.code);
 
     try {
-      if (!currentCaseId) {
-        throw new Error("Chưa có hồ sơ đang chọn để tạo biểu mẫu.");
-      }
-
-      const firstPersonId = availableData?.targets.people?.[0]?.personId ?? null;
-      const targetPersonIds = shouldAttachTargetPerson(item) && firstPersonId ? [firstPersonId] : [];
-
-      const response = await fetch(
-        `${API_BASE_URL}/documents/cases/${currentCaseId}/batches`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify({
-            templateIds: [item.dbTemplateId],
-            targetPersonIds,
-            formats: ["DOCX", "PDF"],
-            note: `Tạo document đơn từ màn hình chọn biểu mẫu. Template: ${item.code}. Dữ liệu đầu vào: ${[
-              input.offenseName,
-              input.legalArticle,
-              input.personName,
-              input.processNeed,
-              input.quickText,
-            ]
-              .filter(Boolean)
-              .join(" | ")}`,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(body || `Không tạo được document cho ${item.code}. HTTP ${response.status}`);
-      }
-
-      const data = (await response.json()) as SingleCreateResult;
-      const generatedDocument =
-        data.documents.find((document) => document.templateCode === item.code) ??
-        data.documents[0];
-
-      if (!generatedDocument?.id) {
-        throw new Error(`Backend không trả về document id cho ${item.code}.`);
-      }
-
-      router.push(`/documents/${generatedDocument.id}`);
+      await createBatchForCase(currentCaseId, item);
     } catch (error) {
       setErrorMessage(
         error instanceof Error
@@ -665,8 +654,48 @@ export function TemplateSelectorWorkspace() {
     }
   }
 
-  const caseInfo = availableData?.case;
-  const firstPerson = availableData?.targets.people?.[0];
+  async function confirmCaseForPending(caseId: string) {
+    if (!pendingTemplate) return;
+
+    setOpeningTemplateCode(pendingTemplate.code);
+    setCasePickerOpen(false);
+
+    try {
+      await createBatchForCase(caseId, pendingTemplate);
+      setCurrentCaseId(caseId);
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : `Không mở được biểu mẫu ${pendingTemplate.code}.`,
+      );
+    } finally {
+      setOpeningTemplateCode(null);
+      setPendingTemplate(null);
+      setCaseSearch("");
+    }
+  }
+
+  const filteredCaseOptions = useMemo(() => {
+    const needle = caseSearch.trim().toLowerCase();
+
+    if (!needle) {
+      return caseOptions;
+    }
+
+    return caseOptions.filter((item) =>
+      `${item.caseCode} ${item.caseTitle}`.toLowerCase().includes(needle),
+    );
+  }, [caseOptions, caseSearch]);
+
+  const currentCaseLabel = useMemo(() => {
+    if (!currentCaseId) {
+      return "Chưa chọn hồ sơ";
+    }
+
+    const matched = caseOptions.find((item) => item.id === currentCaseId);
+    return matched ? `${matched.caseCode} - ${matched.caseTitle}` : currentCaseId;
+  }, [caseOptions, currentCaseId]);
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-8">
@@ -687,14 +716,26 @@ export function TemplateSelectorWorkspace() {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={loadAvailableTemplates}
-              disabled={isLoading}
-              className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isLoading ? "Đang tải..." : "Tải lại dữ liệu"}
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={loadDbTemplates}
+                disabled={isLoading}
+                className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isLoading ? "Đang tải..." : "Tải lại dữ liệu"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPendingTemplate(null);
+                  void loadCaseOptions();
+                }}
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                Chọn hồ sơ khác
+              </button>
 
               <button
                 type="button"
@@ -703,23 +744,26 @@ export function TemplateSelectorWorkspace() {
               >
                 Xóa nội dung nhập
               </button>
+            </div>
           </div>
 
           <div className="mt-6 grid gap-3 md:grid-cols-4">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase text-slate-500">Hồ sơ hiện tại</p>
               <p className="mt-2 text-sm font-black text-slate-950">
-                {caseInfo ? `${caseInfo.caseCode}` : "Chưa tải"}
+                {currentCaseId ? currentCaseLabel : "Chưa chọn"}
               </p>
               <p className="mt-1 line-clamp-2 text-xs text-slate-500">
-                {caseInfo?.caseTitle ?? "Đang tải dữ liệu hồ sơ"}
+                {currentCaseId
+                  ? "Hồ sơ sẽ dùng để tạo document khi mở biểu mẫu"
+                  : "Hệ thống sẽ hỏi khi bạn mở biểu mẫu"}
               </p>
             </div>
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs font-bold uppercase text-blue-700">Biểu mẫu trong DB</p>
               <p className="mt-2 text-2xl font-black text-blue-800">
-                {availableData?.templates.length ?? 0}
+                {dbTemplates.length}
               </p>
             </div>
 
@@ -766,7 +810,7 @@ export function TemplateSelectorWorkspace() {
               <input
                 value={input.personName}
                 onChange={(event) => updateInput("personName", event.target.value)}
-                placeholder={firstPerson?.fullName ?? "Nhập tên người liên quan"}
+                placeholder="Nhập tên người liên quan"
                 className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               />
             </label>
@@ -1006,9 +1050,10 @@ export function TemplateSelectorWorkspace() {
                       {item.stageNo} - {item.stageLabel}
                     </p>
 
-                    {item.targetMode ? (
+                    {item.dbTemplateName ? (
                       <p className="mt-2 text-sm font-semibold text-slate-700">
-                        {item.targetMode}
+                        DB: {item.dbTemplateName}
+                        {item.renderScope ? ` (${item.renderScope})` : null}
                       </p>
                     ) : null}
 
@@ -1046,6 +1091,113 @@ export function TemplateSelectorWorkspace() {
           })}
         </section>
       </div>
+
+      {casePickerOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4"
+          onClick={() => {
+            if (!openingTemplateCode) {
+              setCasePickerOpen(false);
+              setPendingTemplate(null);
+              setCaseSearch("");
+            }
+          }}
+        >
+          <div
+            className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="border-b border-slate-200 px-6 py-4">
+              <h2 className="text-lg font-black text-slate-950">
+                Chọn hồ sơ để mở biểu mẫu
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                {pendingTemplate
+                  ? `Biểu mẫu ${pendingTemplate.code} sẽ được tạo document trong hồ sơ bạn chọn.`
+                  : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu."}
+              </p>
+            </div>
+
+            <div className="border-b border-slate-200 px-6 py-3">
+              <input
+                value={caseSearch}
+                onChange={(event) => setCaseSearch(event.target.value)}
+                placeholder="Tìm theo mã hồ sơ hoặc tiêu đề..."
+                className="h-10 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+
+            <div className="max-h-80 overflow-y-auto px-2 py-2">
+              {casePickerLoading ? (
+                <p className="px-4 py-6 text-sm text-slate-500">Đang tải hồ sơ...</p>
+              ) : casePickerError ? (
+                <p className="px-4 py-6 text-sm font-semibold text-red-600">
+                  {casePickerError}
+                </p>
+              ) : filteredCaseOptions.length === 0 ? (
+                <div className="px-4 py-6">
+                  <p className="text-sm font-semibold text-slate-700">
+                    Không có hồ sơ nào.
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Hãy tạo hồ sơ mới ở menu Hồ sơ trước khi mở biểu mẫu.
+                  </p>
+                </div>
+              ) : (
+                <ul className="space-y-1">
+                  {filteredCaseOptions.map((caseItem) => {
+                    const isSelected = caseItem.id === currentCaseId;
+
+                    return (
+                      <li key={caseItem.id}>
+                        <button
+                          type="button"
+                          disabled={Boolean(openingTemplateCode)}
+                          onClick={() => void confirmCaseForPending(caseItem.id)}
+                          className={`flex w-full flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left text-sm transition disabled:opacity-60 ${
+                            isSelected
+                              ? "border-blue-300 bg-blue-50"
+                              : "border-transparent hover:border-slate-200 hover:bg-slate-50"
+                          }`}
+                        >
+                          <span className="font-black text-slate-950">
+                            {caseItem.caseCode}
+                          </span>
+                          <span className="line-clamp-2 text-xs text-slate-500">
+                            {caseItem.caseTitle}
+                          </span>
+                          {caseItem.currentStage || caseItem.currentStatus ? (
+                            <span className="mt-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                              {caseItem.currentStage ?? "—"} · {caseItem.currentStatus ?? "—"}
+                            </span>
+                          ) : null}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end gap-2 border-t border-slate-200 px-6 py-3">
+              <button
+                type="button"
+                disabled={Boolean(openingTemplateCode)}
+                onClick={() => {
+                  setCasePickerOpen(false);
+                  setPendingTemplate(null);
+                  setCaseSearch("");
+                }}
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

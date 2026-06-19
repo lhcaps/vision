@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "templateCode": null,
+  "templateTitle": "Danh muc bieu mau kem theo Thong tu 03",
+  "docx": {
+    "sha256": "ce60c04f053a4053852d82d304e77fad2986c3156e46e2102e25e5c875df2bcc",
+    "fileName": "Danh muc bieu mau kem theo Thong tu 03.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [],
+  "canonicalFields": [],
+  "renderBindings": [],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Clx parse fail (fcClx/lcbClx không hợp lệ)",
+    "Không tự động sinh được canonicalField nào. Cần reviewer đọc toàn bộ DOCX."
+  ],
+  "generatedAt": "2026-06-19T00:17:43.510Z"
+}

@@ -1,0 +1,81 @@
+{
+  "version": "1.0",
+  "description": "Taxonomy cho transform trong renderBinding. Mỗi transform phải khai báo rõ input/output.",
+  "transforms": {
+    "identity": {
+      "input": "string",
+      "output": "string",
+      "description": "Giữ nguyên giá trị."
+    },
+    "date.day": {
+      "input": "yyyy-MM-dd (ISO date)",
+      "output": "D (1-31) hoặc DD (01-31) tuỳ contract",
+      "description": "Lấy phần ngày từ ISO date.",
+      "example": "2026-03-04 → 4 hoặc 04"
+    },
+    "date.month": {
+      "input": "yyyy-MM-dd",
+      "output": "M (1-12) hoặc MM (01-12)",
+      "description": "Lấy phần tháng từ ISO date.",
+      "example": "2026-03-04 → 3 hoặc 03"
+    },
+    "date.year": {
+      "input": "yyyy-MM-dd",
+      "output": "YYYY",
+      "description": "Lấy phần năm từ ISO date.",
+      "example": "2026-03-04 → 2026"
+    },
+    "date.vnLine": {
+      "input": "yyyy-MM-dd",
+      "output": "'ngày D tháng M năm YYYY'",
+      "description": "Sinh dòng ngày tháng tiếng Việt đầy đủ.",
+      "example": "2026-03-04 → 'ngày 4 tháng 3 năm 2026'"
+    },
+    "date.issuePlaceDateLine": {
+      "input": "{issuePlace: string, issueDate: yyyy-MM-dd}",
+      "output": "'${issuePlace}, ngày D tháng M năm YYYY'",
+      "description": "Sinh dòng địa danh, ngày tháng năm đầy đủ tiếng Việt.",
+      "example": "{issuePlace:'TP. Hồ Chí Minh', issueDate:'2026-03-04'} → 'TP. Hồ Chí Minh, ngày 4 tháng 3 năm 2026'"
+    },
+    "text.uppercase": {
+      "input": "string",
+      "output": "string (UPPER)",
+      "description": "Chuyển sang chữ in hoa."
+    },
+    "text.trim": {
+      "input": "string",
+      "output": "string",
+      "description": "Trim khoảng trắng đầu/cuối."
+    },
+    "text.joinLines": {
+      "input": "string[]",
+      "output": "string",
+      "description": "Nối các dòng bằng dấu xuống dòng hoặc dấu chấm phẩy tùy contract."
+    },
+    "list.numbered": {
+      "input": "string[]",
+      "output": "'1. ...; 2. ...; 3. ...'",
+      "description": "Đánh số thứ tự các phần tử mảng."
+    },
+    "list.bullet": {
+      "input": "string[]",
+      "output": "'- ...\\n- ...'",
+      "description": "Format danh sách gạch đầu dòng."
+    },
+    "fallback": {
+      "input": "any",
+      "output": "any",
+      "description": "Trả về fallback khi canonical field trống."
+    },
+    "constant": {
+      "input": "constant string",
+      "output": "constant string",
+      "description": "Trả về giá trị hằng số (thường lấy từ constantFromDocx)."
+    }
+  },
+  "notes": [
+    "Khi tạo transform mới, phải thêm vào đây trước khi dùng trong contract.",
+    "Transform date.day/month/year phải đi kèm canonical field kiểu date (yyyy-MM-dd).",
+    "Nếu DOCX yêu cầu format đặc biệt (vd: 'tháng 02 năm 2026' không padding) → thêm transform mới, không hack transform cũ."
+  ]
+}

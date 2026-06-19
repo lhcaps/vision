@@ -5,6 +5,8 @@
  * file *-api.ts tự định nghĩa, để:
  *  - Dùng nhất quán credentials: 'include' (gửi cookie session)
  *  - Single place để sửa base URL, headers, error handling
+ *  - Phát hiện 401 từ bất kỳ API call nào → emit AuthEvent("unauthorized")
+ *    để AuthProvider chuyển trạng thái về unauthenticated.
  *  - Code mới dùng trực tiếp; code cũ re-export cho backward-compat
  */
 
@@ -152,9 +154,43 @@ export function installApiFetchDefaults() {
   const originalFetch = window.fetch.bind(window);
   window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
     const [nextInput, nextInit] = withApiFetchDefaults(input, init);
-    return originalFetch(nextInput, nextInit);
+    const responsePromise = originalFetch(nextInput, nextInit);
+
+    if (isApiRequestUrl(getRequestUrl(nextInput) ?? "")) {
+      // Lazy import tránh circular: auth-events dùng từ api-client, không ngược lại,
+      // nhưng tách ra để tree-shaking tốt và tránh kéo module ở server build.
+      void import("./auth-events")
+        .then(({ emitAuthEvent }) => {
+          void responsePromise.then((response) => {
+            if (
+              response.status === 401 &&
+              !isAuthProbeRequest(getRequestUrl(nextInput) ?? "")
+            ) {
+              emitAuthEvent({ type: "unauthorized" });
+            }
+          });
+        })
+        .catch(() => {
+          // best-effort: skip event emission nếu module lỗi
+        });
+    }
+
+    return responsePromise;
   };
   target[API_FETCH_DEFAULTS_MARKER] = true;
+}
+
+const AUTH_PROBE_PATHS = ["/auth/login", "/auth/logout", "/auth/me"];
+
+function isAuthProbeRequest(urlText: string) {
+  try {
+    const url = new URL(urlText, window.location.href);
+    return AUTH_PROBE_PATHS.some(
+      (probe) => url.pathname === probe || url.pathname.endsWith(probe),
+    );
+  } catch {
+    return false;
+  }
 }
 
 export function isJsonObject(value: unknown): value is Record<string, unknown> {

@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "description": "Taxonomy chuẩn cho canonical field path. Mọi canonicalField.path trong contract phải thuộc một namespace dưới đây.",
+  "namespaces": {
+    "agency": {
+      "label": "Cơ quan ban hành / tiếp nhận",
+      "description": "Thông tin cơ quan lập văn bản (Viện kiểm sát, Cơ quan điều tra, ...).",
+      "commonFields": ["parentName", "name", "bodyName", "shortName", "issuePlace"]
+    },
+    "document": {
+      "label": "Thông tin văn bản",
+      "description": "Số hiệu, ngày ban hành, loại văn bản.",
+      "commonFields": ["documentCode", "issueDate", "issuePlace", "issuePlaceAndDateLine", "issueDay", "issueMonth", "issueYear"]
+    },
+    "case": {
+      "label": "Thông tin vụ án / vụ việc / nguồn tin",
+      "description": "Mã vụ án, tên vụ án, tóm tắt.",
+      "commonFields": ["caseCode", "caseTitle", "caseName", "summary", "receivedDate"]
+    },
+    "sourceReport": {
+      "label": "Nguồn tin về tội phạm",
+      "description": "Nguồn tin, tội danh, ngày nhận.",
+      "commonFields": ["content", "receivedDate", "offenseName", "legalArticle"]
+    },
+    "informant": {
+      "label": "Người cung cấp nguồn tin",
+      "description": "Thông tin người cung cấp nguồn tin cho cơ quan.",
+      "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityNo", "identityIssuedDate", "identityIssuedPlace", "permanentAddress", "temporaryAddress", "currentAddress", "phone", "representedOrganization", "signerName"]
+    },
+    "receiver": {
+      "label": "Người tiếp nhận",
+      "description": "Cán bộ nhận nguồn tin / văn bản.",
+      "commonFields": ["fullName", "positionTitle", "departmentName", "signerName"]
+    },
+    "reporter": {
+      "label": "Người trình báo / tố giác",
+      "description": "Alias cũ của informant, dùng cho BM cũ.",
+      "commonFields": ["fullName", "address", "phone", "content"]
+    },
+    "prosecutor": {
+      "label": "Kiểm sát viên",
+      "description": "KSV được phân công / ký văn bản.",
+      "commonFields": ["fullName", "positionTitle", "departmentName", "signerName"]
+    },
+    "inspector": {
+      "label": "Kiểm tra viên",
+      "description": "Kiểm tra viên giúp việc cho KSV.",
+      "commonFields": ["fullName", "positionTitle", "departmentName"]
+    },
+    "assignment": {
+      "label": "Phân công / thay đổi phân công",
+      "description": "Các trường liên quan đến phân công KSV / kiểm tra viên.",
+      "commonFields": ["assignedProsecutor", "assignedInspector", "reason", "effectiveDate"]
+    },
+    "decision": {
+      "label": "Nội dung quyết định",
+      "description": "Điều 1, 2, 3 hoặc các khoản quyết định.",
+      "commonFields": ["article1Line", "article2Line", "article3Line", "decisionLine", "summaryLine", "legalBasisLine"]
+    },
+    "legalBasis": {
+      "label": "Căn cứ pháp lý",
+      "description": "Căn cứ Bộ luật Tố tụng hình sự, Bộ luật Hình sự, luật liên quan.",
+      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine"]
+    },
+    "recipients": {
+      "label": "Nơi nhận / lưu",
+      "description": "Dòng nơi nhận văn bản và dòng lưu hồ sơ.",
+      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "superiorProcuracyLine"]
+    },
+    "signature": {
+      "label": "Chữ ký",
+      "description": "Chức danh + người ký văn bản.",
+      "commonFields": ["signMode", "positionTitle", "signerName"]
+    },
+    "renderMeta": {
+      "label": "Metadata render",
+      "description": "Metadata phục vụ render, không hiển thị trong form.",
+      "commonFields": ["templateCode", "generatedAt", "sha256"]
+    }
+  },
+  "canonicalDateRule": {
+    "storage": "yyyy-MM-dd",
+    "docxDateParts": "DOCX có thể chia ngày thành {Day, Month, Year} (vd: reception.startedAtDay/Month/Year). UI canonical là ISO date, renderBinding sẽ split.",
+    "ui": "Shared BmFieldDate (Bm001DateField chỉ dùng cho BM-001) hoặc BmFieldDate chung cho các BM còn lại."
+  },
+  "notes": [
+    "Mỗi BM có thể dùng subset của namespace, không bắt buộc dùng hết.",
+    "Canonical field path luôn dùng camelCase và dot notation (vd: agency.parentName).",
+    "Nếu BM cần field mới không thuộc namespace nào → thêm namespace mới vào file này trước khi dùng."
+  ]
+}

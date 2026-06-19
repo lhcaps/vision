@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "templateCode": "BM-167",
+  "templateTitle": "Thông báo về việc trả hồ sơ, ban hành cáo trạng",
+  "docx": {
+    "sha256": "70817b32537007e44c54ea3bc839d75934f139e168101ae74d2ef50cd9473411",
+    "fileName": "167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "format": "docx"
+  },
+  "status": "draft",
+  "docxSlots": [],
+  "canonicalFields": [],
+  "renderBindings": [],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Không tự động sinh được canonicalField nào. Cần reviewer đọc toàn bộ DOCX."
+  ],
+  "generatedAt": "2026-06-19T00:17:43.490Z"
+}

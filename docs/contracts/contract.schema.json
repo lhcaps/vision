@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://quanlyvks.local/schemas/docx-contract.schema.json",
+  "title": "BM DOCX Contract",
+  "description": "Schema cho contract khoá giữa DOCX gốc (normalized) và BESPOKE form-inputs. Mọi BM-XXX đều phải có 1 contract.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "templateCode",
+    "status",
+    "docx",
+    "docxSlots",
+    "canonicalFields",
+    "renderBindings"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "templateCode": {
+      "type": "string",
+      "pattern": "^BM-\\d{3}$"
+    },
+    "templateTitle": {
+      "type": "string",
+      "description": "Tên biểu mẫu bằng tiếng Việt, lấy từ DOCX hoặc TT 03/2026-VKSTC"
+    },
+    "docx": {
+      "type": "object",
+      "required": ["sha256", "fileName", "relativePath"],
+      "properties": {
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "fileName": { "type": "string" },
+        "relativePath": { "type": "string" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "reviewed", "locked"]
+    },
+    "docxSlots": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/docxSlot" }
+    },
+    "canonicalFields": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/canonicalField" }
+    },
+    "renderBindings": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/renderBinding" }
+    },
+    "rejectedCandidates": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/rejectedCandidate" }
+    },
+    "unresolvedQuestions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "definitions": {
+    "docxSlot": {
+      "type": "object",
+      "required": ["slotId", "location", "slotType", "required"],
+      "additionalProperties": false,
+      "properties": {
+        "slotId": {
+          "type": "string",
+          "description": "Mã định danh duy nhất của slot trong DOCX, thường theo namespace.section.field"
+        },
+        "location": {
+          "type": "object",
+          "required": ["partName", "blockId"],
+          "properties": {
+            "partName": { "type": "string" },
+            "blockId": { "type": "string" },
+            "tableCellId": { "type": ["string", "null"] }
+          }
+        },
+        "context": {
+          "type": "string",
+          "description": "Đoạn text xung quanh placeholder trong DOCX, giữ nguyên tiếng Việt"
+        },
+        "label": {
+          "type": "string",
+          "description": "Label tiếng Việt hiển thị trong UI (nếu có)"
+        },
+        "slotType": {
+          "type": "string",
+          "enum": [
+            "text",
+            "datePart",
+            "date",
+            "number",
+            "multilineText",
+            "constant",
+            "signature",
+            "table"
+          ]
+        },
+        "required": { "type": "boolean" },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Mức độ tự tin của mapping (do script dự đoán, KHÔNG phải chứng từ đúng)"
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "textBefore": { "type": "string" },
+            "textAfter": { "type": "string" },
+            "rawPattern": { "type": "string" }
+          }
+        },
+        "reviewRequired": { "type": "boolean" }
+      }
+    },
+    "canonicalField": {
+      "type": "object",
+      "required": ["path", "type", "label", "source", "required", "uiComponent"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)+$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["string", "date", "number", "boolean", "enum"]
+        },
+        "label": { "type": "string" },
+        "source": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "manualOrDefault",
+            "casePayload",
+            "agencyConfig",
+            "officialConfig",
+            "systemDate",
+            "constantFromDocx",
+            "derived",
+            "unknown"
+          ]
+        },
+        "required": { "type": "boolean" },
+        "uiComponent": {
+          "type": "string",
+          "enum": [
+            "text",
+            "textarea",
+            "date",
+            "dateParts",
+            "select",
+            "checkbox",
+            "section",
+            "table"
+          ]
+        },
+        "section": {
+          "type": "string",
+          "description": "Tên section (BmFormSection) trong UI"
+        },
+        "reviewRequired": { "type": "boolean" }
+      }
+    },
+    "renderBinding": {
+      "type": "object",
+      "required": ["slotId", "from", "transform"],
+      "additionalProperties": false,
+      "properties": {
+        "slotId": { "type": "string" },
+        "from": {
+          "type": "string",
+          "description": "Canonical field path hoặc hằng số từ DOCX"
+        },
+        "transform": {
+          "type": "string",
+          "enum": [
+            "identity",
+            "date.day",
+            "date.month",
+            "date.year",
+            "date.vnLine",
+            "date.issuePlaceDateLine",
+            "text.uppercase",
+            "text.trim",
+            "text.joinLines",
+            "list.numbered",
+            "list.bullet",
+            "fallback",
+            "constant"
+          ]
+        },
+        "fallback": { "type": "string" },
+        "reviewRequired": { "type": "boolean" }
+      }
+    },
+    "rejectedCandidate": {
+      "type": "object",
+      "required": ["slotId", "reason"],
+      "properties": {
+        "slotId": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

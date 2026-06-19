@@ -1,0 +1,4665 @@
+{
+  "generatedAt": "2026-06-19T00:17:55.544Z",
+  "summary": {
+    "totalFiles": 213,
+    "violationFiles": 145,
+    "totalViolations": 481,
+    "byRule": {
+      "bg-slate-950": 46,
+      "local-inputClass": 16,
+      "local-textareaClass": 15,
+      "local-labelClass": 15,
+      "local-Section-component": 5,
+      "local-Field-component": 26,
+      "direct-fetch": 141,
+      "API_BASE_URL": 139,
+      "local-SectionCard-component": 15,
+      "local-TextAreaField-component": 11,
+      "local-StatusMessage-component": 12,
+      "bg-blue-50": 40
+    }
+  },
+  "results": [
+    {
+      "code": "BM-001",
+      "file": "apps/web/src/components/documents/bm-001-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            690,
+            977
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-002",
+      "file": "apps/web/src/components/documents/bm-002-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            78
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            81
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            84
+          ]
+        },
+        {
+          "rule": "local-Section-component",
+          "label": "Function Section() tự định nghĩa",
+          "lines": [
+            623
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            638
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            690,
+            742,
+            779,
+            798
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            836
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-003",
+      "file": "apps/web/src/components/documents/bm-003-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            83
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            86
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            89
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            691
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            713
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            737
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            764
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            804,
+            945
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1042,
+            1165
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1005
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-004",
+      "file": "apps/web/src/components/documents/bm-004-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            82,
+            408,
+            488
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            556
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-005",
+      "file": "apps/web/src/components/documents/bm-005-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            88,
+            511,
+            556
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            631
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-006",
+      "file": "apps/web/src/components/documents/bm-006-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            72
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            75
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            78
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            557
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            579
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            608
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            637
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            677,
+            793
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            851,
+            992
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            876
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-007",
+      "file": "apps/web/src/components/documents/bm-007-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            82
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            85
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            88
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            537
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            559
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            583
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            610
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            650,
+            780
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            873,
+            988
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            841
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-008",
+      "file": "apps/web/src/components/documents/bm-008-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            60
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            63
+          ]
+        },
+        {
+          "rule": "local-Section-component",
+          "label": "Function Section() tự định nghĩa",
+          "lines": [
+            509
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            524
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            579,
+            632,
+            672,
+            691
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            730
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-009",
+      "file": "apps/web/src/components/documents/bm-009-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            594
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            618
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            65,
+            702,
+            753
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            813
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-010",
+      "file": "apps/web/src/components/documents/bm-010-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            21,
+            564,
+            618,
+            661,
+            680
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-011",
+      "file": "apps/web/src/components/documents/bm-011-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            81
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            84
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            87
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            649
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            671
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            695
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            819
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            859,
+            989
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1082,
+            1207
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1050
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-012",
+      "file": "apps/web/src/components/documents/bm-012-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            59
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            62
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            65
+          ]
+        },
+        {
+          "rule": "local-Section-component",
+          "label": "Function Section() tự định nghĩa",
+          "lines": [
+            553
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            568
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            623,
+            676,
+            716,
+            735
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            774
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-013",
+      "file": "apps/web/src/components/documents/bm-013-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            81,
+            418,
+            499
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            567
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-014",
+      "file": "apps/web/src/components/documents/bm-014-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            84
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            87
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            90
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            716
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            738
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            762
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            886
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            926,
+            1056
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1150,
+            1303
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1117
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-015",
+      "file": "apps/web/src/components/documents/bm-015-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            95
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            98
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            101
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            1107
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            1147,
+            1263
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1356,
+            1668
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1323
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-016",
+      "file": "apps/web/src/components/documents/bm-016-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            94
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            97
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            100
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            919
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            941
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            965
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            992
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            1032,
+            1155
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1248,
+            1359
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1216
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-017",
+      "file": "apps/web/src/components/documents/bm-017-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            77,
+            444,
+            516
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            584
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-018",
+      "file": "apps/web/src/components/documents/bm-018-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            85
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            88
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            91
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            737
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            759
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            783
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            810
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            850,
+            981
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1075,
+            1192
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1042
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-019",
+      "file": "apps/web/src/components/documents/bm-019-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            81,
+            412,
+            491
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            559
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-020",
+      "file": "apps/web/src/components/documents/bm-020-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            82,
+            427,
+            507
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            575
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-021",
+      "file": "apps/web/src/components/documents/bm-021-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-022",
+      "file": "apps/web/src/components/documents/bm-022-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-023",
+      "file": "apps/web/src/components/documents/bm-023-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            707
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            531
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            455,
+            483
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1028,
+            1234
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-024",
+      "file": "apps/web/src/components/documents/bm-024-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-025",
+      "file": "apps/web/src/components/documents/bm-025-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-026",
+      "file": "apps/web/src/components/documents/bm-026-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-027",
+      "file": "apps/web/src/components/documents/bm-027-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-028",
+      "file": "apps/web/src/components/documents/bm-028-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-029",
+      "file": "apps/web/src/components/documents/bm-029-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            81,
+            448,
+            528
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            596
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-030",
+      "file": "apps/web/src/components/documents/bm-030-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            76
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            79
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            82
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            727
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            767,
+            890
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            983,
+            1162
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            950
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-031",
+      "file": "apps/web/src/components/documents/bm-031-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1550,
+            1896
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-032",
+      "file": "apps/web/src/components/documents/bm-032-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-033",
+      "file": "apps/web/src/components/documents/bm-033-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            887,
+            912
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1406,
+            1810
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-034",
+      "file": "apps/web/src/components/documents/bm-034-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-035",
+      "file": "apps/web/src/components/documents/bm-035-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-036",
+      "file": "apps/web/src/components/documents/bm-036-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-037",
+      "file": "apps/web/src/components/documents/bm-037-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            994,
+            1021,
+            1069
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1556,
+            1891
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-038",
+      "file": "apps/web/src/components/documents/bm-038-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            789
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            789,
+            812,
+            851
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1224
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-039",
+      "file": "apps/web/src/components/documents/bm-039-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            16,
+            849,
+            889
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1535
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-040",
+      "file": "apps/web/src/components/documents/bm-040-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            652,
+            752
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            652,
+            752
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1080,
+            1425
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-041",
+      "file": "apps/web/src/components/documents/bm-041-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            23,
+            213,
+            252,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-042",
+      "file": "apps/web/src/components/documents/bm-042-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            243,
+            291
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            243,
+            291
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            798
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-043",
+      "file": "apps/web/src/components/documents/bm-043-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            421,
+            469
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            421,
+            469
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1143
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-044",
+      "file": "apps/web/src/components/documents/bm-044-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            590,
+            638
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            935
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-045",
+      "file": "apps/web/src/components/documents/bm-045-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            501,
+            541
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            829
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-046",
+      "file": "apps/web/src/components/documents/bm-046-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            91
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            94
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            97
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            617
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            639
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            660
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            684
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            724,
+            904
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            997,
+            1082
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            964,
+            1035
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-047",
+      "file": "apps/web/src/components/documents/bm-047-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            21,
+            728,
+            947
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1165
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1044,
+            1063
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-048",
+      "file": "apps/web/src/components/documents/bm-048-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-049",
+      "file": "apps/web/src/components/documents/bm-049-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-050",
+      "file": "apps/web/src/components/documents/bm-050-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-051",
+      "file": "apps/web/src/components/documents/bm-051-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-052",
+      "file": "apps/web/src/components/documents/bm-052-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-053",
+      "file": "apps/web/src/components/documents/bm-053-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1177
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-054",
+      "file": "apps/web/src/components/documents/bm-054-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            442
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            357
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            314,
+            337
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            838
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-055",
+      "file": "apps/web/src/components/documents/bm-055-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            450
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            365
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            322,
+            345
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            839
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-056",
+      "file": "apps/web/src/components/documents/bm-056-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            443
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            13,
+            387,
+            426
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1123
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-057",
+      "file": "apps/web/src/components/documents/bm-057-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            338
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            13,
+            280,
+            303
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1089
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-058",
+      "file": "apps/web/src/components/documents/bm-058-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            457
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            372
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            329,
+            352
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            874
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-059",
+      "file": "apps/web/src/components/documents/bm-059-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            345,
+            363
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            345,
+            363
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            771
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-060",
+      "file": "apps/web/src/components/documents/bm-060-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-061",
+      "file": "apps/web/src/components/documents/bm-061-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-062",
+      "file": "apps/web/src/components/documents/bm-062-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-063",
+      "file": "apps/web/src/components/documents/bm-063-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-064",
+      "file": "apps/web/src/components/documents/bm-064-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-065",
+      "file": "apps/web/src/components/documents/bm-065-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-066",
+      "file": "apps/web/src/components/documents/bm-066-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-067",
+      "file": "apps/web/src/components/documents/bm-067-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-068",
+      "file": "apps/web/src/components/documents/bm-068-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-069",
+      "file": "apps/web/src/components/documents/bm-069-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-070",
+      "file": "apps/web/src/components/documents/bm-070-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            81,
+            814,
+            950
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1369
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            1051
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-071",
+      "file": "apps/web/src/components/documents/bm-071-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            62,
+            662,
+            681
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1355
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-072",
+      "file": "apps/web/src/components/documents/bm-072-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            277,
+            323
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            407
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-073",
+      "file": "apps/web/src/components/documents/bm-073-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-074",
+      "file": "apps/web/src/components/documents/bm-074-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            237,
+            283
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            367
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-075",
+      "file": "apps/web/src/components/documents/bm-075-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-076",
+      "file": "apps/web/src/components/documents/bm-076-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            194,
+            208
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            367
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-077",
+      "file": "apps/web/src/components/documents/bm-077-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-078",
+      "file": "apps/web/src/components/documents/bm-078-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            228,
+            274
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            358
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-079",
+      "file": "apps/web/src/components/documents/bm-079-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-080",
+      "file": "apps/web/src/components/documents/bm-080-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-081",
+      "file": "apps/web/src/components/documents/bm-081-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            249,
+            295
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            379
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-082",
+      "file": "apps/web/src/components/documents/bm-082-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-083",
+      "file": "apps/web/src/components/documents/bm-083-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            252,
+            298
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            382
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-084",
+      "file": "apps/web/src/components/documents/bm-084-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            198,
+            212
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            373
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-085",
+      "file": "apps/web/src/components/documents/bm-085-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            384,
+            426
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            502
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-086",
+      "file": "apps/web/src/components/documents/bm-086-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            85
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            88
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            91
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            451
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            473
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            494
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            518
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            558,
+            689
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            782,
+            847
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            749
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-087",
+      "file": "apps/web/src/components/documents/bm-087-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            76,
+            443,
+            484
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            552
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-088",
+      "file": "apps/web/src/components/documents/bm-088-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            79,
+            476,
+            517
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            590
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-089",
+      "file": "apps/web/src/components/documents/bm-089-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            78,
+            475,
+            516
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            589
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-090",
+      "file": "apps/web/src/components/documents/bm-090-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            89,
+            732,
+            751
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-091",
+      "file": "apps/web/src/components/documents/bm-091-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            331,
+            373
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            449
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-092",
+      "file": "apps/web/src/components/documents/bm-092-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            331,
+            373
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            449
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-093",
+      "file": "apps/web/src/components/documents/bm-093-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            262,
+            287
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-094",
+      "file": "apps/web/src/components/documents/bm-094-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            262,
+            287
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-095",
+      "file": "apps/web/src/components/documents/bm-095-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            262,
+            287
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-096",
+      "file": "apps/web/src/components/documents/bm-096-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            264,
+            289
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-097",
+      "file": "apps/web/src/components/documents/bm-097-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            980,
+            1382
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-098",
+      "file": "apps/web/src/components/documents/bm-098-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            265,
+            290
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-099",
+      "file": "apps/web/src/components/documents/bm-099-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            331,
+            373
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            449
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-100",
+      "file": "apps/web/src/components/documents/bm-100-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            265,
+            290
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-101",
+      "file": "apps/web/src/components/documents/bm-101-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            331,
+            373
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            449
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-102",
+      "file": "apps/web/src/components/documents/bm-102-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            331,
+            373
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            449
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-103",
+      "file": "apps/web/src/components/documents/bm-103-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            251,
+            277
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-104",
+      "file": "apps/web/src/components/documents/bm-104-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            247,
+            273
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-105",
+      "file": "apps/web/src/components/documents/bm-105-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            251,
+            277
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-106",
+      "file": "apps/web/src/components/documents/bm-106-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            46,
+            241,
+            267
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-107",
+      "file": "apps/web/src/components/documents/bm-107-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            46,
+            241,
+            267
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-108",
+      "file": "apps/web/src/components/documents/bm-108-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            247,
+            273
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-109",
+      "file": "apps/web/src/components/documents/bm-109-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            247,
+            273
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-110",
+      "file": "apps/web/src/components/documents/bm-110-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            247,
+            273
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-111",
+      "file": "apps/web/src/components/documents/bm-111-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            251,
+            277
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-112",
+      "file": "apps/web/src/components/documents/bm-112-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            249,
+            275
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-113",
+      "file": "apps/web/src/components/documents/bm-113-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-114",
+      "file": "apps/web/src/components/documents/bm-114-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            241,
+            267
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-115",
+      "file": "apps/web/src/components/documents/bm-115-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-116",
+      "file": "apps/web/src/components/documents/bm-116-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-117",
+      "file": "apps/web/src/components/documents/bm-117-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            246,
+            272
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-118",
+      "file": "apps/web/src/components/documents/bm-118-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            242,
+            268
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-119",
+      "file": "apps/web/src/components/documents/bm-119-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-120",
+      "file": "apps/web/src/components/documents/bm-120-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-121",
+      "file": "apps/web/src/components/documents/bm-121-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-122",
+      "file": "apps/web/src/components/documents/bm-122-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-123",
+      "file": "apps/web/src/components/documents/bm-123-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-124",
+      "file": "apps/web/src/components/documents/bm-124-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            266,
+            292
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-125",
+      "file": "apps/web/src/components/documents/bm-125-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            242,
+            268
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-126",
+      "file": "apps/web/src/components/documents/bm-126-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            50,
+            258,
+            284
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-127",
+      "file": "apps/web/src/components/documents/bm-127-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            242,
+            268
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-128",
+      "file": "apps/web/src/components/documents/bm-128-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            241,
+            267
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-129",
+      "file": "apps/web/src/components/documents/bm-129-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-130",
+      "file": "apps/web/src/components/documents/bm-130-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            50,
+            276,
+            302
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-131",
+      "file": "apps/web/src/components/documents/bm-131-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-132",
+      "file": "apps/web/src/components/documents/bm-132-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            285,
+            311
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-133",
+      "file": "apps/web/src/components/documents/bm-133-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            280,
+            306
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-134",
+      "file": "apps/web/src/components/documents/bm-134-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            254,
+            280
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-135",
+      "file": "apps/web/src/components/documents/bm-135-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            249,
+            275
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-136",
+      "file": "apps/web/src/components/documents/bm-136-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            47,
+            241,
+            267
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-137",
+      "file": "apps/web/src/components/documents/bm-137-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            55,
+            286,
+            312
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-138",
+      "file": "apps/web/src/components/documents/bm-138-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-139",
+      "file": "apps/web/src/components/documents/bm-139-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            245,
+            271
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-140",
+      "file": "apps/web/src/components/documents/bm-140-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            273,
+            299
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-141",
+      "file": "apps/web/src/components/documents/bm-141-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            57,
+            299,
+            325
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-142",
+      "file": "apps/web/src/components/documents/bm-142-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            49,
+            294,
+            320
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-143",
+      "file": "apps/web/src/components/documents/bm-143-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            303,
+            329
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-144",
+      "file": "apps/web/src/components/documents/bm-144-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            53,
+            295,
+            321
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-145",
+      "file": "apps/web/src/components/documents/bm-145-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            263,
+            289
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-146",
+      "file": "apps/web/src/components/documents/bm-146-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            40,
+            198,
+            224
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-147",
+      "file": "apps/web/src/components/documents/bm-147-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            54,
+            286,
+            312
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-148",
+      "file": "apps/web/src/components/documents/bm-148-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            612
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            571,
+            592
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1206
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-149",
+      "file": "apps/web/src/components/documents/bm-149-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            55,
+            289,
+            315
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-150",
+      "file": "apps/web/src/components/documents/bm-150-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            389
+          ]
+        },
+        {
+          "rule": "local-Section-component",
+          "label": "Function Section() tự định nghĩa",
+          "lines": [
+            702
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            713
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            12,
+            286,
+            364
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            420
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-151",
+      "file": "apps/web/src/components/documents/bm-151-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            54,
+            286,
+            312
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-152",
+      "file": "apps/web/src/components/documents/bm-152-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            56,
+            295,
+            321
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-153",
+      "file": "apps/web/src/components/documents/bm-153-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            55,
+            289,
+            315
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-154",
+      "file": "apps/web/src/components/documents/bm-154-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            54,
+            286,
+            312
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-155",
+      "file": "apps/web/src/components/documents/bm-155-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            51,
+            186,
+            203
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-156",
+      "file": "apps/web/src/components/documents/bm-156-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        }
+      ]
+    },
+    {
+      "code": "BM-157",
+      "file": "apps/web/src/components/documents/bm-157-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            62,
+            257,
+            274
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            478
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-158",
+      "file": "apps/web/src/components/documents/bm-158-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            61,
+            251,
+            268
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            481
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-159",
+      "file": "apps/web/src/components/documents/bm-159-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            56,
+            366,
+            392
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-160",
+      "file": "apps/web/src/components/documents/bm-160-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            168,
+            185
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-161",
+      "file": "apps/web/src/components/documents/bm-161-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            48,
+            168,
+            185
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-162",
+      "file": "apps/web/src/components/documents/bm-162-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-163",
+      "file": "apps/web/src/components/documents/bm-163-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-164",
+      "file": "apps/web/src/components/documents/bm-164-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-165",
+      "file": "apps/web/src/components/documents/bm-165-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-166",
+      "file": "apps/web/src/components/documents/bm-166-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            400
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            364,
+            381
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            364,
+            381
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            790
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-167",
+      "file": "apps/web/src/components/documents/bm-167-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-168",
+      "file": "apps/web/src/components/documents/bm-168-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            52,
+            338,
+            368
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-169",
+      "file": "apps/web/src/components/documents/bm-169-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            552
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            489,
+            537
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            489,
+            537
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1062
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-170",
+      "file": "apps/web/src/components/documents/bm-170-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-inputClass",
+          "label": "Khai báo inputClass local",
+          "lines": [
+            89
+          ]
+        },
+        {
+          "rule": "local-textareaClass",
+          "label": "Khai báo textareaClass local",
+          "lines": [
+            92
+          ]
+        },
+        {
+          "rule": "local-labelClass",
+          "label": "Khai báo labelClass local",
+          "lines": [
+            95
+          ]
+        },
+        {
+          "rule": "local-SectionCard-component",
+          "label": "Function SectionCard() tự định nghĩa",
+          "lines": [
+            608
+          ]
+        },
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            630
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            651
+          ]
+        },
+        {
+          "rule": "local-StatusMessage-component",
+          "label": "Function StatusMessage() tự định nghĩa",
+          "lines": [
+            675
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": []
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            11,
+            715,
+            902
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            995,
+            1086
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            962,
+            1011
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-171",
+      "file": "apps/web/src/components/documents/bm-171-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            600
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            538,
+            585
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            538,
+            585
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            1120
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-172",
+      "file": "apps/web/src/components/documents/bm-172-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Section-component",
+          "label": "Function Section() tự định nghĩa",
+          "lines": [
+            482
+          ]
+        },
+        {
+          "rule": "local-TextAreaField-component",
+          "label": "Function TextAreaField() tự định nghĩa",
+          "lines": [
+            461
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            735
+          ]
+        },
+        {
+          "rule": "bg-blue-50",
+          "label": "Dùng bg-blue-50 (màu tùy biến)",
+          "lines": [
+            607
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-173",
+      "file": "apps/web/src/components/documents/bm-173-form-inputs.tsx",
+      "violations": [
+        {
+          "rule": "local-Field-component",
+          "label": "Function Field() tự định nghĩa",
+          "lines": [
+            434
+          ]
+        },
+        {
+          "rule": "direct-fetch",
+          "label": "Dùng fetch() trực tiếp trong component",
+          "lines": [
+            390,
+            419
+          ]
+        },
+        {
+          "rule": "API_BASE_URL",
+          "label": "Dùng API_BASE_URL",
+          "lines": [
+            14,
+            390,
+            419
+          ]
+        },
+        {
+          "rule": "bg-slate-950",
+          "label": "Dùng bg-slate-950 (màu tùy biến)",
+          "lines": [
+            853
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BM-174",
+      "file": "apps/web/src/components/documents/bm-174-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-175",
+      "file": "apps/web/src/components/documents/bm-175-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-176",
+      "file": "apps/web/src/components/documents/bm-176-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-177",
+      "file": "apps/web/src/components/documents/bm-177-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-178",
+      "file": "apps/web/src/components/documents/bm-178-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-179",
+      "file": "apps/web/src/components/documents/bm-179-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-180",
+      "file": "apps/web/src/components/documents/bm-180-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-181",
+      "file": "apps/web/src/components/documents/bm-181-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-182",
+      "file": "apps/web/src/components/documents/bm-182-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-183",
+      "file": "apps/web/src/components/documents/bm-183-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-184",
+      "file": "apps/web/src/components/documents/bm-184-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-185",
+      "file": "apps/web/src/components/documents/bm-185-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-186",
+      "file": "apps/web/src/components/documents/bm-186-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-187",
+      "file": "apps/web/src/components/documents/bm-187-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-188",
+      "file": "apps/web/src/components/documents/bm-188-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-189",
+      "file": "apps/web/src/components/documents/bm-189-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-190",
+      "file": "apps/web/src/components/documents/bm-190-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-191",
+      "file": "apps/web/src/components/documents/bm-191-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-192",
+      "file": "apps/web/src/components/documents/bm-192-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-193",
+      "file": "apps/web/src/components/documents/bm-193-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-194",
+      "file": "apps/web/src/components/documents/bm-194-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-195",
+      "file": "apps/web/src/components/documents/bm-195-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-196",
+      "file": "apps/web/src/components/documents/bm-196-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-197",
+      "file": "apps/web/src/components/documents/bm-197-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-198",
+      "file": "apps/web/src/components/documents/bm-198-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-199",
+      "file": "apps/web/src/components/documents/bm-199-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-200",
+      "file": "apps/web/src/components/documents/bm-200-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-201",
+      "file": "apps/web/src/components/documents/bm-201-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-202",
+      "file": "apps/web/src/components/documents/bm-202-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-203",
+      "file": "apps/web/src/components/documents/bm-203-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-204",
+      "file": "apps/web/src/components/documents/bm-204-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-205",
+      "file": "apps/web/src/components/documents/bm-205-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-206",
+      "file": "apps/web/src/components/documents/bm-206-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-207",
+      "file": "apps/web/src/components/documents/bm-207-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-208",
+      "file": "apps/web/src/components/documents/bm-208-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-209",
+      "file": "apps/web/src/components/documents/bm-209-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-210",
+      "file": "apps/web/src/components/documents/bm-210-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-211",
+      "file": "apps/web/src/components/documents/bm-211-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-212",
+      "file": "apps/web/src/components/documents/bm-212-form-inputs.tsx",
+      "violations": []
+    },
+    {
+      "code": "BM-213",
+      "file": "apps/web/src/components/documents/bm-213-form-inputs.tsx",
+      "violations": []
+    }
+  ]
+}

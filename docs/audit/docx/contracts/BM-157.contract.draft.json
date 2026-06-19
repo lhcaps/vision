@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0",
+  "templateCode": "BM-157",
+  "templateTitle": "Bản kê vật chứng kèm theo Cáo trạng",
+  "docx": {
+    "sha256": "a5c6971a69d2bdea2dca8e892c498b0afe6c02bf585148af85ca05460700c287",
+    "fileName": "157. Bản kê vật chứng kèm theo Cáo trạng.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/157. Bản kê vật chứng kèm theo Cáo trạng.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "case.blank1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": "VỤ ÁN:..........................................................................",
+      "label": "Ô trống dạng \"...\" (case)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": ".........................................................................."
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "case.field1",
+      "type": "string",
+      "label": "Trường cần điền (case)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "case",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "case.blank1",
+      "from": "case.field1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [
+    "17 paragraph có nội dung đặc thù cần reviewer xem xét: P0001=\"BẢN KÊ VẬT CHỨNG KÈM THEO BẢN CÁO TRẠNG\"; P0003=\"TÊN VẬT CHỨNG\"; P0004=\"SỐ LƯỢNG\"; P0005=\"ĐẶC ĐIỂM\"; P0006=\"GHI CHÚ\""
+  ],
+  "warnings": [
+    "Clx parse fail (fcClx/lcbClx không hợp lệ)"
+  ],
+  "generatedAt": "2026-06-19T00:17:43.486Z"
+}

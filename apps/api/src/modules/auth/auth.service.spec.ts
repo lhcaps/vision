@@ -25,7 +25,7 @@ function createPrismaMock() {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
     },
-    $executeRaw: jest.fn(),
+    $executeRaw: jest.fn().mockResolvedValue(0),
     $queryRaw: jest.fn(),
   };
 }
@@ -61,5 +61,75 @@ describe('AuthService credential login', () => {
     await expect(
       service.findOfficialByCredentials('kiem-sat-vien', 'Secret123!'),
     ).resolves.toBeNull();
+  });
+});
+
+describe('AuthService session revocation', () => {
+  it('revokes all sessions for an official when no keep token is provided', async () => {
+    const prisma = createPrismaMock();
+    prisma.$executeRaw.mockResolvedValueOnce(2);
+    const service = new AuthService(prisma as never);
+
+    const result = await service.revokeOtherSessions('7');
+    expect(result).toBe(2);
+    expect(prisma.$executeRaw).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns 0 when officialId is not a valid bigint', async () => {
+    const prisma = createPrismaMock();
+    const service = new AuthService(prisma as never);
+
+    const result = await service.revokeOtherSessions('not-a-bigint');
+    expect(result).toBe(0);
+    expect(prisma.$executeRaw).not.toHaveBeenCalled();
+  });
+
+  it('keeps the current session when keepRawToken is provided', async () => {
+    const prisma = createPrismaMock();
+    prisma.$executeRaw.mockResolvedValueOnce(1);
+    const service = new AuthService(prisma as never);
+
+    const result = await service.revokeOtherSessions('7', 'current-token');
+    expect(result).toBe(1);
+  });
+
+  it('revokeAllSessions deletes every session of the official', async () => {
+    const prisma = createPrismaMock();
+    prisma.$executeRaw.mockResolvedValueOnce(4);
+    const service = new AuthService(prisma as never);
+
+    const result = await service.revokeAllSessions('7');
+    expect(result).toBe(4);
+  });
+});
+
+describe('AuthService getCookieOptions', () => {
+  it('omits domain when AUTH_COOKIE_DOMAIN is unset', () => {
+    const original = process.env.AUTH_COOKIE_DOMAIN;
+    delete process.env.AUTH_COOKIE_DOMAIN;
+
+    try {
+      const service = new AuthService({} as never);
+      const opts = service.getCookieOptions();
+      expect(opts.domain).toBeUndefined();
+      expect(opts.httpOnly).toBe(true);
+      expect(opts.path).toBe('/');
+    } finally {
+      if (original !== undefined) process.env.AUTH_COOKIE_DOMAIN = original;
+    }
+  });
+
+  it('includes domain when AUTH_COOKIE_DOMAIN is set', () => {
+    const original = process.env.AUTH_COOKIE_DOMAIN;
+    process.env.AUTH_COOKIE_DOMAIN = '.qlv.local';
+
+    try {
+      const service = new AuthService({} as never);
+      const opts = service.getCookieOptions();
+      expect(opts.domain).toBe('.qlv.local');
+    } finally {
+      if (original === undefined) delete process.env.AUTH_COOKIE_DOMAIN;
+      else process.env.AUTH_COOKIE_DOMAIN = original;
+    }
   });
 });

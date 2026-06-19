@@ -1,0 +1,505 @@
+{
+  "templateCode": "BM-158",
+  "fileName": "158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+  "group": "docs",
+  "detectedTitle": "Danh sách đề nghị triệu tập đến phiên tòa",
+  "sha256": "7a98055a3e9c9425ebf5de5df7c16d4b851b641c0f037cc815d4852d4b253d8f",
+  "sizeBytes": 25498,
+  "format": "docx",
+  "method": "docx-ooxml",
+  "warnings": [],
+  "error": null,
+  "metadata": {
+    "title": null,
+    "creator": "Huy",
+    "created": "2025-09-12T10:30:00Z",
+    "modified": "2026-01-28T05:56:00Z"
+  },
+  "parts": [
+    {
+      "partName": "[Content_Types].xml",
+      "rawTextLength": 1708,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "_rels/.rels",
+      "rawTextLength": 590,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/document.xml",
+      "rawTextLength": 48767,
+      "paragraphCount": 25,
+      "tableCount": 3
+    },
+    {
+      "partName": "word/_rels/document.xml.rels",
+      "rawTextLength": 1223,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/footnotes.xml",
+      "rawTextLength": 7045,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/endnotes.xml",
+      "rawTextLength": 3216,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/theme/theme1.xml",
+      "rawTextLength": 6743,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/settings.xml",
+      "rawTextLength": 4046,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/item1.xml",
+      "rawTextLength": 306,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/itemProps1.xml",
+      "rawTextLength": 341,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/styles.xml",
+      "rawTextLength": 31759,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/webSettings.xml",
+      "rawTextLength": 1083,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/fontTable.xml",
+      "rawTextLength": 2100,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/core.xml",
+      "rawTextLength": 786,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/app.xml",
+      "rawTextLength": 711,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/_rels/item1.xml.rels",
+      "rawTextLength": 296,
+      "paragraphCount": 0,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "Mẫu số 158/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Mẫu số 158/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT ……………….",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "……………………………",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Độc lập – Tự do – Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "3…, ngày … tháng ... năm 20...",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "DANH SÁCH",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "Những người Viện kiểm sát đề nghị Tòa án triệu tập đến phiên tòa",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "STT",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Họ và tên",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "Ngày, tháng,",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "năm sinh",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "Địa chỉ",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "Tư cách tham gia \ntố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Ghi chú",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "1",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "2",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "3",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "KIỂM SÁT VIÊN4",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    }
+  ],
+  "tables": [
+    {
+      "tableId": "T0001",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0001.R0001.C0001",
+              "text": "VIỆN KIỂM SÁT ………………. ……………………………",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0001.C0002",
+              "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập – Tự do – Hạnh phúc",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 2,
+          "cells": [
+            {
+              "cellId": "T0001.R0002.C0001",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0002.C0002",
+              "text": "3 … , ngày … tháng ... năm 20...",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableId": "T0002",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0002.R0001.C0001",
+              "text": "STT",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0002",
+              "text": "Họ và tên",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0003",
+              "text": "Ngày, tháng, năm sinh",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0004",
+              "text": "Địa chỉ",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0005",
+              "text": "Tư cách tham gia tố tụng",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0006",
+              "text": "Ghi chú",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 2,
+          "cells": [
+            {
+              "cellId": "T0002.R0002.C0001",
+              "text": "1",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0002.C0002",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0002.C0003",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0002.C0004",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0002.C0005",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0002.C0006",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 3,
+          "cells": [
+            {
+              "cellId": "T0002.R0003.C0001",
+              "text": "2",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0003.C0002",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0003.C0003",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0003.C0004",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0003.C0005",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0003.C0006",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 4,
+          "cells": [
+            {
+              "cellId": "T0002.R0004.C0001",
+              "text": "3",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0004.C0002",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0004.C0003",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0004.C0004",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0004.C0005",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0004.C0006",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableId": "T0003",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0003.R0001.C0001",
+              "text": "",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0003.R0001.C0002",
+              "text": "KIỂM SÁT VIÊN 4 (Ký, ghi rõ họ tên)",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [],
+  "extractedAt": "2026-06-19T00:17:43.126Z"
+}

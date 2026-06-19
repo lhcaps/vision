@@ -1,0 +1,504 @@
+{
+  "templateCode": "BM-055",
+  "fileName": "55-QĐ huỷ bỏ biện pháp cấm đi khỏi nơi cư trú.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/55-QĐ huỷ bỏ biện pháp cấm đi khỏi nơi cư trú.doc",
+  "group": "docs",
+  "detectedTitle": "QĐ huỷ bỏ biện pháp cấm đi khỏi nơi cư trú",
+  "sha256": "b1819db1f92b92d35d75a66ce3d2209d94e078fca0177b31a920b35e78e04218",
+  "sizeBytes": 54784,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 84 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2546,
+      "paragraphCount": 70,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "/QĐ-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "HỦY BỎ BIỆN PHÁP CẤM ĐI KHỎI NƠI CƯ TRÚ",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Căn cứ các điều 41, 123, 125 và 165",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "của Bộ luật Tố tụng hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Căn cứ Lệnh cấm đi khỏi nơi cư trú số",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "số",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "(nếu có);",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "Xét thấy có đủ căn cứ, điều kiện hủy bỏ biện pháp cấm đi khỏi nơi cư trú đối với bị can10",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH:",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "Điều 1. Hủy bỏ biện pháp cấm đi khỏi nơi cư trú đối với:",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "Họ tên:10......................................................................................... Giới tính:",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "Tên gọi khác:",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "....",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "Nghề nghiệp:",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "Nơi thường trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "Nơi tạm trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Nơi ở hiện tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "bị khởi tố về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự.",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "Điều 2. Yêu cầu11",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./.",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "- 11",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "- 10",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": ", hoặc người thân thích của bị can;",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "- Ủy ban nhân dân cấp xã/đơn vị Quân đội đang quản lý ngư",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "ời bị cấm đi khỏi nơi cư trú;",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "Trường hợp quyết định việc cấm đi khỏi nơi cư trú trong giai đoạn truy tố thì căn cứ Điều 236 và Điều 241 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0061",
+      "kind": "paragraph",
+      "text": "Chỉ ghi căn cứ này trong trường hợp người bị cấm đi khỏi nơi cư trú là người chưa thành niên",
+      "style": null
+    },
+    {
+      "blockId": "P0062",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Lệnh cấm đi khỏi nơi cư trú",
+      "style": null
+    },
+    {
+      "blockId": "P0063",
+      "kind": "paragraph",
+      "text": "Ghi một trong các quyết định theo quy định tại các điểm a, b và c khoản 1 Điều 125 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0064",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Quyết định không khởi tố vụ án hình sự, Quyết định đình chỉ điều tra vụ án hình sự/đình chỉ vụ án hình sự, Quyết định đình chỉ vụ án hình sự điều tra đối với bị can/đình chỉ vụ án hình sự đối với bị can",
+      "style": null
+    },
+    {
+      "blockId": "P0065",
+      "kind": "paragraph",
+      "text": "10 Ghi họ tên bị can",
+      "style": null
+    },
+    {
+      "blockId": "P0066",
+      "kind": "paragraph",
+      "text": "11 Ghi tên cơ quan, tổ chức, cá nhân có liên quan",
+      "style": null
+    },
+    {
+      "blockId": "P0067",
+      "kind": "paragraph",
+      "text": "12 Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0068",
+      "kind": "paragraph",
+      "text": "Mẫu số 55/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0069",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0070",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "........................................................................................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "......................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "...."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "................................................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "........................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "..................."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ............ tháng ............ năm ......................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày............ tháng ............ năm ..................."
+    }
+  ],
+  "extractedAt": "2026-06-19T00:17:43.045Z"
+}

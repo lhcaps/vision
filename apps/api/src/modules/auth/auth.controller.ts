@@ -13,14 +13,15 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { IsNotEmpty, IsString } from 'class-validator';
-import type { Request, Response } from 'express';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import type { CookieOptions, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CurrentUser as CurrentUserDecorator } from './current-user.decorator';
 import { Public } from './public.decorator';
 import { SESSION_COOKIE_NAME } from './auth.guard';
 import { CurrentUser } from './current-user.type';
 import { PrismaService } from '../../prisma/prisma.service';
+import { hashPassword, verifyPassword } from './password.util';
 
 class LoginDto {
   @IsString()
@@ -30,6 +31,16 @@ class LoginDto {
   @IsString()
   @IsNotEmpty()
   password!: string;
+}
+
+class ChangePasswordDto {
+  @IsString()
+  @IsNotEmpty()
+  currentPassword!: string;
+
+  @IsString()
+  @MinLength(8, { message: 'Mật khẩu mới phải có ít nhất 8 ký tự.' })
+  newPassword!: string;
 }
 
 @ApiTags('Auth')
@@ -89,13 +100,17 @@ export class AuthController {
     });
 
     const cookieOpts = this.authService.getCookieOptions();
-    response.cookie(SESSION_COOKIE_NAME, token, {
+    const cookieSetOptions: CookieOptions = {
       httpOnly: cookieOpts.httpOnly,
       secure: cookieOpts.secure,
       sameSite: cookieOpts.sameSite,
       maxAge: cookieOpts.maxAge,
       path: cookieOpts.path,
-    });
+    };
+    if (cookieOpts.domain) {
+      cookieSetOptions.domain = cookieOpts.domain;
+    }
+    response.cookie(SESSION_COOKIE_NAME, token, cookieSetOptions);
 
     return { user, expiresAt: expiresAt.toISOString() };
   }
@@ -113,7 +128,12 @@ export class AuthController {
     if (token) {
       await this.authService.destroySession(token);
     }
-    response.clearCookie(SESSION_COOKIE_NAME, { path: '/' });
+    const clearOpts: CookieOptions = { path: '/' };
+    const domain = process.env.AUTH_COOKIE_DOMAIN?.trim();
+    if (domain) {
+      clearOpts.domain = domain;
+    }
+    response.clearCookie(SESSION_COOKIE_NAME, clearOpts);
     return { ok: true };
   }
 
@@ -173,5 +193,69 @@ export class AuthController {
       code: agency.agency_code,
       parentName: agency.agencies?.agency_name ?? null,
     };
+  }
+
+  /**
+   * Đổi mật khẩu cho user hiện tại. Sau khi đổi, mọi session khác (thiết bị
+   * khác) sẽ bị buộc đăng xuất; session hiện tại vẫn hoạt động.
+   *
+   * Rate-limit cao hơn login (3/phút) — chống brute force local.
+   */
+  @Throttle({ default: { limit: 3, ttl: 60_000 } })
+  @Post('change-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Đổi mật khẩu (giữ session hiện tại, xoá các session khác)',
+  })
+  @ApiResponse({ status: 200, description: 'Đổi mật khẩu thành công' })
+  @ApiResponse({ status: 401, description: 'Sai mật khẩu hiện tại' })
+  async changePassword(
+    @Body() body: ChangePasswordDto,
+    @CurrentUserDecorator() user: CurrentUser,
+    @Req() request: Request,
+  ): Promise<{ ok: true; revokedOtherSessions: number }> {
+    if (!user) {
+      throw new UnauthorizedException('Chưa đăng nhập.');
+    }
+    if (!body?.currentPassword || !body?.newPassword) {
+      throw new BadRequestException(
+        'Thiếu mật khẩu hiện tại hoặc mật khẩu mới.',
+      );
+    }
+    if (body.currentPassword === body.newPassword) {
+      throw new BadRequestException(
+        'Mật khẩu mới phải khác mật khẩu hiện tại.',
+      );
+    }
+
+    const official = await this.prisma.officials.findUnique({
+      where: { id: BigInt(user.id) },
+    });
+    if (!official || !official.password_hash) {
+      throw new UnauthorizedException('Tài khoản không hợp lệ.');
+    }
+    if (!verifyPassword(body.currentPassword, official.password_hash)) {
+      throw new UnauthorizedException('Mật khẩu hiện tại không đúng.');
+    }
+
+    const newHash = hashPassword(body.newPassword);
+    await this.prisma.officials.update({
+      where: { id: BigInt(user.id) },
+      data: { password_hash: newHash },
+    });
+
+    const currentToken = (
+      request as Request & { cookies?: Record<string, string> }
+    ).cookies?.[SESSION_COOKIE_NAME];
+    const revoked = await this.authService.revokeOtherSessions(
+      user.id,
+      currentToken,
+    );
+
+    this.logger.log(
+      `Password changed for official=${user.id}; revoked ${revoked} other session(s).`,
+    );
+
+    return { ok: true, revokedOtherSessions: revoked };
   }
 }

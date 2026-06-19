@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "description": "Taxonomy cho giá trị `source` của canonicalField. Tuyệt đối KHÔNG dùng guessed/fake/sample/hardcodedPerson làm source.",
+  "allowed": [
+    {
+      "value": "manual",
+      "label": "Người dùng phải nhập thủ công",
+      "description": "Field bắt buộc do người dùng nhập, không có default an toàn."
+    },
+    {
+      "value": "manualOrDefault",
+      "label": "Người dùng nhập, có default an toàn",
+      "description": "Field có thể để trống nhưng hệ thống cung cấp default hợp lý (vd: issueDate = hôm nay)."
+    },
+    {
+      "value": "casePayload",
+      "label": "Lấy từ dữ liệu hồ sơ vụ án",
+      "description": "Field được lấy từ payload của vụ án đang xử lý (vd: caseCode, caseName)."
+    },
+    {
+      "value": "agencyConfig",
+      "label": "Lấy từ cấu hình cơ quan",
+      "description": "Field được fill từ cấu hình VKS đang đăng nhập (vd: agency.name, agency.parentName)."
+    },
+    {
+      "value": "officialConfig",
+      "label": "Lấy từ cấu hình người ký/KSV",
+      "description": "Field được fill từ thông tin KSV/cán bộ đang đăng nhập hoặc được chọn."
+    },
+    {
+      "value": "systemDate",
+      "label": "Lấy từ ngày hệ thống",
+      "description": "Field được fill bằng ngày hiện tại của hệ thống (vd: issueDate nếu không override)."
+    },
+    {
+      "value": "constantFromDocx",
+      "label": "Hằng số cố định từ DOCX",
+      "description": "Field là text cố định đã có sẵn trong DOCX gốc (vd: 'VIỆN KIỂM SÁT NHÂN DÂN')."
+    },
+    {
+      "value": "derived",
+      "label": "Suy ra từ canonical field khác",
+      "description": "Field được sinh ra từ một canonical field khác qua transform (vd: document.issueDate.day từ document.issueDate)."
+    },
+    {
+      "value": "unknown",
+      "label": "Cần người review",
+      "description": "Script không đủ thông tin để xác định source. Bắt buộc reviewRequired=true."
+    }
+  ],
+  "forbidden": [
+    "guessed",
+    "fake",
+    "sample",
+    "hardcodedPerson",
+    "hardcodedName",
+    "hardcodedDate",
+    "placeholderOnly"
+  ]
+}

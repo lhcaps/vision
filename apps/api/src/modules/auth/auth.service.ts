@@ -117,16 +117,82 @@ export class AuthService {
   }
 
   /**
+   * Xoá TẤT CẢ sessions của một official (trừ session hiện tại nếu có).
+   * Dùng khi đổi mật khẩu: buộc mọi thiết bị khác phải đăng nhập lại.
+   * Trả về số session đã xoá.
+   */
+  async revokeOtherSessions(
+    officialId: string,
+    keepRawToken?: string,
+  ): Promise<number> {
+    let officialIdBig: bigint;
+    try {
+      officialIdBig = BigInt(officialId);
+    } catch {
+      return 0;
+    }
+
+    if (keepRawToken) {
+      const keepHash = hashSessionToken(keepRawToken);
+      const result = await this.prisma.$executeRaw`
+        DELETE FROM auth_sessions
+        WHERE official_id = ${officialIdBig}
+          AND token_hash <> ${keepHash}
+      `;
+      this.logger.log(
+        `Revoked ${result} other session(s) for official=${officialId} (kept current)`,
+      );
+      return Number(result ?? 0);
+    }
+
+    const result = await this.prisma.$executeRaw`
+      DELETE FROM auth_sessions WHERE official_id = ${officialIdBig}
+    `;
+    this.logger.log(
+      `Revoked all ${result} session(s) for official=${officialId}`,
+    );
+    return Number(result ?? 0);
+  }
+
+  /**
+   * Xoá tất cả session của official (kể cả session hiện tại).
+   * Dùng khi disable account.
+   */
+  async revokeAllSessions(officialId: string): Promise<number> {
+    let officialIdBig: bigint;
+    try {
+      officialIdBig = BigInt(officialId);
+    } catch {
+      return 0;
+    }
+
+    const result = await this.prisma.$executeRaw`
+      DELETE FROM auth_sessions WHERE official_id = ${officialIdBig}
+    `;
+    return Number(result ?? 0);
+  }
+
+  /**
    * Cookie options cho session.
+   * `domain` được đọc từ env `AUTH_COOKIE_DOMAIN` (optional). Không set mặc định
+   * để cookie chỉ gắn vào exact host (an toàn cho single-origin deployment).
+   * Set domain khi cần share cookie giữa subdomain (vd: app.qlv.local, api.qlv.local).
    */
   getCookieOptions() {
+    const domain = process.env.AUTH_COOKIE_DOMAIN?.trim() || undefined;
     return {
       name: process.env.AUTH_SESSION_COOKIE_NAME ?? 'qlv_session',
       secure: COOKIE_SECURE,
       httpOnly: true,
-      sameSite: 'lax' as const,
+      sameSite:
+        (process.env.AUTH_COOKIE_SAMESITE as
+          | 'lax'
+          | 'strict'
+          | 'none'
+          | undefined) ?? ('lax' as const),
       maxAge: SESSION_TTL_MS,
       path: '/',
+      ...(domain ? { domain } : {}),
     };
   }
 

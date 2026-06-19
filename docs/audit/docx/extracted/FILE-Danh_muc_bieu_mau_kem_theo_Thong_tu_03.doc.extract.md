@@ -1,0 +1,219 @@
+# BM-??? Extract
+
+## Metadata
+- File: `docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc`
+- SHA256: `ce60c04f053a4053852d82d304e77fad2986c3156e46e2102e25e5c875df2bcc`
+- Định dạng: doc
+- Group: docs
+- Detected title: Danh muc bieu mau kem theo Thong tu 03
+- Title: ?
+- Creator: ?
+- Method: clx-fallback
+- Warnings: Clx parse fail (fcClx/lcbClx không hợp lệ)
+
+## Paragraphs (229)
+
+- **P0001**: DANH MỤC
+- **P0002**: Biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố
+- **P0003**: (Ban hành kèm theo Thông tư số 03/2026/TT-VKSTC ngày 09 tháng 02 năm 2026
+- **P0004**: của Viện trưởng Viện kiểm sát nhân dân tối cao)
+- **P0005**: Mẫu số
+- **P0006**: Tên biểu mẫu
+- **P0007**: I. MẪU SỬ DỤNG TRONG TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM VÀ KHỞI TỐ VỤ ÁN HÌNH SỰ
+- **P0008**: Biên bản tiếp nhận nguồn tin về tội phạm
+- **P0009**: Phiếu chuyển nguồn tin về tội phạm
+- **P0010**: Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+- **P0011**: Quyết định thay đổi người thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+- **P0012**: Yêu cầu kiểm tra, xác minh nguồn tin về tội phạm
+- **P0013**: Yêu cầu tiếp nhận/kiểm tra, xác minh/ra quyết định giải quyết nguồn tin về tội phạm
+- **P0014**: Yêu cầu cung cấp tài liệu để kiểm sát việc giải quyết nguồn tin về tội phạm
+- **P0015**: Yêu cầu chuyển nguồn tin về tội phạm
+- **P0016**: Quyết định gia hạn thời hạn giải quyết nguồn tin về tội phạm
+- **P0017**: Quyết định tạm đình chỉ việc giải quyết nguồn tin về tội phạm
+- **P0018**: Quyết định hủy bỏ Quyết định tạm đình chỉ việc giải quyết nguồn tin về tội phạm
+- **P0019**: Quyết định phục hồi việc giải quyết nguồn tin về tội phạm
+- **P0020**: Quyết định giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin về tội phạm
+- **P0021**: Quyết định trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+- **P0022**: Kế hoạch trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+- **P0023**: Kết luận trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm
+- **P0024**: Yêu cầu khởi tố vụ án hình sự
+- **P0025**: Yêu cầu ra Quyết định thay đổi Quyết định khởi tố vụ án hình sự
+- **P0026**: Yêu cầu ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự
+- **P0027**: Yêu cầu ra Quyết định hủy bỏ Quyết định khởi tố vụ án (hoặc Quyết định không khởi tố vụ án hình sự)
+- **P0028**: Quyết định không khởi tố vụ án hình sự
+- **P0029**: Quyết định hủy bỏ Quyết định không khởi tố vụ án hình sự
+- **P0030**: Quyết định khởi tố vụ án hình sự
+- **P0031**: Quyết định thay đổi Quyết định khởi tố vụ án hình sự
+- **P0032**: Quyết định bổ sung Quyết định khởi tố vụ án hình sự
+- **P0033**: Quyết định hủy bỏ Quyết định khởi tố vụ án hình sự
+- **P0034**: Thông báo về việc hủy bỏ Quyết định khởi tố vụ án hình sự
+- **P0035**: Quyết định hủy bỏ Quyết định thay đổi Quyết định khởi tố vụ án hình sự
+- **P0036**: Quyết định hủy bỏ Quyết định bổ sung Quyết định khởi tố vụ án hình sự
+- **P0037**: Thông báo kết quả giải quyết nguồn tin về tội phạm
+- **P0038**: II. MẪU SỬ DỤNG TRONG VIỆC ÁP DỤNG BIỆN PHÁP NGĂN CHẶN, BIỆN PHÁP CƯỠNG CHẾ
+- **P0039**: Quyết định phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp
+- **P0040**: Quyết định không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp
+- **P0041**: Quyết định phê chuẩn Quyết định gia hạn tạm giữ
+- **P0042**: Quyết định không phê chuẩn Quyết định gia hạn tạm giữ
+- **P0043**: Quyết định hủy bỏ Quyết định tạm giữ/Quyết định gia hạn tạm giữ
+- **P0044**: Quyết định trả tự do cho người bị tạm giữ
+- **P0045**: Quyết định phê chuẩn Lệnh bắt bị can để tạm giam
+- **P0046**: Quyết định không phê chuẩn Lệnh bắt bị can để tạm giam
+- **P0047**: Lệnh bắt bị can để tạm giam
+- **P0048**: Quyết định phê chuẩn Lệnh tạm giam
+- **P0049**: Quyết định không phê chuẩn Lệnh tạm giam
+- **P0050**: Quyết định gia hạn tạm giam
+- **P0051**: Quyết định hủy bỏ biện pháp tạm giam
+- **P0052**: Quyết định thay thế biện pháp tạm giam
+- **P0053**: Quyết định phê chuẩn Quyết định về việc bảo lĩnh
+- **P0054**: Quyết định không phê chuẩn Quyết định về việc bảo lĩnh
+- **P0055**: Quyết định về việc bảo lĩnh
+- **P0056**: Quyết định hủy bỏ biện pháp bảo lĩnh
+- **P0057**: Quyết định phê chuẩn Quyết định về việc đặt tiền để bảo đảm
+- **P0058**: Quyết định không phê chuẩn Quyết định về việc đặt tiền để bảo đảm
+- **P0059**: Quyết định về việc đặt tiền để bảo đảm
+- **P0060**: Quyết định hủy bỏ biện pháp đặt tiền để bảo đảm
+- **P0061**: Lệnh cấm đi khỏi nơi cư trú
+- **P0062**: Thông báo về việc áp dụng biện pháp cấm đi khỏi nơi cư trú
+- **P0063**: Quyết định hủy bỏ biện pháp cấm đi khỏi nơi cư trú
+- **P0064**: Quyết định tạm hoãn xuất cảnh
+- **P0065**: Quyết định hủy bỏ biện pháp tạm hoãn xuất cảnh
+- **P0066**: Lệnh tạm giam
+- **P0067**: Quyết định gia hạn thời hạn tạm giam để truy tố
+- **P0068**: Quyết định áp giải bị can
+- **P0069**: Quyết định dẫn giải
+- **P0070**: Lệnh kê biên tài sản
+- **P0071**: Biên bản kê biên tài sản
+- **P0072**: Quyết định hủy bỏ biện pháp kê biên tài sản
+- **P0073**: Biên bản về việc thi hành Quyết định hủy bỏ biện pháp kê biên tài sản
+- **P0074**: Lệnh phong tỏa tài khoản
+- **P0075**: Biên bản phong tỏa tài khoản
+- **P0076**: Quyết định hủy bỏ biện pháp phong tỏa tài khoản
+- **P0077**: Biên bản hủy bỏ biện pháp phong tỏa tài khoản
+- **P0078**: III. MẪU SỬ DỤNG ĐỐI VỚI NGƯỜI CÓ THẤM QUYỀN TIẾN HÀNH TỐ TỤNG, NGƯỜI THAM GIA TỐ TỤNG
+- **P0079**: Quyết định phân công Phó Viện trưởng thực hành quyền công tố, kiểm sát việc giải quyết vụ án hình sự
+- **P0080**: Quyết định phân công Kiểm sát viên/Kiểm tra viên thực hành quyền công tố, kiểm sát việc giải quyết vụ án hình sự
+- **P0081**: Quyết định thay đổi người thực hành quyền công tố, kiểm sát việc giải quyết vụ án hình sự
+- **P0082**: Yêu cầu thay đổi Thủ trưởng/Cấp trưởng/Phó Thủ trưởng/Cấp phó cơ quan có thẩm quyền điều tra/Điều tra viên/cán bộ điều tra
+- **P0083**: Yêu cầu cử người phiên dịch/người dịch thuật
+- **P0084**: Đề nghị thay đổi người phiên dịch/người dịch thuật
+- **P0085**: Quyết định thay đổi người phiên dịch/người dịch thuật
+- **P0086**: Yêu cầu/Đề nghị cử người bào chữa
+- **P0087**: Thông báo về việc đăng ký người bào chữa
+- **P0088**: Thông báo về việc hủy bỏ đăng ký bào chữa
+- **P0089**: Thông báo từ chối việc đăng ký bào chữa
+- **P0090**: Quyết định thời điểm người bào chữa tham gia tố tụng
+- **P0091**: Thông báo cho người bào chữa về thời gian, địa điểm tiến hành hoạt động tố tụng
+- **P0092**: Yêu cầu thay đổi người giám định/người định giá tài sản
+- **P0093**: Quyết định thay đổi người giám định/người định giá tài sản
+- **P0094**: IV. MẪU SỬ DỤNG TRONG GIAI ĐOẠN ĐIỀU TRA VỤ ÁN HÌNH SỰ
+- **P0095**: Quyết định chuyển vụ án hình sự để điều tra theo thẩm quyền
+- **P0096**: Quyết định chuyển việc thực hiện thẩm quyền thực hành quyền công tố, kiểm sát việc giải quyết vụ việc/vụ án hình sự
+- **P0097**: Yêu cầu điều tra
+- **P0098**: Quyết định hủy bỏ Quyết định nhập vụ án hình sự
+- **P0099**: Quyết định hủy bỏ Quyết định tách vụ án hình sự
+- **P0100**: Quyết định phê chuẩn Quyết định khởi tố bị can
+- **P0101**: Quyết định phê chuẩn Quyết định thay đổi Quyết định khởi tố bị can
+- **P0102**: Quyết định phê chuẩn Quyết định bổ sung Quyết định khởi tố bị can
+- **P0103**: Quyết định hủy bỏ Quyết định thay đổi Quyết định khởi tố bị can
+- **P0104**: Quyết định hủy bỏ Quyết định bổ sung Quyết định khởi tố bị can
+- **P0105**: Quyết định hủy bỏ Quyết định hủy bỏ Quyết định khởi tố bị can
+- **P0106**: Yêu cầu ra Quyết định khởi tố bị can
+- **P0107**: Quyết định khởi tố bị can
+- **P0108**: Yêu cầu ra Quyết định thay đổi Quyết định khởi tố bị can
+- **P0109**: Quyết định thay đổi Quyết định khởi tố bị can
+- **P0110**: Yêu cầu ra Quyết định bổ sung Quyết định khởi tố bị can
+- **P0111**: Quyết định bổ sung Quyết định khởi tố bị can
+- **P0112**: Quyết định hủy bỏ Quyết định khởi tố bị can
+- **P0113**: Đề nghị gia hạn thời hạn điều tra vụ án hình sự
+- **P0114**: Quyết định gia hạn thời hạn điều tra vụ án hình sự
+- **P0115**: Quyết định không gia hạn thời hạn điều tra vụ án hình sự
+- **P0116**: Yêu cầu truy nã bị can
+- **P0117**: Quyết định hủy bỏ Quyết định tạm đình chỉ điều tra vụ án hình sự
+- **P0118**: Quyết định hủy bỏ Quyết định tạm
+- **P0119**: ̀đình chỉ điều tra bị can
+- **P0120**: Quyết định hủy bỏ Quyết định tạm đình chỉ điều tra vụ án hình sự đối với bị can
+- **P0121**: Quyết định hủy bỏ Quyết định đình chỉ điều tra vụ án hình sự
+- **P0122**: Quyết định hủy bỏ Quyết định đình chỉ điều tra bị can
+- **P0123**: Quyết định hủy bỏ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can
+- **P0124**: Yêu cầu phục hồi điều tra vụ án hình sự
+- **P0125**: Yêu cầu phục hồi điều tra bị can
+- **P0126**: Yêu cầu phục hồi điều tra vụ án hình sự đối với bị can
+- **P0127**: Quyết định phục hồi điều tra vụ án hình sự
+- **P0128**: Quyết định phục hồi điều tra bị can
+- **P0129**: Quyết định phục hồi điều tra vụ án hình sự đối với bị can
+- **P0130**: Quyết định phê chuẩn Lệnh khám xét
+- **P0131**: Quyết định không phê chuẩn Lệnh khám xét
+- **P0132**: Quyết định phê chuẩn Lệnh thu giữ thư tín/điện tín/bưu kiện/bưu phẩm
+- **P0133**: Quyết định không phê chuẩn Lệnh thu giữ thư tín/điện tín/bưu kiện/bưu phẩm
+- **P0134**: Quyết định thực nghiệm điều tra
+- **P0135**: Biên bản thực nghiệm điều tra
+- **P0136**: Thông báo về việc không chấp nhận đề nghị trưng cầu giám định/định giá tài sản
+- **P0137**: Quyết định trưng cầu giám định
+- **P0138**: Yêu cầu định giá tài sản
+- **P0139**: Thông báo nội dung kết luận giám định/kết luận định giá tài sản
+- **P0140**: Quyết định trưng cầu giám định bổ sung
+- **P0141**: Quyết định trưng cầu giám định lại
+- **P0142**: Yêu cầu định giá lại tài sản
+- **P0143**: Quyết định định giá lại tài sản trong trường hợp đặc biệt
+- **P0144**: Quyết định giám định lại trong trường hợp đặc biệt
+- **P0145**: Biên bản ghi lời khai
+- **P0146**: Biên bản hỏi cung bị can
+- **P0147**: Biên bản đối chất
+- **P0148**: Biên bản xác minh/làm việc
+- **P0149**: Yêu cầu cung cấp tài liệu liên quan đến hành vi, quyết định tố tụng có vi phạm pháp luật trong điều tra
+- **P0150**: Kiến nghị khắc phục vi phạm pháp luật trong hoạt động tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố, điều tra
+- **P0151**: Kiến nghị áp dụng biện pháp phòng ngừa tội phạm, vi phạm pháp luật
+- **P0152**: V. MẪU SỬ DỤNG TRONG GIAI ĐOẠN TRUY TỐ
+- **P0153**: Quyết định chuyển vụ án hình sự để truy tố theo thẩm quyền
+- **P0154**: Quyết định nhập vụ án hình sự
+- **P0155**: Quyết định tách vụ án hình sự
+- **P0156**: Quyết định gia hạn thời hạn quyết định việc truy tố
+- **P0157**: Quyết định trả hồ sơ vụ án để điều tra bổ sung
+- **P0158**: Quyết định tạm đình chỉ vụ án hình sự
+- **P0159**: Quyết định hủy bỏ Quyết định tạm đình chỉ vụ án hình sự
+- **P0160**: Quyết định tạm đình chỉ vụ án đối với bị can
+- **P0161**: Quyết định hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can
+- **P0162**: Quyết định đình chỉ vụ án hình sự
+- **P0163**: Quyết định hủy bỏ Quyết định đình chỉ vụ án hình sự
+- **P0164**: Quyết định đình chỉ vụ án hình sự đối với bị can
+- **P0165**: Quyết định hủy bỏ Quyết định đình chỉ vụ án hình sự đối với bị can
+- **P0166**: Quyết định phục hồi vụ án hình sự
+- **P0167**: Quyết định phục hồi vụ án hình sự đối với bị can
+- **P0168**: Cáo trạng
+- **P0169**: Bản kê vật chứng kèm theo Cáo trạng
+- **P0170**: Danh sách những người Viện kiểm sát đề nghị Tòa án triệu tập đến phiên tòa
+- **P0171**: Quyết định phân công viện kiểm sát cấp dưới thực hành quyền công tố, kiểm sát xét xử sơ thẩm vụ án hình sự
+- **P0172**: Biên bản niêm yết công khai văn bản tố tụng
+- **P0173**: Phiếu yêu cầu trích xuất
+- **P0174**: Giấy mời
+- **P0175**: Giấy triệu tập
+- **P0176**: Biên bản giao nhận Cáo trạng/Quyết định truy tố theo thủ tục rút gọn/Quyết định tạm đình chỉ vụ án hình sự/Quyết định đình chỉ vụ án hình sự
+- **P0177**: Thông báo về việc vụ án có bị can bị tạm giam
+- **P0178**: Quyết định trả hồ sơ vụ án để điều tra lại
+- **P0179**: Thông báo về việc truy tố bị can/trả hồ sơ vụ án để điều tra bổ sung/đình chỉ hoặc tạm đình chỉ vụ án hình sự/đình chỉ hoặc tạm đình chỉ vụ án hình sự đối với bị can
+- **P0180**: Biên bản giao nhận hồ sơ vụ việc/vụ án
+- **P0181**: VI. MẪU SỬ DỤNG TRONG XỬ LÝ VẬT CHỨNG, TÀI SẢN BỊ THU GIỮ
+- **P0182**: Quyết định xử lý vật chứng
+- **P0183**: Quyết định hủy bỏ Quyết định xử lý vật chứng
+- **P0184**: Quyết định trả lại tài sản
+- **P0185**: Quyết định hủy bỏ Quyết định trả lại tài sản
+- **P0186**: Quyết định chuyển vật chứng
+- **P0187**: VII. MẪU SỬ DỤNG TRONG ÁP DỤNG BIỆN PHÁP ĐIỀU TRA TỐ TỤNG ĐẶC BIỆT
+- **P0188**: Yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt
+- **P0189**: Quyết định phê chuẩn Quyết định áp dụng biện pháp điều tra tố tụng đặc biệt
+- **P0190**: Quyết định không phê chuẩn Quyết định áp dụng biện pháp điều tra tố tụng đặc biệt
+- **P0191**: Quyết định gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt
+- **P0192**: Quyết định hủy bỏ Quyết định áp dụng biện pháp điều tra tố tụng đặc biệt
+- **P0193**: VIII. MẪU SỬ DỤNG TRONG ÁP DỤNG THỦ TỤC ĐẶC BIỆT
+- **P0194**: Quyết định áp dụng biện pháp bắt buộc chữa bệnh
+- **P0195**: Quyết định đình chỉ thi hành biện pháp bắt buộc chữa bệnh
+- **P0196**: Quyết định áp dụng thủ tục rút gọn
+- **P0197**: Quyết định hủy bỏ Quyết định áp dụng thủ tục rút gọn
+- **P0198**: Quyết định truy tố theo thủ tục rút gọn
+- **P0199**: Đề nghị áp dụng biện pháp bảo vệ
+- **P0200**: IX. MẪU TỐ TỤNG ĐỐI VỚI NGƯỜI CHƯA THÀNH NIÊN
+- ... _(29 paragraph còn lại bị cắt)_
+
+## Placeholder candidates (0)
+

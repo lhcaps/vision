@@ -4,6 +4,37 @@
 > task. The `failure-log` skill governs what to record.
 > Format: most recent entry first.
 
+## 2026-06-19
+**Request**: Add server-side route protection (auth bouncer) to web app.
+**What I tried**: Created `apps/web/src/middleware.ts` (Edge runtime,
+session-cookie check) and shipped it. Console showed
+`⚠ The "middleware" file convention is deprecated. Please use
+"proxy" instead.` from Next.js 16.2.5.
+**Root cause**: I did not run `pnpm dev` (or grep `next dev` output)
+after creating the file. Next.js 16.0.0 deprecated the
+`middleware.ts` filename in favor of `proxy.ts`; the file still
+works but is auto-redirected. The fix is mechanical: rename
+file, rename the exported function from `middleware` to `proxy`,
+drop Edge-only constructs.
+**Skill that should have caught it**: `tools-and-frameworks` /
+Web skill — when I introduced a new file convention in a Next.js
+project, I should have grepped `next dev` output for deprecation
+warnings (or read the Next.js version in `apps/web/package.json`
+and cross-referenced its changelog).
+**Fix**:
+- Renamed `apps/web/src/middleware.ts` → `apps/web/src/proxy.ts`.
+- Renamed `export function middleware` → `export function proxy`.
+- Kept matcher config; no `next.config.ts` flag needs renaming
+  (project doesn't use `skipMiddlewareUrlNormalize`).
+- Re-ran `tsc --noEmit` and `eslint` — clean.
+- Verified against Next.js 16.2 docs: `proxy.ts` runs on
+  Node.js, not Edge; the function only used `NextRequest` /
+  `NextResponse` so no Edge-only API was lost.
+**Lesson**: For Next.js 16+, `proxy.ts` is the convention.
+Always check the project's `next` version (16.2.5 here) before
+introducing a new file convention. Adding a new convention is a
+"scan the dev server output" step, not a "write the file" step.
+
 ## 2026-06-16
 **Request**: Recover the meta-harness after workspace deletion.
 **What I tried**: Used `Remove-Item -Recurse -Force` and `cmd /c

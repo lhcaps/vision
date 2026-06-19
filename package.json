@@ -34,7 +34,16 @@
     "audit:templates:corpus": "node scripts/report-template-corpus.mjs",
     "audit:templates": "node scripts/audit-template-source-coverage.mjs",
     "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs",
-    "normalize:templates:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1"
+    "normalize:templates:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1",
+    "audit:docx:inventory": "node scripts/docx-contract/inventory-docx.mjs",
+    "audit:docx:extract": "node scripts/docx-contract/extract-docx-structure.mjs",
+    "audit:docx:draft": "node scripts/docx-contract/draft-contracts.mjs",
+    "audit:docx:verify": "node scripts/docx-contract/verify-contracts.mjs",
+    "audit:docx:compare": "node scripts/docx-contract/compare-bespoke-to-contracts.mjs",
+    "audit:docx:report": "node scripts/docx-contract/generate-audit-report.mjs",
+    "audit:docx:pilot": "node scripts/docx-contract/generate-pilot-reviews.mjs",
+    "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
+    "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",

@@ -1,0 +1,658 @@
+{
+  "templateCode": "BM-171",
+  "fileName": "171-QĐ trả lại tài sản.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/171-QĐ trả lại tài sản.doc",
+  "group": "docs",
+  "detectedTitle": "QĐ trả lại tài sản",
+  "sha256": "46b9a8be4e01d85f5e44985712f3443a47d55c4521c680756c2bdfd80cb0f28f",
+  "sizeBytes": 56832,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 72 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 3037,
+      "paragraphCount": 95,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "/QĐ-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "TRẢ LẠI TÀI SẢN",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 41, Điều 106",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "của Bộ luật Tố tụng hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "(Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": ", nếu có) của",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định khởi tố bị can số",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "(Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": ", nếu có) của",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "đối với",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự (nếu có);",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Căn cứ Bản kết luận điều tra vụ án hình sự đề nghị truy tố số",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "...;",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định đình chỉ/tạm đình chỉ vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "của Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "(nếu có);",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định đình chỉ/tạm đình chỉ vụ án hình sự đối với bị can số",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "của Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "(nếu có);",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "Xét thấy10",
+      "style": null
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH:",
+      "style": null
+    },
+    {
+      "blockId": "P0061",
+      "kind": "paragraph",
+      "text": "Điều 1. Trả lại tài sản sau đây:",
+      "style": null
+    },
+    {
+      "blockId": "P0062",
+      "kind": "paragraph",
+      "text": "Cho ông/bà:11 ........................................................ Giới tính:",
+      "style": null
+    },
+    {
+      "blockId": "P0063",
+      "kind": "paragraph",
+      "text": "Tên gọi khác:",
+      "style": null
+    },
+    {
+      "blockId": "P0064",
+      "kind": "paragraph",
+      "text": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0065",
+      "kind": "paragraph",
+      "text": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
+      "style": null
+    },
+    {
+      "blockId": "P0066",
+      "kind": "paragraph",
+      "text": "Nghề nghiệp:",
+      "style": null
+    },
+    {
+      "blockId": "P0067",
+      "kind": "paragraph",
+      "text": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "style": null
+    },
+    {
+      "blockId": "P0068",
+      "kind": "paragraph",
+      "text": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+      "style": null
+    },
+    {
+      "blockId": "P0069",
+      "kind": "paragraph",
+      "text": "Nơi thường trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0070",
+      "kind": "paragraph",
+      "text": "Nơi tạm trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0071",
+      "kind": "paragraph",
+      "text": "Nơi ở hiện tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0072",
+      "kind": "paragraph",
+      "text": "Là chủ sở hữu, quản lý hợp pháp đối với tài sản",
+      "style": null
+    },
+    {
+      "blockId": "P0073",
+      "kind": "paragraph",
+      "text": "Điều 2. Yêu cầu12",
+      "style": null
+    },
+    {
+      "blockId": "P0074",
+      "kind": "paragraph",
+      "text": "thực hiện Quyết định này theo đúng quy định của Bộ luật Tố tụng hình sự./.",
+      "style": null
+    },
+    {
+      "blockId": "P0075",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0076",
+      "kind": "paragraph",
+      "text": "- 12...;",
+      "style": null
+    },
+    {
+      "blockId": "P0077",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0078",
+      "kind": "paragraph",
+      "text": "13",
+      "style": null
+    },
+    {
+      "blockId": "P0079",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0080",
+      "kind": "paragraph",
+      "text": "12 Ghi cụ thể cơ quan, người có thẩm quyền bảo quản, xử lý vật chứng; cơ quan, tổ chức, cá nhân có liên quan",
+      "style": null
+    },
+    {
+      "blockId": "P0081",
+      "kind": "paragraph",
+      "text": "13 Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0082",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0083",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0084",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0085",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0086",
+      "kind": "paragraph",
+      "text": "Trường hợp Quyết định trả lại tài sản trong giai đoạn truy tố thì bổ sung căn cứu Điều 248 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0087",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố vụ án hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0088",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố bị can",
+      "style": null
+    },
+    {
+      "blockId": "P0089",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người hoặc tên pháp nhân bị khởi tố",
+      "style": null
+    },
+    {
+      "blockId": "P0090",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Bản Kết luận điều tra vụ án hình sự đề nghị truy tố",
+      "style": null
+    },
+    {
+      "blockId": "P0091",
+      "kind": "paragraph",
+      "text": "10 Ghi rõ lý do trả lại tài sản theo điểm a khoản 3 Điều 106 của Bộ luật Tố tụng hình sự hoặc trong trường hợp tạm đình chỉ/đình chỉ vụ án hình sự theo quy định của pháp luật",
+      "style": null
+    },
+    {
+      "blockId": "P0092",
+      "kind": "paragraph",
+      "text": "11 Ghi họ tên người được trả lại tài sản; trường hợp trả cho cơ quan, tổ chức thì ghi đầy đủ thông tin của cơ quan, tổ chức (gồm: tên, địa chỉ đặt trụ sở chính; số đăng ký kinh doanh, quốc tịch, họ tên người đại diện theo pháp luật (nếu có),",
+      "style": null
+    },
+    {
+      "blockId": "P0093",
+      "kind": "paragraph",
+      "text": "Mẫu số 171/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0094",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0095",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "........................................................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "......................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "................................................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "........................"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "..................."
+    },
+    {
+      "kind": "ellipsis",
+      "raw": "..."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ............ tháng ............ năm ......................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày............ tháng ............ năm ..................."
+    }
+  ],
+  "extractedAt": "2026-06-19T00:17:43.136Z"
+}

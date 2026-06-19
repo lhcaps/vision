@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0",
+  "templateCode": "BM-049",
+  "templateTitle": "QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm",
+  "docx": {
+    "sha256": "798e9b21ce2ea8c6c7ee924b529762307bb4ce3dc0d48f6191bac4d64450c8f9",
+    "fileName": "49-QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/49-QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.blank1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "................................................."
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.field1",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.blank1",
+      "from": "document.field1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 20 at 0"
+  ],
+  "generatedAt": "2026-06-19T00:17:43.446Z"
+}

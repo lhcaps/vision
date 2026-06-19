@@ -1,0 +1,2167 @@
+{
+  "generatedAt": "2026-06-19T00:17:43.858Z",
+  "summary": {
+    "totalSlots": 2090,
+    "totalBound": 2090,
+    "totalUnknown": 1617,
+    "totalReview": 5797,
+    "totalMissingBinding": 0,
+    "totalLocked": 0,
+    "totalDraft": 215,
+    "totalIssues": 0,
+    "totalWarnings": 0,
+    "lockedInvalid": 0
+  },
+  "perContract": [
+    {
+      "code": "BM-001",
+      "status": "draft",
+      "slots": 31,
+      "bindings": 31,
+      "unknownSources": 24,
+      "reviewRequired": 86,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-002",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-003",
+      "status": "draft",
+      "slots": 8,
+      "bindings": 8,
+      "unknownSources": 8,
+      "reviewRequired": 24,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-004",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-005",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-006",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-007",
+      "status": "draft",
+      "slots": 8,
+      "bindings": 8,
+      "unknownSources": 8,
+      "reviewRequired": 24,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-008",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-009",
+      "status": "draft",
+      "slots": 12,
+      "bindings": 12,
+      "unknownSources": 12,
+      "reviewRequired": 36,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-010",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-011",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-012",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-013",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-014",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-015",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-016",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-017",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-018",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-019",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-020",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-021",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-022",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-023",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-024",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-025",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-026",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-027",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-028",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-029",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-030",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-031",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-032",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-033",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-034",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-035",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-036",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-037",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-038",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-039",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-040",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-041",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-042",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-043",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-044",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-045",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-046",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-047",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-048",
+      "status": "draft",
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 11,
+      "reviewRequired": 47,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-049",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-050",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-051",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-052",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-053",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-054",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-055",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-056",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-057",
+      "status": "draft",
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 14,
+      "reviewRequired": 56,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-058",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-059",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-060",
+      "status": "draft",
+      "slots": 26,
+      "bindings": 26,
+      "unknownSources": 17,
+      "reviewRequired": 69,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-061",
+      "status": "draft",
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 11,
+      "reviewRequired": 47,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-062",
+      "status": "draft",
+      "slots": 27,
+      "bindings": 27,
+      "unknownSources": 20,
+      "reviewRequired": 74,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-063",
+      "status": "draft",
+      "slots": 27,
+      "bindings": 27,
+      "unknownSources": 20,
+      "reviewRequired": 74,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-064",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-065",
+      "status": "draft",
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 14,
+      "reviewRequired": 56,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-066",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-067",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-068",
+      "status": "draft",
+      "slots": 31,
+      "bindings": 31,
+      "unknownSources": 24,
+      "reviewRequired": 86,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-069",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-070",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-071",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-072",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-073",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-074",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-075",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-076",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-077",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-078",
+      "status": "draft",
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 10,
+      "reviewRequired": 44,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-079",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-080",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-081",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-082",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-083",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-084",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-085",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-086",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-087",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-088",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-089",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-090",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-091",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-092",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-093",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-094",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-095",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-096",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-097",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-098",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-099",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-100",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-101",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-102",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-103",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-104",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-105",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-106",
+      "status": "draft",
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 11,
+      "reviewRequired": 47,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-107",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-108",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-109",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-110",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-111",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-112",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-113",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-114",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-115",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-116",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-117",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-118",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-119",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-120",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-121",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-122",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-123",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-124",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-125",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-126",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-127",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-128",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-129",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-130",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-131",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-132",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-133",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-134",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-135",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-136",
+      "status": "draft",
+      "slots": 38,
+      "bindings": 38,
+      "unknownSources": 23,
+      "reviewRequired": 99,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-137",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-138",
+      "status": "draft",
+      "slots": 8,
+      "bindings": 8,
+      "unknownSources": 8,
+      "reviewRequired": 24,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-139",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-140",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-141",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-142",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-143",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-144",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-145",
+      "status": "draft",
+      "slots": 10,
+      "bindings": 10,
+      "unknownSources": 10,
+      "reviewRequired": 30,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-146",
+      "status": "draft",
+      "slots": 9,
+      "bindings": 9,
+      "unknownSources": 9,
+      "reviewRequired": 27,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-147",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-148",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-149",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-150",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-151",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-152",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-153",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-154",
+      "status": "draft",
+      "slots": 7,
+      "bindings": 7,
+      "unknownSources": 7,
+      "reviewRequired": 21,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-155",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-156",
+      "status": "draft",
+      "slots": 11,
+      "bindings": 11,
+      "unknownSources": 11,
+      "reviewRequired": 33,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-157",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-158",
+      "status": "draft",
+      "slots": 0,
+      "bindings": 0,
+      "unknownSources": 0,
+      "reviewRequired": 0,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-159",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-160",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-161",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-162",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-163",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-164",
+      "status": "draft",
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 14,
+      "reviewRequired": 56,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-165",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-166",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-167",
+      "status": "draft",
+      "slots": 0,
+      "bindings": 0,
+      "unknownSources": 0,
+      "reviewRequired": 0,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-168",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-169",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-170",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-171",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-172",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-173",
+      "status": "draft",
+      "slots": 6,
+      "bindings": 6,
+      "unknownSources": 6,
+      "reviewRequired": 18,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-174",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-175",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-176",
+      "status": "draft",
+      "slots": 8,
+      "bindings": 8,
+      "unknownSources": 8,
+      "reviewRequired": 24,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-177",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-178",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-179",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-180",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-181",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-182",
+      "status": "draft",
+      "slots": 3,
+      "bindings": 3,
+      "unknownSources": 3,
+      "reviewRequired": 9,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-183",
+      "status": "draft",
+      "slots": 8,
+      "bindings": 8,
+      "unknownSources": 8,
+      "reviewRequired": 24,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-184",
+      "status": "draft",
+      "slots": 28,
+      "bindings": 28,
+      "unknownSources": 21,
+      "reviewRequired": 77,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-185",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-186",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-187",
+      "status": "draft",
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 14,
+      "reviewRequired": 56,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-188",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-189",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-190",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 15,
+      "reviewRequired": 55,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-191",
+      "status": "draft",
+      "slots": 26,
+      "bindings": 26,
+      "unknownSources": 19,
+      "reviewRequired": 71,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-192",
+      "status": "draft",
+      "slots": 25,
+      "bindings": 25,
+      "unknownSources": 18,
+      "reviewRequired": 68,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-193",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-194",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-195",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-196",
+      "status": "draft",
+      "slots": 26,
+      "bindings": 26,
+      "unknownSources": 19,
+      "reviewRequired": 71,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-197",
+      "status": "draft",
+      "slots": 1,
+      "bindings": 1,
+      "unknownSources": 1,
+      "reviewRequired": 3,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-198",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-199",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-200",
+      "status": "draft",
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 2,
+      "reviewRequired": 6,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-201",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-202",
+      "status": "draft",
+      "slots": 4,
+      "bindings": 4,
+      "unknownSources": 4,
+      "reviewRequired": 12,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-203",
+      "status": "draft",
+      "slots": 25,
+      "bindings": 25,
+      "unknownSources": 18,
+      "reviewRequired": 68,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-204",
+      "status": "draft",
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 12,
+      "reviewRequired": 50,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-205",
+      "status": "draft",
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 14,
+      "reviewRequired": 56,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-206",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-207",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-208",
+      "status": "draft",
+      "slots": 23,
+      "bindings": 23,
+      "unknownSources": 16,
+      "reviewRequired": 62,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-209",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 17,
+      "reviewRequired": 57,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-210",
+      "status": "draft",
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 15,
+      "reviewRequired": 59,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-211",
+      "status": "draft",
+      "slots": 24,
+      "bindings": 24,
+      "unknownSources": 17,
+      "reviewRequired": 65,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-212",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": "BM-213",
+      "status": "draft",
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 13,
+      "reviewRequired": 53,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": null,
+      "status": "draft",
+      "slots": 0,
+      "bindings": 0,
+      "unknownSources": 0,
+      "reviewRequired": 0,
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "code": null,
+      "status": "draft",
+      "slots": 0,
+      "bindings": 0,
+      "unknownSources": 0,
+      "reviewRequired": 0,
+      "issues": [],
+      "warnings": []
+    }
+  ]
+}
