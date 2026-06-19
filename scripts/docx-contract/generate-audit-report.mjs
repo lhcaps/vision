@@ -29,9 +29,10 @@ const master = () => {
   md.push("## Summary");
   md.push("");
   md.push(`- Tổng DOCX tìm thấy trong folder nguồn: **${inv.summary.totalFiles}** (${inv.summary.totalDocx} .docx + ${inv.summary.totalDoc} .doc)`);
+  md.push(`- Biểu mẫu (form): **${inv.summary.formCount}** | Tài liệu tham chiếu (Thông tư/Danh mục): **${inv.summary.referenceCount}**`);
   md.push(`- Tổng BM codes detect được: **${inv.summary.distinctCodes}** (BM-001..BM-213 đầy đủ, 0 missing)`);
-  md.push(`- Duplicate BM code: **${inv.summary.duplicateCount}** (BM-139 có 2 file)`);
-  md.push(`- File không detect được code: **${inv.summary.needsReviewCount}** (2 file Thông tư)`);
+  md.push(`- Duplicate BM code: **${inv.summary.duplicateCount}** (BM-139 có 2 file — reviewer phải chọn canonical source)`);
+  md.push(`- File không detect được code: **${inv.summary.needsReviewCount}** (2 file Thông tư — xem REFERENCE-DOCUMENTS.md)`);
   md.push(`- File lỗi/corrupt: **${inv.summary.errorCount}**`);
   md.push(`- Extract success count: **${inv.records.length - inv.summary.errorCount}/${inv.records.length}**`);
   md.push(`- Draft contract count: **${cov.summary.totalDraft}** | locked: **${cov.summary.totalLocked}**`);
@@ -69,7 +70,7 @@ const master = () => {
   md.push("");
   md.push("## Current risk level");
   md.push("");
-  md.push("- **Cao**: 0/215 contract locked, 100% source=unknown, 100% reviewRequired=true.");
+  md.push(`- **Cao**: 0/${cov.summary.totalDraft} contract locked, 100% source=unknown, 100% reviewRequired=true.`);
   md.push("- **Trung bình**: 481 UI gene violations tổng cộng (chủ yếu ở BM-002, BM-003, BM-039, BM-097, BM-156 vẫn dùng custom shell).");
   md.push("- **Cao**: 68 BESPOKE dùng GenericTemplateFormInputsPanel (stub), chưa có contract cho từng BM này.");
   md.push("- **Thấp**: 0 file lỗi extract — pipeline ổn định, idempotent.");
@@ -80,12 +81,27 @@ const master = () => {
   md.push("");
   md.push("Tóm tắt:");
   md.push("");
-  md.push("| BM | Tên | Paragraphs | Blanks | Slots | Fields | Review |");
-  md.push("|---|---|---:|---:|---:|---:|---:|");
+  md.push("| SourceId | BM | Tên | Paragraphs | Blanks | Slots | Fields | Review |");
+  md.push("|---|---|---|---:|---:|---:|---:|---|");
   for (const code of ["BM-001", "BM-002", "BM-003", "BM-004"]) {
-    const ext = loadJson(path.join(EXTRACT_DIR, `${code}.extract.json`));
-    const con = loadJson(path.join(CONTRACTS_DIR, `${code}.contract.draft.json`));
-    md.push(`| ${code} | ${ext.detectedTitle} | ${ext.textBlocks.length} | ${ext.blankCandidates.length} | ${con.docxSlots.length} | ${con.canonicalFields.length} | Tất cả slot+field đều reviewRequired=true |`);
+    // Tìm file extract/contract theo templateCode (lấy file đầu tiên nếu duplicate).
+    const extractFiles = fs.readdirSync(EXTRACT_DIR).filter((n) => n.endsWith(".extract.json"));
+    const ext = extractFiles
+      .map((n) => loadJson(path.join(EXTRACT_DIR, n)))
+      .find((e) => e.templateCode === code);
+    if (!ext) {
+      md.push(`| - | ${code} | (chưa extract) | - | - | - | - | - |`);
+      continue;
+    }
+    const contractFiles = fs.readdirSync(CONTRACTS_DIR).filter((n) => n.endsWith(".contract.draft.json"));
+    const con = contractFiles
+      .map((n) => loadJson(path.join(CONTRACTS_DIR, n)))
+      .find((c) => c.sourceId === ext.sourceId);
+    if (!con) {
+      md.push(`| ${ext.sourceId} | ${code} | ${ext.detectedTitle} | ${ext.textBlocks.length} | ${ext.blankCandidates.length} | - | - | (chưa draft) |`);
+      continue;
+    }
+    md.push(`| ${ext.sourceId} | ${code} | ${ext.detectedTitle} | ${ext.textBlocks.length} | ${ext.blankCandidates.length} | ${con.docxSlots.length} | ${con.canonicalFields.length} | Tất cả slot+field đều reviewRequired=true |`);
   }
   md.push("");
   md.push("## Recommended migration strategy");
@@ -112,22 +128,24 @@ const master = () => {
   md.push("");
   md.push("## Definition of Done");
   md.push("");
-  md.push("- [x] 213/213 inventoried (trong folder nguồn `0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC`)");
-  md.push("- [x] 213/213 extracted (extractor chạy hết, 0 error)");
-  md.push("- [x] 213/213 contracts drafted");
-  md.push("- [ ] 213/213 contracts reviewed và locked (chưa — chờ reviewer)");
-  md.push("- [ ] 0 unknown sources (hiện tại ~1600+)");
-  md.push("- [ ] 0 unresolved slots (chưa — chờ reviewer)");
-  md.push("- [ ] 213/213 render smoke pass (chưa — cần ContractDrivenFormPanel pilot)");
-  md.push("- [ ] 213/213 PDF smoke pass (chưa — cần backend render integration)");
-  md.push("- [ ] shared UI gene pass (chưa — 481 violations đang tồn tại)");
+  md.push(`- [x] ${inv.records.length}/${inv.records.length} inventoried (trong folder nguồn \`0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC\`)`);
+  md.push(`- [x] ${inv.records.length - inv.summary.errorCount}/${inv.records.length} extracted (extractor chạy hết, 0 error)`);
+  md.push(`- [x] ${cov.summary.totalDraft}/${inv.summary.formCount} contracts drafted (form only, ${inv.summary.referenceCount} reference docs excluded)`);
+  md.push(`- [ ] ${inv.summary.formCount}/${inv.summary.formCount} contracts reviewed và locked (chưa — chờ reviewer)`);
+  md.push(`- [ ] 0 unknown sources (hiện tại ${cov.summary.totalUnknown})`);
+  md.push(`- [ ] 0 unresolved slots (chưa — chờ reviewer)`);
+  md.push(`- [ ] ${inv.summary.formCount}/${inv.summary.formCount} render smoke pass (chưa — cần ContractDrivenFormPanel pilot)`);
+  md.push(`- [ ] ${inv.summary.formCount}/${inv.summary.formCount} PDF smoke pass (chưa — cần backend render integration)`);
+  md.push(`- [ ] shared UI gene pass (chưa — ${cmp.summary.geneViolations} violations đang tồn tại)`);
   md.push("");
   md.push("## Limitations đã thừa nhận");
   md.push("");
   md.push("- **DOC binary Clx parser thất bại** cho tất cả 213 file `.doc` (format Clxt không theo MS-DOC spec hoặc file đã được convert sang OLE compound với layout khác). Extractor fallback scan UTF-16LE — vẫn trích được text tiếng Việt có nghĩa, nhưng có thể bỏ sót một số vị trí text khi có control character.");
   md.push("- **BESPOKE field extraction dùng regex đơn giản** — không thấy field path từ file dùng nested TypeScript type qua `import`. Cần `ts-morph` để phân tích AST đầy đủ.");
-  md.push("- **Canonical field name auto-generated từ blank candidate** dùng pattern generic (`document.field7`) — không có ngữ nghĩa nghiệp vụ. Reviewer phải map sang field name theo `field-taxonomy.json`.");
+  md.push("- **Canonical field name auto-generated từ blank candidate** dùng pattern generic (`document.field7`) — không có ngữ nghĩa nghiệp vụ. `suggestedNamespace` và `suggestedBy: heuristic` chỉ là ĐỀ XUẤT máy. Reviewer phải map sang field name theo `field-taxonomy.json` và quyết định source.");
+  md.push("- **DOCX table parser** vẫn dùng regex (không phải XML parser đầy đủ). gridSpan/vMerge giờ parse đúng từ `<w:tcPr>` block, nhưng nested table hoặc style phức tạp có thể vẫn bỏ sót.");
   md.push("- **Không render DOCX thật** ở phase này — chỉ extract structure. Smoke test render DOCX cần pipeline riêng (xem `GOLDEN-TEST-PLAN.md`).");
+  md.push("- **Verify chỉ là structural**: schema + taxonomy, không phải semantic/legal. Xem `SLOT-COVERAGE-SUMMARY.md` để biết rõ phạm vi.");
   md.push("- **Không có OCR**: nếu file là scan ảnh (không phải text), pipeline sẽ fail. Tất cả 213 file trong folder nguồn đều là text (verified bằng cách extract được paragraph).");
   md.push("");
   fs.writeFileSync(path.join(REPORTS_DIR, "MASTER-DOCX-AUDIT.md"), md.join("\n"), "utf8");
@@ -153,7 +171,7 @@ const missing = () => {
     md.push("```");
   }
   md.push("");
-  md.push("## File duplicate BM code");
+  md.push("## File duplicate BM code (cần human chọn canonical source)");
   md.push("");
   if (inv.summary.duplicateCount === 0) {
     md.push("- (Không có)");
@@ -162,6 +180,9 @@ const missing = () => {
       md.push(`- **${d.code}** (${d.count} file):`);
       for (const f of d.files) md.push(`  - ${f}`);
     }
+    md.push("");
+    md.push("> Mỗi file duplicate có sourceId riêng (xem inventory).");
+    md.push("> Reviewer quyết định file canonical và đánh dấu các biến thể khác là `documentKind: alternate`.");
   }
   md.push("");
   md.push("## File không detect được code (cần review để phân loại)");
@@ -178,6 +199,41 @@ const missing = () => {
   md.push("");
   fs.writeFileSync(path.join(REPORTS_DIR, "MISSING-CONTRACTS.md"), md.join("\n"), "utf8");
   console.log("Wrote MISSING-CONTRACTS.md");
+};
+
+const referenceDocs = () => {
+  const inv = loadJson(INVENTORY);
+  const refRecords = inv.records.filter((r) => r.documentKind === "reference");
+  const md = [];
+  md.push("# Reference Documents Report");
+  md.push("");
+  md.push(`Sinh lúc: ${new Date().toISOString()}`);
+  md.push("");
+  md.push("## Tổng quan");
+  md.push("");
+  md.push(`- Tổng file là tài liệu tham chiếu (không phải biểu mẫu): **${refRecords.length}**`);
+  md.push(`- Tổng file là biểu mẫu: **${inv.summary.formCount ?? inv.records.length - refRecords.length}**`);
+  md.push("");
+  md.push("## Danh sách");
+  md.push("");
+  md.push("Đây là các tài liệu nguồn (Thông tư, Danh mục) **KHÔNG PHẢI** form input contract.");
+  md.push("Chúng đã được extract để phân tích structure nhưng KHÔNG sinh `contract.draft.json`.");
+  md.push("");
+  md.push("| SourceId | File | Định dạng | SHA-256 |");
+  md.push("|---|---|---|---|");
+  for (const r of refRecords) {
+    const shaShort = r.sha256 ? r.sha256.slice(0, 12) + "…" : "-";
+    md.push(`| ${r.sourceId} | ${r.relativePath} | ${r.format} | ${shaShort} |`);
+  }
+  md.push("");
+  md.push("## Ghi chú");
+  md.push("");
+  md.push("- Form contract count = `inv.summary.formCount` (hiện tại " + (inv.summary.formCount ?? "?") + ").");
+  md.push("- Reference doc count = " + refRecords.length + ".");
+  md.push("- Trong audit tiếp theo, có thể bỏ qua reference doc khi verify, compare, render.");
+  md.push("");
+  fs.writeFileSync(path.join(REPORTS_DIR, "REFERENCE-DOCUMENTS.md"), md.join("\n"), "utf8");
+  console.log("Wrote REFERENCE-DOCUMENTS.md");
 };
 
 const contractDrivenPlan = () => {
@@ -543,6 +599,7 @@ const main = () => {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
   master();
   missing();
+  referenceDocs();
   contractDrivenPlan();
   rollout();
   goldenTest();

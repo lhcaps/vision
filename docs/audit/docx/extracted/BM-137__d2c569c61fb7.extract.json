@@ -1,0 +1,279 @@
+{
+  "sourceId": "BM-137__d2c569c61fb7",
+  "templateCode": "BM-137",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "137. Biên bản xác minh-làm việc.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/137. Biên bản xác minh-làm việc.doc",
+  "group": "docs",
+  "detectedTitle": "Biên bản xác minh-làm việc",
+  "sha256": "d2c569c61fb731d5eb1f42ad909a46504e68fb62770aa6118f0885efc7aa31e3",
+  "sizeBytes": 42496,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 213 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 1095,
+      "paragraphCount": 29,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "BIÊN BẢN XÁC MINH/LÀM VIỆC",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Về việc:",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "Hồi ... giờ ...   ngày ... tháng ... năm ... tại",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "Chúng tôi gồm:",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "Ông/Bà: ...................................................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "Chức danh:",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "thuộc Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "Ông/Bà:",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Tiến hành xác minh/làm việc về việc:",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "KẾT QUẢ XÁC MINH/LÀM VIỆC",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Việc xác minh/làm việc kết thúc hồi ... giờ ... ngày ... tháng ... năm ....",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Biên bản này đã đọc cho những người có tên trên nghe, công nhận đúng và ký tên xác nhận dưới đây./.",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": ".............................................",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "...............",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "...............................",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "Ghi rõ nội dung cần xác minh/làm việc",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "Cơ quan, tổ chức, cá nhân cung cấp thông tin/thực hiện công việc hoặc người tham gia tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "Người tiến hành xác minh/làm việc",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Mẫu số 137/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..................................................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..............."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..............................."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ... tháng ... năm ..."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ... tháng ... năm ...."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.940Z"
+}

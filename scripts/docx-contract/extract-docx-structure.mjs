@@ -5,11 +5,9 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { createRequire } from "node:module";
+import PizZip from "pizzip";
 import { extractDocText } from "./lib/ole-doc-reader.mjs";
-
-const require = createRequire(import.meta.url);
-const PizZip = require("../../apps/api/node_modules/pizzip");
+import { deriveSourceId } from "./lib/source-id.mjs";
 
 const ROOT = process.cwd();
 const SOURCE_DIR = path.join(
@@ -136,6 +134,10 @@ const readDocxTables = (xmlText) => {
   const rowRe = /<w:tr\b([^>]*)>([\s\S]*?)<\/w:tr>/gu;
   const cellRe = /<w:tc\b([^>]*)>([\s\S]*?)<\/w:tc>/gu;
   const tRe = /<w:t(?:\s+[^>]*)?>([\s\S]*?)<\/w:t>/gu;
+  // gridSpan và vMerge nằm trong <w:tcPr> bên trong cell, KHÔNG phải attr của <w:tc>.
+  const tcPrRe = /<w:tcPr>([\s\S]*?)<\/w:tcPr>/u;
+  const gridSpanRe = /<w:gridSpan\s+w:val="(\d+)"/u;
+  const vMergeRe = /<w:vMerge(?:\s+w:val="([^"]+)")?\s*\/>/u;
   let m;
   while ((m = tableRe.exec(xmlText))) {
     tableId += 1;
@@ -161,14 +163,24 @@ const readDocxTables = (xmlText) => {
         while ((tm = tRe.exec(tcInner))) {
           cellText.push(decodeXmlEntities(tm[1]));
         }
-        const gridSpanMatch = tcAttrs.match(/<w:gridSpan\s+w:val="(\d+)"/u);
-        const vMergeMatch = tcAttrs.match(/<w:vMerge(?:\s+w:val="([^"]+)")?\s*\/>/u);
+        // Parse gridSpan/vMerge từ <w:tcPr> bên trong cell.
+        // Nếu thiếu <w:tcPr>, fallback sang parse trong tcAttrs (một số DOCX generate sai).
+        let gridSpan = 1;
+        let vMerge = null;
+        const tcPrMatch = tcInner.match(tcPrRe);
+        const tcPrBlock = tcPrMatch ? tcPrMatch[1] : "";
+        const gridSpanMatch = tcPrBlock.match(gridSpanRe)
+          ?? tcAttrs.match(gridSpanRe);
+        const vMergeMatch = tcPrBlock.match(vMergeRe)
+          ?? tcAttrs.match(vMergeRe);
+        if (gridSpanMatch) gridSpan = parseInt(gridSpanMatch[1], 10);
+        if (vMergeMatch) vMerge = vMergeMatch[1] ?? "continue";
         const cellId = `T${String(tableId).padStart(4, "0")}.R${String(rowIndex).padStart(4, "0")}.C${String(cellIndex).padStart(4, "0")}`;
         cells.push({
           cellId,
           text: cellText.join(" ").replace(/\s+/gu, " ").trim(),
-          gridSpan: gridSpanMatch ? parseInt(gridSpanMatch[1], 10) : 1,
-          vMerge: vMergeMatch ? vMergeMatch[1] ?? "continue" : null,
+          gridSpan,
+          vMerge,
         });
       }
       rows.push({ rowIndex, cells });
@@ -283,12 +295,22 @@ const detectPlaceholdersText = (text) => {
   return candidates;
 };
 
+// Unicode-safe blank detector. Bắt đủ các dạng chỗ trống Việt Nam hay dùng:
+//   - "..." (3+ dấu chấm thường)
+//   - "……" (chuỗi dấu chấm ellipsis U+2026)
+//   - "…" (1 dấu ellipsis)
+//   - "___" (3+ gạch dưới)
+//   - "…, ngày … tháng … năm …" (date line)
+//   - "(1).." (numbered blank, dấu chấm thường)
+const BLANK_PATTERN = String.raw`(?:\.{3,}|…+|…+|_{3,})`;
+
 const detectBlanksText = (text) => {
   const blanks = [];
   const patterns = [
-    { regex: /\.{3,}/gu, kind: "ellipsis" },
+    { regex: /\.{3,}/gu, kind: "ellipsis-dots" },
+    { regex: /…+/gu, kind: "ellipsis-unicode" },
     { regex: /_{3,}/gu, kind: "underscore" },
-    { regex: /ngày\s*\.{3,}\s*tháng\s*\.{3,}\s*năm\s*\.{3,}/giu, kind: "vn-date-line" },
+    { regex: new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}\\s*năm\\s*${BLANK_PATTERN}`, "giu"), kind: "vn-date-line" },
     { regex: /(?:\(\s*\d+\s*\))\.{2,}/gu, kind: "numbered-blank" },
   ];
   for (const { regex, kind } of patterns) {
@@ -445,8 +467,19 @@ const main = () => {
   for (const r of records) {
     const code = r.templateCode ?? `FILE-${r.fileName.replace(/\s+/gu, "_")}`;
     const result = extractOne(r);
-    const fullResult = {
+    // Re-derive sourceId theo cùng convention với inventory để output 1-1.
+    const sourceId = deriveSourceId({
       templateCode: r.templateCode,
+      fileName: r.fileName,
+      sha256: r.sha256,
+    });
+    const fullResult = {
+      sourceId,
+      templateCode: r.templateCode,
+      documentKind: r.documentKind ?? (r.templateCode ? "form" : "reference"),
+      duplicateIndex: r.duplicateIndex ?? 1,
+      duplicateCount: r.duplicateCount ?? 1,
+      isDuplicateCode: r.isDuplicateCode ?? false,
       fileName: r.fileName,
       relativePath: r.relativePath,
       group: r.group,
@@ -467,17 +500,17 @@ const main = () => {
       extractedAt: new Date().toISOString(),
     };
 
-    const outName = `${code.replace(/^BM-/, "BM-")}.extract.json`;
+    const outName = `${sourceId}.extract.json`;
     const outPath = path.join(OUT_DIR, outName);
     fs.writeFileSync(outPath, `${JSON.stringify(fullResult, null, 2)}\n`, "utf8");
 
     const md = buildExtractMd(fullResult);
-    const mdPath = path.join(OUT_DIR, `${code.replace(/^BM-/, "BM-")}.extract.md`);
+    const mdPath = path.join(OUT_DIR, `${sourceId}.extract.md`);
     fs.writeFileSync(mdPath, md, "utf8");
 
     if (result.error) {
       failed += 1;
-      failedList.push({ code, file: r.relativePath, error: result.error });
+      failedList.push({ sourceId, code, file: r.relativePath, error: result.error });
     } else {
       ok += 1;
     }

@@ -1,4 +1,4 @@
-﻿import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CaseAssignmentsController } from './case-assignments.controller';
 import { CaseAssignmentsService } from './case-assignments.service';
 import { CaseOffensesController } from './case-offenses.controller';

@@ -1,6 +1,17 @@
 {
-  "generatedAt": "2026-06-19T00:17:43.511Z",
-  "total": 215,
-  "draftedOk": 215,
-  "draftedFailed": 0
+  "generatedAt": "2026-06-19T01:19:41.365Z",
+  "total": 216,
+  "draftedOk": 214,
+  "draftedFailed": 0,
+  "skippedReference": 2,
+  "skippedReferenceFiles": [
+    {
+      "sourceId": "REF__danh-muc-bieu-mau-kem-theo-thong-tu-03__ce60c04f053a",
+      "file": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc"
+    },
+    {
+      "sourceId": "REF__thong-tu-so-03-2026-vkstc__9e8198e81988",
+      "file": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Thong tu so 03-2026-VKSTC.docx"
+    }
+  ]
 }

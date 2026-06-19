@@ -1,0 +1,357 @@
+{
+  "sourceId": "BM-084__c21e2b7fa5cc",
+  "templateCode": "BM-084",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "84-QĐ thay đổi người giám định, người định giá tài sản.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/84-QĐ thay đổi người giám định, người định giá tài sản.doc",
+  "group": "docs",
+  "detectedTitle": "QĐ thay đổi người giám định, người định giá tài sản",
+  "sha256": "c21e2b7fa5cc1449b5259cb5ae1c32870018a7977194fded93f17f8af093c96c",
+  "sizeBytes": 53248,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 0 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 1770,
+      "paragraphCount": 52,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "/QĐ-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "Thay đổi người giám định/người định giá tài sản",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 41 và Điều 68/69 của Bộ luật Tố tụng hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định trưng cầu giám định/Yêu cầu định giá tài sản số",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "Xét thấy",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH:",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Điều 1. Thay đổi người giám định/người định giá tài sản là ông/bà",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "đang được cử tiến hành giám định/định giá tài sản trong vụ việc/vụ án",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "Điều 2. Đề nghị",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "cử người khác để tiến hành giám định/định giá tài sản theo quy định của Bộ luật Tố tụng hình sự.",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "Điều 3. Người giám định/Người định giá tài sản thay thế có quyền và nghĩa vụ theo quy định tại Điều 68/69 Bộ luật Tố tụng hình sự./.",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "Tên cơ quan, người có thẩm quyền ra Quyết định trưng cầu giám định/Yêu cầu định giá tài sản",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "Ghi lý do thay đổi người giám định/người định giá tài sản theo quy định tại Điều 68/69 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người đang được cử giám định/định giá tài sản",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "Trích dẫn ngắn gọn nội dung vụ việc (nguồn cung cấp, thời gian, địa điểm, hành vi có dấu hiệu tội phạm,",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "). Trường hợp vụ án thì ghi rõ theo Quyết định khởi tố vụ án số",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "quy định tại",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Ghi tên tổ chức giám định/định giá tài sản",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "Mẫu số 84/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.914Z"
+}

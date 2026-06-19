@@ -1,4 +1,4 @@
-﻿const API_BASE_URL =
+const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 type JsonObject = Record<string, unknown>;

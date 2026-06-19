@@ -1,0 +1,507 @@
+{
+  "sourceId": "BM-195__0b409423eb38",
+  "templateCode": "BM-195",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
+  "group": "docs",
+  "detectedTitle": "Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng",
+  "sha256": "0b409423eb38082c6d1e54e235514d4f0af0bea5f54ce8b30046bdfaaad885c9",
+  "sizeBytes": 72704,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 104 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2182,
+      "paragraphCount": 77,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "/QĐ-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "năm 20...",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "HỦY BỎ QUYẾT ĐỊNH KHÔNG ÁP DỤNG BIỆN PHÁP XỬ LÝ CHUYỂN HƯỚNG",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 41 của Bộ luật Tố tụng hình sự và khoản 4 Điều 56 của Luật Tư pháp người chưa thành niên;",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "(Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": ", nếu có) của",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định khởi tố bị can số",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "(Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": ", nếu có) của",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "đối với",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Xét Quyết định không áp dụng biện pháp xử lý chuyển hướng số",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "đối với7",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "là không có căn cứ, trái pháp luật,",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH:",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "Điều 1. Hủy bỏ Quyết định không áp dụng biện pháp xử lý chuyển hướng số",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "của8",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "đối với7",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "Điều 2. Yêu cầu8",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "mở lại phiên họp xem xét, quyết định áp dụng biện pháp xử lý chuyển hướng",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "Người đại diện của bị can;",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "- Bị hại;",
+      "style": null
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0061",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0062",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0063",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0064",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0065",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0066",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố vụ án hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0067",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố bị can",
+      "style": null
+    },
+    {
+      "blockId": "P0068",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người chưa thành niên bị khởi tố",
+      "style": null
+    },
+    {
+      "blockId": "P0069",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người ra Quyết định không áp dụng biện pháp xử lý chuyển hướng",
+      "style": null
+    },
+    {
+      "blockId": "P0070",
+      "kind": "paragraph",
+      "text": "Trường hợp Viện trưởng Viện kiểm sát hủy bỏ Quyết định áp dụng biện pháp xử lý chuyển hướng của Phó Viện trưởng Viện kiểm sát cấp mình thì ghi:",
+      "style": null
+    },
+    {
+      "blockId": "P0071",
+      "kind": "paragraph",
+      "text": "Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0072",
+      "kind": "paragraph",
+      "text": "tiếp tục giải quyết theo quy định của Bộ luật Tố tụng hình sự và Luật Tư pháp người chưa thành niên",
+      "style": null
+    },
+    {
+      "blockId": "P0073",
+      "kind": "paragraph",
+      "text": "Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0074",
+      "kind": "paragraph",
+      "text": "Mẫu số 195/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0075",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0076",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0077",
+      "kind": "paragraph",
+      "text": "EMBED Excel.Chart.8 \\s",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.990Z"
+}

@@ -157,27 +157,44 @@ const main = () => {
   const summary = summarize(results);
 
   // Coverage summary table.
+  // Lưu ý: Đây chỉ là verify STRUCTURAL (schema + taxonomy), KHÔNG phải
+  // verify semantic/legal. Một contract pass strict structural vẫn có thể
+  // sai về mặt nghiệp vụ. Locking contract yêu cầu thêm human review.
   const md = ["# Slot Coverage Summary"];
   md.push("");
   md.push(`Sinh lúc: ${new Date().toISOString()}`);
   md.push("");
+  md.push("## Phạm vi verify");
+  md.push("");
+  md.push("- ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.");
+  md.push("- ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.");
+  md.push("- ❌ **Locked contract count**: Hiện tại = 0. Nghĩa là **không có contract nào pass strict semantic review**.");
+  md.push("- ⚠️ **Unknown sources**: 100% canonicalField đang `source=unknown` (chờ reviewer quyết định từng field thuộc nguồn nào).");
+  md.push("- ⚠️ **Review-required**: 100% slot+field+binding đang `reviewRequired=true` (chờ reviewer xác nhận).");
+  md.push("");
+  md.push("> Kết luận: Mọi số liệu dưới đây mô tả **structure của draft contract**, không phải sự đúng đắn về pháp lý/nghiệp vụ.");
+  if (summary.totalLocked === 0) {
+    md.push("");
+    md.push("> **Không có contract locked.** Kết quả này chỉ xác nhận cấu trúc draft, không xác nhận đúng với DOCX về mặt nghiệp vụ/pháp lý. Không dùng để khẳng định contract đã pass verification.");
+  }
+  md.push("");
   md.push("## Tổng quan");
   md.push("");
-  md.push(`- Tổng contract: **${results.length}**`);
+  md.push(`- Tổng contract (form, KHÔNG tính reference docs): **${results.length}**`);
   md.push(`- Tổng docxSlots: **${summary.totalSlots}**`);
   md.push(`- Tổng renderBindings: **${summary.totalBound}**`);
   md.push(`- Tổng canonicalFields có source=unknown: **${summary.totalUnknown}**`);
   md.push(`- Tổng reviewRequired (slot+field+binding): **${summary.totalReview}**`);
   md.push(`- Tổng slot thiếu binding: **${summary.totalMissingBinding}**`);
   md.push(`- Contract locked: **${summary.totalLocked}** | draft: **${summary.totalDraft}**`);
-  md.push(`- Tổng issues (strict): **${totalIssues}**`);
-  md.push(`- Tổng warnings (best-effort): **${totalWarnings}**`);
+  md.push(`- Tổng issues (strict structural): **${totalIssues}**`);
+  md.push(`- Tổng warnings (best-effort structural): **${totalWarnings}**`);
   md.push(`- Locked contract invalid: **${lockedInvalid}** (sẽ thoát non-zero)`);
   md.push("");
   md.push("## Per BM");
   md.push("");
-  md.push("| BM | Status | Slots | Bound | Unknown source | Review required | Missing binding | Issues | Warnings |");
-  md.push("|---|---|---:|---:|---:|---:|---:|---:|---:|");
+  md.push("| SourceId | BM | Status | Slots | Bound | Unknown source | Review required | Missing binding | Issues | Warnings |");
+  md.push("|---|---|---|---:|---:|---:|---:|---:|---:|---:|");
   for (const r of results.sort((a, b) => a.code?.localeCompare(b.code))) {
     const c = r.contract;
     const slots = c.docxSlots?.length ?? 0;
@@ -189,7 +206,7 @@ const main = () => {
     const boundSlots = new Set((c.renderBindings ?? []).map((b) => b.slotId));
     const missing = (c.docxSlots ?? []).filter((s) => !boundSlots.has(s.slotId)).length;
     md.push(
-      `| ${r.code ?? "?"} | ${r.status} | ${slots} | ${bound} | ${unknown} | ${review} | ${missing} | ${r.issues.length} | ${r.warnings.length} |`,
+      `| ${r.contract.sourceId ?? "?"} | ${r.code ?? "?"} | ${r.status} | ${slots} | ${bound} | ${unknown} | ${review} | ${missing} | ${r.issues.length} | ${r.warnings.length} |`,
     );
   }
   md.push("");
@@ -205,14 +222,15 @@ const main = () => {
       + (c.renderBindings ?? []).filter((b) => b.reviewRequired).length;
     const boundSlots = new Set((c.renderBindings ?? []).map((b) => b.slotId));
     const missing = (c.docxSlots ?? []).filter((s) => !boundSlots.has(s.slotId)).length;
-    const fileBase = (r.code ?? `FILE-${r.file.replace(/\.contract\.draft\.json$/u, "")}`).replace(/[\\/:*?"<>|]/gu, "_");
+    const fileBase = (r.contract.sourceId ?? `FILE-${r.file.replace(/\.contract\.draft\.json$/u, "")}`).replace(/[\\/:*?"<>|]/gu, "_");
     const cov = [
-      `# ${r.code ?? "?"} Coverage`,
+      `# ${r.code ?? "?"} Coverage (${r.contract.sourceId ?? "?"})`,
       "",
       `Sinh lúc: ${new Date().toISOString()}`,
       "",
       `## Slot coverage`,
       ``,
+      `- SourceId: ${r.contract.sourceId ?? "?"}`,
       `- Status: ${r.status}`,
       `- Tổng docxSlots: ${slots}`,
       `- Có renderBinding: ${bound}`,
@@ -221,6 +239,12 @@ const main = () => {
       `- Review required: ${review}`,
       `- Issues: ${r.issues.length}`,
       `- Warnings: ${r.warnings.length}`,
+      "",
+      `## Vì sao chưa thể lock`,
+      "",
+      `- 0 contract nào trong repo đang ở status=\"locked\".`,
+      `- Toàn bộ canonicalField đều source=unknown và reviewRequired=true.`,
+      `- Verify STRUCTURAL chỉ xác nhận schema; KHÔNG xác nhận đúng với DOCX về nghiệp vụ.`,
       "",
       `## Issues`,
       "",

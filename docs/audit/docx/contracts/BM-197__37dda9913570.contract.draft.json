@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-197__37dda9913570",
+  "templateCode": "BM-197",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng",
+  "docx": {
+    "sha256": "37dda9913570caed2db65ab32ac87138b1a0703b6989a547ff3190ecefde9590",
+    "fileName": "197-BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/197-BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.blank1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "................................................."
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.field1",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.blank1",
+      "from": "document.field1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 0 at 0"
+  ],
+  "generatedAt": "2026-06-19T01:19:41.357Z"
+}

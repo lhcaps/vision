@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-167__70817b325370",
+  "templateCode": "BM-167",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Thông báo về việc trả hồ sơ, ban hành cáo trạng",
+  "docx": {
+    "sha256": "70817b32537007e44c54ea3bc839d75934f139e168101ae74d2ef50cd9473411",
+    "fileName": "167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "format": "docx"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.issueDateDay",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0012",
+        "tableCellId": null
+      },
+      "context": "…, ngày … tháng … năm 20…",
+      "label": "DAY (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "…, ngày … tháng … năm 20…",
+        "textAfter": "…, ngày … tháng … năm 20…",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0012",
+        "tableCellId": null
+      },
+      "context": "…, ngày … tháng … năm 20…",
+      "label": "MONTH (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "…, ngày … tháng … năm 20…",
+        "textAfter": "…, ngày … tháng … năm 20…",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateDay_2",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,",
+      "label": "DAY (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "textAfter": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth_2",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,",
+      "label": "MONTH (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "textAfter": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateYear",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,",
+      "label": "YEAR (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "textAfter": "Căn cứ… số … ngày … tháng … năm … của2…,",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.issueDate",
+      "type": "date",
+      "label": "Ngày tháng năm (split từ DOCX)",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "date",
+      "section": "Thời gian",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.issueDateDay",
+      "from": "document.issueDate",
+      "transform": "date.day",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth",
+      "from": "document.issueDate",
+      "transform": "date.month",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateDay_2",
+      "from": "document.issueDate",
+      "transform": "date.day",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth_2",
+      "from": "document.issueDate",
+      "transform": "date.month",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateYear",
+      "from": "document.issueDate",
+      "transform": "date.year",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "generatedAt": "2026-06-19T01:19:41.345Z"
+}

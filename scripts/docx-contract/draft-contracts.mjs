@@ -19,11 +19,12 @@ const TRANSFORM_TAXONOMY = path.join(ROOT, "docs", "contracts", "transform-taxon
 const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
 const inferDateParts = (text) => {
-  // Nếu text chứa pattern "ngày ... tháng ... năm ..." → split thành 3 slots.
-  if (/ngày\s*\.{3,}\s*tháng\s*\.{3,}\s*năm\s*\.{3,}/iu.test(text)) {
+  // Nếu text chứa pattern "ngày … tháng … năm …" → split thành 3 slots.
+  // Unicode-safe: bắt cả dấu chấm "." và ellipsis "…".
+  if (new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}\\s*năm\\s*${BLANK_PATTERN}`, "iu").test(text)) {
     return ["day", "month", "year"];
   }
-  if (/ngày\s*\.{3,}\s*tháng\s*\.{3,}/iu.test(text)) {
+  if (new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}`, "iu").test(text)) {
     return ["day", "month"];
   }
   return null;
@@ -47,7 +48,11 @@ const NAMESPACES = [
   "renderMeta",
 ];
 
-const guessNamespace = (text) => {
+// suggestNamespace chỉ là ĐỀ XUẤT máy (heuristic), không phải truth.
+// Tất cả field được gán nguồn "unknown" và reviewRequired=true cho tới khi
+// reviewer quyết định namespace. Đổi tên từ "guess" → "suggest" để khỏi gây
+// hiểu nhầm "đây là field chuẩn".
+const suggestNamespace = (text) => {
   const t = text.toLowerCase();
   if (/viện kiểm sát|cơ quan|cấp trên|cơ quan cấp/.test(t)) return "agency";
   if (/ngày|số:|mẫu số|văn bản/.test(t)) return "document";
@@ -61,6 +66,9 @@ const guessNamespace = (text) => {
   if (/ký|chức danh|ký tên/.test(t)) return "signature";
   return "document";
 };
+
+// Blank pattern (Unicode-safe) — dùng chung với extract-detector.
+const BLANK_PATTERN = String.raw`(?:\.{3,}|…+|…+|_{3,})`;
 
 const slug = (s) =>
   s
@@ -80,7 +88,7 @@ const DATE_TRANSFORMS = {
 // ============== draft ==============
 
 const buildDraft = (extract) => {
-  const { templateCode, fileName, relativePath, sha256, format, textBlocks, placeholders, blankCandidates, warnings, error } = extract;
+  const { sourceId, templateCode, fileName, relativePath, sha256, format, textBlocks, placeholders, blankCandidates, warnings, error, documentKind, duplicateIndex, duplicateCount, isDuplicateCode } = extract;
 
   const docxSlots = [];
   const canonicalFields = [];
@@ -129,7 +137,7 @@ const buildDraft = (extract) => {
   for (const blk of textBlocks) {
     const parts = inferDateParts(blk.text);
     if (parts) {
-      const ns = guessNamespace(blk.text);
+      const ns = suggestNamespace(blk.text);
       const canonicalPath = `${ns}.issueDate`;
       addCanonicalField(canonicalPath, "date", `Ngày tháng năm (split từ DOCX)`, "unknown", "date", "Thời gian", true);
       for (const part of parts) {
@@ -142,6 +150,8 @@ const buildDraft = (extract) => {
           slotType: "datePart",
           required: true,
           confidence: 0.6,
+          suggestedNamespace: ns,
+          suggestedBy: "heuristic",
           evidence: { textBefore: blk.text.slice(0, 100), textAfter: blk.text.slice(-100), rawPattern: "ngày … tháng … năm …" },
           reviewRequired: true,
         });
@@ -160,10 +170,10 @@ const buildDraft = (extract) => {
 
   // 1.2) Ellipsis (...) blank lines.
   for (const blank of blankCandidates) {
-    if (blank.kind === "ellipsis") {
-      // Tìm paragraph gần nhất (chứa blank) để đoán namespace.
+    if (blank.kind === "ellipsis" || blank.kind === "ellipsis-dots" || blank.kind === "ellipsis-unicode") {
+      // Tìm paragraph gần nhất (chứa blank) để đề xuất namespace.
       const containingBlock = textBlocks.find((b) => b.text.includes(blank.raw));
-      const ns = containingBlock ? guessNamespace(containingBlock.text) : "document";
+      const ns = containingBlock ? suggestNamespace(containingBlock.text) : "document";
       const fieldName = `blank${docxSlots.length + 1}`;
       const slotId = makeSlotId(ns, fieldName);
       docxSlots.push({
@@ -176,6 +186,8 @@ const buildDraft = (extract) => {
         slotType: "text",
         required: false,
         confidence: 0.4,
+        suggestedNamespace: ns,
+        suggestedBy: "heuristic",
         evidence: { textBefore: "", textAfter: "", rawPattern: blank.raw },
         reviewRequired: true,
       });
@@ -203,6 +215,8 @@ const buildDraft = (extract) => {
           slotType: "date",
           required: true,
           confidence: 0.85,
+          suggestedNamespace: "document",
+          suggestedBy: "heuristic",
           evidence: { textBefore: "", textAfter: "", rawPattern: "…, ngày … tháng … năm …" },
           reviewRequired: true,
         });
@@ -229,6 +243,8 @@ const buildDraft = (extract) => {
         slotType: "text",
         required: false,
         confidence: 0.5,
+        suggestedNamespace: "document",
+        suggestedBy: "heuristic",
         evidence: { textBefore: "", textAfter: "", rawPattern: blank.raw },
         reviewRequired: true,
       });
@@ -309,7 +325,12 @@ const buildDraft = (extract) => {
 
   return {
     schemaVersion: "1.0",
+    sourceId,
     templateCode,
+    documentKind: documentKind ?? (templateCode ? "form" : "reference"),
+    duplicateIndex: duplicateIndex ?? 1,
+    duplicateCount: duplicateCount ?? 1,
+    isDuplicateCode: isDuplicateCode ?? false,
     templateTitle: extract.detectedTitle ?? "",
     docx: {
       sha256,
@@ -349,12 +370,24 @@ const main = () => {
     .filter((n) => n.endsWith(".extract.json"));
   let ok = 0;
   let failed = 0;
+  let skippedReference = 0;
+  const skippedReferenceFiles = [];
   for (const f of files) {
     try {
       const ext = JSON.parse(fs.readFileSync(path.join(EXTRACT_DIR, f), "utf8"));
+      // Reference docs (Thông tư, Danh mục) — KHÔNG draft form contract.
+      // Chúng không phải biểu mẫu, không có slot/field nghiệp vụ.
+      // Sẽ được report riêng ở REFERENCE-DOCUMENTS.md (xem Phase 10).
+      if (ext.documentKind === "reference" || !ext.templateCode) {
+        skippedReference += 1;
+        skippedReferenceFiles.push({
+          sourceId: ext.sourceId,
+          file: ext.relativePath,
+        });
+        continue;
+      }
       const draft = buildDraft(ext);
-      const code = draft.templateCode ?? f.replace(/\.extract\.json$/u, "");
-      const outName = `${code}.contract.draft.json`;
+      const outName = `${ext.sourceId}.contract.draft.json`;
       fs.writeFileSync(
         path.join(CONTRACTS_DIR, outName),
         `${JSON.stringify(draft, null, 2)}\n`,
@@ -371,6 +404,8 @@ const main = () => {
     total: files.length,
     draftedOk: ok,
     draftedFailed: failed,
+    skippedReference,
+    skippedReferenceFiles,
   };
   fs.writeFileSync(
     path.join(CONTRACTS_DIR, "_summary.json"),

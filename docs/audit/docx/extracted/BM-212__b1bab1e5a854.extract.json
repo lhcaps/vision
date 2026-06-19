@@ -1,0 +1,501 @@
+{
+  "sourceId": "BM-212__b1bab1e5a854",
+  "templateCode": "BM-212",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "212-Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho người chưa thành niên.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/212-Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho người chưa thành niên.doc",
+  "group": "docs",
+  "detectedTitle": "Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho người chưa thành niên",
+  "sha256": "b1bab1e5a854c50ef4481d360d47f5d46909e9d923bf21ef699f608a7c1d7235",
+  "sizeBytes": 81920,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 36 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2130,
+      "paragraphCount": 68,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "/CV-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "V/v đề nghị hướng dẫn, hỗ trợ",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "cho người chưa thành niên",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Kính gửi:",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 154 của Luật Tư pháp người chưa thành niên,",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": ". đề nghị:",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "Ông/Bà:5",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "Cơ quan, nơi làm việc (nếu có):",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "Địa chỉ:",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "Số điện thoại:",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "Tham gia tố tụng để hướng dẫn/hỗ trợ đối với:",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Họ tên:",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "Giới tính:",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "Tên gọi khác:",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "...........................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "Nghề nghiệp:.............................................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân:",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "Nơi thường trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "i tạm trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "Nơi ở hiện tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "trong vụ án",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "cần có người hướng dẫn/hỗ trợ khi tham gia tố tụng.",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "Đề nghị ông/bà có mặt vào thời gian:",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": ", tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "và gặp",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": ", số điện thoại",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "...............................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "Nếu ông/bà không thể tham gia, đề nghị thông báo kịp thời cho Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "biết./.",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "Như trên;",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Người đại diện của người chưa thành niên;",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVV/HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "KIỂM SÁT VIÊN",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người làm công tác xã hội tham gia tố tụng, chuyên gia y tế, tâm lý, giáo dục, xã hội học",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "Ghi họ tên người chưa thành niên",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "Ghi rõ bị hại/người làm chứng",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "Ghi rõ khởi tố theo Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0061",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0062",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0063",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0064",
+      "kind": "paragraph",
+      "text": "Ghi họ tên, chức danh người tiến hành hoạt động tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0065",
+      "kind": "paragraph",
+      "text": "Mẫu số 212/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0066",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0067",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0068",
+      "kind": "paragraph",
+      "text": "EMBED Excel.Chart.8 \\s",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..........................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............................................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..............................................................................."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ............ tháng ............ năm ......................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày............ tháng ............ năm ..................."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:41.000Z"
+}

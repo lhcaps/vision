@@ -1,0 +1,109 @@
+# BM-108 Extract
+
+## Metadata
+- File: `docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/108-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra bị can.doc`
+- SHA256: `baea4e0f603ed5277f6eebc4893d864930c5a5fc83ed5b18dddf5035eac454dd`
+- Định dạng: doc
+- Group: docs
+- Detected title: QĐ huỷ bỏ QĐ tạm đình chỉ điều tra bị can
+- Title: ?
+- Creator: ?
+- Method: clx-fallback
+- Warnings: Clx parse error: Unknown Clxt tag 79 at 0
+
+## Paragraphs (82)
+
+- **P0001**: VIỆN KIỂM SÁT
+- **P0002**: .................................................
+- **P0003**: Số:
+- **P0004**: /QĐ-VKS
+- **P0005**: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+- **P0006**: Độc lập - Tự do - Hạnh phúc
+- **P0007**: , ngày
+- **P0008**: tháng
+- **P0009**: năm 20
+- **P0010**: QUYẾT ĐỊNH
+- **P0011**: HỦY BỎ QUYẾT ĐỊNH TẠM ĐÌNH CHỈ ĐIỀU TRA BỊ CAN
+- **P0012**: VIỆN TRƯỞNG VIỆN KIỂM SÁT2...
+- **P0013**: Căn cứ các điều 41, 165 và 229
+- **P0014**: của Bộ luật Tố tụng hình sự;
+- **P0015**: Căn cứ Quyết định khởi tố vụ án hình sự số
+- **P0016**: ngày
+- **P0017**: tháng
+- **P0018**: năm
+- **P0019**: (Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số
+- **P0020**: ngày
+- **P0021**: tháng
+- **P0022**: năm
+- **P0023**: , nếu có) của
+- **P0024**: về tội
+- **P0025**: quy định tại khoản
+- **P0026**: Điều
+- **P0027**: của Bộ luật Hình sự;
+- **P0028**: Căn cứ Quyết định khởi tố bị can số
+- **P0029**: ngày
+- **P0030**: tháng
+- **P0031**: năm
+- **P0032**: (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số
+- **P0033**: ngày
+- **P0034**: tháng
+- **P0035**: năm
+- **P0036**: , nếu có) của
+- **P0037**: đối với
+- **P0038**: về tội
+- **P0039**: quy định tại khoản
+- **P0040**: Điều
+- **P0041**: của Bộ luật Hình sự;
+- **P0042**: Xét Quyết định tạm đình chỉ điều tra bị can số
+- **P0043**: ngày
+- **P0044**: tháng
+- **P0045**: năm
+- **P0046**: của
+- **P0047**: đối với8... về tội
+- **P0048**: quy định tại khoản
+- **P0049**: Điều
+- **P0050**: của Bộ luật Hình sự;
+- **P0051**: Nhận thấy Quyết định tạm đình chỉ điều tra bị can là không có căn cứ và trái pháp luật,
+- **P0052**: QUYẾT ĐỊNH:
+- **P0053**: Điều 1. Hủy bỏ Quyết định tạm đình chỉ điều tra bị can số
+- **P0054**: ngày
+- **P0055**: tháng
+- **P0056**: năm
+- **P0057**: của9
+- **P0058**: đối với8... về tội
+- **P0059**: quy định tại khoản
+- **P0060**: Điều
+- **P0061**: của Bộ luật Hình sự.
+- **P0062**: Điều 2. Yêu cầu9
+- **P0063**: giải quyết vụ án
+- **P0064**: theo quy định của Bộ luật Tố tụng hình sự./.
+- **P0065**: Nơi nhận:
+- **P0066**: - 9...;
+- **P0067**: - Lưu: HSVA, HSKS, VP.
+- **P0068**: ..........................................
+- **P0069**: (Ký, ghi rõ họ tên, đóng dấu)
+- **P0070**: Ghi tên Viện kiểm sát cấp trên trực tiếp
+- **P0071**: Ghi tên Viện kiểm sát ban hành
+- **P0072**: Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)
+- **P0073**: Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành
+- **P0074**: Trường hợp hủy bỏ Quyết định tạm đình chỉ điều tra bị can là pháp nhân thì bổ sung căn cứ Điều 443 của Bộ luật Tố tụng hình sự
+- **P0075**: Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố vụ án hình sự
+- **P0076**: Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố bị can
+- **P0077**: Ghi họ tên người hoặc tên pháp nhân bị khởi tố
+- **P0078**: Ghi tên cơ quan, người có thẩm quyền ra Quyết định tạm đình chỉ điều tra bị can
+- **P0079**: Ghi chức danh người ký
+- **P0080**: Mẫu số 108/HS
+- **P0081**: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+- **P0082**: ngày       /     /2026)
+
+## Placeholder candidates (0)
+
+
+## Blank candidates (6)
+
+- `.................................................` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `..........................................` (ellipsis-dots)

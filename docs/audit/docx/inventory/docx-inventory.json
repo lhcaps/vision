@@ -1,6 +1,6 @@
 {
   "summary": {
-    "generatedAt": "2026-06-19T00:46:04.300Z",
+    "generatedAt": "2026-06-19T01:19:40.552Z",
     "sourceDir": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC",
     "totalFiles": 216,
     "totalDocx": 3,
@@ -25,6 +25,8 @@
       "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc",
       "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Thong tu so 03-2026-VKSTC.docx"
     ],
+    "referenceCount": 2,
+    "formCount": 214,
     "errored": []
   },
   "records": [
@@ -45,7 +47,12 @@
       "issues": [
         "Không xác định chắc mã biểu mẫu"
       ],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "REF__danh-muc-bieu-mau-kem-theo-thong-tu-03__ce60c04f053a",
+      "documentKind": "reference"
     },
     {
       "templateCode": null,
@@ -64,7 +71,12 @@
       "issues": [
         "Không xác định chắc mã biểu mẫu"
       ],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "REF__thong-tu-so-03-2026-vkstc__9e8198e81988",
+      "documentKind": "reference"
     },
     {
       "templateCode": "BM-001",
@@ -81,7 +93,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-001__f4c2aa3682d3",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-002",
@@ -98,7 +115,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-002__f78301178da7",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-003",
@@ -115,7 +137,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-003__bb64990bc49b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-004",
@@ -132,7 +159,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-004__2775520fd22c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-005",
@@ -149,7 +181,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-005__4cf240724a90",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-006",
@@ -166,7 +203,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-006__87ff96f9a866",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-007",
@@ -183,7 +225,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-007__549970d471d1",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-008",
@@ -200,7 +247,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-008__87981f1c5cf8",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-009",
@@ -217,7 +269,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-009__ad542fd7bc45",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-010",
@@ -234,7 +291,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-010__3814cd2b4bcf",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-011",
@@ -251,7 +313,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-011__26e6e688d223",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-012",
@@ -268,7 +335,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-012__7733d5ac8e86",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-013",
@@ -285,7 +357,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-013__9a1f7d37fec9",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-014",
@@ -302,7 +379,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-014__ff318bb91779",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-015",
@@ -319,7 +401,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-015__08f17df338d2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-016",
@@ -336,7 +423,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-016__565ec1fc2103",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-017",
@@ -353,7 +445,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-017__6b3cad999c61",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-018",
@@ -370,7 +467,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-018__fe8c39468552",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-019",
@@ -387,7 +489,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-019__3c2858f47dad",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-020",
@@ -404,7 +511,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-020__0f61c04c750d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-021",
@@ -421,7 +533,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-021__772319486f41",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-022",
@@ -438,7 +555,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-022__13d342bdfc56",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-023",
@@ -455,7 +577,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-023__78e4f3906e4c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-024",
@@ -472,7 +599,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-024__575a6d8e9173",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-025",
@@ -489,7 +621,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-025__5dcf0eb7f481",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-026",
@@ -506,7 +643,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-026__6e339663e320",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-027",
@@ -523,7 +665,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-027__7c207d24faee",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-028",
@@ -540,7 +687,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-028__e895e0889340",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-029",
@@ -557,7 +709,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-029__0bf65fba614a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-030",
@@ -574,7 +731,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-030__0cfa7ae4b177",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-031",
@@ -591,7 +753,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-031__ec3276d1eebe",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-032",
@@ -608,7 +775,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-032__cce50086cd38",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-033",
@@ -625,7 +797,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-033__51058a699877",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-034",
@@ -642,7 +819,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-034__e02f842b6038",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-035",
@@ -659,7 +841,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-035__be0035952622",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-036",
@@ -676,7 +863,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-036__6f4466480a94",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-037",
@@ -693,7 +885,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-037__1fa31d43251e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-038",
@@ -710,7 +907,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-038__7a37ca9c9d8e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-039",
@@ -727,7 +929,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-039__733f9ddd4783",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-040",
@@ -744,7 +951,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-040__aab092911088",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-041",
@@ -761,7 +973,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-041__9a027eeceb3a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-042",
@@ -778,7 +995,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-042__a4da3c74d437",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-043",
@@ -795,7 +1017,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-043__8eab35cfeedb",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-044",
@@ -812,7 +1039,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-044__8552b13c78ff",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-045",
@@ -829,7 +1061,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-045__13efe0d94756",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-046",
@@ -846,7 +1083,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-046__501a15f0fbb7",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-047",
@@ -863,7 +1105,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-047__ec7dc3448f91",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-048",
@@ -880,7 +1127,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-048__724a5a8b3421",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-049",
@@ -897,7 +1149,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-049__798e9b21ce2e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-050",
@@ -914,7 +1171,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-050__2d31c941887e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-051",
@@ -931,7 +1193,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-051__594c6c63b397",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-052",
@@ -948,7 +1215,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-052__9919ecdb3971",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-053",
@@ -965,7 +1237,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-053__0a5a43238f28",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-054",
@@ -982,7 +1259,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-054__71a4c9ac7e0e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-055",
@@ -999,7 +1281,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-055__b1819db1f92b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-056",
@@ -1016,7 +1303,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-056__eea9a3391f5f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-057",
@@ -1033,7 +1325,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-057__9053c61ee677",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-058",
@@ -1050,7 +1347,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-058__6de8f0022bff",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-059",
@@ -1067,7 +1369,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-059__4cdec41fdb1d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-060",
@@ -1084,7 +1391,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-060__55a252b4f98f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-061",
@@ -1101,7 +1413,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-061__ec44550246e9",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-062",
@@ -1118,7 +1435,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-062__110961a781fa",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-063",
@@ -1135,7 +1457,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-063__54b73110a34f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-064",
@@ -1152,7 +1479,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-064__4d8cebc3515b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-065",
@@ -1169,7 +1501,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-066",
@@ -1186,7 +1523,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-066__e3bc56081554",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-067",
@@ -1203,7 +1545,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-067__0f7607122f29",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-068",
@@ -1220,7 +1567,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-068__6c1275cc752e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-069",
@@ -1237,7 +1589,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-069__3a67d1a2e298",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-070",
@@ -1254,7 +1611,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-070__e63499f6fc20",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-071",
@@ -1271,7 +1633,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-071__cacf3f480888",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-072",
@@ -1288,7 +1655,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-072__fadb53cde2cb",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-073",
@@ -1305,7 +1677,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-073__e412fccad227",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-074",
@@ -1322,7 +1699,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-074__e7b3ef2ccb68",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-075",
@@ -1339,7 +1721,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-076",
@@ -1356,7 +1743,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-076__cd44ed3c7e5d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-077",
@@ -1373,7 +1765,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-077__99d7843f9f9e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-078",
@@ -1390,7 +1787,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-078__6845bd7e6cb1",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-079",
@@ -1407,7 +1809,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-079__80698c347564",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-080",
@@ -1424,7 +1831,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-080__a7aa64d4b889",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-081",
@@ -1441,7 +1853,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-081__232b8c1d66ae",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-082",
@@ -1458,7 +1875,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-082__44cc2b043383",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-083",
@@ -1475,7 +1897,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-083__71218955a7c2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-084",
@@ -1492,7 +1919,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-084__c21e2b7fa5cc",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-100",
@@ -1509,7 +1941,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-100__a359d20c8fed",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-101",
@@ -1526,7 +1963,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-101__2fe2187f4777",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-102",
@@ -1543,7 +1985,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-102__88bde5060df8",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-103",
@@ -1560,7 +2007,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-103__665eb32a5626",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-104",
@@ -1577,7 +2029,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-104__6d6f5903cad3",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-105",
@@ -1594,7 +2051,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-105__c83181e6b64b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-106",
@@ -1611,7 +2073,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-106__7f44c9dd261a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-107",
@@ -1628,7 +2095,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-107__9b3379af7cfe",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-108",
@@ -1645,7 +2117,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-108__baea4e0f603e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-109",
@@ -1662,7 +2139,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-109__0fe502079a3e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-110",
@@ -1679,7 +2161,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-110__a1f991fed29c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-111",
@@ -1696,7 +2183,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-111__33851c577165",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-112",
@@ -1713,7 +2205,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-112__109c846bbe17",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-113",
@@ -1730,7 +2227,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-113__2651c6185250",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-114",
@@ -1747,7 +2249,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-114__84cec283ce1b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-115",
@@ -1764,7 +2271,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-115__94659bf76001",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-116",
@@ -1781,7 +2293,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-116__23c45f530ed1",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-117",
@@ -1798,7 +2315,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-117__c9531f5e460e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-118",
@@ -1815,7 +2337,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-118__7d13f5eae86d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-119",
@@ -1832,7 +2359,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-119__bb054433cbac",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-120",
@@ -1849,7 +2381,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-120__e702d429a0f3",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-121",
@@ -1866,7 +2403,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-121__a7983088c6ec",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-122",
@@ -1883,7 +2425,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-122__c6efcf63e36a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-123",
@@ -1900,7 +2447,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-123__8aa275f0ac70",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-124",
@@ -1917,7 +2469,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-124__1fca98cb2e90",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-125",
@@ -1934,7 +2491,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-125__77ec214513fb",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-126",
@@ -1951,7 +2513,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-126__2d8c3d38368b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-127",
@@ -1968,7 +2535,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-127__582febaeadf0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-128",
@@ -1985,7 +2557,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-128__8eab646ee06f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-129",
@@ -2002,7 +2579,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-129__7fb66a442c28",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-130",
@@ -2019,7 +2601,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-130__9a859e843d48",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-131",
@@ -2036,7 +2623,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-131__91726e55d979",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-132",
@@ -2053,7 +2645,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-132__670b47f0b235",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-133",
@@ -2070,7 +2667,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-133__1f7f12f1a249",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-134",
@@ -2087,7 +2689,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-134__7c1e123c01b0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-135",
@@ -2104,7 +2711,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-135__79b31ad7511e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-136",
@@ -2121,7 +2733,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-136__f7c2e28ddd12",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-137",
@@ -2138,7 +2755,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-137__d2c569c61fb7",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-138",
@@ -2155,7 +2777,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-138__bf31a1f547b0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-139",
@@ -2172,7 +2799,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 2,
+      "isDuplicateCode": true,
+      "sourceId": "BM-139__23306e6022bd",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-139",
@@ -2191,7 +2823,12 @@
       "issues": [
         "Duplicate BM code với file khác (BM-139)"
       ],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 2,
+      "duplicateCount": 2,
+      "isDuplicateCode": true,
+      "sourceId": "BM-139__9795f14f931c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-140",
@@ -2208,7 +2845,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-140__13e1ade15acd",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-085",
@@ -2225,7 +2867,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-085__ae0054d1db43",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-086",
@@ -2242,7 +2889,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-086__df834c030dc6",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-087",
@@ -2259,7 +2911,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-087__80e8edb6b8b2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-088",
@@ -2276,7 +2933,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-088__d9d213d94690",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-089",
@@ -2293,7 +2955,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-089__9d0d4280c6a1",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-090",
@@ -2310,7 +2977,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-090__1c7858168558",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-091",
@@ -2327,7 +2999,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-091__18a41431ecae",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-092",
@@ -2344,7 +3021,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-092__f8ca4bc8033d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-093",
@@ -2361,7 +3043,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-093__7273ce5a66b8",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-094",
@@ -2378,7 +3065,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-094__12ad016b36d2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-095",
@@ -2395,7 +3087,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-095__83c3c1ef212f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-096",
@@ -2412,7 +3109,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-096__a50a08efa62f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-097",
@@ -2429,7 +3131,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-097__17f981bf5afd",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-098",
@@ -2446,7 +3153,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-098__949d75027001",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-099",
@@ -2463,7 +3175,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-099__ce4aa505a071",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-141",
@@ -2480,7 +3197,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-141__abc5fb5fb096",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-142",
@@ -2497,7 +3219,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-142__02d373abb354",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-143",
@@ -2514,7 +3241,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-143__7ad54f65b3a0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-144",
@@ -2531,7 +3263,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-144__720233712d47",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-145",
@@ -2548,7 +3285,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-145__fc22267f4a63",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-146",
@@ -2565,7 +3307,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-146__59e5d7e21119",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-147",
@@ -2582,7 +3329,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-147__7bf9bc811cad",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-148",
@@ -2599,7 +3351,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-148__d4d27bb90141",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-149",
@@ -2616,7 +3373,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-149__3990ac4442f1",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-150",
@@ -2633,7 +3395,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-150__d19a8665087c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-151",
@@ -2650,7 +3417,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-151__d3ead7c40b56",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-152",
@@ -2667,7 +3439,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-152__d28f03a3f72b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-153",
@@ -2684,7 +3461,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-153__829ed04c824a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-154",
@@ -2701,7 +3483,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-154__618d13a959ca",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-155",
@@ -2718,7 +3505,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-155__d89766f2092a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-156",
@@ -2735,7 +3527,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-156__ef438a40e567",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-157",
@@ -2752,7 +3549,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-157__a5c6971a69d2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-158",
@@ -2769,7 +3571,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-158__7a98055a3e9c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-159",
@@ -2786,7 +3593,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-159__d95eb7bda8e3",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-160",
@@ -2803,7 +3615,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-160__2f8e7c014448",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-161",
@@ -2820,7 +3637,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-161__5c910ef4adf5",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-162",
@@ -2837,7 +3659,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-162__6e7e16348066",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-163",
@@ -2854,7 +3681,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-163__61941122b9e4",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-164",
@@ -2871,7 +3703,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-164__04fa37dd8384",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-165",
@@ -2888,7 +3725,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-165__d391dc4d1ffb",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-166",
@@ -2905,7 +3747,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-166__d0762a0ffb28",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-167",
@@ -2922,7 +3769,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-167__70817b325370",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-168",
@@ -2939,7 +3791,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-168__3369df5870b2",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-169",
@@ -2956,7 +3813,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-169__b737aefc0c16",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-170",
@@ -2973,7 +3835,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-170__c8f50b0e9f5b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-171",
@@ -2990,7 +3857,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-171__46b9a8be4e01",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-172",
@@ -3007,7 +3879,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-172__e3a3eb687d2f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-173",
@@ -3024,7 +3901,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-173__2e06ac25958d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-174",
@@ -3041,7 +3923,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-174__f8e45c638bb6",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-175",
@@ -3058,7 +3945,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-175__6d3f2b46283d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-176",
@@ -3075,7 +3967,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-176__8f1b057e17a7",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-177",
@@ -3092,7 +3989,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-177__05be0ed97398",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-178",
@@ -3109,7 +4011,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-178__7f2719dcacc7",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-179",
@@ -3126,7 +4033,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-179__186c49575a2e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-180",
@@ -3143,7 +4055,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-180__d608f62a685a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-181",
@@ -3160,7 +4077,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-181__ec1d8701fc13",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-182",
@@ -3177,7 +4099,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-182__95dc6d1f57ab",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-183",
@@ -3194,7 +4121,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-183__294fc847169f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-184",
@@ -3211,7 +4143,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-184__fb1c01087fa5",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-185",
@@ -3228,7 +4165,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-185__69c976088827",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-186",
@@ -3245,7 +4187,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-186__84cb2023273b",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-187",
@@ -3262,7 +4209,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-187__e47644149068",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-188",
@@ -3279,7 +4231,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-188__cb14348d184c",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-189",
@@ -3296,7 +4253,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-189__70da8df0a0da",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-190",
@@ -3313,7 +4275,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-190__36fb96ee1a73",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-191",
@@ -3330,7 +4297,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-191__11335dc18806",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-192",
@@ -3347,7 +4319,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-192__42db503bed2a",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-193",
@@ -3364,7 +4341,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-193__e24862458ecb",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-194",
@@ -3381,7 +4363,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-194__946009a4f0e0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-195",
@@ -3398,7 +4385,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-195__0b409423eb38",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-196",
@@ -3415,7 +4407,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-196__0c6aec084a26",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-197",
@@ -3432,7 +4429,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-197__37dda9913570",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-198",
@@ -3449,7 +4451,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-198__269efb9590af",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-199",
@@ -3466,7 +4473,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-199__e4724bd967ad",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-200",
@@ -3483,7 +4495,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-200__d340f628394e",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-201",
@@ -3500,7 +4517,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-201__2d0aab05928d",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-202",
@@ -3517,7 +4539,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-202__0c74f6ae9727",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-203",
@@ -3534,7 +4561,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-203__7572e687ae0f",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-204",
@@ -3551,7 +4583,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-204__f334b93daabe",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-205",
@@ -3568,7 +4605,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-205__e6427663d551",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-206",
@@ -3585,7 +4627,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-206__83dd8f078d92",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-207",
@@ -3602,7 +4649,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-207__34a77bfcbd63",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-208",
@@ -3619,7 +4671,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-208__93ee4a40d673",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-209",
@@ -3636,7 +4693,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-209__2547ef797798",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-210",
@@ -3653,7 +4715,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-210__7266a312afb8",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-211",
@@ -3670,7 +4737,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-211__ff91d4c3b4e0",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-212",
@@ -3687,7 +4759,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-212__b1bab1e5a854",
+      "documentKind": "form"
     },
     {
       "templateCode": "BM-213",
@@ -3704,7 +4781,12 @@
       "matchedCodeRule": "leading-NNN",
       "status": "inventoried",
       "issues": [],
-      "readError": null
+      "readError": null,
+      "duplicateIndex": 1,
+      "duplicateCount": 1,
+      "isDuplicateCode": false,
+      "sourceId": "BM-213__33383be18132",
+      "documentKind": "form"
     }
   ]
 }

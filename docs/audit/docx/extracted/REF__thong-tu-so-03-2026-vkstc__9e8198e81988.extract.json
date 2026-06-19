@@ -1,0 +1,503 @@
+{
+  "sourceId": "REF__thong-tu-so-03-2026-vkstc__9e8198e81988",
+  "templateCode": null,
+  "documentKind": "reference",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "Thong tu so 03-2026-VKSTC.docx",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Thong tu so 03-2026-VKSTC.docx",
+  "group": "docs",
+  "detectedTitle": "Thong tu so 03-2026-VKSTC",
+  "sha256": "9e8198e8198843b597c0eab5aad00325f9450959f4e11853984088b70b2b459f",
+  "sizeBytes": 38037,
+  "format": "docx",
+  "method": "docx-ooxml",
+  "warnings": [],
+  "error": null,
+  "metadata": {
+    "title": null,
+    "creator": "Administrator",
+    "created": "2025-12-22T09:59:00Z",
+    "modified": "2026-03-05T01:20:00Z"
+  },
+  "parts": [
+    {
+      "partName": "[Content_Types].xml",
+      "rawTextLength": 1965,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "_rels/.rels",
+      "rawTextLength": 590,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/_rels/document.xml.rels",
+      "rawTextLength": 1471,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/document.xml",
+      "rawTextLength": 120179,
+      "paragraphCount": 58,
+      "tableCount": 1
+    },
+    {
+      "partName": "word/footnotes.xml",
+      "rawTextLength": 1738,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/endnotes.xml",
+      "rawTextLength": 1732,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/header1.xml",
+      "rawTextLength": 9162,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/header2.xml",
+      "rawTextLength": 9202,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/theme/theme1.xml",
+      "rawTextLength": 7016,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/settings.xml",
+      "rawTextLength": 4962,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/webSettings.xml",
+      "rawTextLength": 1007,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/styles.xml",
+      "rawTextLength": 40396,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/fontTable.xml",
+      "rawTextLength": 2142,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/core.xml",
+      "rawTextLength": 813,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/numbering.xml",
+      "rawTextLength": 23329,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/app.xml",
+      "rawTextLength": 1000,
+      "paragraphCount": 0,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT NHÂN DÂN",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": "TỐI CAO",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Số: 03/2026/TT-VKSTC",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA\t VIỆT NAM",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Độc lập – Tự do – Hạnh phúc",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "Hà Nội, ngày 09  tháng 02 năm 2026",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "THÔNG TƯ",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "Quy định Biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Căn cứ Bộ luật Tố tụng hình sự số 101/2015/QH13 đã được sửa đổi, bổ sung một số điều theo Luật số 02/2021/QH15, Luật số 34/2024/QH15, Luật số 59/2024/QH15 và Luật số 99/2025/QH15;",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ Luật Tư pháp người chưa thành niên số 59/2024/QH15 đã được sửa đổi, bổ sung một số điều theo Luật số 85/2025/QH15;",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Căn cứ Luật Tổ chức Viện kiểm sát nhân dân số 63/2014/QH13 đã được sửa đổi, bổ sung một số điều theo Luật số 82/2025/QH15;",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Căn cứ Luật Ban hành văn bản quy phạm pháp luật số 64/2025/QH15 đã được sửa đổi, bổ sung một số điều theo Luật số 87/2025/QH15;",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "Viện trưởng Viện kiểm sát nhân dân tối cao ban hành Thông tư quy định biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố.",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "Điều 1. Phạm vi điều chỉnh",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "Thông tư này quy định về Biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố của Viện kiểm sát các cấp theo quy định của Bộ luật Tố tụng hình sự, Luật Tư pháp người chưa thành niên và Luật Tổ chức Viện kiểm sát nhân dân.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "Điều 2. Đối tượng áp dụng",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "1. Viện kiểm sát nhân dân tối cao, các đơn vị thuộc Viện kiểm sát nhân dân tối cao.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "2. Viện kiểm sát nhân dân các tỉnh, thành phố (sau đây gọi là Viện kiểm sát nhân dân cấp tỉnh).",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "3. Viện kiểm sát nhân dân khu vực.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "4. Viện kiểm sát quân sự các cấp.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "5. Người có thẩm quyền tiến hành tố tụng thuộc các cơ quan, đơn vị quy định tại các khoản 1, 2, 3 và 4 Điều này.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "6. Cơ quan, tổ chức, cá nhân có liên quan.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Điều 3. Các biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "Ban hành kèm theo Thông tư này 213 Biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố  (có Danh mục kèm theo).",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "Điều 4. Nguyên tắc sử dụng và quản lý biểu mẫu văn bản tố tụng, văn bản nghiệp vụ thực hiện trong công tác thực hành quyền công tố, kiểm sát việc khởi tố, điều tra và truy tố",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "Các biểu mẫu phải được sử dụng và quản lý đúng mục đích cho hoạt động thực hành quyền công tố và kiểm sát hoạt động tư pháp trong giai đoạn tiếp nhận, giải quyết nguồn tin về tội phạm, khởi tố, điều tra, truy tố.",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "2. Việc ghi thông tin trong từng biểu mẫu phải bảo đảm khách quan, chính xác, đầy đủ theo đúng quy định của pháp luật.",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "Điều 5. Hiệu lực thi hành",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "Thông tư này có hiệu lực thi hành từ ngày 15 tháng 02 năm 2026.",
+      "style": "Vnbnnidung20"
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "Điều 6. Trách nhiệm thi hành",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "1. Thủ trưởng đơn vị thuộc Viện kiểm sát nhân dân tối cao, Viện trưởng Viện kiểm sát nhân dân cấp tỉnh, Viện trưởng Viện kiểm sát nhân dân khu vực, Viện kiểm sát quân sự các cấp chịu trách nhiệm tổ chức thực hiện Thông tư này.",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "2. Vụ Pháp chế, Văn phòng, Thanh tra Viện kiểm sát nhân dân tối cao phối hợp với các đơn vị có liên quan theo dõi, hướng dẫn, kiểm tra, thanh tra việc thực hiện Thông tư này.",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "Trong quá trình thực hiện Thông tư, nếu có vướng mắc, các đơn vị,              Viện kiểm sát các cấp kịp thời báo cáo về Viện kiểm sát nhân dân tối cao (qua Vụ Pháp chế) để có hướng dẫn./.",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Vnbnnidung1"
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG",
+      "style": "Vnbnnidung70"
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Nguyễn Huy Tiến",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "Nguyễn Huy Tiến",
+      "style": "Chthchnh"
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "Ủy ban Thường vụ Quốc hội (để giám sát);- Ủy ban Pháp luật và Tư pháp của Quốc hội;\n- Ủy ban Dân nguyện và Giám sát của Quốc hội;- Ban Nội chính Trung ương;\n- Văn phòng Trung ương Đảng;- Văn phòng Chủ tịch nước;\n- Văn phòng Chính phủ;- Tòa án nhân dân tối cao;\n- Bộ Công an; - Bộ Quốc phòng;\n- Bộ Tư pháp;- Bộ Tài chính;",
+      "style": "Vnbnnidung80"
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "Bộ Nông nghiệp và Môi trường;- Các Phó Viện trưởng VKSTC (để thực hiện);\n- Viện kiểm sát quân sự trung ương;- Các đơn vị thuộc VKSTC (để thực hiện);\n- VKSND các tỉnh, thành phố (để thực hiện);- Công báo, Cổng Thông tin điện tử VKSTC (để đăng tải);\n- Lưu: VT, V14.",
+      "style": "Vnbnnidung80"
+    }
+  ],
+  "tables": [
+    {
+      "tableId": "T0001",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0001.R0001.C0001",
+              "text": "VIỆN KIỂM SÁT NHÂN DÂN TỐI CAO S ố : 03 /202 6 /TT- VKSTC",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0001.C0002",
+              "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Đ ộ c l ậ p – T ự do – H ạ nh phúc Hà Nội, ngày 09 tháng 02 năm 202 6",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "headers": {
+    "word/header1.xml": "2\n2",
+    "word/header2.xml": "3\n3"
+  },
+  "placeholders": [],
+  "blankCandidates": [],
+  "extractedAt": "2026-06-19T01:19:40.858Z"
+}

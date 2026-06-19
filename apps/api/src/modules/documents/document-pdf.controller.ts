@@ -1,4 +1,4 @@
-﻿import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ConvertGeneratedDocumentPdfDto } from './dto/convert-generated-document-pdf.dto';
 import { DocumentPdfService } from './document-pdf.service';

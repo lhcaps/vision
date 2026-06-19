@@ -1,0 +1,134 @@
+# BM-059 Extract
+
+## Metadata
+- File: `docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/59-QĐ gia hạn thời hạn tạm giam để truy tố 1.doc`
+- SHA256: `4cdec41fdb1d30990ee84fee93e1383e2ee8ce80ec0d8b31936daee09822713c`
+- Định dạng: doc
+- Group: docs
+- Detected title: QĐ gia hạn thời hạn tạm giam để truy tố 1
+- Title: ?
+- Creator: ?
+- Method: clx-fallback
+- Warnings: Clx parse error: Unknown Clxt tag 174 at 0
+
+## Paragraphs (97)
+
+- **P0001**: VIỆN KIỂM SÁT
+- **P0002**: .................................................
+- **P0003**: Số:
+- **P0004**: /QĐ-VKS
+- **P0005**: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+- **P0006**: Độc lập - Tự do - Hạnh phúc
+- **P0007**: , ngày
+- **P0008**: tháng
+- **P0009**: năm 20
+- **P0010**: QUYẾT ĐỊNH
+- **P0011**: GIA HẠN THỜI HẠN TẠM GIAM ĐỂ TRUY TỐ
+- **P0012**: VIỆN TRƯỞNG VIỆN KIỂM SÁT2...
+- **P0013**: Căn cứ các điều 41, 119, 236, 240 và 241 của Bộ luật Tố tụng hình sự;
+- **P0014**: Căn cứ Điều 135 và Điều 138 của Luật Tư pháp người chưa thành niên
+- **P0015**: Căn cứ Quyết định khởi tố vụ án hình sự số
+- **P0016**: ngày
+- **P0017**: tháng
+- **P0018**: năm
+- **P0019**: (Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số
+- **P0020**: ngày
+- **P0021**: tháng
+- **P0022**: năm
+- **P0023**: , nếu có) của
+- **P0024**: về tội
+- **P0025**: quy định tại khoản
+- **P0026**: Điều
+- **P0027**: của Bộ luật Hình sự;
+- **P0028**: Căn cứ Quyết định khởi tố bị can số
+- **P0029**: ngày
+- **P0030**: tháng
+- **P0031**: năm
+- **P0032**: (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số
+- **P0033**: ngày
+- **P0034**: tháng
+- **P0035**: năm
+- **P0036**: , nếu có) của
+- **P0037**: đối với
+- **P0038**: về tội
+- **P0039**: quy định tại khoản
+- **P0040**: Điều
+- **P0041**: của Bộ luật Hình sự;
+- **P0042**: Căn cứ Lệnh bắt bị can để tạm giam/Lệnh tạm giam số
+- **P0043**: ngày
+- **P0044**: tháng
+- **P0045**: năm
+- **P0046**: của Viện kiểm sát2
+- **P0047**: Căn cứ Quyết định gia hạn thời hạn quyết định việc truy tố số
+- **P0048**: ngày
+- **P0049**: tháng
+- **P0050**: năm
+- **P0051**: của Viện kiểm sát2
+- **P0052**: đối với8
+- **P0053**: Xét thấy việc gia hạn thời hạn tạm giam để quyết định việc truy tố đối với bị can8
+- **P0054**: là có căn cứ và cần thiết,
+- **P0055**: QUYẾT ĐỊNH:
+- **P0056**: Điều 1. Gia hạn tạm giam đối với bị can
+- **P0057**: Họ tên:8......................................................................................... Giới tính:
+- **P0058**: Tên gọi khác:
+- **P0059**: Sinh ngày ............ tháng ............ năm ...................... tại:
+- **P0060**: Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:
+- **P0061**: Nghề nghiệp:
+- **P0062**: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:
+- **P0063**: Cấp ngày............ tháng ............ năm ................... Nơi cấp:
+- **P0064**: Nơi thường trú:
+- **P0065**: Nơi tạm trú:
+- **P0066**: ...........
+- **P0067**: Nơi ở hiện tại:
+- **P0068**: Trong thời hạn
+- **P0069**: , kể từ ngày
+- **P0070**: tháng
+- **P0071**: năm
+- **P0072**: đến ngày
+- **P0073**: tháng
+- **P0074**: năm
+- **P0075**: Điều 2. Yêu cầu9
+- **P0076**: thi hành Quyết định này theo quy định của Bộ luật Tố tụng hình sự./.
+- **P0077**: Nơi nhận:
+- **P0078**: - Lưu: HSVA, HSKS, VP.
+- **P0079**: (Ký, ghi rõ họ tên, đóng dấu)
+- **P0080**: Quyết định này đã được giao cho người bị tạm giam một bản vào hồi ... giờ ... ngày
+- **P0081**: tháng
+- **P0082**: năm
+- **P0083**: NGƯỜI BỊ TẠM GIAM
+- **P0084**: (Ký, ghi rõ họ tên)
+- **P0085**: 9 Ghi tên cơ sở giam giữ; cơ quan, tổ chức, cá nhân có liên quan
+- **P0086**: 10 Ghi chức danh người ký
+- **P0087**: Ghi tên Viện kiểm sát cấp trên trực tiếp
+- **P0088**: Ghi tên Viện kiểm sát ban hành
+- **P0089**: Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)
+- **P0090**: Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành
+- **P0091**: Chỉ ghi căn cứ này trong trường hợp người bị tạm giam là người chưa thành niên
+- **P0092**: Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố vụ án hình sự
+- **P0093**: Ghi tên cơ quan, người có thẩm quyền ra Quyết định khởi tố bị can
+- **P0094**: Ghi họ tên bị can bị tạm giam
+- **P0095**: Mẫu số 59/HS
+- **P0096**: (Ban hành theo Thông tư số      /2026/TT-VKSTC
+- **P0097**: ngày       /     /2026)
+
+## Placeholder candidates (0)
+
+
+## Blank candidates (16)
+
+- `.................................................` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `.........................................................................................` (ellipsis-dots)
+- `............` (ellipsis-dots)
+- `............` (ellipsis-dots)
+- `......................` (ellipsis-dots)
+- `................................................` (ellipsis-dots)
+- `........................` (ellipsis-dots)
+- `............` (ellipsis-dots)
+- `............` (ellipsis-dots)
+- `...................` (ellipsis-dots)
+- `...........` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `...` (ellipsis-dots)
+- `ngày ............ tháng ............ năm ......................` (vn-date-line)
+- `ngày............ tháng ............ năm ...................` (vn-date-line)

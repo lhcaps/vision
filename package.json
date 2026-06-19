@@ -43,11 +43,14 @@
     "audit:docx:report": "node scripts/docx-contract/generate-audit-report.mjs",
     "audit:docx:pilot": "node scripts/docx-contract/generate-pilot-reviews.mjs",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
-    "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs"
+    "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
+    "audit:encoding": "node scripts/audit-encoding-bom.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
-    "concurrently": "^9.1.0"
+    "@types/pizzip": "^3.1.2",
+    "concurrently": "^9.1.0",
+    "pizzip": "^3.2.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

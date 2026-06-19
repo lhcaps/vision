@@ -1,6 +1,6 @@
 # BESPOKE vs DOCX Contract — Comparison Report
 
-Sinh lúc: 2026-06-19T00:17:44.229Z
+Sinh lúc: 2026-06-19T01:19:42.064Z
 
 ## Tổng quan
 
@@ -9,7 +9,7 @@ Sinh lúc: 2026-06-19T00:17:44.229Z
 - Không có contract: **0**
 - Dùng GenericTemplateFormInputsPanel (stub): **68**
 - Tổng field tương đương (slot coverage OK): **0**
-- Tổng field nghi ngờ thiếu trong BESPOKE: **1684**
+- Tổng field nghi ngờ thiếu trong BESPOKE: **1686**
 - Tổng field thừa/suspicious trong BESPOKE: **1371**
 - Tổng UI gene violation: **481**
 
@@ -246,7 +246,7 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-155 | 11 | 0 | 18 | 11 | 2 | no |
 | BM-156 | 14 | 0 | 11 | 14 | 1 | no |
 | BM-157 | 10 | 0 | 1 | 10 | 3 | no |
-| BM-158 | 9 | 0 | 0 | 9 | 3 | no |
+| BM-158 | 9 | 0 | 1 | 9 | 3 | no |
 | BM-159 | 11 | 0 | 6 | 11 | 2 | no |
 | BM-160 | 9 | 0 | 2 | 9 | 2 | no |
 | BM-161 | 9 | 0 | 16 | 9 | 2 | no |
@@ -255,7 +255,7 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-164 | 0 | 0 | 15 | 0 | 0 | yes |
 | BM-165 | 0 | 0 | 1 | 0 | 0 | yes |
 | BM-166 | 0 | 0 | 4 | 0 | 4 | no |
-| BM-167 | 0 | 0 | 0 | 0 | 0 | yes |
+| BM-167 | 0 | 0 | 1 | 0 | 0 | yes |
 | BM-168 | 3 | 0 | 3 | 3 | 2 | no |
 | BM-169 | 0 | 0 | 6 | 0 | 4 | no |
 | BM-170 | 11 | 0 | 3 | 11 | 11 | no |

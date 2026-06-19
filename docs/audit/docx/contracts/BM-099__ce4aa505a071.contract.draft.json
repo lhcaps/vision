@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-099__ce4aa505a071",
+  "templateCode": "BM-099",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ thay đổi QĐ khởi tố bị can",
+  "docx": {
+    "sha256": "ce4aa505a071f1a284bf7af4ecdc2417cc5c2332a37c63f2907e96c529da42ea",
+    "fileName": "99-QĐ thay đổi QĐ khởi tố bị can.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/99-QĐ thay đổi QĐ khởi tố bị can.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.blank1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "................................................."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank2",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": ".....................................................................,",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "....................................................................."
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.field1",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.field2",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.blank1",
+      "from": "document.field1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank2",
+      "from": "document.field2",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 15 at 0"
+  ],
+  "generatedAt": "2026-06-19T01:19:41.319Z"
+}
