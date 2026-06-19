@@ -334,20 +334,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 8...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".............................................."
+      "raw": "..............................................",
+      "blockId": "P0036",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 46,
+      "context": ".............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.977Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/175-QĐ phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "6d3f2b46283df10d969b5d23da45e37f98cbbe2bec6147371151afd800924fec",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/175-QĐ phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "6d3f2b46283df10d969b5d23da45e37f98cbbe2bec6147371151afd800924fec",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.594Z"
 }

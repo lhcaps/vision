@@ -328,28 +328,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 22,
+      "endOffset": 25,
+      "context": "Điều 2. Yêu cầu6 và 8 ... thực hiện việc giao, nhận vật chứng và gửi 02 biên bản giao, nhận đến Viện kiểm sát2"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 6...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0029",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 8...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".................................................."
+      "raw": "..................................................",
+      "blockId": "P0032",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 50,
+      "context": ".................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.976Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/173-QĐ chuyển vật chứng.doc",
+    "sha256": "2e06ac25958d93007eacddf9ccc46ad7c42651e405ae103591f9c331f644834e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/173-QĐ chuyển vật chứng.doc",
+    "sha256": "2e06ac25958d93007eacddf9ccc46ad7c42651e405ae103591f9c331f644834e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.592Z"
 }

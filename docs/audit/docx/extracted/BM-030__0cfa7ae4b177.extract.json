@@ -280,16 +280,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................."
+      "raw": ".........................................",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 41,
+      "context": "........................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 15,
+      "endOffset": 18,
+      "context": "thông báo cho6 ... biết:"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.880Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/30-Thông báo kết quả giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "0cfa7ae4b17794053a2668b476fd01525ffde665dfb852bb9ebe263751498bfe",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/30-Thông báo kết quả giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "0cfa7ae4b17794053a2668b476fd01525ffde665dfb852bb9ebe263751498bfe",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.426Z"
 }

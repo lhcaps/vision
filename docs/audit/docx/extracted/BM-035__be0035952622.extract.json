@@ -298,20 +298,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 11,
+      "context": "đối với8... là không có căn cứ/không cần thiết,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 12,
+      "context": "đối với8...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "Điều 2. Yêu cầu9... trả tự do ngay cho người bị tạm giữ theo quy định của Bộ luật Tố tụng hình sự./."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.883Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
+    "sha256": "be0035952622ea412f64d75e187b89d33fba81b6957669785f3361eb398916ce",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
+    "sha256": "be0035952622ea412f64d75e187b89d33fba81b6957669785f3361eb398916ce",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.431Z"
 }

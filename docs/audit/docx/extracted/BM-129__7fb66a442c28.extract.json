@@ -532,12 +532,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........."
+      "raw": ".........",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 9,
+      "context": ".........,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.936Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/129-QĐ trưng cầu giám định bổ sung.doc",
+    "sha256": "7fb66a442c28fadb4f21d3725bf9893fd6a30146705e9f5e4beda73fc28fa332",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/129-QĐ trưng cầu giám định bổ sung.doc",
+    "sha256": "7fb66a442c28fadb4f21d3725bf9893fd6a30146705e9f5e4beda73fc28fa332",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.523Z"
 }

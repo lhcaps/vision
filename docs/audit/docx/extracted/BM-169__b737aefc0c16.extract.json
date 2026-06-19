@@ -532,28 +532,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................................................."
+      "raw": "...........................................................................",
+      "blockId": "P0060",
+      "tableCellId": null,
+      "startOffset": 35,
+      "endOffset": 110,
+      "context": "Điều 1. Xử lý những vật chứng sau: ..........................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...................."
+      "raw": "....................",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 24,
+      "endOffset": 44,
+      "context": "Bằng hình thức sau đây: ...................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................................................................."
+      "raw": "..........................................................................",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 74,
+      "context": ".........................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0066",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 10...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.974Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/169-QĐ xử lý vật chứng.doc",
+    "sha256": "b737aefc0c165e6531687c5135fdd586f811a64c31e387b57d25d8fdcf2ac534",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/169-QĐ xử lý vật chứng.doc",
+    "sha256": "b737aefc0c165e6531687c5135fdd586f811a64c31e387b57d25d8fdcf2ac534",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.588Z"
 }

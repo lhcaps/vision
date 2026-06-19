@@ -310,8 +310,25 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.945Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/89-QĐ huỷ bỏ QĐ tách vụ án hình sự.doc",
+    "sha256": "9d0d4280c6a17205e7f13d14e0319e9b1e6f51fcb9671a653d23c86c4e80c0b6",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/89-QĐ huỷ bỏ QĐ tách vụ án hình sự.doc",
+    "sha256": "9d0d4280c6a17205e7f13d14e0319e9b1e6f51fcb9671a653d23c86c4e80c0b6",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.541Z"
 }

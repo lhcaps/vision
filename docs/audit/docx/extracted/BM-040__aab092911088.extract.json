@@ -580,24 +580,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... đối với9... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 15,
+      "context": "... đối với9... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0065",
+      "tableCellId": null,
+      "startOffset": 21,
+      "endOffset": 24,
+      "context": "Thời hạn tạm giam là ..., kể từ ngày"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.886Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/40-QĐ phê chuẩn Lệnh tạm giam.doc",
+    "sha256": "aab092911088b87740614620bb8255566295013174da2d20c280d50c56b8f0f2",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/40-QĐ phê chuẩn Lệnh tạm giam.doc",
+    "sha256": "aab092911088b87740614620bb8255566295013174da2d20c280d50c56b8f0f2",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.438Z"
 }

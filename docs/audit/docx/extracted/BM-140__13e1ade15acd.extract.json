@@ -316,28 +316,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".............................."
+      "raw": "..............................",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 30,
+      "context": ".............................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................................................................................."
+      "raw": "...................................................................................",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 83,
+      "context": "..................................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................................................."
+      "raw": "..........................................................",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 58,
+      "context": ".......................................................... (nêu cụ thể các biện pháp phòng ngừa tội phạm, vi phạm pháp luật)."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.943Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/140-Kiến nghị áp dụng biện pháp phòng ngừa tội phạm và vi phạm pháp luật.doc",
+    "sha256": "13e1ade15acd07ae5935a787aa149ea82f9bb95c234e2cd70e06dc9f355df4b9",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/140-Kiến nghị áp dụng biện pháp phòng ngừa tội phạm và vi phạm pháp luật.doc",
+    "sha256": "13e1ade15acd07ae5935a787aa149ea82f9bb95c234e2cd70e06dc9f355df4b9",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.535Z"
 }

@@ -412,20 +412,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": ".............................................."
+      "raw": "..............................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 46,
+      "context": ".............................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................."
+      "raw": ".......................................................................................",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 87,
+      "context": "......................................................................................./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 10...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.949Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/95-QĐ huỷ bỏ QĐ huỷ bỏ QĐ khởi tố bị can.doc",
+    "sha256": "83c3c1ef212f75f72e94459621c496ed9ad3c91998de7e956e878ff819307156",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/95-QĐ huỷ bỏ QĐ huỷ bỏ QĐ khởi tố bị can.doc",
+    "sha256": "83c3c1ef212f75f72e94459621c496ed9ad3c91998de7e956e878ff819307156",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.546Z"
 }

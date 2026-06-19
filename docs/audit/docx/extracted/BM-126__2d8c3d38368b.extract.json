@@ -520,16 +520,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0058",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 12...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....."
+      "raw": ".....",
+      "blockId": "P0073",
+      "tableCellId": null,
+      "startOffset": 176,
+      "endOffset": 181,
+      "context": "Ghi rõ các nội dung trưng cầu giám định theo quy định tại khoản 2 Điều 205 của Bộ luật Tố tụng hình sự (tên và đặc điểm của đối tượng cần giám định, nội dung yêu cầu giám định,.....)"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.934Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/126-QĐ trưng cầu giám định.doc",
+    "sha256": "2d8c3d38368b16d47e31d537859a37164f1c12ad447643214994b5840098672c",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/126-QĐ trưng cầu giám định.doc",
+    "sha256": "2d8c3d38368b16d47e31d537859a37164f1c12ad447643214994b5840098672c",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.519Z"
 }

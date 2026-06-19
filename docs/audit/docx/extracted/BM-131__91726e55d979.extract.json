@@ -538,24 +538,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........."
+      "raw": "..........",
+      "blockId": "P0054",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 10,
+      "context": ".........."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 14...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0079",
+      "tableCellId": null,
+      "startOffset": 124,
+      "endOffset": 128,
+      "context": "Ghi rõ thông tin, đặc điểm các loại tài sản cần định giá lại và nơi bảo quản các tài sản này, nội dung yêu cầu định giá lại,...."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.937Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/131-Yêu cầu định giá lại tài sản.doc",
+    "sha256": "91726e55d979802a8c9edf8a8654d4a95d066eee8f9063e81328a24c9dca7719",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/131-Yêu cầu định giá lại tài sản.doc",
+    "sha256": "91726e55d979802a8c9edf8a8654d4a95d066eee8f9063e81328a24c9dca7719",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.525Z"
 }

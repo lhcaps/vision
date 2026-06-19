@@ -418,24 +418,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0008",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0008",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "tháng ... năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 62,
+      "endOffset": 65,
+      "context": "Xét hồ sơ đề nghị gia hạn thời hạn điều tra vụ án hình sự của8...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 82,
+      "endOffset": 85,
+      "context": "Nhập thấy việc đề nghị gia hạn thời hạn điều tra vụ án hình sự là không có căn cứ9...,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.918Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/105-QĐ không gia hạn thời hạn điều tra VAHS.doc",
+    "sha256": "c83181e6b64bcedfc151fe101eba67fd70d7551c019b17ee24e6b4ea0c4d4034",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/105-QĐ không gia hạn thời hạn điều tra VAHS.doc",
+    "sha256": "c83181e6b64bcedfc151fe101eba67fd70d7551c019b17ee24e6b4ea0c4d4034",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.496Z"
 }

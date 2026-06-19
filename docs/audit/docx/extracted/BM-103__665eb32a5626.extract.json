@@ -430,16 +430,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "Điều ... của"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.917Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/103-Đề nghị gia hạn thời hạn điều tra.doc",
+    "sha256": "665eb32a562672334da9aeec8751d97955e6d05b26cdd4d9f734533ecf06942b",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/103-Đề nghị gia hạn thời hạn điều tra.doc",
+    "sha256": "665eb32a562672334da9aeec8751d97955e6d05b26cdd4d9f734533ecf06942b",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.493Z"
 }

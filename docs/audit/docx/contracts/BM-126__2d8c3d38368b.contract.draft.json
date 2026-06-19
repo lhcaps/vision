@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/126-QĐ trưng cầu giám định.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/126-QĐ trưng cầu giám định.doc",
+    "sha256": "2d8c3d38368b16d47e31d537859a37164f1c12ad447643214994b5840098672c",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,13 +43,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0058",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "- 12...;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -58,18 +64,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "decision.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0073",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Ghi rõ các nội dung trưng cầu giám định theo quy định tại khoản 2 Điều 205 của Bộ luật Tố tụng hình sự (tên và đặc điểm của đối tượng cần giám định, nội dung yêu cầu giám định,.....)",
+      "label": "Ô trống dạng \"...\" (decision)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "decision",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -101,34 +107,34 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "decision.field3",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (decision)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "decision",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "from": "document.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
-      "from": "document.field3",
+      "slotId": "decision.field3",
+      "from": "decision.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -139,5 +145,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 0 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.330Z"
+  "productMetadata": {
+    "stage": {
+      "code": "04",
+      "label": "KHỞI TỐ, ĐIỀU TRA",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "126/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.990Z"
 }

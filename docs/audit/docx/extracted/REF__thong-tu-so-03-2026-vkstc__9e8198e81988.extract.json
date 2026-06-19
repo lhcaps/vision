@@ -499,5 +499,17 @@
   },
   "placeholders": [],
   "blankCandidates": [],
-  "extractedAt": "2026-06-19T01:19:40.858Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Thong tu so 03-2026-VKSTC.docx",
+    "sha256": "9e8198e8198843b597c0eab5aad00325f9450959f4e11853984088b70b2b459f",
+    "format": "docx"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Thong tu so 03-2026-VKSTC.docx",
+    "sha256": "9e8198e8198843b597c0eab5aad00325f9450959f4e11853984088b70b2b459f",
+    "format": "docx"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.374Z"
 }

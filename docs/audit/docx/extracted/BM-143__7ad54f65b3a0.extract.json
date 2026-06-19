@@ -424,8 +424,25 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.952Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/143-Quyết định tách vụ án hình sự trong giai đoạn truy tố.doc",
+    "sha256": "7ad54f65b3a05acdfcbf2925874a63e735eb49cbfe953dc810e920f364d3c4f1",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/143-Quyết định tách vụ án hình sự trong giai đoạn truy tố.doc",
+    "sha256": "7ad54f65b3a05acdfcbf2925874a63e735eb49cbfe953dc810e920f364d3c4f1",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.554Z"
 }

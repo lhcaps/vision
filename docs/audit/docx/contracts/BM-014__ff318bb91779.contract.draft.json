@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/14-QĐ trực tiếp kiểm sát tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/14-QĐ trực tiếp kiểm sát tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "ff318bb91779095b76657f3030b34e32c61f4cf5acb3cc9fa0182cf69c9e5f27",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,18 +43,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "receiver.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0027",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "..., Chức vụ, chức danh",
+      "label": "Ô trống dạng \"...\" (receiver)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "receiver",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -58,13 +64,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0028",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "......., Trưởng đoàn;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -79,13 +85,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0031",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "..., thành viên;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -100,13 +106,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank5",
+      "slotId": "document.field5",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0034",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "..., thành viên;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -133,13 +139,13 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "receiver.field2",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (receiver)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "receiver",
       "reviewRequired": true
     },
     {
@@ -175,35 +181,35 @@
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
-      "from": "document.field2",
+      "slotId": "receiver.field2",
+      "from": "receiver.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "from": "document.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "from": "document.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank5",
+      "slotId": "document.field5",
       "from": "document.field5",
       "transform": "identity",
       "fallback": "",
@@ -215,5 +221,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 0 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.284Z"
+  "productMetadata": {
+    "stage": {
+      "code": "01",
+      "label": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "014/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.931Z"
 }

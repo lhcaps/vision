@@ -634,72 +634,142 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................."
+      "raw": ".........................................................................................",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 97,
+      "context": "Họ tên:8......................................................................................... Giới tính:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................................................................."
+      "raw": "...........................................................................................",
+      "blockId": "P0049",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 91,
+      "context": "..........................................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............"
+      "raw": "............",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 23,
+      "context": "Sinh ngày: ............tháng ............năm..................... tại:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............"
+      "raw": "............",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 29,
+      "endOffset": 41,
+      "context": "Sinh ngày: ............tháng ............năm..................... tại:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....................."
+      "raw": ".....................",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 44,
+      "endOffset": 65,
+      "context": "Sinh ngày: ............tháng ............năm..................... tại:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................."
+      "raw": ".............................................",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 56,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................"
+      "raw": "......................",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 67,
+      "endOffset": 89,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "...."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": ".................................................."
+      "raw": ".............................................................................................................",
+      "blockId": "P0052",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 121,
+      "context": "Nghề nghiệp:............................................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0054",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "....",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "trong ..., kể từ ngày"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..................................................",
+      "blockId": "P0083",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 50,
+      "context": ".................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.998Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/209-Quyết định áp dụng biện pháp giám sát bởi người đại diện.doc",
+    "sha256": "2547ef797798ead1df8a6dc976c7b061f98d6ea8800311d06d5c67782ce9a3da",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/209-Quyết định áp dụng biện pháp giám sát bởi người đại diện.doc",
+    "sha256": "2547ef797798ead1df8a6dc976c7b061f98d6ea8800311d06d5c67782ce9a3da",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.630Z"
 }

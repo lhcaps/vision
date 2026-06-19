@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/165-Thông báo về việc vụ án có bị can bị tạm giam.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/165-Thông báo về việc vụ án có bị can bị tạm giam.doc",
+    "sha256": "d391dc4d1ffb984a52692733b585663e29f9c5e6bf4351968a27df0fea59c8e6",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -51,7 +57,7 @@
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
@@ -63,5 +69,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 116 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.344Z"
+  "productMetadata": {
+    "stage": {
+      "code": "05",
+      "label": "TRUY TỐ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "165/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:37.011Z"
 }

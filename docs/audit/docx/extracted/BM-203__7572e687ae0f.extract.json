@@ -442,80 +442,133 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................................................................................."
+      "raw": "...................................................................................",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 83,
+      "context": "................................................................................... Giới tính:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "........."
+      "raw": "...........................................................................................",
+      "blockId": "P0024",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 91,
+      "context": "..........................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".............................................",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 56,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 67,
+      "endOffset": 89,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".............................................................................................................",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 121,
+      "context": "Nghề nghiệp:............................................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0029",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "Đúng ... giờ ... ngày ... tháng"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 13,
+      "endOffset": 16,
+      "context": "Đúng ... giờ ... ngày ... tháng"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 22,
+      "endOffset": 25,
+      "context": "Đúng ... giờ ... ngày ... tháng"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".......................................................................................",
+      "blockId": "P0040",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 87,
+      "context": "......................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".........",
+      "blockId": "P0041",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 9,
+      "context": "........."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.995Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/203-Thông báo về hoạt động tố tụng.doc",
+    "sha256": "7572e687ae0f28702a24cfff62bc30ca1ab5077a34f1f629df4c8fcb1c7da088",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/203-Thông báo về hoạt động tố tụng.doc",
+    "sha256": "7572e687ae0f28702a24cfff62bc30ca1ab5077a34f1f629df4c8fcb1c7da088",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.624Z"
 }

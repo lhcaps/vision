@@ -376,60 +376,88 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "........................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": ".........................................................................................",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 97,
+      "context": "Họ tên:7......................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 70,
+      "endOffset": 94,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0039",
+      "tableCellId": null,
+      "startOffset": 28,
+      "endOffset": 31,
+      "context": "Nếu bị can vi phạm, yêu cầu8... thông báo ngay cho Viện kiểm sát2"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.896Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/56-QĐ tạm hoãn xuất cảnh.doc",
+    "sha256": "eea9a3391f5f9570e8eaa2378b86e6de3f2b793abf9f98edd914ea8ad4cf6afe",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/56-QĐ tạm hoãn xuất cảnh.doc",
+    "sha256": "eea9a3391f5f9570e8eaa2378b86e6de3f2b793abf9f98edd914ea8ad4cf6afe",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.456Z"
 }

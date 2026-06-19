@@ -104,21 +104,38 @@ const summarize = (results) => {
   let totalMissingBinding = 0;
   let totalLocked = 0;
   let totalDraft = 0;
+  let totalStructuralIssues = 0;
+  let totalStructuralWarnings = 0;
+  let totalContractWarnings = 0;
   for (const r of results) {
     const c = r.contract;
     totalSlots += c.docxSlots?.length ?? 0;
     totalBound += c.renderBindings?.length ?? 0;
     totalUnknown += (c.canonicalFields ?? []).filter((f) => f.source === "unknown").length;
-    totalReview += (c.canonicalFields ?? []).filter((f) => f.reviewRequired).length
+    totalReview +=
+      (c.canonicalFields ?? []).filter((f) => f.reviewRequired).length
       + (c.docxSlots ?? []).filter((s) => s.reviewRequired).length
       + (c.renderBindings ?? []).filter((b) => b.reviewRequired).length;
-    // Missing binding: slot không có renderBinding
     const boundSlots = new Set((c.renderBindings ?? []).map((b) => b.slotId));
     totalMissingBinding += (c.docxSlots ?? []).filter((s) => !boundSlots.has(s.slotId)).length;
     if (c.status === "locked") totalLocked += 1;
     else totalDraft += 1;
+    totalStructuralIssues += r.issues.length;
+    totalStructuralWarnings += r.warnings.length;
+    totalContractWarnings += (c.warnings ?? []).length;
   }
-  return { totalSlots, totalBound, totalUnknown, totalReview, totalMissingBinding, totalLocked, totalDraft };
+  return {
+    totalSlots,
+    totalBound,
+    totalUnknown,
+    totalReview,
+    totalMissingBinding,
+    totalLocked,
+    totalDraft,
+    totalStructuralIssues,
+    totalStructuralWarnings,
+    totalContractWarnings,
+  };
 };
 
 const main = () => {
@@ -187,13 +204,14 @@ const main = () => {
   md.push(`- Tổng reviewRequired (slot+field+binding): **${summary.totalReview}**`);
   md.push(`- Tổng slot thiếu binding: **${summary.totalMissingBinding}**`);
   md.push(`- Contract locked: **${summary.totalLocked}** | draft: **${summary.totalDraft}**`);
-  md.push(`- Tổng issues (strict structural): **${totalIssues}**`);
-  md.push(`- Tổng warnings (best-effort structural): **${totalWarnings}**`);
+  md.push(`- Structural issues: **${summary.totalStructuralIssues}**`);
+  md.push(`- Structural warnings: **${summary.totalStructuralWarnings}**`);
+  md.push(`- Extraction / contract warnings: **${summary.totalContractWarnings}**`);
   md.push(`- Locked contract invalid: **${lockedInvalid}** (sẽ thoát non-zero)`);
   md.push("");
   md.push("## Per BM");
   md.push("");
-  md.push("| SourceId | BM | Status | Slots | Bound | Unknown source | Review required | Missing binding | Issues | Warnings |");
+  md.push("| SourceId | BM | Status | Slots | Bound | Unknown source | Review required | Missing binding | Issues | Warnings | Extract/Contract Warnings |");
   md.push("|---|---|---|---:|---:|---:|---:|---:|---:|---:|");
   for (const r of results.sort((a, b) => a.code?.localeCompare(b.code))) {
     const c = r.contract;
@@ -206,7 +224,7 @@ const main = () => {
     const boundSlots = new Set((c.renderBindings ?? []).map((b) => b.slotId));
     const missing = (c.docxSlots ?? []).filter((s) => !boundSlots.has(s.slotId)).length;
     md.push(
-      `| ${r.contract.sourceId ?? "?"} | ${r.code ?? "?"} | ${r.status} | ${slots} | ${bound} | ${unknown} | ${review} | ${missing} | ${r.issues.length} | ${r.warnings.length} |`,
+      `| ${r.contract.sourceId ?? "?"} | ${r.code ?? "?"} | ${r.status} | ${slots} | ${bound} | ${unknown} | ${review} | ${missing} | ${r.issues.length} | ${r.warnings.length} | ${(r.contract.warnings ?? []).length} |`,
     );
   }
   md.push("");
@@ -240,11 +258,9 @@ const main = () => {
       `- Issues: ${r.issues.length}`,
       `- Warnings: ${r.warnings.length}`,
       "",
-      `## Vì sao chưa thể lock`,
+      `## Extraction / contract warnings (${(c.warnings ?? []).length})`,
       "",
-      `- 0 contract nào trong repo đang ở status=\"locked\".`,
-      `- Toàn bộ canonicalField đều source=unknown và reviewRequired=true.`,
-      `- Verify STRUCTURAL chỉ xác nhận schema; KHÔNG xác nhận đúng với DOCX về nghiệp vụ.`,
+      (c.warnings ?? []).length ? c.warnings.map((w) => `- ${w}`).join("\n") : "- (none)",
       "",
       `## Issues`,
       "",
@@ -276,11 +292,13 @@ const main = () => {
       slots: r.contract.docxSlots?.length ?? 0,
       bindings: r.contract.renderBindings?.length ?? 0,
       unknownSources: (r.contract.canonicalFields ?? []).filter((f) => f.source === "unknown").length,
-      reviewRequired: (r.contract.canonicalFields ?? []).filter((f) => f.reviewRequired).length
+      reviewRequired:
+        (r.contract.canonicalFields ?? []).filter((f) => f.reviewRequired).length
         + (r.contract.docxSlots ?? []).filter((s) => s.reviewRequired).length
         + (r.contract.renderBindings ?? []).filter((b) => b.reviewRequired).length,
       issues: r.issues,
       warnings: r.warnings,
+      extractionContractWarnings: r.contract.warnings ?? [],
     })),
   };
   fs.writeFileSync(

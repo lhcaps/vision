@@ -490,12 +490,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "của10...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.893Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/50-QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
+    "sha256": "2d31c941887e23c181c1461c45ce86af8e8735154d08f1ca5f36d3ad6c5594a2",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/50-QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
+    "sha256": "2d31c941887e23c181c1461c45ce86af8e8735154d08f1ca5f36d3ad6c5594a2",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.449Z"
 }

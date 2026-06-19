@@ -400,16 +400,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0032",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "của6... đối với"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0041",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 12,
+      "context": "đối với7...."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.882Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/34-QĐ không phê chuẩn QĐ gia hạn tạm giữ.doc",
+    "sha256": "e02f842b6038efe06448e73989b3f04f3ecb18c913c0c11c89fa6bbfadc409c2",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/34-QĐ không phê chuẩn QĐ gia hạn tạm giữ.doc",
+    "sha256": "e02f842b6038efe06448e73989b3f04f3ecb18c913c0c11c89fa6bbfadc409c2",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.430Z"
 }

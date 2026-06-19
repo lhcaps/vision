@@ -280,24 +280,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... thuộc thẩm quyền giải quyết của"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................"
+      "raw": "............................................",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 44,
+      "context": "............................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................"
+      "raw": "................................................",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 32,
+      "endOffset": 80,
+      "context": "thuộc thẩm quyền giải quyết của8................................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "Điều 2. Yêu cầu8... tiếp tục giải quyết nguồn tin về tội phạm5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.869Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/13-QĐ giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin.doc",
+    "sha256": "9a1f7d37fec970c5794c524467c96e0b343b59a5af768976981430ddf55560c3",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/13-QĐ giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin.doc",
+    "sha256": "9a1f7d37fec970c5794c524467c96e0b343b59a5af768976981430ddf55560c3",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.409Z"
 }

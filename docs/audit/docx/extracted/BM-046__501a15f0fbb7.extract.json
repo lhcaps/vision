@@ -496,16 +496,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "của10...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.890Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/46-QĐ không phê chuẩn QĐ về việc bảo lĩnh.doc",
+    "sha256": "501a15f0fbb70ba8c108e5dff186ed32c3dbff09e20a44ee4427acb1d78bf0a8",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/46-QĐ không phê chuẩn QĐ về việc bảo lĩnh.doc",
+    "sha256": "501a15f0fbb70ba8c108e5dff186ed32c3dbff09e20a44ee4427acb1d78bf0a8",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.444Z"
 }

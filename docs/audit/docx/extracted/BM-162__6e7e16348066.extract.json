@@ -274,24 +274,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "Đúng ... giờ ... ngày ... tháng"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 13,
+      "endOffset": 16,
+      "context": "Đúng ... giờ ... ngày ... tháng"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 22,
+      "endOffset": 25,
+      "context": "Đúng ... giờ ... ngày ... tháng"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.967Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/162-Giấy mời.doc",
+    "sha256": "6e7e163480663425a07ce3b68b0c3fc4494f7664f7c43a09f3307ce158af4d76",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/162-Giấy mời.doc",
+    "sha256": "6e7e163480663425a07ce3b68b0c3fc4494f7664f7c43a09f3307ce158af4d76",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.577Z"
 }

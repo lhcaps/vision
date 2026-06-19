@@ -448,20 +448,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 18,
+      "endOffset": 21,
+      "context": "(nếu có) đối với10... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0038",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............"
+      "raw": "............",
+      "blockId": "P0039",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 12,
+      "context": "............,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.888Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/43-QĐ huỷ bỏ biện pháp tạm giam.doc",
+    "sha256": "8eab35cfeedb63a2b5612687107d3bb9dfb4a5d084b82b8aeb9f9e411aaf8f75",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/43-QĐ huỷ bỏ biện pháp tạm giam.doc",
+    "sha256": "8eab35cfeedb63a2b5612687107d3bb9dfb4a5d084b82b8aeb9f9e411aaf8f75",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.441Z"
 }

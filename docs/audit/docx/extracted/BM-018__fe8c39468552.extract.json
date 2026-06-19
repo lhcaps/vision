@@ -304,16 +304,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.873Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/18-Yêu cầu ra QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "fe8c394685522db38d3f59ad3ed5548082238fb6a1a1c7abb7c46b75d6a0dcba",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/18-Yêu cầu ra QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "fe8c394685522db38d3f59ad3ed5548082238fb6a1a1c7abb7c46b75d6a0dcba",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.414Z"
 }

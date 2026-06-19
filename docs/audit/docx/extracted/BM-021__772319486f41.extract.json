@@ -244,16 +244,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................................"
+      "raw": "......................................................................................................",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 102,
+      "context": "......................................................................................................,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.875Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/21-QĐ không khởi tố vụ án hình sự.doc",
+    "sha256": "772319486f416b6dcae9a8aa8b6ae8d390979016082f95418b7860271dc8d6cd",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/21-QĐ không khởi tố vụ án hình sự.doc",
+    "sha256": "772319486f416b6dcae9a8aa8b6ae8d390979016082f95418b7860271dc8d6cd",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.418Z"
 }

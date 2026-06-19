@@ -394,52 +394,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "........................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
+      "raw": ".........................................................................................",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 97,
+      "context": "Họ tên:8......................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 70,
+      "endOffset": 94,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.891Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/48-QĐ huỷ bỏ biện pháp bảo lĩnh.doc",
+    "sha256": "724a5a8b34215842bb7c167ab12316e4b05c2745a6a50b5af222eef2abb123d4",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/48-QĐ huỷ bỏ biện pháp bảo lĩnh.doc",
+    "sha256": "724a5a8b34215842bb7c167ab12316e4b05c2745a6a50b5af222eef2abb123d4",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.447Z"
 }

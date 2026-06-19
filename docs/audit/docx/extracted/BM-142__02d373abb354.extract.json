@@ -460,16 +460,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0041",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "....,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................"
+      "raw": "............................",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 31,
+      "context": "-  ............................;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.952Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/142-Quyết định nhập vụ án hình sự trong giai đoạn truy tố.doc",
+    "sha256": "02d373abb35417b8f1a76f020527ab24a11ccae8ad2667828eeb3d98c7a96d5e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/142-Quyết định nhập vụ án hình sự trong giai đoạn truy tố.doc",
+    "sha256": "02d373abb35417b8f1a76f020527ab24a11ccae8ad2667828eeb3d98c7a96d5e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.553Z"
 }

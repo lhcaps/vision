@@ -604,60 +604,88 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "........................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "........................................................",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 70,
+      "context": "Cho ông/bà:11 ........................................................ Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0064",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0065",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................",
+      "blockId": "P0065",
+      "tableCellId": null,
+      "startOffset": 70,
+      "endOffset": 94,
+      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0068",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0076",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 12...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.975Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/171-QĐ trả lại tài sản.doc",
+    "sha256": "46b9a8be4e01d85f5e44985712f3443a47d55c4521c680756c2bdfd80cb0f28f",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/171-QĐ trả lại tài sản.doc",
+    "sha256": "46b9a8be4e01d85f5e44985712f3443a47d55c4521c680756c2bdfd80cb0f28f",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.590Z"
 }

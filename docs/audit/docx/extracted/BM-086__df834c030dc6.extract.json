@@ -346,16 +346,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................"
+      "raw": "............................................",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 44,
+      "context": "............................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.943Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/86-QĐ chuyển việc thực hiện thẩm quyền thực hành quyền công tố, kiểm sát giải quyết nguồn tin, khởi tố điều tra.doc",
+    "sha256": "df834c030dc6a186eed679b25d98f86b4a55e216799955c796606fee572c795c",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/86-QĐ chuyển việc thực hiện thẩm quyền thực hành quyền công tố, kiểm sát giải quyết nguồn tin, khởi tố điều tra.doc",
+    "sha256": "df834c030dc6a186eed679b25d98f86b4a55e216799955c796606fee572c795c",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.538Z"
 }

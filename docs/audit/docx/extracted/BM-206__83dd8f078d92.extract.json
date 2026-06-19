@@ -598,68 +598,106 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................"
+      "raw": "........................................................................................",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 96,
+      "context": "Họ tên:8........................................................................................ Giới tính:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": "...........................................................................................",
+      "blockId": "P0049",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 91,
+      "context": "..........................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".............................................",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 56,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 67,
+      "endOffset": 89,
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".............................................................................................................",
+      "blockId": "P0052",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 121,
+      "context": "Nghề nghiệp:............................................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0054",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................................",
+      "blockId": "P0078",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.996Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/206-Quyết định áp dụng biện pháp giám sát điện tử đối với NCTN - Copy.doc",
+    "sha256": "83dd8f078d926f34151c1d7bbb9b828fa11db1de2adef1e905cea4402149ca54",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/206-Quyết định áp dụng biện pháp giám sát điện tử đối với NCTN - Copy.doc",
+    "sha256": "83dd8f078d926f34151c1d7bbb9b828fa11db1de2adef1e905cea4402149ca54",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.627Z"
 }

@@ -346,12 +346,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "VIỆN KIỂM SÁT2..."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.911Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/79-Thông báo huỷ bỏ việc đăng ký bào chữa.doc",
+    "sha256": "80698c3475640a372408a7caeaa0c432567e010dade9a72ae3acb99112cbb8a5",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/79-Thông báo huỷ bỏ việc đăng ký bào chữa.doc",
+    "sha256": "80698c3475640a372408a7caeaa0c432567e010dade9a72ae3acb99112cbb8a5",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.484Z"
 }

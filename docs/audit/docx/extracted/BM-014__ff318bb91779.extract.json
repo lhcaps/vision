@@ -340,24 +340,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..., Chức vụ, chức danh"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......."
+      "raw": ".......",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 7,
+      "context": "......., Trưởng đoàn;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..., thành viên;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..., thành viên;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.870Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/14-QĐ trực tiếp kiểm sát tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "ff318bb91779095b76657f3030b34e32c61f4cf5acb3cc9fa0182cf69c9e5f27",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/14-QĐ trực tiếp kiểm sát tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "ff318bb91779095b76657f3030b34e32c61f4cf5acb3cc9fa0182cf69c9e5f27",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.410Z"
 }

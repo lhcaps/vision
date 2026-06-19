@@ -496,16 +496,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................................................................................................."
+      "raw": "..........................................................................................................",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 106,
+      "context": ".........................................................................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.957Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/150-QĐ đình chỉ vụ án.doc",
+    "sha256": "d19a8665087c9ec2b23a9d9059681a469e609475e7bdde818c2b81ee244f19be",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/150-QĐ đình chỉ vụ án.doc",
+    "sha256": "d19a8665087c9ec2b23a9d9059681a469e609475e7bdde818c2b81ee244f19be",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.561Z"
 }

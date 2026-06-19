@@ -322,28 +322,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 18,
+      "endOffset": 21,
+      "context": "của Viện kiểm sát2...,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0024",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 22,
+      "endOffset": 25,
+      "context": "Điều 2. Viện kiểm sát5... thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 5...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.966Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/159-QĐ phân công VKS cấp dưới THQCT, KS xét xử VAHS.doc",
+    "sha256": "d95eb7bda8e3282c7087790b90b40ff5b9e5254d4f1f62540db4c65541850c13",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/159-QĐ phân công VKS cấp dưới THQCT, KS xét xử VAHS.doc",
+    "sha256": "d95eb7bda8e3282c7087790b90b40ff5b9e5254d4f1f62540db4c65541850c13",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.574Z"
 }

@@ -484,16 +484,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0057",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 9...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.975Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/170-QĐ huỷ bỏ QĐ xử lý vật chứng.doc",
+    "sha256": "c8f50b0e9f5b2164fc4c8bc01448a039c9c80228765926765ab5271c38bc294a",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/170-QĐ huỷ bỏ QĐ xử lý vật chứng.doc",
+    "sha256": "c8f50b0e9f5b2164fc4c8bc01448a039c9c80228765926765ab5271c38bc294a",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.589Z"
 }

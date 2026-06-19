@@ -352,20 +352,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..., Phó Viện trưởng Viện kiểm sát2"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0037",
+      "tableCellId": null,
+      "startOffset": 15,
+      "endOffset": 18,
+      "context": "Điều 2. Ông/Bà6... thực hiện nhiệm vụ, quyền hạn và trách nhiệm theo quy định của Bộ luật Tố tụng hình sự./."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.906Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/70-QĐ phân công PVT THQCT, KS việc giải quyết VAHS.doc",
+    "sha256": "e63499f6fc202922ea9677ec2d411592344a3e14b560de6f1236e46a883f9e01",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/70-QĐ phân công PVT THQCT, KS việc giải quyết VAHS.doc",
+    "sha256": "e63499f6fc202922ea9677ec2d411592344a3e14b560de6f1236e46a883f9e01",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.474Z"
 }

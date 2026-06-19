@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/146-QĐ tạm đình chỉ vụ án.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/146-QĐ tạm đình chỉ vụ án.doc",
+    "sha256": "59e5d7e21119639aa1dd5798a3fb9a571ba800ed871404e5077d64459f21e8cd",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,18 +43,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "agency.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0012",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "agency",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -58,13 +64,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0028",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": ".. .......................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -79,13 +85,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0029",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": ".......................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -100,13 +106,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank5",
+      "slotId": "document.field5",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0030",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": ".......................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -121,13 +127,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank6",
+      "slotId": "document.field6",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0035",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "....",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -142,13 +148,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank7",
+      "slotId": "document.field7",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0039",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "- 1...;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -163,13 +169,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank8",
+      "slotId": "document.field8",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0040",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "- 11...;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -184,13 +190,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank9",
+      "slotId": "document.field9",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0042",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "..............................................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -217,13 +223,13 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "agency.field2",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "agency",
       "reviewRequired": true
     },
     {
@@ -299,63 +305,63 @@
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
-      "from": "document.field2",
+      "slotId": "agency.field2",
+      "from": "agency.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "from": "document.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "from": "document.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank5",
+      "slotId": "document.field5",
       "from": "document.field5",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank6",
+      "slotId": "document.field6",
       "from": "document.field6",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank7",
+      "slotId": "document.field7",
       "from": "document.field7",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank8",
+      "slotId": "document.field8",
       "from": "document.field8",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank9",
+      "slotId": "document.field9",
       "from": "document.field9",
       "transform": "identity",
       "fallback": "",
@@ -367,5 +373,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 104 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.337Z"
+  "productMetadata": {
+    "stage": {
+      "code": "05",
+      "label": "TRUY TỐ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "146/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:37.001Z"
 }

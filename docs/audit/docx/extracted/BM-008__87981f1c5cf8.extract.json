@@ -274,20 +274,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................................."
+      "raw": ".......................................................................................................",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 103,
+      "context": ".......................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 38,
+      "endOffset": 41,
+      "context": "2. Cơ quan, người có thẩm quyền8 và 9 ... thực hiện việc chuyển và tiếp nhận, giải quyết nguồn tin về tội phạm5 theo đúng quy định của pháp luật và thông báo kết quả đến Viện kiểm sát"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.866Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/08-Yêu cầu chuyển nguồn tin về tội phạm.doc",
+    "sha256": "87981f1c5cf8c6e945fdf22f5077ae32f9dda9c167554a51aba9184287ac4445",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/08-Yêu cầu chuyển nguồn tin về tội phạm.doc",
+    "sha256": "87981f1c5cf8c6e945fdf22f5077ae32f9dda9c167554a51aba9184287ac4445",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.403Z"
 }

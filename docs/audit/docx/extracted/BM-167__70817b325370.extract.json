@@ -352,6 +352,271 @@
   ],
   "headers": {},
   "placeholders": [],
-  "blankCandidates": [],
-  "extractedAt": "2026-06-19T01:19:40.973Z"
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................................",
+      "blockId": "P0006",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 65,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0006",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 5,
+      "context": "Số: …/TB-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 13,
+      "context": "Số: …/TB-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "Số: …/TB-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 1,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 9,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 17,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 24,
+      "endOffset": 25,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 7,
+      "endOffset": 8,
+      "context": "Về việc…"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 40,
+      "context": "........................................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày … tháng … năm …",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 13,
+      "endOffset": 33,
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 7,
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 12,
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 38,
+      "endOffset": 39,
+      "context": "Căn cứ… số … ngày … tháng … năm … của2…,"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "....",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 45,
+      "endOffset": 49,
+      "context": "Viện kiểm sát2… thông báo cho6… biết về việc5..../."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "Viện kiểm sát2… thông báo cho6… biết về việc5..../."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 30,
+      "endOffset": 31,
+      "context": "Viện kiểm sát2… thông báo cho6… biết về việc5..../."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................................",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 16,
+      "endOffset": 65,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 5,
+      "endOffset": 6,
+      "context": "Số : … / TB -VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 16,
+      "endOffset": 17,
+      "context": "Số : … / TB -VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 19,
+      "endOffset": 20,
+      "context": "Số : … / TB -VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 0,
+      "endOffset": 1,
+      "context": "… , ngày … tháng … năm 20 …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 9,
+      "endOffset": 10,
+      "context": "… , ngày … tháng … năm 20 …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 17,
+      "endOffset": 18,
+      "context": "… , ngày … tháng … năm 20 …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 26,
+      "endOffset": 27,
+      "context": "… , ngày … tháng … năm 20 …"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 0,
+      "endOffset": 40,
+      "context": "........................................"
+    }
+  ],
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "sha256": "70817b32537007e44c54ea3bc839d75934f139e168101ae74d2ef50cd9473411",
+    "format": "docx"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/167-Thông báo về việc trả hồ sơ, ban hành cáo trạng.docx",
+    "sha256": "70817b32537007e44c54ea3bc839d75934f139e168101ae74d2ef50cd9473411",
+    "format": "docx"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.585Z"
 }

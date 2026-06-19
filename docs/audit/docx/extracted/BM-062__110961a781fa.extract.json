@@ -568,88 +568,151 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................"
+      "raw": "........................................",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 66,
+      "context": "Điều 1. Kê biên tài sản:11........................................tại: ..........................của:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................."
+      "raw": "..........................",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 71,
+      "endOffset": 97,
+      "context": "Điều 1. Kê biên tài sản:11........................................tại: ..........................của:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...................................................."
+      "raw": "....................................................",
+      "blockId": "P0045",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 61,
+      "context": "Họ tên:12.................................................... Giới tính......................................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................"
+      "raw": "......................................................",
+      "blockId": "P0045",
+      "tableCellId": null,
+      "startOffset": 71,
+      "endOffset": 125,
+      "context": "Họ tên:12.................................................... Giới tính......................................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "...................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": ".................................................................................................................",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 127,
+      "context": "Tên gọi khác: ................................................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............tháng............ năm ......................"
+      "raw": "ngày............tháng............ năm ......................",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 65,
+      "context": "Sinh ngày............tháng............ năm ...................... tại: ................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................................",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 71,
+      "endOffset": 120,
+      "context": "Sinh ngày............tháng............ năm ...................... tại: ................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc: ....................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "....................",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 70,
+      "endOffset": 90,
+      "context": "Quốc tịch: ................................................; Dân tộc: ....................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0049",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0052",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0056",
+      "tableCellId": null,
+      "startOffset": 17,
+      "endOffset": 20,
+      "context": "Điều 2. Yêu cầu12... và13... thi hành Lệnh này theo quy định của Bộ luật Tố tụng hình sự."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0056",
+      "tableCellId": null,
+      "startOffset": 25,
+      "endOffset": 28,
+      "context": "Điều 2. Yêu cầu12... và13... thi hành Lệnh này theo quy định của Bộ luật Tố tụng hình sự."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.900Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/62-Lệnh kê biên tài sản.doc",
+    "sha256": "110961a781fa0cbb84495c772ad7995566cc07216460b6f8d5d7e060f3a1bd7b",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/62-Lệnh kê biên tài sản.doc",
+    "sha256": "110961a781fa0cbb84495c772ad7995566cc07216460b6f8d5d7e060f3a1bd7b",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.463Z"
 }

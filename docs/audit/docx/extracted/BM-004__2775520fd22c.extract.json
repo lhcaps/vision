@@ -12,17 +12,128 @@
   "sha256": "2775520fd22cc86ceb8540692a54bd4cefa600626a16dc79ff0feaac384d34da",
   "sizeBytes": 73728,
   "format": "doc",
-  "method": "clx-fallback",
-  "warnings": [
-    "Clx parse error: Unknown Clxt tag 72 at 0"
-  ],
+  "method": "docx-ooxml",
+  "warnings": [],
   "error": null,
-  "metadata": {},
+  "metadata": {
+    "title": null,
+    "creator": "PC",
+    "created": "2026-06-17T02:22:00Z",
+    "modified": "2026-06-17T02:22:00Z"
+  },
   "parts": [
     {
-      "partName": "WordDocument",
-      "rawTextLength": 2052,
-      "paragraphCount": 57,
+      "partName": "[Content_Types].xml",
+      "rawTextLength": 1956,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "_rels/.rels",
+      "rawTextLength": 590,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/document.xml",
+      "rawTextLength": 52541,
+      "paragraphCount": 24,
+      "tableCount": 2
+    },
+    {
+      "partName": "word/_rels/document.xml.rels",
+      "rawTextLength": 1646,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/footnotes.xml",
+      "rawTextLength": 17285,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/endnotes.xml",
+      "rawTextLength": 3050,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/media/image1.png",
+      "rawTextLength": 10770,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/embeddings/Microsoft_Excel_Chart.xls",
+      "rawTextLength": 22874,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/theme/theme1.xml",
+      "rawTextLength": 8337,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/settings.xml",
+      "rawTextLength": 9447,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/item1.xml",
+      "rawTextLength": 259,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/itemProps1.xml",
+      "rawTextLength": 341,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/numbering.xml",
+      "rawTextLength": 5645,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/styles.xml",
+      "rawTextLength": 32283,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/webSettings.xml",
+      "rawTextLength": 1091,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/fontTable.xml",
+      "rawTextLength": 3164,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/core.xml",
+      "rawTextLength": 755,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/app.xml",
+      "rawTextLength": 984,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/_rels/item1.xml.rels",
+      "rawTextLength": 296,
+      "paragraphCount": 0,
       "tableCount": 0
     }
   ],
@@ -30,378 +141,631 @@
     {
       "blockId": "P0001",
       "kind": "paragraph",
-      "text": "VIỆN KIỂM SÁT",
+      "text": "Mẫu số 04/HS",
       "style": null
     },
     {
       "blockId": "P0002",
       "kind": "paragraph",
-      "text": ".................................................",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
       "style": null
     },
     {
       "blockId": "P0003",
       "kind": "paragraph",
-      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
-      "style": null
-    },
-    {
-      "blockId": "P0004",
-      "kind": "paragraph",
-      "text": "Độc lập",
-      "style": null
-    },
-    {
-      "blockId": "P0005",
-      "kind": "paragraph",
-      "text": "Tự do - Hạnh phúc",
-      "style": null
-    },
-    {
-      "blockId": "P0006",
-      "kind": "paragraph",
-      "text": "Số:",
+      "text": "ngày…/…/2026)",
       "style": null
     },
     {
       "blockId": "P0007",
       "kind": "paragraph",
-      "text": "/QĐ-VKS",
-      "style": null
+      "text": "VIỆN KIỂM SÁT … .................................................",
+      "style": "Heading5"
     },
     {
       "blockId": "P0008",
       "kind": "paragraph",
-      "text": ", ngày",
-      "style": null
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": "Heading5"
     },
     {
       "blockId": "P0009",
       "kind": "paragraph",
-      "text": "tháng",
-      "style": null
-    },
-    {
-      "blockId": "P0010",
-      "kind": "paragraph",
-      "text": "năm 20",
-      "style": null
+      "text": "Độc lập – Tự do - Hạnh phúc",
+      "style": "Heading5"
     },
     {
       "blockId": "P0011",
       "kind": "paragraph",
-      "text": "QUYẾT ĐỊNH",
+      "text": "Số: …/QĐ-VKS…-…",
       "style": null
     },
     {
       "blockId": "P0012",
       "kind": "paragraph",
-      "text": "Thay đổi",
-      "style": null
-    },
-    {
-      "blockId": "P0013",
-      "kind": "paragraph",
-      "text": "... thực hành quyền công tố, kiểm sát",
-      "style": null
-    },
-    {
-      "blockId": "P0014",
-      "kind": "paragraph",
-      "text": "việc tiếp nhận, giải quyết nguồn tin về tội phạm",
+      "text": "…, ngày … tháng … năm 20…",
       "style": null
     },
     {
       "blockId": "P0015",
       "kind": "paragraph",
-      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "text": "QUYẾT ĐỊNH",
       "style": null
     },
     {
       "blockId": "P0016",
       "kind": "paragraph",
-      "text": "Căn cứ các điều 41, 42, 43, 159 và 160 của Bộ luật Tố tụng hình sự;",
+      "text": "Thay đổi ... thực hành quyền công tố, kiểm sát",
       "style": null
     },
     {
       "blockId": "P0017",
       "kind": "paragraph",
-      "text": "Căn cứ Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 số",
+      "text": "việc tiếp nhận, giải quyết nguồn tin về tội phạm",
       "style": null
     },
     {
       "blockId": "P0018",
       "kind": "paragraph",
-      "text": "ngày",
-      "style": null
-    },
-    {
-      "blockId": "P0019",
-      "kind": "paragraph",
-      "text": "tháng",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
       "style": null
     },
     {
       "blockId": "P0020",
       "kind": "paragraph",
-      "text": "năm",
+      "text": "Căn cứ các điều 41, 42, 43, 159 và 160 của Bộ luật Tố tụng hình sự;",
       "style": null
     },
     {
       "blockId": "P0021",
       "kind": "paragraph",
-      "text": "của Viện kiểm sát",
+      "text": "Căn cứ Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 số … ngày … tháng … năm … của Viện kiểm sát…;",
       "style": null
     },
     {
       "blockId": "P0022",
       "kind": "paragraph",
-      "text": "Xét thấy:",
-      "style": null
-    },
-    {
-      "blockId": "P0023",
-      "kind": "paragraph",
-      "text": "QUYẾT ĐỊNH:",
+      "text": "Xét thấy:………………………………………….………………………………,",
       "style": null
     },
     {
       "blockId": "P0024",
       "kind": "paragraph",
-      "text": "Điều 1. Phân công ông/bà",
-      "style": null
-    },
-    {
-      "blockId": "P0025",
-      "kind": "paragraph",
-      "text": "...; chức danh",
+      "text": "QUYẾT ĐỊNH:",
       "style": null
     },
     {
       "blockId": "P0026",
       "kind": "paragraph",
-      "text": "của Viện kiểm sát7",
+      "text": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 của... đối với vụ việc……………………………………………………………………………………....",
       "style": null
     },
     {
       "blockId": "P0027",
       "kind": "paragraph",
-      "text": "thay cho ông/bà",
-      "style": null
-    },
-    {
-      "blockId": "P0028",
-      "kind": "paragraph",
-      "text": "...; chức danh5",
+      "text": "Điều 2. Các ông/bà có tên nêu tại Điều 1 Quyết định này thực hiện nhiệm vụ, quyền hạn và trách nhiệm theo quy định của Bộ luật Tố tụng hình sự./.",
       "style": null
     },
     {
       "blockId": "P0029",
       "kind": "paragraph",
-      "text": "của Viện kiểm sát7",
+      "text": "Nơi nhận:",
       "style": null
     },
     {
       "blockId": "P0030",
       "kind": "paragraph",
-      "text": ", thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 của",
+      "text": "- 12…;",
       "style": null
     },
     {
       "blockId": "P0031",
       "kind": "paragraph",
-      "text": "... đối với vụ việc",
+      "text": "- Như Điều 2;",
       "style": null
     },
     {
       "blockId": "P0032",
       "kind": "paragraph",
-      "text": "....",
-      "style": null
-    },
-    {
-      "blockId": "P0033",
-      "kind": "paragraph",
-      "text": "Điều 2. Các ông/bà có tên nêu tại Điều 1 Quyết định này thực hiện nhiệm vụ, quyền hạn và trách nhiệm theo quy định của Bộ luật Tố tụng hình sự./.",
+      "text": "- Lưu: HSVA, HSKS, VP.",
       "style": null
     },
     {
       "blockId": "P0034",
       "kind": "paragraph",
-      "text": "Nơi nhận:",
+      "text": "..………………………….…",
       "style": null
     },
     {
       "blockId": "P0035",
       "kind": "paragraph",
-      "text": "- 12",
-      "style": null
-    },
-    {
-      "blockId": "P0036",
-      "kind": "paragraph",
-      "text": "- Như Điều 2;",
-      "style": null
-    },
-    {
-      "blockId": "P0037",
-      "kind": "paragraph",
-      "text": "- Lưu: HSVA, HSKS, VP.",
-      "style": null
-    },
-    {
-      "blockId": "P0038",
-      "kind": "paragraph",
       "text": "(Ký, ghi rõ họ tên, đóng dấu)",
-      "style": null
-    },
-    {
-      "blockId": "P0039",
-      "kind": "paragraph",
-      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
-      "style": null
-    },
-    {
-      "blockId": "P0040",
-      "kind": "paragraph",
-      "text": "Ghi tên Viện kiểm sát ban hành",
-      "style": null
-    },
-    {
-      "blockId": "P0041",
-      "kind": "paragraph",
-      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
-      "style": null
-    },
-    {
-      "blockId": "P0042",
-      "kind": "paragraph",
-      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
-      "style": null
-    },
-    {
-      "blockId": "P0043",
-      "kind": "paragraph",
-      "text": "Tùy từng trường hợp thay đổi thì ghi Viện trưởng, Phó Viện trưởng hoặc Kiểm sát viên hoặc Kiểm tra viên",
-      "style": null
-    },
-    {
-      "blockId": "P0044",
-      "kind": "paragraph",
-      "text": "Ghi rõ nguồn tin về tội phạm là tố giác hoặc tin báo về tội phạm hoặc kiến nghị khởi tố hoặc nguồn tin về tội phạm khác",
-      "style": null
-    },
-    {
-      "blockId": "P0045",
-      "kind": "paragraph",
-      "text": "Ghi tên Viện kiểm sát ra quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm",
-      "style": null
-    },
-    {
-      "blockId": "P0046",
-      "kind": "paragraph",
-      "text": "Ghi lý do cần thay đổi",
-      "style": null
-    },
-    {
-      "blockId": "P0047",
-      "kind": "paragraph",
-      "text": "Ghi họ tên người được phân công",
-      "style": null
-    },
-    {
-      "blockId": "P0048",
-      "kind": "paragraph",
-      "text": "Ghi rõ chức danh người được phân công",
-      "style": null
-    },
-    {
-      "blockId": "P0049",
-      "kind": "paragraph",
-      "text": "Ghi họ tên người bị thay đổi",
-      "style": null
-    },
-    {
-      "blockId": "P0050",
-      "kind": "paragraph",
-      "text": "Ghi tên cơ quan, người có thẩm quyền giải quyết nguồn tin về tội phạm",
-      "style": null
-    },
-    {
-      "blockId": "P0051",
-      "kind": "paragraph",
-      "text": "Trích dẫn ngắn gọn nội dung vụ việc (nguồn cung cấp, thời gian, địa điểm, hành vi có dấu hiệu tội phạm,",
-      "style": null
-    },
-    {
-      "blockId": "P0052",
-      "kind": "paragraph",
-      "text": "Ghi chức danh người ký",
-      "style": null
-    },
-    {
-      "blockId": "P0053",
-      "kind": "paragraph",
-      "text": "Mẫu số 04/HS",
-      "style": null
-    },
-    {
-      "blockId": "P0054",
-      "kind": "paragraph",
-      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
-      "style": null
-    },
-    {
-      "blockId": "P0055",
-      "kind": "paragraph",
-      "text": "ngày",
-      "style": null
-    },
-    {
-      "blockId": "P0056",
-      "kind": "paragraph",
-      "text": "/2026)",
-      "style": null
-    },
-    {
-      "blockId": "P0057",
-      "kind": "paragraph",
-      "text": "EMBED Excel.Chart.8 \\s",
       "style": null
     }
   ],
-  "tables": [],
+  "tables": [
+    {
+      "tableId": "T0001",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0001.R0001.C0001",
+              "text": "VIỆN KIỂM SÁT … .................................................",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0001.C0002",
+              "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập – Tự do - Hạnh phúc",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 2,
+          "cells": [
+            {
+              "cellId": "T0001.R0002.C0001",
+              "text": "Số : …/QĐ-VKS…- …",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0002.C0002",
+              "text": "…, ngày … tháng … năm 20…",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableId": "T0002",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0002.R0001.C0001",
+              "text": "Nơi nhận: - 12 … ; - Như Điều 2 ; - Lưu: HSVA, HSKS, VP.",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0002",
+              "text": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "headers": {},
   "placeholders": [],
   "blankCandidates": [
     {
-      "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0003",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 5,
+      "context": "ngày…/…/2026)"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0003",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 7,
+      "context": "ngày…/…/2026)"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": ".................................................",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 65,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 5,
+      "context": "Số: …/QĐ-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 13,
+      "context": "Số: …/QĐ-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "Số: …/QĐ-VKS…-…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 1,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 9,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 17,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 24,
+      "endOffset": 25,
+      "context": "…, ngày … tháng … năm 20…"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 12,
+      "context": "Thay đổi ... thực hành quyền công tố, kiểm sát"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày … tháng … năm …",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 117,
+      "endOffset": 137,
+      "context": "Căn cứ Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 số … ngày … tháng … năm … của Viện kiểm sát…;"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 115,
+      "endOffset": 116,
+      "context": "Căn cứ Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 số … ngày … tháng … năm … của Viện kiểm sát…;"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 155,
+      "endOffset": 156,
+      "context": "Căn cứ Quyết định phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm6 số … ngày … tháng … năm … của Viện kiểm sát…;"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…………………………………………",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 25,
+      "context": "Xét thấy:………………………………………….………………………………,"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "………………………………",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 38,
+      "context": "Xét thấy:………………………………………….………………………………,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 24,
+      "endOffset": 27,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 75,
+      "endOffset": 78,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 219,
+      "endOffset": 222,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "....",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 270,
+      "endOffset": 274,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 38,
+      "endOffset": 39,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 58,
+      "endOffset": 59,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 90,
+      "endOffset": 91,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 110,
+      "endOffset": 111,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "……………………………………………………………………………………",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 238,
+      "endOffset": 270,
+      "context": "Điều 1. Phân công ông/bà...; chức danh… của Viện kiểm sát7… thay cho ông/bà...; chức danh5… của Viện kiểm sát7…, thực hiện nhiệm vụ thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn t"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 5,
+      "context": "- 12…;"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…………………………",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 2,
+      "endOffset": 12,
+      "context": "..………………………….…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 13,
+      "endOffset": 14,
+      "context": "..………………………….…"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................................",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 16,
+      "endOffset": 65,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 14,
+      "endOffset": 15,
+      "context": "VIỆN KIỂM SÁT … ................................................."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 5,
+      "endOffset": 6,
+      "context": "Số : …/QĐ-VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 13,
+      "endOffset": 14,
+      "context": "Số : …/QĐ-VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0001",
+      "startOffset": 16,
+      "endOffset": 17,
+      "context": "Số : …/QĐ-VKS…- …"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 0,
+      "endOffset": 1,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 8,
+      "endOffset": 9,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 16,
+      "endOffset": 17,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 24,
+      "endOffset": 25,
+      "context": "…, ngày … tháng … năm 20…"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0001",
+      "startOffset": 15,
+      "endOffset": 16,
+      "context": "Nơi nhận: - 12 … ; - Như Điều 2 ; - Lưu: HSVA, HSKS, VP."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "……",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 2,
+      "endOffset": 4,
+      "context": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "……",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 5,
+      "endOffset": 7,
+      "context": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "………",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 8,
+      "endOffset": 11,
+      "context": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "………",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 12,
+      "endOffset": 15,
+      "context": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0002",
+      "tableCellId": "T0002.R0001.C0002",
+      "startOffset": 17,
+      "endOffset": 18,
+      "context": "..…… …… ……… ………. … ( Ký, ghi rõ họ tên, đóng dấu )"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.863Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/04-QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin.doc",
+    "sha256": "2775520fd22cc86ceb8540692a54bd4cefa600626a16dc79ff0feaac384d34da",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage\\templates\\normalized-docx\\BM-004\\BM-004_normalized.docx",
+    "sha256": "93f358ce09c0b1a20345e4129c1d96e54764c4c89a80266505a0ad817b28efd3",
+    "format": "docx"
+  },
+  "extractionKind": "normalized-docx",
+  "extractedAt": "2026-06-19T07:36:22.397Z"
 }

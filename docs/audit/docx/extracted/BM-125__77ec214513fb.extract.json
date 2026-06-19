@@ -262,28 +262,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................................................................................"
+      "raw": "................................................................................................................",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 112,
+      "context": "................................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "Viện kiểm sát2... không chấp nhận đề nghị trưng cầu giám định/yêu cầu định giá tài sản và thông báo cho5... biết./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 104,
+      "endOffset": 107,
+      "context": "Viện kiểm sát2... không chấp nhận đề nghị trưng cầu giám định/yêu cầu định giá tài sản và thông báo cho5... biết./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0024",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 5...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.933Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/125-Thông báo về việc không chấp nhận đề nghị trưng cầu giám định, định giá tài sản.doc",
+    "sha256": "77ec214513fb0278561ba1f33225c34bcc6ff5d9f18f7105ab428e7e9877fc64",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/125-Thông báo về việc không chấp nhận đề nghị trưng cầu giám định, định giá tài sản.doc",
+    "sha256": "77ec214513fb0278561ba1f33225c34bcc6ff5d9f18f7105ab428e7e9877fc64",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.518Z"
 }

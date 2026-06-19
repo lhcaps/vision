@@ -412,24 +412,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".................................................................................................................."
+      "raw": "..................................................................................................................",
+      "blockId": "P0041",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 114,
+      "context": "..................................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................."
+      "raw": ".............................................................",
+      "blockId": "P0045",
+      "tableCellId": null,
+      "startOffset": 1,
+      "endOffset": 62,
+      "context": "1............................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 28,
+      "endOffset": 31,
+      "context": "ơ quan, người có thẩm quyền9... có trách nhiệm thực hiện yêu cầu trên, tiến hành điều tra và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát2"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.944Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/87-Yêu cầu điều tra.doc",
+    "sha256": "80e8edb6b8b2ff70c1b2acc67ce5bb5762baa2a514b78901bb6f73115c895f05",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/87-Yêu cầu điều tra.doc",
+    "sha256": "80e8edb6b8b2ff70c1b2acc67ce5bb5762baa2a514b78901bb6f73115c895f05",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.539Z"
 }

@@ -418,44 +418,106 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... (nếu có);"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................................................................."
+      "raw": "...............................................................................................",
+      "blockId": "P0029",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 95,
+      "context": "...............................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................"
+      "raw": "......................................................................",
+      "blockId": "P0037",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 70,
+      "context": "......................................................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0041",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "Điều 3. Yêu cầu6... thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0043",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 6...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".................................."
+      "raw": "..................................",
+      "blockId": "P0045",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 34,
+      "context": ".................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........."
+      "raw": "...........",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 11,
+      "context": "..........."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.954Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/145-QĐ trả hồ sơ vụ án để điều tra bổ sung.doc",
+    "sha256": "fc22267f4a63388c19813db13f912ae130250b680bbb89122006d138e2d60485",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/145-QĐ trả hồ sơ vụ án để điều tra bổ sung.doc",
+    "sha256": "fc22267f4a63388c19813db13f912ae130250b680bbb89122006d138e2d60485",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.556Z"
 }

@@ -640,36 +640,88 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0059",
+      "tableCellId": null,
+      "startOffset": 35,
+      "endOffset": 38,
+      "context": "của Bộ luật Hình sự đối với bị can7... (hoặc các bị can ...) có lý lịch như sau:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0059",
+      "tableCellId": null,
+      "startOffset": 56,
+      "endOffset": 59,
+      "context": "của Bộ luật Hình sự đối với bị can7... (hoặc các bị can ...) có lý lịch như sau:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................."
+      "raw": ".............................................................",
+      "blockId": "P0064",
+      "tableCellId": null,
+      "startOffset": 47,
+      "endOffset": 108,
+      "context": "Tiền sự (chỉ ghi tiền sự còn thời hạn xem xét):............................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................................................................................................."
+      "raw": ".............................................................................................................................................",
+      "blockId": "P0066",
+      "tableCellId": null,
+      "startOffset": 129,
+      "endOffset": 270,
+      "context": "án xét xử, tội danh, điểm, khoản, Điều Bộ luật Hình sự, hình phạt (các thông tin về việc thi hành bản án, quyết định của Tòa án) ......................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0078",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": ".../."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................."
+      "raw": "...............................................",
+      "blockId": "P0084",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 47,
+      "context": "..............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.982Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/183-QĐ truy tố theo thủ tục rút gọn.doc",
+    "sha256": "294fc847169fffca50c187246e8ae500095d58f20eb90ffaf3b50efd7fc45b66",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/183-QĐ truy tố theo thủ tục rút gọn.doc",
+    "sha256": "294fc847169fffca50c187246e8ae500095d58f20eb90ffaf3b50efd7fc45b66",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.603Z"
 }

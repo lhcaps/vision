@@ -274,20 +274,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....................."
+      "raw": ".....................",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 21,
+      "context": "....................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0035",
+      "tableCellId": null,
+      "startOffset": 59,
+      "endOffset": 62,
+      "context": "Ghi rõ hoạt động tố tụng (hỏi cung, lấy lời khai, đối chất,...)"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.913Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/82-Thông báo về thời gian, địa điểm tiến hành tố tụng cho người bào chữa.doc",
+    "sha256": "44cc2b04338358cceb052f5156524a6d6868a46c106d6982dfa20468fa0d3211",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/82-Thông báo về thời gian, địa điểm tiến hành tố tụng cho người bào chữa.doc",
+    "sha256": "44cc2b04338358cceb052f5156524a6d6868a46c106d6982dfa20468fa0d3211",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.487Z"
 }

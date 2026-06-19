@@ -316,24 +316,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".............................................."
+      "raw": "..............................................",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 46,
+      "context": ".............................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0024",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.942Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra.doc",
+    "sha256": "23306e6022bd47ddf207847a17fea42ad2965c0d6d56001f716cded8d0d1cead",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra.doc",
+    "sha256": "23306e6022bd47ddf207847a17fea42ad2965c0d6d56001f716cded8d0d1cead",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.533Z"
 }

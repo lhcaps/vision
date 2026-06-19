@@ -478,12 +478,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0058",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 9...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.931Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/121-QĐ phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
+    "sha256": "a7983088c6ec0280635c85795249f784ad2a7dfb392746bb8d4b8f313f996ca3",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/121-QĐ phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.doc",
+    "sha256": "a7983088c6ec0280635c85795249f784ad2a7dfb392746bb8d4b8f313f996ca3",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.513Z"
 }

@@ -370,12 +370,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................."
+      "raw": ".........................",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 25,
+      "context": "........................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.878Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/27-Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "7c207d24faeeccadbe5ae4c5f7d92d1d4cdadff2bcc57748cadca159f2d04fb1",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/27-Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "7c207d24faeeccadbe5ae4c5f7d92d1d4cdadff2bcc57748cadca159f2d04fb1",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.424Z"
 }

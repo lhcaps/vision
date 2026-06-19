@@ -1406,5 +1406,17 @@
   "headers": {},
   "placeholders": [],
   "blankCandidates": [],
-  "extractedAt": "2026-06-19T01:19:40.841Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc",
+    "sha256": "ce60c04f053a4053852d82d304e77fad2986c3156e46e2102e25e5c875df2bcc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/0. THONG TU 03-2026-VKSTC/Danh muc bieu mau kem theo Thong tu 03.doc",
+    "sha256": "ce60c04f053a4053852d82d304e77fad2986c3156e46e2102e25e5c875df2bcc",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.356Z"
 }

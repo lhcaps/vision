@@ -12,17 +12,110 @@
   "sha256": "bb64990bc49be2a162ca156c18d6c8ce1a1a9d384563e2800ae1f43aa742996c",
   "sizeBytes": 71680,
   "format": "doc",
-  "method": "clx-fallback",
-  "warnings": [
-    "Clx parse error: Unknown Clxt tag 0 at 0"
-  ],
+  "method": "docx-ooxml",
+  "warnings": [],
   "error": null,
-  "metadata": {},
+  "metadata": {
+    "title": null,
+    "creator": "X1 Nano",
+    "created": "2026-05-30T16:24:00Z",
+    "modified": "2026-06-11T09:05:00Z"
+  },
   "parts": [
     {
-      "partName": "WordDocument",
-      "rawTextLength": 1961,
-      "paragraphCount": 48,
+      "partName": "[Content_Types].xml",
+      "rawTextLength": 1702,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "_rels/.rels",
+      "rawTextLength": 737,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/document.xml",
+      "rawTextLength": 34284,
+      "paragraphCount": 26,
+      "tableCount": 2
+    },
+    {
+      "partName": "word/_rels/document.xml.rels",
+      "rawTextLength": 1092,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/theme/theme1.xml",
+      "rawTextLength": 1975,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/settings.xml",
+      "rawTextLength": 3797,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/item1.xml",
+      "rawTextLength": 363,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/itemProps1.xml",
+      "rawTextLength": 326,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/numbering.xml",
+      "rawTextLength": 5058,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/styles.xml",
+      "rawTextLength": 28328,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/webSettings.xml",
+      "rawTextLength": 1018,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "word/fontTable.xml",
+      "rawTextLength": 4319,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/core.xml",
+      "rawTextLength": 637,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/app.xml",
+      "rawTextLength": 709,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "docProps/custom.xml",
+      "rawTextLength": 754,
+      "paragraphCount": 0,
+      "tableCount": 0
+    },
+    {
+      "partName": "customXml/_rels/item1.xml.rels",
+      "rawTextLength": 296,
+      "paragraphCount": 0,
       "tableCount": 0
     }
   ],
@@ -30,163 +123,115 @@
     {
       "blockId": "P0001",
       "kind": "paragraph",
-      "text": "VIỆN KIỂM SÁT",
-      "style": null
+      "text": "",
+      "style": "Heading5"
     },
     {
       "blockId": "P0002",
       "kind": "paragraph",
-      "text": ".................................................",
-      "style": null
+      "text": "{{agency.parentName}}",
+      "style": "Heading5"
     },
     {
       "blockId": "P0003",
       "kind": "paragraph",
-      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
-      "style": null
+      "text": "{{agency.name}}",
+      "style": "Heading5"
     },
     {
       "blockId": "P0004",
       "kind": "paragraph",
-      "text": "Độc lập",
-      "style": null
+      "text": "",
+      "style": "Heading5"
     },
     {
       "blockId": "P0005",
       "kind": "paragraph",
-      "text": "Tự do - Hạnh phúc",
-      "style": null
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": "Heading5"
     },
     {
       "blockId": "P0006",
       "kind": "paragraph",
-      "text": "Số:",
-      "style": null
-    },
-    {
-      "blockId": "P0007",
-      "kind": "paragraph",
-      "text": "/QĐ-VKS",
-      "style": null
-    },
-    {
-      "blockId": "P0008",
-      "kind": "paragraph",
-      "text": ", ngày",
+      "text": "Độc lập – Tự do - Hạnh phúc",
       "style": null
     },
     {
       "blockId": "P0009",
       "kind": "paragraph",
-      "text": "tháng",
-      "style": null
-    },
-    {
-      "blockId": "P0010",
-      "kind": "paragraph",
-      "text": "năm 20",
+      "text": "Số: {{document.documentCode}}",
       "style": null
     },
     {
       "blockId": "P0011",
       "kind": "paragraph",
-      "text": "QUYẾT ĐỊNH",
+      "text": "{{document.issuePlaceAndDateLine}}",
       "style": null
     },
     {
       "blockId": "P0012",
       "kind": "paragraph",
-      "text": "Phân công thực hành quyền công tố, kiểm sát",
+      "text": "Mẫu số 03/HS",
       "style": null
     },
     {
       "blockId": "P0013",
       "kind": "paragraph",
-      "text": "việc tiếp nhận, giải quyết nguồn tin về tội phạm",
+      "text": "(Ban hành theo Thông tư  số 03/2026/TT-VKSTC",
       "style": null
     },
     {
       "blockId": "P0014",
       "kind": "paragraph",
-      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
-      "style": null
-    },
-    {
-      "blockId": "P0015",
-      "kind": "paragraph",
-      "text": "Căn cứ các điều 41, 42, 43, 159 và 160 của Bộ luật Tố tụng hình sự,",
-      "style": null
-    },
-    {
-      "blockId": "P0016",
-      "kind": "paragraph",
-      "text": "QUYẾT ĐỊNH:",
-      "style": null
-    },
-    {
-      "blockId": "P0017",
-      "kind": "paragraph",
-      "text": "Điều 1. Phân công các ông/bà",
+      "text": "Ngày 09/02/2026)",
       "style": null
     },
     {
       "blockId": "P0018",
       "kind": "paragraph",
-      "text": "...; chức danh",
+      "text": "QUYẾT ĐỊNH",
       "style": null
     },
     {
       "blockId": "P0019",
       "kind": "paragraph",
-      "text": "của Viện kiểm sát2",
-      "style": null
-    },
-    {
-      "blockId": "P0020",
-      "kind": "paragraph",
-      "text": "thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm5 của",
+      "text": "Phân công thực hành quyền công tố, kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm",
       "style": null
     },
     {
       "blockId": "P0021",
       "kind": "paragraph",
-      "text": "... đối với vụ việc",
+      "text": "{{official.issuerTitle}}",
       "style": null
     },
     {
       "blockId": "P0022",
       "kind": "paragraph",
-      "text": "Điều 2. Phân công ông/bà",
+      "text": "{{legalBasis.procedureArticlesLine}}",
       "style": null
     },
     {
       "blockId": "P0023",
       "kind": "paragraph",
-      "text": ", Kiểm tra viên",
+      "text": "QUYẾT ĐỊNH:",
       "style": null
     },
     {
       "blockId": "P0024",
       "kind": "paragraph",
-      "text": "... của Viện kiểm sát2... giúp việc6",
+      "text": "Điều 1. {{sourceAssignment.article1Line}}",
       "style": null
     },
     {
       "blockId": "P0025",
       "kind": "paragraph",
-      "text": "(nếu có).",
+      "text": "Điều 2. {{sourceAssignment.article2Line}}",
       "style": null
     },
     {
       "blockId": "P0026",
       "kind": "paragraph",
-      "text": ".................................................................................................................................",
-      "style": null
-    },
-    {
-      "blockId": "P0027",
-      "kind": "paragraph",
-      "text": "Điều 3. Ông/bà có tên nêu tại Điều 1 (và Điều 2, nếu có) Quyết định này thực hiện nhiệm vụ, quyền hạn và trách nhiệm theo quy định của Bộ luật Tố tụng hình sự./.",
+      "text": "Điều 3. {{sourceAssignment.article3Line}}",
       "style": null
     },
     {
@@ -198,7 +243,7 @@
     {
       "blockId": "P0029",
       "kind": "paragraph",
-      "text": "- 8...;",
+      "text": "- {{recipients.primaryLine}};",
       "style": null
     },
     {
@@ -210,148 +255,176 @@
     {
       "blockId": "P0031",
       "kind": "paragraph",
-      "text": "- Lưu: HSVV, HSKS, VP.",
-      "style": null
-    },
-    {
-      "blockId": "P0032",
-      "kind": "paragraph",
-      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "text": "- {{recipients.archiveLine}}.",
       "style": null
     },
     {
       "blockId": "P0033",
       "kind": "paragraph",
-      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "text": "{{signature.signMode}}",
       "style": null
     },
     {
       "blockId": "P0034",
       "kind": "paragraph",
-      "text": "Ghi tên Viện kiểm sát ban hành",
-      "style": null
-    },
-    {
-      "blockId": "P0035",
-      "kind": "paragraph",
-      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
-      "style": null
-    },
-    {
-      "blockId": "P0036",
-      "kind": "paragraph",
-      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
-      "style": null
-    },
-    {
-      "blockId": "P0037",
-      "kind": "paragraph",
-      "text": "Ghi rõ nguồn tin về tội phạm là tố giác hoặc tin báo về tội phạm hoặc kiến nghị khởi tố hoặc nguồn tin về tội phạm khác",
+      "text": "{{signature.positionTitle}}",
       "style": null
     },
     {
       "blockId": "P0038",
       "kind": "paragraph",
-      "text": "Ghi họ tên người được phân công; trường hợp phân công nhiều Kiểm sát viên thì ghi rõ Kiểm sát viên thụ lý chính",
-      "style": null
-    },
-    {
-      "blockId": "P0039",
-      "kind": "paragraph",
-      "text": "Ghi rõ chức danh người được phân công",
-      "style": null
-    },
-    {
-      "blockId": "P0040",
-      "kind": "paragraph",
-      "text": "Ghi tên cơ quan, người có thẩm quyền giải quyết nguồn tin về tội phạm",
-      "style": null
-    },
-    {
-      "blockId": "P0041",
-      "kind": "paragraph",
-      "text": "Trích dẫn ngắn gọn nội dung vụ việc (nguồn cung cấp, thời gian, địa điểm, hành vi có dấu hiệu tội phạm,",
-      "style": null
-    },
-    {
-      "blockId": "P0042",
-      "kind": "paragraph",
-      "text": "Ghi họ tên Kiểm tra viên được phân công",
-      "style": null
-    },
-    {
-      "blockId": "P0043",
-      "kind": "paragraph",
-      "text": "Ghi rõ Kiểm tra viên, Kiểm tra viên chính, Kiểm tra viên cao cấp",
-      "style": null
-    },
-    {
-      "blockId": "P0044",
-      "kind": "paragraph",
-      "text": "Ghi chức danh người ký",
-      "style": null
-    },
-    {
-      "blockId": "P0045",
-      "kind": "paragraph",
-      "text": "Mẫu số 03/HS",
-      "style": null
-    },
-    {
-      "blockId": "P0046",
-      "kind": "paragraph",
-      "text": "(Ban hành theo Thông tư  số      /2026/TT-VKSTC",
-      "style": null
-    },
-    {
-      "blockId": "P0047",
-      "kind": "paragraph",
-      "text": "ngày       /     /2026)",
-      "style": null
-    },
-    {
-      "blockId": "P0048",
-      "kind": "paragraph",
-      "text": "EMBED Excel.Chart.8 \\s",
+      "text": "{{signature.signerName}}",
       "style": null
     }
   ],
-  "tables": [],
+  "tables": [
+    {
+      "tableId": "T0001",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0001.R0001.C0001",
+              "text": "{{agency.parentName}} {{agency.name}}",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0001.C0002",
+              "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập – Tự do - Hạnh phúc",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        },
+        {
+          "rowIndex": 2,
+          "cells": [
+            {
+              "cellId": "T0001.R0002.C0001",
+              "text": "Số: {{document.documentCode}}",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0001.R0002.C0002",
+              "text": "{{document.issuePlaceAndDateLine}}",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableId": "T0002",
+      "rows": [
+        {
+          "rowIndex": 1,
+          "cells": [
+            {
+              "cellId": "T0002.R0001.C0001",
+              "text": "Nơi nhận: - {{recipients.primaryLine}}; - Như Điều 3; - {{recipients.archiveLine}}.",
+              "gridSpan": 1,
+              "vMerge": null
+            },
+            {
+              "cellId": "T0002.R0001.C0002",
+              "text": "{{signature.signMode}} {{signature.positionTitle}} {{signature.signerName}}",
+              "gridSpan": 1,
+              "vMerge": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "headers": {},
-  "placeholders": [],
-  "blankCandidates": [
+  "placeholders": [
     {
-      "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "kind": "mustache",
+      "value": "agency.parentName",
+      "raw": "{{agency.parentName}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "agency.name",
+      "raw": "{{agency.name}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "document.documentCode",
+      "raw": "{{document.documentCode}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "document.issuePlaceAndDateLine",
+      "raw": "{{document.issuePlaceAndDateLine}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "official.issuerTitle",
+      "raw": "{{official.issuerTitle}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "legalBasis.procedureArticlesLine",
+      "raw": "{{legalBasis.procedureArticlesLine}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "................................................................................................................................."
+      "kind": "mustache",
+      "value": "sourceAssignment.article1Line",
+      "raw": "{{sourceAssignment.article1Line}}"
     },
     {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "kind": "mustache",
+      "value": "sourceAssignment.article2Line",
+      "raw": "{{sourceAssignment.article2Line}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "sourceAssignment.article3Line",
+      "raw": "{{sourceAssignment.article3Line}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "recipients.primaryLine",
+      "raw": "{{recipients.primaryLine}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "recipients.archiveLine",
+      "raw": "{{recipients.archiveLine}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "signature.signMode",
+      "raw": "{{signature.signMode}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "signature.positionTitle",
+      "raw": "{{signature.positionTitle}}"
+    },
+    {
+      "kind": "mustache",
+      "value": "signature.signerName",
+      "raw": "{{signature.signerName}}"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.862Z"
+  "blankCandidates": [],
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/03-QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "bb64990bc49be2a162ca156c18d6c8ce1a1a9d384563e2800ae1f43aa742996c",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage\\templates\\normalized-docx\\BM-003\\BM-003_normalized.docx",
+    "sha256": "1a5baf6739edc3d7769853a6b8d8d3be80a72e4ca105c7850278590ca4e31128",
+    "format": "docx"
+  },
+  "extractionKind": "normalized-docx",
+  "extractedAt": "2026-06-19T07:36:22.390Z"
 }

@@ -502,20 +502,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 82,
+      "endOffset": 85,
+      "context": "1.1. Thông tin và đặc điểm của tài sản cần định giá, nơi bảo quản các tài sản này:..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 11...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.935Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/127-Yêu cầu định giá tài sản.doc",
+    "sha256": "582febaeadf052346674712d080df2eeac3b4ddf69ed2071ce1592aff4532c5b",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/127-Yêu cầu định giá tài sản.doc",
+    "sha256": "582febaeadf052346674712d080df2eeac3b4ddf69ed2071ce1592aff4532c5b",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.520Z"
 }

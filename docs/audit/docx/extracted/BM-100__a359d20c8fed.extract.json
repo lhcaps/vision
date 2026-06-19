@@ -334,12 +334,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.914Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
+    "sha256": "a359d20c8fed8fc347f618bcf70183d7c2a2a677aa1d5865eba219d3cce04fdf",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
+    "sha256": "a359d20c8fed8fc347f618bcf70183d7c2a2a677aa1d5865eba219d3cce04fdf",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.490Z"
 }

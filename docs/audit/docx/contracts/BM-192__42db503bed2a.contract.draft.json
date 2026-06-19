@@ -13,136 +13,148 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/192-Quyết định không áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/192-Quyết định không áp dụng biện pháp xử lý chuyển hướng tại cộng đồng.doc",
+    "sha256": "42db503bed2af4b4ea0b59e3f74ac7bc45feed5185089eb0eda2c91ec1d2d159",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.issueDateDay",
+      "slotId": "informant.Day",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0048",
         "tableCellId": null
       },
       "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "DAY (document)",
+      "label": "DAY (từ P0048)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.birthDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains 'Sinh ngày'",
       "evidence": {
-        "textBefore": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-        "textAfter": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+        "textBefore": "............................................................................................",
+        "textAfter": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateMonth",
+      "slotId": "informant.Month",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0048",
         "tableCellId": null
       },
       "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "MONTH (document)",
+      "label": "MONTH (từ P0048)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.birthDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains 'Sinh ngày'",
       "evidence": {
-        "textBefore": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-        "textAfter": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+        "textBefore": "............................................................................................",
+        "textAfter": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateYear",
+      "slotId": "informant.Year",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0048",
         "tableCellId": null
       },
       "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "YEAR (document)",
+      "label": "YEAR (từ P0048)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.birthDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains 'Sinh ngày'",
       "evidence": {
-        "textBefore": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-        "textAfter": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+        "textBefore": "............................................................................................",
+        "textAfter": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateDay_2",
+      "slotId": "informant.Day_2",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0052",
         "tableCellId": null
       },
       "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "DAY (document)",
+      "label": "DAY (từ P0052)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.idDocument.issueDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains ID document issue date",
       "evidence": {
-        "textBefore": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-        "textAfter": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân:",
+        "textAfter": "Nơi thường trú:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateMonth_2",
+      "slotId": "informant.Month_2",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0052",
         "tableCellId": null
       },
       "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "MONTH (document)",
+      "label": "MONTH (từ P0052)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.idDocument.issueDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains ID document issue date",
       "evidence": {
-        "textBefore": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-        "textAfter": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân:",
+        "textAfter": "Nơi thường trú:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateYear_2",
+      "slotId": "informant.Year_2",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0052",
         "tableCellId": null
       },
       "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "YEAR (document)",
+      "label": "YEAR (từ P0052)",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.6,
-      "suggestedNamespace": "document",
+      "suggestedCanonicalPath": "informant.idDocument.issueDate",
       "suggestedBy": "heuristic",
+      "suggestedReason": "context contains ID document issue date",
       "evidence": {
-        "textBefore": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-        "textAfter": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân:",
+        "textAfter": "Nơi thường trú:",
         "rawPattern": "ngày … tháng … năm …"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank7",
+      "slotId": "document.field7",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -163,18 +175,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank8",
+      "slotId": "agency.field8",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0013",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "agency",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -184,7 +196,7 @@
       "reviewRequired": true
     },
     {
-      "slotId": "informant.blank9",
+      "slotId": "informant.field9",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0045",
@@ -205,7 +217,7 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank10",
+      "slotId": "document.field10",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0047",
@@ -226,81 +238,39 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank11",
+      "slotId": "document.issuePlaceDateLine",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0048",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+      "label": "Dòng địa danh, ngày tháng năm",
+      "slotType": "date",
+      "required": true,
+      "confidence": 0.85,
       "suggestedNamespace": "document",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "............"
+        "rawPattern": "ngày ............ tháng ............ năm ......................"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank12",
+      "slotId": "informant.field12",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0049",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
+      "label": "Ô trống dạng \"...\" (informant)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "............"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank13",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
-        "tableCellId": null
-      },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "......................"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank14",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
-        "tableCellId": null
-      },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "informant",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -310,18 +280,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank15",
+      "slotId": "informant.field13",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0049",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:",
+      "label": "Ô trống dạng \"...\" (informant)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "informant",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -331,7 +301,7 @@
       "reviewRequired": true
     },
     {
-      "slotId": "informant.blank16",
+      "slotId": "informant.field14",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0050",
@@ -352,76 +322,34 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank17",
+      "slotId": "document.issuePlaceDateLine_2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0052",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+      "label": "Dòng địa danh, ngày tháng năm",
+      "slotType": "date",
+      "required": true,
+      "confidence": 0.85,
       "suggestedNamespace": "document",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "............"
+        "rawPattern": "ngày............ tháng ............ năm ..................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank18",
+      "slotId": "document.field16",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0057",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "............"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank19",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
-        "tableCellId": null
-      },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "..................."
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank20",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
-        "tableCellId": null
-      },
-      "context": ".................................................",
+      "context": "...........................................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -436,13 +364,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank21",
+      "slotId": "document.field17",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0059",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "...........................................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -457,13 +385,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank22",
+      "slotId": "document.field18",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0060",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": ".....",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -478,13 +406,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank23",
+      "slotId": "document.field19",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0069",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": ".........................................",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -497,55 +425,23 @@
         "rawPattern": "........................................."
       },
       "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceDateLine",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0048",
-        "tableCellId": null
-      },
-      "context": "ngày ............ tháng ............ năm ......................",
-      "label": "Dòng địa danh, ngày tháng năm",
-      "slotType": "date",
-      "required": true,
-      "confidence": 0.85,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "…, ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceDateLine_2",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0052",
-        "tableCellId": null
-      },
-      "context": "ngày............ tháng ............ năm ...................",
-      "label": "Dòng địa danh, ngày tháng năm",
-      "slotType": "date",
-      "required": true,
-      "confidence": 0.85,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "…, ngày … tháng … năm …"
-      },
-      "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.issueDate",
+      "path": "informant.birthDate",
       "type": "date",
-      "label": "Ngày tháng năm (split từ DOCX)",
+      "label": "Ngày tháng năm (context contains 'Sinh ngày')",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "date",
+      "section": "Thời gian",
+      "reviewRequired": true
+    },
+    {
+      "path": "informant.idDocument.issueDate",
+      "type": "date",
+      "label": "Ngày tháng năm (context contains ID document issue date)",
       "source": "unknown",
       "required": true,
       "uiComponent": "date",
@@ -563,13 +459,13 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field8",
+      "path": "agency.field8",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "agency",
       "reviewRequired": true
     },
     {
@@ -593,63 +489,63 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field11",
-      "type": "string",
-      "label": "Trường cần điền (document)",
+      "path": "document.issueDate",
+      "type": "date",
+      "label": "Ngày ban hành",
       "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
+      "required": true,
+      "uiComponent": "date",
+      "section": "Văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field12",
+      "path": "document.issuePlace",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Địa danh ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field13",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field14",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field15",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "informant.field16",
+      "path": "informant.field12",
       "type": "string",
       "label": "Trường cần điền (informant)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
       "section": "informant",
+      "reviewRequired": true
+    },
+    {
+      "path": "informant.field13",
+      "type": "string",
+      "label": "Trường cần điền (informant)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "informant",
+      "reviewRequired": true
+    },
+    {
+      "path": "informant.field14",
+      "type": "string",
+      "label": "Trường cần điền (informant)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "informant",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.field16",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
@@ -681,216 +577,75 @@
       "uiComponent": "text",
       "section": "document",
       "reviewRequired": true
-    },
-    {
-      "path": "document.field20",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field21",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field22",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field23",
-      "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issuePlace",
-      "type": "string",
-      "label": "Địa danh ban hành",
-      "source": "agencyConfig",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Văn bản",
-      "reviewRequired": false
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.issueDateDay",
-      "from": "document.issueDate",
+      "slotId": "informant.Day",
+      "from": "informant.birthDate",
       "transform": "date.day",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateMonth",
-      "from": "document.issueDate",
+      "slotId": "informant.Month",
+      "from": "informant.birthDate",
       "transform": "date.month",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateYear",
-      "from": "document.issueDate",
+      "slotId": "informant.Year",
+      "from": "informant.birthDate",
       "transform": "date.year",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateDay_2",
-      "from": "document.issueDate",
+      "slotId": "informant.Day_2",
+      "from": "informant.idDocument.issueDate",
       "transform": "date.day",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateMonth_2",
-      "from": "document.issueDate",
+      "slotId": "informant.Month_2",
+      "from": "informant.idDocument.issueDate",
       "transform": "date.month",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDateYear_2",
-      "from": "document.issueDate",
+      "slotId": "informant.Year_2",
+      "from": "informant.idDocument.issueDate",
       "transform": "date.year",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank7",
+      "slotId": "document.field7",
       "from": "document.field7",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank8",
-      "from": "document.field8",
+      "slotId": "agency.field8",
+      "from": "agency.field8",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "informant.blank9",
+      "slotId": "informant.field9",
       "from": "informant.field9",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank10",
+      "slotId": "document.field10",
       "from": "document.field10",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank11",
-      "from": "document.field11",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank12",
-      "from": "document.field12",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank13",
-      "from": "document.field13",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank14",
-      "from": "document.field14",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank15",
-      "from": "document.field15",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.blank16",
-      "from": "informant.field16",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank17",
-      "from": "document.field17",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank18",
-      "from": "document.field18",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank19",
-      "from": "document.field19",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank20",
-      "from": "document.field20",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank21",
-      "from": "document.field21",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank22",
-      "from": "document.field22",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.blank23",
-      "from": "document.field23",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -903,9 +658,58 @@
       "reviewRequired": true
     },
     {
+      "slotId": "informant.field12",
+      "from": "informant.field12",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "informant.field13",
+      "from": "informant.field13",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "informant.field14",
+      "from": "informant.field14",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
       "slotId": "document.issuePlaceDateLine_2",
       "from": "{issuePlace:document.issuePlace, issueDate:document.issueDate}",
       "transform": "date.issuePlaceDateLine",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.field16",
+      "from": "document.field16",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.field17",
+      "from": "document.field17",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.field18",
+      "from": "document.field18",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.field19",
+      "from": "document.field19",
+      "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     }
@@ -915,5 +719,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 81 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.355Z"
+  "productMetadata": {
+    "stage": {
+      "code": null,
+      "label": null,
+      "suggestedBy": null,
+      "reviewRequired": true
+    },
+    "formNumber": "192/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:37.026Z"
 }

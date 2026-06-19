@@ -42,6 +42,7 @@
     "audit:docx:compare": "node scripts/docx-contract/compare-bespoke-to-contracts.mjs",
     "audit:docx:report": "node scripts/docx-contract/generate-audit-report.mjs",
     "audit:docx:pilot": "node scripts/docx-contract/generate-pilot-reviews.mjs",
+    "audit:docx:prelock": "node scripts/docx-contract/prelock-guard.mjs",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
     "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
     "audit:encoding": "node scripts/audit-encoding-bom.mjs"

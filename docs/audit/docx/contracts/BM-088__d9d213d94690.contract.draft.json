@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/88-QĐ huỷ bỏ QĐ nhập vụ án hình sự.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/88-QĐ huỷ bỏ QĐ nhập vụ án hình sự.doc",
+    "sha256": "d9d213d946905554f7c26a523fd5a67f0b2004d75d75199b91bd605ab0535d7e",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,18 +43,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "legalBasis.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0027",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "... để tiếp tục điều tra theo quy định của Bộ luật Tố tụng hình sự./.",
+      "label": "Ô trống dạng \"...\" (legalBasis)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "legalBasis",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -70,27 +76,27 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "legalBasis.field2",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (legalBasis)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "legalBasis",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
-      "from": "document.field2",
+      "slotId": "legalBasis.field2",
+      "from": "legalBasis.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -101,5 +107,41 @@
   "warnings": [
     "Clx parse error: The value of \"offset\" is out of range. It must be >= 0 and <= 32. Received 33"
   ],
-  "generatedAt": "2026-06-19T01:19:41.315Z"
+  "productMetadata": {
+    "stage": {
+      "code": "04",
+      "label": "KHỞI TỐ, ĐIỀU TRA",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "088/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.972Z"
 }

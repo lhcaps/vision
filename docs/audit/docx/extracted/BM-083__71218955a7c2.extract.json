@@ -310,20 +310,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................................................................................."
+      "raw": ".................................................................................................................",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 113,
+      "context": ".................................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... thay đổi người giám định/người định giá tài sản đối với ông/bà"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.913Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/83-Yêu cầu thay đổi người giám định, người định giá tài sản.doc",
+    "sha256": "71218955a7c2986a78c6cc9baf5ace358d8c88e96c2e77bf82355fa9b1d3044e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/83-Yêu cầu thay đổi người giám định, người định giá tài sản.doc",
+    "sha256": "71218955a7c2986a78c6cc9baf5ace358d8c88e96c2e77bf82355fa9b1d3044e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.488Z"
 }

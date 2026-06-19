@@ -640,76 +640,124 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...................................................."
+      "raw": "....................................................",
+      "blockId": "P0056",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 52,
+      "context": "....................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": ".................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": ".........................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": ".............................................."
+      "raw": ".........................................................................................",
+      "blockId": "P0059",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 98,
+      "context": "Họ tên:10......................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc: ..................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..................",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 70,
+      "endOffset": 88,
+      "context": "Quốc tịch: ................................................; Dân tộc: ..................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0065",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0069",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..........................................................................................................",
+      "blockId": "P0071",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 106,
+      "context": ".........................................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0078",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 16...;"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..............................................",
+      "blockId": "P0080",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 46,
+      "context": ".............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.960Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/155-QĐ phục hồi vụ án đối với bị can.doc",
+    "sha256": "d89766f2092a6e4df330c7f2bd8ec9976ea1c903f3ec20302cdf313a4f3051d4",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/155-QĐ phục hồi vụ án đối với bị can.doc",
+    "sha256": "d89766f2092a6e4df330c7f2bd8ec9976ea1c903f3ec20302cdf313a4f3051d4",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.567Z"
 }

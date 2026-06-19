@@ -6,6 +6,8 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { suggestDateSemantic } from "./lib/date-semantic.mjs";
+import { detectBlanksInBlock } from "./lib/blank-detector.mjs";
 
 const ROOT = process.cwd();
 const EXTRACT_DIR = path.join(ROOT, "docs", "audit", "docx", "extracted");
@@ -18,13 +20,24 @@ const TRANSFORM_TAXONOMY = path.join(ROOT, "docs", "contracts", "transform-taxon
 
 const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
+// Blank pattern (shared, used for date line detection).
+const BLANK_PATTERN = String.raw`(?:\.{3,}|…+|…+|_{3,})`;
+
 const inferDateParts = (text) => {
-  // Nếu text chứa pattern "ngày … tháng … năm …" → split thành 3 slots.
-  // Unicode-safe: bắt cả dấu chấm "." và ellipsis "…".
-  if (new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}\\s*năm\\s*${BLANK_PATTERN}`, "iu").test(text)) {
+  if (
+    new RegExp(
+      `ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}\\s*năm\\s*${BLANK_PATTERN}`,
+      "iu",
+    ).test(text)
+  ) {
     return ["day", "month", "year"];
   }
-  if (new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}`, "iu").test(text)) {
+  if (
+    new RegExp(
+      `ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}`,
+      "iu",
+    ).test(text)
+  ) {
     return ["day", "month"];
   }
   return null;
@@ -48,27 +61,28 @@ const NAMESPACES = [
   "renderMeta",
 ];
 
-// suggestNamespace chỉ là ĐỀ XUẤT máy (heuristic), không phải truth.
-// Tất cả field được gán nguồn "unknown" và reviewRequired=true cho tới khi
-// reviewer quyết định namespace. Đổi tên từ "guess" → "suggest" để khỏi gây
-// hiểu nhầm "đây là field chuẩn".
 const suggestNamespace = (text) => {
   const t = text.toLowerCase();
-  if (/viện kiểm sát|cơ quan|cấp trên|cơ quan cấp/.test(t)) return "agency";
+  if (/viện kiểm sát|cơ quan|cấp trên|cơ quan cấp/.test(t))
+    return "agency";
   if (/ngày|số:|mẫu số|văn bản/.test(t)) return "document";
   if (/vụ án|tội phạm|nguồn tin/.test(t)) return "case";
-  if (/họ tên|ngày sinh|nghề nghiệp|cmnd|cccd|quốc tịch|nơi ở|địa chỉ/.test(t)) return "informant";
-  if (/người tiếp nhận|chức danh|đơn vị công tác/.test(t)) return "receiver";
+  if (
+    /họ tên|ngày sinh|nghề nghiệp|cmnd|cccd|quốc tịch|nơi ở|địa chỉ/.test(
+      t,
+    )
+  )
+    return "informant";
+  if (/người tiếp nhận|chức danh|đơn vị công tác/.test(t))
+    return "receiver";
   if (/ksv|kiểm sát viên/.test(t)) return "prosecutor";
-  if (/điều\s*\d|quyết định|nội dung|tóm tắt/.test(t)) return "decision";
+  if (/điều\s*\d|quyết định|nội dung|tóm tắt/.test(t))
+    return "decision";
   if (/căn cứ|luật|điều luật/.test(t)) return "legalBasis";
   if (/nơi nhận|lưu|hsva|hsvv|vp/.test(t)) return "recipients";
   if (/ký|chức danh|ký tên/.test(t)) return "signature";
   return "document";
 };
-
-// Blank pattern (Unicode-safe) — dùng chung với extract-detector.
-const BLANK_PATTERN = String.raw`(?:\.{3,}|…+|…+|_{3,})`;
 
 const slug = (s) =>
   s
@@ -85,10 +99,52 @@ const DATE_TRANSFORMS = {
   year: "date.year",
 };
 
+const STAGE_CODES = {
+  "01": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+  "02": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
+  "03": "NGƯỜI THAM GIA TỐ TỤNG",
+  "04": "KHỞI TỐ, ĐIỀU TRA",
+  "05": "TRUY TỐ",
+  "06": "XỬ LÝ VẬT CHỨNG",
+  "07": "BIỆN PHÁP ĐIỀU TRA ĐẶC BIỆT",
+  "08": "THỦ TỤC ĐẶC BIỆT",
+  "09": "NGƯỜI CHƯA THÀNH NIÊN",
+};
+
+const inferStageFromPath = (relativePath) => {
+  const match = relativePath.match(/(\d{2})\.\s*[\w\s]*?(?=\/|$)/u);
+  if (match) {
+    const code = match[1];
+    if (STAGE_CODES[code]) {
+      return { code, label: STAGE_CODES[code] };
+    }
+  }
+  return null;
+};
+
 // ============== draft ==============
 
 const buildDraft = (extract) => {
-  const { sourceId, templateCode, fileName, relativePath, sha256, format, textBlocks, placeholders, blankCandidates, warnings, error, documentKind, duplicateIndex, duplicateCount, isDuplicateCode } = extract;
+  const {
+    sourceId,
+    templateCode,
+    fileName,
+    relativePath,
+    sha256,
+    format,
+    textBlocks,
+    placeholders,
+    blankCandidates,
+    warnings,
+    error,
+    documentKind,
+    duplicateIndex,
+    duplicateCount,
+    isDuplicateCode,
+    docxOriginal,
+    extractionSource,
+    extractionKind,
+  } = extract;
 
   const docxSlots = [];
   const canonicalFields = [];
@@ -101,8 +157,18 @@ const buildDraft = (extract) => {
     contractWarnings.push(`Extract error: ${error}`);
   }
 
+  // Index textBlocks by blockId for fast lookup.
+  const blockById = new Map(textBlocks.map((b) => [b.blockId, b]));
+
+  // Nearby blocks for date semantic context (1 before + 1 after each block).
+  const nearbyBlocksMap = new Map(
+    textBlocks.map((b, i) => [
+      b.blockId,
+      [textBlocks[i - 1]?.text ?? "", textBlocks[i + 1]?.text ?? ""],
+    ]),
+  );
+
   // 1) Dùng blank candidates để sinh docxSlot.
-  //    Mỗi blank candidate sẽ map thành 1 slot (nếu không phải duplicate).
   const seenSlotIds = new Set();
   const makeSlotId = (ns, fname) => {
     const base = `${ns}.${fname}`;
@@ -116,48 +182,69 @@ const buildDraft = (extract) => {
     return id;
   };
 
-  const addCanonicalField = (path, type, label, source, uiComponent, section, required) => {
-    if (canonicalFields.some((f) => f.path === path)) return null;
-    const field = {
-      path,
+  // ReviewRequired invariant: ALL draft heuristic fields use source="unknown" and reviewRequired=true.
+  const addCanonicalField = (fpath, type, label, uiComponent, section, required) => {
+    if (canonicalFields.some((f) => f.path === fpath)) return null;
+    canonicalFields.push({
+      path: fpath,
       type,
       label,
-      source,
+      source: "unknown",
       required,
       uiComponent,
       section,
-      reviewRequired: source === "unknown",
-    };
-    canonicalFields.push(field);
-    return field;
+      reviewRequired: true,
+    });
+    return null;
   };
 
-  // 1.1) Date parts (ngày … tháng … năm …).
+  // 1.1) Date parts (ngày … tháng … năm …) — use suggestDateSemantic.
   let dateFieldIndex = 0;
   for (const blk of textBlocks) {
     const parts = inferDateParts(blk.text);
     if (parts) {
-      const ns = suggestNamespace(blk.text);
-      const canonicalPath = `${ns}.issueDate`;
-      addCanonicalField(canonicalPath, "date", `Ngày tháng năm (split từ DOCX)`, "unknown", "date", "Thời gian", true);
+      const nearby = nearbyBlocksMap.get(blk.blockId) ?? [];
+      const semantic = suggestDateSemantic(blk.text, nearby);
+      const basePath = semantic.suggestedCanonicalPath;
+
+      addCanonicalField(
+        basePath,
+        "date",
+        `Ngày tháng năm (${semantic.suggestedReason})`,
+        "date",
+        "Thời gian",
+        true,
+      );
       for (const part of parts) {
-        const slotId = makeSlotId(ns, `issueDate${part[0].toUpperCase()}${part.slice(1)}`);
+        const slotId = makeSlotId(
+          basePath.split(".")[0],
+          `${part[0].toUpperCase()}${part.slice(1)}`,
+        );
         docxSlots.push({
           slotId,
-          location: { partName: "WordDocument", blockId: blk.blockId, tableCellId: null },
+          location: {
+            partName: "WordDocument",
+            blockId: blk.blockId,
+            tableCellId: null,
+          },
           context: blk.text.slice(0, 200),
-          label: `${part.toUpperCase()} (${ns})`,
+          label: `${part.toUpperCase()} (từ ${blk.blockId})`,
           slotType: "datePart",
           required: true,
           confidence: 0.6,
-          suggestedNamespace: ns,
+          suggestedCanonicalPath: basePath,
           suggestedBy: "heuristic",
-          evidence: { textBefore: blk.text.slice(0, 100), textAfter: blk.text.slice(-100), rawPattern: "ngày … tháng … năm …" },
+          suggestedReason: semantic.suggestedReason,
+          evidence: {
+            textBefore: nearby[0] || "",
+            textAfter: nearby[1] || "",
+            rawPattern: "ngày … tháng … năm …",
+          },
           reviewRequired: true,
         });
         renderBindings.push({
           slotId,
-          from: canonicalPath,
+          from: basePath,
           transform: DATE_TRANSFORMS[part],
           fallback: "",
           reviewRequired: true,
@@ -168,20 +255,74 @@ const buildDraft = (extract) => {
   }
   void dateFieldIndex;
 
-  // 1.2) Ellipsis (...) blank lines.
+  // 1.2) Blank candidates — use blank.blockId directly, NOT text.includes search.
   for (const blank of blankCandidates) {
-    if (blank.kind === "ellipsis" || blank.kind === "ellipsis-dots" || blank.kind === "ellipsis-unicode") {
-      // Tìm paragraph gần nhất (chứa blank) để đề xuất namespace.
-      const containingBlock = textBlocks.find((b) => b.text.includes(blank.raw));
-      const ns = containingBlock ? suggestNamespace(containingBlock.text) : "document";
-      const fieldName = `blank${docxSlots.length + 1}`;
-      const slotId = makeSlotId(ns, fieldName);
+    if (blank.kind === "vn-date-line") {
+      const slotId = makeSlotId("document", "issuePlaceDateLine");
+      if (!docxSlots.some((s) => s.slotId === slotId)) {
+        docxSlots.push({
+          slotId,
+          location: {
+            partName: "WordDocument",
+            blockId: blank.blockId ?? null,
+            tableCellId: blank.tableCellId,
+          },
+          context: blank.context,
+          label: "Dòng địa danh, ngày tháng năm",
+          slotType: "date",
+          required: true,
+          confidence: 0.85,
+          suggestedNamespace: "document",
+          suggestedBy: "heuristic",
+          evidence: { textBefore: "", textAfter: "", rawPattern: blank.raw },
+          reviewRequired: true,
+        });
+        // ReviewRequired invariant: source must be "unknown" in draft phase.
+        addCanonicalField(
+          "document.issueDate",
+          "date",
+          "Ngày ban hành",
+          "date",
+          "Văn bản",
+          true,
+        );
+        addCanonicalField(
+          "document.issuePlace",
+          "string",
+          "Địa danh ban hành",
+          "text",
+          "Văn bản",
+          true,
+        );
+        renderBindings.push({
+          slotId,
+          from: "{issuePlace:document.issuePlace, issueDate:document.issueDate}",
+          transform: "date.issuePlaceDateLine",
+          fallback: "",
+          reviewRequired: true,
+        });
+      }
+    } else if (
+      blank.kind === "ellipsis-dots" ||
+      blank.kind === "ellipsis-unicode" ||
+      blank.kind === "underscore"
+    ) {
+      // Use blank.blockId/tableCellId directly from the candidate.
+      const ns = blank.blockId
+        ? blockById.get(blank.blockId)?.text
+          ? suggestNamespace(blockById.get(blank.blockId).text)
+          : "document"
+        : "document";
+      const slotCount = docxSlots.length + 1;
+      const slotId = makeSlotId(ns, `field${slotCount}`);
       docxSlots.push({
         slotId,
-        location: containingBlock
-          ? { partName: "WordDocument", blockId: containingBlock.blockId, tableCellId: null }
-          : { partName: "WordDocument", blockId: null, tableCellId: null },
-        context: containingBlock ? containingBlock.text.slice(0, 200) : blank.raw,
+        location: {
+          partName: "WordDocument",
+          blockId: blank.blockId ?? null,
+          tableCellId: blank.tableCellId,
+        },
+        context: blank.context,
         label: `Ô trống dạng "..." (${ns})`,
         slotType: "text",
         required: false,
@@ -191,8 +332,15 @@ const buildDraft = (extract) => {
         evidence: { textBefore: "", textAfter: "", rawPattern: blank.raw },
         reviewRequired: true,
       });
-      const canonicalPath = `${ns}.field${docxSlots.length}`;
-      addCanonicalField(canonicalPath, "string", `Trường cần điền (${ns})`, "unknown", "text", ns, false);
+      const canonicalPath = `${ns}.field${slotCount}`;
+      addCanonicalField(
+        canonicalPath,
+        "string",
+        `Trường cần điền (${ns})`,
+        "text",
+        ns,
+        false,
+      );
       renderBindings.push({
         slotId,
         from: canonicalPath,
@@ -200,45 +348,19 @@ const buildDraft = (extract) => {
         fallback: "",
         reviewRequired: true,
       });
-    } else if (blank.kind === "vn-date-line") {
-      // Date line dạng "…, ngày … tháng … năm …" → document.issuePlaceDateLine.
-      const slotId = makeSlotId("document", "issuePlaceDateLine");
-      if (!docxSlots.some((s) => s.slotId === slotId)) {
-        const containingBlock = textBlocks.find((b) => b.text.includes(blank.raw));
-        docxSlots.push({
-          slotId,
-          location: containingBlock
-            ? { partName: "WordDocument", blockId: containingBlock.blockId, tableCellId: null }
-            : { partName: "WordDocument", blockId: null, tableCellId: null },
-          context: blank.raw,
-          label: "Dòng địa danh, ngày tháng năm",
-          slotType: "date",
-          required: true,
-          confidence: 0.85,
-          suggestedNamespace: "document",
-          suggestedBy: "heuristic",
-          evidence: { textBefore: "", textAfter: "", rawPattern: "…, ngày … tháng … năm …" },
-          reviewRequired: true,
-        });
-        addCanonicalField("document.issueDate", "date", "Ngày ban hành", "manualOrDefault", "date", "Văn bản", true);
-        addCanonicalField("document.issuePlace", "string", "Địa danh ban hành", "agencyConfig", "text", "Văn bản", true);
-        renderBindings.push({
-          slotId,
-          from: "{issuePlace:document.issuePlace, issueDate:document.issueDate}",
-          transform: "date.issuePlaceDateLine",
-          fallback: "",
-          reviewRequired: true,
-        });
-      }
     } else if (blank.kind === "numbered-blank") {
-      const slotId = makeSlotId("document", `numberedBlank${docxSlots.length + 1}`);
-      const containingBlock = textBlocks.find((b) => b.text.includes(blank.raw));
+      const slotId = makeSlotId(
+        "document",
+        `numberedBlank${docxSlots.length + 1}`,
+      );
       docxSlots.push({
         slotId,
-        location: containingBlock
-          ? { partName: "WordDocument", blockId: containingBlock.blockId, tableCellId: null }
-          : { partName: "WordDocument", blockId: null, tableCellId: null },
-        context: blank.raw,
+        location: {
+          partName: "WordDocument",
+          blockId: blank.blockId ?? null,
+          tableCellId: blank.tableCellId,
+        },
+        context: blank.context,
         label: "Vị trí đánh số (1), (2), …",
         slotType: "text",
         required: false,
@@ -249,7 +371,14 @@ const buildDraft = (extract) => {
         reviewRequired: true,
       });
       const canonicalPath = `document.numberedSlot${docxSlots.length}`;
-      addCanonicalField(canonicalPath, "string", "Trường đánh số", "unknown", "text", "Nội dung", false);
+      addCanonicalField(
+        canonicalPath,
+        "string",
+        "Trường đánh số",
+        "text",
+        "Nội dung",
+        false,
+      );
       renderBindings.push({
         slotId,
         from: canonicalPath,
@@ -288,14 +417,20 @@ const buildDraft = (extract) => {
       location: { partName: "word/document.xml", blockId: null, tableCellId: null },
       context: ph.raw,
       label: field,
-      slotType: field.includes("Date") || field.includes("Day") || field.includes("Month") || field.includes("Year") ? "datePart" : "text",
+      slotType:
+        field.includes("Date") ||
+        field.includes("Day") ||
+        field.includes("Month") ||
+        field.includes("Year")
+          ? "datePart"
+          : "text",
       required: true,
       confidence: 0.9,
       evidence: { textBefore: "", textAfter: "", rawPattern: ph.raw },
       reviewRequired: true,
     });
     const canonicalPath = value;
-    addCanonicalField(canonicalPath, "string", field, "unknown", "text", ns, true);
+    addCanonicalField(canonicalPath, "string", field, "text", ns, true);
     renderBindings.push({
       slotId,
       from: canonicalPath,
@@ -306,22 +441,34 @@ const buildDraft = (extract) => {
   }
 
   // 2) Báo cáo các paragraph không matched (giúp reviewer thấy rõ chỗ cần xem).
-  const unmatched = textBlocks.filter(
-    (b) => !docxSlots.some((s) => s.location.blockId === b.blockId),
+  const matchedBlockIds = new Set(
+    docxSlots.map((s) => s.location?.blockId).filter(Boolean),
   );
+  const unmatched = textBlocks.filter((b) => !matchedBlockIds.has(b.blockId));
   if (unmatched.length > 0 && unmatched.length < 20) {
     unresolvedQuestions.push(
       `${unmatched.length} paragraph có nội dung đặc thù cần reviewer xem xét: ` +
         unmatched
           .slice(0, 5)
-          .map((b) => `${b.blockId}="${b.text.slice(0, 40).replace(/"/g, "'")}"`)
+          .map(
+            (b) =>
+              `${b.blockId}="${b.text.slice(0, 40).replace(/"/g, "'")}"`,
+          )
           .join("; "),
     );
   }
 
   if (canonicalFields.length === 0) {
-    contractWarnings.push("Không tự động sinh được canonicalField nào. Cần reviewer đọc toàn bộ DOCX.");
+    contractWarnings.push(
+      "Không tự động sinh được canonicalField nào. Cần reviewer đọc toàn bộ DOCX.",
+    );
   }
+
+  // Infer stage from folder path.
+  const stage = inferStageFromPath(relativePath);
+  const formNumber = templateCode ? templateCode.replace("BM-", "") + "/HS" : null;
+  const docSuffixMatch = relativePath.match(/(QĐ|LBTG|LV|LĐ|TB|BC|KN|GC|BB)-\w*/i);
+  const documentNumberSuffix = docSuffixMatch ? docSuffixMatch[0] : null;
 
   return {
     schemaVersion: "1.0",
@@ -338,6 +485,8 @@ const buildDraft = (extract) => {
       relativePath,
       format,
     },
+    // Extraction source lineage
+    extractionSource: extractionSource ?? null,
     status: "draft",
     docxSlots,
     canonicalFields,
@@ -345,6 +494,42 @@ const buildDraft = (extract) => {
     rejectedCandidates,
     unresolvedQuestions,
     warnings: contractWarnings,
+    // Product metadata hints (draft — all reviewRequired: true)
+    productMetadata: {
+      stage: stage
+        ? {
+            code: stage.code,
+            label: stage.label,
+            suggestedBy: "path-heuristic",
+            reviewRequired: true,
+          }
+        : { code: null, label: null, suggestedBy: null, reviewRequired: true },
+      formNumber: formNumber ?? null,
+      legalBasisLine:
+        "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+      documentNumberSuffix: documentNumberSuffix ?? null,
+      reviewRequired: true,
+    },
+    renderFormatHints: {
+      fontFamily: "Times New Roman",
+      baseFontSize: 13,
+      requiresDifferentFirstPage: true,
+      requiresPageNumberIfMoreThanPages: 2,
+      headerRules: [],
+      footerRules: [],
+      titleRules: [],
+      reviewRequired: true,
+    },
+    formInputHints: {
+      primaryEntities: [],
+      suggestedControls: [],
+      previewRequired: true,
+      reviewRequired: true,
+    },
+    reportingHints: {
+      dimensions: ["time", "ward", "offense"],
+      reviewRequired: true,
+    },
     generatedAt: new Date().toISOString(),
   };
 };
@@ -356,7 +541,6 @@ const main = () => {
     console.error("Run extract first");
     process.exit(2);
   }
-  // Sanity check taxonomy tồn tại.
   for (const t of [FIELD_TAXONOMY, SOURCE_TAXONOMY, TRANSFORM_TAXONOMY]) {
     if (!fs.existsSync(t)) {
       console.error("Missing taxonomy file:", t);
@@ -375,9 +559,6 @@ const main = () => {
   for (const f of files) {
     try {
       const ext = JSON.parse(fs.readFileSync(path.join(EXTRACT_DIR, f), "utf8"));
-      // Reference docs (Thông tư, Danh mục) — KHÔNG draft form contract.
-      // Chúng không phải biểu mẫu, không có slot/field nghiệp vụ.
-      // Sẽ được report riêng ở REFERENCE-DOCUMENTS.md (xem Phase 10).
       if (ext.documentKind === "reference" || !ext.templateCode) {
         skippedReference += 1;
         skippedReferenceFiles.push({

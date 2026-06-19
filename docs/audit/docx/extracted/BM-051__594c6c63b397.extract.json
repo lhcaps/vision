@@ -490,16 +490,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 56,
+      "endOffset": 60,
+      "context": ") để bảo đảm thay thế biện pháp tạm giam đối với bị can8...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 29,
+      "endOffset": 32,
+      "context": "Thời hạn đặt tiền để bảo đảm ..., kể từ ngày"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.893Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/51-QĐ về việc đặt tiền để bảo đảm.doc",
+    "sha256": "594c6c63b397cc19f797ae1e64c1721268465ff6bcd65f03553d695b4c686b63",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/51-QĐ về việc đặt tiền để bảo đảm.doc",
+    "sha256": "594c6c63b397cc19f797ae1e64c1721268465ff6bcd65f03553d695b4c686b63",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.450Z"
 }

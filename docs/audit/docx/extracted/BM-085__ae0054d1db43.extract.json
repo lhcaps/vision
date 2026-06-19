@@ -304,28 +304,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....................................................................................................."
+      "raw": ".....................................................................................................",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 101,
+      "context": ".....................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... để điều tra theo thẩm quyền."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "Điều 2. Yêu cầu7... thực hiện việc chuyển hồ sơ vụ án, vật chứng và bị can (nếu có) theo quy định của Bộ luật Tố tụng hình sự./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 7...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 8...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.943Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/85-QĐ chuyển vụ án hình sự để điều tra theo thẩm quyền.doc",
+    "sha256": "ae0054d1db43815b45f90eb5e412405b1c038733b8b2d4a7c6f50ed8fd40d8b3",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/85-QĐ chuyển vụ án hình sự để điều tra theo thẩm quyền.doc",
+    "sha256": "ae0054d1db43815b45f90eb5e412405b1c038733b8b2d4a7c6f50ed8fd40d8b3",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.537Z"
 }

@@ -262,20 +262,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................."
+      "raw": ".......................................................",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 55,
+      "context": ".......................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................"
+      "raw": "............................................",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 44,
+      "context": "............................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.868Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/12-QĐ phục hồi giải quyết nguồn tin.doc",
+    "sha256": "7733d5ac8e86c69a89604f8ad65d91fbd30edef4e68a675f0ebfcc91a8e384bb",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/12-QĐ phục hồi giải quyết nguồn tin.doc",
+    "sha256": "7733d5ac8e86c69a89604f8ad65d91fbd30edef4e68a675f0ebfcc91a8e384bb",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.407Z"
 }

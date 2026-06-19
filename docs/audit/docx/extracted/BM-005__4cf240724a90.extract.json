@@ -250,16 +250,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0014",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 32,
+      "endOffset": 35,
+      "context": "2. Cơ quan, người có thẩm quyền7... gửi kết quả kiểm tra, xác minh đến Viện kiểm sát2"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.863Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/05-Yêu cầu kiểm tra, xác minh nguồn tin về tội phạm.doc",
+    "sha256": "4cf240724a90a6b16dbf06c528dc37c4b730745214a6a55c2acbfa431e7053fb",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/05-Yêu cầu kiểm tra, xác minh nguồn tin về tội phạm.doc",
+    "sha256": "4cf240724a90a6b16dbf06c528dc37c4b730745214a6a55c2acbfa431e7053fb",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.399Z"
 }

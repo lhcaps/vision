@@ -514,16 +514,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................................................."
+      "raw": "...................................................",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 51,
+      "context": "...................................................,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.982Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/182-QĐ huỷ bỏ QĐ áp dụng thủ tục rút gọn 1.doc",
+    "sha256": "95dc6d1f57abc5d29d16609c2d489a7e82326a3490a504d90db81f979fed5d4c",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/182-QĐ huỷ bỏ QĐ áp dụng thủ tục rút gọn 1.doc",
+    "sha256": "95dc6d1f57abc5d29d16609c2d489a7e82326a3490a504d90db81f979fed5d4c",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.602Z"
 }

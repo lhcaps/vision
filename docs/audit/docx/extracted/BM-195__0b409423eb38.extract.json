@@ -496,12 +496,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.990Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
+    "sha256": "0b409423eb38082c6d1e54e235514d4f0af0bea5f54ce8b30046bdfaaad885c9",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/195-Quyết định hủy bỏ quyết định không áp dụng biện pháp xử lý chuyển hướng.doc",
+    "sha256": "0b409423eb38082c6d1e54e235514d4f0af0bea5f54ce8b30046bdfaaad885c9",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.617Z"
 }

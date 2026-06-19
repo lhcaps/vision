@@ -316,52 +316,124 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm ... của"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "tháng ... năm ... của"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................................................."
+      "raw": ".........................................................................................................................",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 121,
+      "context": ".........................................................................................................................;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm ... của6"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "tháng ... năm ... của6"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................................................................."
+      "raw": ".................................................................................................",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 97,
+      "context": "................................................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm ...  đến ngày"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0026",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "tháng ... năm ...  đến ngày"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm ..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "tháng ... năm ..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "Điều 2. Yêu cầu6... thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự9./."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.867Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/09-QĐ gia hạn thời hạn giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "ad542fd7bc4564279fb2de6606eae819b004b98528c8c71b6a7ccbb843db5fc0",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/09-QĐ gia hạn thời hạn giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "ad542fd7bc4564279fb2de6606eae819b004b98528c8c71b6a7ccbb843db5fc0",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.404Z"
 }

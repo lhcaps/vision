@@ -442,88 +442,151 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "Hồi ... giờ ... ngày"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 15,
+      "context": "Hồi ... giờ ... ngày"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "....là đại diện Ủy ban nhân dân cấp xã;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...là người chứng kiến;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................."
+      "raw": ".................",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 74,
+      "endOffset": 91,
+      "context": "Bị can/Người đủ 18 tuổi trở lên trong gia đình/người đại diện của bị can: .................;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "........."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "......................................................................................",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 86,
+      "context": "...................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...................",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 69,
+      "endOffset": 88,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".........",
+      "blockId": "P0039",
+      "tableCellId": null,
+      "startOffset": 73,
+      "endOffset": 82,
+      "context": "Ý kiến của những người theo quy định tại điểm a khoản 4 Điều 128 BLTTHS: ........."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0043",
+      "tableCellId": null,
+      "startOffset": 34,
+      "endOffset": 37,
+      "context": "Việc kê biên tài sản kết thúc hồi ... giờ ... ngày"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0043",
+      "tableCellId": null,
+      "startOffset": 42,
+      "endOffset": 45,
+      "context": "Việc kê biên tài sản kết thúc hồi ... giờ ... ngày"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.901Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/63-Biên bản kê biên tài sản.doc",
+    "sha256": "54b73110a34fdfd0e38998ce309c3358f60743c18b49feca036cc2a309290052",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/63-Biên bản kê biên tài sản.doc",
+    "sha256": "54b73110a34fdfd0e38998ce309c3358f60743c18b49feca036cc2a309290052",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.464Z"
 }

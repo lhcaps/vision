@@ -442,12 +442,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.917Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/104 quyết định gia hạn thời hạn điều tra VAHS.doc",
+    "sha256": "6d6f5903cad38712db5c28c205c8fc5cd0a8edfe7eb058f621a8d610d3e0428e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/104 quyết định gia hạn thời hạn điều tra VAHS.doc",
+    "sha256": "6d6f5903cad38712db5c28c205c8fc5cd0a8edfe7eb058f621a8d610d3e0428e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.494Z"
 }

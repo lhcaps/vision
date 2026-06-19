@@ -262,36 +262,88 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "tháng ... năm ...,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "tháng ... năm ...,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 32,
+      "endOffset": 35,
+      "context": "1. Cơ quan, người có thẩm quyền7... cung cấp cho Viện kiểm sát2"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................."
+      "raw": "...................",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 19,
+      "context": "..................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................."
+      "raw": "...................",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 19,
+      "context": "..................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 34,
+      "endOffset": 37,
+      "context": "2. Thời hạn cung cấp tài liệu là: ... ngày, kể từ ngày cơ quan, người có thẩm quyền 7... nhận được Yêu cầu này./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 85,
+      "endOffset": 88,
+      "context": "2. Thời hạn cung cấp tài liệu là: ... ngày, kể từ ngày cơ quan, người có thẩm quyền 7... nhận được Yêu cầu này./."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.865Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/07-Yêu cầu cung cấp tài liệu để kiểm sát việc giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "549970d471d1b18f83edb9fc448521f4b4fbb0c208f00f2223d035b61a11b2bb",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/07-Yêu cầu cung cấp tài liệu để kiểm sát việc giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "549970d471d1b18f83edb9fc448521f4b4fbb0c208f00f2223d035b61a11b2bb",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.402Z"
 }

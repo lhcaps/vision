@@ -274,12 +274,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................."
+      "raw": "..........................",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 26,
+      "context": "..........................,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.867Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/10-QĐ tạm đình chỉ giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "3814cd2b4bcfa58c8f55db2970ef8be95fb6544fbafbef542eb49b6e28983c24",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/10-QĐ tạm đình chỉ giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "3814cd2b4bcfa58c8f55db2970ef8be95fb6544fbafbef542eb49b6e28983c24",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.405Z"
 }

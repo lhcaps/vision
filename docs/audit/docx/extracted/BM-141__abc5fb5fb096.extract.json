@@ -496,20 +496,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................."
+      "raw": "...............................................",
+      "blockId": "P0057",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 47,
+      "context": "..............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.951Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/141-QĐ chuyển vụ án để truy tố.doc",
+    "sha256": "abc5fb5fb0962d549e331e9e0f69e63d22fc345d77654bf48c132bff723684ce",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/141-QĐ chuyển vụ án để truy tố.doc",
+    "sha256": "abc5fb5fb0962d549e331e9e0f69e63d22fc345d77654bf48c132bff723684ce",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.552Z"
 }

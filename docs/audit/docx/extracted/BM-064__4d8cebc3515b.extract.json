@@ -328,20 +328,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 22,
+      "endOffset": 25,
+      "context": "Điều 2. Yêu cầu 7 và 8... và cá nhân, cơ quan, tổ chức được giao quản lý tài sản kê biên thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.902Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
+    "sha256": "4d8cebc3515bddffb06a6ea4b1cc390cd454d23d5f1a3b646eded4ff73a86ae3",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
+    "sha256": "4d8cebc3515bddffb06a6ea4b1cc390cd454d23d5f1a3b646eded4ff73a86ae3",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.465Z"
 }

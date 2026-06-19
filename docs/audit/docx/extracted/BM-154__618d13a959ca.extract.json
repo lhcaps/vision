@@ -472,32 +472,79 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................."
+      "raw": ".......................................................",
+      "blockId": "P0039",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 55,
+      "context": ".......................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................."
+      "raw": ".........................................",
+      "blockId": "P0042",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 41,
+      "context": "........................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........................................................................................................."
+      "raw": "..........................................................................................................",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 106,
+      "context": ".........................................................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 11...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................."
+      "raw": "...............................................",
+      "blockId": "P0053",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 47,
+      "context": "..............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.960Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/154-QĐ phục hồi vụ án.doc",
+    "sha256": "618d13a959ca2c1ce8841a135aeaac44e30f800a5b1b98189cef53fec5cd0c39",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/154-QĐ phục hồi vụ án.doc",
+    "sha256": "618d13a959ca2c1ce8841a135aeaac44e30f800a5b1b98189cef53fec5cd0c39",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.566Z"
 }

@@ -514,20 +514,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "của10... đối với9"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0063",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 9...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0064",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 10...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.947Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/92-QĐ phê chuẩn QĐ bổ sung QĐ khởi tố bị can.doc",
+    "sha256": "f8ca4bc8033dc29e37fbab439d94464e13ef84cddc13a64f600aa36c57a6ff3a",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/92-QĐ phê chuẩn QĐ bổ sung QĐ khởi tố bị can.doc",
+    "sha256": "f8ca4bc8033dc29e37fbab439d94464e13ef84cddc13a64f600aa36c57a6ff3a",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.544Z"
 }

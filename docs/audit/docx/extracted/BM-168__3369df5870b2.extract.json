@@ -268,16 +268,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 27,
+      "endOffset": 31,
+      "context": "bút lục, đánh số từ 01 đến ...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...................."
+      "raw": "....................",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 67,
+      "endOffset": 87,
+      "context": "Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):...................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.973Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/168-BB giao nhận hồ sơ vụ án, vụ việc.doc",
+    "sha256": "3369df5870b270e722bbf4bf395ecb7db79b2fe8e65b9674033916f09cb0540f",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/168-BB giao nhận hồ sơ vụ án, vụ việc.doc",
+    "sha256": "3369df5870b270e722bbf4bf395ecb7db79b2fe8e65b9674033916f09cb0540f",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.587Z"
 }

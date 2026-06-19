@@ -520,32 +520,79 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................."
+      "raw": ".......................................................",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 55,
+      "context": ".......................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0058",
+      "tableCellId": null,
+      "startOffset": 39,
+      "endOffset": 42,
+      "context": "ra Quyết định phục hồi điều tra bị can9... và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0060",
+      "tableCellId": null,
+      "startOffset": 69,
+      "endOffset": 72,
+      "context": "gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát2... và người tham gia tố tụng theo quy định tại khoản 2 Điều 235 của Bộ luật Tố tụng hình sự./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 10...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................"
+      "raw": "........................................",
+      "blockId": "P0064",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 40,
+      "context": "........................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.926Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/114-Yêu cầu phục hồi điều tra bị can.doc",
+    "sha256": "84cec283ce1bbca265daee15eae144b592e95745d6827a57fd66a890581f94b7",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/114-Yêu cầu phục hồi điều tra bị can.doc",
+    "sha256": "84cec283ce1bbca265daee15eae144b592e95745d6827a57fd66a890581f94b7",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.506Z"
 }

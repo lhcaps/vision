@@ -208,72 +208,115 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................................................................................................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "...."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............................................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..............."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..............................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ... tháng ... năm ..."
+      "raw": "ngày ... tháng ... năm ...",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 18,
+      "endOffset": 44,
+      "context": "Hồi ... giờ ...   ngày ... tháng ... năm ... tại"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "Hồi ... giờ ...   ngày ... tháng ... năm ... tại"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0007",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 15,
+      "context": "Hồi ... giờ ...   ngày ... tháng ... năm ... tại"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...................................................................................................................",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 123,
+      "context": "Ông/Bà: ..................................................................................................................."
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ... tháng ... năm ...."
+      "raw": "ngày ... tháng ... năm ....",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 48,
+      "endOffset": 75,
+      "context": "Việc xác minh/làm việc kết thúc hồi ... giờ ... ngày ... tháng ... năm ...."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 36,
+      "endOffset": 39,
+      "context": "Việc xác minh/làm việc kết thúc hồi ... giờ ... ngày ... tháng ... năm ...."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 44,
+      "endOffset": 47,
+      "context": "Việc xác minh/làm việc kết thúc hồi ... giờ ... ngày ... tháng ... năm ...."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".............................................",
+      "blockId": "P0017",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 45,
+      "context": "............................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...............",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 15,
+      "context": "..............."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...............................",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 31,
+      "context": "..............................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.940Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/137. Biên bản xác minh-làm việc.doc",
+    "sha256": "d2c569c61fb731d5eb1f42ad909a46504e68fb62770aa6118f0885efc7aa31e3",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/137. Biên bản xác minh-làm việc.doc",
+    "sha256": "d2c569c61fb731d5eb1f42ad909a46504e68fb62770aa6118f0885efc7aa31e3",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.532Z"
 }

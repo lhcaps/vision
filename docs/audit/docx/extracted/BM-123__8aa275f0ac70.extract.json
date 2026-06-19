@@ -376,8 +376,25 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.932Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/123-QĐ thực nghiệm điều tra.doc",
+    "sha256": "8aa275f0ac70c3c57be86b3938be82f04e13bb1ae050f963ffe94270f0bd460a",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/123-QĐ thực nghiệm điều tra.doc",
+    "sha256": "8aa275f0ac70c3c57be86b3938be82f04e13bb1ae050f963ffe94270f0bd460a",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.515Z"
 }

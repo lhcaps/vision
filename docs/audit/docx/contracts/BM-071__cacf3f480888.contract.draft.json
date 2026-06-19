@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/71-QĐ phân công KSV, KTV THQCT, KS việc giải quyết VAHS.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/71-QĐ phân công KSV, KTV THQCT, KS việc giải quyết VAHS.doc",
+    "sha256": "cacf3f480888d48d28c342055a5187f311f87cf3f8f7023f0905e12cf6886624",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,18 +43,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "agency.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0015",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "agency",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -58,18 +64,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "receiver.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0028",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "...; chức danh5",
+      "label": "Ô trống dạng \"...\" (receiver)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "receiver",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -91,44 +97,44 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "agency.field2",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "receiver.field3",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (receiver)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "receiver",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
-      "from": "document.field2",
+      "slotId": "agency.field2",
+      "from": "agency.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
-      "from": "document.field3",
+      "slotId": "receiver.field3",
+      "from": "receiver.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -139,5 +145,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 66 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.308Z"
+  "productMetadata": {
+    "stage": {
+      "code": "03",
+      "label": "NGƯỜI THAM GIA TỐ TỤNG",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "071/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.963Z"
 }

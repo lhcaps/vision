@@ -1,6 +1,6 @@
 # Master DOCX Audit Report
 
-Sinh lúc: 2026-06-19T01:19:42.329Z
+Sinh lúc: 2026-06-19T07:39:52.606Z
 
 ## Summary
 
@@ -12,9 +12,9 @@ Sinh lúc: 2026-06-19T01:19:42.329Z
 - File lỗi/corrupt: **0**
 - Extract success count: **216/216**
 - Draft contract count: **214** | locked: **0**
-- Tổng docxSlots: **2102**
-- Tổng unknown sources: **1624**
-- Tổng review-required items (slot+field+binding): **5828**
+- Tổng docxSlots: **1802**
+- Tổng unknown sources: **1526**
+- Tổng review-required items (slot+field+binding): **5130**
 - Tổng missing binding (slot không có renderBinding): **0**
 - Tổng BESPOKE files so sánh: **213**
   - Có contract: **213**
@@ -59,10 +59,10 @@ Tóm tắt:
 
 | SourceId | BM | Tên | Paragraphs | Blanks | Slots | Fields | Review |
 |---|---|---|---:|---:|---:|---:|---|
-| BM-001__f4c2aa3682d3 | BM-001 | Biên bản tiếp nhận nguồn tin về tội phạm | 58 | 25 | 31 | 25 | Tất cả slot+field đều reviewRequired=true |
-| BM-002__f78301178da7 | BM-002 | Phiếu chuyển nguồn tin về tội phạm | 53 | 18 | 24 | 18 | Tất cả slot+field đều reviewRequired=true |
-| BM-003__bb64990bc49b | BM-003 | QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm | 48 | 8 | 8 | 8 | Tất cả slot+field đều reviewRequired=true |
-| BM-004__2775520fd22c | BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 57 | 7 | 7 | 7 | Tất cả slot+field đều reviewRequired=true |
+| BM-001__f4c2aa3682d3 | BM-001 | Biên bản tiếp nhận nguồn tin về tội phạm | 38 | 0 | 28 | 28 | Tất cả slot+field đều reviewRequired=true |
+| BM-002__f78301178da7 | BM-002 | Phiếu chuyển nguồn tin về tội phạm | 36 | 0 | 32 | 29 | Tất cả slot+field đều reviewRequired=true |
+| BM-003__bb64990bc49b | BM-003 | QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm | 26 | 0 | 10 | 10 | Tất cả slot+field đều reviewRequired=true |
+| BM-004__2775520fd22c | BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 24 | 45 | 50 | 46 | Tất cả slot+field đều reviewRequired=true |
 
 ## Recommended migration strategy
 
@@ -92,7 +92,7 @@ Xem chi tiết: `CONTRACT-DRIVEN-UI-PLAN.md`.
 - [x] 216/216 extracted (extractor chạy hết, 0 error)
 - [x] 214/214 contracts drafted (form only, 2 reference docs excluded)
 - [ ] 214/214 contracts reviewed và locked (chưa — chờ reviewer)
-- [ ] 0 unknown sources (hiện tại 1624)
+- [ ] 0 unknown sources (hiện tại 1526)
 - [ ] 0 unresolved slots (chưa — chờ reviewer)
 - [ ] 214/214 render smoke pass (chưa — cần ContractDrivenFormPanel pilot)
 - [ ] 214/214 PDF smoke pass (chưa — cần backend render integration)

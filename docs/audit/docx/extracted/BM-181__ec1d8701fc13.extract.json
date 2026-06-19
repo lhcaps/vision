@@ -502,24 +502,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........."
+      "raw": "..........",
+      "blockId": "P0043",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 10,
+      "context": ".........."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................."
+      "raw": "...............................................",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 47,
+      "context": "...............................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0074",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 17,
+      "context": "Viện kiểm sát2... giải quyết vụ án hình sự theo quy định của Bộ luật Tố tụng hình sự"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.981Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/181-QĐ áp dụng thủ tục rút gọn.doc",
+    "sha256": "ec1d8701fc133cc4bf5afa8e866db4572186a5f0ab644b838ffaaa874cc2199e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/181-QĐ áp dụng thủ tục rút gọn.doc",
+    "sha256": "ec1d8701fc133cc4bf5afa8e866db4572186a5f0ab644b838ffaaa874cc2199e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.601Z"
 }

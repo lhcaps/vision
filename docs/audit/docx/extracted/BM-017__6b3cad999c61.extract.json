@@ -256,16 +256,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 40,
+      "endOffset": 43,
+      "context": "có dấu hiệu tội phạm quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.872Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/17-Yêu cầu khởi tố vụ án hình sự.doc",
+    "sha256": "6b3cad999c61d7954c9c23b7708a46f21e65882d7eafcca4752b17d1baa63bcb",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/17-Yêu cầu khởi tố vụ án hình sự.doc",
+    "sha256": "6b3cad999c61d7954c9c23b7708a46f21e65882d7eafcca4752b17d1baa63bcb",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.413Z"
 }

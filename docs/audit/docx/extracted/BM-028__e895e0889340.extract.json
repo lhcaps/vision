@@ -280,24 +280,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 8,
+      "context": "của5 ... từ tội ... sang tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 16,
+      "endOffset": 19,
+      "context": "của5 ... từ tội ... sang tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.879Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/28-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "e895e0889340fdf07b80e9ee7cde0686b94e15392fbd12315477670f5bcd02d7",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/28-QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "e895e0889340fdf07b80e9ee7cde0686b94e15392fbd12315477670f5bcd02d7",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.424Z"
 }

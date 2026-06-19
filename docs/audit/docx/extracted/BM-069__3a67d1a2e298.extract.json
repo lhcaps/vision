@@ -484,72 +484,115 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0019",
+      "tableCellId": null,
+      "startOffset": 1,
+      "endOffset": 50,
+      "context": ":................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "của ... đối với tài khoản của:"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "......................................................................................",
+      "blockId": "P0027",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 86,
+      "context": "...................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0029",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...................",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 69,
+      "endOffset": 88,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0037",
+      "tableCellId": null,
+      "startOffset": 112,
+      "endOffset": 115,
+      "context": "Chúng tôi đã đọc, giao Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản của ông/bà ... là đại diện3"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0044",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "của ... đã nhận 01 bản Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "của2... để thực hiện ngay việc giải tỏa Lệnh phong tỏa tài khoản của4"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.905Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+    "sha256": "3a67d1a2e298c576c7227cd1da766ff650205203e1996fae0111321042fb4a7f",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+    "sha256": "3a67d1a2e298c576c7227cd1da766ff650205203e1996fae0111321042fb4a7f",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.473Z"
 }

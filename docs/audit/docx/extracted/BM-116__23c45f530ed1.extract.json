@@ -424,20 +424,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................."
+      "raw": ".......................................................",
+      "blockId": "P0037",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 55,
+      "context": ".......................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 8...;"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.927Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/116-QĐ phục hồi điều tra vụ án hình sự.doc",
+    "sha256": "23c45f530ed1ed0af3d8d49607e05f1728b9cd8ab900575aaa9ff7c36fd54635",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/116-QĐ phục hồi điều tra vụ án hình sự.doc",
+    "sha256": "23c45f530ed1ed0af3d8d49607e05f1728b9cd8ab900575aaa9ff7c36fd54635",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.508Z"
 }

@@ -538,24 +538,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0067",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 8...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0068",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 9...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................."
+      "raw": "...........................................",
+      "blockId": "P0070",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 43,
+      "context": "..........................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.923Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/111-QĐ huỷ bỏ QĐ đình chỉ điều tra bị can.doc",
+    "sha256": "33851c5771652360f86113815d8f0ca02829eb7919cffe626ea7b7c946154778",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/111-QĐ huỷ bỏ QĐ đình chỉ điều tra bị can.doc",
+    "sha256": "33851c5771652360f86113815d8f0ca02829eb7919cffe626ea7b7c946154778",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.503Z"
 }

@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/130-QĐ trưng cầu giám định lại.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/130-QĐ trưng cầu giám định lại.doc",
+    "sha256": "9a859e843d48280e334932142b4cc202542894ee5b0970be265f3ad25bbb705c",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,13 +43,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0009",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "năm 20...",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -58,18 +64,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "agency.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0056",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Điều 3. Tổ chức, cá nhân14... phải gửi kết luận giám định cho cơ quan đã trưng cầu giám định, người giám định có quyền và nghĩa vụ theo quy định tại Điều 68 của Bộ luật Tố tụng hình sự",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "agency",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -79,13 +85,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0059",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "- 14...;",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -122,13 +128,13 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "agency.field3",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "agency",
       "reviewRequired": true
     },
     {
@@ -144,28 +150,28 @@
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "from": "document.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
-      "from": "document.field3",
+      "slotId": "agency.field3",
+      "from": "agency.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "document.field4",
       "from": "document.field4",
       "transform": "identity",
       "fallback": "",
@@ -177,5 +183,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 20 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.331Z"
+  "productMetadata": {
+    "stage": {
+      "code": "04",
+      "label": "KHỞI TỐ, ĐIỀU TRA",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "130/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.992Z"
 }

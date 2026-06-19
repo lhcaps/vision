@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/168-BB giao nhận hồ sơ vụ án, vụ việc.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/168-BB giao nhận hồ sơ vụ án, vụ việc.doc",
+    "sha256": "3369df5870b270e722bbf4bf395ecb7db79b2fe8e65b9674033916f09cb0540f",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,13 +43,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0022",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "bút lục, đánh số từ 01 đến ....",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -58,18 +64,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "case.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0023",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):....................",
+      "label": "Ô trống dạng \"...\" (case)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "case",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -101,34 +107,34 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "case.field3",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (case)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "case",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "document.field2",
       "from": "document.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
-      "from": "document.field3",
+      "slotId": "case.field3",
+      "from": "case.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -139,5 +145,41 @@
   "warnings": [
     "Clx parse error: The value of \"offset\" is out of range. It must be >= 0 and <= 12. Received 13"
   ],
-  "generatedAt": "2026-06-19T01:19:41.345Z"
+  "productMetadata": {
+    "stage": {
+      "code": "05",
+      "label": "TRUY TỐ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "168/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:37.013Z"
 }

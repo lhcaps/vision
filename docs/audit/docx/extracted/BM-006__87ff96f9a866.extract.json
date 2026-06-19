@@ -256,16 +256,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".................................................................."
+      "raw": "..................................................................",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 34,
+      "endOffset": 100,
+      "context": "chưa đầy đủ, kịp thời/còn vi phạm8..................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 32,
+      "endOffset": 35,
+      "context": "1. Cơ quan, người có thẩm quyền6... tiếp nhận/kiểm tra, xác minh/ra quyết định giải quyết nguồn tin về tội phạm5 đối với vụ việc nêu trên theo quy định của pháp luật."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.864Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/06-Yêu cầu tiếp nhận, kiểm tra, xác minh, ra QĐ giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "87ff96f9a8668287b18416f5004f5df4535b5d733739e624be8f7c7989754163",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/06-Yêu cầu tiếp nhận, kiểm tra, xác minh, ra QĐ giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "87ff96f9a8668287b18416f5004f5df4535b5d733739e624be8f7c7989754163",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.400Z"
 }

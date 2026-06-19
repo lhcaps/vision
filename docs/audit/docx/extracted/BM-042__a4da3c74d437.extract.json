@@ -472,20 +472,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 12,
+      "context": "đối với10... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................"
+      "raw": "......................................",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 2,
+      "endOffset": 40,
+      "context": "13......................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.887Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/42-QĐ gia hạn tạm giam.doc",
+    "sha256": "a4da3c74d437e519ffe6e3f54a168c443782f3575a9001c62aaaefba0dacbfbf",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/42-QĐ gia hạn tạm giam.doc",
+    "sha256": "a4da3c74d437e519ffe6e3f54a168c443782f3575a9001c62aaaefba0dacbfbf",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.440Z"
 }

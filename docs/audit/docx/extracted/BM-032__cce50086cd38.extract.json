@@ -322,16 +322,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................."
+      "raw": ".............................................",
+      "blockId": "P0023",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 45,
+      "context": ".............................................,"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.881Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/32-QĐ không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
+    "sha256": "cce50086cd3830ebf6c4225434ca5439c28384c511ffb73ba8fb812cdc291203",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/32-QĐ không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
+    "sha256": "cce50086cd3830ebf6c4225434ca5439c28384c511ffb73ba8fb812cdc291203",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.428Z"
 }

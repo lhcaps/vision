@@ -505,6 +505,127 @@
   ],
   "headers": {},
   "placeholders": [],
-  "blankCandidates": [],
-  "extractedAt": "2026-06-19T01:19:40.965Z"
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "………………",
+      "blockId": "P0010",
+      "tableCellId": null,
+      "startOffset": 14,
+      "endOffset": 20,
+      "context": "VIỆN KIỂM SÁT ………………."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "……………………………",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 11,
+      "context": "……………………………"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 17,
+      "endOffset": 20,
+      "context": "3…, ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 27,
+      "endOffset": 30,
+      "context": "3…, ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 1,
+      "endOffset": 2,
+      "context": "3…, ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "P0016",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 10,
+      "context": "3…, ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "………………",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 14,
+      "endOffset": 20,
+      "context": "VIỆN KIỂM SÁT ………………. ……………………………"
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "……………………………",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0001.C0001",
+      "startOffset": 22,
+      "endOffset": 33,
+      "context": "VIỆN KIỂM SÁT ………………. ……………………………"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "3 … , ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 29,
+      "endOffset": 32,
+      "context": "3 … , ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 2,
+      "endOffset": 3,
+      "context": "3 … , ngày … tháng ... năm 20..."
+    },
+    {
+      "kind": "ellipsis-unicode",
+      "raw": "…",
+      "blockId": "T0001",
+      "tableCellId": "T0001.R0002.C0002",
+      "startOffset": 11,
+      "endOffset": 12,
+      "context": "3 … , ngày … tháng ... năm 20..."
+    }
+  ],
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+    "sha256": "7a98055a3e9c9425ebf5de5df7c16d4b851b641c0f037cc815d4852d4b253d8f",
+    "format": "docx"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+    "sha256": "7a98055a3e9c9425ebf5de5df7c16d4b851b641c0f037cc815d4852d4b253d8f",
+    "format": "docx"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.573Z"
 }

@@ -418,20 +418,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0051",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 6...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........................................."
+      "raw": "...........................................",
+      "blockId": "P0053",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 43,
+      "context": "..........................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.923Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/110-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS.doc",
+    "sha256": "a1f991fed29c0dc4194076ca014e6a3c0f4ab067c667d7c0fa772b74be78e262",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/110-QĐ huỷ bỏ QĐ đình chỉ điều tra VAHS.doc",
+    "sha256": "a1f991fed29c0dc4194076ca014e6a3c0f4ab067c667d7c0fa772b74be78e262",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.502Z"
 }

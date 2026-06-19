@@ -442,24 +442,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................................................................................................................."
+      "raw": "...................................................................................................................",
+      "blockId": "P0042",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 115,
+      "context": "...................................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................"
+      "raw": "................................",
+      "blockId": "P0046",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 32,
+      "context": "................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 27,
+      "endOffset": 30,
+      "context": "Điều 3. Hội đồng giám định6... phải gửi bản kết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định6... có quyền và nghĩa vụ theo quy định tại Điều 68 của"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0050",
+      "tableCellId": null,
+      "startOffset": 118,
+      "endOffset": 121,
+      "context": "Điều 3. Hội đồng giám định6... phải gửi bản kết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định6... có quyền và nghĩa vụ theo quy định tại Điều 68 của"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.939Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/133-QĐ giám định lại trong trường hợp đặc biệt.doc",
+    "sha256": "1f7f12f1a2494866fd381d35d7acfe0ca0f4d1cb771b8fae109284818640a804",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/133-QĐ giám định lại trong trường hợp đặc biệt.doc",
+    "sha256": "1f7f12f1a2494866fd381d35d7acfe0ca0f4d1cb771b8fae109284818640a804",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.528Z"
 }

@@ -358,36 +358,88 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0013",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........"
+      "raw": "........",
+      "blockId": "P0024",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 8,
+      "context": "........"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....."
+      "raw": ".....",
+      "blockId": "P0025",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 5,
+      "context": ".....,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0034",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 4,
+      "context": "...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0038",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 6...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................."
+      "raw": ".............................................",
+      "blockId": "P0040",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 45,
+      "context": "............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.978Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/176-QĐ không phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "8f1b057e17a7a573a8f2e49cbcbd44e50ce5dba9c4edae91e4919c5fadc32d57",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/176-QĐ không phê chuẩn QĐ áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "8f1b057e17a7a573a8f2e49cbcbd44e50ce5dba9c4edae91e4919c5fadc32d57",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.596Z"
 }

@@ -466,16 +466,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................"
+      "raw": "............................................",
+      "blockId": "P0058",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 44,
+      "context": "............................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.978Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/177-QĐ gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "05be0ed9739804279ad6402b5dee206e08d729809bc74650876388ee1d656968",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/177-QĐ gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
+    "sha256": "05be0ed9739804279ad6402b5dee206e08d729809bc74650876388ee1d656968",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.597Z"
 }

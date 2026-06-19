@@ -304,20 +304,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................"
+      "raw": "........................................................",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 56,
+      "context": "........................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0028",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "của6... đối với7"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.880Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/31-QĐ phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
+    "sha256": "ec3276d1eebed3d455b536cacb0a8400f2a51cd2b980ec3321a1473deacab2c4",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/31-QĐ phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.doc",
+    "sha256": "ec3276d1eebed3d455b536cacb0a8400f2a51cd2b980ec3321a1473deacab2c4",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.427Z"
 }

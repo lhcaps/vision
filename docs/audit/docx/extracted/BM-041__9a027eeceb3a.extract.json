@@ -538,16 +538,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... đối với8... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 12,
+      "endOffset": 15,
+      "context": "... đối với8... về tội"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.887Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/41-QĐ không phê chuẩn Lệnh tạm giam.doc",
+    "sha256": "9a027eeceb3af2d839ed2168cc430dcda04fb30351484fb64787f7229d2959d5",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/41-QĐ không phê chuẩn Lệnh tạm giam.doc",
+    "sha256": "9a027eeceb3af2d839ed2168cc430dcda04fb30351484fb64787f7229d2959d5",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.439Z"
 }

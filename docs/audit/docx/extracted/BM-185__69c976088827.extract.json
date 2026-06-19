@@ -466,12 +466,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................"
+      "raw": "............................................................",
+      "blockId": "P0042",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 60,
+      "context": "............................................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.984Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/185-Yêu cầu lập Báo cáo điều tra xã hội bổ sung.doc",
+    "sha256": "69c9760888272b87abca0b7912bb8406783352f7b2913e649385d695f7006548",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/185-Yêu cầu lập Báo cáo điều tra xã hội bổ sung.doc",
+    "sha256": "69c9760888272b87abca0b7912bb8406783352f7b2913e649385d695f7006548",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.605Z"
 }

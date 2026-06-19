@@ -808,48 +808,115 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0011",
+      "tableCellId": null,
+      "startOffset": 27,
+      "endOffset": 30,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2 ..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0061",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0063",
+      "tableCellId": null,
+      "startOffset": 191,
+      "endOffset": 194,
+      "context": "- Diễn biến hành vi phạm tội (hành vi của bị can; ngày, giờ, tháng, năm; địa điểm; thủ đoạn; động cơ, mục đích; tính chất, mức độ thiệt hại do hành vi phạm tội gây ra; nguyên nhân, điều kiện ... )"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..................................................................................................................................."
+      "raw": "...................................................................................................................................",
+      "blockId": "P0067",
+      "tableCellId": null,
+      "startOffset": 2,
+      "endOffset": 133,
+      "context": "- ..................................................................................................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................."
+      "raw": ".............................................................",
+      "blockId": "P0078",
+      "tableCellId": null,
+      "startOffset": 47,
+      "endOffset": 108,
+      "context": "Tiền sự (chỉ ghi tiền sự còn thời hạn xem xét):............................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................................................................................................................."
+      "raw": ".............................................................................................................................................",
+      "blockId": "P0079",
+      "tableCellId": null,
+      "startOffset": 162,
+      "endOffset": 303,
+      "context": "Tiền án: ghi rõ ngày xét xử, Toà án xét xử, tội danh, điểm, khoản, Điều Bộ luật Hình sự, hình phạt (các thông tin về việc thi hành bản án, quyết định của Tòa án) ......................................"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0085",
+      "tableCellId": null,
+      "startOffset": 9,
+      "endOffset": 12,
+      "context": "+ Bị can ... phạm tội gì, theo quy định tại điểm, khoản, điều nào của Bộ luật Hình sự (lưu ý trích dẫn tên điều luật)."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0105",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 13...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..........."
+      "raw": "...........",
+      "blockId": "P0108",
+      "tableCellId": null,
+      "startOffset": 2,
+      "endOffset": 13,
+      "context": "- ...........;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "............................................."
+      "raw": ".............................................",
+      "blockId": "P0110",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 45,
+      "context": "............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.961Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/156-Cáo trạng.doc",
+    "sha256": "ef438a40e567ed9d6504771efeb1a57e2c1d75b22c4bea3ead13dba6d039d166",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/156-Cáo trạng.doc",
+    "sha256": "ef438a40e567ed9d6504771efeb1a57e2c1d75b22c4bea3ead13dba6d039d166",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.568Z"
 }

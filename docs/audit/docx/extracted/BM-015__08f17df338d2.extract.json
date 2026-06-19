@@ -718,12 +718,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0032",
+      "tableCellId": null,
+      "startOffset": 23,
+      "endOffset": 27,
+      "context": "- Số kiến nghị khởi tố:...."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.870Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/15-KH trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "08f17df338d2fb9b80c5064b2478e90f279104cdbe1ce7b90a303e6b584201af",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/15-KH trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "08f17df338d2fb9b80c5064b2478e90f279104cdbe1ce7b90a303e6b584201af",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.411Z"
 }

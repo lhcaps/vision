@@ -466,64 +466,97 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... là người chứng kiến."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": ".........."
+      "raw": "..........",
+      "blockId": "P0021",
+      "tableCellId": null,
+      "startOffset": 74,
+      "endOffset": 84,
+      "context": "Bị can/người đủ 18 tuổi trở lên trong gia đình/người đại diện của bị can: ..........;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "......................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "................................................"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "............"
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "..................."
-    },
-    {
-      "kind": "ellipsis-dots",
-      "raw": "....."
+      "raw": "......................................................................................",
+      "blockId": "P0030",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 86,
+      "context": "...................................................................................... Giới tính:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày ............ tháng ............ năm ......................"
+      "raw": "ngày ............ tháng ............ năm ......................",
+      "blockId": "P0032",
+      "tableCellId": null,
+      "startOffset": 5,
+      "endOffset": 68,
+      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 11,
+      "endOffset": 59,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "...................",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 69,
+      "endOffset": 88,
+      "context": "Quốc tịch: ................................................; Dân tộc:...................; Tôn giáo:"
     },
     {
       "kind": "vn-date-line",
-      "raw": "ngày............ tháng ............ năm ..................."
+      "raw": "ngày............ tháng ............ năm ...................",
+      "blockId": "P0036",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 63,
+      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".....",
+      "blockId": "P0042",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 5,
+      "context": "....."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.903Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/65. BB về việc thi hành Quyết định hủy bỏ Lệnh kê biên tài sản.doc",
+    "sha256": "4a64c8d7e96c8c3f5d42faee2fd02080ea907a97035ad2000824ac073121c1f0",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/65. BB về việc thi hành Quyết định hủy bỏ Lệnh kê biên tài sản.doc",
+    "sha256": "4a64c8d7e96c8c3f5d42faee2fd02080ea907a97035ad2000824ac073121c1f0",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.466Z"
 }

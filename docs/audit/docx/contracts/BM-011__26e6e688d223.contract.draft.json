@@ -13,10 +13,16 @@
     "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/11-QĐ huỷ bỏ QĐ tạm đình chỉ việc giải quyết nguồn tin về tội phạm.doc",
     "format": "doc"
   },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/11-QĐ huỷ bỏ QĐ tạm đình chỉ việc giải quyết nguồn tin về tội phạm.doc",
+    "sha256": "26e6e688d2236c41393a05c04026f5e5e06cf3822b8a0f4dccf5d055f31f55ea",
+    "format": "doc"
+  },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "location": {
         "partName": "WordDocument",
         "blockId": "P0002",
@@ -37,18 +43,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
+      "slotId": "legalBasis.field2",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0020",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "... là không có căn cứ,",
+      "label": "Ô trống dạng \"...\" (legalBasis)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "legalBasis",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -58,13 +64,13 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0026",
         "tableCellId": null
       },
-      "context": ".................................................",
+      "context": "của7....",
       "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
@@ -79,18 +85,18 @@
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
+      "slotId": "case.field4",
       "location": {
         "partName": "WordDocument",
-        "blockId": "P0002",
+        "blockId": "P0027",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Điều 2. Yêu cầu7... tiếp tục giải quyết nguồn tin về tội phạm5 theo quy định của Bộ luật Tố tụng hình sự",
+      "label": "Ô trống dạng \"...\" (case)",
       "slotType": "text",
       "required": false,
       "confidence": 0.4,
-      "suggestedNamespace": "document",
+      "suggestedNamespace": "case",
       "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
@@ -112,13 +118,13 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "legalBasis.field2",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (legalBasis)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "legalBasis",
       "reviewRequired": true
     },
     {
@@ -132,41 +138,41 @@
       "reviewRequired": true
     },
     {
-      "path": "document.field4",
+      "path": "case.field4",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Trường cần điền (case)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "case",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.blank1",
+      "slotId": "document.field1",
       "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank2",
-      "from": "document.field2",
+      "slotId": "legalBasis.field2",
+      "from": "legalBasis.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank3",
+      "slotId": "document.field3",
       "from": "document.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.blank4",
-      "from": "document.field4",
+      "slotId": "case.field4",
+      "from": "case.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -177,5 +183,41 @@
   "warnings": [
     "Clx parse error: Unknown Clxt tag 181 at 0"
   ],
-  "generatedAt": "2026-06-19T01:19:41.283Z"
+  "productMetadata": {
+    "stage": {
+      "code": "01",
+      "label": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": true
+    },
+    "formNumber": "011/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": true
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": true
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": true
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": true
+  },
+  "generatedAt": "2026-06-19T07:36:36.929Z"
 }

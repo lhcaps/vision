@@ -322,20 +322,52 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0029",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.877Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/26-QĐ huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "6e339663e320de40f57f344e9a81e169fcbd938af8f0ad737ee0cf5ce64ef271",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/26-QĐ huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "6e339663e320de40f57f344e9a81e169fcbd938af8f0ad737ee0cf5ce64ef271",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.423Z"
 }

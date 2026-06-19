@@ -280,12 +280,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0015",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 3,
+      "context": "... biết:"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.992Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
+    "sha256": "d340f628394e30896b4e5739aa6b1c714969cc0238e423f149b8b3621b9f320c",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
+    "sha256": "d340f628394e30896b4e5739aa6b1c714969cc0238e423f149b8b3621b9f320c",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.622Z"
 }

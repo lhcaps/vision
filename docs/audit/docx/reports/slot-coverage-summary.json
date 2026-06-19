@@ -1,13 +1,16 @@
 {
-  "generatedAt": "2026-06-19T01:19:41.698Z",
+  "generatedAt": "2026-06-19T07:37:09.086Z",
   "summary": {
-    "totalSlots": 2102,
-    "totalBound": 2102,
-    "totalUnknown": 1624,
-    "totalReview": 5828,
+    "totalSlots": 1802,
+    "totalBound": 1802,
+    "totalUnknown": 1526,
+    "totalReview": 5130,
     "totalMissingBinding": 0,
     "totalLocked": 0,
     "totalDraft": 214,
+    "totalStructuralIssues": 0,
+    "totalStructuralWarnings": 0,
+    "totalContractWarnings": 208,
     "totalIssues": 0,
     "totalWarnings": 0,
     "lockedInvalid": 0
@@ -16,42 +19,46 @@
     {
       "code": "BM-001",
       "status": "draft",
-      "slots": 31,
-      "bindings": 31,
-      "unknownSources": 24,
-      "reviewRequired": 86,
+      "slots": 28,
+      "bindings": 28,
+      "unknownSources": 28,
+      "reviewRequired": 84,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-002",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 32,
+      "bindings": 32,
+      "unknownSources": 29,
+      "reviewRequired": 93,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-003",
       "status": "draft",
-      "slots": 8,
-      "bindings": 8,
-      "unknownSources": 8,
-      "reviewRequired": 24,
+      "slots": 10,
+      "bindings": 10,
+      "unknownSources": 10,
+      "reviewRequired": 30,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-004",
       "status": "draft",
-      "slots": 7,
-      "bindings": 7,
-      "unknownSources": 7,
-      "reviewRequired": 21,
+      "slots": 50,
+      "bindings": 50,
+      "unknownSources": 46,
+      "reviewRequired": 146,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-005",
@@ -61,7 +68,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-006",
@@ -71,7 +81,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-007",
@@ -81,7 +94,10 @@
       "unknownSources": 8,
       "reviewRequired": 24,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-008",
@@ -91,7 +107,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-009",
@@ -101,7 +120,10 @@
       "unknownSources": 12,
       "reviewRequired": 36,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 108 at 0"
+      ]
     },
     {
       "code": "BM-010",
@@ -111,7 +133,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 28 at 0"
+      ]
     },
     {
       "code": "BM-011",
@@ -121,7 +146,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 181 at 0"
+      ]
     },
     {
       "code": "BM-012",
@@ -131,7 +159,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 7 at 0"
+      ]
     },
     {
       "code": "BM-013",
@@ -141,7 +172,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 151 at 0"
+      ]
     },
     {
       "code": "BM-014",
@@ -151,7 +185,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-015",
@@ -161,7 +198,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 105 at 0"
+      ]
     },
     {
       "code": "BM-016",
@@ -171,7 +211,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-017",
@@ -181,7 +224,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 214 at 0"
+      ]
     },
     {
       "code": "BM-018",
@@ -191,7 +237,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-019",
@@ -201,7 +250,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 73 at 0"
+      ]
     },
     {
       "code": "BM-020",
@@ -211,7 +263,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 64 at 0"
+      ]
     },
     {
       "code": "BM-021",
@@ -221,7 +276,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-022",
@@ -231,7 +289,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-023",
@@ -241,7 +302,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-024",
@@ -251,7 +315,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 180 at 0"
+      ]
     },
     {
       "code": "BM-025",
@@ -261,7 +328,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-026",
@@ -271,7 +341,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-027",
@@ -281,7 +354,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 26 at 0"
+      ]
     },
     {
       "code": "BM-028",
@@ -291,7 +367,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 3 at 0"
+      ]
     },
     {
       "code": "BM-029",
@@ -301,7 +380,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-030",
@@ -311,7 +393,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 60 at 0"
+      ]
     },
     {
       "code": "BM-031",
@@ -321,7 +406,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-032",
@@ -331,7 +419,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 43 at 0"
+      ]
     },
     {
       "code": "BM-033",
@@ -341,7 +432,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-034",
@@ -351,7 +445,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 132 at 0"
+      ]
     },
     {
       "code": "BM-035",
@@ -361,17 +458,23 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-036",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 74 at 0"
+      ]
     },
     {
       "code": "BM-037",
@@ -381,7 +484,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 20 at 0"
+      ]
     },
     {
       "code": "BM-038",
@@ -391,17 +497,23 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-039",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 26 at 0"
+      ]
     },
     {
       "code": "BM-040",
@@ -411,7 +523,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-041",
@@ -421,7 +536,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-042",
@@ -431,7 +549,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-043",
@@ -441,7 +562,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 30 at 0"
+      ]
     },
     {
       "code": "BM-044",
@@ -451,7 +575,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 20 at 0"
+      ]
     },
     {
       "code": "BM-045",
@@ -461,7 +588,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 16 at 0"
+      ]
     },
     {
       "code": "BM-046",
@@ -471,27 +601,36 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-047",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-048",
       "status": "draft",
-      "slots": 18,
-      "bindings": 18,
-      "unknownSources": 11,
-      "reviewRequired": 47,
+      "slots": 12,
+      "bindings": 12,
+      "unknownSources": 8,
+      "reviewRequired": 32,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 20 at 0"
+      ]
     },
     {
       "code": "BM-049",
@@ -501,7 +640,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 20 at 0"
+      ]
     },
     {
       "code": "BM-050",
@@ -511,7 +653,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-051",
@@ -521,127 +666,166 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 14 at 0"
+      ]
     },
     {
       "code": "BM-052",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 33 at 0"
+      ]
     },
     {
       "code": "BM-053",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 112 at 0"
+      ]
     },
     {
       "code": "BM-054",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 255 at 0"
+      ]
     },
     {
       "code": "BM-055",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 84 at 0"
+      ]
     },
     {
       "code": "BM-056",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 92 at 0"
+      ]
     },
     {
       "code": "BM-057",
       "status": "draft",
-      "slots": 21,
-      "bindings": 21,
-      "unknownSources": 14,
-      "reviewRequired": 56,
+      "slots": 15,
+      "bindings": 15,
+      "unknownSources": 11,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 16 at 0"
+      ]
     },
     {
       "code": "BM-058",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-059",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 174 at 0"
+      ]
     },
     {
       "code": "BM-060",
       "status": "draft",
-      "slots": 26,
-      "bindings": 26,
-      "unknownSources": 17,
-      "reviewRequired": 69,
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 15,
+      "reviewRequired": 55,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 16 at 0"
+      ]
     },
     {
       "code": "BM-061",
       "status": "draft",
-      "slots": 18,
-      "bindings": 18,
-      "unknownSources": 11,
-      "reviewRequired": 47,
+      "slots": 12,
+      "bindings": 12,
+      "unknownSources": 8,
+      "reviewRequired": 32,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 102 at 0"
+      ]
     },
     {
       "code": "BM-062",
       "status": "draft",
-      "slots": 27,
-      "bindings": 27,
-      "unknownSources": 20,
-      "reviewRequired": 74,
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 17,
+      "reviewRequired": 59,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-063",
       "status": "draft",
-      "slots": 27,
-      "bindings": 27,
-      "unknownSources": 20,
-      "reviewRequired": 74,
+      "slots": 21,
+      "bindings": 21,
+      "unknownSources": 17,
+      "reviewRequired": 59,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-064",
@@ -651,57 +835,75 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-065",
       "status": "draft",
-      "slots": 21,
-      "bindings": 21,
-      "unknownSources": 14,
-      "reviewRequired": 56,
+      "slots": 15,
+      "bindings": 15,
+      "unknownSources": 11,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-066",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 117 at 0"
+      ]
     },
     {
       "code": "BM-067",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-068",
       "status": "draft",
-      "slots": 31,
-      "bindings": 31,
-      "unknownSources": 24,
-      "reviewRequired": 86,
+      "slots": 25,
+      "bindings": 25,
+      "unknownSources": 21,
+      "reviewRequired": 71,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-069",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-070",
@@ -711,7 +913,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-071",
@@ -721,7 +926,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 66 at 0"
+      ]
     },
     {
       "code": "BM-072",
@@ -731,7 +939,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-073",
@@ -741,7 +952,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 12 at 0"
+      ]
     },
     {
       "code": "BM-074",
@@ -751,7 +965,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 97 at 0"
+      ]
     },
     {
       "code": "BM-075",
@@ -761,7 +978,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-076",
@@ -771,7 +991,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-077",
@@ -781,17 +1004,23 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 72 at 0"
+      ]
     },
     {
       "code": "BM-078",
       "status": "draft",
-      "slots": 17,
-      "bindings": 17,
-      "unknownSources": 10,
-      "reviewRequired": 44,
+      "slots": 11,
+      "bindings": 11,
+      "unknownSources": 7,
+      "reviewRequired": 29,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-079",
@@ -801,17 +1030,23 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-080",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 93 at 0"
+      ]
     },
     {
       "code": "BM-081",
@@ -821,7 +1056,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-082",
@@ -831,7 +1069,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-083",
@@ -841,7 +1082,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-084",
@@ -851,7 +1095,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-085",
@@ -861,7 +1108,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-086",
@@ -871,7 +1121,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 35 at 0"
+      ]
     },
     {
       "code": "BM-087",
@@ -881,7 +1134,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-088",
@@ -891,7 +1147,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: The value of \"offset\" is out of range. It must be >= 0 and <= 32. Received 33"
+      ]
     },
     {
       "code": "BM-089",
@@ -901,7 +1160,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-090",
@@ -911,7 +1173,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 24 at 0"
+      ]
     },
     {
       "code": "BM-091",
@@ -921,7 +1186,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-092",
@@ -931,7 +1199,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-093",
@@ -941,7 +1212,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 129 at 0"
+      ]
     },
     {
       "code": "BM-094",
@@ -951,7 +1225,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 81 at 0"
+      ]
     },
     {
       "code": "BM-095",
@@ -961,27 +1238,36 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 23 at 0"
+      ]
     },
     {
       "code": "BM-096",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-097",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-098",
@@ -991,7 +1277,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 74 at 0"
+      ]
     },
     {
       "code": "BM-099",
@@ -1001,7 +1290,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 15 at 0"
+      ]
     },
     {
       "code": "BM-100",
@@ -1011,7 +1303,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-101",
@@ -1021,7 +1316,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-102",
@@ -1031,7 +1329,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-103",
@@ -1041,7 +1342,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 52 at 0"
+      ]
     },
     {
       "code": "BM-104",
@@ -1051,7 +1355,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 62 at 0"
+      ]
     },
     {
       "code": "BM-105",
@@ -1061,17 +1368,23 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 93 at 0"
+      ]
     },
     {
       "code": "BM-106",
       "status": "draft",
-      "slots": 18,
-      "bindings": 18,
-      "unknownSources": 11,
-      "reviewRequired": 47,
+      "slots": 12,
+      "bindings": 12,
+      "unknownSources": 8,
+      "reviewRequired": 32,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse fail (fcClx/lcbClx không hợp lệ)"
+      ]
     },
     {
       "code": "BM-107",
@@ -1081,7 +1394,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 129 at 0"
+      ]
     },
     {
       "code": "BM-108",
@@ -1091,7 +1407,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 79 at 0"
+      ]
     },
     {
       "code": "BM-109",
@@ -1101,7 +1420,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 79 at 0"
+      ]
     },
     {
       "code": "BM-110",
@@ -1111,7 +1433,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 26 at 0"
+      ]
     },
     {
       "code": "BM-111",
@@ -1121,7 +1446,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-112",
@@ -1131,7 +1459,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 81 at 0"
+      ]
     },
     {
       "code": "BM-113",
@@ -1141,7 +1472,10 @@
       "unknownSources": 7,
       "reviewRequired": 21,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-114",
@@ -1151,7 +1485,10 @@
       "unknownSources": 7,
       "reviewRequired": 21,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-115",
@@ -1161,7 +1498,10 @@
       "unknownSources": 7,
       "reviewRequired": 21,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-116",
@@ -1171,27 +1511,36 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 154 at 0"
+      ]
     },
     {
       "code": "BM-117",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-118",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-119",
@@ -1201,7 +1550,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-120",
@@ -1211,7 +1563,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 17 at 0"
+      ]
     },
     {
       "code": "BM-121",
@@ -1221,7 +1576,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-122",
@@ -1231,7 +1589,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-123",
@@ -1241,7 +1602,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-124",
@@ -1251,7 +1615,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 74 at 0"
+      ]
     },
     {
       "code": "BM-125",
@@ -1261,7 +1628,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 36 at 0"
+      ]
     },
     {
       "code": "BM-126",
@@ -1271,7 +1641,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-127",
@@ -1281,7 +1654,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-128",
@@ -1291,7 +1667,10 @@
       "unknownSources": 7,
       "reviewRequired": 21,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 36 at 0"
+      ]
     },
     {
       "code": "BM-129",
@@ -1301,7 +1680,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-130",
@@ -1311,7 +1693,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 20 at 0"
+      ]
     },
     {
       "code": "BM-131",
@@ -1321,7 +1706,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-132",
@@ -1331,7 +1719,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-133",
@@ -1341,47 +1732,62 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-134",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 13 at 0"
+      ]
     },
     {
       "code": "BM-135",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 38 at 0"
+      ]
     },
     {
       "code": "BM-136",
       "status": "draft",
-      "slots": 38,
-      "bindings": 38,
-      "unknownSources": 23,
-      "reviewRequired": 99,
+      "slots": 26,
+      "bindings": 26,
+      "unknownSources": 14,
+      "reviewRequired": 66,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 36 at 0"
+      ]
     },
     {
       "code": "BM-137",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 213 at 0"
+      ]
     },
     {
       "code": "BM-138",
@@ -1391,7 +1797,10 @@
       "unknownSources": 8,
       "reviewRequired": 24,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-139",
@@ -1401,7 +1810,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-139",
@@ -1411,7 +1823,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 89 at 0"
+      ]
     },
     {
       "code": "BM-140",
@@ -1421,7 +1836,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 96 at 0"
+      ]
     },
     {
       "code": "BM-141",
@@ -1431,7 +1849,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-142",
@@ -1441,7 +1862,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-143",
@@ -1451,7 +1875,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 23 at 0"
+      ]
     },
     {
       "code": "BM-144",
@@ -1461,7 +1888,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-145",
@@ -1471,7 +1901,10 @@
       "unknownSources": 10,
       "reviewRequired": 30,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-146",
@@ -1481,7 +1914,10 @@
       "unknownSources": 9,
       "reviewRequired": 27,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-147",
@@ -1491,17 +1927,23 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 79 at 0"
+      ]
     },
     {
       "code": "BM-148",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-149",
@@ -1511,7 +1953,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 16 at 0"
+      ]
     },
     {
       "code": "BM-150",
@@ -1521,7 +1966,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-151",
@@ -1531,17 +1979,23 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 79 at 0"
+      ]
     },
     {
       "code": "BM-152",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-153",
@@ -1551,7 +2005,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 246 at 0"
+      ]
     },
     {
       "code": "BM-154",
@@ -1561,17 +2018,23 @@
       "unknownSources": 7,
       "reviewRequired": 21,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-155",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 116 at 0"
+      ]
     },
     {
       "code": "BM-156",
@@ -1581,7 +2044,10 @@
       "unknownSources": 11,
       "reviewRequired": 33,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 32 at 0"
+      ]
     },
     {
       "code": "BM-157",
@@ -1591,17 +2057,21 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse fail (fcClx/lcbClx không hợp lệ)"
+      ]
     },
     {
       "code": "BM-158",
       "status": "draft",
-      "slots": 2,
-      "bindings": 2,
-      "unknownSources": 1,
-      "reviewRequired": 5,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 13,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-159",
@@ -1611,7 +2081,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-160",
@@ -1621,17 +2094,23 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 75 at 0"
+      ]
     },
     {
       "code": "BM-161",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 8 at 0"
+      ]
     },
     {
       "code": "BM-162",
@@ -1641,7 +2120,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-163",
@@ -1651,17 +2133,23 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 160 at 0"
+      ]
     },
     {
       "code": "BM-164",
       "status": "draft",
-      "slots": 21,
-      "bindings": 21,
-      "unknownSources": 14,
-      "reviewRequired": 56,
+      "slots": 15,
+      "bindings": 15,
+      "unknownSources": 11,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-165",
@@ -1671,7 +2159,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 116 at 0"
+      ]
     },
     {
       "code": "BM-166",
@@ -1681,17 +2172,21 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 246 at 0"
+      ]
     },
     {
       "code": "BM-167",
       "status": "draft",
-      "slots": 5,
-      "bindings": 5,
-      "unknownSources": 1,
-      "reviewRequired": 11,
+      "slots": 33,
+      "bindings": 33,
+      "unknownSources": 29,
+      "reviewRequired": 95,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": []
     },
     {
       "code": "BM-168",
@@ -1701,7 +2196,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: The value of \"offset\" is out of range. It must be >= 0 and <= 12. Received 13"
+      ]
     },
     {
       "code": "BM-169",
@@ -1711,7 +2209,10 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 81 at 0"
+      ]
     },
     {
       "code": "BM-170",
@@ -1721,27 +2222,36 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-171",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 72 at 0"
+      ]
     },
     {
       "code": "BM-172",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-173",
@@ -1751,17 +2261,23 @@
       "unknownSources": 6,
       "reviewRequired": 18,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-174",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-175",
@@ -1771,7 +2287,10 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 79 at 0"
+      ]
     },
     {
       "code": "BM-176",
@@ -1781,7 +2300,10 @@
       "unknownSources": 8,
       "reviewRequired": 24,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 74 at 0"
+      ]
     },
     {
       "code": "BM-177",
@@ -1791,7 +2313,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 126 at 0"
+      ]
     },
     {
       "code": "BM-178",
@@ -1801,27 +2326,36 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 158 at 0"
+      ]
     },
     {
       "code": "BM-179",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 162 at 0"
+      ]
     },
     {
       "code": "BM-180",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-181",
@@ -1831,7 +2365,10 @@
       "unknownSources": 5,
       "reviewRequired": 15,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-182",
@@ -1841,7 +2378,10 @@
       "unknownSources": 3,
       "reviewRequired": 9,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-183",
@@ -1851,17 +2391,23 @@
       "unknownSources": 8,
       "reviewRequired": 24,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-184",
       "status": "draft",
-      "slots": 28,
-      "bindings": 28,
-      "unknownSources": 21,
-      "reviewRequired": 77,
+      "slots": 22,
+      "bindings": 22,
+      "unknownSources": 18,
+      "reviewRequired": 62,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 72 at 0"
+      ]
     },
     {
       "code": "BM-185",
@@ -1871,87 +2417,114 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-186",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 147 at 0"
+      ]
     },
     {
       "code": "BM-187",
       "status": "draft",
-      "slots": 21,
-      "bindings": 21,
-      "unknownSources": 14,
-      "reviewRequired": 56,
+      "slots": 15,
+      "bindings": 15,
+      "unknownSources": 11,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-188",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-189",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-190",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
+      "slots": 17,
+      "bindings": 17,
       "unknownSources": 15,
-      "reviewRequired": 55,
+      "reviewRequired": 49,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-191",
       "status": "draft",
-      "slots": 26,
-      "bindings": 26,
-      "unknownSources": 19,
-      "reviewRequired": 71,
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 16,
+      "reviewRequired": 56,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 110 at 0"
+      ]
     },
     {
       "code": "BM-192",
       "status": "draft",
-      "slots": 25,
-      "bindings": 25,
-      "unknownSources": 18,
-      "reviewRequired": 68,
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 15,
+      "reviewRequired": 53,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 81 at 0"
+      ]
     },
     {
       "code": "BM-193",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 176 at 0"
+      ]
     },
     {
       "code": "BM-194",
@@ -1961,7 +2534,10 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 5 at 0"
+      ]
     },
     {
       "code": "BM-195",
@@ -1971,17 +2547,23 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-196",
       "status": "draft",
-      "slots": 26,
-      "bindings": 26,
-      "unknownSources": 19,
-      "reviewRequired": 71,
+      "slots": 20,
+      "bindings": 20,
+      "unknownSources": 16,
+      "reviewRequired": 56,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 46 at 0"
+      ]
     },
     {
       "code": "BM-197",
@@ -1991,7 +2573,10 @@
       "unknownSources": 1,
       "reviewRequired": 3,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-198",
@@ -2001,17 +2586,23 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-199",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-200",
@@ -2021,17 +2612,23 @@
       "unknownSources": 2,
       "reviewRequired": 6,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 73 at 0"
+      ]
     },
     {
       "code": "BM-201",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 104 at 0"
+      ]
     },
     {
       "code": "BM-202",
@@ -2041,117 +2638,153 @@
       "unknownSources": 4,
       "reviewRequired": 12,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 92 at 0"
+      ]
     },
     {
       "code": "BM-203",
       "status": "draft",
-      "slots": 25,
-      "bindings": 25,
-      "unknownSources": 18,
-      "reviewRequired": 68,
+      "slots": 19,
+      "bindings": 19,
+      "unknownSources": 15,
+      "reviewRequired": 53,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 61 at 0"
+      ]
     },
     {
       "code": "BM-204",
       "status": "draft",
-      "slots": 19,
-      "bindings": 19,
-      "unknownSources": 12,
-      "reviewRequired": 50,
+      "slots": 13,
+      "bindings": 13,
+      "unknownSources": 9,
+      "reviewRequired": 35,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 207 at 0"
+      ]
     },
     {
       "code": "BM-205",
       "status": "draft",
-      "slots": 21,
-      "bindings": 21,
-      "unknownSources": 14,
-      "reviewRequired": 56,
+      "slots": 15,
+      "bindings": 15,
+      "unknownSources": 11,
+      "reviewRequired": 41,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-206",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 74 at 0"
+      ]
     },
     {
       "code": "BM-207",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-208",
       "status": "draft",
-      "slots": 23,
-      "bindings": 23,
-      "unknownSources": 16,
-      "reviewRequired": 62,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 13,
+      "reviewRequired": 47,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 0 at 0"
+      ]
     },
     {
       "code": "BM-209",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 17,
-      "reviewRequired": 57,
+      "slots": 17,
+      "bindings": 17,
+      "unknownSources": 16,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 3 at 0"
+      ]
     },
     {
       "code": "BM-210",
       "status": "draft",
-      "slots": 22,
-      "bindings": 22,
-      "unknownSources": 15,
-      "reviewRequired": 59,
+      "slots": 16,
+      "bindings": 16,
+      "unknownSources": 12,
+      "reviewRequired": 44,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 116 at 0"
+      ]
     },
     {
       "code": "BM-211",
       "status": "draft",
-      "slots": 24,
-      "bindings": 24,
-      "unknownSources": 17,
-      "reviewRequired": 65,
+      "slots": 18,
+      "bindings": 18,
+      "unknownSources": 14,
+      "reviewRequired": 50,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 60 at 0"
+      ]
     },
     {
       "code": "BM-212",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 36 at 0"
+      ]
     },
     {
       "code": "BM-213",
       "status": "draft",
-      "slots": 20,
-      "bindings": 20,
-      "unknownSources": 13,
-      "reviewRequired": 53,
+      "slots": 14,
+      "bindings": 14,
+      "unknownSources": 10,
+      "reviewRequired": 38,
       "issues": [],
-      "warnings": []
+      "warnings": [],
+      "extractionContractWarnings": [
+        "Clx parse error: Unknown Clxt tag 3 at 0"
+      ]
     }
   ]
 }

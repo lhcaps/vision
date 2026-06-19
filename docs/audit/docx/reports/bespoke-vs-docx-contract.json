@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-19T01:19:42.065Z",
+  "generatedAt": "2026-06-19T07:39:34.645Z",
   "summary": {
     "totalBespoke": 213,
     "withContract": 213,
     "withoutContract": 0,
     "generic": 68,
-    "equivalentFields": 0,
-    "missingFields": 1686,
-    "extraFields": 1371,
+    "equivalentFields": 35,
+    "missingFields": 1486,
+    "extraFields": 1336,
     "geneViolations": 481
   },
   "rows": [
@@ -25,31 +25,34 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
-          "document.field7",
-          "document.field8",
-          "document.field9",
-          "receiver.field10",
-          "document.field11",
-          "receiver.field12",
-          "receiver.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "receiver.field25",
-          "document.field26",
-          "receiver.field27",
-          "document.field28",
-          "document.field29",
-          "document.issuePlace"
+          "document.issuePlaceDateLine",
+          "receiver.fullName",
+          "receiver.positionTitle",
+          "receiver.departmentName",
+          "informant.fullName",
+          "informant.genderLabel",
+          "informant.otherName",
+          "informant.birthDay",
+          "informant.birthMonth",
+          "informant.birthYear",
+          "informant.placeOfBirth",
+          "informant.nationality",
+          "informant.ethnicity",
+          "informant.religion",
+          "informant.occupation",
+          "informant.identityNo",
+          "informant.identityIssuedDay",
+          "informant.identityIssuedMonth",
+          "informant.identityIssuedYear",
+          "informant.identityIssuedPlace",
+          "informant.permanentAddress",
+          "informant.temporaryAddress",
+          "informant.currentAddress",
+          "informant.phone",
+          "informant.representedOrganization",
+          "informant.signerName",
+          "receiver.signerName",
+          "recipients.archiveLine"
         ]
       }
     },
@@ -104,14 +107,11 @@
       "usesGenericPanel": false,
       "comparison": {
         "kind": "compared",
-        "equivalent": [],
-        "extraSuspicious": [
+        "equivalent": [
           "agency.parentName",
           "agency.name",
           "agency.bodyName",
-          "agency.shortName",
           "receiver.name",
-          "sourceReport.receivedDate",
           "sourceReport.receivedDateLine",
           "sourceReport.content",
           "recipients.primaryLine",
@@ -119,7 +119,6 @@
           "reporter.fullName",
           "reporter.genderText",
           "reporter.otherName",
-          "reporter.birthDate",
           "reporter.birthDateLine",
           "reporter.birthPlace",
           "reporter.nationality",
@@ -127,7 +126,6 @@
           "reporter.religion",
           "reporter.occupation",
           "reporter.identityNumber",
-          "reporter.identityIssueDate",
           "reporter.identityIssueDateLine",
           "reporter.identityIssuePlace",
           "reporter.permanentResidence",
@@ -136,28 +134,18 @@
           "reporter.phoneNumber",
           "reporter.organizationRepresentative",
           "signature.positionTitle",
-          "signature.signerName",
+          "signature.signerName"
+        ],
+        "extraSuspicious": [
+          "agency.shortName",
+          "sourceReport.receivedDate",
+          "reporter.birthDate",
+          "reporter.identityIssueDate",
           "signature.signMode"
         ],
         "missing": [
-          "document.issueDate",
-          "document.field7",
-          "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "informant.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.documentCode",
+          "document.issuePlaceAndDateLine"
         ]
       }
     },
@@ -194,13 +182,9 @@
       "usesGenericPanel": false,
       "comparison": {
         "kind": "compared",
-        "equivalent": [],
-        "extraSuspicious": [
+        "equivalent": [
           "agency.parentName",
           "agency.name",
-          "agency.bodyName",
-          "agency.shortName",
-          "agency.issuePlace",
           "legalBasis.procedureArticlesLine",
           "recipients.primaryLine",
           "recipients.archiveLine",
@@ -208,15 +192,14 @@
           "signature.positionTitle",
           "signature.signerName"
         ],
+        "extraSuspicious": [
+          "agency.bodyName",
+          "agency.shortName",
+          "agency.issuePlace"
+        ],
         "missing": [
-          "document.field1",
-          "document.field2",
-          "document.field3",
-          "document.field4",
-          "document.field5",
-          "document.field6",
-          "document.field7",
-          "document.field8"
+          "document.documentCode",
+          "document.issuePlaceAndDateLine"
         ]
       }
     },
@@ -276,13 +259,52 @@
           "signature.positionTitle"
         ],
         "missing": [
-          "document.field1",
-          "document.field2",
-          "document.field3",
-          "document.field4",
-          "document.field5",
+          "document.issueDate",
           "document.field6",
-          "document.field7"
+          "document.field7",
+          "agency.field8",
+          "agency.field9",
+          "document.field10",
+          "document.field11",
+          "document.field12",
+          "document.field13",
+          "document.field14",
+          "document.field15",
+          "document.field16",
+          "document.field17",
+          "agency.field18",
+          "document.issuePlace",
+          "agency.field20",
+          "agency.field21",
+          "document.field22",
+          "document.field23",
+          "agency.field24",
+          "agency.field25",
+          "agency.field26",
+          "agency.field27",
+          "agency.field28",
+          "agency.field29",
+          "agency.field30",
+          "agency.field31",
+          "agency.field32",
+          "document.field33",
+          "document.field34",
+          "document.field35",
+          "document.field36",
+          "document.field37",
+          "document.field38",
+          "document.field39",
+          "document.field40",
+          "document.field41",
+          "document.field42",
+          "document.field43",
+          "document.field44",
+          "document.field45",
+          "document.field46",
+          "document.field47",
+          "document.field48",
+          "document.field49",
+          "document.field50"
         ]
       }
     },
@@ -323,8 +345,8 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3"
+          "agency.field2",
+          "agency.field3"
         ]
       }
     },
@@ -374,7 +396,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3"
+          "agency.field3"
         ]
       }
     },
@@ -427,11 +449,11 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4",
+          "agency.field4",
           "document.field5",
           "document.field6",
-          "document.field7",
-          "document.field8"
+          "agency.field7",
+          "agency.field8"
         ]
       }
     },
@@ -477,7 +499,7 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4"
+          "agency.field4"
         ]
       }
     },
@@ -528,7 +550,7 @@
           "document.field9",
           "document.field10",
           "document.field11",
-          "document.field12"
+          "decision.field12"
         ]
       }
     },
@@ -621,9 +643,9 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "legalBasis.field2",
           "document.field3",
-          "document.field4"
+          "case.field4"
         ]
       }
     },
@@ -667,7 +689,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -715,7 +737,7 @@
           "document.field2",
           "document.field3",
           "document.field4",
-          "document.field5"
+          "case.field5"
         ]
       }
     },
@@ -770,7 +792,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "receiver.field2",
           "document.field3",
           "document.field4",
           "document.field5"
@@ -923,7 +945,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "case.field2",
           "document.field3"
         ]
       }
@@ -1074,7 +1096,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3"
+          "case.field3"
         ]
       }
     },
@@ -1185,7 +1207,7 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4"
+          "decision.field4"
         ]
       }
     },
@@ -1209,10 +1231,10 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3",
+          "case.field3",
           "document.field4",
-          "document.field5",
-          "document.field6"
+          "legalBasis.field5",
+          "legalBasis.field6"
         ]
       }
     },
@@ -1269,8 +1291,8 @@
           "document.field2",
           "document.field3",
           "document.field4",
-          "document.field5",
-          "document.field6"
+          "legalBasis.field5",
+          "legalBasis.field6"
         ]
       }
     },
@@ -1786,9 +1808,9 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "legalBasis.field2",
           "document.field3",
-          "document.field4"
+          "decision.field4"
         ]
       }
     },
@@ -1841,23 +1863,19 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "decision.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
+          "informant.field11",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
           "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.field17"
         ]
       }
     },
@@ -2028,20 +2046,16 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
           "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "decision.field14"
         ]
       }
     },
@@ -2342,7 +2356,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -2402,7 +2416,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -2452,19 +2466,15 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
+          "document.field13"
         ]
       }
     },
@@ -2480,18 +2490,14 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11"
         ]
       }
     },
@@ -2558,19 +2564,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "informant.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12"
         ]
       }
     },
@@ -2596,22 +2598,18 @@
           "legalBasis.line5"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
+          "decision.field13",
           "document.field14",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.field16"
         ]
       }
     },
@@ -2633,19 +2631,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
+          "agency.field13"
         ]
       }
     },
@@ -2667,19 +2661,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
+          "document.issueDate",
+          "document.issuePlace",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "informant.field11",
+          "informant.field12"
         ]
       }
     },
@@ -2710,20 +2700,16 @@
           "agency.issuePlace"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "agency.field14"
         ]
       }
     },
@@ -2744,21 +2730,17 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "informant.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "document.field15"
         ]
       }
     },
@@ -2780,22 +2762,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
+          "agency.field9",
           "informant.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.field16"
         ]
       }
     },
@@ -2815,22 +2793,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
           "document.field14",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.field16"
         ]
       }
     },
@@ -2846,24 +2820,21 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
+          "document.dateCandidate",
           "document.field9",
           "document.field10",
-          "document.field11",
+          "decision.field11",
           "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field14",
+          "informant.field15",
           "document.field17",
           "document.field18",
           "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "document.issuePlace"
+          "document.field20"
         ]
       }
     },
@@ -2879,18 +2850,14 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11"
         ]
       }
     },
@@ -2906,27 +2873,23 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
-          "document.field9",
-          "document.field10",
+          "agency.field8",
+          "decision.field9",
+          "decision.field10",
           "informant.field11",
           "informant.field12",
           "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
           "document.field15",
-          "document.field16",
-          "document.field17",
+          "informant.field16",
+          "informant.field17",
           "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "document.field25",
-          "document.issuePlace"
+          "decision.field20",
+          "decision.field21"
         ]
       }
     },
@@ -2942,7 +2905,8 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
@@ -2951,18 +2915,13 @@
           "document.field12",
           "document.field13",
           "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field16",
+          "informant.field17",
+          "decision.field19",
           "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "document.field25",
-          "document.issuePlace"
+          "document.field21"
         ]
       }
     },
@@ -2979,9 +2938,9 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4"
+          "agency.field4"
         ]
       }
     },
@@ -2997,21 +2956,17 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "document.field15"
         ]
       }
     },
@@ -3027,23 +2982,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
+          "agency.field9",
           "document.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
+          "decision.field16",
+          "prosecutor.field17"
         ]
       }
     },
@@ -3059,19 +3010,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12"
         ]
       }
     },
@@ -3087,31 +3034,27 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
+          "agency.field9",
           "document.field10",
-          "document.field11",
+          "informant.field11",
           "informant.field12",
           "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "informant.field21",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field15",
+          "informant.field16",
+          "informant.field17",
+          "informant.field18",
+          "informant.field19",
+          "document.field21",
           "document.field22",
           "document.field23",
-          "document.field24",
-          "document.field25",
-          "document.field26",
-          "document.field27",
-          "document.field28",
-          "informant.field29",
-          "document.issuePlace"
+          "informant.field24",
+          "document.field25"
         ]
       }
     },
@@ -3127,23 +3070,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "decision.field15",
+          "decision.field16",
+          "document.field17"
         ]
       }
     },
@@ -3165,9 +3104,9 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3",
-          "document.field4"
+          "agency.field2",
+          "agency.field3",
+          "decision.field4"
         ]
       }
     },
@@ -3188,8 +3127,8 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3"
+          "agency.field2",
+          "receiver.field3"
         ]
       }
     },
@@ -3235,9 +3174,9 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3",
-          "document.field4",
-          "document.field5"
+          "agency.field3",
+          "receiver.field4",
+          "receiver.field5"
         ]
       }
     },
@@ -3299,10 +3238,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
-          "document.field5"
+          "case.field5"
         ]
       }
     },
@@ -3319,10 +3258,10 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
-          "document.field5",
+          "decision.field4",
+          "case.field5",
           "document.field6"
         ]
       }
@@ -3368,9 +3307,9 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
+          "case.field4",
           "document.field5"
         ]
       }
@@ -3388,7 +3327,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -3431,17 +3370,13 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.idDocument.issueDate",
+          "document.dateCandidate",
           "document.field7",
-          "document.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.issuePlace"
+          "agency.field8",
+          "document.issueDate",
+          "document.issuePlace",
+          "document.field11"
         ]
       }
     },
@@ -3458,7 +3393,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2"
+          "agency.field2"
         ]
       }
     },
@@ -3474,19 +3409,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.idDocument.issueDate",
+          "document.dateCandidate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
+          "document.issueDate",
+          "document.issuePlace",
           "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.field13"
         ]
       }
     },
@@ -3531,7 +3462,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -3549,7 +3480,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -3594,7 +3525,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -3641,7 +3572,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2"
+          "agency.field2"
         ]
       }
     },
@@ -3684,7 +3615,7 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4",
+          "case.field4",
           "document.field5",
           "document.field6"
         ]
@@ -3747,7 +3678,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -3792,7 +3723,7 @@
           "document.field2",
           "document.field3",
           "document.field4",
-          "document.field5"
+          "agency.field5"
         ]
       }
     },
@@ -3831,7 +3762,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2"
+          "legalBasis.field2"
         ]
       }
     },
@@ -3927,7 +3858,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "legalBasis.field2",
           "document.field3",
           "document.field4"
         ]
@@ -4126,24 +4057,20 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
           "informant.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
           "document.field15",
-          "document.field16",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -4162,24 +4089,20 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field14",
-          "document.field15",
           "document.field16",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -4496,8 +4419,8 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4",
-          "document.field5"
+          "case.field4",
+          "case.field5"
         ]
       }
     },
@@ -4540,18 +4463,14 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11"
         ]
       }
     },
@@ -4595,7 +4514,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -4633,7 +4552,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -4673,7 +4592,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -4713,7 +4632,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -4763,7 +4682,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5"
@@ -4814,7 +4733,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -4854,10 +4773,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
-          "document.field5",
+          "agency.field5",
           "document.field6",
           "document.field7"
         ]
@@ -4895,10 +4814,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
-          "document.field5",
+          "decision.field4",
+          "agency.field5",
           "document.field6",
           "document.field7"
         ]
@@ -4936,10 +4855,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
-          "document.field5",
+          "case.field4",
+          "agency.field5",
           "document.field6",
           "document.field7"
         ]
@@ -4991,7 +4910,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -5040,22 +4959,18 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
           "informant.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
+          "document.field16"
         ]
       }
     },
@@ -5100,22 +5015,18 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
           "informant.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
+          "document.field16"
         ]
       }
     },
@@ -5409,10 +5320,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
-          "document.field5",
+          "agency.field4",
+          "agency.field5",
           "document.field6"
         ]
       }
@@ -5466,7 +5377,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3"
+          "decision.field3"
         ]
       }
     },
@@ -5540,10 +5451,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
-          "document.field4",
-          "document.field5",
+          "decision.field4",
+          "agency.field5",
           "document.field6",
           "document.field7"
         ]
@@ -5650,7 +5561,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3",
+          "agency.field3",
           "document.field4"
         ]
       }
@@ -5690,7 +5601,7 @@
           "document.field2",
           "document.field3",
           "document.field4",
-          "document.field5"
+          "decision.field5"
         ]
       }
     },
@@ -5805,8 +5716,8 @@
           "document.field1",
           "document.field2",
           "document.field3",
-          "document.field4",
-          "document.field5"
+          "agency.field4",
+          "agency.field5"
         ]
       }
     },
@@ -5855,22 +5766,18 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
           "informant.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.field16"
         ]
       }
     },
@@ -5917,24 +5824,20 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "receiver.field8",
           "document.field9",
           "document.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
+          "informant.field12",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field14",
+          "informant.field15",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -5969,30 +5872,20 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field13",
           "informant.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field16",
+          "informant.field17",
           "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "informant.field24",
+          "informant.field20",
+          "informant.field22",
+          "informant.field23",
           "document.field25",
-          "document.field26",
-          "document.field27",
-          "document.field28",
-          "document.field29",
-          "document.field30",
-          "document.field31",
-          "document.field32",
-          "document.field33",
-          "document.field34",
-          "document.issuePlace"
+          "document.field26"
         ]
       }
     },
@@ -6017,23 +5910,19 @@
           "agency.name"
         ],
         "missing": [
-          "document.issueDate",
+          "document.dateCandidate",
+          "document.completedAt",
           "document.field7",
-          "document.field8",
+          "document.issueDate",
+          "document.issuePlace",
           "document.field9",
           "document.field10",
           "document.field11",
-          "document.field12",
           "document.field13",
           "document.field14",
           "document.field15",
           "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.field17"
         ]
       }
     },
@@ -6070,7 +5959,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3",
+          "case.field3",
           "document.field4",
           "document.field5",
           "document.field6",
@@ -6152,7 +6041,7 @@
           "document.field3",
           "document.field4",
           "document.field5",
-          "document.field6"
+          "case.field6"
         ]
       }
     },
@@ -6190,7 +6079,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -6318,7 +6207,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -6340,12 +6229,12 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
           "document.field6",
-          "document.field7",
+          "decision.field7",
           "document.field8",
           "document.field9",
           "document.field10"
@@ -6380,7 +6269,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -6431,8 +6320,8 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3",
+          "agency.field2",
+          "agency.field3",
           "document.field4"
         ]
       }
@@ -6454,20 +6343,16 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "decision.field14"
         ]
       }
     },
@@ -6511,7 +6396,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -6551,7 +6436,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -6596,7 +6481,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -6642,22 +6527,18 @@
           "recipients.line2"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "informant.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "decision.field20",
-          "document.issuePlace"
+          "decision.field16"
         ]
       }
     },
@@ -6701,7 +6582,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5"
@@ -6748,7 +6629,7 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -6796,24 +6677,20 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "informant.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field15",
           "document.field16",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -6862,13 +6739,13 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
           "document.field6",
           "document.field7",
-          "document.field8",
+          "legalBasis.field8",
           "document.field9",
           "document.field10",
           "document.field11"
@@ -6953,7 +6830,19 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate"
+          "document.issueDate",
+          "agency.field3",
+          "document.field4",
+          "document.field5",
+          "document.field6",
+          "document.field7",
+          "document.field8",
+          "document.field9",
+          "document.field10",
+          "document.field11",
+          "document.field12",
+          "document.field13",
+          "document.field14"
         ]
       }
     },
@@ -6997,10 +6886,10 @@
         ],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3",
+          "agency.field2",
+          "agency.field3",
           "document.field4",
-          "document.field5",
+          "agency.field5",
           "document.field6"
         ]
       }
@@ -7080,22 +6969,18 @@
           "signature.signerName"
         ],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "agency.field9",
-          "agency.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
+          "informant.field10",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
           "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "informant.field16"
         ]
       }
     },
@@ -7151,21 +7036,17 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "receiver.field8",
           "document.field9",
           "document.field10",
           "informant.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14"
         ]
       }
     },
@@ -7203,7 +7084,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -7221,7 +7102,35 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate"
+          "document.issueDate",
+          "agency.field6",
+          "agency.field7",
+          "document.field8",
+          "document.field9",
+          "document.field10",
+          "document.field11",
+          "document.field12",
+          "document.field13",
+          "document.field14",
+          "document.field15",
+          "document.field16",
+          "document.issuePlace",
+          "document.field18",
+          "document.field19",
+          "document.field20",
+          "agency.field21",
+          "agency.field22",
+          "agency.field23",
+          "document.field24",
+          "document.field25",
+          "document.field26",
+          "document.field27",
+          "document.field28",
+          "document.field29",
+          "document.field30",
+          "document.field31",
+          "document.field32",
+          "document.field33"
         ]
       }
     },
@@ -7250,7 +7159,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3"
+          "case.field3"
         ]
       }
     },
@@ -7275,7 +7184,7 @@
           "document.field2",
           "decision.field3",
           "document.field4",
-          "decision.field5",
+          "document.field5",
           "document.field6"
         ]
       }
@@ -7351,20 +7260,16 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "document.field14"
         ]
       }
     },
@@ -7385,19 +7290,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "document.dateCandidate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12"
         ]
       }
     },
@@ -7420,7 +7321,7 @@
         "missing": [
           "document.field1",
           "document.field2",
-          "document.field3",
+          "agency.field3",
           "document.field4",
           "document.field5",
           "document.field6"
@@ -7439,23 +7340,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
           "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.field17"
         ]
       }
     },
@@ -7472,7 +7369,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -7491,7 +7388,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
           "document.field5",
@@ -7514,7 +7411,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -7532,7 +7429,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -7550,20 +7447,16 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13"
         ]
       }
     },
@@ -7579,22 +7472,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
           "document.field11",
           "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field14",
+          "informant.field15"
         ]
       }
     },
@@ -7611,10 +7500,10 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4",
-          "document.field5"
+          "agency.field5"
         ]
       }
     },
@@ -7631,7 +7520,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3"
         ]
       }
@@ -7649,9 +7538,9 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
-          "document.field3",
-          "document.field4",
+          "agency.field2",
+          "legalBasis.field3",
+          "legalBasis.field4",
           "document.field5",
           "decision.field6",
           "document.field7",
@@ -7671,28 +7560,24 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
+          "decision.field11",
           "document.field12",
           "document.field13",
           "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field16",
+          "informant.field17",
           "document.field19",
-          "document.field20",
+          "informant.field20",
           "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "document.field25",
-          "document.field26",
-          "document.issuePlace"
+          "document.field22"
         ]
       }
     },
@@ -7725,23 +7610,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16",
+          "document.field17"
         ]
       }
     },
@@ -7757,21 +7638,17 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15"
         ]
       }
     },
@@ -7787,22 +7664,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "document.dateCandidate",
           "document.field7",
           "informant.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15",
+          "document.field16"
         ]
       }
     },
@@ -7818,22 +7691,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "informant.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15",
+          "document.field16"
         ]
       }
     },
@@ -7849,22 +7718,21 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field6",
           "informant.field7",
           "document.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
+          "informant.field12",
           "document.field13",
-          "informant.field14",
+          "document.field14",
           "document.field15",
           "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.field17"
         ]
       }
     },
@@ -7880,26 +7748,22 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16",
           "document.field17",
           "document.field18",
           "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.field24",
-          "document.issuePlace"
+          "document.field20"
         ]
       }
     },
@@ -7915,25 +7779,21 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16",
           "document.field17",
           "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.issuePlace"
+          "document.field19"
         ]
       }
     },
@@ -7949,24 +7809,20 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -8016,26 +7872,22 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16",
           "document.field17",
           "document.field18",
           "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "informant.field23",
-          "document.field24",
-          "document.issuePlace"
+          "document.field20"
         ]
       }
     },
@@ -8068,7 +7920,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -8086,22 +7938,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15",
+          "document.field16"
         ]
       }
     },
@@ -8134,22 +7982,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16"
         ]
       }
     },
@@ -8166,7 +8010,7 @@
         "extraSuspicious": [],
         "missing": [
           "document.field1",
-          "document.field2",
+          "agency.field2",
           "document.field3",
           "document.field4"
         ]
@@ -8184,25 +8028,21 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15",
           "document.field16",
           "document.field17",
           "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "document.field22",
-          "document.field23",
-          "document.issuePlace"
+          "document.field19"
         ]
       }
     },
@@ -8218,19 +8058,15 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12"
         ]
       }
     },
@@ -8246,21 +8082,17 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15"
         ]
       }
     },
@@ -8276,22 +8108,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "informant.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "informant.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field12",
+          "informant.field13",
+          "informant.field14",
+          "document.field16"
         ]
       }
     },
@@ -8307,23 +8135,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "informant.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "informant.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "informant.field21",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
+          "informant.field15",
+          "document.field17"
         ]
       }
     },
@@ -8339,23 +8163,19 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
           "informant.field10",
           "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "document.field15",
-          "document.field16",
-          "informant.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "informant.field21",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field13",
+          "informant.field14",
+          "informant.field15",
+          "document.field17"
         ]
       }
     },
@@ -8371,24 +8191,22 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.idDocument.issueDate",
           "document.field4",
-          "document.field5",
+          "agency.field5",
           "informant.field6",
           "document.field7",
           "document.field8",
           "document.field9",
           "document.field10",
-          "document.field11",
-          "document.field12",
+          "informant.field11",
+          "informant.field12",
           "informant.field13",
-          "document.field14",
+          "document.issueDate",
+          "document.issuePlace",
           "document.field15",
           "document.field16",
-          "document.field17",
-          "document.field18",
-          "informant.field19",
-          "document.issuePlace"
+          "document.field17"
         ]
       }
     },
@@ -8404,22 +8222,18 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "document.dateCandidate",
           "document.field7",
-          "document.field8",
+          "agency.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
           "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.issuePlace"
+          "document.field16"
         ]
       }
     },
@@ -8435,24 +8249,20 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13",
+          "document.field15",
           "document.field16",
           "document.field17",
-          "document.field18",
-          "document.field19",
-          "document.field20",
-          "document.field21",
-          "informant.field22",
-          "document.issuePlace"
+          "document.field18"
         ]
       }
     },
@@ -8468,20 +8278,16 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
-          "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "informant.field14",
-          "document.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field10",
+          "informant.field11",
+          "informant.field12",
+          "document.field14"
         ]
       }
     },
@@ -8497,20 +8303,16 @@
         "equivalent": [],
         "extraSuspicious": [],
         "missing": [
-          "document.issueDate",
+          "informant.birthDate",
+          "informant.idDocument.issueDate",
           "document.field7",
           "document.field8",
           "document.field9",
-          "document.field10",
-          "document.field11",
-          "document.field12",
-          "document.field13",
-          "document.field14",
-          "informant.field15",
-          "document.field16",
-          "document.field17",
-          "document.field18",
-          "document.issuePlace"
+          "document.issueDate",
+          "document.issuePlace",
+          "informant.field11",
+          "informant.field12",
+          "informant.field13"
         ]
       }
     }

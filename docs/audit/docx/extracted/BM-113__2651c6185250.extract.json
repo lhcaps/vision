@@ -502,32 +502,79 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "...."
+      "raw": "....",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 30,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "....."
+      "raw": ".....",
+      "blockId": "P0047",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 5,
+      "context": "....."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": ".................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0054",
+      "tableCellId": null,
+      "startOffset": 62,
+      "endOffset": 65,
+      "context": "gửi, thông báo Quyết định phục hồi điều tra cho Viện kiểm sát2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0057",
+      "tableCellId": null,
+      "startOffset": 3,
+      "endOffset": 6,
+      "context": "- 7...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..............................................."
+      "raw": "...............................................",
+      "blockId": "P0059",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 47,
+      "context": "..............................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.924Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/113-Yêu cầu phục hồi điều tra VAHS.doc",
+    "sha256": "2651c6185250e39588f42f012e442396f98c9750b0eb17d0f30904990dfcdb35",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/113-Yêu cầu phục hồi điều tra VAHS.doc",
+    "sha256": "2651c6185250e39588f42f012e442396f98c9750b0eb17d0f30904990dfcdb35",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.505Z"
 }

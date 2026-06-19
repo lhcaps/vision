@@ -1,6 +1,6 @@
 # BESPOKE vs DOCX Contract — Comparison Report
 
-Sinh lúc: 2026-06-19T01:19:42.064Z
+Sinh lúc: 2026-06-19T07:39:34.644Z
 
 ## Tổng quan
 
@@ -8,9 +8,9 @@ Sinh lúc: 2026-06-19T01:19:42.064Z
 - Có contract tương ứng: **213**
 - Không có contract: **0**
 - Dùng GenericTemplateFormInputsPanel (stub): **68**
-- Tổng field tương đương (slot coverage OK): **0**
-- Tổng field nghi ngờ thiếu trong BESPOKE: **1686**
-- Tổng field thừa/suspicious trong BESPOKE: **1371**
+- Tổng field tương đương (slot coverage OK): **35**
+- Tổng field nghi ngờ thiếu trong BESPOKE: **1486**
+- Tổng field thừa/suspicious trong BESPOKE: **1336**
 - Tổng UI gene violation: **481**
 
 ## UI Gene Violations (top 30)
@@ -54,45 +54,45 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 
 | BM | Missing fields |
 |---|---|
-| BM-001 | document.issueDate, document.field7, document.field8, document.field9, receiver.field10, document.field11, receiver.field12, receiver.field13, document.field14, document.field15 … |
-| BM-068 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, informant.field12, document.field13, document.field14, document.field15 … |
-| BM-136 | document.issueDate, document.field13, informant.field14, document.field15, document.field16, document.field17, document.field18, document.field19, document.field20, document.field21 … |
-| BM-184 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-062 | document.issueDate, document.field7, document.field8, document.field9, document.field10, informant.field11, informant.field12, document.field13, document.field14, document.field15 … |
-| BM-063 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-191 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-196 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-192 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-203 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, informant.field15 … |
-| BM-002 | document.issueDate, document.field7, informant.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-060 | document.issueDate, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15, document.field16, document.field17 … |
-| BM-096 | document.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-097 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-135 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-155 | document.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-193 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-209 | document.issueDate, document.field4, document.field5, informant.field6, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12 … |
-| BM-211 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, informant.field15 … |
-| BM-036 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-066 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-069 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-137 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-174 | document.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-186 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-207 | document.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-208 | document.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-053 | document.issueDate, document.field7, informant.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-058 | document.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
-| BM-059 | document.issueDate, document.field7, document.field8, informant.field9, document.field10, document.field11, document.field12, document.field13, document.field14, document.field15 … |
+| BM-004 | document.issueDate, document.field6, document.field7, agency.field8, agency.field9, document.field10, document.field11, document.field12, document.field13, document.field14 … |
+| BM-167 | document.issueDate, agency.field6, agency.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14 … |
+| BM-001 | document.issuePlaceDateLine, receiver.fullName, receiver.positionTitle, receiver.departmentName, informant.fullName, informant.genderLabel, informant.otherName, informant.birthDay, informant.birthMonth, informant.birthYear … |
+| BM-068 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, agency.field9, document.field10, informant.field11, informant.field12, document.field13, document.issueDate … |
+| BM-184 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, document.field10, decision.field11, document.field12, document.field13, document.field14 … |
+| BM-062 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, decision.field9, decision.field10, informant.field11, informant.field12, document.field13, document.issueDate … |
+| BM-063 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, document.field10, document.field11, document.field12, document.field13, document.field14 … |
+| BM-191 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-196 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-209 | informant.idDocument.issueDate, document.field4, agency.field5, informant.field6, document.field7, document.field8, document.field9, document.field10, informant.field11, informant.field12 … |
+| BM-060 | informant.birthDate, informant.idDocument.issueDate, document.dateCandidate, document.field9, document.field10, decision.field11, document.field12, document.issueDate, document.issuePlace, informant.field14 … |
+| BM-190 | informant.birthDate, informant.idDocument.issueDate, document.field6, informant.field7, document.field8, document.issueDate, document.issuePlace, informant.field10, informant.field11, informant.field12 … |
+| BM-192 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-203 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, document.issueDate, document.issuePlace, informant.field11, informant.field12, informant.field13 … |
+| BM-096 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, informant.field10, document.field11, document.issueDate, document.issuePlace, informant.field13 … |
+| BM-097 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-135 | informant.birthDate, informant.idDocument.issueDate, document.field7, receiver.field8, document.field9, document.field10, document.field11, informant.field12, document.issueDate, document.issuePlace … |
+| BM-136 | informant.birthDate, informant.idDocument.issueDate, document.field13, informant.field14, document.issueDate, document.issuePlace, informant.field16, informant.field17, document.field19, informant.field20 … |
+| BM-155 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, document.field9, informant.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-193 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-211 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, document.issueDate, document.issuePlace, informant.field11, informant.field12, informant.field13 … |
+| BM-036 | informant.birthDate, informant.idDocument.issueDate, document.field7, decision.field8, document.field9, document.field10, informant.field11, document.issueDate, document.issuePlace, informant.field13 … |
+| BM-066 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, agency.field9, document.field10, document.field11, document.issueDate, document.issuePlace, informant.field13 … |
+| BM-069 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, document.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-137 | document.dateCandidate, document.completedAt, document.field7, document.issueDate, document.issuePlace, document.field9, document.field10, document.field11, document.field13, document.field14 … |
+| BM-158 | document.issueDate, agency.field3, document.field4, document.field5, document.field6, document.field7, document.field8, document.field9, document.field10, document.field11 … |
+| BM-174 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, document.field9, document.field10, document.field11, document.issueDate, document.issuePlace, informant.field13 … |
+| BM-186 | informant.birthDate, informant.idDocument.issueDate, document.field7, document.field8, informant.field9, document.field10, document.issueDate, document.issuePlace, informant.field12, informant.field13 … |
+| BM-207 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, document.field9, informant.field10, document.field11, document.issueDate, document.issuePlace, informant.field13 … |
+| BM-208 | informant.birthDate, informant.idDocument.issueDate, document.field7, agency.field8, document.field9, informant.field10, document.field11, document.issueDate, document.issuePlace, informant.field13 … |
 
 ## Per-BM comparison
 
 | BM | Field count | Equivalent | Missing | Extra | Gene | Stub |
 |---|---:|---:|---:|---:|---:|:-:|
-| BM-001 | 0 | 0 | 25 | 0 | 1 | no |
-| BM-002 | 32 | 0 | 18 | 32 | 8 | no |
-| BM-003 | 11 | 0 | 8 | 11 | 11 | no |
-| BM-004 | 19 | 0 | 7 | 19 | 3 | no |
+| BM-001 | 0 | 0 | 28 | 0 | 1 | no |
+| BM-002 | 32 | 27 | 2 | 5 | 8 | no |
+| BM-003 | 11 | 8 | 2 | 3 | 11 | no |
+| BM-004 | 19 | 0 | 46 | 19 | 3 | no |
 | BM-005 | 9 | 0 | 3 | 9 | 3 | no |
 | BM-006 | 9 | 0 | 3 | 9 | 11 | no |
 | BM-007 | 10 | 0 | 8 | 10 | 11 | no |
@@ -124,10 +124,10 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-033 | 16 | 0 | 4 | 16 | 3 | no |
 | BM-034 | 16 | 0 | 3 | 16 | 2 | no |
 | BM-035 | 16 | 0 | 4 | 16 | 2 | no |
-| BM-036 | 16 | 0 | 17 | 16 | 2 | no |
+| BM-036 | 16 | 0 | 13 | 16 | 2 | no |
 | BM-037 | 17 | 0 | 4 | 17 | 3 | no |
 | BM-038 | 14 | 0 | 5 | 14 | 3 | no |
-| BM-039 | 18 | 0 | 14 | 18 | 3 | no |
+| BM-039 | 18 | 0 | 10 | 18 | 3 | no |
 | BM-040 | 1 | 0 | 5 | 1 | 3 | no |
 | BM-041 | 16 | 0 | 3 | 16 | 2 | no |
 | BM-042 | 17 | 0 | 4 | 17 | 3 | no |
@@ -135,29 +135,29 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-044 | 15 | 0 | 2 | 15 | 3 | no |
 | BM-045 | 15 | 0 | 3 | 15 | 3 | no |
 | BM-046 | 14 | 0 | 3 | 14 | 11 | no |
-| BM-047 | 13 | 0 | 13 | 13 | 4 | no |
-| BM-048 | 0 | 0 | 12 | 0 | 0 | yes |
+| BM-047 | 13 | 0 | 9 | 13 | 4 | no |
+| BM-048 | 0 | 0 | 8 | 0 | 0 | yes |
 | BM-049 | 0 | 0 | 1 | 0 | 0 | yes |
 | BM-050 | 0 | 0 | 2 | 0 | 0 | yes |
 | BM-051 | 0 | 0 | 3 | 0 | 0 | yes |
-| BM-052 | 0 | 0 | 13 | 0 | 0 | yes |
-| BM-053 | 3 | 0 | 16 | 3 | 1 | no |
-| BM-054 | 0 | 0 | 13 | 0 | 5 | no |
-| BM-055 | 0 | 0 | 13 | 0 | 5 | no |
-| BM-056 | 4 | 0 | 14 | 4 | 4 | no |
-| BM-057 | 0 | 0 | 15 | 0 | 4 | no |
-| BM-058 | 0 | 0 | 16 | 0 | 5 | no |
-| BM-059 | 0 | 0 | 16 | 0 | 3 | no |
-| BM-060 | 0 | 0 | 18 | 0 | 0 | yes |
-| BM-061 | 0 | 0 | 12 | 0 | 0 | yes |
-| BM-062 | 0 | 0 | 21 | 0 | 0 | yes |
-| BM-063 | 0 | 0 | 21 | 0 | 0 | yes |
+| BM-052 | 0 | 0 | 9 | 0 | 0 | yes |
+| BM-053 | 3 | 0 | 12 | 3 | 1 | no |
+| BM-054 | 0 | 0 | 9 | 0 | 5 | no |
+| BM-055 | 0 | 0 | 9 | 0 | 5 | no |
+| BM-056 | 4 | 0 | 10 | 4 | 4 | no |
+| BM-057 | 0 | 0 | 11 | 0 | 4 | no |
+| BM-058 | 0 | 0 | 12 | 0 | 5 | no |
+| BM-059 | 0 | 0 | 12 | 0 | 3 | no |
+| BM-060 | 0 | 0 | 15 | 0 | 0 | yes |
+| BM-061 | 0 | 0 | 8 | 0 | 0 | yes |
+| BM-062 | 0 | 0 | 17 | 0 | 0 | yes |
+| BM-063 | 0 | 0 | 17 | 0 | 0 | yes |
 | BM-064 | 0 | 0 | 4 | 0 | 0 | yes |
-| BM-065 | 0 | 0 | 15 | 0 | 0 | yes |
-| BM-066 | 0 | 0 | 17 | 0 | 0 | yes |
-| BM-067 | 0 | 0 | 13 | 0 | 0 | yes |
-| BM-068 | 0 | 0 | 25 | 0 | 0 | yes |
-| BM-069 | 0 | 0 | 17 | 0 | 0 | yes |
+| BM-065 | 0 | 0 | 11 | 0 | 0 | yes |
+| BM-066 | 0 | 0 | 13 | 0 | 0 | yes |
+| BM-067 | 0 | 0 | 9 | 0 | 0 | yes |
+| BM-068 | 0 | 0 | 21 | 0 | 0 | yes |
+| BM-069 | 0 | 0 | 13 | 0 | 0 | yes |
 | BM-070 | 0 | 0 | 4 | 0 | 4 | no |
 | BM-071 | 0 | 0 | 3 | 0 | 3 | no |
 | BM-072 | 11 | 0 | 5 | 11 | 3 | no |
@@ -166,9 +166,9 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-075 | 0 | 0 | 6 | 0 | 0 | yes |
 | BM-076 | 11 | 0 | 5 | 11 | 3 | no |
 | BM-077 | 0 | 0 | 3 | 0 | 0 | yes |
-| BM-078 | 10 | 0 | 11 | 10 | 3 | no |
+| BM-078 | 10 | 0 | 7 | 10 | 3 | no |
 | BM-079 | 0 | 0 | 2 | 0 | 0 | yes |
-| BM-080 | 0 | 0 | 13 | 0 | 0 | yes |
+| BM-080 | 0 | 0 | 9 | 0 | 0 | yes |
 | BM-081 | 11 | 0 | 3 | 11 | 3 | no |
 | BM-082 | 0 | 0 | 4 | 0 | 0 | yes |
 | BM-083 | 10 | 0 | 4 | 10 | 3 | no |
@@ -184,8 +184,8 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-093 | 8 | 0 | 4 | 8 | 2 | no |
 | BM-094 | 8 | 0 | 5 | 8 | 2 | no |
 | BM-095 | 8 | 0 | 4 | 8 | 2 | no |
-| BM-096 | 8 | 0 | 18 | 8 | 2 | no |
-| BM-097 | 0 | 0 | 18 | 0 | 2 | no |
+| BM-096 | 8 | 0 | 14 | 8 | 2 | no |
+| BM-097 | 0 | 0 | 14 | 0 | 2 | no |
 | BM-098 | 8 | 0 | 3 | 8 | 2 | no |
 | BM-099 | 7 | 0 | 2 | 7 | 3 | no |
 | BM-100 | 8 | 0 | 2 | 8 | 2 | no |
@@ -194,7 +194,7 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-103 | 7 | 0 | 3 | 7 | 2 | no |
 | BM-104 | 7 | 0 | 2 | 7 | 2 | no |
 | BM-105 | 13 | 0 | 5 | 13 | 2 | no |
-| BM-106 | 11 | 0 | 12 | 11 | 2 | no |
+| BM-106 | 11 | 0 | 8 | 11 | 2 | no |
 | BM-107 | 11 | 0 | 4 | 11 | 2 | no |
 | BM-108 | 7 | 0 | 6 | 7 | 2 | no |
 | BM-109 | 7 | 0 | 6 | 7 | 2 | no |
@@ -205,8 +205,8 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-114 | 7 | 0 | 7 | 7 | 2 | no |
 | BM-115 | 7 | 0 | 7 | 7 | 2 | no |
 | BM-116 | 14 | 0 | 4 | 14 | 2 | no |
-| BM-117 | 13 | 0 | 16 | 13 | 2 | no |
-| BM-118 | 12 | 0 | 16 | 12 | 2 | no |
+| BM-117 | 13 | 0 | 12 | 13 | 2 | no |
+| BM-118 | 12 | 0 | 12 | 12 | 2 | no |
 | BM-119 | 14 | 0 | 4 | 14 | 2 | no |
 | BM-120 | 14 | 0 | 2 | 14 | 2 | no |
 | BM-121 | 7 | 0 | 2 | 7 | 2 | no |
@@ -222,10 +222,10 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-131 | 7 | 0 | 5 | 7 | 2 | no |
 | BM-132 | 17 | 0 | 3 | 17 | 2 | no |
 | BM-133 | 17 | 0 | 5 | 17 | 2 | no |
-| BM-134 | 14 | 0 | 16 | 14 | 2 | no |
-| BM-135 | 13 | 0 | 18 | 13 | 2 | no |
-| BM-136 | 7 | 0 | 24 | 7 | 2 | no |
-| BM-137 | 2 | 0 | 17 | 2 | 2 | no |
+| BM-134 | 14 | 0 | 12 | 14 | 2 | no |
+| BM-135 | 13 | 0 | 14 | 13 | 2 | no |
+| BM-136 | 7 | 0 | 14 | 7 | 2 | no |
+| BM-137 | 2 | 0 | 13 | 2 | 2 | no |
 | BM-138 | 7 | 0 | 8 | 7 | 2 | no |
 | BM-139 | 7 | 0 | 5 | 7 | 2 | no |
 | BM-140 | 6 | 0 | 6 | 6 | 2 | no |
@@ -236,69 +236,69 @@ Cảnh báo: BESPOKE không cover field mà contract đề xuất.
 | BM-145 | 0 | 0 | 10 | 0 | 2 | no |
 | BM-146 | 5 | 0 | 9 | 5 | 2 | no |
 | BM-147 | 11 | 0 | 4 | 11 | 2 | no |
-| BM-148 | 0 | 0 | 14 | 0 | 4 | no |
+| BM-148 | 0 | 0 | 10 | 0 | 4 | no |
 | BM-149 | 11 | 0 | 6 | 11 | 2 | no |
 | BM-150 | 5 | 0 | 3 | 5 | 6 | no |
 | BM-151 | 11 | 0 | 3 | 11 | 2 | no |
-| BM-152 | 12 | 0 | 16 | 12 | 2 | no |
+| BM-152 | 12 | 0 | 12 | 12 | 2 | no |
 | BM-153 | 11 | 0 | 5 | 11 | 2 | no |
 | BM-154 | 11 | 0 | 7 | 11 | 2 | no |
-| BM-155 | 11 | 0 | 18 | 11 | 2 | no |
+| BM-155 | 11 | 0 | 14 | 11 | 2 | no |
 | BM-156 | 14 | 0 | 11 | 14 | 1 | no |
 | BM-157 | 10 | 0 | 1 | 10 | 3 | no |
-| BM-158 | 9 | 0 | 1 | 9 | 3 | no |
+| BM-158 | 9 | 0 | 13 | 9 | 3 | no |
 | BM-159 | 11 | 0 | 6 | 11 | 2 | no |
 | BM-160 | 9 | 0 | 2 | 9 | 2 | no |
-| BM-161 | 9 | 0 | 16 | 9 | 2 | no |
+| BM-161 | 9 | 0 | 12 | 9 | 2 | no |
 | BM-162 | 0 | 0 | 5 | 0 | 0 | yes |
 | BM-163 | 0 | 0 | 5 | 0 | 0 | yes |
-| BM-164 | 0 | 0 | 15 | 0 | 0 | yes |
+| BM-164 | 0 | 0 | 11 | 0 | 0 | yes |
 | BM-165 | 0 | 0 | 1 | 0 | 0 | yes |
 | BM-166 | 0 | 0 | 4 | 0 | 4 | no |
-| BM-167 | 0 | 0 | 1 | 0 | 0 | yes |
+| BM-167 | 0 | 0 | 29 | 0 | 0 | yes |
 | BM-168 | 3 | 0 | 3 | 3 | 2 | no |
 | BM-169 | 0 | 0 | 6 | 0 | 4 | no |
 | BM-170 | 11 | 0 | 3 | 11 | 11 | no |
-| BM-171 | 0 | 0 | 14 | 0 | 4 | no |
-| BM-172 | 0 | 0 | 13 | 0 | 4 | no |
+| BM-171 | 0 | 0 | 10 | 0 | 4 | no |
+| BM-172 | 0 | 0 | 9 | 0 | 4 | no |
 | BM-173 | 0 | 0 | 6 | 0 | 4 | no |
-| BM-174 | 0 | 0 | 17 | 0 | 0 | yes |
+| BM-174 | 0 | 0 | 13 | 0 | 0 | yes |
 | BM-175 | 0 | 0 | 4 | 0 | 0 | yes |
 | BM-176 | 0 | 0 | 8 | 0 | 0 | yes |
 | BM-177 | 0 | 0 | 3 | 0 | 0 | yes |
 | BM-178 | 0 | 0 | 4 | 0 | 0 | yes |
-| BM-179 | 0 | 0 | 14 | 0 | 0 | yes |
-| BM-180 | 0 | 0 | 16 | 0 | 0 | yes |
+| BM-179 | 0 | 0 | 10 | 0 | 0 | yes |
+| BM-180 | 0 | 0 | 12 | 0 | 0 | yes |
 | BM-181 | 0 | 0 | 5 | 0 | 0 | yes |
 | BM-182 | 0 | 0 | 3 | 0 | 0 | yes |
 | BM-183 | 0 | 0 | 8 | 0 | 0 | yes |
-| BM-184 | 0 | 0 | 22 | 0 | 0 | yes |
+| BM-184 | 0 | 0 | 18 | 0 | 0 | yes |
 | BM-185 | 0 | 0 | 2 | 0 | 0 | yes |
-| BM-186 | 0 | 0 | 17 | 0 | 0 | yes |
-| BM-187 | 0 | 0 | 15 | 0 | 0 | yes |
-| BM-188 | 0 | 0 | 16 | 0 | 0 | yes |
-| BM-189 | 0 | 0 | 16 | 0 | 0 | yes |
-| BM-190 | 0 | 0 | 16 | 0 | 0 | yes |
-| BM-191 | 0 | 0 | 20 | 0 | 0 | yes |
-| BM-192 | 0 | 0 | 19 | 0 | 0 | yes |
-| BM-193 | 0 | 0 | 18 | 0 | 0 | yes |
+| BM-186 | 0 | 0 | 13 | 0 | 0 | yes |
+| BM-187 | 0 | 0 | 11 | 0 | 0 | yes |
+| BM-188 | 0 | 0 | 12 | 0 | 0 | yes |
+| BM-189 | 0 | 0 | 12 | 0 | 0 | yes |
+| BM-190 | 0 | 0 | 15 | 0 | 0 | yes |
+| BM-191 | 0 | 0 | 16 | 0 | 0 | yes |
+| BM-192 | 0 | 0 | 15 | 0 | 0 | yes |
+| BM-193 | 0 | 0 | 14 | 0 | 0 | yes |
 | BM-194 | 0 | 0 | 2 | 0 | 0 | yes |
 | BM-195 | 0 | 0 | 2 | 0 | 0 | yes |
-| BM-196 | 0 | 0 | 20 | 0 | 0 | yes |
+| BM-196 | 0 | 0 | 16 | 0 | 0 | yes |
 | BM-197 | 0 | 0 | 1 | 0 | 0 | yes |
 | BM-198 | 0 | 0 | 4 | 0 | 0 | yes |
-| BM-199 | 0 | 0 | 16 | 0 | 0 | yes |
+| BM-199 | 0 | 0 | 12 | 0 | 0 | yes |
 | BM-200 | 0 | 0 | 2 | 0 | 0 | yes |
-| BM-201 | 0 | 0 | 16 | 0 | 0 | yes |
+| BM-201 | 0 | 0 | 12 | 0 | 0 | yes |
 | BM-202 | 0 | 0 | 4 | 0 | 0 | yes |
-| BM-203 | 0 | 0 | 19 | 0 | 0 | yes |
-| BM-204 | 0 | 0 | 13 | 0 | 0 | yes |
-| BM-205 | 0 | 0 | 15 | 0 | 0 | yes |
-| BM-206 | 0 | 0 | 16 | 0 | 0 | yes |
-| BM-207 | 0 | 0 | 17 | 0 | 0 | yes |
-| BM-208 | 0 | 0 | 17 | 0 | 0 | yes |
-| BM-209 | 0 | 0 | 18 | 0 | 0 | yes |
-| BM-210 | 0 | 0 | 16 | 0 | 0 | yes |
-| BM-211 | 0 | 0 | 18 | 0 | 0 | yes |
-| BM-212 | 0 | 0 | 14 | 0 | 0 | yes |
-| BM-213 | 0 | 0 | 14 | 0 | 0 | yes |
+| BM-203 | 0 | 0 | 15 | 0 | 0 | yes |
+| BM-204 | 0 | 0 | 9 | 0 | 0 | yes |
+| BM-205 | 0 | 0 | 11 | 0 | 0 | yes |
+| BM-206 | 0 | 0 | 12 | 0 | 0 | yes |
+| BM-207 | 0 | 0 | 13 | 0 | 0 | yes |
+| BM-208 | 0 | 0 | 13 | 0 | 0 | yes |
+| BM-209 | 0 | 0 | 16 | 0 | 0 | yes |
+| BM-210 | 0 | 0 | 12 | 0 | 0 | yes |
+| BM-211 | 0 | 0 | 14 | 0 | 0 | yes |
+| BM-212 | 0 | 0 | 10 | 0 | 0 | yes |
+| BM-213 | 0 | 0 | 10 | 0 | 0 | yes |

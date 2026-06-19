@@ -520,32 +520,79 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "......................................................."
+      "raw": ".......................................................",
+      "blockId": "P0055",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 55,
+      "context": ".......................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0058",
+      "tableCellId": null,
+      "startOffset": 61,
+      "endOffset": 64,
+      "context": "ra Quyết định phục hồi điều tra vụ án hình sự đối với bị can9... và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0060",
+      "tableCellId": null,
+      "startOffset": 91,
+      "endOffset": 94,
+      "context": "gửi, thông báo Quyết định phục hồi điều tra vụ án hình sự đối với bị can cho Viện kiểm sát2... và người tham gia tố tụng theo quy định tại khoản 2 Điều 235 của Bộ luật Tố tụng hình sự./."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0062",
+      "tableCellId": null,
+      "startOffset": 4,
+      "endOffset": 7,
+      "context": "- 10...;"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................"
+      "raw": "........................................",
+      "blockId": "P0064",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 40,
+      "context": "........................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.927Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/115-Yêu cầu phục hồi điều tra VAHS đối với bị can.doc",
+    "sha256": "94659bf760015bc8e7ab0e0ab00169e6bf44029e296ad62b237bf350a10f1504",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/115-Yêu cầu phục hồi điều tra VAHS đối với bị can.doc",
+    "sha256": "94659bf760015bc8e7ab0e0ab00169e6bf44029e296ad62b237bf350a10f1504",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.507Z"
 }

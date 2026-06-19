@@ -322,28 +322,70 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0020",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0022",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0031",
+      "tableCellId": null,
+      "startOffset": 19,
+      "endOffset": 22,
+      "context": "quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 25,
+      "endOffset": 28,
+      "context": "Bộ luật Hình sự sang tội ... quy định tại khoản ... Điều"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0033",
+      "tableCellId": null,
+      "startOffset": 48,
+      "endOffset": 51,
+      "context": "Bộ luật Hình sự sang tội ... quy định tại khoản ... Điều"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.876Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/24-QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "575a6d8e9173795f591dd3a1c78c75a1b5862637a848f64e808d17f2650c4f6e",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/24-QĐ thay đổi QĐ khởi tố vụ án hình sự.doc",
+    "sha256": "575a6d8e9173795f591dd3a1c78c75a1b5862637a848f64e808d17f2650c4f6e",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.421Z"
 }

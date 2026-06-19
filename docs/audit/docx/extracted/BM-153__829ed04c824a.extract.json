@@ -556,24 +556,61 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0012",
+      "tableCellId": null,
+      "startOffset": 26,
+      "endOffset": 29,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0048",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 11,
+      "context": "đối với9... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0059",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 11,
+      "context": "đối với9... về tội"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................"
+      "raw": "........................................................",
+      "blockId": "P0068",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 56,
+      "context": "........................................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.959Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/153-QĐ huỷ bỏ QĐ đình chỉ vụ án đối với bị can.doc",
+    "sha256": "829ed04c824a97620ecf5a1be4d40b2a5a154e8285cc09dcb3f9c847ee5b8df5",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/153-QĐ huỷ bỏ QĐ đình chỉ vụ án đối với bị can.doc",
+    "sha256": "829ed04c824a97620ecf5a1be4d40b2a5a154e8285cc09dcb3f9c847ee5b8df5",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.565Z"
 }

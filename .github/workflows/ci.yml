@@ -44,6 +44,12 @@ jobs:
       - name: Encoding audit
         run: pnpm audit:encoding
 
+      - name: DOCX contract tests
+        run: node --test test/docx-contract/*.test.mjs
+
+      - name: DOCX prelock guard (informational)
+        run: pnpm audit:docx:prelock || true
+
   docker-production-build:
     name: Docker production build
     runs-on: ubuntu-latest

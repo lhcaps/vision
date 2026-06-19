@@ -436,16 +436,43 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "..."
+      "raw": "...",
+      "blockId": "P0009",
+      "tableCellId": null,
+      "startOffset": 6,
+      "endOffset": 9,
+      "context": "năm 20..."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................................................................................."
+      "raw": ".................................................................................................................",
+      "blockId": "P0042",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 113,
+      "context": ".................................................................................................................,"
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................"
+      "raw": "........................................................",
+      "blockId": "P0045",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 56,
+      "context": "........................................................"
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.938Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/132-QĐ định giá lại tài sản trong trường hợp đặc biệt.doc",
+    "sha256": "670b47f0b235d8577d5105efd1cadb357f4fbe19414e735d036f6b4eeb90a33d",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/132-QĐ định giá lại tài sản trong trường hợp đặc biệt.doc",
+    "sha256": "670b47f0b235d8577d5105efd1cadb357f4fbe19414e735d036f6b4eeb90a33d",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.527Z"
 }

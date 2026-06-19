@@ -5,9 +5,19 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import PizZip from "pizzip";
 import { extractDocText } from "./lib/ole-doc-reader.mjs";
 import { deriveSourceId } from "./lib/source-id.mjs";
+import { detectBlanksInBlocks } from "./lib/blank-detector.mjs";
+
+const computeSha256Sync = (filePath) => {
+  try {
+    return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+  } catch {
+    return "unknown";
+  }
+};
 
 const ROOT = process.cwd();
 const SOURCE_DIR = path.join(
@@ -19,6 +29,17 @@ const SOURCE_DIR = path.join(
 );
 const INVENTORY = path.join(ROOT, "docs", "audit", "docx", "inventory", "docx-inventory.json");
 const OUT_DIR = path.join(ROOT, "docs", "audit", "docx", "extracted");
+const NORMALIZED_DOCX_ROOT = path.join(ROOT, "storage", "templates", "normalized-docx");
+
+// BM-001..BM-004 pilot codes that should prefer normalized DOCX when available.
+const NORMALIZED_PILOT_CODES = new Set(["BM-001", "BM-002", "BM-003", "BM-004"]);
+
+const resolveNormalizedDocx = (templateCode) => {
+  if (!templateCode || !NORMALIZED_PILOT_CODES.has(templateCode)) return null;
+  const normPath = path.join(NORMALIZED_DOCX_ROOT, templateCode, `${templateCode}_normalized.docx`);
+  if (fs.existsSync(normPath)) return normPath;
+  return null;
+};
 
 // Pattern cùng với inventory.
 const CODE_PATTERNS = [
@@ -226,8 +247,9 @@ const extractDocx = (buf) => {
     docPart.tableCount = tables.length;
   }
 
-  // Detect placeholders in document.xml.
+  // Detect placeholders and blanks using block-aware detection.
   const placeholders = detectPlaceholdersDocx(mainDoc);
+  const blankCandidates = detectBlanksInBlocks(paragraphs, tables);
 
   // Metadata
   let metadata = {};
@@ -257,6 +279,7 @@ const extractDocx = (buf) => {
     ),
     documentText: text["word/document.xml"] ?? "",
     placeholders,
+    blankCandidates,
   };
 };
 
@@ -295,32 +318,7 @@ const detectPlaceholdersText = (text) => {
   return candidates;
 };
 
-// Unicode-safe blank detector. Bắt đủ các dạng chỗ trống Việt Nam hay dùng:
-//   - "..." (3+ dấu chấm thường)
-//   - "……" (chuỗi dấu chấm ellipsis U+2026)
-//   - "…" (1 dấu ellipsis)
-//   - "___" (3+ gạch dưới)
-//   - "…, ngày … tháng … năm …" (date line)
-//   - "(1).." (numbered blank, dấu chấm thường)
-const BLANK_PATTERN = String.raw`(?:\.{3,}|…+|…+|_{3,})`;
-
-const detectBlanksText = (text) => {
-  const blanks = [];
-  const patterns = [
-    { regex: /\.{3,}/gu, kind: "ellipsis-dots" },
-    { regex: /…+/gu, kind: "ellipsis-unicode" },
-    { regex: /_{3,}/gu, kind: "underscore" },
-    { regex: new RegExp(`ngày\\s*${BLANK_PATTERN}\\s*tháng\\s*${BLANK_PATTERN}\\s*năm\\s*${BLANK_PATTERN}`, "giu"), kind: "vn-date-line" },
-    { regex: /(?:\(\s*\d+\s*\))\.{2,}/gu, kind: "numbered-blank" },
-  ];
-  for (const { regex, kind } of patterns) {
-    let m;
-    while ((m = regex.exec(text))) {
-      blanks.push({ kind, raw: m[0] });
-    }
-  }
-  return blanks;
-};
+// ============ DOC (OLE) processing ============
 
 const extractDoc = (buf) => {
   const r = extractDocText(buf);
@@ -333,6 +331,8 @@ const extractDoc = (buf) => {
     text: line,
     style: null,
   }));
+  // Blank detection using block-aware helper (no tables for DOC fallback).
+  const blankCandidates = detectBlanksInBlocks(paragraphs, []);
   // DOC binary thường không có table structure rõ ràng từ text scan.
   return {
     method: r.method,
@@ -352,27 +352,41 @@ const extractDoc = (buf) => {
     headers: {},
     documentText: text,
     placeholders: detectPlaceholdersText(text),
-    blankCandidates: detectBlanksText(text),
+    blankCandidates,
   };
 };
 
 // ============ Main ============
 
 const extractOne = (record) => {
-  const full = path.join(ROOT, record.relativePath);
+  // Step 1: resolve source
+  let sourcePath = path.join(ROOT, record.relativePath);
+  let extractionKind = "original";
+
+  // Step 2: check if we should use normalized DOCX for pilot codes
+  if (record.templateCode && NORMALIZED_PILOT_CODES.has(record.templateCode)) {
+    const normPath = resolveNormalizedDocx(record.templateCode);
+    if (normPath) {
+      sourcePath = normPath;
+      extractionKind = "normalized-docx";
+    }
+  }
+
   let buf;
   try {
-    buf = fs.readFileSync(full);
+    buf = fs.readFileSync(sourcePath);
   } catch (err) {
     return {
       error: `Không đọc được: ${err.message}`,
     };
   }
   try {
-    if (record.format === "docx") {
-      return extractDocx(buf);
+    if (sourcePath.endsWith(".docx")) {
+      const result = extractDocx(buf);
+      return { ...result, extractionKind };
     }
-    return extractDoc(buf);
+    const result = extractDoc(buf);
+    return { ...result, extractionKind };
   } catch (err) {
     return { error: `Extract fail: ${err.message}` };
   }
@@ -497,6 +511,35 @@ const main = () => {
       headers: result.headers ?? {},
       placeholders: result.placeholders ?? [],
       blankCandidates: result.blankCandidates ?? [],
+      // Original DOC/DOCX source (preserved for contract lineage)
+      docxOriginal: {
+        relativePath: r.relativePath,
+        sha256: r.sha256,
+        format: r.format,
+      },
+      // Which source was used for extraction (may be normalized-docx for pilot BM)
+      extractionSource: (() => {
+        if (result.extractionKind === "normalized-docx") {
+          // normalized path is the resolved normPath from extractOne
+          const normPath = resolveNormalizedDocx(r.templateCode);
+          const sha = normPath ? computeSha256Sync(normPath) : r.sha256;
+          return {
+            kind: "normalized-docx",
+            relativePath: normPath
+              ? path.relative(ROOT, normPath)
+              : `storage/templates/normalized-docx/${r.templateCode}/${r.templateCode}_normalized.docx`,
+            sha256: sha,
+            format: "docx",
+          };
+        }
+        return {
+          kind: "original",
+          relativePath: r.relativePath,
+          sha256: r.sha256,
+          format: r.format,
+        };
+      })(),
+      extractionKind: result.extractionKind ?? "original",
       extractedAt: new Date().toISOString(),
     };
 

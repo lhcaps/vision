@@ -388,12 +388,34 @@
   "blankCandidates": [
     {
       "kind": "ellipsis-dots",
-      "raw": "................................................."
+      "raw": ".................................................",
+      "blockId": "P0002",
+      "tableCellId": null,
+      "startOffset": 0,
+      "endOffset": 49,
+      "context": "................................................."
     },
     {
       "kind": "ellipsis-dots",
-      "raw": "........................................................................................."
+      "raw": ".........................................................................................",
+      "blockId": "P0018",
+      "tableCellId": null,
+      "startOffset": 8,
+      "endOffset": 97,
+      "context": "Ông/Bà: ........................................................................................."
     }
   ],
-  "extractedAt": "2026-06-19T01:19:40.966Z"
+  "docxOriginal": {
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/160. Biên bản niêm yết công khai văn bản tố tụng.doc",
+    "sha256": "2f8e7c014448a2535a766099839cb6ab63d777e395125f243f358ec0ff0811ba",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/160. Biên bản niêm yết công khai văn bản tố tụng.doc",
+    "sha256": "2f8e7c014448a2535a766099839cb6ab63d777e395125f243f358ec0ff0811ba",
+    "format": "doc"
+  },
+  "extractionKind": "original",
+  "extractedAt": "2026-06-19T07:36:22.575Z"
 }
