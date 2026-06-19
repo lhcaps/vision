@@ -127,4 +127,40 @@ describe('AppConfigService', () => {
 
     expect(() => config.apiPort).toThrow('API_PORT must be an integer');
   });
+
+  it('defaults contract rendering to off with an empty allow-list', () => {
+    const config = new AppConfigService({});
+
+    expect(config.documentRendererMode).toBe('off');
+    expect(config.documentRendererContractTemplates).toEqual([]);
+  });
+
+  it('normalizes contract renderer mode and template allow-list', () => {
+    const config = new AppConfigService({
+      DOCUMENT_RENDERER_MODE: ' ShAdOw ',
+      DOCUMENT_RENDERER_CONTRACT_TEMPLATES: ' bm-001, BM-002, bm-001 ',
+    });
+
+    expect(config.documentRendererMode).toBe('shadow');
+    expect(config.documentRendererContractTemplates).toEqual([
+      'BM-001',
+      'BM-002',
+    ]);
+  });
+
+  it('rejects invalid contract renderer configuration', () => {
+    const invalidMode = new AppConfigService({
+      DOCUMENT_RENDERER_MODE: 'automatic',
+    });
+    const invalidTemplate = new AppConfigService({
+      DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001, not a code',
+    });
+
+    expect(() => invalidMode.documentRendererMode).toThrow(
+      'DOCUMENT_RENDERER_MODE must be one of',
+    );
+    expect(() => invalidTemplate.documentRendererContractTemplates).toThrow(
+      'DOCUMENT_RENDERER_CONTRACT_TEMPLATES contains invalid code',
+    );
+  });
 });

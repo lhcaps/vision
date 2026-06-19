@@ -7,6 +7,7 @@ import {
 
 type Environment = Readonly<Record<string, string | undefined>>;
 type AuthCookieSameSite = 'lax' | 'strict' | 'none';
+export type DocumentRendererMode = 'off' | 'shadow' | 'active';
 
 export const APP_ENV = Symbol('APP_ENV');
 
@@ -112,6 +113,46 @@ export class AppConfigService {
 
   get libreOfficePath(): string | undefined {
     return this.read('LIBREOFFICE_PATH')?.replace(/^"|"$/g, '');
+  }
+
+  get documentRendererMode(): DocumentRendererMode {
+    const value = (this.read('DOCUMENT_RENDERER_MODE') ?? 'off').toLowerCase();
+
+    if (value === 'off' || value === 'shadow' || value === 'active') {
+      return value;
+    }
+
+    throw new ConfigurationError(
+      'INVALID_DOCUMENT_RENDERER_MODE',
+      `DOCUMENT_RENDERER_MODE must be one of "off", "shadow", or "active"; received "${value}".`,
+    );
+  }
+
+  get documentRendererContractTemplates(): readonly string[] {
+    const raw = this.read('DOCUMENT_RENDERER_CONTRACT_TEMPLATES');
+    if (!raw) return [];
+
+    const templates = [
+      ...new Set(
+        raw
+          .split(',')
+          .map((value) => value.trim().toUpperCase())
+          .filter(Boolean),
+      ),
+    ];
+
+    const invalidCode = templates.find(
+      (value) => !/^[A-Z0-9][A-Z0-9_-]*$/u.test(value),
+    );
+
+    if (invalidCode) {
+      throw new ConfigurationError(
+        'INVALID_DOCUMENT_RENDERER_CONTRACT_TEMPLATE',
+        `DOCUMENT_RENDERER_CONTRACT_TEMPLATES contains invalid code "${invalidCode}".`,
+      );
+    }
+
+    return templates;
   }
 
   assertProductionSafety(): void {
