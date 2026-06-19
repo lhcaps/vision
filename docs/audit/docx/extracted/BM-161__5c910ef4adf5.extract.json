@@ -1,0 +1,389 @@
+{
+  "sourceId": "BM-161__5c910ef4adf5",
+  "templateCode": "BM-161",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "161. Phiếu yêu cầu trích xuất.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/161. Phiếu yêu cầu trích xuất.doc",
+  "group": "docs",
+  "detectedTitle": "Phiếu yêu cầu trích xuất",
+  "sha256": "5c910ef4adf58def92b314200268aa6f95c0c1d0607d1988e1a625ff274ff24a",
+  "sizeBytes": 50176,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 8 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2126,
+      "paragraphCount": 48,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "/PYC-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "PHIẾU YÊU CẦU TRÍCH XUẤT",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "Kính gửi:",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "........................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 159/Điều 160/Điều 165/Điều 236 của Bộ luật Tố tụng hình sự,",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Tôi:................................................................................................., Kiểm sát viên thuộc Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Đề nghị cơ sở giam giữ:",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Trích xuất bị can/người bị tạm giữ:",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "Họ tên:......................................................................................... Giới tính:",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "Tên gọi khác:",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "Sinh ngày ............ tháng ............ năm ...................... tại:",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "Nghề nghiệp:",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "Nơi thường trú:",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "Nơi tạm trú: ............................................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "Nơi ở hiện tại: ........................................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "Hành vi phạm tội:",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "ao cho Kiểm sát viên/Kiểm tra viên:",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "của Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "được phân công thụ lý để:",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "Những người cùng làm việc gồm:",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "Thời gian từ:",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "giờ",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "phút, ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "Hết thời gian làm việc trên, Kiểm sát viên/Kiểm tra viên có trách nhiệm bàn giao bị can/người bị tạm giữ cho cơ sở giam giữ./.",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "KIỂM SÁT VIÊN",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "Mẫu này dùng trong trường hợp Kiểm sát viên được phân công thụ lý có yêu cầu trích xuất bị can đang bị tạm giam hoặc người bị tạm giữ để tiến hành các hoạt động tố tụng tại Nhà tạm giữ/Trại tạm giam/Phân trại thuộc Trại tạm giam",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ sở giam giữ",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "Mẫu số 161/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "............................................................................................................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................................................................................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày ............ tháng ............ năm ......................"
+    },
+    {
+      "kind": "vn-date-line",
+      "raw": "ngày............ tháng ............ năm ..................."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.967Z"
+}

@@ -205,11 +205,22 @@ const main = () => {
     .map((n) => path.join(FORM_DIR, n));
   bespokeFiles.sort();
 
-  // Load all contracts
+  // Load all contracts. Mỗi file contract có sourceId riêng; map cả theo
+  // (templateCode, sourceId) để lookup vẫn work khi duplicate.
   const contracts = new Map();
+  const contractsBySourceId = new Map();
   for (const f of fs.readdirSync(CONTRACTS_DIR).filter((n) => n.endsWith(".contract.draft.json"))) {
     const c = JSON.parse(fs.readFileSync(path.join(CONTRACTS_DIR, f), "utf8"));
-    if (c.templateCode) contracts.set(c.templateCode, c);
+    if (c.templateCode) {
+      // Nếu đã có contract cho code này (vd duplicate BM-139), lưu theo sourceId.
+      if (contracts.has(c.templateCode)) {
+        // giữ contract đầu tiên làm "primary", các biến thể thêm theo sourceId
+        if (c.sourceId) contractsBySourceId.set(c.sourceId, c);
+      } else {
+        contracts.set(c.templateCode, c);
+        if (c.sourceId) contractsBySourceId.set(c.sourceId, c);
+      }
+    }
   }
 
   const rows = [];

@@ -18,6 +18,8 @@ const OUT_DIR = path.join(ROOT, "docs", "audit", "docx", "inventory");
 const OUT_JSON = path.join(OUT_DIR, "docx-inventory.json");
 const OUT_MD = path.join(OUT_DIR, "docx-inventory.md");
 
+const { deriveSourceId, slugifyForId } = await import("./lib/source-id.mjs");
+
 const TEMP_PREFIX = "~$";
 const EXCLUDE_DIR_NAMES = new Set(["backup", "backups", "format-edit-backup", "header-fix-backup", "complete-fix-backup", "complete-data-fix-backup", "article3-signature-fix-backup", "final-format-backup"]);
 
@@ -196,6 +198,35 @@ const main = () => {
     }
   }
 
+  // Gán sourceId + duplicateIndex cho mỗi record. Mỗi file = 1 sourceId duy nhất,
+  // kể cả khi trùng templateCode (BM-139 duplicate). Output downstream phải dùng
+  // sourceId để tránh ghi đè lẫn nhau.
+  for (const rec of records) {
+    if (rec.templateCode) {
+      const sameCode = byCode.get(rec.templateCode) ?? [];
+      const idx = sameCode.indexOf(rec) + 1;
+      rec.duplicateIndex = idx;
+      rec.duplicateCount = sameCode.length;
+      rec.isDuplicateCode = sameCode.length > 1;
+      rec.sourceId = deriveSourceId({
+        templateCode: rec.templateCode,
+        sha256: rec.sha256,
+        duplicateIndex: idx,
+      });
+      rec.documentKind = "form";
+    } else {
+      rec.duplicateIndex = 1;
+      rec.duplicateCount = 1;
+      rec.isDuplicateCode = false;
+      rec.sourceId = deriveSourceId({
+        templateCode: null,
+        fileName: rec.fileName,
+        sha256: rec.sha256,
+      });
+      rec.documentKind = "reference";
+    }
+  }
+
   const allBmNumbers = new Set();
   for (const code of codes) {
     const n = parseInt(code.replace("BM-", ""), 10);
@@ -227,6 +258,8 @@ const main = () => {
     errorCount: errored.length,
     needsReviewCount: needsReview.length,
     needsReview: needsReview.map((r) => r.relativePath),
+    referenceCount: records.filter((r) => r.documentKind === "reference").length,
+    formCount: records.filter((r) => r.documentKind === "form").length,
     errored: errored.map((r) => ({ file: r.relativePath, error: r.readError })),
   };
 
@@ -251,14 +284,25 @@ const main = () => {
   md.push(`- Số file không detect được code: **${summary.needsReviewCount}**`);
   md.push(`- Số file lỗi / corrupt / không đọc được: **${summary.errorCount}**`);
   md.push(`- Số BM code thiếu (so với 1..213): **${summary.missingCount}**`);
+  md.push(`- Số file là biểu mẫu (form): **${summary.formCount}**`);
+  md.push(`- Số file là tài liệu tham chiếu (Thông tư/Danh mục): **${summary.referenceCount}**`);
+  md.push("");
+  md.push("## SourceId — định danh duy nhất cho mỗi file");
+  md.push("");
+  md.push("Mỗi file có `sourceId` dùng cho output downstream. Format:");
+  md.push("- Form: `<BM-XXX>__<sha12>` (vd `BM-139__23306e6022bd`).");
+  md.push("- Reference: `REF__<slug>__<sha12>` (vd `REF__thong-tu-03__9795f14f931c`).");
+  md.push("Reviewer dùng sourceId để phân biệt các biến thể trùng BM code (vd 2 file BM-139).");
   md.push("");
   if (summary.duplicateCount > 0) {
-    md.push("## Duplicate BM code");
+    md.push("## Duplicate BM code — cần human chọn canonical source");
     md.push("");
     for (const dup of summary.duplicates) {
       md.push(`- **${dup.code}** (${dup.count} file):`);
       for (const f of dup.files) md.push(`  - ${f}`);
     }
+    md.push("");
+    md.push("> Pipeline KHÔNG tự chọn file canonical cho BM duplicate. Reviewer phải quyết định.");
     md.push("");
   }
   if (summary.needsReviewCount > 0) {
@@ -285,13 +329,13 @@ const main = () => {
   }
   md.push("## Danh sách file");
   md.push("");
-  md.push("| # | BM code | File | Định dạng | Size (bytes) | Group | SHA-256 | Status | Issues |");
-  md.push("|---|---|---|---|---:|---|---|---|---|");
+  md.push("| # | SourceId | BM code | Kind | File | Định dạng | Size (bytes) | Group | SHA-256 | Status | Issues |");
+  md.push("|---|---|---|---|---|---:|---|---|---|---|---|");
   records.forEach((r, idx) => {
     const issueText = r.issues.length > 0 ? r.issues.join("; ") : "-";
     const shaShort = r.sha256 ? r.sha256.slice(0, 12) + "…" : "-";
     md.push(
-      `| ${idx + 1} | ${r.templateCode ?? "(?)"} | ${r.relativePath} | ${r.format} | ${r.sizeBytes ?? "-"} | ${r.group} | ${shaShort} | ${r.status} | ${issueText} |`,
+      `| ${idx + 1} | ${r.sourceId ?? "?"} | ${r.templateCode ?? "(?)"} | ${r.documentKind ?? "?"} | ${r.relativePath} | ${r.format} | ${r.sizeBytes ?? "-"} | ${r.group} | ${shaShort} | ${r.status} | ${issueText} |`,
     );
   });
   md.push("");

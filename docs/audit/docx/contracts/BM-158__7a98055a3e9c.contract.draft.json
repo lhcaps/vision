@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-158__7a98055a3e9c",
+  "templateCode": "BM-158",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Danh sách đề nghị triệu tập đến phiên tòa",
+  "docx": {
+    "sha256": "7a98055a3e9c9425ebf5de5df7c16d4b851b641c0f037cc815d4852d4b253d8f",
+    "fileName": "158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/158. Danh sách đề nghị triệu tập đến phiên tòa.docx",
+    "format": "docx"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.issueDateDay",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0016",
+        "tableCellId": null
+      },
+      "context": "3…, ngày … tháng ... năm 20...",
+      "label": "DAY (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "3…, ngày … tháng ... năm 20...",
+        "textAfter": "3…, ngày … tháng ... năm 20...",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0016",
+        "tableCellId": null
+      },
+      "context": "3…, ngày … tháng ... năm 20...",
+      "label": "MONTH (document)",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.6,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "3…, ngày … tháng ... năm 20...",
+        "textAfter": "3…, ngày … tháng ... năm 20...",
+        "rawPattern": "ngày … tháng … năm …"
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.issueDate",
+      "type": "date",
+      "label": "Ngày tháng năm (split từ DOCX)",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "date",
+      "section": "Thời gian",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.issueDateDay",
+      "from": "document.issueDate",
+      "transform": "date.day",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDateMonth",
+      "from": "document.issueDate",
+      "transform": "date.month",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "generatedAt": "2026-06-19T01:19:41.341Z"
+}

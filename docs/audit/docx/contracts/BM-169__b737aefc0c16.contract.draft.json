@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-169__b737aefc0c16",
+  "templateCode": "BM-169",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ xử lý vật chứng",
+  "docx": {
+    "sha256": "b737aefc0c165e6531687c5135fdd586f811a64c31e387b57d25d8fdcf2ac534",
+    "fileName": "169-QĐ xử lý vật chứng.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/06. XU LY VAT CHUNG/169-QĐ xử lý vật chứng.doc",
+    "format": "doc"
+  },
+  "status": "draft",
+  "docxSlots": [
+    {
+      "slotId": "document.blank1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "................................................."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank2",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.blank3",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0060",
+        "tableCellId": null
+      },
+      "context": "Điều 1. Xử lý những vật chứng sau: ...........................................................................",
+      "label": "Ô trống dạng \"...\" (decision)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "decision",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..........................................................................."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank4",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "...................."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.blank5",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0060",
+        "tableCellId": null
+      },
+      "context": "Điều 1. Xử lý những vật chứng sau: ...........................................................................",
+      "label": "Ô trống dạng \"...\" (decision)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "decision",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": ".........................................................................."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank6",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.field1",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.field2",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "decision.field3",
+      "type": "string",
+      "label": "Trường cần điền (decision)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "decision",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.field4",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "decision.field5",
+      "type": "string",
+      "label": "Trường cần điền (decision)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "decision",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.field6",
+      "type": "string",
+      "label": "Trường cần điền (document)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.blank1",
+      "from": "document.field1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank2",
+      "from": "document.field2",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.blank3",
+      "from": "decision.field3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank4",
+      "from": "document.field4",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.blank5",
+      "from": "decision.field5",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.blank6",
+      "from": "document.field6",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 81 at 0"
+  ],
+  "generatedAt": "2026-06-19T01:19:41.346Z"
+}

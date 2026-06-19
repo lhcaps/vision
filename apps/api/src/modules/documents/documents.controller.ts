@@ -1,4 +1,4 @@
-﻿import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateDocumentGenerationBatchDto } from './dto/create-document-generation-batch.dto';
 import { DocumentsService } from './documents.service';

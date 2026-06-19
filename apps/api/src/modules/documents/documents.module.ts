@@ -1,4 +1,4 @@
-﻿import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DocumentFilesController } from './document-files.controller';
 import { DocumentFilesService } from './document-files.service';
 import { DocumentPreExportService } from './document-pre-export.service';

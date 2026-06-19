@@ -1,0 +1,461 @@
+{
+  "sourceId": "BM-145__fc22267f4a63",
+  "templateCode": "BM-145",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "145-QĐ trả hồ sơ vụ án để điều tra bổ sung.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/145-QĐ trả hồ sơ vụ án để điều tra bổ sung.doc",
+  "group": "docs",
+  "detectedTitle": "QĐ trả hồ sơ vụ án để điều tra bổ sung",
+  "sha256": "fc22267f4a63388c19813db13f912ae130250b680bbb89122006d138e2d60485",
+  "sizeBytes": 56320,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 104 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 2081,
+      "paragraphCount": 64,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "Số:",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "/QĐ-VKS",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": ", ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "năm 20",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "TRẢ HỒ SƠ VỤ ÁN ĐỂ ĐIỀU TRA BỔ SUNG",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "(Lần thứ",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Căn cứ các điều 41, 174, 240 và 245",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "của Bộ luật Tố tụng hình sự;",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Căn cứ Bản kết luận điều tra vụ án hình sự đề nghị truy tố số",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "...;",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Căn cứ Quyết định trả hồ sơ vụ án để điều tra bổ sung số",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "của Tòa án",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "... (nếu có);",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "Xét thấy",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "...............................................................................................,",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "QUYẾT ĐỊNH:",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "Điều 1. Trả hồ sơ vụ án hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "về tội",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "quy định tại khoản",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "Điều",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "của Bộ luật Hình sự cho6",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "để điều tra bổ sung những vấn đề sau:",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "......................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "Điều 2. Thời hạn điều tra bổ sung không quá",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "tháng, kể từ ngày6",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "nhận hồ sơ vụ án và Quyết định này.",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "Điều 3. Yêu cầu6... thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./.",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "Nơi nhận:",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "- 6...;",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "- Lưu: HSVA, HSKS, VP.",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "..................................",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "...........",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "Viết tắt tên Viện kiểm sát ban hành - đơn vị phụ trách (nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "Ghi địa danh là tên tỉnh/thành phố nơi đặt trụ sở của Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "Trường hợp Tòa án trả hồ sơ điều tra bổ sung thì thay Điều 245 bằng Điều 246 của Bộ luật Tố tụng hình sự; trường hợp quyết định trả hồ sơ để điều tra bổ sung đối với bị can là pháp nhân thì bổ sung căn cứ Điều 431 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "Ghi tên cơ quan, người có thẩm quyền ra Bản kết luận điều tra",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "Ghi tên Tòa án ra Quyết định trả hồ sơ vụ án để điều tra bổ sung",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "Nêu rõ lý do trả hồ sơ vụ án để điều tra bổ sung theo quy định tại khoản 1 Điều 245 hoặc khoản 1 Điều 246 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "Ghi rõ khởi tố theo Quyết định khởi tố vụ án hình sự số",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0060",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0061",
+      "kind": "paragraph",
+      "text": "Ghi chức danh người ký",
+      "style": null
+    },
+    {
+      "blockId": "P0062",
+      "kind": "paragraph",
+      "text": "Mẫu số 145/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0063",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0064",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..............................................................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "......................................................................"
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": ".................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "..........."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.954Z"
+}

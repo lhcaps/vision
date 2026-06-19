@@ -1,0 +1,399 @@
+{
+  "sourceId": "BM-160__2f8e7c014448",
+  "templateCode": "BM-160",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "fileName": "160. Biên bản niêm yết công khai văn bản tố tụng.doc",
+  "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/160. Biên bản niêm yết công khai văn bản tố tụng.doc",
+  "group": "docs",
+  "detectedTitle": "Biên bản niêm yết công khai văn bản tố tụng",
+  "sha256": "2f8e7c014448a2535a766099839cb6ab63d777e395125f243f358ec0ff0811ba",
+  "sizeBytes": 68608,
+  "format": "doc",
+  "method": "clx-fallback",
+  "warnings": [
+    "Clx parse error: Unknown Clxt tag 75 at 0"
+  ],
+  "error": null,
+  "metadata": {},
+  "parts": [
+    {
+      "partName": "WordDocument",
+      "rawTextLength": 1465,
+      "paragraphCount": 59,
+      "tableCount": 0
+    }
+  ],
+  "textBlocks": [
+    {
+      "blockId": "P0001",
+      "kind": "paragraph",
+      "text": "VIỆN KIỂM SÁT",
+      "style": null
+    },
+    {
+      "blockId": "P0002",
+      "kind": "paragraph",
+      "text": ".................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0003",
+      "kind": "paragraph",
+      "text": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "style": null
+    },
+    {
+      "blockId": "P0004",
+      "kind": "paragraph",
+      "text": "Độc lập - Tự do - Hạnh phúc",
+      "style": null
+    },
+    {
+      "blockId": "P0005",
+      "kind": "paragraph",
+      "text": "BIÊN BẢN",
+      "style": null
+    },
+    {
+      "blockId": "P0006",
+      "kind": "paragraph",
+      "text": "Niêm yết công khai văn bản tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0007",
+      "kind": "paragraph",
+      "text": "Hồi",
+      "style": null
+    },
+    {
+      "blockId": "P0008",
+      "kind": "paragraph",
+      "text": "giờ",
+      "style": null
+    },
+    {
+      "blockId": "P0009",
+      "kind": "paragraph",
+      "text": "phút, ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0010",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0011",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0012",
+      "kind": "paragraph",
+      "text": "tại",
+      "style": null
+    },
+    {
+      "blockId": "P0013",
+      "kind": "paragraph",
+      "text": "Chúng tôi gồm:",
+      "style": null
+    },
+    {
+      "blockId": "P0014",
+      "kind": "paragraph",
+      "text": "Ông/Bà:",
+      "style": null
+    },
+    {
+      "blockId": "P0015",
+      "kind": "paragraph",
+      "text": "Của Viện kiểm sát2",
+      "style": null
+    },
+    {
+      "blockId": "P0016",
+      "kind": "paragraph",
+      "text": "Đại diện Ủy ban nhân dân cấp xã/đại diện cơ quan, tổ chức nơi cuối cùng người được cấp/giao văn bản tố tụng cư trú/làm việc, học tập:",
+      "style": null
+    },
+    {
+      "blockId": "P0017",
+      "kind": "paragraph",
+      "text": "Ông/Bà:",
+      "style": null
+    },
+    {
+      "blockId": "P0018",
+      "kind": "paragraph",
+      "text": "Ông/Bà: .........................................................................................",
+      "style": null
+    },
+    {
+      "blockId": "P0019",
+      "kind": "paragraph",
+      "text": "là người chứng kiến.",
+      "style": null
+    },
+    {
+      "blockId": "P0020",
+      "kind": "paragraph",
+      "text": "Căn cứ Điều 140",
+      "style": null
+    },
+    {
+      "blockId": "P0021",
+      "kind": "paragraph",
+      "text": "của Bộ luật Tố tụng hình sự, tiến hành niêm yết công khai văn bản tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0022",
+      "kind": "paragraph",
+      "text": "Thời hạn niêm yết công khai: kể từ",
+      "style": null
+    },
+    {
+      "blockId": "P0023",
+      "kind": "paragraph",
+      "text": "giờ",
+      "style": null
+    },
+    {
+      "blockId": "P0024",
+      "kind": "paragraph",
+      "text": "phút, ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0025",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0026",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0027",
+      "kind": "paragraph",
+      "text": "đến",
+      "style": null
+    },
+    {
+      "blockId": "P0028",
+      "kind": "paragraph",
+      "text": "giờ",
+      "style": null
+    },
+    {
+      "blockId": "P0029",
+      "kind": "paragraph",
+      "text": "phút, ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0030",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0031",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0032",
+      "kind": "paragraph",
+      "text": "Địa điểm niêm yết công khai:",
+      "style": null
+    },
+    {
+      "blockId": "P0033",
+      "kind": "paragraph",
+      "text": "Biên bản kết thúc hồi",
+      "style": null
+    },
+    {
+      "blockId": "P0034",
+      "kind": "paragraph",
+      "text": "giờ",
+      "style": null
+    },
+    {
+      "blockId": "P0035",
+      "kind": "paragraph",
+      "text": "phút, ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0036",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0037",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0038",
+      "kind": "paragraph",
+      "text": "và đã đọc cho những người có tên trên nghe, công nhận đúng và cùng ký tên xác nhận dưới đây./.",
+      "style": null
+    },
+    {
+      "blockId": "P0039",
+      "kind": "paragraph",
+      "text": "ĐẠI DIỆN ỦY BAN NHÂN DÂN CẤP XÃ/ĐẠI DIỆN CƠ QUAN, TỔ CHỨC",
+      "style": null
+    },
+    {
+      "blockId": "P0040",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    },
+    {
+      "blockId": "P0041",
+      "kind": "paragraph",
+      "text": "NGƯỜI LẬP BIÊN BẢN",
+      "style": null
+    },
+    {
+      "blockId": "P0042",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    },
+    {
+      "blockId": "P0043",
+      "kind": "paragraph",
+      "text": "NGƯỜI CHỨNG KIẾN",
+      "style": null
+    },
+    {
+      "blockId": "P0044",
+      "kind": "paragraph",
+      "text": "(Ký, ghi rõ họ tên)",
+      "style": null
+    },
+    {
+      "blockId": "P0045",
+      "kind": "paragraph",
+      "text": "NGƯỜI THAM DỰ, THAM GIA",
+      "style": null
+    },
+    {
+      "blockId": "P0046",
+      "kind": "paragraph",
+      "text": "(Nếu có)",
+      "style": null
+    },
+    {
+      "blockId": "P0047",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát cấp trên trực tiếp",
+      "style": null
+    },
+    {
+      "blockId": "P0048",
+      "kind": "paragraph",
+      "text": "Ghi tên Viện kiểm sát ban hành",
+      "style": null
+    },
+    {
+      "blockId": "P0049",
+      "kind": "paragraph",
+      "text": "Trường hợp niêm yết Cáo trạng thì bổ sung căn cứ Điều 243 của Bộ luật Tố tụng hình sự",
+      "style": null
+    },
+    {
+      "blockId": "P0050",
+      "kind": "paragraph",
+      "text": "Ghi rõ tên văn bản tố tụng; số",
+      "style": null
+    },
+    {
+      "blockId": "P0051",
+      "kind": "paragraph",
+      "text": "ngày",
+      "style": null
+    },
+    {
+      "blockId": "P0052",
+      "kind": "paragraph",
+      "text": "tháng",
+      "style": null
+    },
+    {
+      "blockId": "P0053",
+      "kind": "paragraph",
+      "text": "năm",
+      "style": null
+    },
+    {
+      "blockId": "P0054",
+      "kind": "paragraph",
+      "text": "của",
+      "style": null
+    },
+    {
+      "blockId": "P0055",
+      "kind": "paragraph",
+      "text": "và trích yếu nội dung của văn bản tố tụng",
+      "style": null
+    },
+    {
+      "blockId": "P0056",
+      "kind": "paragraph",
+      "text": "Mẫu số 160/HS",
+      "style": null
+    },
+    {
+      "blockId": "P0057",
+      "kind": "paragraph",
+      "text": "(Ban hành theo Thông tư số      /2026/TT-VKSTC",
+      "style": null
+    },
+    {
+      "blockId": "P0058",
+      "kind": "paragraph",
+      "text": "ngày       /     /2026)",
+      "style": null
+    },
+    {
+      "blockId": "P0059",
+      "kind": "paragraph",
+      "text": "EMBED Excel.Chart.8 \\s",
+      "style": null
+    }
+  ],
+  "tables": [],
+  "headers": {},
+  "placeholders": [],
+  "blankCandidates": [
+    {
+      "kind": "ellipsis-dots",
+      "raw": "................................................."
+    },
+    {
+      "kind": "ellipsis-dots",
+      "raw": "........................................................................................."
+    }
+  ],
+  "extractedAt": "2026-06-19T01:19:40.966Z"
+}

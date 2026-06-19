@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-19T00:17:44.230Z",
+  "generatedAt": "2026-06-19T01:19:42.065Z",
   "summary": {
     "totalBespoke": 213,
     "withContract": 213,
     "withoutContract": 0,
     "generic": 68,
     "equivalentFields": 0,
-    "missingFields": 1684,
+    "missingFields": 1686,
     "extraFields": 1371,
     "geneViolations": 481
   },
@@ -6952,7 +6952,9 @@
           "signature.positionTitle",
           "signature.signerName"
         ],
-        "missing": []
+        "missing": [
+          "document.issueDate"
+        ]
       }
     },
     {
@@ -7218,7 +7220,9 @@
         "kind": "compared",
         "equivalent": [],
         "extraSuspicious": [],
-        "missing": []
+        "missing": [
+          "document.issueDate"
+        ]
       }
     },
     {

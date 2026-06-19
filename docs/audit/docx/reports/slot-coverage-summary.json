@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-19T00:17:43.858Z",
+  "generatedAt": "2026-06-19T01:19:41.698Z",
   "summary": {
-    "totalSlots": 2090,
-    "totalBound": 2090,
-    "totalUnknown": 1617,
-    "totalReview": 5797,
+    "totalSlots": 2102,
+    "totalBound": 2102,
+    "totalUnknown": 1624,
+    "totalReview": 5828,
     "totalMissingBinding": 0,
     "totalLocked": 0,
-    "totalDraft": 215,
+    "totalDraft": 214,
     "totalIssues": 0,
     "totalWarnings": 0,
     "lockedInvalid": 0
@@ -1404,6 +1404,16 @@
       "warnings": []
     },
     {
+      "code": "BM-139",
+      "status": "draft",
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 5,
+      "reviewRequired": 15,
+      "issues": [],
+      "warnings": []
+    },
+    {
       "code": "BM-140",
       "status": "draft",
       "slots": 6,
@@ -1586,10 +1596,10 @@
     {
       "code": "BM-158",
       "status": "draft",
-      "slots": 0,
-      "bindings": 0,
-      "unknownSources": 0,
-      "reviewRequired": 0,
+      "slots": 2,
+      "bindings": 2,
+      "unknownSources": 1,
+      "reviewRequired": 5,
       "issues": [],
       "warnings": []
     },
@@ -1676,10 +1686,10 @@
     {
       "code": "BM-167",
       "status": "draft",
-      "slots": 0,
-      "bindings": 0,
-      "unknownSources": 0,
-      "reviewRequired": 0,
+      "slots": 5,
+      "bindings": 5,
+      "unknownSources": 1,
+      "reviewRequired": 11,
       "issues": [],
       "warnings": []
     },
@@ -2140,26 +2150,6 @@
       "bindings": 20,
       "unknownSources": 13,
       "reviewRequired": 53,
-      "issues": [],
-      "warnings": []
-    },
-    {
-      "code": null,
-      "status": "draft",
-      "slots": 0,
-      "bindings": 0,
-      "unknownSources": 0,
-      "reviewRequired": 0,
-      "issues": [],
-      "warnings": []
-    },
-    {
-      "code": null,
-      "status": "draft",
-      "slots": 0,
-      "bindings": 0,
-      "unknownSources": 0,
-      "reviewRequired": 0,
       "issues": [],
       "warnings": []
     }

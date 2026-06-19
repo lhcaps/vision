@@ -16,8 +16,26 @@ const PILOT = ["BM-001", "BM-002", "BM-003", "BM-004"];
 const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
 const buildReview = (code) => {
-  const ext = loadJson(path.join(EXTRACT_DIR, `${code}.extract.json`));
-  const con = loadJson(path.join(CONTRACTS_DIR, `${code}.contract.draft.json`));
+  // Tìm file extract/contract dựa trên templateCode (có thể có duplicateIndex
+  // khác nhau cho cùng code, vd 2 file BM-139).
+  const EXTRACT_DIR = path.join(ROOT, "docs", "audit", "docx", "extracted");
+  const CONTRACTS_DIR_LOCAL = path.join(ROOT, "docs", "audit", "docx", "contracts");
+  const allExtracts = fs
+    .readdirSync(EXTRACT_DIR)
+    .filter((n) => n.endsWith(".extract.json"))
+    .map((n) => JSON.parse(fs.readFileSync(path.join(EXTRACT_DIR, n), "utf8")));
+  const allContracts = fs
+    .readdirSync(CONTRACTS_DIR_LOCAL)
+    .filter((n) => n.endsWith(".contract.draft.json"))
+    .map((n) => JSON.parse(fs.readFileSync(path.join(CONTRACTS_DIR_LOCAL, n), "utf8")));
+  const extMatches = allExtracts.filter((e) => e.templateCode === code);
+  if (extMatches.length === 0) {
+    const md = [`# ${code} Review`, "", "_Chưa có file extract cho code này._"];
+    return md.join("\n");
+  }
+  // Nếu có nhiều file (duplicate), lấy file đầu tiên cho pilot; ghi chú các file khác.
+  const ext = extMatches[0];
+  const con = allContracts.find((c) => c.sourceId === ext.sourceId) ?? allContracts.find((c) => c.templateCode === code) ?? null;
   const cmp = loadJson(COMPARE_JSON).rows.find((r) => r.code === code) ?? null;
   const bespokeFile = path.join(FORM_INPUTS_DIR, `bm-${code.replace("BM-", "")}-form-inputs.tsx`);
   const bespokeText = fs.existsSync(bespokeFile) ? fs.readFileSync(bespokeFile, "utf8") : null;
@@ -30,6 +48,13 @@ const buildReview = (code) => {
   md.push("");
   md.push("## 1. Nguồn DOCX");
   md.push("");
+  md.push(`- SourceId: \`${ext.sourceId}\``);
+  if (extMatches.length > 1) {
+    md.push(`- ⚠️ Có ${extMatches.length} file cùng code (duplicate). Pilot dùng file đầu tiên.`);
+    for (const m of extMatches) {
+      md.push(`  - ${m.sourceId} → ${m.relativePath}`);
+    }
+  }
   md.push(`- File: \`${ext.relativePath}\``);
   md.push(`- SHA256: \`${ext.sha256 ?? "?"}\``);
   md.push(`- Mã biểu mẫu: ${code}`);
@@ -40,6 +65,11 @@ const buildReview = (code) => {
     md.push(`- Warnings extractor: ${ext.warnings.join("; ")}`);
   }
   md.push("");
+  if (!con) {
+    md.push("> ⚠️ Chưa có contract draft cho sourceId này (chưa chạy draft-contracts).");
+    md.push("");
+    return md.join("\n");
+  }
   md.push("## 2. Slot DOCX phát hiện");
   md.push("");
   md.push("| Slot ID | Location | Context (rút gọn) | Required | Source proposal | Review needed |");
@@ -51,6 +81,8 @@ const buildReview = (code) => {
   }
   md.push("");
   md.push("## 3. Canonical fields đề xuất");
+  md.push("");
+  md.push("> Lưu ý: `suggestedNamespace` và `suggestedBy: heuristic` chỉ là ĐỀ XUẤT máy, không phải truth.");
   md.push("");
   md.push("| Field | Type | Source | UI component | Section | Required |");
   md.push("|---|---|---|---|---|:-:|");

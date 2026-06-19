@@ -1,4 +1,4 @@
-﻿import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { NormalizeTemplateVersionDto } from './dto/normalize-template-version.dto';
 import { TemplateNormalizerService } from './template-normalizer.service';

@@ -1,19 +1,20 @@
 # Master DOCX Audit Report
 
-Sinh lúc: 2026-06-19T00:16:36.153Z
+Sinh lúc: 2026-06-19T01:19:42.329Z
 
 ## Summary
 
 - Tổng DOCX tìm thấy trong folder nguồn: **216** (3 .docx + 213 .doc)
+- Biểu mẫu (form): **214** | Tài liệu tham chiếu (Thông tư/Danh mục): **2**
 - Tổng BM codes detect được: **213** (BM-001..BM-213 đầy đủ, 0 missing)
-- Duplicate BM code: **1** (BM-139 có 2 file)
-- File không detect được code: **2** (2 file Thông tư)
+- Duplicate BM code: **1** (BM-139 có 2 file — reviewer phải chọn canonical source)
+- File không detect được code: **2** (2 file Thông tư — xem REFERENCE-DOCUMENTS.md)
 - File lỗi/corrupt: **0**
 - Extract success count: **216/216**
-- Draft contract count: **215** | locked: **0**
-- Tổng docxSlots: **2090**
-- Tổng unknown sources: **1617**
-- Tổng review-required items (slot+field+binding): **5797**
+- Draft contract count: **214** | locked: **0**
+- Tổng docxSlots: **2102**
+- Tổng unknown sources: **1624**
+- Tổng review-required items (slot+field+binding): **5828**
 - Tổng missing binding (slot không có renderBinding): **0**
 - Tổng BESPOKE files so sánh: **213**
   - Có contract: **213**
@@ -45,7 +46,7 @@ Mỗi bước đều idempotent, không crash khi 1 file lỗi, output UTF-8 no 
 
 ## Current risk level
 
-- **Cao**: 0/215 contract locked, 100% source=unknown, 100% reviewRequired=true.
+- **Cao**: 0/214 contract locked, 100% source=unknown, 100% reviewRequired=true.
 - **Trung bình**: 481 UI gene violations tổng cộng (chủ yếu ở BM-002, BM-003, BM-039, BM-097, BM-156 vẫn dùng custom shell).
 - **Cao**: 68 BESPOKE dùng GenericTemplateFormInputsPanel (stub), chưa có contract cho từng BM này.
 - **Thấp**: 0 file lỗi extract — pipeline ổn định, idempotent.
@@ -56,12 +57,12 @@ Xem chi tiết tại `docs/audit/docx/review/BM-001.review.md` .. `BM-004.review
 
 Tóm tắt:
 
-| BM | Tên | Paragraphs | Blanks | Slots | Fields | Review |
-|---|---|---:|---:|---:|---:|---:|
-| BM-001 | Biên bản tiếp nhận nguồn tin về tội phạm | 58 | 25 | 31 | 25 | Tất cả slot+field đều reviewRequired=true |
-| BM-002 | Phiếu chuyển nguồn tin về tội phạm | 53 | 18 | 24 | 18 | Tất cả slot+field đều reviewRequired=true |
-| BM-003 | QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm | 48 | 8 | 8 | 8 | Tất cả slot+field đều reviewRequired=true |
-| BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 57 | 7 | 7 | 7 | Tất cả slot+field đều reviewRequired=true |
+| SourceId | BM | Tên | Paragraphs | Blanks | Slots | Fields | Review |
+|---|---|---|---:|---:|---:|---:|---|
+| BM-001__f4c2aa3682d3 | BM-001 | Biên bản tiếp nhận nguồn tin về tội phạm | 58 | 25 | 31 | 25 | Tất cả slot+field đều reviewRequired=true |
+| BM-002__f78301178da7 | BM-002 | Phiếu chuyển nguồn tin về tội phạm | 53 | 18 | 24 | 18 | Tất cả slot+field đều reviewRequired=true |
+| BM-003__bb64990bc49b | BM-003 | QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm | 48 | 8 | 8 | 8 | Tất cả slot+field đều reviewRequired=true |
+| BM-004__2775520fd22c | BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 57 | 7 | 7 | 7 | Tất cả slot+field đều reviewRequired=true |
 
 ## Recommended migration strategy
 
@@ -87,20 +88,22 @@ Xem chi tiết: `CONTRACT-DRIVEN-UI-PLAN.md`.
 
 ## Definition of Done
 
-- [x] 213/213 inventoried (trong folder nguồn `0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC`)
-- [x] 213/213 extracted (extractor chạy hết, 0 error)
-- [x] 213/213 contracts drafted
-- [ ] 213/213 contracts reviewed và locked (chưa — chờ reviewer)
-- [ ] 0 unknown sources (hiện tại ~1600+)
+- [x] 216/216 inventoried (trong folder nguồn `0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC`)
+- [x] 216/216 extracted (extractor chạy hết, 0 error)
+- [x] 214/214 contracts drafted (form only, 2 reference docs excluded)
+- [ ] 214/214 contracts reviewed và locked (chưa — chờ reviewer)
+- [ ] 0 unknown sources (hiện tại 1624)
 - [ ] 0 unresolved slots (chưa — chờ reviewer)
-- [ ] 213/213 render smoke pass (chưa — cần ContractDrivenFormPanel pilot)
-- [ ] 213/213 PDF smoke pass (chưa — cần backend render integration)
+- [ ] 214/214 render smoke pass (chưa — cần ContractDrivenFormPanel pilot)
+- [ ] 214/214 PDF smoke pass (chưa — cần backend render integration)
 - [ ] shared UI gene pass (chưa — 481 violations đang tồn tại)
 
 ## Limitations đã thừa nhận
 
 - **DOC binary Clx parser thất bại** cho tất cả 213 file `.doc` (format Clxt không theo MS-DOC spec hoặc file đã được convert sang OLE compound với layout khác). Extractor fallback scan UTF-16LE — vẫn trích được text tiếng Việt có nghĩa, nhưng có thể bỏ sót một số vị trí text khi có control character.
 - **BESPOKE field extraction dùng regex đơn giản** — không thấy field path từ file dùng nested TypeScript type qua `import`. Cần `ts-morph` để phân tích AST đầy đủ.
-- **Canonical field name auto-generated từ blank candidate** dùng pattern generic (`document.field7`) — không có ngữ nghĩa nghiệp vụ. Reviewer phải map sang field name theo `field-taxonomy.json`.
+- **Canonical field name auto-generated từ blank candidate** dùng pattern generic (`document.field7`) — không có ngữ nghĩa nghiệp vụ. `suggestedNamespace` và `suggestedBy: heuristic` chỉ là ĐỀ XUẤT máy. Reviewer phải map sang field name theo `field-taxonomy.json` và quyết định source.
+- **DOCX table parser** vẫn dùng regex (không phải XML parser đầy đủ). gridSpan/vMerge giờ parse đúng từ `<w:tcPr>` block, nhưng nested table hoặc style phức tạp có thể vẫn bỏ sót.
 - **Không render DOCX thật** ở phase này — chỉ extract structure. Smoke test render DOCX cần pipeline riêng (xem `GOLDEN-TEST-PLAN.md`).
+- **Verify chỉ là structural**: schema + taxonomy, không phải semantic/legal. Xem `SLOT-COVERAGE-SUMMARY.md` để biết rõ phạm vi.
 - **Không có OCR**: nếu file là scan ảnh (không phải text), pipeline sẽ fail. Tất cả 213 file trong folder nguồn đều là text (verified bằng cách extract được paragraph).

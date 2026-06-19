@@ -1,4 +1,4 @@
-﻿export default function NotFound() {
+export default function NotFound() {
   return (
     <main style={{ minHeight: '70vh', display: 'grid', placeItems: 'center', fontFamily: 'Arial, sans-serif', padding: 24 }}>
       <section style={{ maxWidth: 560 }}>

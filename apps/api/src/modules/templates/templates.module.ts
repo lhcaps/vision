@@ -1,4 +1,4 @@
-﻿import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TemplateNormalizerController } from './template-normalizer.controller';
 import { TemplateNormalizerService } from './template-normalizer.service';
 import { TemplatesController } from './templates.controller';

@@ -1,16 +1,19 @@
 # Missing Contracts Report
 
-Sinh lúc: 2026-06-19T00:16:36.158Z
+Sinh lúc: 2026-06-19T01:19:42.448Z
 
 ## BM code thiếu so với 1..213
 
 - (Không có — đủ 213/213 BM code trong folder nguồn)
 
-## File duplicate BM code
+## File duplicate BM code (cần human chọn canonical source)
 
 - **BM-139** (2 file):
   - docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra.doc
   - docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/139-Kiến nghị khắc phục, xử lý vi phạm trong hoạt động tiếp nhận, giải quyết nguồn tin, khởi tố, điều tra, truy tố.doc
+
+> Mỗi file duplicate có sourceId riêng (xem inventory).
+> Reviewer quyết định file canonical và đánh dấu các biến thể khác là `documentKind: alternate`.
 
 ## File không detect được code (cần review để phân loại)
 
