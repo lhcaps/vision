@@ -7,6 +7,8 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
+import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 function toPublicId(value: bigint | number | null | undefined): string | null {
@@ -34,7 +36,11 @@ function normalizeSlash(value: string): string {
 
 @Injectable()
 export class TemplateNormalizerService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly paths: WorkspacePathsService,
+    private readonly config: AppConfigService,
+  ) {}
 
   async normalizeMvp(force = false) {
     const mvpCodes = ['BM-001', 'BM-053', 'BM-090', 'BM-097', 'BM-156'];
@@ -312,7 +318,7 @@ export class TemplateNormalizerService {
   }
 
   private getLibreOfficePath(): string {
-    const fromEnv = process.env.LIBREOFFICE_PATH?.trim().replace(/^"|"$/g, '');
+    const fromEnv = this.config.libreOfficePath;
 
     if (fromEnv && fs.existsSync(fromEnv)) {
       return fromEnv;
@@ -343,7 +349,7 @@ export class TemplateNormalizerService {
   }
 
   private getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 
   private sha256(filePath: string): string {

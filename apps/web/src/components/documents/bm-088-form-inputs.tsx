@@ -298,7 +298,7 @@ function fillCustomerSample(): Bm088Form {
     signature: {
       signMode: DEFAULT_SIGN_MODE,
       positionTitle: DEFAULT_POSITION_TITLE,
-      signerName: "Nguyễn Văn A",
+      signerName: "Người ký mẫu",
     },
   };
 }

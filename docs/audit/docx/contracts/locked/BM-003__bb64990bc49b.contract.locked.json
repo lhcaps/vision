@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-003__bb64990bc49b",
+  "templateCode": "BM-003",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm",
+  "docx": {
+    "sha256": "bb64990bc49be2a162ca156c18d6c8ce1a1a9d384563e2800ae1f43aa742996c",
+    "fileName": "03-QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/03-QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage\\templates\\normalized-docx\\BM-003\\BM-003_normalized.docx",
+    "sha256": "1a5baf6739edc3d7769853a6b8d8d3be80a72e4ca105c7850278590ca4e31128",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.parentName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}}",
+      "label": "parentName",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.parentName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.parentName}}",
+        "context": "P0002 + T0001.R0001.C0001: {{agency.parentName}} — constant from DOCX header",
+        "blockId": "P0002",
+        "tableCellId": "T0001.R0001.C0001"
+      }
+    },
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{agency.name}}",
+      "label": "name",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "P0003 + T0001.R0001.C0001: {{agency.name}}",
+        "blockId": "P0003",
+        "tableCellId": "T0001.R0001.C0001"
+      }
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.documentCode}}",
+      "label": "documentCode",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}",
+        "context": "P0009 + T0001.R0002.C0001: Số: {{document.documentCode}}",
+        "blockId": "P0009",
+        "tableCellId": "T0001.R0002.C0001"
+      }
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.issuePlaceAndDateLine}}",
+      "label": "issuePlaceAndDateLine",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "context": "P0011 + T0001.R0002.C0002: {{document.issuePlaceAndDateLine}}",
+        "blockId": "P0011",
+        "tableCellId": "T0001.R0002.C0002"
+      }
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{legalBasis.procedureArticlesLine}}",
+      "label": "procedureArticlesLine",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "context": "P0022: {{legalBasis.procedureArticlesLine}} — căn cứ điều luật Bộ luật Tố tụng hình sự",
+        "blockId": "P0022"
+      }
+    },
+    {
+      "slotId": "recipients.primaryLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{recipients.primaryLine}}",
+      "label": "primaryLine",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.primaryLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.primaryLine}}",
+        "context": "P0029 + T0002.R0001.C0001: Nơi nhận: - {{recipients.primaryLine}};",
+        "blockId": "P0029",
+        "tableCellId": "T0002.R0001.C0001"
+      }
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{recipients.archiveLine}}",
+      "label": "archiveLine",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.archiveLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.archiveLine}}",
+        "context": "P0031 + T0002.R0001.C0001: - {{recipients.archiveLine}}.",
+        "blockId": "P0031",
+        "tableCellId": "T0002.R0001.C0001"
+      }
+    },
+    {
+      "slotId": "signature.signMode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}",
+      "label": "signMode",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signMode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signMode}}",
+        "context": "P0033 + T0002.R0001.C0002: {{signature.signMode}}",
+        "blockId": "P0033",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{signature.positionTitle}}",
+      "label": "positionTitle",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}",
+        "context": "P0034 + T0002.R0001.C0002: {{signature.positionTitle}}",
+        "blockId": "P0034",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{signature.signerName}}",
+      "label": "signerName",
+      "slotType": "text",
+      "required": true,
+      "confidence": 0.9,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}",
+        "context": "P0038 + T0002.R0001.C0002: {{signature.signerName}}",
+        "blockId": "P0038",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.parentName",
+      "type": "string",
+      "label": "parentName",
+      "source": "constantFromDocx",
+      "required": true,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0002 + T0001.R0001.C0001: {{agency.parentName}} — constant from DOCX header",
+        "blockId": "P0002",
+        "tableCellId": "T0001.R0001.C0001"
+      }
+    },
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "name",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0003 + T0001.R0001.C0001: {{agency.name}}",
+        "blockId": "P0003",
+        "tableCellId": "T0001.R0001.C0001"
+      }
+    },
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "documentCode",
+      "source": "manualOrDefault",
+      "required": true,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0009 + T0001.R0002.C0001: Số: {{document.documentCode}}",
+        "blockId": "P0009",
+        "tableCellId": "T0001.R0002.C0001"
+      }
+    },
+    {
+      "path": "document.issuePlaceAndDateLine",
+      "type": "string",
+      "label": "issuePlaceAndDateLine",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0011 + T0001.R0002.C0002: {{document.issuePlaceAndDateLine}}",
+        "blockId": "P0011",
+        "tableCellId": "T0001.R0002.C0002"
+      }
+    },
+    {
+      "path": "legalBasis.procedureArticlesLine",
+      "type": "string",
+      "label": "procedureArticlesLine",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "legalBasis",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0022: {{legalBasis.procedureArticlesLine}} — căn cứ điều luật Bộ luật Tố tụng hình sự",
+        "blockId": "P0022"
+      }
+    },
+    {
+      "path": "recipients.primaryLine",
+      "type": "string",
+      "label": "primaryLine",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "recipients",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0029 + T0002.R0001.C0001: Nơi nhận: - {{recipients.primaryLine}};",
+        "blockId": "P0029",
+        "tableCellId": "T0002.R0001.C0001"
+      }
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "archiveLine",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "recipients",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0031 + T0002.R0001.C0001: - {{recipients.archiveLine}}.",
+        "blockId": "P0031",
+        "tableCellId": "T0002.R0001.C0001"
+      }
+    },
+    {
+      "path": "signature.signMode",
+      "type": "string",
+      "label": "signMode",
+      "source": "constantFromDocx",
+      "required": true,
+      "uiComponent": "text",
+      "section": "signature",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0033 + T0002.R0001.C0002: {{signature.signMode}}",
+        "blockId": "P0033",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    },
+    {
+      "path": "signature.positionTitle",
+      "type": "string",
+      "label": "positionTitle",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "signature",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0034 + T0002.R0001.C0002: {{signature.positionTitle}}",
+        "blockId": "P0034",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "signerName",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "signature",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "human",
+      "reviewedAt": "2026-06-19T07:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0038 + T0002.R0001.C0002: {{signature.signerName}}",
+        "blockId": "P0038",
+        "tableCellId": "T0002.R0001.C0002"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.primaryLine",
+      "from": "recipients.primaryLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signMode",
+      "from": "signature.signMode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "from": "signature.positionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "slotId": "official.issuerTitle",
+      "reason": "Namespace \"official\" không thuộc field-taxonomy"
+    },
+    {
+      "slotId": "sourceAssignment.article1Line",
+      "reason": "Namespace \"sourceAssignment\" không thuộc field-taxonomy"
+    },
+    {
+      "slotId": "sourceAssignment.article2Line",
+      "reason": "Namespace \"sourceAssignment\" không thuộc field-taxonomy"
+    },
+    {
+      "slotId": "sourceAssignment.article3Line",
+      "reason": "Namespace \"sourceAssignment\" không thuộc field-taxonomy"
+    }
+  ],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "01",
+      "label": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "003/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [],
+    "suggestedControls": [],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:36.924Z",
+  "reviewedBy": "human",
+  "reviewedAt": "2026-06-19T07:00:00.000Z"
+}

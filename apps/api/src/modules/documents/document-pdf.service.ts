@@ -7,6 +7,8 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
+import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { DocumentPreExportService } from './document-pre-export.service';
 import { DocumentRendererService } from './document-renderer.service';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -49,6 +51,8 @@ export class DocumentPdfService {
     private readonly prisma: PrismaService,
     private readonly documentRendererService: DocumentRendererService,
     private readonly documentPreExportService: DocumentPreExportService,
+    private readonly paths: WorkspacePathsService,
+    private readonly config: AppConfigService,
   ) {}
 
   async convertLatestDocxToPdf(
@@ -472,7 +476,7 @@ export class DocumentPdfService {
   }
 
   private getLibreOfficePath(): string {
-    const fromEnv = process.env.LIBREOFFICE_PATH?.trim().replace(/^"|"$/g, '');
+    const fromEnv = this.config.libreOfficePath;
 
     if (fromEnv && fs.existsSync(fromEnv)) {
       return fromEnv;
@@ -495,7 +499,7 @@ export class DocumentPdfService {
   }
 
   private getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 
   private resolveProjectPath(storedPath: string): string {

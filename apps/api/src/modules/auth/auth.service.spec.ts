@@ -1,4 +1,5 @@
 import { AuthService } from './auth.service';
+import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { hashPassword } from './password.util';
 
 const baseOfficial = {
@@ -105,31 +106,25 @@ describe('AuthService session revocation', () => {
 
 describe('AuthService getCookieOptions', () => {
   it('omits domain when AUTH_COOKIE_DOMAIN is unset', () => {
-    const original = process.env.AUTH_COOKIE_DOMAIN;
-    delete process.env.AUTH_COOKIE_DOMAIN;
-
-    try {
-      const service = new AuthService({} as never);
-      const opts = service.getCookieOptions();
-      expect(opts.domain).toBeUndefined();
-      expect(opts.httpOnly).toBe(true);
-      expect(opts.path).toBe('/');
-    } finally {
-      if (original !== undefined) process.env.AUTH_COOKIE_DOMAIN = original;
-    }
+    const service = new AuthService({} as never, new AppConfigService({}));
+    const opts = service.getCookieOptions();
+    expect(opts.domain).toBeUndefined();
+    expect(opts.httpOnly).toBe(true);
+    expect(opts.path).toBe('/');
   });
 
   it('includes domain when AUTH_COOKIE_DOMAIN is set', () => {
-    const original = process.env.AUTH_COOKIE_DOMAIN;
-    process.env.AUTH_COOKIE_DOMAIN = '.qlv.local';
-
-    try {
-      const service = new AuthService({} as never);
-      const opts = service.getCookieOptions();
-      expect(opts.domain).toBe('.qlv.local');
-    } finally {
-      if (original === undefined) delete process.env.AUTH_COOKIE_DOMAIN;
-      else process.env.AUTH_COOKIE_DOMAIN = original;
-    }
+    const service = new AuthService(
+      {} as never,
+      new AppConfigService({
+        AUTH_COOKIE_DOMAIN: '.qlv.local',
+        AUTH_SESSION_COOKIE_NAME: 'custom_session',
+        AUTH_SESSION_TTL_DAYS: '30',
+      }),
+    );
+    const opts = service.getCookieOptions();
+    expect(opts.domain).toBe('.qlv.local');
+    expect(opts.name).toBe('custom_session');
+    expect(opts.maxAge).toBe(30 * 24 * 60 * 60 * 1000);
   });
 });

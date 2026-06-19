@@ -9,12 +9,6 @@ import { Reflector } from '@nestjs/core';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
 import { IS_PUBLIC_KEY } from './public.decorator';
-import { envOrDefault } from '../../common/env.util';
-
-export const SESSION_COOKIE_NAME = envOrDefault(
-  'AUTH_SESSION_COOKIE_NAME',
-  'qlv_session',
-);
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -66,8 +60,9 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractFromCookie(request: Request): string | null {
+    const cookieName = this.authService.getCookieOptions().name;
     const raw = (request as Request & { cookies?: Record<string, string> })
-      .cookies?.[SESSION_COOKIE_NAME];
+      .cookies?.[cookieName];
     return raw && typeof raw === 'string' ? raw : null;
   }
 

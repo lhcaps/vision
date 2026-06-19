@@ -30,9 +30,10 @@ const findings = [];
 for (const dir of scanRoots) {
   for (const file of walk(join(root, dir))) {
     if (!extensions.has(file.slice(file.lastIndexOf('.')))) continue;
-    if (file.endsWith('.spec.ts') || file.endsWith('.spec.tsx')) continue;
 
     const rel = relative(root, file).split('\\').join('/');
+    if (isAuditExcluded(rel)) continue;
+
     const text = readFileSync(file, 'utf8');
 
     for (const needle of forbiddenSubstrings) {
@@ -56,6 +57,14 @@ if (findings.length) {
 }
 
 console.log('Runtime hardcode audit passed.');
+
+function isAuditExcluded(relativePath) {
+  return (
+    /\.(spec|test)\.tsx?$/u.test(relativePath) ||
+    relativePath ===
+      'apps/web/src/features/forms-contracts/sample-data.ts'
+  );
+}
 
 function* walk(dir) {
   for (const entry of readdirSync(dir)) {

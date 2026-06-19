@@ -18,7 +18,6 @@ import type { CookieOptions, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CurrentUser as CurrentUserDecorator } from './current-user.decorator';
 import { Public } from './public.decorator';
-import { SESSION_COOKIE_NAME } from './auth.guard';
 import { CurrentUser } from './current-user.type';
 import { PrismaService } from '../../prisma/prisma.service';
 import { hashPassword, verifyPassword } from './password.util';
@@ -110,7 +109,7 @@ export class AuthController {
     if (cookieOpts.domain) {
       cookieSetOptions.domain = cookieOpts.domain;
     }
-    response.cookie(SESSION_COOKIE_NAME, token, cookieSetOptions);
+    response.cookie(cookieOpts.name, token, cookieSetOptions);
 
     return { user, expiresAt: expiresAt.toISOString() };
   }
@@ -123,17 +122,17 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ): Promise<{ ok: true }> {
+    const cookieOpts = this.authService.getCookieOptions();
     const token = (request as Request & { cookies?: Record<string, string> })
-      .cookies?.[SESSION_COOKIE_NAME];
+      .cookies?.[cookieOpts.name];
     if (token) {
       await this.authService.destroySession(token);
     }
     const clearOpts: CookieOptions = { path: '/' };
-    const domain = process.env.AUTH_COOKIE_DOMAIN?.trim();
-    if (domain) {
-      clearOpts.domain = domain;
+    if (cookieOpts.domain) {
+      clearOpts.domain = cookieOpts.domain;
     }
-    response.clearCookie(SESSION_COOKIE_NAME, clearOpts);
+    response.clearCookie(cookieOpts.name, clearOpts);
     return { ok: true };
   }
 
@@ -244,9 +243,10 @@ export class AuthController {
       data: { password_hash: newHash },
     });
 
+    const cookieName = this.authService.getCookieOptions().name;
     const currentToken = (
       request as Request & { cookies?: Record<string, string> }
-    ).cookies?.[SESSION_COOKIE_NAME];
+    ).cookies?.[cookieName];
     const revoked = await this.authService.revokeOtherSessions(
       user.id,
       currentToken,

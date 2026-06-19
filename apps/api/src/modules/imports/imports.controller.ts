@@ -21,20 +21,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { randomBytes } from 'node:crypto';
-import { createReadStream, mkdirSync } from 'node:fs';
-import * as path from 'node:path';
+import { createReadStream } from 'node:fs';
 import type { Response } from 'express';
-import type { Request } from 'express';
 import { ConfirmImportBatchDto } from './dto/confirm-import-batch.dto';
 import { ImportsService } from './imports.service';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
-
-function getTempUploadRoot(): string {
-  return path.resolve(process.cwd(), '..', '..', 'storage', 'imports', '_tmp');
-}
 
 @ApiTags('Imports')
 @Controller('import')
@@ -64,34 +56,7 @@ export class ImportsController {
       required: ['files'],
     },
   })
-  @UseInterceptors(
-    FilesInterceptor('files', 20, {
-      storage: diskStorage({
-        destination: (
-          _req: Request,
-          _file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void,
-        ) => {
-          const tempRoot = getTempUploadRoot();
-          mkdirSync(tempRoot, {
-            recursive: true,
-          });
-          callback(null, tempRoot);
-        },
-        filename: (
-          _req: Request,
-          file: Express.Multer.File,
-          callback: (error: Error | null, filename: string) => void,
-        ) => {
-          const extension = path.extname(file.originalname || '').toLowerCase();
-          callback(
-            null,
-            `${Date.now()}-${randomBytes(4).toString('hex')}${extension}`,
-          );
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FilesInterceptor('files', 20))
   async upload(
     @UploadedFiles() files: Express.Multer.File[],
     @CurrentUserDecorator() user: CurrentUser,

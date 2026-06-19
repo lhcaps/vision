@@ -13,17 +13,15 @@
  */
 import { execFileSync, spawnSync } from 'node:child_process';
 import process from 'node:process';
+import {
+  parsePorts,
+  parseWindowsListenerPids,
+  windowsTaskkillArgs,
+} from './dev-port-manager.mjs';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
-const portArgs = args.filter((a) => !a.startsWith('--'));
-const ports = portArgs.length
-  ? portArgs
-      .join(',')
-      .split(',')
-      .map((p) => Number(p.trim()))
-      .filter((n) => Number.isInteger(n) && n > 0)
-  : [3000, 3001];
+const ports = parsePorts(args);
 
 const isWindows = process.platform === 'win32';
 
@@ -31,13 +29,7 @@ function listListenersWin(port) {
   // netstat -ano | findstr :PORT  -> "TCP    0.0.0.0:3000   0.0.0.0:0   LISTENING   1234"
   try {
     const out = execFileSync('netstat', ['-ano', '-p', 'tcp'], { encoding: 'utf8' });
-    const pids = new Set();
-    for (const line of out.split(/\r?\n/)) {
-      if (!/LISTENING/i.test(line)) continue;
-      const m = line.match(new RegExp(`[:.]${port}\\b.*LISTENING\\s+(\\d+)`));
-      if (m) pids.add(Number(m[1]));
-    }
-    return [...pids];
+    return parseWindowsListenerPids(out, port);
   } catch {
     return [];
   }
@@ -61,7 +53,9 @@ function listListenersPosix(port) {
 function killPid(pid) {
   if (pid === process.pid) return false;
   if (isWindows) {
-    const r = spawnSync('taskkill', ['/PID', String(pid), '/F'], { stdio: 'ignore' });
+    const r = spawnSync('taskkill', windowsTaskkillArgs(pid), {
+      stdio: 'ignore',
+    });
     return r.status === 0;
   }
   try {
@@ -78,7 +72,7 @@ function killPid(pid) {
 }
 
 function sleep(ms) {
-  spawnSync(isWindows ? 'powershell' : 'sleep', isWindows ? ['-NoProfile', '-Command', `Start-Sleep -Milliseconds ${ms}`] : [String(ms / 1000)]);
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
 const criticalNames = new Set(

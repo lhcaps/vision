@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 function parseBigIntId(value: string, entityName = 'ID'): bigint {
@@ -27,7 +28,10 @@ function normalizeHeaderFileName(fileName: string): string {
 
 @Injectable()
 export class DocumentFilesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly paths: WorkspacePathsService,
+  ) {}
 
   async getGeneratedFileForDownload(documentIdRaw: string, fileIdRaw: string) {
     const documentId = parseBigIntId(documentIdRaw, 'documentId');
@@ -301,7 +305,7 @@ export class DocumentFilesService {
   }
 
   private getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 
   private resolveProjectPath(storedPath: string): string {

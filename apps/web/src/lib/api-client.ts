@@ -161,17 +161,21 @@ export function installApiFetchDefaults() {
       // nhưng tách ra để tree-shaking tốt và tránh kéo module ở server build.
       void import("./auth-events")
         .then(({ emitAuthEvent }) => {
-          void responsePromise.then((response) => {
-            if (
-              response.status === 401 &&
-              !isAuthProbeRequest(getRequestUrl(nextInput) ?? "")
-            ) {
-              emitAuthEvent({ type: "unauthorized" });
-            }
-          });
+          void responsePromise
+            .then((response) => {
+              if (
+                response.status === 401 &&
+                !isAuthProbeRequest(getRequestUrl(nextInput) ?? "")
+              ) {
+                emitAuthEvent({ type: "unauthorized" });
+              }
+            })
+            .catch(() => {
+              // Network/CORS/offline handled by original caller.
+            });
         })
         .catch(() => {
-          // best-effort: skip event emission nếu module lỗi
+          // best-effort: skip event emission if module fails
         });
     }
 

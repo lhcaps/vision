@@ -71,6 +71,11 @@
       "input": "constant string",
       "output": "constant string",
       "description": "Trả về giá trị hằng số (thường lấy từ constantFromDocx)."
+    },
+    "derived": {
+      "input": "canonical field value",
+      "output": "component or slice of input",
+      "description": "Trích xuất một phần từ trường canonical (ví dụ: birthDay từ birthDate, identityIssuedMonth từ identityIssuedDate). Dùng khi không có transform cụ thể như date.day/month/year."
     }
   },
   "notes": [

@@ -3,6 +3,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { promises as fsp } from 'node:fs';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import type { ImportBatchMetadata } from './import.types';
 
 function toAsciiSlug(value: string): string {
@@ -21,8 +22,10 @@ function pad2(value: number): string {
 
 @Injectable()
 export class ImportStorageService {
+  constructor(private readonly paths: WorkspacePathsService) {}
+
   getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 
   getImportRoot(): string {

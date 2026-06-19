@@ -1,13 +1,14 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  Optional,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { envIntOrDefault, envBoolOrDefault } from '../../common/env.util';
+import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { generateSessionToken, hashSessionToken } from './token.util';
 import { PublicUser } from './current-user.type';
 import { verifyPassword } from './password.util';
-
-const SESSION_TTL_DAYS = envIntOrDefault('AUTH_SESSION_TTL_DAYS', 14);
-const SESSION_TTL_MS = SESSION_TTL_DAYS * 24 * 60 * 60 * 1000;
-const COOKIE_SECURE = envBoolOrDefault('AUTH_COOKIE_SECURE', false);
 
 interface CreateSessionInput {
   officialId: string;
@@ -18,8 +19,14 @@ interface CreateSessionInput {
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly config: AppConfigService;
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Optional() config?: AppConfigService,
+  ) {
+    this.config = config ?? new AppConfigService();
+  }
 
   /**
    * Tìm official theo username (fullName match lowercase, normalized).
@@ -56,7 +63,7 @@ export class AuthService {
     user: PublicUser;
   }> {
     const { raw, hash } = generateSessionToken();
-    const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
+    const expiresAt = new Date(Date.now() + this.config.authSessionTtlMs);
 
     await this.prisma.$executeRaw`
       INSERT INTO auth_sessions
@@ -179,18 +186,13 @@ export class AuthService {
    * Set domain khi cần share cookie giữa subdomain (vd: app.qlv.local, api.qlv.local).
    */
   getCookieOptions() {
-    const domain = process.env.AUTH_COOKIE_DOMAIN?.trim() || undefined;
+    const domain = this.config.authCookieDomain;
     return {
-      name: process.env.AUTH_SESSION_COOKIE_NAME ?? 'qlv_session',
-      secure: COOKIE_SECURE,
+      name: this.config.authSessionCookieName,
+      secure: this.config.authCookieSecure,
       httpOnly: true,
-      sameSite:
-        (process.env.AUTH_COOKIE_SAMESITE as
-          | 'lax'
-          | 'strict'
-          | 'none'
-          | undefined) ?? ('lax' as const),
-      maxAge: SESSION_TTL_MS,
+      sameSite: this.config.authCookieSameSite,
+      maxAge: this.config.authSessionTtlMs,
       path: '/',
       ...(domain ? { domain } : {}),
     };

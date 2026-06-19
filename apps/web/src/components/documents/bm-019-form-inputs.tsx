@@ -469,7 +469,7 @@ export function Bm019FormInputsPanel({
       signature: {
         signMode: "KT. VIỆN TRƯỞNG",
         positionTitle: "PHÓ VIỆN TRƯỞNG",
-        signerName: "Nguyễn Văn A",
+        signerName: "Người ký mẫu",
       },
     });
     setError(null);

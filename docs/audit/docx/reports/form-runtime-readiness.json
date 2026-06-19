@@ -1,0 +1,476 @@
+{
+  "generatedAt": "2026-06-19T10:37:36.982Z",
+  "counts": {
+    "total": 213,
+    "locked": 3,
+    "draft": 210,
+    "genericFieldCount": 1189,
+    "unknownSourceCount": 1454,
+    "reviewRequiredCount": 1727,
+    "runtimeEligible": 3,
+    "blockedForms": 210
+  },
+  "byStage": [
+    {
+      "stageCode": "01",
+      "stageLabel": "Tiếp nhận và giải quyết nguồn tin",
+      "locked": [
+        "BM-001",
+        "BM-002",
+        "BM-003"
+      ],
+      "draft": [
+        "BM-004",
+        "BM-005",
+        "BM-006",
+        "BM-007",
+        "BM-008",
+        "BM-009",
+        "BM-010",
+        "BM-011",
+        "BM-012",
+        "BM-013",
+        "BM-014",
+        "BM-015",
+        "BM-016",
+        "BM-017",
+        "BM-018",
+        "BM-019",
+        "BM-020",
+        "BM-021",
+        "BM-022",
+        "BM-023",
+        "BM-024",
+        "BM-025",
+        "BM-026",
+        "BM-027",
+        "BM-028",
+        "BM-029",
+        "BM-030"
+      ]
+    },
+    {
+      "stageCode": "02",
+      "stageLabel": "Biện pháp ngăn chặn, cưỡng chế",
+      "locked": [],
+      "draft": [
+        "BM-031",
+        "BM-032",
+        "BM-033",
+        "BM-034",
+        "BM-035",
+        "BM-036",
+        "BM-037",
+        "BM-038",
+        "BM-039",
+        "BM-040",
+        "BM-041",
+        "BM-042",
+        "BM-043",
+        "BM-044",
+        "BM-045",
+        "BM-046",
+        "BM-047",
+        "BM-048",
+        "BM-049",
+        "BM-050",
+        "BM-051",
+        "BM-052",
+        "BM-053",
+        "BM-054",
+        "BM-055",
+        "BM-056",
+        "BM-057",
+        "BM-058",
+        "BM-059",
+        "BM-060",
+        "BM-061",
+        "BM-062",
+        "BM-063",
+        "BM-064",
+        "BM-065",
+        "BM-066",
+        "BM-067",
+        "BM-068",
+        "BM-069"
+      ]
+    },
+    {
+      "stageCode": "03",
+      "stageLabel": "Người tham gia tố tụng",
+      "locked": [],
+      "draft": [
+        "BM-070",
+        "BM-071",
+        "BM-072",
+        "BM-073",
+        "BM-074",
+        "BM-075",
+        "BM-076",
+        "BM-077",
+        "BM-078",
+        "BM-079",
+        "BM-080",
+        "BM-081",
+        "BM-082",
+        "BM-083",
+        "BM-084"
+      ]
+    },
+    {
+      "stageCode": "04",
+      "stageLabel": "Giai đoạn điều tra",
+      "locked": [],
+      "draft": [
+        "BM-085",
+        "BM-086",
+        "BM-087",
+        "BM-088",
+        "BM-089",
+        "BM-090",
+        "BM-091",
+        "BM-092",
+        "BM-093",
+        "BM-094",
+        "BM-095",
+        "BM-096",
+        "BM-097",
+        "BM-098",
+        "BM-099",
+        "BM-100",
+        "BM-101",
+        "BM-102",
+        "BM-103",
+        "BM-104",
+        "BM-105",
+        "BM-106",
+        "BM-107",
+        "BM-108",
+        "BM-109",
+        "BM-110",
+        "BM-111",
+        "BM-112",
+        "BM-113",
+        "BM-114",
+        "BM-115",
+        "BM-116",
+        "BM-117",
+        "BM-118",
+        "BM-119",
+        "BM-120",
+        "BM-121",
+        "BM-122",
+        "BM-123",
+        "BM-124",
+        "BM-125",
+        "BM-126",
+        "BM-127",
+        "BM-128",
+        "BM-129",
+        "BM-130",
+        "BM-131",
+        "BM-132",
+        "BM-133",
+        "BM-134",
+        "BM-135",
+        "BM-136",
+        "BM-137",
+        "BM-138",
+        "BM-139",
+        "BM-140"
+      ]
+    },
+    {
+      "stageCode": "05",
+      "stageLabel": "Giai đoạn truy tố",
+      "locked": [],
+      "draft": [
+        "BM-141",
+        "BM-142",
+        "BM-143",
+        "BM-144",
+        "BM-145",
+        "BM-146",
+        "BM-147",
+        "BM-148",
+        "BM-149",
+        "BM-150",
+        "BM-151",
+        "BM-152",
+        "BM-153",
+        "BM-154",
+        "BM-155",
+        "BM-156",
+        "BM-157",
+        "BM-158",
+        "BM-159",
+        "BM-160",
+        "BM-161",
+        "BM-162",
+        "BM-163",
+        "BM-164",
+        "BM-165",
+        "BM-166",
+        "BM-167",
+        "BM-168"
+      ]
+    },
+    {
+      "stageCode": "06",
+      "stageLabel": "Vật chứng",
+      "locked": [],
+      "draft": [
+        "BM-169",
+        "BM-170",
+        "BM-171",
+        "BM-172",
+        "BM-173"
+      ]
+    },
+    {
+      "stageCode": "07",
+      "stageLabel": "Biện pháp điều tra đặc biệt",
+      "locked": [],
+      "draft": [
+        "BM-174",
+        "BM-175",
+        "BM-176",
+        "BM-177",
+        "BM-178"
+      ]
+    },
+    {
+      "stageCode": "08",
+      "stageLabel": "Thủ tục đặc biệt",
+      "locked": [],
+      "draft": [
+        "BM-179",
+        "BM-180",
+        "BM-181",
+        "BM-182",
+        "BM-183",
+        "BM-184"
+      ]
+    },
+    {
+      "stageCode": "09",
+      "stageLabel": "Người chưa thành niên",
+      "locked": [],
+      "draft": [
+        "BM-185",
+        "BM-186",
+        "BM-187",
+        "BM-188",
+        "BM-189",
+        "BM-190",
+        "BM-191",
+        "BM-192",
+        "BM-193",
+        "BM-194",
+        "BM-195",
+        "BM-196",
+        "BM-197",
+        "BM-198",
+        "BM-199",
+        "BM-200",
+        "BM-201",
+        "BM-202",
+        "BM-203",
+        "BM-204",
+        "BM-205",
+        "BM-206",
+        "BM-207",
+        "BM-208",
+        "BM-209",
+        "BM-210",
+        "BM-211",
+        "BM-212",
+        "BM-213"
+      ]
+    }
+  ],
+  "top20ByGenericFields": [
+    {
+      "templateCode": "BM-004",
+      "title": "QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin",
+      "genericFieldCount": 44,
+      "stage": "01"
+    },
+    {
+      "templateCode": "BM-167",
+      "title": "Thông báo về việc trả hồ sơ, ban hành cáo trạng",
+      "genericFieldCount": 27,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-068",
+      "title": "QĐ huỷ bỏ biện pháp phong toả tài khoản",
+      "genericFieldCount": 17,
+      "stage": "02"
+    },
+    {
+      "templateCode": "BM-184",
+      "title": "Đề nghị áp dụng biện pháp bảo vệ",
+      "genericFieldCount": 14,
+      "stage": "08"
+    },
+    {
+      "templateCode": "BM-062",
+      "title": "Lệnh kê biên tài sản",
+      "genericFieldCount": 13,
+      "stage": "02"
+    },
+    {
+      "templateCode": "BM-063",
+      "title": "Biên bản kê biên tài sản",
+      "genericFieldCount": 13,
+      "stage": "02"
+    },
+    {
+      "templateCode": "BM-209",
+      "title": "Quyết định áp dụng biện pháp giám sát bởi người đại diện",
+      "genericFieldCount": 13,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-009",
+      "title": "QĐ gia hạn thời hạn giải quyết nguồn tin về tội phạm",
+      "genericFieldCount": 12,
+      "stage": "01"
+    },
+    {
+      "templateCode": "BM-158",
+      "title": "Danh sách đề nghị triệu tập đến phiên tòa",
+      "genericFieldCount": 12,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-191",
+      "title": "Quyết định áp dụng biện pháp xử lý chuyển hướng tại cộng đồng",
+      "genericFieldCount": 12,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-196",
+      "title": "Quyết định mở phiên họp xem xét, áp dụng biện pháp xử lý chuyển hướng tại cộng đồng - Copy",
+      "genericFieldCount": 12,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-156",
+      "title": "Cáo trạng",
+      "genericFieldCount": 11,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-190",
+      "title": "Đề nghị Tòa án xem xét, quyết định áp dụng biện pháp giáo dục tại trường giáo dưỡng",
+      "genericFieldCount": 11,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-192",
+      "title": "Quyết định không áp dụng biện pháp xử lý chuyển hướng tại cộng đồng",
+      "genericFieldCount": 11,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-203",
+      "title": "Thông báo về hoạt động tố tụng",
+      "genericFieldCount": 11,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-060",
+      "title": "QĐ áp giải bị can",
+      "genericFieldCount": 10,
+      "stage": "02"
+    },
+    {
+      "templateCode": "BM-096",
+      "title": "Yêu cầu ra QĐ khởi tố bị can",
+      "genericFieldCount": 10,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-097",
+      "title": "QĐ khởi tố bị can",
+      "genericFieldCount": 10,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-135",
+      "title": "BB hỏi cung bị can",
+      "genericFieldCount": 10,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-136",
+      "title": "BB đối chất",
+      "genericFieldCount": 10,
+      "stage": "04"
+    }
+  ],
+  "easyBatch": [
+    {
+      "templateCode": "BM-049",
+      "title": "QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm",
+      "genericFieldCount": 1,
+      "stage": "02"
+    },
+    {
+      "templateCode": "BM-089",
+      "title": "QĐ huỷ bỏ QĐ tách vụ án hình sự",
+      "genericFieldCount": 1,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-122",
+      "title": "QĐ không phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm",
+      "genericFieldCount": 1,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-123",
+      "title": "QĐ thực nghiệm điều tra",
+      "genericFieldCount": 1,
+      "stage": "04"
+    },
+    {
+      "templateCode": "BM-143",
+      "title": "Quyết định tách vụ án hình sự trong giai đoạn truy tố",
+      "genericFieldCount": 1,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-157",
+      "title": "Bản kê vật chứng kèm theo Cáo trạng",
+      "genericFieldCount": 1,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-165",
+      "title": "Thông báo về việc vụ án có bị can bị tạm giam",
+      "genericFieldCount": 1,
+      "stage": "05"
+    },
+    {
+      "templateCode": "BM-197",
+      "title": "BB phiên họp xem xét, quyết định áp dụng BPXLCH tại cộng đồng",
+      "genericFieldCount": 1,
+      "stage": "09"
+    },
+    {
+      "templateCode": "BM-010",
+      "title": "QĐ tạm đình chỉ giải quyết nguồn tin về tội phạm",
+      "genericFieldCount": 2,
+      "stage": "01"
+    },
+    {
+      "templateCode": "BM-015",
+      "title": "KH trực tiếp kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm",
+      "genericFieldCount": 2,
+      "stage": "01"
+    }
+  ]
+}

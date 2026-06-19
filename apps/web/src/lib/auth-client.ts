@@ -61,10 +61,15 @@ export async function logout(): Promise<void> {
 }
 
 export async function fetchMe(): Promise<AuthUser | null> {
-  const res = await fetch(absoluteApiUrl("/auth/me"), {
-    credentials: "include",
-    cache: "no-store",
-  });
+  let res: Response;
+  try {
+    res = await fetch(absoluteApiUrl("/auth/me"), {
+      credentials: "include",
+      cache: "no-store",
+    });
+  } catch {
+    return null;
+  }
   if (res.status === 401) return null;
   if (!res.ok) return null;
   const data = (await res.json()) as AuthUser | null;

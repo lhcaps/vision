@@ -138,7 +138,18 @@ export function applyCasePayloadToBm039Form<TForm extends Bm039CaseFormInputs>({
       if (appliedFields.includes(key)) continue;
 
       const current = fieldValue(form, target.section as keyof Bm039CaseFormInputs, target.field);
-      if (current.length > 0 && !overwrite) continue;
+      if (
+        current.length > 0 &&
+        !overwrite &&
+        !isAtDefaultValue(
+          form as Bm039CaseFormInputs,
+          defaultForm,
+          target.section as keyof Bm039CaseFormInputs,
+          target.field,
+        )
+      ) {
+        continue;
+      }
 
       if (
         current.length === 0 ||

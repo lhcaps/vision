@@ -9,6 +9,7 @@ import * as path from 'node:path';
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import PizZip from 'pizzip';
 import * as xpath from 'xpath';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 type PageOrientation = 'portrait' | 'landscape';
@@ -239,7 +240,10 @@ function getErrorMessage(error: unknown): string {
 
 @Injectable()
 export class DocumentPreExportService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly paths: WorkspacePathsService,
+  ) {}
 
   async getConfig(
     documentIdRaw: string,
@@ -1557,6 +1561,6 @@ export class DocumentPreExportService {
   }
 
   private getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 }

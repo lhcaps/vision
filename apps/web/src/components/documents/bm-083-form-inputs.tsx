@@ -212,7 +212,7 @@ function fillCustomerSample(): Bm083Form {
     caseInfo: { ...EMPTY_FORM.caseInfo },
     expert: { ...EMPTY_FORM.expert },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Nguyễn Văn A" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
   };
 }
 

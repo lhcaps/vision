@@ -8,6 +8,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
+import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { DocumentPreExportService } from './document-pre-export.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RenderGeneratedDocumentDto } from './dto/render-generated-document.dto';
@@ -979,6 +980,7 @@ export class DocumentRendererService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly documentPreExportService: DocumentPreExportService,
+    private readonly paths: WorkspacePathsService,
   ) {}
 
   getPreExportConfig(documentIdRaw: string) {
@@ -24355,7 +24357,7 @@ export class DocumentRendererService {
       .replace(/>/g, '&gt;');
   }
   private getProjectRoot(): string {
-    return path.resolve(process.cwd(), '..', '..');
+    return this.paths.repoRoot;
   }
 
   private resolveProjectPath(storedPath: string): string {

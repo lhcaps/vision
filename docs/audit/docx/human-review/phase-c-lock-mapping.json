@@ -1,0 +1,653 @@
+{
+  "reviewedBy": "human",
+  "reviewedAt": "2026-06-19T07:00:00.000Z",
+  "targets": {
+    "BM-001": {
+      "sourceId": "BM-001__f4c2aa3682d3",
+      "decision": "locked",
+      "slotMappings": {
+        "document.issuePlaceDateLine": {
+          "canonicalPath": "document.issuePlaceDateLine",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "{{document.issuePlaceDateLine}} — table cell T0001.R0002.C0001, địa danh và ngày tháng trong header CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+            "blockId": "T0001",
+            "tableCellId": "T0001.R0002.C0001"
+          }
+        },
+        "receiver.fullName": {
+          "canonicalPath": "receiver.fullName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0016: Tôi: {{receiver.fullName}}; chức danh — người tiếp nhận nguồn tin là cán bộ VKS",
+            "blockId": "P0016"
+          }
+        },
+        "receiver.positionTitle": {
+          "canonicalPath": "receiver.positionTitle",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0016: chức danh: {{receiver.positionTitle}}",
+            "blockId": "P0016"
+          }
+        },
+        "receiver.departmentName": {
+          "canonicalPath": "receiver.departmentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0017: Đơn vị công tác {{receiver.departmentName}}",
+            "blockId": "P0017"
+          }
+        },
+        "informant.fullName": {
+          "canonicalPath": "informant.fullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0019: Họ tên: {{informant.fullName}} — người cung cấp nguồn tin",
+            "blockId": "P0019"
+          }
+        },
+        "informant.genderLabel": {
+          "canonicalPath": "informant.genderLabel",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0019: Giới tính: {{informant.genderLabel}}",
+            "blockId": "P0019"
+          }
+        },
+        "informant.otherName": {
+          "canonicalPath": "informant.otherName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0020: Tên gọi khác: {{informant.otherName}}",
+            "blockId": "P0020"
+          }
+        },
+        "informant.birthDay": {
+          "canonicalPath": "informant.birthDay",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0021: Sinh ngày {{informant.birthDay}} tháng … năm … — Sinh ngày → informant.birthDay (NOT document.issueDate)",
+            "blockId": "P0021"
+          }
+        },
+        "informant.birthMonth": {
+          "canonicalPath": "informant.birthMonth",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0021: Sinh ngày … tháng {{informant.birthMonth}} năm …",
+            "blockId": "P0021"
+          }
+        },
+        "informant.birthYear": {
+          "canonicalPath": "informant.birthYear",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0021: Sinh ngày … tháng … năm {{informant.birthYear}}",
+            "blockId": "P0021"
+          }
+        },
+        "informant.placeOfBirth": {
+          "canonicalPath": "informant.placeOfBirth",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0021: Sinh ngày … tại: {{informant.placeOfBirth}}",
+            "blockId": "P0021"
+          }
+        },
+        "informant.nationality": {
+          "canonicalPath": "informant.nationality",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0022: Quốc tịch: {{informant.nationality}}",
+            "blockId": "P0022"
+          }
+        },
+        "informant.ethnicity": {
+          "canonicalPath": "informant.ethnicity",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0022: Dân tộc: {{informant.ethnicity}}",
+            "blockId": "P0022"
+          }
+        },
+        "informant.religion": {
+          "canonicalPath": "informant.religion",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0022: Tôn giáo: {{informant.religion}}",
+            "blockId": "P0022"
+          }
+        },
+        "informant.occupation": {
+          "canonicalPath": "informant.occupation",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0023: Nghề nghiệp: {{informant.occupation}}",
+            "blockId": "P0023"
+          }
+        },
+        "informant.identityNo": {
+          "canonicalPath": "informant.identityNo",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0024: Số CMND/Thẻ CCCD: {{informant.identityNo}}",
+            "blockId": "P0024"
+          }
+        },
+        "informant.identityIssuedDay": {
+          "canonicalPath": "informant.identityIssuedDay",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0025: Cấp ngày {{informant.identityIssuedDay}} tháng … năm … — Cấp ngày → identityIssuedDay (NOT document.issueDate)",
+            "blockId": "P0025"
+          }
+        },
+        "informant.identityIssuedMonth": {
+          "canonicalPath": "informant.identityIssuedMonth",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0025: Cấp ngày … tháng {{informant.identityIssuedMonth}} năm …",
+            "blockId": "P0025"
+          }
+        },
+        "informant.identityIssuedYear": {
+          "canonicalPath": "informant.identityIssuedYear",
+          "source": "manual",
+          "transform": "derived",
+          "reviewEvidence": {
+            "context": "P0025: Cấp ngày … tháng … năm {{informant.identityIssuedYear}}",
+            "blockId": "P0025"
+          }
+        },
+        "informant.identityIssuedPlace": {
+          "canonicalPath": "informant.identityIssuedPlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0025: Nơi cấp: {{informant.identityIssuedPlace}}",
+            "blockId": "P0025"
+          }
+        },
+        "informant.permanentAddress": {
+          "canonicalPath": "informant.permanentAddress",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0026: Nơi thường trú: {{informant.permanentAddress}}",
+            "blockId": "P0026"
+          }
+        },
+        "informant.temporaryAddress": {
+          "canonicalPath": "informant.temporaryAddress",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0027: Nơi tạm trú: {{informant.temporaryAddress}}",
+            "blockId": "P0027"
+          }
+        },
+        "informant.currentAddress": {
+          "canonicalPath": "informant.currentAddress",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0028: Nơi ở hiện tại: {{informant.currentAddress}}",
+            "blockId": "P0028"
+          }
+        },
+        "informant.phone": {
+          "canonicalPath": "informant.phone",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0029: Số điện thoại: {{informant.phone}}",
+            "blockId": "P0029"
+          }
+        },
+        "informant.representedOrganization": {
+          "canonicalPath": "informant.representedOrganization",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0030: Là người đại diện của cơ quan, tổ chức: {{informant.representedOrganization}}",
+            "blockId": "P0030"
+          }
+        },
+        "informant.signerName": {
+          "canonicalPath": "informant.signerName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0041 + T0002.R0001.C0001: NGƯỜI CUNG CẤP NGUỒN TIN VỀ TỘI PHẠM {{informant.signerName}}",
+            "blockId": "P0041",
+            "tableCellId": "T0002.R0001.C0001"
+          }
+        },
+        "receiver.signerName": {
+          "canonicalPath": "receiver.signerName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0047 + T0002.R0001.C0002: NGƯỜI TIẾP NHẬN {{receiver.signerName}}",
+            "blockId": "P0047",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0048: {{recipients.archiveLine}} — dòng lưu hồ sơ",
+            "blockId": "P0048"
+          }
+        }
+      }
+    },
+    "BM-002": {
+      "sourceId": "BM-002__f78301178da7",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0013 + T0001.R0001.C0001: {{agency.parentName}}{{agency.name}} — constant header VKS cấp cao hơn",
+            "blockId": "P0013",
+            "tableCellId": "T0001.R0001.C0001"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0013 + T0001.R0001.C0001: tên Viện kiểm sát",
+            "blockId": "P0013",
+            "tableCellId": "T0001.R0001.C0001"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manualOrDefault",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0019 + T0001.R0002.C0001: Số: {{document.documentCode}}",
+            "blockId": "P0019",
+            "tableCellId": "T0001.R0002.C0001"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0020 + T0001.R0002.C0002: {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0020",
+            "tableCellId": "T0001.R0002.C0002"
+          }
+        },
+        "receiver.name": {
+          "canonicalPath": "receiver.name",
+          "source": "manualOrDefault",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0024: Kính gửi: {{receiver.name}}",
+            "blockId": "P0024"
+          }
+        },
+        "sourceReport.receivedDateLine": {
+          "canonicalPath": "sourceReport.receivedDateLine",
+          "source": "manualOrDefault",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0026: Ngày {{sourceReport.receivedDateLine}}, {{agency.bodyName}} nhận được nguồn tin về tội phạm",
+            "blockId": "P0026"
+          }
+        },
+        "agency.bodyName": {
+          "canonicalPath": "agency.bodyName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0026 + P0040: {{agency.bodyName}} — body agency name used 3 times",
+            "blockId": "P0026"
+          }
+        },
+        "reporter.fullName": {
+          "canonicalPath": "reporter.fullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0027: Họ tên: {{reporter.fullName}}",
+            "blockId": "P0027"
+          }
+        },
+        "reporter.genderText": {
+          "canonicalPath": "reporter.genderText",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0027: Giới tính: {{reporter.genderText}}",
+            "blockId": "P0027"
+          }
+        },
+        "reporter.otherName": {
+          "canonicalPath": "reporter.otherName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0028: Tên gọi khác: {{reporter.otherName}}",
+            "blockId": "P0028"
+          }
+        },
+        "reporter.birthDateLine": {
+          "canonicalPath": "reporter.birthDateLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0029: Sinh ngày {{reporter.birthDateLine}} tại — Sinh ngày → birthDateLine (NOT document.issueDate)",
+            "blockId": "P0029"
+          }
+        },
+        "reporter.birthPlace": {
+          "canonicalPath": "reporter.birthPlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0029: Sinh ngày … tại: {{reporter.birthPlace}}",
+            "blockId": "P0029"
+          }
+        },
+        "reporter.nationality": {
+          "canonicalPath": "reporter.nationality",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0030: Quốc tịch: {{reporter.nationality}}",
+            "blockId": "P0030"
+          }
+        },
+        "reporter.ethnicity": {
+          "canonicalPath": "reporter.ethnicity",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0030: Dân tộc: {{reporter.ethnicity}}",
+            "blockId": "P0030"
+          }
+        },
+        "reporter.religion": {
+          "canonicalPath": "reporter.religion",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0030: Tôn giáo: {{reporter.religion}}",
+            "blockId": "P0030"
+          }
+        },
+        "reporter.occupation": {
+          "canonicalPath": "reporter.occupation",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0031: Nghề nghiệp: {{reporter.occupation}}",
+            "blockId": "P0031"
+          }
+        },
+        "reporter.identityNumber": {
+          "canonicalPath": "reporter.identityNumber",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0032: Số CMND/Thẻ CCCD: {{reporter.identityNumber}}",
+            "blockId": "P0032"
+          }
+        },
+        "reporter.identityIssueDateLine": {
+          "canonicalPath": "reporter.identityIssueDateLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0033: Cấp ngày {{reporter.identityIssueDateLine}} — Cấp ngày → identityIssueDateLine (NOT document.issueDate)",
+            "blockId": "P0033"
+          }
+        },
+        "reporter.identityIssuePlace": {
+          "canonicalPath": "reporter.identityIssuePlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0033: Nơi cấp: {{reporter.identityIssuePlace}}",
+            "blockId": "P0033"
+          }
+        },
+        "reporter.permanentResidence": {
+          "canonicalPath": "reporter.permanentResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0034: Nơi thường trú: {{reporter.permanentResidence}}",
+            "blockId": "P0034"
+          }
+        },
+        "reporter.temporaryResidence": {
+          "canonicalPath": "reporter.temporaryResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0035: Nơi tạm trú: {{reporter.temporaryResidence}}",
+            "blockId": "P0035"
+          }
+        },
+        "reporter.currentResidence": {
+          "canonicalPath": "reporter.currentResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0036: Nơi ở hiện tại: {{reporter.currentResidence}}",
+            "blockId": "P0036"
+          }
+        },
+        "reporter.phoneNumber": {
+          "canonicalPath": "reporter.phoneNumber",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0037: Số điện thoại: {{reporter.phoneNumber}}",
+            "blockId": "P0037"
+          }
+        },
+        "reporter.organizationRepresentative": {
+          "canonicalPath": "reporter.organizationRepresentative",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0038: Là người đại diện của cơ quan, tổ chức: {{reporter.organizationRepresentative}}",
+            "blockId": "P0038"
+          }
+        },
+        "sourceReport.content": {
+          "canonicalPath": "sourceReport.content",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0039: Nội dung: {{sourceReport.content}}",
+            "blockId": "P0039"
+          }
+        },
+        "recipients.primaryLine": {
+          "canonicalPath": "recipients.primaryLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0043 + T0002.R0001.C0001: Nơi nhận: {{recipients.primaryLine}}",
+            "blockId": "P0043",
+            "tableCellId": "T0002.R0001.C0001"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0043 + T0002.R0001.C0001: {{recipients.archiveLine}}",
+            "blockId": "P0043",
+            "tableCellId": "T0002.R0001.C0001"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0044 + T0002.R0001.C0002: {{signature.positionTitle}}",
+            "blockId": "P0044",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0047 + T0002.R0001.C0002: {{signature.signerName}} — người ký phiếu",
+            "blockId": "P0047",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        }
+      }
+    },
+    "BM-003": {
+      "sourceId": "BM-003__bb64990bc49b",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0002 + T0001.R0001.C0001: {{agency.parentName}} — constant from DOCX header",
+            "blockId": "P0002",
+            "tableCellId": "T0001.R0001.C0001"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0003 + T0001.R0001.C0001: {{agency.name}}",
+            "blockId": "P0003",
+            "tableCellId": "T0001.R0001.C0001"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manualOrDefault",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0009 + T0001.R0002.C0001: Số: {{document.documentCode}}",
+            "blockId": "P0009",
+            "tableCellId": "T0001.R0002.C0001"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0011 + T0001.R0002.C0002: {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0011",
+            "tableCellId": "T0001.R0002.C0002"
+          }
+        },
+        "legalBasis.procedureArticlesLine": {
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0022: {{legalBasis.procedureArticlesLine}} — căn cứ điều luật Bộ luật Tố tụng hình sự",
+            "blockId": "P0022"
+          }
+        },
+        "recipients.primaryLine": {
+          "canonicalPath": "recipients.primaryLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0029 + T0002.R0001.C0001: Nơi nhận: - {{recipients.primaryLine}};",
+            "blockId": "P0029",
+            "tableCellId": "T0002.R0001.C0001"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0031 + T0002.R0001.C0001: - {{recipients.archiveLine}}.",
+            "blockId": "P0031",
+            "tableCellId": "T0002.R0001.C0001"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0033 + T0002.R0001.C0002: {{signature.signMode}}",
+            "blockId": "P0033",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0034 + T0002.R0001.C0002: {{signature.positionTitle}}",
+            "blockId": "P0034",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "P0038 + T0002.R0001.C0002: {{signature.signerName}}",
+            "blockId": "P0038",
+            "tableCellId": "T0002.R0001.C0002"
+          }
+        }
+      }
+    },
+    "BM-004": {
+      "sourceId": "BM-004__2775520fd22c",
+      "decision": "keep-draft",
+      "reason": "Draft contract contains 45 generic .field# slotIds (document.field6–50, agency.field8–9, agency.field18, agency.field20–32) that must be replaced with semantic paths before locking. See docs/audit/docx/human-review/BM-004.lock-map.draft.json for the semantic mapping draft.",
+      "slotMappings": {}
+    }
+  }
+}
