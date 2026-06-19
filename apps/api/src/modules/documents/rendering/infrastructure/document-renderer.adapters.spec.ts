@@ -55,6 +55,7 @@ describe('renderer infrastructure adapters', () => {
         findUnique: jest.fn().mockResolvedValue({
           id: 12n,
           templates: {
+            id: 1n,
             template_code: 'BM-001',
           },
         }),
@@ -64,9 +65,11 @@ describe('renderer infrastructure adapters', () => {
       prisma as never,
     );
 
-    await expect(repository.findByDocumentId('12')).resolves.toEqual({
+    await expect(repository.findByDocumentId('12')).resolves.toMatchObject({
       documentId: '12',
       templateCode: 'BM-001',
+      templateId: '1',
+      sourceId: 'BM-001',
     });
     expect(prisma.generated_documents.findUnique).toHaveBeenCalledWith({
       where: {
@@ -76,6 +79,7 @@ describe('renderer infrastructure adapters', () => {
         id: true,
         templates: {
           select: {
+            id: true,
             template_code: true,
           },
         },

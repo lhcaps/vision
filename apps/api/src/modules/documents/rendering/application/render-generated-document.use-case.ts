@@ -10,6 +10,7 @@ import {
   type LegacyDocumentRendererPort,
 } from './document-renderer.ports';
 import { DocumentRendererRoutingPolicy } from './document-renderer-routing.policy';
+import { ContractShadowRendererOrchestrator } from './contract-shadow-renderer.orchestrator';
 
 @Injectable()
 export class RenderGeneratedDocumentUseCase {
@@ -23,6 +24,7 @@ export class RenderGeneratedDocumentUseCase {
     @Inject(GENERATED_DOCUMENT_DESCRIPTOR)
     private readonly descriptors: GeneratedDocumentDescriptorPort,
     private readonly routingPolicy: DocumentRendererRoutingPolicy,
+    private readonly shadowOrchestrator: ContractShadowRendererOrchestrator,
   ) {}
 
   async execute(command: DocumentRenderCommand): Promise<DocumentRenderResult> {
@@ -46,7 +48,7 @@ export class RenderGeneratedDocumentUseCase {
     const legacyResult = await this.legacyRenderer.render(command);
 
     try {
-      await this.contractRenderer.renderShadow(command, legacyResult);
+      await this.shadowOrchestrator.renderShadow(command, legacyResult);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       this.logger.warn(

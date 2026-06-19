@@ -25,6 +25,7 @@ export class PrismaGeneratedDocumentDescriptorRepository implements GeneratedDoc
         id: true,
         templates: {
           select: {
+            id: true,
             template_code: true,
           },
         },
@@ -38,6 +39,8 @@ export class PrismaGeneratedDocumentDescriptorRepository implements GeneratedDoc
     return {
       documentId: String(document.id),
       templateCode: document.templates.template_code,
+      templateId: String(document.templates.id),
+      sourceId: document.templates.template_code,
     };
   }
 

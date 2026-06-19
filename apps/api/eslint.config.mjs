@@ -32,6 +32,8 @@ export default tseslint.config(
   },
   {
     rules: {
+      // pizzip and docxtemplater have no ESM exports, require() is the only option
+      '@typescript-eslint/no-require-imports': 'off',
       // Prisma Client returns are typed as any until `prisma generate` re-runs;
       // these rules would otherwise flag 3000+ lines that we can't narrow per-call.
       '@typescript-eslint/no-unsafe-member-access': 'off',

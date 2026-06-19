@@ -1,0 +1,62 @@
+{
+  "description": "BM-001 shadow render smoke test fixture — non-sensitive realistic data only",
+  "templateCode": "BM-001",
+  "formData": {
+    "document.issuePlaceDateLine": "TP. Hồ Chí Minh, ngày 15 tháng 06 năm 2026",
+    "receiver.fullName": "Nguyễn Văn Minh",
+    "receiver.positionTitle": "Kiểm sát viên",
+    "receiver.departmentName": "Viện Kiểm sát nhân dân khu vực 7",
+    "informant.fullName": "Trần Thị Lan",
+    "informant.genderLabel": "Nữ",
+    "informant.otherName": "",
+    "informant.birthDay": "20",
+    "informant.birthMonth": "03",
+    "informant.birthYear": "1990",
+    "informant.placeOfBirth": "TP. Hồ Chí Minh",
+    "informant.nationality": "Việt Nam",
+    "informant.ethnicity": "Kinh",
+    "informant.religion": "Không",
+    "informant.occupation": "Công nhân",
+    "informant.identityNo": "079090123456",
+    "informant.identityIssuedDay": "10",
+    "informant.identityIssuedMonth": "01",
+    "informant.identityIssuedYear": "2020",
+    "informant.identityIssuedPlace": "Công an TP. Hồ Chí Minh",
+    "informant.permanentAddress": "123 Đường A, Phường 1, Quận 1, TP. Hồ Chí Minh",
+    "informant.temporaryAddress": "456 Đường B, Phường 5, Quận Gò Vấp, TP. Hồ Chí Minh",
+    "informant.currentAddress": "456 Đường B, Phường 5, Quận Gò Vấp, TP. Hồ Chí Minh",
+    "informant.phone": "0912345678",
+    "informant.representedOrganization": "",
+    "informant.signerName": "Trần Thị Lan",
+    "receiver.signerName": "Nguyễn Văn Minh",
+    "recipients.archiveLine": "Lưu: Hồ sơ vụ án, VP VKS."
+  },
+  "payload": {
+    "agency": {
+      "name": "Viện Kiểm sát nhân dân khu vực 7",
+      "parentName": "Viện Kiểm sát nhân dân TP. Hồ Chí Minh",
+      "issuePlace": "TP. Hồ Chí Minh"
+    },
+    "document": {
+      "issueDate": "2026-06-15",
+      "issuePlaceDateLine": "TP. Hồ Chí Minh, ngày 15 tháng 06 năm 2026"
+    },
+    "informant": {
+      "fullName": "Trần Thị Lan",
+      "genderLabel": "Nữ",
+      "birthDay": "20",
+      "birthMonth": "03",
+      "birthYear": "1990"
+    }
+  },
+  "expectedFilledSlots": [
+    "Nguyễn Văn Minh",
+    "Trần Thị Lan",
+    "079090123456",
+    "TP. Hồ Chí Minh",
+    "20",
+    "03",
+    "1990",
+    "Lưu: Hồ sơ vụ án, VP VKS."
+  ]
+}

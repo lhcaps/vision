@@ -14,6 +14,12 @@ export interface DocumentRenderCommand {
 export interface GeneratedDocumentDescriptor {
   documentId: string;
   templateCode: string;
+  templateId?: string;
+  sourceId?: string;
+  templatePath?: string;
+  generatedPath?: string;
+  formData?: Record<string, unknown>;
+  payload?: Record<string, unknown>;
 }
 
 export interface LegacyDocumentRendererPort {

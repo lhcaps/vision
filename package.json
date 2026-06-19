@@ -64,7 +64,8 @@
     "audit:forms:corpus": "node scripts/docx-contract/reconcile-form-corpus.mjs",
     "audit:forms:runtime-readiness": "node scripts/docx-contract/generate-form-runtime-readiness.mjs",
     "audit:encoding": "node scripts/audit-encoding-bom.mjs",
-    "smoke:forms-runtime": "node scripts/smoke-forms-runtime.mjs"
+    "smoke:forms-runtime": "node scripts/smoke-forms-runtime.mjs",
+    "smoke:bm001-shadow-render": "node scripts/smoke-bm001-shadow-render.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
